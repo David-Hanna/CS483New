@@ -108,7 +108,7 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Kartaclysm\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Common\Game.h" />

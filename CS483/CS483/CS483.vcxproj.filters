@@ -76,14 +76,11 @@
     <Filter Include="HeatStroke\Common">
       <UniqueIdentifier>{e11c3e35-77b7-4cde-9bf5-4c4984cb2bee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data">
+    <Filter Include="Kartaclysm\Data">
       <UniqueIdentifier>{d0092d9f-cd87-4aea-9857-bb41fb0689c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Kartaclysm</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
       <Filter>HeatStroke\Services\IO</Filter>
     </ClCompile>
@@ -191,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\main.cpp">
+      <Filter>Kartaclysm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
