@@ -283,8 +283,8 @@ bool Program::CompileShader(GLuint* p_pShader, GLenum p_eType, const std::string
     GLint iStatus;
     const GLchar* pSource;
     
-	std::shared_ptr<std::string> pBuff = LoadWholeFile(p_strFile);
-    pSource = reinterpret_cast<const GLchar*>(pBuff->c_str());
+	std::string strBuff = HeatStroke::Common::LoadWholeFile(p_strFile);
+    pSource = reinterpret_cast<const GLchar*>(strBuff.c_str());
     if (pSource == nullptr)
     {
         printf("Failed to load vertex shader\n");

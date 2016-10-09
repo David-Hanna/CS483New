@@ -107,7 +107,7 @@ void Texture::Bind() const
 void Texture::LoadFromDDS(const std::string& p_strFile)
 {
 	bool bHasMips = false;
-	m_uiTex = HeatStroke::CreateTextureFromDDS(p_strFile, &m_uiWidth, &m_uiHeight, &bHasMips);
+	m_uiTex = HeatStroke::Common::CreateTextureFromDDS(p_strFile, &m_uiWidth, &m_uiHeight, &bHasMips);
 
 	if( bHasMips )
 		m_eFilterMin = FM_TrilinearMipmap;
@@ -128,7 +128,7 @@ void Texture::LoadFromTGA(const std::string& p_strFile)
 	glBindTexture(GL_TEXTURE_2D, m_uiTex);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
 
-	FIBITMAP* image = LoadTGA(p_strFile);
+	FIBITMAP* image = HeatStroke::Common::LoadTGA(p_strFile);
 
     glTexImage2D(GL_TEXTURE_2D, 
 		0, 
