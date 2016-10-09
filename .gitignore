@@ -10,6 +10,14 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Libraries
+boost_1_61_0/
+FreeImage3170/
+glew-1.13.0/
+glfw-3.1.2.bin.WIN32/
+glm-0.9.7.2/
+tinyxml2/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
