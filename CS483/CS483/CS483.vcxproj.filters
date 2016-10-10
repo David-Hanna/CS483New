@@ -75,6 +75,7 @@
     </Filter>
     <Filter Include="HeatStroke\Services\MTL">
       <UniqueIdentifier>{710270de-b3d4-4ab5-b57e-e9771cf81f9e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HeatStroke\Graphics\GDebug">
       <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
