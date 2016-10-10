@@ -114,9 +114,6 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.cpp">
       <Filter>HeatStroke\Graphics\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.cpp">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\Material.cpp">
       <Filter>HeatStroke\Graphics\Material</Filter>
     </ClCompile>
@@ -186,6 +183,9 @@
     <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
+      <Filter>HeatStroke\Graphics\GDebug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -244,9 +244,6 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.h">
       <Filter>HeatStroke\Graphics\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.h">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\Material.h">
       <Filter>HeatStroke\Graphics\Material</Filter>
@@ -325,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
+      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
