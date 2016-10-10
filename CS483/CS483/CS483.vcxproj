@@ -83,7 +83,7 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.cpp" />
-    <ClCompile Include="..\..\HeatStroke\Graphics\Common\Common.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Common\Common.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\MaterialManager.cpp" />
@@ -128,8 +128,8 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Common.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Types.h" />
+    <ClInclude Include="..\..\HeatStroke\Common\Common.h" />
+    <ClInclude Include="..\..\HeatStroke\Common\Types.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\Material.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\MaterialManager.h" />

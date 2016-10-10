@@ -183,7 +183,7 @@
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Common\Common.cpp">
+    <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -320,10 +320,10 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Common.h">
+    <ClInclude Include="..\..\HeatStroke\Common\Common.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Types.h">
+    <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
   </ItemGroup>
