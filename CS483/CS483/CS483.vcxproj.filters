@@ -73,6 +73,12 @@
     <Filter Include="HeatStroke\Graphics\GDebug">
       <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\UserConfig">
+      <UniqueIdentifier>{b0c447fa-1c86-49a5-8c68-9f489812ea11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Services">
+      <UniqueIdentifier>{9ba039e6-c5da-437c-bfe3-f0f791a98317}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -185,6 +191,12 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.cpp">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Kartaclysm\Services\InputActionMapping.cpp">
+      <Filter>Kartaclysm\Services</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,5 +338,16 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Kartaclysm\Services\InputActionMapping.h">
+      <Filter>Kartaclysm\Services</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Kartaclysm\Data\UserConfig\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

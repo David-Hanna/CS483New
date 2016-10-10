@@ -1,0 +1,28 @@
+<ControlBindings>
+  <Keyboard>
+      <accelerate value="265" />
+      <brake value="264" />
+      <left value="263" />
+      <right value="262" />
+      <slide value="32" />
+      <driverAbility1 value="65" />
+      <driverAbility2 value="83" />
+      <kartAbility1 value="68" />
+      <kartAbility2 value="70" />
+      <pause value="256" />
+  </Keyboard>
+
+  <Joystick>
+      <accelerate value="0" />
+      <brake value="1" />
+      <left value="14" />
+      <right value="15" />
+      <slide value="6" />
+      <driverAbility1 value="2" />
+      <driverAbility2 value="3" />
+      <kartAbility1 value="6" />
+      <kartAbility2 value="7" />
+      <pause value="8" />
+      <joystick value="1" />
+  </Joystick>
+</ControlBindings>
