@@ -31,9 +31,6 @@
     <Filter Include="HeatStroke\Graphics\Buffer">
       <UniqueIdentifier>{c2034764-8f08-4e5c-8a67-623ea5fbf610}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\Graphics\Debug">
-      <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HeatStroke\Graphics\Material">
       <UniqueIdentifier>{58408013-e966-4fe3-ab03-700dadbe292a}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,9 @@
     </Filter>
     <Filter Include="Kartaclysm\Data">
       <UniqueIdentifier>{d0092d9f-cd87-4aea-9857-bb41fb0689c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeatStroke\Graphics\GDebug">
+      <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +115,7 @@
       <Filter>HeatStroke\Graphics\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.cpp">
-      <Filter>HeatStroke\Graphics\Debug</Filter>
+      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\Material.cpp">
       <Filter>HeatStroke\Graphics\Material</Filter>
@@ -183,7 +183,7 @@
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Common\Common.cpp">
+    <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -246,7 +246,7 @@
       <Filter>HeatStroke\Graphics\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Debug\LineDrawer.h">
-      <Filter>HeatStroke\Graphics\Debug</Filter>
+      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\Material.h">
       <Filter>HeatStroke\Graphics\Material</Filter>
@@ -320,10 +320,10 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Common.h">
+    <ClInclude Include="..\..\HeatStroke\Common\Common.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Common\Types.h">
+    <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
   </ItemGroup>
