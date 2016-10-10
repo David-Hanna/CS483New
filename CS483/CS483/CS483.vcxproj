@@ -160,6 +160,9 @@
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Kartaclysm\Data\kart.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

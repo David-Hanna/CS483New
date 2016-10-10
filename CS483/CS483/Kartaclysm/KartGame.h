@@ -9,12 +9,13 @@
 #define KARTGAME_H
 
 #include "Game.h"
+#include "GameObjectManager.h"
 
 class KartGame : public HeatStroke::Game
 {
 	public :
 		//--------------------------------------------------------------------------
-		// Public methods.
+		// Public methods
 		//--------------------------------------------------------------------------
 
 		KartGame() {}
@@ -25,6 +26,12 @@ class KartGame : public HeatStroke::Game
 		void PreRender();
 		void Render();
 		void Shutdown();
+
+		//--------------------------------------------------------------------------
+		// Public variables
+		//--------------------------------------------------------------------------
+
+		HeatStroke::GameObjectManager *gameObjectManager;
 };
 
 #endif // KARTGAME_H

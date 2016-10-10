@@ -333,4 +333,9 @@
       <Filter>Kartaclysm</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Kartaclysm\Data\kart.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>
