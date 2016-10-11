@@ -253,6 +253,7 @@ namespace Kartaclysm
 		{
 			// Add to first player without an input
 			bool bFound = false;
+			int iKeyboardInUseBy = -1;
 			for (; it != end; it++)
 			{
 				if (it->second == -1)
@@ -260,16 +261,27 @@ namespace Kartaclysm
 					it->second = p_iGLFWJoystick;
 					m_iPlayersConnected++;
 					bFound = true;
+					break;
+				}
+				else if (it->second == GLFW_JOYSTICK_LAST + 1)
+				{
+					iKeyboardInUseBy = it->first;
 				}
 			}
 
-			// If race mode is enabled, send out player disconnect event
+			// If race mode is enabled, send out player reconnect event
 			if (bFound && m_bRaceMode)
 			{
 				HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerReconnect");
 				pEvent->SetIntParameter("Player", it->first);
 				pEvent->SetIntParameter("LeftToConnect", m_iPlayersRacing - m_iPlayersConnected);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			}
+
+			// If not in race mode, push a player off keyboard and onto joystick
+			if (iKeyboardInUseBy != -1 && !m_bRaceMode)
+			{
+				(*m_pPlayers)[iKeyboardInUseBy] = p_iGLFWJoystick;
 			}
 		}
 		else if (p_iJoystickEvent == GLFW_DISCONNECTED)
@@ -280,8 +292,14 @@ namespace Kartaclysm
 			{
 				if (it->second == p_iGLFWJoystick)
 				{
-					it->second = -1;
-					m_iPlayersConnected--;
+					// TO DO, for now, hardcoded that you get assigned another input automatically
+					// When implemented in game, this should be handled through the event below
+					int iTemp = it->first;
+					it->second = GetFirstAvailableInput();
+					if ((*m_pPlayers)[iTemp] == -1)
+					{
+						m_iPlayersConnected--;
+					}
 					bFound = true;
 				}
 				else if (it->second == GLFW_JOYSTICK_LAST + 1)
@@ -298,6 +316,8 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("KeyboardInUse", (int)bKeyboardInUse); // can they map to keyboard?
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 			}
+
+
 		}
 	}
 }

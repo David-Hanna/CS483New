@@ -205,7 +205,7 @@ namespace Kartaclysm
 
 		// Make sure the file is formatted correctly and we have the right XML file
 		tinyxml2::XMLElement* pElement = doc.FirstChildElement();
-		if (strcmp(pElement->Name.c_str(), "ControlBindings") != 0)
+		if (strcmp(pElement->Name(), "ControlBindings") != 0)
 		{
 			ResetUserControlBindings();
 			return false;
