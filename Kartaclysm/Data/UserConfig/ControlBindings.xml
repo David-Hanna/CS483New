@@ -23,6 +23,6 @@
       <kartAbility1 value="6" />
       <kartAbility2 value="7" />
       <pause value="8" />
-      <joystick value="1" />
+      <analogStick value="1" />
   </Joystick>
 </ControlBindings>

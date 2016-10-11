@@ -10,6 +10,7 @@
 
 #include <GLFW/glfw3.h>
 #include <map>
+#include "InputActions.h"
 #include "KeyboardInputBuffer.h"
 #include "JoystickInputBuffer.h"
 
@@ -18,24 +19,9 @@ namespace Kartaclysm
 	class InputActionMapping
 	{
 	private:
-		enum RacerAction
-		{
-			eAccelerate = 0,
-			eBrake,
-			eLeft,
-			eRight,
-			eSlide,
-			eDriverAbility1,
-			eDriverAbility2,
-			eKartAbility1,
-			eKartAbility2,
-			ePause,
-			eJoystick
-		};
-
 		// Convenient typedefs
-		typedef std::map<int, int> PlayerMap;
-		typedef std::map<RacerAction, int> InputMap;
+		typedef std::map<Racer::Action, int> ActionMap;
+		typedef std::map<Input::Type, ActionMap> InputMap;
 
 	public:
 		//-------------------------------------------------------------
@@ -46,8 +32,15 @@ namespace Kartaclysm
 		static void DestroyInstance();
 		static InputActionMapping* Instance();
 
-		// Game Loop Method
-		void Update(const float p_fDelta);
+		// Manage user control bindings
+		void ResetUserControlBindings(const bool p_bResetKeyboard = true, const bool p_bResetJoystick = true);
+		bool LoadUserControlBindings();
+
+		// TO DO, the below methods
+		// bool SaveUserControlBindings();
+		// bool EditUserControlBindings(Input::Type, Racer::Action, const int p_iGLFWInputKey);
+
+		void SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick);
 
 	private:
 		//-------------------------------------------------------------
@@ -56,16 +49,11 @@ namespace Kartaclysm
 		// Static singleton instance
 		static InputActionMapping* s_pInputActionMappingInstance;
 
-		// Player map (to input)
-		PlayerMap* m_pPlayers;
-
 		// Input maps
-		// TO DO, all joysticks currently share one control binding
-		InputMap* m_pKeyboardMap;
-		InputMap* m_pJoystickMap;
+		InputMap* m_pInputMap;
 
-		// Number of joysticks connected
-		int m_iJoysticks;
+		// File location for user control bindings
+		std::string m_strUserConfigFilePath;
 
 		//-------------------------------------------------------------
 		// Private methods
@@ -75,13 +63,7 @@ namespace Kartaclysm
 		InputActionMapping& operator=(const InputActionMapping&) = delete;
 		~InputActionMapping();
 
-		void Init(const std::string& p_strUserConfigFilePath);
-
-		// Load user control bindings, setting missing controls to default
-		void LoadUserControlBindings(const std::string& p_strUserConfigFilePath);
-
-		// Joystick connect/disconnect callback
-		void JoystickCallback(const int p_iGLFWJoystick, const int p_iJoystickEvent);
+		void Init();
 	};
 }
 

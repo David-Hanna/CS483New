@@ -109,7 +109,8 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
-    <ClCompile Include="..\..\Kartaclysm\Services\InputActionMapping.cpp" />
+    <ClCompile Include="..\..\Kartaclysm\Services\IO\InputActionMapping.cpp" />
+    <ClCompile Include="..\..\Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +161,9 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
-    <ClInclude Include="..\..\Kartaclysm\Services\InputActionMapping.h" />
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\InputActionMapping.h" />
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\InputActions.h" />
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\PlayerInputMapping.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Kartaclysm\Data\UserConfig\ControlBindings.xml" />

@@ -79,6 +79,9 @@
     <Filter Include="Kartaclysm\Services">
       <UniqueIdentifier>{9ba039e6-c5da-437c-bfe3-f0f791a98317}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Services\IO">
+      <UniqueIdentifier>{7e2dd104-e5c5-4f78-a72f-f24f87058698}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -195,8 +198,11 @@
     <ClCompile Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.cpp">
       <Filter>HeatStroke\Services\IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Kartaclysm\Services\InputActionMapping.cpp">
-      <Filter>Kartaclysm\Services</Filter>
+    <ClCompile Include="..\..\Kartaclysm\Services\IO\InputActionMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Kartaclysm\Services\IO\PlayerInputMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,8 +347,14 @@
     <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h">
       <Filter>HeatStroke\Services\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Kartaclysm\Services\InputActionMapping.h">
-      <Filter>Kartaclysm\Services</Filter>
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\InputActionMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\InputActions.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Kartaclysm\Services\IO\PlayerInputMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
