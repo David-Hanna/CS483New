@@ -31,7 +31,7 @@ class KartGame : public HeatStroke::Game
 		// Public variables
 		//--------------------------------------------------------------------------
 
-		HeatStroke::GameObjectManager *gameObjectManager;
+		HeatStroke::GameObjectManager *p_gameObjectManager;
 };
 
 #endif // KARTGAME_H

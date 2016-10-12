@@ -1,0 +1,7 @@
+<!-- Test Level -->
+<!-- Author: David MacIntosh -->
+
+<Level>
+  <!-- Test Kart -->
+  <GameObject guid="Kart" base="kart"/>
+</Level>
