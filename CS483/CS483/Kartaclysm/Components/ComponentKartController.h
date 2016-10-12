@@ -48,11 +48,14 @@ class ComponentKartController : public HeatStroke::Component
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* pGameObject;
 
+		const float fSpeedScale = 0.01f;
+
 		float fMaxSpeedStat = 10.0f;
 		float fMaxReverseSpeedStat = 4.0f;
 		float fAccelerationStat = 0.3f;
 		float fReverseAccelerationStat = 0.6f;
 		float fAccelerationFrictionStat = 1.2f;
+		float fTurningStat = 2.0f;
 
 		float fSpeed;
 		float fDirection;

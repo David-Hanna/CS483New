@@ -7,6 +7,8 @@
 
 #include "ComponentKartController.h"
 
+#define _USE_MATH_DEFINES
+
 #include "GameObject.h"
 #include "IO\KeyboardInputBuffer.h"
 #include <math.h>
@@ -70,23 +72,43 @@ HeatStroke::Component* ComponentKartController::CreateComponent(
 
 void ComponentKartController::Update(const float p_fDelta)
 {
-	HeatStroke::HierarchicalTransform transform = pGameObject->GetTransform();
 
 	if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_UP))
 	{
-		fSpeed += fmax((fMaxSpeedStat - fmax(fSpeed, 0.0f)) * fAccelerationStat, -fSpeed * fAccelerationFrictionStat * 2.0f) * p_fDelta;
+		fSpeed += fmax((fMaxSpeedStat - fmax(fSpeed, 0.0f)) * fAccelerationStat * fSpeedScale, -fSpeed * fAccelerationFrictionStat * 2.0f) * p_fDelta;
 	}
 	else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_DOWN))
 	{
 		
-		fSpeed += fmin((-fMaxReverseSpeedStat - fmin(fSpeed, 0.0f)) * fReverseAccelerationStat, -fSpeed * fAccelerationFrictionStat * 2.0f) * p_fDelta;
+		fSpeed += fmin((-fMaxReverseSpeedStat - fmin(fSpeed, 0.0f)) * fReverseAccelerationStat * fSpeedScale, -fSpeed * fAccelerationFrictionStat * 2.0f) * p_fDelta;
 	}
 	else
 	{
 		fSpeed -= fSpeed * fAccelerationFrictionStat * p_fDelta;
 	}
 
-	transform.TranslateXYZ(fSpeed, 0.0f, 0.0f);
+	if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_LEFT))
+	{
+		fDirection += fTurningStat * p_fDelta;
 
+		if (fDirection >= M_PI * 2.0f)
+		{
+			fDirection -= M_PI * 2.0f;
+		}
+	}
+	if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_RIGHT))
+	{
+		fDirection += -fTurningStat * p_fDelta;
+
+		if (fDirection < 0)
+		{
+			fDirection += M_PI * 2.0f;
+		}
+	}
+
+	pGameObject->GetTransform().TranslateXYZ(fSpeed * cosf(fDirection), 0.0f, fSpeed * sinf(fDirection));
+	pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, fDirection, 0.0f)));
+
+	HeatStroke::HierarchicalTransform transform = pGameObject->GetTransform();
 	printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z);
 }
