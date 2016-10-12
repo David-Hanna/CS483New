@@ -12,6 +12,6 @@
 
 int main(int argc, char* argv[])
 {
-	KartGame *game = new KartGame();
+	Kartaclysm::KartGame *game = new Kartaclysm::KartGame();
 	return game->Run();
 }

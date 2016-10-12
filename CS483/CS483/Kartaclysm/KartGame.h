@@ -11,9 +11,11 @@
 #include "Game.h"
 #include "GameObjectManager.h"
 
-class KartGame : public HeatStroke::Game
+namespace Kartaclysm
 {
-	public :
+	class KartGame : public HeatStroke::Game
+	{
+	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
@@ -32,6 +34,7 @@ class KartGame : public HeatStroke::Game
 		//--------------------------------------------------------------------------
 
 		HeatStroke::GameObjectManager *p_gameObjectManager;
-};
+	};
+}
 
 #endif // KARTGAME_H

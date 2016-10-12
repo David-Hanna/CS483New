@@ -12,8 +12,10 @@
 
 #include "Component.h"
 
-class ComponentKartController : public HeatStroke::Component
+namespace Kartaclysm
 {
+	class ComponentKartController : public HeatStroke::Component
+	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
@@ -46,19 +48,20 @@ class ComponentKartController : public HeatStroke::Component
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
-		HeatStroke::GameObject* pGameObject;
+		HeatStroke::GameObject* m_pGameObject;
 
-		const float fSpeedScale = 0.01f;
+		const float m_fSpeedScale = 1.0f;
 
-		float fMaxSpeedStat = 10.0f;
-		float fMaxReverseSpeedStat = 4.0f;
-		float fAccelerationStat = 0.3f;
-		float fReverseAccelerationStat = 0.6f;
-		float fAccelerationFrictionStat = 1.2f;
-		float fTurningStat = 2.0f;
+		float m_fMaxSpeedStat = 10.0f;
+		float m_fMaxReverseSpeedStat = 4.0f;
+		float m_fAccelerationStat = 0.3f;
+		float m_fReverseAccelerationStat = 0.6f;
+		float m_fAccelerationFrictionStat = 1.2f;
+		float m_fTurningStat = 2.0f;
 
-		float fSpeed;
-		float fDirection;
-};
+		float m_fSpeed = 0.0f;
+		float m_fDirection = 0.0f;;
+	};
+}
 
 #endif // COMPONENT_KART_CONTROLLER_H
