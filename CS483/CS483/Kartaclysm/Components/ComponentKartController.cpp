@@ -24,9 +24,11 @@ namespace Kartaclysm
 		m_fAccelerationStat(0.3f),
 		m_fReverseAccelerationStat(0.6f),
 		m_fAccelerationFrictionStat(1.2f),
-		m_fTurningStat(2.0f),
+		m_fMaxTurnStat(2.0f),
+		m_fTurnAccelerationStat(24.0f),
 		m_fSpeed(0.0f),
-		m_fDirection(0.0f)
+		m_fDirection(0.0f),
+		m_fTurnSpeed(0.0f)
 	{
 	}
 
@@ -78,6 +80,7 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
+		// Speeding up & slowing down
 
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_UP))
 		{
@@ -93,29 +96,46 @@ namespace Kartaclysm
 			m_fSpeed -= m_fSpeed * m_fAccelerationFrictionStat * p_fDelta;
 		}
 
+		// Turning
+
+		float fTurnInput = 0.0f;
+
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_LEFT))
 		{
-			m_fDirection += m_fTurningStat * p_fDelta;
-
-			if (m_fDirection >= PI * 2.0f)
-			{
-				m_fDirection -= PI * 2.0f;
-			}
+			fTurnInput = 1.0f;
 		}
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_RIGHT))
 		{
-			m_fDirection += -m_fTurningStat * p_fDelta;
-
-			if (m_fDirection < 0)
-			{
-				m_fDirection += PI * 2.0f;
-			}
+			fTurnInput = -1.0f;
 		}
+
+		float fTurnTarget = m_fMaxTurnStat * fTurnInput;
+
+		if (fTurnTarget < m_fTurnSpeed)
+		{
+			m_fTurnSpeed += fmax(-m_fTurnAccelerationStat * p_fDelta, fTurnTarget - m_fTurnSpeed);
+		}
+		else if (fTurnTarget > m_fTurnSpeed)
+		{
+			m_fTurnSpeed += fmin(m_fTurnAccelerationStat * p_fDelta, fTurnTarget - m_fTurnSpeed);
+		}
+
+		m_fDirection += m_fTurnSpeed * p_fDelta;
+		if (m_fDirection < 0)
+		{
+			m_fDirection += PI * 2.0f;
+		}
+		if (m_fDirection >= PI * 2.0f)
+		{
+			m_fDirection -= PI * 2.0f;
+		}
+
+		// Transform
 
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * cosf(m_fDirection), 0.0f, m_fSpeed * sinf(m_fDirection));
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
 
 		HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
-		printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed);
+		printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed);
 	}
 }

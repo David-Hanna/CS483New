@@ -57,10 +57,12 @@ namespace Kartaclysm
 		float m_fAccelerationStat = 0.3f;
 		float m_fReverseAccelerationStat = 0.6f;
 		float m_fAccelerationFrictionStat = 1.2f;
-		float m_fTurningStat = 2.0f;
+		float m_fMaxTurnStat = 2.0f;
+		float m_fTurnAccelerationStat = 24.0f;
 
 		float m_fSpeed = 0.0f;
-		float m_fDirection = 0.0f;;
+		float m_fDirection = 0.0f;
+		float m_fTurnSpeed = 0.0f;
 	};
 }
 
