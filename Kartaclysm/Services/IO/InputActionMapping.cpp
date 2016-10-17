@@ -106,39 +106,39 @@ namespace Kartaclysm
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
 			// Keyboard keys
-			pEvent->SetIntParameter("Accelerate", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eAccelerate]));
-			pEvent->SetIntParameter("Brake", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eBrake]));
-			pEvent->SetIntParameter("Slide", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eSlide]));
-			pEvent->SetIntParameter("Driver1", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility1]));
-			pEvent->SetIntParameter("Driver2", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility2]));
-			pEvent->SetIntParameter("Kart1", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility1]));
-			pEvent->SetIntParameter("Kart2", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility2]));
-			pEvent->SetIntParameter("Pause", (int)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::ePause]));
+			pEvent->SetIntParameter("Accelerate", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eAccelerate])));
+			pEvent->SetIntParameter("Brake", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eBrake])));
+			pEvent->SetIntParameter("Slide", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eSlide])));
+			pEvent->SetIntParameter("Driver1", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility1])));
+			pEvent->SetIntParameter("Driver2", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility2])));
+			pEvent->SetIntParameter("Kart1", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility1])));
+			pEvent->SetIntParameter("Kart2", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility2])));
+			pEvent->SetIntParameter("Pause", static_cast<int>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::ePause])));
 
 			// For compatibility with joysticks, turn is a float value
 			// Right adds +1.0f, Left adds -1.0f
-			float fTurn = (float)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eRight]);
-			fTurn -= (float)HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eLeft]);
+			float fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eLeft]));
 			pEvent->SetFloatParameter("Turn", fTurn);
 		}
 		else
 		{
 			// Joystick buttons
-			pEvent->SetIntParameter("Accelerate", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAccelerate]));
-			pEvent->SetIntParameter("Brake", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eBrake]));
-			pEvent->SetIntParameter("Slide", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]));
-			pEvent->SetIntParameter("Driver1", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility1]));
-			pEvent->SetIntParameter("Driver2", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility2]));
-			pEvent->SetIntParameter("Kart1", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eKartAbility1]));
-			pEvent->SetIntParameter("Kart2", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eKartAbility2]));
-			pEvent->SetIntParameter("Pause", (int)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::ePause]));
+			pEvent->SetIntParameter("Accelerate", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAccelerate])));
+			pEvent->SetIntParameter("Brake", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eBrake])));
+			pEvent->SetIntParameter("Slide", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide])));
+			pEvent->SetIntParameter("Driver1", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility1])));
+			pEvent->SetIntParameter("Driver2", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility2])));
+			pEvent->SetIntParameter("Kart1", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eKartAbility1])));
+			pEvent->SetIntParameter("Kart2", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eKartAbility2])));
+			pEvent->SetIntParameter("Pause", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::ePause])));
 
 			// Analog stick takes priority over d-pad for turning
 			float fTurn = HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick]);
 			if (fTurn == 0.0f) // TO DO, test if dead zone needs to be implemented
 			{
-				fTurn = (float)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eRight]);
-				fTurn -= (float)HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eLeft]);
+				fTurn = static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eRight]));
+				fTurn -= static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eLeft]));
 			}
 			pEvent->SetFloatParameter("Turn", fTurn);
 		}
