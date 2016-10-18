@@ -22,8 +22,8 @@ namespace HeatStroke
 			
 		// Required interface for all subclasses.
 		virtual void Enter(const std::map<std::string, std::string>& p_mContextParameters) = 0;
-		virtual void Suspend() = 0; // pushed down in stack
-		virtual void Unsuspend() = 0; // popped back to top in stack
+		virtual void Suspend(const int p_iNewState) = 0;
+		virtual void Unsuspend(const int p_iPrevState) = 0;
 		virtual void Update(const float p_fDelta) = 0;
 		virtual void Exit() = 0;
 

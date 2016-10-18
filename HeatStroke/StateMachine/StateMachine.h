@@ -5,8 +5,8 @@
 // State machine that manages state transitions.
 //------------------------------------------------------------------------
 
-#ifndef STATEMACHINE_H
-#define STATEMACHINE_H
+#ifndef STATE_MACHINE_H
+#define STATE_MACHINE_H
 
 #include <map>
 #include <vector>
@@ -18,28 +18,32 @@ namespace HeatStroke
 {
 	class StateMachine
 	{
-		typedef std::map<int, State*> StateMap;
-		typedef std::vector<std::pair<int, State*>> StateStack;
-		typedef const std::map<std::string, std::string>& ContextParameters;
-
 	public:
-		StateMachine(void);
-		~StateMachine(void);
+		// convenient typedefs
+		typedef std::map<int, State*> StateMap;
+		typedef std::pair<int, State*> StatePair;
+		typedef std::vector<StatePair> StateStack;
+		typedef std::map<std::string, std::string> ContextParameters;
+
+		//------------------------------------------------------------------------------
+		// Public methods.
+		//------------------------------------------------------------------------------
+		StateMachine();
+		~StateMachine();
 
 		void RegisterState(int p_iState, State* p_pstate);
-		void Push(int p_iState, ContextParameters p_mContextParameters);
-		void Pop();
-		void PopAndPush(int p_iState, ContextParameters p_mContextParameters);
-		void PopToTop();
-		void PopToTopAndPush(int p_iState, ContextParameters p_mContextParameters);
-		void PopAllAndPush(int p_iState, ContextParameters p_mContextParameters);
 
-		void Update(const float p_fDelta);
+		// Stack-based mechanics
+		void Push(int p_iState, const ContextParameters& p_mContextParameters = ContextParameters());
+		StatePair Pop();
+		const StatePair& Peek() const				{ return m_mCurrentState; }
+		StateStack::const_iterator begin()			{ return m_mStateStack.begin(); }
+		StateStack::const_iterator end()			{ return m_mStateStack.end(); }
+		bool empty() const							{ return m_mStateStack.empty(); }
 
-		int GetCurrentState()					{ return m_iCurrentState; }
-		float GetCurrentStateTime()				{ return m_fCurrentStateTime; }
-		StateStack::const_iterator StackBegin()	{ return m_mStateStack.begin(); }
-		StateStack::const_iterator StackEnd()	{ return m_mStateStack.end(); }
+		void Update(const float p_fDelta, const bool m_bUpdateStack = false);
+
+		float GetCurrentStateTime()					{ return m_fCurrentStateTime; }
 
 		// A way for states in a state machine to reference back to their owner
 		void SetStateMachineOwner(void *p_pOwner)	{ m_pOwner = p_pOwner; }
@@ -53,8 +57,7 @@ namespace HeatStroke
 		StateStack m_mStateStack;
 
 		// Current state
-		int m_iCurrentState;
-		State* m_pCurrentState;
+		StatePair m_mCurrentState;
 
 		// State timer
 		float m_fCurrentStateTime;
@@ -64,5 +67,5 @@ namespace HeatStroke
 	};
 } // namespace HeatStroke
 
-#endif // STATEMACHINE_H
+#endif // STATE_MACHINE_H
 
