@@ -28,7 +28,12 @@ Kartaclysm::StateRacing::StateRacing()
 //------------------------------------------------------------------------------
 Kartaclysm::StateRacing::~StateRacing()
 {
-	Exit();
+	if (m_pGameObjectManager != nullptr)
+	{
+		m_pGameObjectManager->DestroyAllGameObjects();
+		delete m_pGameObjectManager;
+		m_pGameObjectManager = nullptr;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -39,7 +44,7 @@ Kartaclysm::StateRacing::~StateRacing()
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	m_bSuspended = true;
+	m_bSuspended = false;
 
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
