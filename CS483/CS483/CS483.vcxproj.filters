@@ -189,14 +189,14 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Kartaclysm\KartGame.cpp">
-      <Filter>Kartaclysm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kartaclysm\main.cpp">
-      <Filter>Kartaclysm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Kartaclysm\StateMachine\Gameplay\StateRacing.cpp">
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\KartGame.cpp">
+      <Filter>Kartaclysm</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\main.cpp">
+      <Filter>Kartaclysm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,14 +338,14 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Kartaclysm\KartGame.h">
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\KartGame.h">
       <Filter>Kartaclysm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kartaclysm\StateMachine\Gameplay\GameplayState.h">
-      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Kartaclysm\StateMachine\Gameplay\StateRacing.h">
-      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
