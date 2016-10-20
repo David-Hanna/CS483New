@@ -51,18 +51,31 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		const float m_fSpeedScale = 1.0f;
+		const float m_fVerticalSpeedScale = 1.0f;
 
 		float m_fMaxSpeedStat = 10.0f;
 		float m_fMaxReverseSpeedStat = 4.0f;
 		float m_fAccelerationStat = 0.3f;
 		float m_fReverseAccelerationStat = 0.6f;
 		float m_fAccelerationFrictionStat = 1.2f;
+		float m_fSpeedWhileTurningStat = 0.7f;
+		float m_fSpeedWhileSlidingMinStat = 0.9f;
+		float m_fSpeedWhileSlidingMaxStat = 0.7f;
 		float m_fMaxTurnStat = 2.0f;
 		float m_fTurnAccelerationStat = 24.0f;
+		float m_fHopInitialSpeedStat = 2.0f;
+		float m_fGravityAccelerationStat = -12.0f;
+		float m_fSlideModifierStat = 0.1f;
+		float m_fSlideMaxTurnModifierStat = 1.2f;
 
+		float m_fGroundHeight = 0.0f;
 		float m_fSpeed = 0.0f;
 		float m_fDirection = 0.0f;
 		float m_fTurnSpeed = 0.0f;
+		bool m_bAirborne = false;
+		float m_fVerticalSpeed = 0.0f;
+		bool m_bSliding = false;
+		int m_iSlideDirection = 0;
 	};
 }
 
