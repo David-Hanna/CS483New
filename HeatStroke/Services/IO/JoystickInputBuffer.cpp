@@ -9,7 +9,6 @@
 
 #include <cassert>
 
-
 namespace HeatStroke
 {
 	// Static singleton instance
@@ -77,16 +76,16 @@ namespace HeatStroke
 	{
 		for (int i = 0; i < GLFW_JOYSTICK_LAST; i++)
 		{
-			m_pJoysticks->at(i).m_pAxes->clear();
-			m_pJoysticks->at(i).m_pButtonsDown->clear();
+			m_pJoysticks->at(i).m_mAxes.clear();
+			m_pJoysticks->at(i).m_mButtonsDown.clear();
 		}
 		delete m_pJoysticks;
 		m_pJoysticks = nullptr;
 
 		for (int i = 0; i < GLFW_JOYSTICK_LAST; i++)
 		{
-			m_pJoysticksLast->at(i).m_pAxes->clear();
-			m_pJoysticksLast->at(i).m_pButtonsDown->clear();
+			m_pJoysticksLast->at(i).m_mAxes.clear();
+			m_pJoysticksLast->at(i).m_mButtonsDown.clear();
 		}
 		delete m_pJoysticksLast;
 		m_pJoysticksLast = nullptr;
@@ -104,22 +103,7 @@ namespace HeatStroke
 		{
 			(*m_pJoysticks)[i] = Joystick();
 			(*m_pJoysticksLast)[i] = Joystick();
-
-			if (glfwJoystickPresent(i))
-			{
-				// If the joystick is connected, iterate all axes and buttons on the controller
-				const float* pAxes = glfwGetJoystickAxes(i, &m_pJoysticks->at(i).m_iAxesCount);
-				for (int j = 0; j < m_pJoysticks->at(i).m_iAxesCount; j++)
-				{
-					(*m_pJoysticks)[i].m_pAxes->at(j) = pAxes[j];
-				}
-
-				const unsigned char* pButtons = glfwGetJoystickButtons(i, &m_pJoysticks->at(i).m_iButtonsCount);
-				for (int j = 0; j < m_pJoysticks->at(i).m_iButtonsCount; j++)
-				{
-					(*m_pJoysticks)[i].m_pButtonsDown->at(j) = (pButtons[j] == GLFW_PRESS);
-				}
-			}
+			m_pJoysticks->at(i).m_bConnected = (glfwJoystickPresent(i) == GLFW_CONNECTED);
 		}
 	}
 
@@ -131,30 +115,47 @@ namespace HeatStroke
 	//--------------------------------------------------------------------------------
 	void JoystickInputBuffer::Update(const float p_fDelta)
 	{
-		// Instead of copying all the data from Joysticks to JoysticksLast,
-		// we do a pointer swap.
+		// Instead of copying all the data from Joysticks to JoysticksLast, we do a pointer swap.
 		// First, query all the joystick axes and buttons, and set the values to JoysticksLast.
 		for (int i = 0; i <= GLFW_JOYSTICK_LAST; i++)
 		{
 			if (glfwJoystickPresent(i))
 			{
-				// If the joystick is connected, iterate all axes and buttons on the controller
-				const float* pAxes = glfwGetJoystickAxes(i, &m_pJoysticks->at(i).m_iAxesCount);
-				for (int j = 0; j < m_pJoysticks->at(i).m_iAxesCount; j++)
+				// If this controller was not connected the previous frame: send reconnect event
+				if (!m_pJoysticks->at(i).m_bConnected)
 				{
-					(*m_pJoysticks)[i].m_pAxes->at(j) = pAxes[j];
+					m_pJoysticks->at(i).m_bConnected = true;
+					Event* pEvent = new Event("JoystickCallback");
+					pEvent->SetIntParameter("Joystick", i);
+					pEvent->SetIntParameter("GLFWEvent", GLFW_CONNECTED);
+					EventManager::Instance()->QueueEvent(pEvent);
 				}
 
-				const unsigned char* pButtons = glfwGetJoystickButtons(i, &m_pJoysticks->at(i).m_iButtonsCount);
-				for (int j = 0; j < m_pJoysticks->at(i).m_iButtonsCount; j++)
+				const float* pAxes = glfwGetJoystickAxes(i, &m_pJoysticksLast->at(i).m_iAxesCount);
+				for (int j = 0; j < m_pJoysticksLast->at(i).m_iAxesCount; j++)
 				{
-					(*m_pJoysticks)[i].m_pButtonsDown->at(j) = (pButtons[j] == GLFW_PRESS);
+					(*m_pJoysticksLast)[i].m_mAxes[j] = pAxes[j];
 				}
+
+				const unsigned char* pButtons = glfwGetJoystickButtons(i, &m_pJoysticksLast->at(i).m_iButtonsCount);
+				for (int j = 0; j < m_pJoysticksLast->at(i).m_iButtonsCount; j++)
+				{
+					(*m_pJoysticksLast)[i].m_mButtonsDown[j] = (pButtons[j] == GLFW_PRESS);
+				}
+			}
+			else if (m_pJoysticks->at(i).m_bConnected)
+			{
+				// If this controller was connected the previous frame: send disconnect event
+				m_pJoysticks->at(i).m_bConnected = false;
+				Event* pEvent = new Event("JoystickCallback");
+				pEvent->SetIntParameter("Joystick", i);
+				pEvent->SetIntParameter("GLFWEvent", GLFW_DISCONNECTED);
+				EventManager::Instance()->QueueEvent(pEvent);
 			}
 		}
 
-		// Then swap the pointers, so now ButtonsDownLast is pointing to the values from
-		// last frame, and ButtonsDown is pointing to the values just assigned.
+		// Then swap the pointers, so now JoysticksLast is pointing to the values from
+		// last frame, and Joysticks is pointing to the values just assigned.
 		m_pTemp = m_pJoysticksLast;
 		m_pJoysticksLast = m_pJoysticks;
 		m_pJoysticks = m_pTemp;
@@ -176,8 +177,8 @@ namespace HeatStroke
 			return false;
 		}
 
-		JoystickButtonMap::iterator find = pJoystick->m_pButtonsDown->find(p_iGLFWJoystickButton);
-		if (find != (*m_pJoysticks)[p_iGLFWJoystick].m_pButtonsDown->end())
+		JoystickButtonMap::iterator find = pJoystick->m_mButtonsDown.find(p_iGLFWJoystickButton);
+		if (find != (*m_pJoysticks)[p_iGLFWJoystick].m_mButtonsDown.end())
 		{
 			return find->second;
 		}
@@ -195,14 +196,21 @@ namespace HeatStroke
 	//--------------------------------------------------------------------------------
 	float JoystickInputBuffer::GetAxis(const int p_iGLFWJoystick, const int p_iAxis) const
 	{
+		// Check controller for axis
 		Joystick* pJoystick = GetJoystick(p_iGLFWJoystick);
 		if (pJoystick == nullptr || pJoystick->m_iAxesCount == 0)
 		{
 			return 0.0f;
 		}
 
-		// Keys in map are char, not int
-		return pJoystick->m_pAxes->at(p_iAxis);
+		// See if axis is outside of dead zone
+		float fAxis = pJoystick->m_mAxes.at(p_iAxis);
+		if (fabsf(fAxis) < XBOX_AXIS_DEAD_ZONE)
+		{
+			return fAxis;
+		}
+
+		return fAxis;
 	}
 
 	//--------------------------------------------------------------------------------
@@ -226,3 +234,4 @@ namespace HeatStroke
 		return nullptr;
 	}
 }
+

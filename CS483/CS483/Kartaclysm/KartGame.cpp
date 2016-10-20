@@ -10,7 +10,11 @@
 bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
+	HeatStroke::EventManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
+	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
+	InputActionMapping::CreateInstance("Kartaclysm/Data/UserConfig/ControlBindings.xml");
+	PlayerInputMapping::CreateInstance();
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -23,7 +27,10 @@ bool Kartaclysm::KartGame::Init()
 
 void Kartaclysm::KartGame::Update(const float p_fDelta)
 {
+	HeatStroke::EventManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
+	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
+	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom
 	m_pGameStates->Update(p_fDelta, true);
@@ -47,4 +54,10 @@ void Kartaclysm::KartGame::Shutdown()
 {
 	delete m_pGameStates;
 	m_pGameStates = nullptr;
+
+	PlayerInputMapping::DestroyInstance();
+	InputActionMapping::DestroyInstance();
+	HeatStroke::JoystickInputBuffer::DestroyInstance();
+	HeatStroke::KeyboardInputBuffer::DestroyInstance();
+	HeatStroke::EventManager::DestroyInstance();
 }

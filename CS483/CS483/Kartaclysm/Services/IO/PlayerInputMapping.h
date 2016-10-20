@@ -10,7 +10,9 @@
 
 #include <GLFW/glfw3.h>
 #include <map>
+#include <functional>
 #include "InputActionMapping.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {
@@ -65,6 +67,9 @@ namespace Kartaclysm
 		// Toggle race mode
 		bool m_bRaceMode;
 
+		// Delegate function to register with EventManager for joystick connects and disconnects
+		std::function<void(const HeatStroke::Event*)>* m_pJoystickDelegate;
+
 		//-------------------------------------------------------------
 		// Private methods
 		//-------------------------------------------------------------
@@ -76,7 +81,7 @@ namespace Kartaclysm
 		void Init();
 
 		// Joystick connect/disconnect callback
-		void JoystickCallback(const int p_iGLFWJoystick, const int p_iJoystickEvent);
+		void JoystickCallback(const HeatStroke::Event* p_pEvent);
 	};
 }
 

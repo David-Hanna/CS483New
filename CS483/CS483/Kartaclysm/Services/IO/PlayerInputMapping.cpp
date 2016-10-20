@@ -64,6 +64,9 @@ namespace Kartaclysm
 		m_iPlayersConnected(0),
 		m_bRaceMode(false)
 	{
+		m_pJoystickDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&PlayerInputMapping::JoystickCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("JoystickCallback", m_pJoystickDelegate);
+
 		Init();
 	}
 
@@ -74,6 +77,10 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------
 	PlayerInputMapping::~PlayerInputMapping()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("JoystickCallback", m_pJoystickDelegate);
+		delete m_pJoystickDelegate;
+		m_pJoystickDelegate = nullptr;
+
 		m_pPlayers->clear();
 		delete m_pPlayers;
 		m_pPlayers = nullptr;
@@ -240,25 +247,28 @@ namespace Kartaclysm
 
 	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::JoystickCallback
-	// Parameter:	const int p_iGLFWJoystick - GLFW integer for joystick
-	//				const int p_iJoystickEvent - GLFW_CONNECTED or GLFW_DISCONNECTED
+	// Parameter:	const HeatStroke::Event* p_pEvent - "JoystickCallback" event
 	//
 	// Adds or removes joystick from player input mapping.
 	//--------------------------------------------------------------------------------
-	void PlayerInputMapping::JoystickCallback(const int p_iGLFWJoystick, const int p_iJoystickEvent)
+	void PlayerInputMapping::JoystickCallback(const HeatStroke::Event* p_pEvent)
 	{
-		PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
+		// Get required information from event
+		int iGLFWJoystick, iJoystickEvent;
+		p_pEvent->GetRequiredIntParameter("Joystick", iGLFWJoystick);
+		p_pEvent->GetRequiredIntParameter("GLFWEvent", iJoystickEvent);
 
-		if (p_iJoystickEvent == GLFW_CONNECTED)
+		if (iJoystickEvent == GLFW_CONNECTED)
 		{
 			// Add to first player without an input
 			bool bFound = false;
 			int iKeyboardInUseBy = -1;
+			PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
 			for (; it != end; it++)
 			{
 				if (it->second == -1)
 				{
-					it->second = p_iGLFWJoystick;
+					it->second = iGLFWJoystick;
 					m_iPlayersConnected++;
 					bFound = true;
 					break;
@@ -281,16 +291,17 @@ namespace Kartaclysm
 			// If not in race mode, push a player off keyboard and onto joystick
 			if (iKeyboardInUseBy != -1 && !m_bRaceMode)
 			{
-				(*m_pPlayers)[iKeyboardInUseBy] = p_iGLFWJoystick;
+				(*m_pPlayers)[iKeyboardInUseBy] = iGLFWJoystick;
 			}
 		}
-		else if (p_iJoystickEvent == GLFW_DISCONNECTED)
+		else if (iJoystickEvent == GLFW_DISCONNECTED)
 		{
 			// Remove from player who was mapped to this joystick
 			bool bFound = false, bKeyboardInUse = false;
+			PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
 			for (; it != end; it++)
 			{
-				if (it->second == p_iGLFWJoystick)
+				if (it->second == iGLFWJoystick)
 				{
 					// TO DO, for now, hardcoded that you get assigned another input automatically
 					// When implemented in game, this should be handled through the event below

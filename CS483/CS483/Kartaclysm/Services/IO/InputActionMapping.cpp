@@ -98,10 +98,13 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	void InputActionMapping::SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick)
 	{
-		assert(p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1 || glfwJoystickPresent(p_iGLFWJoystick));
+		if (p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 1 && !glfwJoystickPresent(p_iGLFWJoystick))
+		{
+			return;
+		}
+		assert(GLFW_JOYSTICK_LAST + 1 || glfwJoystickPresent(p_iGLFWJoystick));
 
-		HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerInput");
-		pEvent->SetIntParameter("Player", p_iPlayer);
+		HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerInput_" + p_iPlayer);
 
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
@@ -126,7 +129,6 @@ namespace Kartaclysm
 			// Joystick buttons
 			pEvent->SetIntParameter("Accelerate", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAccelerate])));
 			pEvent->SetIntParameter("Brake", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eBrake])));
-			pEvent->SetIntParameter("Slide", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide])));
 			pEvent->SetIntParameter("Driver1", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility1])));
 			pEvent->SetIntParameter("Driver2", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility2])));
 			pEvent->SetIntParameter("Kart1", static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eKartAbility1])));
@@ -135,12 +137,21 @@ namespace Kartaclysm
 
 			// Analog stick takes priority over d-pad for turning
 			float fTurn = HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick]);
-			if (fTurn == 0.0f) // TO DO, test if dead zone needs to be implemented
+			if (fTurn == 0.0f)
 			{
 				fTurn = static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eRight]));
 				fTurn -= static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eLeft]));
 			}
 			pEvent->SetFloatParameter("Turn", fTurn);
+
+			// Sliding may be controlled by button OR by RT/LT axis
+			int iSlide = static_cast<int>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]));
+			if (iSlide == 0)
+			{
+				float fSlide = HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, XBOX_AXIS_TRIGGERS);
+				iSlide = (fSlide == 0.0f ? 0 : 1);
+			}
+			pEvent->SetIntParameter("Slide", iSlide);
 		}
 
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
@@ -175,13 +186,13 @@ namespace Kartaclysm
 			(*m_pInputMap)[Input::eJoystick][Racer::eBrake] =			XBOX_B;
 			(*m_pInputMap)[Input::eJoystick][Racer::eLeft] =			XBOX_LEFT;
 			(*m_pInputMap)[Input::eJoystick][Racer::eRight] =			XBOX_RIGHT;
-			(*m_pInputMap)[Input::eJoystick][Racer::eSlide] =			XBOX_RB;
+			(*m_pInputMap)[Input::eJoystick][Racer::eSlide] =			XBOX_L3;
 			(*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility1] =	XBOX_X;
 			(*m_pInputMap)[Input::eJoystick][Racer::eDriverAbility2] =	XBOX_Y;
-			(*m_pInputMap)[Input::eJoystick][Racer::eKartAbility1] =	XBOX_LT;
-			(*m_pInputMap)[Input::eJoystick][Racer::eKartAbility2] =	XBOX_RT;
+			(*m_pInputMap)[Input::eJoystick][Racer::eKartAbility1] =	XBOX_LB;
+			(*m_pInputMap)[Input::eJoystick][Racer::eKartAbility2] =	XBOX_RB;
 			(*m_pInputMap)[Input::eJoystick][Racer::ePause] =			XBOX_START;
-			(*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick] =		XBOX_LEFT_ANALOG_X;
+			(*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick] =		XBOX_AXIS_LEFT_X;
 		}
 	}
 
@@ -221,36 +232,36 @@ namespace Kartaclysm
 
 			// Find title of XML element to read, and the number of buttons corresponding to that input
 			std::string strInputName;
-			int iButtonsToMap;
+			int iActionsToMap;
 			switch (it->first)
 			{
-			case Input::eKeyboard: strInputName = "Keyboard"; iButtonsToMap = 10; break;
-			case Input::eJoystick: strInputName = "Joystick"; iButtonsToMap = 11; break;
+				case Input::eKeyboard: strInputName = "Keyboard"; iActionsToMap = 10; break;
+				case Input::eJoystick: strInputName = "Joystick"; iActionsToMap = 11; break;
 			}
 
 			// Make sure the attribute type is found in the XML document
 			tinyxml2::XMLElement* pInputType = (tinyxml2::XMLElement*)HeatStroke::EasyXML::FindChildNode(pElement, strInputName.c_str());
 			while (pInputType != nullptr) // NOTE: ONLY USED FOR EARLY 'BREAK' COMMANDS
 			{
-				for (int j = 0; j < iButtonsToMap; j++)
+				for (int j = 0; j < iActionsToMap; j++)
 				{
 					// Select attribute to search, and the map key for insertion
 					std::string strAtrributeName;
 					Racer::Action eAction;
 					switch (j)
 					{
-					case 0:  strAtrributeName = "accelerate";	  eAction = Racer::eAccelerate; break;
-					case 1:  strAtrributeName = "brake";		  eAction = Racer::eBrake; break;
-					case 2:  strAtrributeName = "left";			  eAction = Racer::eLeft; break;
-					case 3:  strAtrributeName = "right";		  eAction = Racer::eRight; break;
-					case 4:  strAtrributeName = "slide";		  eAction = Racer::eSlide; break;
-					case 5:  strAtrributeName = "driverAbility1"; eAction = Racer::eDriverAbility1; break;
-					case 6:  strAtrributeName = "driverAbility2"; eAction = Racer::eDriverAbility2; break;
-					case 7:  strAtrributeName = "kartAbility1";	  eAction = Racer::eKartAbility1; break;
-					case 8:  strAtrributeName = "kartAbility2";	  eAction = Racer::eKartAbility2; break;
-					case 9:  strAtrributeName = "pause";		  eAction = Racer::ePause; break;
-						// The following case(s) do not apply to Keyboards
-					case 10: strAtrributeName = "analogStick";	  eAction = Racer::eAnalogStick; break;
+					case 0:  strAtrributeName = "accelerate";			eAction = Racer::eAccelerate; break;
+					case 1:  strAtrributeName = "brake";				eAction = Racer::eBrake; break;
+					case 2:  strAtrributeName = "left";					eAction = Racer::eLeft; break;
+					case 3:  strAtrributeName = "right";				eAction = Racer::eRight; break;
+					case 4:  strAtrributeName = "slide";				eAction = Racer::eSlide; break;
+					case 5:  strAtrributeName = "driverAbility1";		eAction = Racer::eDriverAbility1; break;
+					case 6:  strAtrributeName = "driverAbility2";		eAction = Racer::eDriverAbility2; break;
+					case 7:  strAtrributeName = "kartAbility1";			eAction = Racer::eKartAbility1; break;
+					case 8:  strAtrributeName = "kartAbility2";			eAction = Racer::eKartAbility2; break;
+					case 9:  strAtrributeName = "pause";				eAction = Racer::ePause; break;
+						// The following case(s) only apply to Joysticks
+					case 10: strAtrributeName = "analogStick";			eAction = Racer::eAnalogStick; break;
 					}
 
 					// Search for the attribute and get its value
@@ -274,8 +285,8 @@ namespace Kartaclysm
 					}
 
 					// Validate that the value is uniquely mapped
-					// Note: Skip this for the analog stick, as it can share a mapping value with a button
-					if (it->first == Input::eKeyboard || !strcmp(strAtrributeName.c_str(), "analogStick") == 0)
+					// Note: Skip this for the analog stick exclusive controls
+					if (it->first == Input::eKeyboard || j < 10)
 					{
 						ActionMap::const_iterator it2 = actionMap.begin(), end2 = actionMap.end();
 						for (; it2 != end2; it++)
@@ -301,7 +312,6 @@ namespace Kartaclysm
 				}
 
 				// If mapping is valid, copy it over to the class
-				// TO DO, make sure this isn't cut off the stack... not sure as I code it...
 				(*m_pInputMap)[it->first] = std::move(actionMap);
 				pInputType = nullptr;
 				break;

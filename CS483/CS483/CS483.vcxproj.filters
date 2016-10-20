@@ -79,6 +79,15 @@
     <Filter Include="Kartaclysm\StateMachine\Gameplay">
       <UniqueIdentifier>{11fb4673-e684-4054-a1a3-2d8759f10f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\UserConfig">
+      <UniqueIdentifier>{694b34dd-4c68-49df-a1b6-3d238be0f44f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Services">
+      <UniqueIdentifier>{6dce34bd-ede5-4067-94b5-e86b2d2fc27e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Services\IO">
+      <UniqueIdentifier>{ddbe5b71-f555-422f-ad37-4ff1931f0905}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -197,6 +206,15 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.cpp">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,5 +365,22 @@
     <ClInclude Include="Kartaclysm\KartGame.h">
       <Filter>Kartaclysm</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\IO\InputActionMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\IO\InputActions.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\IO\PlayerInputMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

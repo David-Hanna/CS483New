@@ -10,23 +10,33 @@
 
 #include <GLFW/glfw3.h>
 #include <map>
+#include "InputActions.h"
+#include "EventManager.h"
 
 namespace HeatStroke
 {
 	class JoystickInputBuffer
 	{
 	private:
-		// Convenient typedefs
+		// Convenient typedefs and struct
 		typedef std::map<int, bool> JoystickButtonMap;
 		typedef std::map<int, float> JoystickAxesMap;
 
-		typedef struct Joystick
+		struct Joystick
 		{
+			bool m_bConnected;
 			int	m_iButtonsCount;
 			int m_iAxesCount;
 
-			JoystickButtonMap*	m_pButtonsDown;
-			JoystickAxesMap*	m_pAxes;
+			JoystickButtonMap	m_mButtonsDown;
+			JoystickAxesMap		m_mAxes;
+
+			Joystick() : 
+				m_bConnected(false),
+				m_iButtonsCount(0), 
+				m_iAxesCount(0), 
+				m_mButtonsDown(JoystickButtonMap()),
+				m_mAxes(JoystickAxesMap()) {}
 		};
 
 		typedef std::map<int, Joystick> JoystickMap;
@@ -58,7 +68,7 @@ namespace HeatStroke
 		// Static singleton instance
 		static JoystickInputBuffer* s_pJoystickInputBufferInstance;
 
-		// Window with which to query keyboard input.
+		// Window with which to query input.
 		GLFWwindow* m_pWindow;
 
 		// Joystick maps
@@ -78,9 +88,6 @@ namespace HeatStroke
 
 		// Helper function
 		Joystick* const GetJoystick(const int p_iGLFWJoystick) const;
-
-		// Joystick connect/disconnect callback
-		// void JoystickCallback(int joy, int event);
 	};
 }
 
