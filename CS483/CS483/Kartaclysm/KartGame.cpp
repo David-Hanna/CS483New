@@ -13,7 +13,7 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::EventManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
-	InputActionMapping::CreateInstance("Kartaclysm/Data/UserConfig/ControlBindings.xml");
+	InputActionMapping::CreateInstance("CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
 	// Setup State Machine and push first state

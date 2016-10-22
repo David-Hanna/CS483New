@@ -86,6 +86,8 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------
 	void InputActionMapping::Init()
 	{
+		(*m_pInputMap)[Input::eKeyboard] = ActionMap();
+		(*m_pInputMap)[Input::eJoystick] = ActionMap();
 		LoadUserControlBindings();
 	}
 
@@ -98,11 +100,13 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	void InputActionMapping::SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick)
 	{
+		// The event for controller disconnect or reconnect is queued (not triggered immediately)
+		// meaning the PlayerInputMapping may be delayed some frames before updating its mapping
+		// As such, we cannot use an assert() here, and will have to handle it quietly
 		if (p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 1 && !glfwJoystickPresent(p_iGLFWJoystick))
 		{
 			return;
 		}
-		assert(GLFW_JOYSTICK_LAST + 1 || glfwJoystickPresent(p_iGLFWJoystick));
 
 		HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerInput_" + p_iPlayer);
 
@@ -205,30 +209,36 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	bool InputActionMapping::LoadUserControlBindings()
 	{
-
-		// Look for XML file and parse into user control bindings
+		// Make sure we can load the XML file
 		tinyxml2::XMLDocument doc;
-		if (doc.Parse(m_strUserConfigFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
+		if (doc.LoadFile(m_strUserConfigFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
 		{
 			ResetUserControlBindings();
 			return false;
 		}
 
 		// Make sure the file is formatted correctly and we have the right XML file
-		tinyxml2::XMLElement* pElement = doc.FirstChildElement();
+		tinyxml2::XMLElement* pElement = doc.RootElement();
 		if (strcmp(pElement->Name(), "ControlBindings") != 0)
 		{
 			ResetUserControlBindings();
 			return false;
 		}
 
-		// Outer loop for the different input types (keyboard, joystick)
+		// Make sure the mappings have been created for the different input types (keyboard, joystick)
 		InputMap::const_iterator it = m_pInputMap->begin(), end = m_pInputMap->end();
+		if (it == end)
+		{
+			ResetUserControlBindings();
+			return false;
+		}
+
+		// Loop each input type to build the mapping
 		for (; it != end; it++)
 		{
 			// Build a map up, making sure each action is mapped to a unique key
-			ActionMap actionMap = ActionMap();
-			bool bError;
+			ActionMap mActionMap = ActionMap();
+			bool bError = false;
 
 			// Find title of XML element to read, and the number of buttons corresponding to that input
 			std::string strInputName;
@@ -240,81 +250,77 @@ namespace Kartaclysm
 			}
 
 			// Make sure the attribute type is found in the XML document
-			tinyxml2::XMLElement* pInputType = (tinyxml2::XMLElement*)HeatStroke::EasyXML::FindChildNode(pElement, strInputName.c_str());
-			while (pInputType != nullptr) // NOTE: ONLY USED FOR EARLY 'BREAK' COMMANDS
+			tinyxml2::XMLElement* pInputType = static_cast<tinyxml2::XMLElement*>(HeatStroke::EasyXML::FindChildNode(pElement, strInputName.c_str()));
+			assert(pInputType != nullptr);
+
+			// Loop however many inputs need to be mapped for this input type
+			for (int j = 0; j < iActionsToMap; j++)
 			{
-				for (int j = 0; j < iActionsToMap; j++)
+				// Select attribute to search, and the map key for insertion
+				std::string strAtrributeName;
+				Racer::Action eAction;
+				switch (j)
 				{
-					// Select attribute to search, and the map key for insertion
-					std::string strAtrributeName;
-					Racer::Action eAction;
-					switch (j)
-					{
-					case 0:  strAtrributeName = "accelerate";			eAction = Racer::eAccelerate; break;
-					case 1:  strAtrributeName = "brake";				eAction = Racer::eBrake; break;
-					case 2:  strAtrributeName = "left";					eAction = Racer::eLeft; break;
-					case 3:  strAtrributeName = "right";				eAction = Racer::eRight; break;
-					case 4:  strAtrributeName = "slide";				eAction = Racer::eSlide; break;
-					case 5:  strAtrributeName = "driverAbility1";		eAction = Racer::eDriverAbility1; break;
-					case 6:  strAtrributeName = "driverAbility2";		eAction = Racer::eDriverAbility2; break;
-					case 7:  strAtrributeName = "kartAbility1";			eAction = Racer::eKartAbility1; break;
-					case 8:  strAtrributeName = "kartAbility2";			eAction = Racer::eKartAbility2; break;
-					case 9:  strAtrributeName = "pause";				eAction = Racer::ePause; break;
-						// The following case(s) only apply to Joysticks
-					case 10: strAtrributeName = "analogStick";			eAction = Racer::eAnalogStick; break;
-					}
-
-					// Search for the attribute and get its value
-					int iButton = -1;
-					tinyxml2::XMLElement* pAttribute = (tinyxml2::XMLElement*)HeatStroke::EasyXML::FindChildNode(pElement, strAtrributeName.c_str());
-					HeatStroke::EasyXML::GetOptionalIntAttribute(pAttribute, "value", iButton, -1);
-
-					// Validate that the value was found
-					if (iButton == -1)
-					{
-						bError = true;
-						break;
-					}
-
-					// Validate that the key is tracked by GLFW if keyboard input
-					// TO DO, method to validate joystick input
-					if (it->first == Input::eKeyboard && !HeatStroke::KeyboardInputBuffer::Instance()->IsValidKey(iButton))
-					{
-						bError = true;
-						break;
-					}
-
-					// Validate that the value is uniquely mapped
-					// Note: Skip this for the analog stick exclusive controls
-					if (it->first == Input::eKeyboard || j < 10)
-					{
-						ActionMap::const_iterator it2 = actionMap.begin(), end2 = actionMap.end();
-						for (; it2 != end2; it++)
-						{
-							if (it2->second == iButton)
-							{
-								bError = true;
-								break;
-							}
-						}
-						if (bError) break;
-					}
-
-					// Valid key: add it to the mapping
-					actionMap[eAction] = iButton;
+				case 0:  strAtrributeName = "accelerate";			eAction = Racer::eAccelerate; break;
+				case 1:  strAtrributeName = "brake";				eAction = Racer::eBrake; break;
+				case 2:  strAtrributeName = "left";					eAction = Racer::eLeft; break;
+				case 3:  strAtrributeName = "right";				eAction = Racer::eRight; break;
+				case 4:  strAtrributeName = "slide";				eAction = Racer::eSlide; break;
+				case 5:  strAtrributeName = "driverAbility1";		eAction = Racer::eDriverAbility1; break;
+				case 6:  strAtrributeName = "driverAbility2";		eAction = Racer::eDriverAbility2; break;
+				case 7:  strAtrributeName = "kartAbility1";			eAction = Racer::eKartAbility1; break;
+				case 8:  strAtrributeName = "kartAbility2";			eAction = Racer::eKartAbility2; break;
+				case 9:  strAtrributeName = "pause";				eAction = Racer::ePause; break;
+					// The following case(s) only apply to Joysticks
+				case 10: strAtrributeName = "analogStick";			eAction = Racer::eAnalogStick; break;
 				}
 
-				// If an error occured during the mapping, reset the buttons for that input and break
-				if (bError)
+				// Search for the attribute and get its value
+				int iButton = -1;
+				tinyxml2::XMLElement* pAttribute = static_cast<tinyxml2::XMLElement*>(HeatStroke::EasyXML::FindChildNode(pInputType, strAtrributeName.c_str()));
+				HeatStroke::EasyXML::GetOptionalIntAttribute(pAttribute, "value", iButton, -1);
+
+				// Validate that the value was found
+				if (iButton == -1)
 				{
-					ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
+					bError = true;
 					break;
 				}
 
-				// If mapping is valid, copy it over to the class
-				(*m_pInputMap)[it->first] = std::move(actionMap);
-				pInputType = nullptr;
-				break;
+				// Validate that the key is tracked by GLFW if keyboard input
+				// TO DO, method to validate joystick input
+				if (it->first == Input::eKeyboard && !HeatStroke::KeyboardInputBuffer::Instance()->IsValidKey(iButton))
+				{
+					bError = true;
+					break;
+				}
+
+				// Validate that the value is uniquely mapped (skipping joystick analog sticks)
+				if (j < 10)
+				{
+					ActionMap::const_iterator it2 = mActionMap.begin(), end2 = mActionMap.end();
+					for (; it2 != end2; it2++)
+					{
+						if (it2->second == iButton)
+						{
+							bError = true;
+							break;
+						}
+					}
+					if (bError) break;
+				}
+
+				// Valid key: add it to the mapping
+				mActionMap[eAction] = iButton;
+			}
+
+			if (bError)
+			{
+				ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
+			}
+			else
+			{
+				(*m_pInputMap)[it->first] = std::move(mActionMap);
 			}
 		}
 
