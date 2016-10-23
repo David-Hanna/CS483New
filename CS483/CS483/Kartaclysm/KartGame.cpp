@@ -11,6 +11,7 @@ bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
+	HeatStroke::ParsingServiceLocator::CreateInstance(new HeatStroke::ParsingService());
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -45,6 +46,9 @@ void Kartaclysm::KartGame::Render()
 
 void Kartaclysm::KartGame::Shutdown()
 {
+	HeatStroke::KeyboardInputBuffer::DestroyInstance();
+	HeatStroke::ParsingServiceLocator::DestroyInstance();
+
 	delete m_pGameStates;
 	m_pGameStates = nullptr;
 }

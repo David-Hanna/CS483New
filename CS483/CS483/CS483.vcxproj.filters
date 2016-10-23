@@ -79,6 +79,9 @@
     <Filter Include="Kartaclysm\StateMachine\Gameplay">
       <UniqueIdentifier>{11fb4673-e684-4054-a1a3-2d8759f10f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\GO/Components\Parsing">
+      <UniqueIdentifier>{f68080bb-b279-4e17-9cff-3b5b09602c40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -197,6 +200,12 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\KartGame.h">
       <Filter>Kartaclysm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

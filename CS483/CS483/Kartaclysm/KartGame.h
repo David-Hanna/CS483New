@@ -13,6 +13,8 @@
 #include "StateMachine.h"
 #include "GameplayState.h"
 #include "StateRacing.h"
+#include "ParsingServiceLocator.h"
+#include "ParsingService.h"
 
 namespace Kartaclysm
 {

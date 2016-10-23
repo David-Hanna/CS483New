@@ -23,9 +23,7 @@ GameObjectManager::GameObjectManager()
 	m_bUpdating(false),
 	m_vToDelete(),
 	m_uiAutoGUIDNum(0),
-	m_mComponentFactoryMap(),
-	m_mGameObjectMap(),
-	m_mLoadedGameObjectFilesMap()
+	m_mGameObjectMap()
 {
 }
 
@@ -40,36 +38,6 @@ GameObjectManager::GameObjectManager()
 GameObjectManager::~GameObjectManager()
 {
 	DestroyAllGameObjects();
-	UnloadGameObjectBaseFiles();
-
-#ifdef _DEBUG
-	assert(m_mGameObjectMap.size() == 0);
-	assert(m_mLoadedGameObjectFilesMap.size() == 0);
-#endif
-}
-
-//------------------------------------------------------------------------------
-// Method:    RegisterComponentFactory
-// Parameter: const std::string & p_strComponentId
-// Parameter: ComponentFactoryMethod p_factoryMethod
-// Returns:   void
-// 
-// Registers a component factory for a given component Id.
-//------------------------------------------------------------------------------
-void GameObjectManager::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
-{
-#ifdef _DEBUG
-	// In debug only, we check if the component factory is already in the map
-	// and raise an assert to warn the programmer this is happening.
-	ComponentFactoryMap::const_iterator find = m_mComponentFactoryMap.find(p_strComponentId);
-	if (find != m_mComponentFactoryMap.end())
-	{
-		assert(false && "Component Factory was registered twice.");
-	}
-#endif
-	// No need to check if it already exists in the map before inserting it
-	// in release mode, std::map::insert does that for us.
-	m_mComponentFactoryMap.insert(std::pair<std::string, ComponentFactoryMethod>(p_strComponentId, p_factoryMethod));
 }
 
 //------------------------------------------------------------------------------
@@ -128,10 +96,10 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLNode* p_pGameObject
 	tinyxml2::XMLNode* pGameObjectBaseNode = nullptr;
 	if (strBase != "")
 	{
-		pGameObjectBaseNode = GetOrLoadGameObjectBaseNode(strBase);
+		pGameObjectBaseNode = ParsingServiceLocator::Instance()->GetService()->GetGameObjectBaseNode(strBase);
 		if (pGameObjectBaseNode != nullptr)
 		{
-			ParseBaseNodeComponents(pGameObject, mComponentSet, pGameObjectBaseNode, pGameObjectOverrideNode);
+			ParsingServiceLocator::Instance()->GetService()->ParseBaseNodeComponents(pGameObject, mComponentSet, pGameObjectBaseNode, pGameObjectOverrideNode);
 		}
 	}
 	
@@ -141,7 +109,9 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLNode* p_pGameObject
 	//---------------------------------------------------------------------
 	if (pGameObjectOverrideNode != nullptr)
 	{
-		ParseOverrideComponents(pGameObject, mComponentSet, pGameObjectOverrideNode);
+		// Transform is a special case.
+		ParseTransformOverride(pGameObject, pGameObjectOverrideNode);
+		ParsingServiceLocator::Instance()->GetService()->ParseOverrideComponents(pGameObject, mComponentSet, pGameObjectOverrideNode);
 	}
 
 	//---------------------------------------------------------------------
@@ -163,7 +133,7 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLNode* p_pGameObject
 //------------------------------------------------------------------------------
 GameObject* GameObjectManager::CreateGameObject(const std::string& p_strBaseFileName, const std::string& p_strGUID /*= ""*/)
 {
-	tinyxml2::XMLNode* pBaseNode = GetOrLoadGameObjectBaseNode(p_strBaseFileName);
+	tinyxml2::XMLNode* pBaseNode = ParsingServiceLocator::Instance()->GetService()->GetGameObjectBaseNode(p_strBaseFileName);
 
 	GameObject* pGameObject;
 
@@ -178,7 +148,7 @@ GameObject* GameObjectManager::CreateGameObject(const std::string& p_strBaseFile
 		pGameObject = AddBlankGameObject(p_strGUID);
 	}
 	
-	ParseBaseNodeComponents(pGameObject, std::set<std::string>(), pBaseNode, nullptr);
+	ParsingServiceLocator::Instance()->GetService()->ParseBaseNodeComponents(pGameObject, std::set<std::string>(), pBaseNode, nullptr);
 
 	pGameObject->Init();
 
@@ -269,26 +239,6 @@ m_mGameObjectMap.insert(std::pair<std::string, GameObject*>(p_pGameObject->GetGU
 return true;
 }
 */
-
-//------------------------------------------------------------------------------
-// GameObjectManager::UnloadGameObjectFiles
-// 
-// Unloads the base Game Object files that have been collected using CreateGameObject().
-//------------------------------------------------------------------------------
-void GameObjectManager::UnloadGameObjectBaseFiles()
-{
-	LoadedGameObjectFilesMap::iterator it = m_mLoadedGameObjectFilesMap.begin();
-	LoadedGameObjectFilesMap::iterator end = m_mLoadedGameObjectFilesMap.end();
-	for (; it != end; it++)
-	{
-#ifdef _DEBUG
-		assert(it->second != nullptr);
-#endif
-		delete it->second;
-		it->second = nullptr;
-	}
-	m_mLoadedGameObjectFilesMap.clear();
-}
 
 //------------------------------------------------------------------------------
 // Method:    Update
@@ -386,166 +336,6 @@ GameObject* GameObjectManager::AddBlankGameObject(const std::string& p_strGUID)
 	m_mGameObjectMap[p_strGUID] = pGameObject;
 
 	return pGameObject;
-}
-
-//-------------------------------------------------------------------------------
-// GameObjectManager::GetOrLoadGameObjectBaseNode
-//
-// Checks the map to see if this base node has already been loaded.
-// If so, return it. Otherwise, we have to load it into the map first, then
-// return it.
-//-------------------------------------------------------------------------------
-tinyxml2::XMLNode* GameObjectManager::GetOrLoadGameObjectBaseNode(const std::string& p_strBase)
-{
-	std::string strBasePath = "assignmentResources/assignment4/data/" + p_strBase + ".xml";
-
-	tinyxml2::XMLDocument* pBaseDocument;
-	LoadedGameObjectFilesMap::const_iterator find = m_mLoadedGameObjectFilesMap.find(strBasePath);
-
-	if (find == m_mLoadedGameObjectFilesMap.end())
-	{
-		// Wasn't in the map. Load it now.
-		pBaseDocument = new tinyxml2::XMLDocument();
-		tinyxml2::XMLError error = pBaseDocument->LoadFile(strBasePath.c_str());
-
-		if (error != tinyxml2::XML_NO_ERROR)
-		{
-#ifdef _DEBUG
-			printf("%s\n", strBasePath.c_str());
-			assert(false && "Invalid base file.");
-#endif
-			return nullptr;
-		}
-
-		// Put it in the map so we save on this loading time if we
-		// want to read this document multiple times (ex. initialization
-		// of multiple instances of the same base Game Object).
-		m_mLoadedGameObjectFilesMap[strBasePath] = pBaseDocument;
-	}
-	else
-	{
-		// It was in the map, just get it.
-		pBaseDocument = find->second;
-	}
-
-	// Get the root node, which should be a Game Object Node.
-	tinyxml2::XMLNode* pGameObjectBaseNode = pBaseDocument->RootElement();
-
-#ifdef _DEBUG
-	assert(pGameObjectBaseNode != nullptr && "Failed to find Root Node");
-	assert(strcmp(pGameObjectBaseNode->Value(), "GameObject") == 0 && "Root Node of Base Class Must be GameObject");
-#endif
-
-	return pGameObjectBaseNode;
-}
-
-//-------------------------------------------------------------------
-// GameObjectManager::ParseBaseNodeComponents
-//
-// Parses the components of a base Game Object node, passing it the
-// matching override node if it exists.
-//-------------------------------------------------------------------
-void GameObjectManager::ParseBaseNodeComponents(
-	GameObject* p_pGameObject,
-	std::set<std::string>& p_mComponentSet,
-	tinyxml2::XMLNode* p_pGameObjectBaseNode,
-	tinyxml2::XMLNode* p_pGameObjectOverrideNode)
-{
-	assert(p_pGameObject != nullptr);
-	assert(p_pGameObjectBaseNode != nullptr);
-
-	// p_pGameObjectOverrideNode is allowed to be nullptr. This means
-	// there was no <Override> node under the Game Object instance node.
-	// If this is the case, simply no overrides are applied.
-
-	// Loop over the components in the Game Object base node, find the matching
-	// override node, and send each one to the ParseComponent method.
-	for (tinyxml2::XMLNode* pComponentNode = p_pGameObjectBaseNode->FirstChild();
-		pComponentNode != nullptr;
-		pComponentNode = pComponentNode->NextSibling())
-	{
-		// skip comments
-		if (pComponentNode->ToComment() != nullptr)
-			continue;
-
-		// Get the name of the component.
-		const char* szComponentName = pComponentNode->Value();
-
-		// Find if there is a matching override node for this component. This will be nullptr if not.
-		tinyxml2::XMLNode* pComponentOverrideNode = nullptr;
-		if (p_pGameObjectOverrideNode != nullptr)
-		{
-			EasyXML::FindChildNode(p_pGameObjectOverrideNode, szComponentName);
-		}
-		
-		// Parse the individual component.
-		ParseComponent(p_pGameObject, p_mComponentSet, szComponentName, pComponentNode, pComponentOverrideNode);
-	}
-}
-
-//-------------------------------------------------------------------
-// GameObjectManager::ParseOverrideComponents
-//
-// Parses the components of an instance Game Object node.
-//-------------------------------------------------------------------
-void GameObjectManager::ParseOverrideComponents(
-	GameObject* p_pGameObject,
-	std::set<std::string>& p_mComponentSet,
-	tinyxml2::XMLNode* p_pGameObjectOverrideNode)
-{
-	assert(p_pGameObject != nullptr);
-	assert(p_pGameObjectOverrideNode != nullptr);
-
-	// Transform is a special case.
-	ParseTransformOverride(p_pGameObject, p_pGameObjectOverrideNode);
-
-	for (tinyxml2::XMLNode* pComponentOverrideNode = p_pGameObjectOverrideNode->FirstChild();
-		pComponentOverrideNode != nullptr;
-		pComponentOverrideNode = pComponentOverrideNode->NextSibling())
-	{
-		// skip comments
-		if (pComponentOverrideNode->ToComment() != nullptr)
-			continue;
-
-		// Get the name of the component.
-		const char* szComponentName = pComponentOverrideNode->Value();
-
-		// Also skip the Transform.
-		if (strcmp(szComponentName, "Transform") == 0)
-			continue;
-
-		// Parse the individual component.
-		ParseComponent(p_pGameObject, p_mComponentSet, szComponentName, nullptr, pComponentOverrideNode);
-	}
-}
-
-//----------------------------------------------------------------------------------
-// GameObjectManager::ParseComponent
-//
-// Handles a single component by passing it to the delegate method.
-//----------------------------------------------------------------------------------
-void GameObjectManager::ParseComponent(
-	GameObject* p_pGameObject,
-	std::set<std::string>& p_mComponentSet,
-	const char* p_szComponentName,
-	tinyxml2::XMLNode* p_pComponentNode,
-	tinyxml2::XMLNode* p_pComponentOverrideNode)
-{
-	// Check that we haven't parsed this component before.
-	if (p_mComponentSet.find(p_szComponentName) != p_mComponentSet.end())
-		return;
-	p_mComponentSet.insert(p_szComponentName);
-
-	// Find the appropriate factory method to use for construction.
-	ComponentFactoryMap::iterator it = m_mComponentFactoryMap.find(p_szComponentName);
-	assert(it != m_mComponentFactoryMap.end() && "Invalid Component Name");
-
-	// Delegate to the factory method.
-	Component* pComponent = it->second(p_pGameObject, p_pComponentNode, p_pComponentOverrideNode);
-	assert(pComponent != nullptr && "Component Failed to be Constructed");
-
-	// Attach the component to the Game Object.
-	p_pGameObject->AddComponent(pComponent);
 }
 
 //-----------------------------------------------------------------------------------
