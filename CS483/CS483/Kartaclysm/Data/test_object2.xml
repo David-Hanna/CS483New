@@ -1,0 +1,22 @@
+<GameObject>
+	<Components>
+	</Components>
+
+	<Children>
+		<GameObject>
+			<Transform>
+				<Scale x="2.0" y="2.0" z="2.0" />
+				<Rotation angle="90.0" x="2.0" y="2.0" z="2.0" />
+				<Translation x="2.0" y="2.0" z="2.0" />
+			</Transform>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Scale x="-2.0" y="-2.0" z="-2.0" />
+				<Rotation angle="-90.0" x="-2.0" y="-2.0" z="-2.0" />
+				<Translation x="-2.0" y="-2.0" z="-2.0" />
+			</Transform>
+		</GameObject>
+	</Children>
+</GameObject>

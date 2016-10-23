@@ -3,6 +3,8 @@
 //
 // Created:	2012/12/14
 // Author:	Carel Boers
+// Editor:	David Hanna
+// Editor:	Matthew White
 //	
 // This class defines a "GameObject". An GameObject for our purpose is 
 // essentially just an empty container to define any object in our game 
@@ -27,6 +29,7 @@ namespace HeatStroke
 	{
 		// Typedef for convenience
 		typedef std::map<std::string, Component*> ComponentMap;
+		typedef std::map<std::string, GameObject*> ChildMap;
 
 		// Only GameObjectManager can create instances (private constructor/destructor)
 		friend class GameObjectManager;
@@ -45,8 +48,17 @@ namespace HeatStroke
 		Component* RemoveComponent(const std::string &p_strFamilyId);
 		void DeleteAllComponents();
 
+		void AddChild(GameObject* p_pChild);
+		GameObject* RemoveChild(const std::string& p_strChildGuid);
+		GameObject* GetChild(const std::string& p_strChildGuid);
+		void DeleteAllChildren();
+
 		virtual void Init();
 		virtual void Update(float p_fDelta);
+
+		//TODO: delete this
+		//Matt: just using to show that children are being added properly
+		void Print();
 		
 	private:
 		//------------------------------------------------------------------------------
@@ -59,6 +71,8 @@ namespace HeatStroke
 
 		// Only GameObjectManager can set new GUID as it maintains the mapping of GUID -> GO
 		void SetGUID(const std::string& p_strGUID) { m_strGUID = p_strGUID; }
+
+		void SetParent(GameObject* p_pParent);
 
 	private:
 		//------------------------------------------------------------------------------
@@ -76,6 +90,9 @@ namespace HeatStroke
 
 		// List of components
 		ComponentMap m_mComponentMap;
+
+		GameObject* m_pParent;
+		ChildMap m_mChildMap;
 	};
 }
 

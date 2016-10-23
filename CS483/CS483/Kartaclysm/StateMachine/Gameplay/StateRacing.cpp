@@ -54,6 +54,10 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	// Handle passed context parameters
 
 	// Load XML to create GameObjects
+	m_pGameObjectManager->LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+	//TODO: delete this
+	//Matt: just used for testing that GameObjectManager can properly load levels
+	m_pGameObjectManager->Print();
 	
 }
 

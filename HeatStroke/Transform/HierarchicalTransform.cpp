@@ -353,4 +353,14 @@ namespace HeatStroke
 			(*it)->UpdateChildrensParentTranslation();
 		}
 	}
+
+	//TODO: delete this
+	//Matt: just using this to make sure transform values are correct
+	void HierarchicalTransform::Print() const
+	{
+		const glm::vec3 scale = GetScale();
+		const glm::vec3 trans = GetTranslation();
+		printf("scale: %f, %f, %f\n", scale.x, scale.y, scale.z);
+		printf("translate: %f, %f, %f\n", trans.x, trans.y, trans.z);
+	}
 }
