@@ -204,7 +204,10 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.cpp">
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.cpp">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClCompile>
   </ItemGroup>
@@ -359,7 +362,13 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.h">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h">
+      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.h">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClInclude>
   </ItemGroup>

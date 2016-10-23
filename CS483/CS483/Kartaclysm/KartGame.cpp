@@ -11,7 +11,7 @@ bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
-	HeatStroke::ParsingServiceLocator::CreateInstance(new HeatStroke::ParsingService());
+	HeatStroke::ParsingServiceLocator::CreateInstance(new HeatStroke::DebugParsingWrapper(new HeatStroke::StoredParsingService()));
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();

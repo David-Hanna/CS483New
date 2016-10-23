@@ -14,7 +14,8 @@
 #include "GameplayState.h"
 #include "StateRacing.h"
 #include "ParsingServiceLocator.h"
-#include "ParsingService.h"
+#include "DebugParsingWrapper.h"
+#include "StoredParsingService.h"
 
 namespace Kartaclysm
 {

@@ -79,8 +79,9 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp" />
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.cpp" />
@@ -129,7 +130,9 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />

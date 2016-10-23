@@ -1,24 +1,22 @@
-//------------------------------------------------------------------------
-// ParsingService
+//==================================================================================
+// StoredParsingService
+// Author: Bradley Cooper
 //
-// Created:	2012/12/26
-// Author:	Carel Boers
-//	
-// Manages the collection of Game Objects used by a game.
-//------------------------------------------------------------------------
+// Provide the service to parse components from XML.
+//==================================================================================
 
-#include "ParsingService.h"
+#include "StoredParsingService.h"
 #include "GameObject.h"
 
 namespace HeatStroke
 {
 	//------------------------------------------------------------------------------
-	// Method:    ParsingService
+	// Method:    StoredParsingService
 	// Returns:   
 	// 
 	// Constructor.
 	//------------------------------------------------------------------------------
-	ParsingService::ParsingService()
+	StoredParsingService::StoredParsingService()
 		:
 		m_mComponentFactoryMap(ComponentFactoryMap()),
 		m_mLoadedGameObjectFilesMap(LoadedGameObjectFilesMap())
@@ -26,12 +24,12 @@ namespace HeatStroke
 	}
 
 	//------------------------------------------------------------------------------
-	// Method:    ~ParsingService
+	// Method:    ~StoredParsingService
 	// Returns:   
 	// 
 	// Destructor.
 	//------------------------------------------------------------------------------
-	ParsingService::~ParsingService()
+	StoredParsingService::~StoredParsingService()
 	{
 		// Do not worry about ComponentFactoryMap as it has function pointers, not object pointers.
 		UnloadGameObjectBaseFiles();
@@ -45,7 +43,7 @@ namespace HeatStroke
 	// 
 	// Registers a component factory for a given component Id.
 	//------------------------------------------------------------------------------
-	void ParsingService::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
+	void StoredParsingService::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
 	{
 		// Ensure the component is only registered once
 		ComponentFactoryMap::const_iterator find = m_mComponentFactoryMap.find(p_strComponentId);
@@ -63,7 +61,7 @@ namespace HeatStroke
 	// 
 	// Unloads the base Game Object files that have been collected using CreateGameObject().
 	//------------------------------------------------------------------------------
-	void ParsingService::UnloadGameObjectBaseFiles()
+	void StoredParsingService::UnloadGameObjectBaseFiles()
 	{
 		LoadedGameObjectFilesMap::iterator it = m_mLoadedGameObjectFilesMap.begin();
 		while (it != m_mLoadedGameObjectFilesMap.end())
@@ -86,7 +84,7 @@ namespace HeatStroke
 	// Checks the map to see if this base node has already been loaded. If so, return it.
 	// Otherwise, we have to load it into the map first, then return it. Returns nullptr on failed load.
 	//-------------------------------------------------------------------------------
-	tinyxml2::XMLNode* ParsingService::GetGameObjectBaseNode(const std::string& p_strBase)
+	tinyxml2::XMLNode* StoredParsingService::GetGameObjectBaseNode(const std::string& p_strBase)
 	{
 		std::string strBasePath = "assignmentResources/assignment4/data/" + p_strBase + ".xml";
 
@@ -120,12 +118,12 @@ namespace HeatStroke
 	}
 
 	//-------------------------------------------------------------------
-	// ParsingService::ParseBaseNodeComponents
+	// StoredParsingService::ParseBaseNodeComponents
 	//
 	// Parses the components of a base Game Object node, passing it the
 	// matching override node if it exists.
 	//-------------------------------------------------------------------
-	void ParsingService::ParseBaseNodeComponents(
+	void StoredParsingService::ParseBaseNodeComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		tinyxml2::XMLNode* p_pGameObjectBaseNode,
@@ -164,11 +162,11 @@ namespace HeatStroke
 	}
 
 	//-------------------------------------------------------------------
-	// ParsingService::ParseOverrideComponents
+	// StoredParsingService::ParseOverrideComponents
 	//
 	// Parses the components of an instance Game Object node.
 	//-------------------------------------------------------------------
-	void ParsingService::ParseOverrideComponents(
+	void StoredParsingService::ParseOverrideComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		tinyxml2::XMLNode* p_pGameObjectOverrideNode)
@@ -207,7 +205,7 @@ namespace HeatStroke
 	//
 	// Handles a single component by passing it to the delegate method.
 	//----------------------------------------------------------------------------------
-	void ParsingService::ParseComponent(
+	void StoredParsingService::ParseComponent(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		const char* p_szComponentName,
