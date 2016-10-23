@@ -88,6 +88,7 @@ namespace Kartaclysm
 	{
 		(*m_pInputMap)[Input::eKeyboard] = ActionMap();
 		(*m_pInputMap)[Input::eJoystick] = ActionMap();
+
 		LoadUserControlBindings();
 	}
 
@@ -207,22 +208,28 @@ namespace Kartaclysm
 	// If invalid configuration found, resets controls to default for that input.
 	// Returns true if the file was found.
 	//--------------------------------------------------------------------------------
-	bool InputActionMapping::LoadUserControlBindings()
+	void InputActionMapping::LoadUserControlBindings()
 	{
 		// Make sure we can load the XML file
 		tinyxml2::XMLDocument doc;
 		if (doc.LoadFile(m_strUserConfigFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
 		{
+#ifdef _DEBUG
+			assert(false && "Failure to load ControlBindings.xml");
+#endif
 			ResetUserControlBindings();
-			return false;
+			return;
 		}
 
 		// Make sure the file is formatted correctly and we have the right XML file
 		tinyxml2::XMLElement* pElement = doc.RootElement();
 		if (strcmp(pElement->Name(), "ControlBindings") != 0)
 		{
+#ifdef _DEBUG
+			assert(false && "ControlBindings.xml not formatted correctly");
+#endif
 			ResetUserControlBindings();
-			return false;
+			return;
 		}
 
 		// Make sure the mappings have been created for the different input types (keyboard, joystick)
@@ -230,7 +237,7 @@ namespace Kartaclysm
 		if (it == end)
 		{
 			ResetUserControlBindings();
-			return false;
+			return;
 		}
 
 		// Loop each input type to build the mapping
@@ -251,7 +258,14 @@ namespace Kartaclysm
 
 			// Make sure the attribute type is found in the XML document
 			tinyxml2::XMLElement* pInputType = static_cast<tinyxml2::XMLElement*>(HeatStroke::EasyXML::FindChildNode(pElement, strInputName.c_str()));
-			assert(pInputType != nullptr);
+			if (pInputType == nullptr)
+			{
+#ifdef _DEBUG
+				assert(false && "ControlBindings.xml does not contain input type");
+#endif
+				ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
+				continue;
+			}
 
 			// Loop however many inputs need to be mapped for this input type
 			for (int j = 0; j < iActionsToMap; j++)
@@ -316,6 +330,9 @@ namespace Kartaclysm
 
 			if (bError)
 			{
+#ifdef _DEBUG
+				printf("ControlBindings.xml error: restoring defaults");
+#endif
 				ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
 			}
 			else
@@ -323,7 +340,5 @@ namespace Kartaclysm
 				(*m_pInputMap)[it->first] = std::move(mActionMap);
 			}
 		}
-
-		return true;
 	}
 }
