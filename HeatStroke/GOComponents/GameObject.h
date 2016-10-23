@@ -18,15 +18,17 @@
 #include "HierarchicalTransform.h"
 
 #include <map>
+#include <set>
 
 namespace HeatStroke
 {
-    class GameObjectManager;
-    
+	class GameObjectManager;
+
 	class GameObject
 	{
 		// Typedef for convenience
 		typedef std::map<std::string, Component*> ComponentMap;
+		typedef std::set<std::string> TagList;
 
 		// Only GameObjectManager can create instances (private constructor/destructor)
 		friend class GameObjectManager;
@@ -40,14 +42,22 @@ namespace HeatStroke
 		const HierarchicalTransform& GetTransform() const { return m_Transform; }
 		GameObjectManager* GetManager()				{ return m_pGameObjectManager; }
 
+		// Component management
 		void AddComponent(Component* p_pComponent);
 		Component* GetComponent(const std::string &p_strFamilyId) const;
 		Component* RemoveComponent(const std::string &p_strFamilyId);
 		void DeleteAllComponents();
 
+		// Tag management
+		void AddTag(const std::string& p_strTag)		{ m_mTagList.insert(p_strTag); }
+		bool HasTag(const std::string& p_strTag) const	{ return m_mTagList.find(p_strTag) != m_mTagList.end(); }
+		const TagList& GetTagList() const				{ return m_mTagList; }
+		void RemoveTag(const std::string& p_strTag)		{ m_mTagList.erase(p_strTag); }
+		void RemoveAllTags()							{ m_mTagList.clear(); }
+
 		virtual void Init();
 		virtual void Update(float p_fDelta);
-		
+
 	private:
 		//------------------------------------------------------------------------------
 		// Private methods.
@@ -76,6 +86,9 @@ namespace HeatStroke
 
 		// List of components
 		ComponentMap m_mComponentMap;
+
+		// List of tags
+		TagList m_mTagList;
 	};
 }
 
