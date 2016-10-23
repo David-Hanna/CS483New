@@ -19,21 +19,21 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 
-		m_fSpeedScale(0.001f),
+		m_fSpeedScale(0.002f),
 		m_fVerticalSpeedScale(0.002f),
-		m_fMaxSpeedStat(10.0f),
+		m_fMaxSpeedStat(15.0f),
 		m_fMaxReverseSpeedStat(4.0f),
-		m_fAccelerationStat(0.3f),
-		m_fReverseAccelerationStat(0.6f),
-		m_fAccelerationFrictionStat(1.2f),
-		m_fSpeedWhileTurningStat(0.7f),
+		m_fAccelerationStat(2.5f),
+		m_fReverseAccelerationStat(1.2f),
+		m_fAccelerationFrictionStat(2.5f),
+		m_fSpeedWhileTurningStat(0.8f),
 		m_fSpeedWhileSlidingMinStat(0.9f),
-		m_fSpeedWhileSlidingMaxStat(0.7f),
-		m_fMaxTurnStat(2.0f),
-		m_fTurnAccelerationStat(24.0f),
+		m_fSpeedWhileSlidingMaxStat(0.8f),
+		m_fMaxTurnStat(1.0f),
+		m_fTurnAccelerationStat(12.0f),
 		m_fHopInitialSpeedStat(2.0f),
 		m_fGravityAccelerationStat(-12.0f),
-		m_fSlideModifierStat(0.05f),
+		m_fSlideModifierStat(0.08f),
 		m_fSlideMaxTurnModifierStat(1.2f),
 
 		m_fGroundHeight(0.0f),
@@ -220,7 +220,7 @@ namespace Kartaclysm
 
 		// Transform
 
-		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * cosf(m_fDirection), fHeightMod, m_fSpeed * sinf(m_fDirection));
+		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), fHeightMod, m_fSpeed * cosf(m_fDirection));
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
 
 		HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();

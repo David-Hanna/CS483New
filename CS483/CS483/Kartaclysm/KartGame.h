@@ -11,6 +11,8 @@
 #include "Game.h"
 #include "GameObjectManager.h"
 
+#include "LineDrawer.h"
+
 namespace Kartaclysm
 {
 	class KartGame : public HeatStroke::Game
@@ -34,6 +36,13 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		HeatStroke::GameObjectManager *p_gameObjectManager;
+
+	private:
+		//--------------------------------------------------------------------------
+		// Private variables
+		//--------------------------------------------------------------------------
+
+		HeatStroke::LineDrawer *lineDrawer;
 	};
 }
 
