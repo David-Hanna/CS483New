@@ -16,8 +16,6 @@
 #include "GameplayState.h"
 #include "StateRacing.h"
 
-#include "LineDrawer.h"
-
 namespace Kartaclysm
 {
 	class KartGame : public HeatStroke::Game
@@ -44,8 +42,6 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Private variables
 		//--------------------------------------------------------------------------
-
-		HeatStroke::LineDrawer *lineDrawer;
 
 		// State machine to hold game states
 		HeatStroke::StateMachine* m_pGameStates;
