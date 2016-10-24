@@ -67,6 +67,8 @@ namespace Kartaclysm
 		float m_fGravityAccelerationStat = -12.0f;
 		float m_fSlideModifierStat = 0.1f;
 		float m_fSlideMaxTurnModifierStat = 1.2f;
+		float m_fTurnAtMaxSpeedStat = 0.7f;
+		float m_fPeakTurnRatio = 0.2f;
 
 		float m_fGroundHeight = 0.0f;
 		float m_fSpeed = 0.0f;

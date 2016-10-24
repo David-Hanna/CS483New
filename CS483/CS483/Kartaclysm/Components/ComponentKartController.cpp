@@ -21,20 +21,22 @@ namespace Kartaclysm
 
 		m_fSpeedScale(0.002f),
 		m_fVerticalSpeedScale(0.002f),
-		m_fMaxSpeedStat(15.0f),
+		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(4.0f),
-		m_fAccelerationStat(2.5f),
-		m_fReverseAccelerationStat(1.2f),
-		m_fAccelerationFrictionStat(2.5f),
+		m_fAccelerationStat(2.0f),
+		m_fReverseAccelerationStat(2.0f),
+		m_fAccelerationFrictionStat(2.0f),
 		m_fSpeedWhileTurningStat(0.8f),
-		m_fSpeedWhileSlidingMinStat(0.9f),
-		m_fSpeedWhileSlidingMaxStat(0.8f),
-		m_fMaxTurnStat(1.0f),
-		m_fTurnAccelerationStat(12.0f),
+		m_fSpeedWhileSlidingMinStat(0.95f),
+		m_fSpeedWhileSlidingMaxStat(0.9f),
+		m_fMaxTurnStat(0.8f),
+		m_fTurnAccelerationStat(120.0f),
 		m_fHopInitialSpeedStat(2.0f),
 		m_fGravityAccelerationStat(-12.0f),
-		m_fSlideModifierStat(0.08f),
-		m_fSlideMaxTurnModifierStat(1.2f),
+		m_fSlideModifierStat(0.006f),
+		m_fSlideMaxTurnModifierStat(1.5f),
+		m_fTurnAtMaxSpeedStat(0.8f),
+		m_fPeakTurnRatio(0.2f),
 
 		m_fGroundHeight(0.0f),
 		m_fSpeed(0.0f),
@@ -151,6 +153,15 @@ namespace Kartaclysm
 		{
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier = m_fSlideModifierStat;
+		}
+
+		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
+		{
+			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
+		}
+		else
+		{
+			fTurnTarget *= m_fTurnAtMaxSpeedStat + (1.0f - m_fTurnAtMaxSpeedStat) * (((m_fMaxSpeedStat * m_fSpeedScale) - m_fSpeed) / ((m_fMaxSpeedStat * m_fSpeedScale) - (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)));
 		}
 
 		if (fTurnTarget < m_fTurnSpeed)
