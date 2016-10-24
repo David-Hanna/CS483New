@@ -19,16 +19,17 @@
 
 namespace HeatStroke
 {
-class BufferManager
-{
+	class BufferManager
+	{
 	public:
 		static VertexBuffer* CreateVertexBuffer(unsigned int p_uiLength);
 		static VertexBuffer* CreateVertexBuffer(const void* p_pData, unsigned int p_uiLength);
+
 		static IndexBuffer* CreateIndexBuffer(unsigned int p_uiNumIndices);
+		static IndexBuffer* CreateIndexBuffer(const void* p_pData, unsigned int p_uiLength);
 
 		static void DestroyBuffer(Buffer* p_pBuf);
-};
-
+	};
 }
 
 #endif
