@@ -2,14 +2,19 @@
 // KartGame.h
 // Author: David MacIntosh
 //
-// Class the handles core game logic.
+// Class that handles core game logic.
 //----------------------------------------------------------------------------
 
 #ifndef KARTGAME_H
 #define KARTGAME_H
 
 #include "Game.h"
-#include "GameObjectManager.h"
+
+#include "Game.h"
+#include "KeyboardInputBuffer.h"
+#include "StateMachine.h"
+#include "GameplayState.h"
+#include "StateRacing.h"
 
 #include "LineDrawer.h"
 
@@ -24,7 +29,12 @@ namespace Kartaclysm
 
 		KartGame() {}
 		~KartGame() {}
-
+		
+	private:
+		//--------------------------------------------------------------------------
+		// Private methods
+		//--------------------------------------------------------------------------
+		
 		bool Init();
 		void Update(const float p_fDelta);
 		void PreRender();
@@ -32,18 +42,14 @@ namespace Kartaclysm
 		void Shutdown();
 
 		//--------------------------------------------------------------------------
-		// Public variables
-		//--------------------------------------------------------------------------
-
-		HeatStroke::GameObjectManager *p_gameObjectManager;
-
-	private:
-		//--------------------------------------------------------------------------
 		// Private variables
 		//--------------------------------------------------------------------------
 
 		HeatStroke::LineDrawer *lineDrawer;
-	};
-}
 
-#endif // KARTGAME_H
+		// State machine to hold game states
+		HeatStroke::StateMachine* m_pGameStates;
+	};
+} // namespace Kartaclysm
+
+#endif // KART_GAME_H
