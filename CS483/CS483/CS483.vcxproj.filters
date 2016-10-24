@@ -79,6 +79,12 @@
     <Filter Include="HeatStroke\Graphics\GDebug">
       <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\StateMachine">
+      <UniqueIdentifier>{cd1c30ac-a893-447c-95a9-07196de33662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\StateMachine\Gameplay">
+      <UniqueIdentifier>{11fb4673-e684-4054-a1a3-2d8759f10f62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -183,9 +189,6 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\main.cpp">
-      <Filter>Kartaclysm</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\OBJ\OBJFile.cpp">
       <Filter>HeatStroke\Services\OBJ</Filter>
     </ClCompile>
@@ -197,6 +200,15 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\KartGame.cpp">
+      <Filter>Kartaclysm</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\main.cpp">
+      <Filter>Kartaclysm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +355,15 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\KartGame.h">
+      <Filter>Kartaclysm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
