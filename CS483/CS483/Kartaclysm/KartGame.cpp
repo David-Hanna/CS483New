@@ -8,6 +8,7 @@
 #include "KartGame.h"
 
 #include "Components\ComponentKartController.h"
+#include "Components\ComponentCameraController.h"
 #include "ComponentCamera.h"
 #include "SceneManager.h"
 #include "KeyboardInputBuffer.h"
@@ -20,6 +21,7 @@ namespace Kartaclysm
 
 		// Register component factory methods
 		p_gameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
+		p_gameObjectManager->RegisterComponentFactory("GOC_CameraController", ComponentCameraController::CreateComponent);
 		p_gameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
 
 		// Initialize singletons
@@ -29,8 +31,12 @@ namespace Kartaclysm
 		// Load XML
 		tinyxml2::XMLDocument doc;
 		doc.LoadFile("CS483/CS483/Kartaclysm/Data/test_level.xml");
-		tinyxml2::XMLNode *node = doc.LastChild()->LastChild(); // TODO: this is bad, fix pls
 
+		// TODO: this is bad, so bad, fix pls
+		tinyxml2::XMLNode *node = doc.LastChild()->LastChild();
+		tinyxml2::XMLNode *node2 = node->PreviousSibling();
+
+		p_gameObjectManager->CreateGameObject(node2);
 		p_gameObjectManager->CreateGameObject(node);
 
 		// line stuff
@@ -60,7 +66,7 @@ namespace Kartaclysm
 		// bad shit
 		HeatStroke::SceneCamera *cam = HeatStroke::SceneManager::Instance()->GetActiveCamera();
 
-		float h = -0.2f;
+		float h = 0.0f;
 		for (int i = 1; i <= 10; i++)
 		{
 			lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -68,6 +74,9 @@ namespace Kartaclysm
 			lineDrawer->AddLine(glm::vec3(i, h, -i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
 			lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
+
+		glm::vec3 pos = p_gameObjectManager->GetGameObject("Kart")->GetTransform().GetTranslation();
+		lineDrawer->AddLine(pos, pos + glm::vec3(0.0f, 0.2f, 0.0f), HeatStroke::Color4(0.0f, 0.0f, 1.0f, 1.0f));
 
 		lineDrawer->Render(cam->GetProjectionMatrix(), cam->GetViewMatrix());
 	}

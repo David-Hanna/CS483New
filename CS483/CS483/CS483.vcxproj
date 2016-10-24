@@ -108,6 +108,7 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp" />
     <ClCompile Include="Kartaclysm\KartGame.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
@@ -159,10 +160,12 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartController.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\camera.xml" />
     <Xml Include="Kartaclysm\Data\kart.xml">
       <SubType>Designer</SubType>
     </Xml>
