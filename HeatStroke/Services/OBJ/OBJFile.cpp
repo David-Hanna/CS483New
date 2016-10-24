@@ -7,13 +7,6 @@
 
 #include "OBJFile.h"
 
-HeatStroke::OBJFile::OBJVertex::OBJVertex(const unsigned int p_uiPositionIndex, const unsigned int p_uiUVIndex, const unsigned int p_uiNormalIndex) :
-	m_uiPositionIndex(p_uiPositionIndex),
-	m_uiUVIndex(p_uiUVIndex),
-	m_uiNormalIndex(p_uiNormalIndex)
-{
-}
-
 std::string HeatStroke::OBJFile::OBJVertex::ToString() const
 {
 	std::string strResult;
@@ -27,9 +20,9 @@ std::string HeatStroke::OBJFile::OBJVertex::ToString() const
 	return strResult;
 }
 
-HeatStroke::OBJFile::OBJFile(std::string& p_strOBJFileName) :
+HeatStroke::OBJFile::OBJFile(const std::string& p_strOBJFileName) :
+	OBJ_FILE_NAME(p_strOBJFileName),
 	m_bLoaded(false),
-	m_strOBJFileName(p_strOBJFileName),
 	m_strOBJFileData(),
 	m_strObjectName(),
 	m_strMTLFileName(),
@@ -49,7 +42,7 @@ bool HeatStroke::OBJFile::ParseFile()
 		return true;
 	}
 
-	m_strOBJFileData = Common::LoadWholeFile(m_strOBJFileName);
+	m_strOBJFileData = Common::LoadWholeFile(OBJ_FILE_NAME);
 	
 	// break file down line by line and loop over each line.
 	std::vector<std::string> strLines = Common::StringSplit(m_strOBJFileData, "\n");
@@ -88,7 +81,10 @@ bool HeatStroke::OBJFile::ParseFile()
 				std::vector<std::string> strVertex = Common::StringSplit(*faceIt, "/");
 
 				// iterate over the parts of the vertex (v/vt/vn)
-				OBJVertex mOBJVertex(std::stoul(strVertex[0]), std::stoul(strVertex[1]), std::stoul(strVertex[2]));
+				OBJVertex mOBJVertex;
+				mOBJVertex.m_uiPositionIndex = std::stoul(strVertex[0]) - 1;
+				mOBJVertex.m_uiUVIndex = std::stoul(strVertex[1]) - 1;
+				mOBJVertex.m_uiNormalIndex = std::stoul(strVertex[2]) - 1;
 				vOBJFace.push_back(mOBJVertex);
 			}
 
@@ -96,7 +92,7 @@ bool HeatStroke::OBJFile::ParseFile()
 		}
 		else if (strLineKey == "o") // name of object being parsed
 		{
-			m_strOBJFileName = strTabs[1];
+			m_strObjectName = strTabs[1];
 		}
 		else if (strLineKey == "mtllib") // name of mtl file to find the material to use for this object
 		{
@@ -115,17 +111,15 @@ bool HeatStroke::OBJFile::ParseFile()
 		}
 	}
 
-	m_bLoaded = true;
-
-	return true;
+	return (m_bLoaded = true);
 }
 
 std::string HeatStroke::OBJFile::ToString() const
 {
 	std::string strResult;
 
-	strResult += "OBJ File Name: " + m_strOBJFileName + "\n";
-	strResult += "Object Name: " + m_strObjectName + "\n";
+	strResult += "OBJ File Name: " + OBJ_FILE_NAME + "\n";
+	strResult += "o " + m_strObjectName + "\n";
 	
 	std::vector<const glm::vec3>::const_iterator positionIt = m_vPositions.begin(), positionEnd = m_vPositions.end();
 	for (; positionIt != positionEnd; positionIt++)

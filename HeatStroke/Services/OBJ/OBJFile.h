@@ -23,33 +23,36 @@ namespace HeatStroke
 	public:
 		class OBJVertex
 		{
-		public:
-			OBJVertex(const unsigned int p_uiPositionIndex, const unsigned int p_uiUVIndex, const unsigned int p_uiNormalIndex);
+			friend class OBJFile;
 
+		public:
 			unsigned int GetPositionIndex() const	{ return m_uiPositionIndex; }
-			unsigned int GetUVIndex() const			{ return m_uiUVIndex; }
-			unsigned int GetNormalIndex() const		{ return m_uiNormalIndex; }
+			unsigned int GetUVIndex()		const	{ return m_uiUVIndex; }
+			unsigned int GetNormalIndex()	const	{ return m_uiNormalIndex; }
 
 			std::string ToString() const;
 
 		private:
-			const unsigned int m_uiPositionIndex;
-			const unsigned int m_uiUVIndex;
-			const unsigned int m_uiNormalIndex;
+			unsigned int m_uiPositionIndex;
+			unsigned int m_uiUVIndex;
+			unsigned int m_uiNormalIndex;
+
+			OBJVertex() {}
 		};
 
-		typedef std::vector<OBJVertex> OBJFace;
+		typedef std::vector<const OBJVertex> OBJFace;
 
 	public:
-		OBJFile(std::string& p_strOBJFileName);
+		OBJFile(const std::string& p_strOBJFileName);
 
 		// Data hasn't been loaded until this method is called. Returns false if failed to load.
 		bool ParseFile();
 
 		// Behaviour of accessors besides isLoaded() and getOBJFileName()
 		// are undefined when isLoaded() == false.
+		const std::string&					GetOBJFileName()	const	{ return OBJ_FILE_NAME; }
+
 		bool								IsLoaded()			const	{ return m_bLoaded; }
-		const std::string&					GetOBJFileName()	const	{ return m_strOBJFileName; }
 		const std::string&					GetObjectName()		const	{ return m_strObjectName; }
 		const std::vector<const glm::vec3>&	GetPositions()		const	{ return m_vPositions; }
 		const std::vector<const glm::vec2>&	GetUVs()			const	{ return m_vUVs; }
@@ -62,8 +65,9 @@ namespace HeatStroke
 		std::string							ToString()			const;
 
 	private:
+		const std::string				OBJ_FILE_NAME;
+
 		bool							m_bLoaded;
-		std::string						m_strOBJFileName;
 		std::string						m_strOBJFileData;
 		std::string						m_strObjectName;
 		std::vector<const glm::vec3>	m_vPositions;
