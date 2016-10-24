@@ -2,11 +2,11 @@
 # Material Count: 1
 
 newmtl box
-vs HeatStroke/Services/MTL/box.vsh
-fs HeatStroke/Services/MTL/box.fsh
+vs Assets/box/box.vsh
+fs Assets/box/box.fsh
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
 Ks 0.500000 0.500000 0.500000
 Ns 96.078431
 d 1.000000
-map_Kd HeatStroke/Services/MTL/box.tga
+map_Kd Assets/box/box.tga

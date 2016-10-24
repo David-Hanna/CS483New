@@ -1,6 +1,6 @@
 # Blender v2.77 (sub 0) OBJ File: 'box.blend'
 # www.blender.org
-mtllib models/box/box.mtl
+mtllib Assets/box/box.mtl
 o Cube
 v 1.000000 -1.000000 -1.000000
 v 1.000000 -1.000000 1.000000
