@@ -5,194 +5,155 @@
 // See header for notes
 //-----------------------------------------------------------------------------
 
-/*
-
-namespace HeatStroke
-{
-static ComponentType gs_aPODTypeMap[] = 
-{
-    HeatStroke::CT_Invalid,   //EPODDataNone,
-	HeatStroke::CT_Float,		//EPODDataFloat,
-	HeatStroke::CT_Int,		//EPODDataInt,
-	HeatStroke::CT_UShort,	//EPODDataUnsignedShort,
-	HeatStroke::CT_UByte4,	//EPODDataRGBA,
-	HeatStroke::CT_UByte4,	//EPODDataARGB,
-	HeatStroke::CT_UByte4,	//EPODDataD3DCOLOR,
-	HeatStroke::CT_UByte4,	//EPODDataUBYTE4,
-	HeatStroke::CT_Invalid,	//EPODDataDEC3N,
-	HeatStroke::CT_Invalid,	//EPODDataFixed16_16,
-	HeatStroke::CT_UByte,		//EPODDataUnsignedByte,
-	HeatStroke::CT_Short,		//EPODDataShort,
-	HeatStroke::CT_ShortNorm,	//EPODDataShortNorm,
-	HeatStroke::CT_Byte,		//EPODDataByte,
-	HeatStroke::CT_ByteNorm,	//EPODDataByteNorm,
-	HeatStroke::CT_UByteNorm, //EPODDataUnsignedByteNorm,
-	HeatStroke::CT_UShortNorm, //EPODDataUnsignedShortNorm,
-	HeatStroke::CT_UInt,		//EPODDataUnsignedInt
-};
+#include "Model.h"
 
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-Model::Model(const std::string& p_strFile, const std::string& p_strTexturePrefix, const std::string& p_strVertexProgram, const std::string& p_strFragmentProgram) 
-	:
-	m_fFrame(0.0f)
+HeatStroke::Model::Model(HeatStroke::OBJFile& p_mOBJFile)
 {
-	// Load in the POD file
-	EPVRTError error = m_pod.ReadFromFile(p_strFile.c_str());
-	if (error != PVR_SUCCESS)
+	// Load in the OBJ file if not already loaded
+	if (!p_mOBJFile.IsLoaded())
 	{
-		exit(1);
+		p_mOBJFile.ParseFile();
 	}
+	
+	//================================================================
+	// Vertex Data
+	//================================================================
 
-	// Build all the meshes
-	for(unsigned int i = 0; i < m_pod.nNumMesh; i++)
+	// Grab the lists of positions, normals, and uvs for convenience.
+	const std::vector<const glm::vec3>& vPositions = p_mOBJFile.GetPositions();
+	const std::vector<const glm::vec3>& vNormals = p_mOBJFile.GetNormals();
+	const std::vector<const glm::vec2>& vUVs = p_mOBJFile.GetUVs();
+
+	// We assume for our models that every face is a triangle.
+	const std::vector<const OBJFile::OBJFace>& vTriangles = p_mOBJFile.GetFaces();
+
+	// Create the float array representing the vertex buffer data.
+	// 3 floats for position, 3 for normals, and 2 for uvs (8 floats) per vertex. 
+	// 3 vertices (24 floats) per triangle.
+	// 24 floats per triangle * 4 bytes per float = 96 bytes per triangle.
+	unsigned int uiVertexDataLength = 96 * vTriangles.size();
+
+	// Load all the float data into a vector in an order that our vertex declaration (below) will expect.
+	std::vector<float> vVertexData;
+
+	std::vector<OBJFile::OBJFace>::const_iterator triangleIt = vTriangles.begin(), triangleEnd = vTriangles.end();
+	for (; triangleIt != triangleEnd; triangleIt++)
 	{
-		SPODMesh* pMesh = &m_pod.pMesh[i];
-
-		// Create the vertex declaration
-		HeatStroke::VertexDeclaration* pDecl = new HeatStroke::VertexDeclaration;
-		pDecl->Begin();
-
-        // Create the vertex buffer
-		HeatStroke::VertexBuffer* pVB = HeatStroke::BufferManager::CreateVertexBuffer(pMesh->pInterleaved, pMesh->nNumVertex * pMesh->sVertex.nStride);
-        
-		// Create the index buffer
-		HeatStroke::IndexBuffer* pIB = HeatStroke::BufferManager::CreateIndexBuffer(pMesh->nNumFaces*3);
-		pIB->Write(pMesh->sFaces.pData);
-        
-		// We'll always have a position
-		pDecl->AppendAttribute(HeatStroke::AT_Position, pMesh->sVertex.n, gs_aPODTypeMap[pMesh->sVertex.eType], *((int*)&pMesh->sVertex.pData));
-
-		if( pMesh->sNormals.n > 0 )
-			pDecl->AppendAttribute(HeatStroke::AT_Normal, pMesh->sNormals.n, gs_aPODTypeMap[pMesh->sNormals.eType], *((int*)&pMesh->sNormals.pData));
-
-		for(unsigned int x = 0; x < pMesh->nNumUVW; x++ )
-			pDecl->AppendAttribute((HeatStroke::Attribute)(HeatStroke::AT_TexCoord1 + x), pMesh->psUVW[x].n, gs_aPODTypeMap[pMesh->psUVW[x].eType], *((int*)&pMesh->psUVW[x].pData));
-
-		if( pMesh->sVtxColours.n > 0 )
-			pDecl->AppendAttribute(HeatStroke::AT_Color, pMesh->sVtxColours.n, gs_aPODTypeMap[pMesh->sVtxColours.eType], *((int*)&pMesh->sVtxColours.pData));
-
-		if( pMesh->sBoneIdx.n != 0 )
-			pDecl->AppendAttribute(HeatStroke::AT_BoneIndices, pMesh->sBoneIdx.n, gs_aPODTypeMap[pMesh->sBoneIdx.eType], *((int*)&pMesh->sBoneIdx.pData));
-
-		if( pMesh->sBoneWeight.n != 0 )
-			pDecl->AppendAttribute(HeatStroke::AT_BoneWeight, pMesh->sBoneWeight.n, gs_aPODTypeMap[pMesh->sBoneWeight.eType], *((int*)&pMesh->sBoneWeight.pData));
-
-		pDecl->SetVertexBuffer(pVB);
-		pDecl->SetIndexBuffer(pIB);
-		pDecl->End();
-    
-		// Add them to our list of meshes
-		Mesh m;
-		m.m_pVB = pVB;
-		m.m_pIB = pIB;
-		m.m_pDecl = pDecl;
-		m_lMeshes.push_back(m);
-	}
-
-	// Now make sure the material manager knows about all materials we'll need
-	// CLASS NOTE: This does a bunch of work more than once (like if many nodes
-	// reference the same material - which is likely). This is a candidate for
-	// cleanup as an exercise
-	for(unsigned int i = 0; i < m_pod.nNumMeshNode; i++)
-	{
-        SPODNode* pNode = &m_pod.pNode[i];
-
-		if (pNode->nIdxMaterial == -1)
+		std::vector<OBJFile::OBJVertex>::const_iterator vertexIt = triangleIt->begin(), vertexEnd = triangleIt->end();
+		for (; vertexIt != vertexEnd; vertexIt++)
 		{
-			continue;
+			const glm::vec3 vertexPosition = vPositions[vertexIt->GetPositionIndex()];
+			const glm::vec3 vertexNormal = vNormals[vertexIt->GetNormalIndex()];
+			const glm::vec2 vertexUVs = vUVs[vertexIt->GetUVIndex()];
+
+			vVertexData.push_back(vertexPosition.x);
+			vVertexData.push_back(vertexPosition.y);
+			vVertexData.push_back(vertexPosition.z);
+
+			vVertexData.push_back(vertexNormal.x);
+			vVertexData.push_back(vertexNormal.y);
+			vVertexData.push_back(vertexNormal.z);
+
+			vVertexData.push_back(vertexUVs.x);
+			vVertexData.push_back(vertexUVs.y);
 		}
-
-		SPODMaterial* pPODMat = &m_pod.pMaterial[pNode->nIdxMaterial];
-        
-		// Not been created yet, so add it
-		m_pMaterial = HeatStroke::MaterialManager::CreateMaterial(pPODMat->pszName);
-
-		m_pMaterial->SetProgram(p_strVertexProgram, p_strFragmentProgram);
-
-		// Grab the texture it's using and change the filename it expects to
-		// be our TGA converted files, in the right path
-        if( pPODMat->nIdxTexDiffuse != -1 )
-        {
-            SPODTexture* pPODTex = &m_pod.pTexture[pPODMat->nIdxTexDiffuse];
-                
-            std::string strFilename = pPODTex->pszName;
-            if( strFilename.find(".jpg") != std::string::npos )
-                strFilename = strFilename.substr(0,strFilename.find(".jpg")) + std::string(".tga");
-            else if( strFilename.find(".png") != std::string::npos )
-                strFilename = strFilename.substr(0,strFilename.find(".png")) + std::string(".tga");
-
-            strFilename = p_strTexturePrefix + strFilename;
-
-            // Create the texture, make sure it's set to repeat, and assign it
-            // to the material
-            HeatStroke::Texture* pTex = HeatStroke::TextureManager::CreateTexture(strFilename.c_str());
-            pTex->SetWrapMode(HeatStroke::Texture::WM_Repeat);
-            m_pMaterial->SetTexture("Sampler1",pTex);
-		}
-
-		// Specular map texture if it has one
-		if (pPODMat->nIdxTexSpecularColour != -1)
-		{
-			SPODTexture* pPODTex = &m_pod.pTexture[pPODMat->nIdxTexSpecularColour];
-			std::string strFilename = pPODTex->pszName;
-			if( strFilename.find(".jpg") != std::string::npos )
-				strFilename = strFilename.substr(0,strFilename.find(".jpg")) + std::string(".tga");
-			else if( strFilename.find(".png") != std::string::npos )
-				strFilename = strFilename.substr(0,strFilename.find(".png")) + std::string(".tga");
-
-			strFilename = p_strTexturePrefix + strFilename;
-
-			// Create the texture, make sure it's set to repeat, and assign it
-			// to the material
-			HeatStroke::Texture* pTex = HeatStroke::TextureManager::CreateTexture(strFilename.c_str());
-			pTex->SetWrapMode(HeatStroke::Texture::WM_Repeat);
-			m_pMaterial->SetTexture("Sampler2",pTex);
-		}
-        
-		// CLASS NOTE: I'm not reading blend modes from the materials in the POD
-		// file. This is bad and will lead to incorrect rendering. Add some code
-		// to look in the POD file for this data and set it up in the
-		// HeatStroke::Material accordingly!
 	}
+
+	m_pVertexBuffer = HeatStroke::BufferManager::CreateVertexBuffer(&(vVertexData[0]), uiVertexDataLength);
+	//m_pIndexBuffer = HeatStroke::BufferManager::CreateIndexBuffer(pIndexData, uiIndexLength);
+
+	m_pVertexDeclaration = new HeatStroke::VertexDeclaration;
+	m_pVertexDeclaration->Begin();
+
+	m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Position, 3, HeatStroke::CT_Float, 0);
+	m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Normal, 3, HeatStroke::CT_Float, 12);
+	m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 24);
+
+	m_pVertexDeclaration->SetVertexBuffer(m_pVertexBuffer);
+	//m_pVertexDeclaration->SetIndexBuffer(m_pIndexBuffer);
+	m_pVertexDeclaration->End();
+
+	//==============================================================
+	// Material Data
+	//==============================================================
+
+	// Load the MTL file.
+	MTLFile mMTLFile(p_mOBJFile.GetMTLFileName());
+	mMTLFile.ParseFile();
+
+	const MTLFile::MTLMaterial& mMTLMaterial = mMTLFile.GetMaterial(p_mOBJFile.GetMaterialName());
+
+	m_pMaterial = HeatStroke::MaterialManager::CreateMaterial(mMTLMaterial.GetMaterialName());
+	m_pMaterial->SetProgram(mMTLMaterial.GetVertexShaderName(), mMTLMaterial.GetFragmentShaderName());
+
+	HeatStroke::Texture* pTexture = HeatStroke::TextureManager::CreateTexture(mMTLMaterial.GetDiffuseTextureFileName());
+	pTexture->SetWrapMode(HeatStroke::Texture::WM_Repeat);
+
+	m_pMaterial->SetTexture("DiffuseTexture", pTexture);
 }
 
 //----------------------------------------------------------
 // Destructor
 //----------------------------------------------------------
-Model::~Model()
+HeatStroke::Model::~Model()
 {
-	for(unsigned int i = 0; i < m_lMeshes.size(); i++)
+	if (m_pVertexBuffer != nullptr)
 	{
-		const Mesh& m = m_lMeshes[i];
-		HeatStroke::BufferManager::DestroyBuffer(m.m_pVB);
-		HeatStroke::BufferManager::DestroyBuffer(m.m_pIB);
-		delete m.m_pDecl;
+		HeatStroke::BufferManager::DestroyBuffer(m_pVertexBuffer);
+		m_pVertexBuffer = nullptr;
 	}
+	
+	if (m_pIndexBuffer != nullptr)
+	{
+		HeatStroke::BufferManager::DestroyBuffer(m_pIndexBuffer);
+		m_pIndexBuffer = nullptr;
+	}
+
+	DELETE_IF(m_pVertexDeclaration);
 }
 
 //----------------------------------------------------------
 // Updates this model
 //----------------------------------------------------------
-void Model::Update(float p_fDelta)
+void HeatStroke::Model::Update(float p_fDelta)
 {
+	/*
 	m_fFrame += (p_fDelta * 30.0f);
 	if(m_fFrame > m_pod.nNumFrame - 1)
 	{
 		m_fFrame = 0;
 	}
 	m_pod.SetFrame(m_fFrame);
+	*/
 }
 
 //----------------------------------------------------------
 // Renders this model
 //----------------------------------------------------------
-void Model::Render(const Camera* p_pCamera)
+void HeatStroke::Model::Render(const Camera* p_pCamera)
 {
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);
 
+	m_pVertexDeclaration->Bind();
+
+	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * m_mWorldTransform;
+	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetProjectionMatrix() * mWorldViewTransform;
+	glm::mat3 mWorldInverseTransposeTransform = glm::transpose(glm::inverse(glm::mat3(m_mWorldTransform)));
+
+	m_pMaterial->SetUniform("WorldTransform", m_mWorldTransform);
+	m_pMaterial->SetUniform("WorldViewTransform", mWorldViewTransform);
+	m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
+	m_pMaterial->SetUniform("WorldInverseTransposeTransform", mWorldInverseTransposeTransform);
+	
+	m_pMaterial->Apply();
+
+	glDrawArrays(GL_TRIANGLES, 0, m_pVertexBuffer->GetLength());
+
+	/*
 	// Go through every mesh node in the pod file
 	for(unsigned int i = 0; i < m_pod.nNumMeshNode; i++)
 	{
@@ -264,10 +225,5 @@ void Model::Render(const Camera* p_pCamera)
 			GL_CHECK_ERROR(__FILE__, __LINE__);
 		}
 	}
+	*/
 }
-
-}
-
-
-
-*/
