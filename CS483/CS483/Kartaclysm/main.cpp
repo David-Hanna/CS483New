@@ -5,7 +5,6 @@
 // Program entry point.
 //------------------------------------------------------------------------
 
-//#include "ExampleGame.h"
 #include <cstdlib>
 
 #include "KartGame.h"
