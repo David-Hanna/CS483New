@@ -23,13 +23,12 @@
 #include "TextureManager.h"
 #include "ProgramManager.h"
 #include "MaterialManager.h"
+#include "OBJFile.h"
+#include "MTLFile.h"
 
 #include <string>
 #include <map>
 #include <vector>
-
-#include "OBJFile.h"
-#include "MTLFile.h"
 
 #ifdef _DEBUG
 #include "Common.h"
@@ -40,7 +39,7 @@ namespace HeatStroke
 	class Model : public Renderable
 	{
 	public:
-		Model(OBJFile& p_mOBJFile);
+		Model(const std::string& p_strOBJFileName);
 		
 		~Model();
 
