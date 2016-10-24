@@ -75,7 +75,7 @@ namespace HeatStroke
 		const std::string&						GetMTLFileName()	const	{ return MTL_FILE_NAME; }
 		bool									IsLoaded()			const	{ return m_bLoaded; }
 		const std::vector<const MTLMaterial>&	GetMaterials()		const	{ return m_vMaterials; }
-		const MTLMaterial&						GetMaterial(const std::string& p_strMaterialName) const;
+		const MTLMaterial*						GetMaterial(const std::string& p_strMaterialName) const;
 
 		std::string								ToString()			const;
 

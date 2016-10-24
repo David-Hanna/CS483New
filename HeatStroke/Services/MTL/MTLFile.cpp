@@ -134,16 +134,18 @@ bool HeatStroke::MTLFile::ParseFile()
 	return (m_bLoaded = true);
 }
 
-const HeatStroke::MTLFile::MTLMaterial& HeatStroke::MTLFile::GetMaterial(const std::string& p_strMaterialName) const
+const HeatStroke::MTLFile::MTLMaterial* HeatStroke::MTLFile::GetMaterial(const std::string& p_strMaterialName) const
 {
 	std::vector<const MTLMaterial>::const_iterator it = m_vMaterials.begin(), end = m_vMaterials.end();
 	for (; it != end; it++)
 	{
-		if (it->GetMaterialName == p_strMaterialName)
+		if (it->GetMaterialName() == p_strMaterialName)
 		{
-			return *it;
+			return &(*it);
 		}
 	}
+
+	return nullptr;
 }
 
 std::string HeatStroke::MTLFile::ToString() const
