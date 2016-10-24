@@ -31,7 +31,8 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 	m_Transform(p_strGUID),
 	m_pParent(nullptr),
 	m_mComponentMap(),
-	m_mChildMap()
+	m_mChildMap(),
+	m_mTagList()
 {
 }
 
