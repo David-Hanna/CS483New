@@ -16,13 +16,12 @@
 #include <boost/algorithm/string.hpp>
 
 #ifdef _DEBUG
-#include <iostream>
-#endif
+	#include <iostream>
+	#include <cassert>
 
-#ifdef _DEBUG
-void GL_CHECK_ERROR(const char* file, int line);
+	void GL_CHECK_ERROR(const char* file, int line);
 #else
-inline void GL_CHECK_ERROR(const char* file, int line);
+	inline void GL_CHECK_ERROR(const char* file, int line);
 #endif
 
 #define DELETE_IF(p) if(p != nullptr) { delete p; p = nullptr; }
