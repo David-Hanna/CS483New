@@ -55,15 +55,16 @@ namespace Kartaclysm
 		bool isPressed = HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_SPACE);
 		if (isPressed && !wasPressed)
 		{
-			++iCurrentTrackPieceIndex;
-			if (iCurrentTrackPieceIndex >= m_vTrackPieces.size())
+			int iRacerIndex = std::rand() % 3;
+			int iNextTrackIndex = m_vRacers[iRacerIndex].currentTrackPiece + 1;
+			if (iNextTrackIndex >= m_vTrackPieces.size())
 			{
-				iCurrentTrackPieceIndex = 0;
+				iNextTrackIndex = 0;
 			}
 
 			HeatStroke::Event* pEvent = new HeatStroke::Event("RacerTrackPieceUpdated");
-			pEvent->SetStringParameter("racerId", m_vRacers[0].id);
-			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iCurrentTrackPieceIndex]->GetGUID());
+			pEvent->SetStringParameter("racerId", m_vRacers[iRacerIndex].id);
+			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iNextTrackIndex]->GetGUID());
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 		wasPressed = isPressed;
@@ -87,16 +88,22 @@ namespace Kartaclysm
 		{
 			m_vRacers[iRacerIndex].currentTrackPiece = 0;
 			m_vRacers[iRacerIndex].currentLap++;
+			UpdateRacerPosition(iRacerIndex);
 		}
 		else if (iTrackPieceIndex == m_vRacers[iRacerIndex].currentTrackPiece + 1)
 		{
 			m_vRacers[iRacerIndex].currentTrackPiece = iTrackPieceIndex;
+			UpdateRacerPosition(iRacerIndex);
 		}
 
 		//TEMP
 		//Matt: just using to test
-		printf("current lap: %i\n", m_vRacers[iRacerIndex].currentLap);
-		printf("lap progress: %i/%i\n", m_vRacers[iRacerIndex].currentTrackPiece, m_vTrackPieces.size() - 1);
+		printf("**************************************************\n");
+		for (int i = 0; i < 3; ++i)
+		{
+			RacerMock racer = m_vRacers[i];
+			printf("position: %i\tid: %s\tlap: %i\tpiece: %i\n", i + 1, racer.id.c_str(), racer.currentLap, racer.currentTrackPiece);
+		}
 	}
 
 	int ComponentTrack::GetTrackPieceIndex(const std::string& p_strTrackPieceId)
@@ -125,5 +132,33 @@ namespace Kartaclysm
 		}
 
 		return -1;
+	}
+
+	void ComponentTrack::UpdateRacerPosition(int p_iRacerIndex)
+	{
+		if (p_iRacerIndex <= 0)
+		{
+			return;
+		}
+
+		if ((m_vRacers[p_iRacerIndex].currentLap > m_vRacers[p_iRacerIndex - 1].currentLap)
+			|| (m_vRacers[p_iRacerIndex].currentLap == m_vRacers[p_iRacerIndex - 1].currentLap && m_vRacers[p_iRacerIndex].currentTrackPiece > m_vRacers[p_iRacerIndex - 1].currentTrackPiece))
+		{
+			RacerMock tempRacer = m_vRacers[p_iRacerIndex];
+			m_vRacers[p_iRacerIndex] = m_vRacers[p_iRacerIndex - 1];
+			m_vRacers[p_iRacerIndex - 1] = tempRacer;
+
+			TriggerRacerPositionUpdateEvent(m_vRacers[p_iRacerIndex].id);
+			TriggerRacerPositionUpdateEvent(m_vRacers[p_iRacerIndex - 1].id);
+
+			UpdateRacerPosition(p_iRacerIndex - 1);
+		}
+	}
+
+	void ComponentTrack::TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId)
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerPositionUpdated");
+		pEvent->SetStringParameter("racerId", p_strRacerId);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }
