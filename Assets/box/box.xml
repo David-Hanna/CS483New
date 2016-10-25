@@ -1,0 +1,5 @@
+<GameObject>
+	<GOC_3DModel>
+		<OBJFileName path="Assets/box/box.obj"/>
+	</GOC_3DModel>
+</GameObject>

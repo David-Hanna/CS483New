@@ -397,7 +397,7 @@ GameObject* GameObjectManager::AddBlankGameObject(const std::string& p_strGUID)
 //-------------------------------------------------------------------------------
 tinyxml2::XMLNode* GameObjectManager::GetOrLoadGameObjectBaseNode(const std::string& p_strBase)
 {
-	std::string strBasePath = "assignmentResources/assignment4/data/" + p_strBase + ".xml";
+	std::string strBasePath = p_strBase;
 
 	tinyxml2::XMLDocument* pBaseDocument;
 	LoadedGameObjectFilesMap::const_iterator find = m_mLoadedGameObjectFilesMap.find(strBasePath);

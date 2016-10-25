@@ -8,7 +8,9 @@
 #ifndef STATE_RACING_H
 #define STATE_RACING_H
 
+#include "Common.h"
 #include "GameplayState.h"
+#include "Component3DModel.h"
 
 namespace Kartaclysm
 {
@@ -33,6 +35,10 @@ namespace Kartaclysm
 		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+	private:
+		// Camera
+		HeatStroke::SceneCamera* m_pSceneCamera;
 	};
 } // namespace Kartaclysm
 

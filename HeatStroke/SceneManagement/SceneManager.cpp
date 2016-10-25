@@ -341,26 +341,6 @@ void SceneManager::Render()
 	for (; it != end; ++it)
 	{
 		HeatStroke::Model* pModel = *it;
-
-		// We'll just assume two lights for now. <TODO> generalize.
-		if (m_lLightList.size() > 0)
-		{
-			ScenePointLight* light1 = m_lLightList[0];
-			pModel->GetMaterial()->SetUniform("LightPosition1", light1->GetPosition());
-			pModel->GetMaterial()->SetUniform("LightAmbient1", light1->GetAmbient());
-			pModel->GetMaterial()->SetUniform("LightDiffuse1", light1->GetDiffuse());
-			pModel->GetMaterial()->SetUniform("LightSpecular1", light1->GetSpecular());
-			pModel->GetMaterial()->SetUniform("LightAttenuation1", light1->GetAttenuation());
-		}
-		if (m_lLightList.size() > 1)
-		{
-			ScenePointLight* light2 = m_lLightList[1];
-			pModel->GetMaterial()->SetUniform("LightPosition2", light2->GetPosition());
-			pModel->GetMaterial()->SetUniform("LightAmbient2", light2->GetAmbient());
-			pModel->GetMaterial()->SetUniform("LightDiffuse2", light2->GetDiffuse());
-			pModel->GetMaterial()->SetUniform("LightSpecular2", light2->GetSpecular());
-			pModel->GetMaterial()->SetUniform("LightAttenuation2", light2->GetAttenuation());
-		}
 		
 		pModel->Render(m_pActiveCamera);
 	}

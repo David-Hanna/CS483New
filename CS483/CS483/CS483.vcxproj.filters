@@ -210,6 +210,9 @@
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\KartGame.h">
       <Filter>Kartaclysm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

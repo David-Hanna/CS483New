@@ -13,9 +13,7 @@
 #include "StateMachine.h"
 #include "GameplayState.h"
 #include "StateRacing.h"
-
-#include "Transform.h"
-#include "Model.h"
+#include "SceneManager.h"
 
 namespace Kartaclysm
 {
@@ -41,8 +39,6 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// State machine to hold game states
 		HeatStroke::StateMachine* m_pGameStates;
-
-		HeatStroke::Model* m_pModel;
 	};
 } // namespace Kartaclysm
 

@@ -40,7 +40,6 @@ namespace HeatStroke
 	{
 	public:
 		Model(const std::string& p_strOBJFileName);
-		
 		~Model();
 
 		void Update(float p_fDelta);
@@ -56,17 +55,6 @@ namespace HeatStroke
 		HeatStroke::VertexDeclaration*	m_pVertexDeclaration;
 		Material*						m_pMaterial;
 		glm::mat4						m_mWorldTransform;
-
-		/*struct Mesh
-		{
-			HeatStroke::VertexBuffer* m_pVB;
-			HeatStroke::IndexBuffer* m_pIB;
-			HeatStroke::VertexDeclaration* m_pDecl;
-		};*/
-
-		//float				m_fFrame;
-		//CPVRTModelPOD		m_pod;
-		//std::vector<Mesh>	m_lMeshes;
 	};
 }
 

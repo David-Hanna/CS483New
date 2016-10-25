@@ -16,7 +16,8 @@
 Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true)
+	m_bSuspended(true),
+	m_pSceneCamera(nullptr)
 {
 }
 
@@ -34,6 +35,8 @@ Kartaclysm::StateRacing::~StateRacing()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+
+	DELETE_IF(m_pSceneCamera);
 }
 
 //------------------------------------------------------------------------------
@@ -49,12 +52,17 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
+	// Set Scene's camera.
+	m_pSceneCamera = new HeatStroke::SceneCamera;
+	HeatStroke::SceneManager::Instance()->SetActiveCamera(m_pSceneCamera);
+
 	// Register component factory methods
+	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
 
 	// Handle passed context parameters
 
 	// Load XML to create GameObjects
-	
+	m_pGameObjectManager->CreateGameObject(std::string("Assets/box/box.xml"));
 }
 
 //------------------------------------------------------------------------------
@@ -113,10 +121,13 @@ void Kartaclysm::StateRacing::PreRender()
 void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+
+	DELETE_IF(m_pSceneCamera);
 }
