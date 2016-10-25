@@ -1,0 +1,24 @@
+<GameObject>
+	<Components>
+		<Component type="GOC_Track">
+		</Component>
+	</Components>
+
+	<Children>	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_lturn.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_straight.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_lturn.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_straight.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_lturn.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_straight.xml" />
+	
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_lturn.xml" />
+		
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_finish.xml" />
+	</Children>
+</GameObject>

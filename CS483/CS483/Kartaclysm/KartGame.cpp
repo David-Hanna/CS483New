@@ -6,11 +6,13 @@
 //----------------------------------------------------------------------------
 
 #include "KartGame.h"
+#include "EventManager.h"
 
 bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
+	HeatStroke::EventManager::CreateInstance();
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();

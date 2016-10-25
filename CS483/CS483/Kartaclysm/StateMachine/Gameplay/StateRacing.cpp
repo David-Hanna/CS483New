@@ -7,6 +7,8 @@
 
 #include "StateRacing.h"
 
+#include "Components\ComponentTrack.h"
+
 //------------------------------------------------------------------------------
 // Method:    StateRacing
 // Returns:   
@@ -50,6 +52,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	// Register component factory methods
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
 
 	// Handle passed context parameters
 

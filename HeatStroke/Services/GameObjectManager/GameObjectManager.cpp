@@ -64,7 +64,12 @@ void GameObjectManager::LoadLevel(const std::string& p_strLevelDefinitionFile)
 		 pGameObjectRootElement = pGameObjectRootElement->NextSiblingElement("GameObject"))
 	{
 		GameObject* pObj = CreateGameObject(pGameObjectRootElement);
-		pObj->m_Transform.ParseTransformNode(pGameObjectRootElement->FirstChildElement("Transform"));
+
+		tinyxml2::XMLElement* pGameObjectTransform = pGameObjectRootElement->FirstChildElement("Transform");
+		if (pGameObjectTransform != nullptr)
+		{
+			pObj->m_Transform.ParseTransformNode(pGameObjectTransform);
+		}
 	}
 }
 
@@ -169,7 +174,13 @@ void GameObjectManager::LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElemen
 			 pChildGameObjectElement = pChildGameObjectElement->NextSiblingElement("GameObject"))
 		{
 			GameObject* pChild = CreateGameObject(pChildGameObjectElement);
-			pChild->m_Transform.ParseTransformNode(pChildGameObjectElement->FirstChildElement("Transform"));
+
+			tinyxml2::XMLElement* pChildTransformElement = pChildGameObjectElement->FirstChildElement("Transform");
+			if (pChildTransformElement != nullptr)
+			{
+				pChild->m_Transform.ParseTransformNode(pChildTransformElement);
+			}
+
 			p_pParent->AddChild(pChild);
 		}
 	}
