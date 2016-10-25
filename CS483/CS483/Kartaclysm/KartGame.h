@@ -9,9 +9,11 @@
 #define KARTGAME_H
 
 #include "Game.h"
-
-#include "Game.h"
 #include "KeyboardInputBuffer.h"
+#include "JoystickInputBuffer.h"
+#include "InputActionMapping.h"
+#include "PlayerInputMapping.h"
+#include "EventManager.h"
 #include "StateMachine.h"
 #include "GameplayState.h"
 #include "StateRacing.h"

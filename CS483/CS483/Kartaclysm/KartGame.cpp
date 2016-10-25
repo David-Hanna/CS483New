@@ -7,8 +7,8 @@
 
 #include "KartGame.h"
 
-#include "Components\ComponentKartController.h"
-#include "Components\ComponentCameraController.h"
+#include "ComponentKartController.h"
+#include "ComponentCameraController.h"
 #include "ComponentCamera.h"
 #include "SceneManager.h"
 #include "KeyboardInputBuffer.h"
@@ -16,8 +16,12 @@
 bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
+	HeatStroke::EventManager::CreateInstance();
 	HeatStroke::SceneManager::CreateInstance(m_pWindow);
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
+	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
+	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
+	PlayerInputMapping::CreateInstance();
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -31,7 +35,10 @@ bool Kartaclysm::KartGame::Init()
 void Kartaclysm::KartGame::Update(const float p_fDelta)
 {
 	HeatStroke::SceneManager::Instance()->Update(p_fDelta);
+	HeatStroke::EventManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
+	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
+	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom
 	m_pGameStates->Update(p_fDelta, true);
@@ -56,4 +63,11 @@ void Kartaclysm::KartGame::Shutdown()
 {
 	delete m_pGameStates;
 	m_pGameStates = nullptr;
+
+	PlayerInputMapping::DestroyInstance();
+	InputActionMapping::DestroyInstance();
+	HeatStroke::JoystickInputBuffer::DestroyInstance();
+	HeatStroke::KeyboardInputBuffer::DestroyInstance();
+	HeatStroke::SceneManager::DestroyInstance();
+	HeatStroke::EventManager::DestroyInstance();
 }

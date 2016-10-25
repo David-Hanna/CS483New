@@ -7,9 +7,10 @@
 
 #include "ComponentKartController.h"
 
-#include "Common.h"
+#define PI 3.141593f // TO DO, this is found in <Common.h>, but including that causes error "gl.h included before glew.h"
+//#include <Common.h>
 #include "GameObject.h"
-#include "IO\KeyboardInputBuffer.h"
+#include "KeyboardInputBuffer.h"
 
 namespace Kartaclysm
 {
@@ -18,6 +19,7 @@ namespace Kartaclysm
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
+		m_iPlayerNum(0), // TO DO, handle this number better
 
 		m_fSpeedScale(0.002f),
 		m_fVerticalSpeedScale(0.002f),
@@ -97,6 +99,12 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
+		// Manually query for user input
+		int iAccelerate, iBrake, iSlide;
+		float fTurn;
+		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+		fTurn *= -1.0f; // TO DO, the calculations seem reversed...
+
 		// Speeding up & slowing down
 
 		float fSpeedModifer;
@@ -109,11 +117,11 @@ namespace Kartaclysm
 			fSpeedModifer = m_fSpeedWhileSlidingMinStat - ((m_fSpeedWhileSlidingMinStat - m_fSpeedWhileSlidingMaxStat) * (abs(m_fTurnSpeed) / m_fMaxTurnStat));
 		}
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_UP))
+		if (iAccelerate != 0)
 		{
 			m_fSpeed += fmax((m_fMaxSpeedStat * m_fSpeedScale * fSpeedModifer - fmax(m_fSpeed, 0.0f)) * m_fAccelerationStat, -m_fSpeed * m_fAccelerationFrictionStat * 2.0f) * p_fDelta;
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_DOWN))
+		else if (iBrake != 0)
 		{
 
 			m_fSpeed += fmin((-m_fMaxReverseSpeedStat * m_fSpeedScale * fSpeedModifer - fmin(m_fSpeed, 0.0f)) * m_fReverseAccelerationStat, -m_fSpeed * m_fAccelerationFrictionStat * 2.0f) * p_fDelta;
@@ -125,28 +133,19 @@ namespace Kartaclysm
 
 		// Turning
 
-		float fTurnInput = 0.0f;
-
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_LEFT) && m_iSlideDirection >= 0)
+		if (m_bSliding)
 		{
-			fTurnInput = 1.0f;
-
-			if (m_bSliding)
+			if (fTurn < 0 && m_iSlideDirection >= 0)
 			{
 				m_iSlideDirection = 1;
 			}
-		}
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_RIGHT) && m_iSlideDirection <= 0)
-		{
-			fTurnInput = -1.0f;
-
-			if (m_bSliding)
+			else if (fTurn > 0 && m_iSlideDirection <= 0)
 			{
 				m_iSlideDirection = -1;
 			}
 		}
 
-		float fTurnTarget = m_fMaxTurnStat * fTurnInput;
+		float fTurnTarget = m_fMaxTurnStat * fTurn;
 		float fModifier = 1.0f;
 
 		if (m_bSliding)
@@ -200,14 +199,14 @@ namespace Kartaclysm
 				m_bAirborne = false;
 
 				// landing
-				if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_SPACE))
+				if (iSlide != 0)
 				{
 					m_bSliding = true;
 					m_iSlideDirection = 0;
 				}
 			}
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_SPACE) && !m_bSliding)
+		else if (iSlide != 0 && !m_bSliding)
 		{
 			m_fVerticalSpeed = m_fHopInitialSpeedStat * m_fVerticalSpeedScale;
 			m_bAirborne = true;
@@ -215,18 +214,21 @@ namespace Kartaclysm
 		
 		// Sliding
 
-		if (m_bSliding && m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
+		if (m_bSliding)
 		{
-			m_bSliding = false;
-			m_iSlideDirection = 0;
-		}
+			if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
+			{
+				m_bSliding = false;
+				m_iSlideDirection = 0;
+			}
 
-		if (!HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_SPACE) && m_bSliding)
-		{
-			m_bSliding = false;
-			m_iSlideDirection = 0;
+			if (iSlide == 0)
+			{
+				m_bSliding = false;
+				m_iSlideDirection = 0;
 
-			// BOOST HERE
+				// BOOST HERE
+			}
 		}
 
 		// Transform
@@ -235,6 +237,6 @@ namespace Kartaclysm
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
 
 		HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
-		printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\nTurn Modifier:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection, fSpeedModifer);
+		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\nTurn Modifier:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection, fSpeedModifer);
 	}
 }

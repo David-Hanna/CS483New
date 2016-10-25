@@ -243,6 +243,17 @@ namespace HeatStroke
 	}
 
 	//--------------------------------------------------------------------------------
+	// KeyboardInputBuffer::IsValidKey
+	// Parameter: const int p_iGLFWKeyConstant - the key to check, should be a glfw key constant.
+	//
+	// Returns true if the given key is tracked by GLFW.
+	//--------------------------------------------------------------------------------
+	bool KeyboardInputBuffer::IsValidKey(const int p_iGLFWKeyConstant) const
+	{
+		return m_pKeysDown->find(p_iGLFWKeyConstant) != m_pKeysDown->end();
+	}
+
+	//--------------------------------------------------------------------------------
 	// KeyboardInputBuffer::IsKeyDown
 	// Parameter: const int p_iGLFWKeyConstant - the key to check, should be a glfw key constant.
 	//
