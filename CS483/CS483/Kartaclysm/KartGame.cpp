@@ -7,10 +7,17 @@
 
 #include "KartGame.h"
 
+#include "ComponentKartController.h"
+#include "ComponentCameraController.h"
+#include "ComponentCamera.h"
+#include "SceneManager.h"
+#include "KeyboardInputBuffer.h"
+
 bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
 	HeatStroke::EventManager::CreateInstance();
+	HeatStroke::SceneManager::CreateInstance(m_pWindow);
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
@@ -27,6 +34,7 @@ bool Kartaclysm::KartGame::Init()
 
 void Kartaclysm::KartGame::Update(const float p_fDelta)
 {
+	HeatStroke::SceneManager::Instance()->Update(p_fDelta);
 	HeatStroke::EventManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
@@ -48,6 +56,7 @@ void Kartaclysm::KartGame::PreRender()
 
 void Kartaclysm::KartGame::Render()
 {
+	HeatStroke::SceneManager::Instance()->Render();
 }
 
 void Kartaclysm::KartGame::Shutdown()

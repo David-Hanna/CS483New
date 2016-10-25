@@ -27,7 +27,8 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 	m_pGameObjectManager(p_pGameObjectManager),
 	m_strGUID(p_strGUID),
 	m_Transform(p_strGUID),
-	m_mComponentMap()
+	m_mComponentMap(),
+	m_mTagList()
 {
 }
 
