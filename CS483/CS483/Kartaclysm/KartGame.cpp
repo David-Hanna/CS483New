@@ -68,5 +68,6 @@ void Kartaclysm::KartGame::Shutdown()
 	InputActionMapping::DestroyInstance();
 	HeatStroke::JoystickInputBuffer::DestroyInstance();
 	HeatStroke::KeyboardInputBuffer::DestroyInstance();
+	HeatStroke::SceneManager::DestroyInstance();
 	HeatStroke::EventManager::DestroyInstance();
 }

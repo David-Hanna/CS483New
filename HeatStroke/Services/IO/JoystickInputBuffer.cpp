@@ -207,7 +207,7 @@ namespace HeatStroke
 		float fAxis = pJoystick->m_mAxes.at(p_iAxis);
 		if (fabsf(fAxis) < XBOX_AXIS_DEAD_ZONE)
 		{
-			return fAxis;
+			return 0.0f;
 		}
 
 		return fAxis;

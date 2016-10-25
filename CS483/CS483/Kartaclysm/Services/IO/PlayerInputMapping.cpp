@@ -106,6 +106,31 @@ namespace Kartaclysm
 	}
 
 	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::QueryPlayerMovement
+	// Parameter:	const int p_iPlayerNum - number of players in race
+	//				int& p_iAccelerate - Gets value of accelerate bool
+	//				int& p_iBrake - Gets value of brake bool
+	//				int& p_iSlide - Gets value of slide bool
+	//				float& p_fTurn - Gets value of turning float
+	// Returns: 
+	//
+	// Queries the movement properties of a single racer.
+	//--------------------------------------------------------------------------------
+	void PlayerInputMapping::QueryPlayerMovement(
+		const int p_iPlayerNum,
+		int& p_iAccelerate,
+		int& p_iBrake,
+		int& p_iSlide,
+		float& p_fTurn) const
+	{
+		int iJoystick = m_pPlayers->at(p_iPlayerNum);
+		p_iAccelerate = static_cast<int>(InputActionMapping::Instance()->GetButton(iJoystick, Racer::eAccelerate));
+		p_iBrake = static_cast<int>(InputActionMapping::Instance()->GetButton(iJoystick, Racer::eBrake));
+		p_iSlide = static_cast<int>(InputActionMapping::Instance()->GetButton(iJoystick, Racer::eSlide));
+		p_fTurn = InputActionMapping::Instance()->GetTurning(iJoystick);
+	}
+
+	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::SetSplitscreenPlayers
 	// Parameter:	const int p_iNumPlayers - number of players in race
 	// Returns: bool

@@ -18,10 +18,8 @@ namespace Kartaclysm
 {
 	class InputActionMapping
 	{
-	private:
-		// Convenient typedefs
-		typedef std::map<Racer::Action, int> ActionMap;
-		typedef std::map<Input::Type, ActionMap> InputMap;
+		// Allow direct access to query information
+		friend class PlayerInputMapping;
 
 	public:
 		//-------------------------------------------------------------
@@ -40,9 +38,13 @@ namespace Kartaclysm
 		// bool SaveUserControlBindings();
 		// bool EditUserControlBindings(Input::Type, Racer::Action, const int p_iGLFWInputKey);
 
-		void SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick);
-
 	private:
+		//-------------------------------------------------------------
+		// Private types
+		//-------------------------------------------------------------
+		typedef std::map<Racer::Action, int> ActionMap;
+		typedef std::map<Input::Type, ActionMap> InputMap;
+
 		//-------------------------------------------------------------
 		// Private members
 		//-------------------------------------------------------------
@@ -58,6 +60,11 @@ namespace Kartaclysm
 		//-------------------------------------------------------------
 		// Private methods
 		//-------------------------------------------------------------
+
+		void SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick);
+		bool GetButton(const int p_iGLFWJoystick, const Racer::Action p_eAction);
+		float GetTurning(const int p_iGLFWJoystick);
+
 		InputActionMapping(const std::string& p_strUserConfigFilePath);
 		InputActionMapping(const InputActionMapping&) = delete;
 		InputActionMapping& operator=(const InputActionMapping&) = delete;

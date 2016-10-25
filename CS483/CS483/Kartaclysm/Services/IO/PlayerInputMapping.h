@@ -18,10 +18,6 @@ namespace Kartaclysm
 {
 	class PlayerInputMapping
 	{
-	private:
-		// Convenient typedefs
-		typedef std::map<int, int> PlayerMap;
-
 	public:
 		//-------------------------------------------------------------
 		// Public methods
@@ -30,6 +26,14 @@ namespace Kartaclysm
 		static void CreateInstance();
 		static void DestroyInstance();
 		static PlayerInputMapping* Instance();
+
+		// Manually query a player's movement actions
+		void QueryPlayerMovement(
+			const int p_iPlayerNum,
+			int& p_iAccelerate,
+			int& p_iBrake,
+			int& p_iSlide,
+			float& p_fTurn) const;
 
 		// Sets number of players to track when race mode is enabled
 		bool SetSplitscreenPlayers(const int p_iNumPlayers);
@@ -49,6 +53,11 @@ namespace Kartaclysm
 		void Update(const float p_fDelta);
 
 	private:
+		//-------------------------------------------------------------
+		// Private types
+		//-------------------------------------------------------------
+		typedef std::map<int, int> PlayerMap;
+
 		//-------------------------------------------------------------
 		// Private members
 		//-------------------------------------------------------------
