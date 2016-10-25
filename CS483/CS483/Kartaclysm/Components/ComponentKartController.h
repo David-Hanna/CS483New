@@ -11,6 +11,7 @@
 #include <tinyxml2.h>
 
 #include "Component.h"
+#include "PlayerInputMapping.h"
 
 namespace Kartaclysm
 {
@@ -49,6 +50,7 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
+		int m_iPlayerNum;
 
 		const float m_fSpeedScale = 1.0f;
 		const float m_fVerticalSpeedScale = 1.0f;
