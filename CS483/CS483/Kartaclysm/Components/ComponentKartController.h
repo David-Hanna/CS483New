@@ -10,8 +10,11 @@
 
 #include <tinyxml2.h>
 
+#include "Common.h"
 #include "Component.h"
 #include "PlayerInputMapping.h"
+#include "GameObject.h"
+#include "KeyboardInputBuffer.h"
 
 namespace Kartaclysm
 {
