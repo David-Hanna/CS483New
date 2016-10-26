@@ -62,23 +62,22 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 	// Load XML to create GameObjects
 
-	// SHITTTT
+	// Temporary code from here down
+	// TODO: Remove every trace of this crap
 	// Load XML
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile("CS483/CS483/Kartaclysm/Data/test_level.xml");
 
-	// TODO: this is bad, so bad, fix pls
 	tinyxml2::XMLNode *node = doc.LastChild()->LastChild();
 	tinyxml2::XMLNode *node2 = node->PreviousSibling();
 
 	m_pGameObjectManager->CreateGameObject(node2);
 	m_pGameObjectManager->CreateGameObject(node);
-	
-
 
 	// line stuff
 	lineDrawer = new HeatStroke::LineDrawer();
 	lineDrawer->Init("CS483/CS483/Kartaclysm/lines.vsh", "CS483/CS483/Kartaclysm/lines.fsh");
+	// </crap>
 }
 
 //------------------------------------------------------------------------------
@@ -117,9 +116,8 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 
-
-
-	// bad shit
+	// Temporary line drawing stuff
+	// TODO: Remove every trace of this crap
 	HeatStroke::SceneCamera *cam = HeatStroke::SceneManager::Instance()->GetActiveCamera();
 
 	float h = 0.0f;
@@ -135,6 +133,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	lineDrawer->AddLine(pos, pos + glm::vec3(0.0f, 0.2f, 0.0f), HeatStroke::Color4(0.0f, 0.0f, 1.0f, 1.0f));
 
 	lineDrawer->Render(cam->GetProjectionMatrix(), cam->GetViewMatrix());
+	// </crap>
 }
 
 //------------------------------------------------------------------------------
