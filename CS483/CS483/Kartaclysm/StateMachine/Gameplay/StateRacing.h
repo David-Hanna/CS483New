@@ -11,6 +11,8 @@
 #include "Common.h"
 #include "GameplayState.h"
 #include "Component3DModel.h"
+#include "ComponentAmbientLight.h"
+#include "ComponentDirectionalLight.h"
 
 namespace Kartaclysm
 {

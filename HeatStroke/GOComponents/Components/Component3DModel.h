@@ -9,7 +9,6 @@
 #define COMPONENT_3D_MODEL_H
 
 #include "ComponentRenderable.h"
-#include "Model.h"
 #include "SceneManager.h"
 #include "EasyXML.h"
 #include "GameObject.h"
@@ -26,7 +25,8 @@ namespace HeatStroke
 		static HeatStroke::Component* CreateComponent(
 			HeatStroke::GameObject* p_pGameObject,
 			tinyxml2::XMLNode* p_pBaseNode,
-			tinyxml2::XMLNode* p_pOverrideNode);
+			tinyxml2::XMLNode* p_pOverrideNode
+		);
 
 		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;

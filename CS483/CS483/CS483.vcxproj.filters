@@ -213,6 +213,12 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.cpp">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -369,6 +375,18 @@
       <Filter>Kartaclysm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneAmbientLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
