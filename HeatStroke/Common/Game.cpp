@@ -116,6 +116,10 @@ int Game::Run(const char* p_strAppName, int p_iWindowWidth, int p_iWindowHeight)
 
 		float fDelta = (float)t - m_fFrameTime;
 
+#if _DEBUG
+		printf("%f FPS\n", 1.0f / fDelta);
+#endif
+
 		if (fDelta < 1.0f)
 		{
 			// Update and render game
