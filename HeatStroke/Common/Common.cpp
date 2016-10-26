@@ -24,7 +24,15 @@ inline void GL_CHECK_ERROR(const char* file, int line) {}
 
 std::string HeatStroke::Common::LoadWholeFile(const std::string& p_strFile)
 {
-	return std::string(std::istreambuf_iterator<char>(std::ifstream(p_strFile)), std::istreambuf_iterator<char>());
+	std::ifstream ifs(p_strFile);
+#if _DEBUG
+	if (!ifs.is_open())
+	{
+		printf("Failed to load contents of file: %s\n", p_strFile.c_str());
+		system("pause");
+	}
+#endif
+	return std::string(std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>());
 }
 
 //----------------------------------------------------------

@@ -105,6 +105,7 @@ namespace HeatStroke
 	//------------------------------------------------------------------------------
 	void ComponentCamera::Update(const float p_fDelta)
 	{
+		std::cout << "updating camera\n";
 		glm::vec3 vPosition = m_pGameObject->GetTransform().GetTranslation();
 		m_mSceneCamera.SetPos(vPosition);
 

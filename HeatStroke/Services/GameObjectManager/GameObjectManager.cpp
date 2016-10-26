@@ -397,7 +397,7 @@ GameObject* GameObjectManager::AddBlankGameObject(const std::string& p_strGUID)
 //-------------------------------------------------------------------------------
 tinyxml2::XMLNode* GameObjectManager::GetOrLoadGameObjectBaseNode(const std::string& p_strBase)
 {
-	std::string strBasePath = p_strBase;
+	std::string strBasePath = "CS483/CS483/Kartaclysm/Data/" + p_strBase + ".xml";
 
 	tinyxml2::XMLDocument* pBaseDocument;
 	LoadedGameObjectFilesMap::const_iterator find = m_mLoadedGameObjectFilesMap.find(strBasePath);
