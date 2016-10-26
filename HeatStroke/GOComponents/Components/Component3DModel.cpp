@@ -60,9 +60,6 @@ void HeatStroke::Component3DModel::Init()
 
 void HeatStroke::Component3DModel::Update(const float p_fDelta)
 {
-	m_pGameObject->GetTransform().RotateXYZ(30.0f * p_fDelta, 1.0f, 0.0f, 0.0f);
-	m_pGameObject->GetTransform().RotateXYZ(30.0f * p_fDelta, 0.0f, 1.0f, 0.0f);
-	m_pGameObject->GetTransform().RotateXYZ(30.0f * p_fDelta, 0.0f, 0.0f, 1.0f);
 }
 
 void HeatStroke::Component3DModel::SyncTransform()
