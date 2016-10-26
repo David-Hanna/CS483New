@@ -11,6 +11,7 @@ HeatStroke::Component3DModel::Component3DModel(HeatStroke::GameObject* p_pGameOb
 	ComponentRenderable(p_pGameObject),
 	m_mModel(p_strOBJFileName)
 {
+	SceneManager::Instance()->AddModel(&m_mModel);
 }
 
 HeatStroke::Component3DModel::~Component3DModel()
@@ -55,7 +56,6 @@ HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
 
 void HeatStroke::Component3DModel::Init()
 {
-	SceneManager::Instance()->AddModel(&m_mModel);
 }
 
 void HeatStroke::Component3DModel::Update(const float p_fDelta)

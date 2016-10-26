@@ -3,7 +3,7 @@
 
 <GameObject>
   <GOC_3DModel>
-		<OBJFileName path="Assets/box/box.obj"/>
+		<OBJFileName path="Assets/Kart/Kart.obj"/>
 	</GOC_3DModel>
   <GOC_KartController/>
 </GameObject>

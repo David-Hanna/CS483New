@@ -60,15 +60,15 @@ bool HeatStroke::OBJFile::ParseFile()
 		}
 		else if (strLineKey == "v") // parse a position
 		{
-			m_vOBJObjectList.back().m_vPositions.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
+			m_vPositions.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
 		}
 		else if (strLineKey == "vt") // parse a texture coord
 		{
-			m_vOBJObjectList.back().m_vUVs.push_back(glm::vec2(atof(strTabs[1].c_str()), atof(strTabs[2].c_str())));
+			m_vUVs.push_back(glm::vec2(atof(strTabs[1].c_str()), atof(strTabs[2].c_str())));
 		}
 		else if (strLineKey == "vn") // parse a normal
 		{
-			m_vOBJObjectList.back().m_vNormals.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
+			m_vNormals.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
 		}
 		else if (strLineKey == "f") // parse a face (triangle)
 		{
@@ -109,28 +109,28 @@ std::string HeatStroke::OBJFile::ToString() const
 	strResult += "OBJ File Name: " + OBJ_FILE_NAME + "\n";
 	strResult += "mtllib " + m_strMTLFileName + "\n";
 
+	std::vector<const glm::vec3>::const_iterator positionIt = m_vPositions.begin(), positionEnd = m_vPositions.end();
+	for (; positionIt != positionEnd; positionIt++)
+	{
+		strResult += "v " + std::to_string((*positionIt)[0]) + " " + std::to_string((*positionIt)[1]) + " " + std::to_string((*positionIt)[2]) + "\n";
+	}
+
+	std::vector<const glm::vec2>::const_iterator UVIt = m_vUVs.begin(), UVEnd = m_vUVs.end();
+	for (; UVIt != UVEnd; UVIt++)
+	{
+		strResult += "vt " + std::to_string((*UVIt)[0]) + " " + std::to_string((*UVIt)[1]) + "\n";
+	}
+
+	std::vector<const glm::vec3>::const_iterator normalIt = m_vNormals.begin(), normalEnd = m_vNormals.end();
+	for (; normalIt != normalEnd; normalIt++)
+	{
+		strResult += "vn " + std::to_string((*normalIt)[0]) + " " + std::to_string((*normalIt)[1]) + " " + std::to_string((*normalIt)[2]) + "\n";
+	}
+
 	OBJObjectList::const_iterator objIt = m_vOBJObjectList.begin(), objEnd = m_vOBJObjectList.end();
 	for (; objIt != objEnd; objIt++)
 	{
 		strResult += "o " + objIt->m_strObjectName + "\n";
-
-		std::vector<const glm::vec3>::const_iterator positionIt = objIt->m_vPositions.begin(), positionEnd = objIt->m_vPositions.end();
-		for (; positionIt != positionEnd; positionIt++)
-		{
-			strResult += "v " + std::to_string((*positionIt)[0]) + " " + std::to_string((*positionIt)[1]) + " " + std::to_string((*positionIt)[2]) + "\n";
-		}
-
-		std::vector<const glm::vec2>::const_iterator UVIt = objIt->m_vUVs.begin(), UVEnd = objIt->m_vUVs.end();
-		for (; UVIt != UVEnd; UVIt++)
-		{
-			strResult += "vt " + std::to_string((*UVIt)[0]) + " " + std::to_string((*UVIt)[1]) + "\n";
-		}
-
-		std::vector<const glm::vec3>::const_iterator normalIt = objIt->m_vNormals.begin(), normalEnd = objIt->m_vNormals.end();
-		for (; normalIt != normalEnd; normalIt++)
-		{
-			strResult += "vn " + std::to_string((*normalIt)[0]) + " " + std::to_string((*normalIt)[1]) + " " + std::to_string((*normalIt)[2]) + "\n";
-		}
 
 		std::vector<const OBJFace>::const_iterator faceIt = objIt->m_vFaces.begin(), faceEnd = objIt->m_vFaces.end();
 		for (; faceIt != faceEnd; faceIt++)

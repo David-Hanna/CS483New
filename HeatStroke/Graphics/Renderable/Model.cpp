@@ -13,6 +13,11 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 	OBJFile mOBJFile(p_mOBJFileName);
 	mOBJFile.ParseFile();
 
+	// Grab the lists of positions, normals, and uvs for convenience.
+	const std::vector<const glm::vec3>& vPositions = mOBJFile.GetPositions();
+	const std::vector<const glm::vec3>& vNormals = mOBJFile.GetNormals();
+	const std::vector<const glm::vec2>& vUVs = mOBJFile.GetUVs();
+
 	// Load the MTL file.
 	MTLFile mMTLFile(mOBJFile.GetMTLFileName());
 	mMTLFile.ParseFile();
@@ -20,17 +25,12 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 	// Loop over all the OBJObjects in the OBJFile, which will turn into our meshes.
 	const OBJFile::OBJObjectList& vOBJObjectList = mOBJFile.GetOBJObjectList();
 	OBJFile::OBJObjectList::const_iterator objIt = vOBJObjectList.begin(), objEnd = vOBJObjectList.end();
+
 	for (; objIt != objEnd; objIt++)
 	{
 		//================================================================
 		// Vertex Data
 		//================================================================
-
-		// Grab the lists of positions, normals, and uvs for convenience.
-		const std::vector<const glm::vec3>& vPositions = objIt->GetPositions();
-		const std::vector<const glm::vec3>& vNormals = objIt->GetNormals();
-		const std::vector<const glm::vec2>& vUVs = objIt->GetUVs();
-
 		// We assume for our models that every face is a triangle.
 		const std::vector<const OBJFile::OBJFace>& vTriangles = objIt->GetFaces();
 
@@ -112,10 +112,9 @@ HeatStroke::Model::~Model()
 	std::vector<Mesh>::iterator meshIt = m_vMeshes.begin(), meshEnd = m_vMeshes.end();
 	for (; meshIt != meshEnd; meshIt++)
 	{
-		HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
-		DELETE_IF(meshIt->m_pVertexDeclaration);
-		HeatStroke::TextureManager::DestroyTexture(meshIt->m_pTexture);
-		HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
+		//HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
+		//DELETE_IF(meshIt->m_pVertexDeclaration);
+		//HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
 	}
 }
 

@@ -1,6 +1,6 @@
 # Blender v2.78 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib Kart.mtl
+mtllib Assets/Kart/Kart.mtl
 o Chassis_Untitled
 v 0.456988 -0.002622 -0.905318
 v 0.452640 0.005656 -0.898651
