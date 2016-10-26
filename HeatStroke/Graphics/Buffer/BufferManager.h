@@ -11,6 +11,7 @@
 #ifndef BUFFER_MANAGER_H
 #define BUFFER_MANAGER_H
 
+#include "Common.h"
 #include "Types.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"

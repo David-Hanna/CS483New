@@ -39,8 +39,31 @@ namespace HeatStroke
 
 			OBJVertex() {}
 		};
-
 		typedef std::vector<const OBJVertex> OBJFace;
+
+		class OBJObject
+		{
+			friend class OBJFile;
+
+		public:
+			const std::string&					GetObjectName()		const	{ return m_strObjectName; }
+			const std::vector<const glm::vec3>&	GetPositions()		const	{ return m_vPositions; }
+			const std::vector<const glm::vec2>&	GetUVs()			const	{ return m_vUVs; }
+			const std::vector<const glm::vec3>&	GetNormals()		const	{ return m_vNormals; }
+			const std::vector<const OBJFace>&	GetFaces()			const	{ return m_vFaces; }
+			const std::string&					GetMaterialName()	const	{ return m_strMaterialName; }
+
+		private:
+			std::string						m_strObjectName;
+			std::vector<const glm::vec3>	m_vPositions;
+			std::vector<const glm::vec2>	m_vUVs;
+			std::vector<const glm::vec3>	m_vNormals;
+			std::vector<const OBJFace>		m_vFaces;
+			std::string						m_strMaterialName;
+
+			OBJObject() {}
+		};
+		typedef std::vector<const OBJObject> OBJObjectList;
 
 	public:
 		OBJFile(const std::string& p_strOBJFileName);
@@ -50,17 +73,10 @@ namespace HeatStroke
 
 		// Behaviour of accessors besides isLoaded() and getOBJFileName()
 		// are undefined when isLoaded() == false.
-		const std::string&					GetOBJFileName()	const	{ return OBJ_FILE_NAME; }
-
 		bool								IsLoaded()			const	{ return m_bLoaded; }
-		const std::string&					GetObjectName()		const	{ return m_strObjectName; }
-		const std::vector<const glm::vec3>&	GetPositions()		const	{ return m_vPositions; }
-		const std::vector<const glm::vec2>&	GetUVs()			const	{ return m_vUVs; }
-		const std::vector<const glm::vec3>&	GetNormals()		const	{ return m_vNormals; }
-		const std::vector<const OBJFace>&	GetFaces()			const	{ return m_vFaces; }
+		const std::string&					GetOBJFileName()	const	{ return OBJ_FILE_NAME; }
 		const std::string&					GetMTLFileName()	const	{ return m_strMTLFileName; }
-		const std::string&					GetMaterialName()	const	{ return m_strMaterialName; }
-		bool								IsSmoothShading()	const	{ return m_bSmoothShading; }
+		const OBJObjectList&				GetOBJObjectList()  const	{ return m_vOBJObjectList; }
 		
 		std::string							ToString()			const;
 
@@ -69,14 +85,8 @@ namespace HeatStroke
 
 		bool							m_bLoaded;
 		std::string						m_strOBJFileData;
-		std::string						m_strObjectName;
-		std::vector<const glm::vec3>	m_vPositions;
-		std::vector<const glm::vec2>	m_vUVs;
-		std::vector<const glm::vec3>	m_vNormals;
-		std::vector<const OBJFace>		m_vFaces;
 		std::string						m_strMTLFileName;
-		std::string						m_strMaterialName;
-		bool							m_bSmoothShading;
+		OBJObjectList					m_vOBJObjectList;
 	};
 }
 

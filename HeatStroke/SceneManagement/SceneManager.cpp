@@ -231,17 +231,22 @@ void HeatStroke::SceneManager::Render()
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		HeatStroke::Model* pModel = *it;
+		Model* pModel = *it;
 		
-		if (m_lAmbientLightList.size() > 0)
+		std::vector<Model::Mesh>& vMeshes = pModel->GetMeshes();
+		std::vector<Model::Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
+		for (; meshIt != meshEnd; meshIt++)
 		{
-			pModel->GetMaterial()->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
-		}
+			if (m_lAmbientLightList.size() > 0)
+			{
+				meshIt->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
+			}
 
-		if (m_lDirectionalLightList.size() > 0)
-		{
-			pModel->GetMaterial()->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
-			pModel->GetMaterial()->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+			if (m_lDirectionalLightList.size() > 0)
+			{
+				meshIt->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
+				meshIt->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+			}
 		}
 
 		pModel->Render(m_pActiveCamera);

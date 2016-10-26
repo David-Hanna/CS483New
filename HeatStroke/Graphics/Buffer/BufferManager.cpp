@@ -45,8 +45,7 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	void BufferManager::DestroyBuffer(Buffer* p_pBuf)
 	{
-		delete p_pBuf;
-		p_pBuf = nullptr;
+		DELETE_IF(p_pBuf);
 	}
 }
 

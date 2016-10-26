@@ -24,14 +24,8 @@ HeatStroke::OBJFile::OBJFile(const std::string& p_strOBJFileName) :
 	OBJ_FILE_NAME(p_strOBJFileName),
 	m_bLoaded(false),
 	m_strOBJFileData(),
-	m_strObjectName(),
 	m_strMTLFileName(),
-	m_vPositions(),
-	m_vUVs(),
-	m_vNormals(),
-	m_strMaterialName(),
-	m_bSmoothShading(false),
-	m_vFaces()
+	m_vOBJObjectList()
 {
 }
 
@@ -55,17 +49,26 @@ bool HeatStroke::OBJFile::ParseFile()
 		// the first tab in a line determines the format and meaning of the rest of the line
 		std::string strLineKey = strTabs[0];
 		
-		if (strLineKey == "v") // parse a position
+		if (strLineKey == "mtllib") // name of mtl file to find the material to use for this object
 		{
-			m_vPositions.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
+			m_strMTLFileName = strTabs[1];
+		}
+		else if (strLineKey == "o")
+		{
+			m_vOBJObjectList.push_back(OBJObject());
+			m_vOBJObjectList.back().m_strObjectName = strTabs[1];
+		}
+		else if (strLineKey == "v") // parse a position
+		{
+			m_vOBJObjectList.back().m_vPositions.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
 		}
 		else if (strLineKey == "vt") // parse a texture coord
 		{
-			m_vUVs.push_back(glm::vec2(atof(strTabs[1].c_str()), atof(strTabs[2].c_str())));
+			m_vOBJObjectList.back().m_vUVs.push_back(glm::vec2(atof(strTabs[1].c_str()), atof(strTabs[2].c_str())));
 		}
 		else if (strLineKey == "vn") // parse a normal
 		{
-			m_vNormals.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
+			m_vOBJObjectList.back().m_vNormals.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
 		}
 		else if (strLineKey == "f") // parse a face (triangle)
 		{
@@ -88,26 +91,11 @@ bool HeatStroke::OBJFile::ParseFile()
 				vOBJFace.push_back(mOBJVertex);
 			}
 
-			m_vFaces.push_back(vOBJFace);
-		}
-		else if (strLineKey == "o") // name of object being parsed
-		{
-			m_strObjectName = strTabs[1];
-		}
-		else if (strLineKey == "mtllib") // name of mtl file to find the material to use for this object
-		{
-			m_strMTLFileName = strTabs[1];
+			m_vOBJObjectList.back().m_vFaces.push_back(vOBJFace);
 		}
 		else if (strLineKey == "usemtl") // name of the material to use for this object
 		{
-			m_strMaterialName = strTabs[1];
-		}
-		else if (strLineKey == "s") // smooth shading (not implemented)
-		{
-			if (strTabs[1] == "off")
-			{
-				m_bSmoothShading = false;
-			}
+			m_vOBJObjectList.back().m_strMaterialName = strTabs[1];
 		}
 	}
 
@@ -119,43 +107,47 @@ std::string HeatStroke::OBJFile::ToString() const
 	std::string strResult;
 
 	strResult += "OBJ File Name: " + OBJ_FILE_NAME + "\n";
-	strResult += "o " + m_strObjectName + "\n";
-	
-	std::vector<const glm::vec3>::const_iterator positionIt = m_vPositions.begin(), positionEnd = m_vPositions.end();
-	for (; positionIt != positionEnd; positionIt++)
-	{
-		strResult += "v " + std::to_string((*positionIt)[0]) + " " + std::to_string((*positionIt)[1]) + " " + std::to_string((*positionIt)[2]) + "\n";
-	}
+	strResult += "mtllib " + m_strMTLFileName + "\n";
 
-	std::vector<const glm::vec2>::const_iterator UVIt = m_vUVs.begin(), UVEnd = m_vUVs.end();
-	for (; UVIt != UVEnd; UVIt++)
+	OBJObjectList::const_iterator objIt = m_vOBJObjectList.begin(), objEnd = m_vOBJObjectList.end();
+	for (; objIt != objEnd; objIt++)
 	{
-		strResult += "vt " + std::to_string((*UVIt)[0]) + " " + std::to_string((*UVIt)[1]) + "\n";
-	}
+		strResult += "o " + objIt->m_strObjectName + "\n";
 
-	std::vector<const glm::vec3>::const_iterator normalIt = m_vNormals.begin(), normalEnd = m_vNormals.end();
-	for (; normalIt != normalEnd; normalIt++)
-	{
-		strResult += "vn " + std::to_string((*normalIt)[0]) + " " + std::to_string((*normalIt)[1]) + " " + std::to_string((*normalIt)[2]) + "\n";
-	}
-
-	std::vector<const OBJFace>::const_iterator faceIt = m_vFaces.begin(), faceEnd = m_vFaces.end();
-	for (; faceIt != faceEnd; faceIt++)
-	{
-		strResult += "f ";
-
-		OBJFace::const_iterator vertexIt = faceIt->begin(), vertexEnd = faceIt->end();
-		for (; vertexIt != vertexEnd; vertexIt++)
+		std::vector<const glm::vec3>::const_iterator positionIt = objIt->m_vPositions.begin(), positionEnd = objIt->m_vPositions.end();
+		for (; positionIt != positionEnd; positionIt++)
 		{
-			strResult += vertexIt->ToString() + " ";
+			strResult += "v " + std::to_string((*positionIt)[0]) + " " + std::to_string((*positionIt)[1]) + " " + std::to_string((*positionIt)[2]) + "\n";
 		}
 
-		strResult += "\n";
-	}
+		std::vector<const glm::vec2>::const_iterator UVIt = objIt->m_vUVs.begin(), UVEnd = objIt->m_vUVs.end();
+		for (; UVIt != UVEnd; UVIt++)
+		{
+			strResult += "vt " + std::to_string((*UVIt)[0]) + " " + std::to_string((*UVIt)[1]) + "\n";
+		}
 
-	strResult += "mtllib " + m_strMTLFileName + "\n";
-	strResult += "usemtl " + m_strMaterialName + "\n";
-	strResult += "s " + std::to_string(m_bSmoothShading)+ "\n";
+		std::vector<const glm::vec3>::const_iterator normalIt = objIt->m_vNormals.begin(), normalEnd = objIt->m_vNormals.end();
+		for (; normalIt != normalEnd; normalIt++)
+		{
+			strResult += "vn " + std::to_string((*normalIt)[0]) + " " + std::to_string((*normalIt)[1]) + " " + std::to_string((*normalIt)[2]) + "\n";
+		}
+
+		std::vector<const OBJFace>::const_iterator faceIt = objIt->m_vFaces.begin(), faceEnd = objIt->m_vFaces.end();
+		for (; faceIt != faceEnd; faceIt++)
+		{
+			strResult += "f ";
+
+			OBJFace::const_iterator vertexIt = faceIt->begin(), vertexEnd = faceIt->end();
+			for (; vertexIt != vertexEnd; vertexIt++)
+			{
+				strResult += vertexIt->ToString() + " ";
+			}
+
+			strResult += "\n";
+		}
+
+		strResult += "usemtl " + objIt->m_strMaterialName + "\n";
+	}
 
 	return strResult;
 }
