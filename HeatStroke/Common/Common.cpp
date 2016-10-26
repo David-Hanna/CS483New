@@ -33,7 +33,14 @@ namespace HeatStroke
 std::shared_ptr<std::string> LoadWholeFile(const std::string& p_strFile)
 {
 	std::ifstream ifs(p_strFile);
-	
+#if _DEBUG
+	if (!ifs.is_open())
+	{
+		printf("Failed to load contents of file: %s\n", p_strFile.c_str());
+		system("pause");
+	}
+#endif
+
 	std::shared_ptr<std::string> pFileContents = std::shared_ptr<std::string>(new std::string(
 		std::istreambuf_iterator<char>(ifs),
 		std::istreambuf_iterator<char>()));
