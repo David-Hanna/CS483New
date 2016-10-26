@@ -37,6 +37,7 @@ std::shared_ptr<std::string> LoadWholeFile(const std::string& p_strFile)
 	if (!ifs.is_open())
 	{
 		printf("Failed to load contents of file: %s\n", p_strFile.c_str());
+		system("pause");
 	}
 #endif
 
