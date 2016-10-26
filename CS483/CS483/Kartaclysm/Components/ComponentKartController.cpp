@@ -7,11 +7,6 @@
 
 #include "ComponentKartController.h"
 
-#define PI 3.141593f // TO DO, this is found in <Common.h>, but including that causes error "gl.h included before glew.h"
-//#include <Common.h>
-#include "GameObject.h"
-#include "KeyboardInputBuffer.h"
-
 namespace Kartaclysm
 {
 	ComponentKartController::ComponentKartController(
