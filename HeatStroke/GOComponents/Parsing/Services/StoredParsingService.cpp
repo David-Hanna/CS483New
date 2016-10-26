@@ -18,8 +18,8 @@ namespace HeatStroke
 	//------------------------------------------------------------------------------
 	StoredParsingService::StoredParsingService()
 		:
-		m_mComponentFactoryMap(),
-		m_mLoadedGameObjectFilesMap()
+		m_mComponentFactoryMap(ComponentFactoryMap()),
+		m_mLoadedGameObjectFilesMap(LoadedGameObjectFilesMap())
 	{
 	}
 
@@ -86,7 +86,7 @@ namespace HeatStroke
 	//-------------------------------------------------------------------------------
 	tinyxml2::XMLNode* StoredParsingService::GetGameObjectBaseNode(const std::string& p_strBase)
 	{
-		std::string strBasePath = "CS483/CS483/Kartaclysm/Data/" + p_strBase + ".xml";
+		std::string strBasePath = "assignmentResources/assignment4/data/" + p_strBase + ".xml";
 
 		tinyxml2::XMLDocument* pBaseDocument;
 		LoadedGameObjectFilesMap::const_iterator find = m_mLoadedGameObjectFilesMap.find(strBasePath);
@@ -117,16 +117,12 @@ namespace HeatStroke
 		return pGameObjectBaseNode;
 	}
 
-	//----------------------------------------------------------------------------------
-	// Method:    ParseBaseNodeComponents
-	// Parameter: GameObject* p_pGameObject - GameObject to attach component
-	//			  std::set<std::string>& p_mComponentSet - Set to ensure unique components
-	//			  tinyxml2::XMLNode* p_pGameObjectBaseNode - XML node to read GameObject information
-	//			  tinyxml2::XMLNode* p_pComponentOverrideNode - XML node with override information
-	// Returns:   void
+	//-------------------------------------------------------------------
+	// StoredParsingService::ParseBaseNodeComponents
 	//
-	// Parses the components from a GameObject's XML file.
-	//----------------------------------------------------------------------------------
+	// Parses the components of a base Game Object node, passing it the
+	// matching override node if it exists.
+	//-------------------------------------------------------------------
 	void StoredParsingService::ParseBaseNodeComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
@@ -165,15 +161,11 @@ namespace HeatStroke
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	// Method:    ParseOverrideComponents
-	// Parameter: GameObject* p_pGameObject - GameObject to attach component
-	//			  std::set<std::string>& p_mComponentSet - Set to ensure unique components
-	//			  tinyxml2::XMLNode* p_pComponentOverrideNode - XML node with override information
-	// Returns:   void
+	//-------------------------------------------------------------------
+	// StoredParsingService::ParseOverrideComponents
 	//
-	// Parses the override component of an XML GameObject.
-	//----------------------------------------------------------------------------------
+	// Parses the components of an instance Game Object node.
+	//-------------------------------------------------------------------
 	void StoredParsingService::ParseOverrideComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,

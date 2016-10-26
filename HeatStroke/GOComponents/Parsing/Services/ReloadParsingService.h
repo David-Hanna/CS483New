@@ -1,41 +1,25 @@
 //==================================================================================
-// StoredParsingService
+// ReloadParsingService
 // Author: Bradley Cooper
 //
 // Provide the service to parse components from XML.
 //==================================================================================
 
-#ifndef STORED_PARSING_SERVICE_H
-#define STORED_PARSING_SERVICE_H
+#ifndef RELOAD_PARSING_SERVICE_H
+#define RELOAD_PARSING_SERVICE_H
 
-#include "ParsingService.h"
+#include "StoredParsingService.h"
 
 namespace HeatStroke
 {
-	// Forward declaration to prevent circular header issue
-	class GameObject;
-
-	class StoredParsingService : public ParsingService
+	class ReloadParsingService : public ParsingService
 	{
-		// Allow GameObject manager to have access to the protected members
-		friend class GameObjectManager;
-
 	public:
-		//---------------------------------------------------------------------
-		// Public Types
-		//---------------------------------------------------------------------
-		// Typedef for the function signature which must be provided to RegisterComponentFactory().
-		typedef Component*						// Return value - the pointer to the created Component.
-			(*ComponentFactoryMethod)				// The typedef for the function pointer.
-			(GameObject* p_pGameObject,				// The GameObject which owns the Component.
-			tinyxml2::XMLNode* p_pBaseNode,			// The Base Node from which to construct the Component.
-			tinyxml2::XMLNode* p_pOverrideNode);	// The Override Node from which to construct the Component.
-
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		StoredParsingService();
-		virtual ~StoredParsingService();
+		ReloadParsingService();
+		virtual ~ReloadParsingService();
 
 		// Use to register a component's Factory Method so it can be used to create the component from XML
 		virtual void RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod);
@@ -44,11 +28,10 @@ namespace HeatStroke
 		// Not calling this method will leave the files in memory so parsing them will be faster
 		virtual void UnloadGameObjectBaseFiles();
 
-		// Stub function
+		// Live reload XML files, sending changes to GameObjects in iterator list
 		virtual void LiveReloadXml(
-			std::map<std::string, GameObject*>::const_iterator begin,
-			std::map<std::string, GameObject*>::const_iterator end)
-			{ return; }
+			std::map<std::string, GameObject*>::const_iterator p_begin,
+			std::map<std::string, GameObject*>::const_iterator p_end);
 
 	protected:
 		//---------------------------------------------------------------------
@@ -93,7 +76,13 @@ namespace HeatStroke
 			const char* p_szComponentName,
 			tinyxml2::XMLNode* p_pComponentNode,
 			tinyxml2::XMLNode* p_pComponentOverrideNode);
+
+	private:
+		//---------------------------------------------------------------------------
+		// Private methods
+		//---------------------------------------------------------------------------
+		tinyxml2::XMLNode* DeepCopyChanges(tinyxml2::XMLNode* p_pOld, tinyxml2::XMLNode* p_pNew, tinyxml2::XMLDocument* p_pOwner);
 	};
 }
 
-#endif // STORED_PARSING_SERVICE_H
+#endif // RELOAD_PARSING_SERVICE_H

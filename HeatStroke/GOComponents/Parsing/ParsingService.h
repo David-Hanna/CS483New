@@ -53,8 +53,8 @@ namespace HeatStroke
 
 		// Reload XML files and inform components of the changes
 		virtual void LiveReloadXml(
-			std::map<std::string, GameObject*>::const_iterator begin,
-			std::map<std::string, GameObject*>::const_iterator end) = 0;
+			std::map<std::string, GameObject*>::const_iterator p_begin,
+			std::map<std::string, GameObject*>::const_iterator p_end) = 0;
 
 	protected:
 		//---------------------------------------------------------------------------

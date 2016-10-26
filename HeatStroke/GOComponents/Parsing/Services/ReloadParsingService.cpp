@@ -1,35 +1,35 @@
 //==================================================================================
-// StoredParsingService
+// ReloadParsingService
 // Author: Bradley Cooper
 //
 // Provide the service to parse components from XML.
 //==================================================================================
 
-#include "StoredParsingService.h"
+#include "ReloadParsingService.h"
 #include "GameObject.h"
 
 namespace HeatStroke
 {
 	//------------------------------------------------------------------------------
-	// Method:    StoredParsingService
+	// Method:    ReloadParsingService
 	// Returns:   
 	// 
 	// Constructor.
 	//------------------------------------------------------------------------------
-	StoredParsingService::StoredParsingService()
+	ReloadParsingService::ReloadParsingService()
 		:
-		m_mComponentFactoryMap(),
-		m_mLoadedGameObjectFilesMap()
+		m_mComponentFactoryMap(ComponentFactoryMap()),
+		m_mLoadedGameObjectFilesMap(LoadedGameObjectFilesMap())
 	{
 	}
 
 	//------------------------------------------------------------------------------
-	// Method:    ~StoredParsingService
+	// Method:    ~ReloadParsingService
 	// Returns:   
 	// 
 	// Destructor.
 	//------------------------------------------------------------------------------
-	StoredParsingService::~StoredParsingService()
+	ReloadParsingService::~ReloadParsingService()
 	{
 		// Do not worry about ComponentFactoryMap as it has function pointers, not object pointers.
 		UnloadGameObjectBaseFiles();
@@ -43,7 +43,7 @@ namespace HeatStroke
 	// 
 	// Registers a component factory for a given component Id.
 	//------------------------------------------------------------------------------
-	void StoredParsingService::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
+	void ReloadParsingService::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
 	{
 		// Ensure the component is only registered once
 		ComponentFactoryMap::const_iterator find = m_mComponentFactoryMap.find(p_strComponentId);
@@ -61,7 +61,7 @@ namespace HeatStroke
 	// 
 	// Unloads the base Game Object files that have been collected using CreateGameObject().
 	//------------------------------------------------------------------------------
-	void StoredParsingService::UnloadGameObjectBaseFiles()
+	void ReloadParsingService::UnloadGameObjectBaseFiles()
 	{
 		LoadedGameObjectFilesMap::iterator it = m_mLoadedGameObjectFilesMap.begin();
 		while (it != m_mLoadedGameObjectFilesMap.end())
@@ -77,6 +77,40 @@ namespace HeatStroke
 	}
 
 	//-------------------------------------------------------------------------------
+	// Method:    LiveReloadXml
+	// Parameter: std::map<std::string, GameObject*>::const_iterator begin - GameObjects to iterate
+	//			  std::map<std::string, GameObject*>::const_iterator end - GameObjects to iterate
+	// Returns:   void
+	// 
+	// Reads XML files stored in map, detects changes, and passes changes to GameObjects in iterator.
+	// Changes includes every difference to the tracked XML's since the program was compiled.
+	// Does nothing if UnloadGameObjectFiles() is called and the mapping is cleared.
+	//-------------------------------------------------------------------------------
+	void ReloadParsingService::LiveReloadXml(
+		std::map<std::string, GameObject*>::const_iterator p_begin,
+		std::map<std::string, GameObject*>::const_iterator p_end)
+	{
+		// Track changes by reading through the XML files 
+		tinyxml2::XMLDocument changesDocument;
+		LoadedGameObjectFilesMap::iterator it = m_mLoadedGameObjectFilesMap.begin(), end = m_mLoadedGameObjectFilesMap.end();
+		for (; it != end; it++)
+		{
+			// Load the XML file
+			tinyxml2::XMLDocument baseDocument;
+			tinyxml2::XMLError error = baseDocument.LoadFile(it->first.c_str());
+			assert(error != tinyxml2::XML_NO_ERROR);
+
+			// Do a deep copy of any changes found, storing them in changesDocument
+			DeepCopyChanges(it->second->FirstChild(), baseDocument.FirstChild(), &changesDocument);
+		}
+
+		// Return if no changes are found
+		if (changesDocument.NoChildren()) return;
+
+		// TO DO, figure out which GO/component corresponds with an XML file
+	}
+
+	//-------------------------------------------------------------------------------
 	// Method:    GetGameObjectBaseNode
 	// Parameter: const std::string& p_strBase - File location for base component XML
 	// Returns:   tinyxml2::XMLNode*
@@ -84,7 +118,7 @@ namespace HeatStroke
 	// Checks the map to see if this base node has already been loaded. If so, return it.
 	// Otherwise, we have to load it into the map first, then return it. Returns nullptr on failed load.
 	//-------------------------------------------------------------------------------
-	tinyxml2::XMLNode* StoredParsingService::GetGameObjectBaseNode(const std::string& p_strBase)
+	tinyxml2::XMLNode* ReloadParsingService::GetGameObjectBaseNode(const std::string& p_strBase)
 	{
 		std::string strBasePath = "CS483/CS483/Kartaclysm/Data/" + p_strBase + ".xml";
 
@@ -117,17 +151,13 @@ namespace HeatStroke
 		return pGameObjectBaseNode;
 	}
 
-	//----------------------------------------------------------------------------------
-	// Method:    ParseBaseNodeComponents
-	// Parameter: GameObject* p_pGameObject - GameObject to attach component
-	//			  std::set<std::string>& p_mComponentSet - Set to ensure unique components
-	//			  tinyxml2::XMLNode* p_pGameObjectBaseNode - XML node to read GameObject information
-	//			  tinyxml2::XMLNode* p_pComponentOverrideNode - XML node with override information
-	// Returns:   void
+	//-------------------------------------------------------------------
+	// ReloadParsingService::ParseBaseNodeComponents
 	//
-	// Parses the components from a GameObject's XML file.
-	//----------------------------------------------------------------------------------
-	void StoredParsingService::ParseBaseNodeComponents(
+	// Parses the components of a base Game Object node, passing it the
+	// matching override node if it exists.
+	//-------------------------------------------------------------------
+	void ReloadParsingService::ParseBaseNodeComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		tinyxml2::XMLNode* p_pGameObjectBaseNode,
@@ -165,16 +195,12 @@ namespace HeatStroke
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	// Method:    ParseOverrideComponents
-	// Parameter: GameObject* p_pGameObject - GameObject to attach component
-	//			  std::set<std::string>& p_mComponentSet - Set to ensure unique components
-	//			  tinyxml2::XMLNode* p_pComponentOverrideNode - XML node with override information
-	// Returns:   void
+	//-------------------------------------------------------------------
+	// ReloadParsingService::ParseOverrideComponents
 	//
-	// Parses the override component of an XML GameObject.
-	//----------------------------------------------------------------------------------
-	void StoredParsingService::ParseOverrideComponents(
+	// Parses the components of an instance Game Object node.
+	//-------------------------------------------------------------------
+	void ReloadParsingService::ParseOverrideComponents(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		tinyxml2::XMLNode* p_pGameObjectOverrideNode)
@@ -213,7 +239,7 @@ namespace HeatStroke
 	//
 	// Handles a single component by passing it to the delegate method.
 	//----------------------------------------------------------------------------------
-	void StoredParsingService::ParseComponent(
+	void ReloadParsingService::ParseComponent(
 		GameObject* p_pGameObject,
 		std::set<std::string>& p_mComponentSet,
 		const char* p_szComponentName,
@@ -235,5 +261,40 @@ namespace HeatStroke
 
 		// Attach the component to the Game Object.
 		p_pGameObject->AddComponent(pComponent);
+	}
+
+	//----------------------------------------------------------------------------------
+	// Method:    DeepChangesCopy
+	// Parameter: tinyxml2::XMLNode* p_pOld - Original XML to compare against
+	//			  tinyxml2::XMLNode* p_pNew - Newer copy to detect changes
+	//			  tinyxml2::XMLDocument* p_pOwner - Owning document of the copies
+	// Returns:   tinyxml2::XMLNode*
+	//
+	// Recursively copies changes between the old version and the new version into p_pOwner.
+	// Returns the top-most node of the new changes XML, which is also stored in p_pOwner.
+	// Unknown functionality if lines are deleted or added to the newer version.
+	//----------------------------------------------------------------------------------
+	tinyxml2::XMLNode* ReloadParsingService::DeepCopyChanges(tinyxml2::XMLNode* p_pOld, tinyxml2::XMLNode* p_pNew, tinyxml2::XMLDocument* p_pOwner)
+	{
+		// Code modified from: https://sourceforge.net/p/tinyxml/discussion/42748/thread/820b0377/
+		//TO DO, test this recursion
+		// Copy changes found at this level
+		tinyxml2::XMLNode* pCurrent;
+		if (p_pOld->ShallowEqual(p_pNew))
+		{
+			pCurrent = p_pNew->ShallowClone(p_pOwner);
+		}
+
+		// Recursively call all children
+		tinyxml2::XMLNode* pOldChild = p_pOld->FirstChild();
+		tinyxml2::XMLNode* pNewChild = p_pNew->FirstChild();
+		while (pOldChild && pNewChild)
+		{
+			pCurrent->InsertEndChild(DeepCopyChanges(pOldChild, pNewChild, p_pOwner));
+			pOldChild = pOldChild->NextSibling();
+			pNewChild = pNewChild->NextSibling();
+		}
+
+		return pCurrent;
 	}
 }

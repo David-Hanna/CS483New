@@ -82,6 +82,9 @@
     <Filter Include="HeatStroke\GO/Components\Parsing">
       <UniqueIdentifier>{f68080bb-b279-4e17-9cff-3b5b09602c40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\GO/Components\Parsing\Services">
+      <UniqueIdentifier>{142bec93-49de-4486-8205-9c4dacb9794a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -204,11 +207,14 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugParsingWrapper.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadParsingService.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\StoredParsingService.cpp">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -362,14 +368,17 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\StoredParsingService.h">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h">
       <Filter>HeatStroke\GO/Components\Parsing</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\DebugParsingWrapper.h">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugParsingWrapper.h">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadParsingService.h">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\StoredParsingService.h">
+      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

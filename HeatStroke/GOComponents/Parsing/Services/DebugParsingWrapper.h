@@ -26,8 +26,8 @@ namespace HeatStroke
 		virtual void UnloadGameObjectBaseFiles();
 
 		virtual void LiveReloadXml(
-			std::map<std::string, GameObject*>::const_iterator begin,
-			std::map<std::string, GameObject*>::const_iterator end);
+			std::map<std::string, GameObject*>::const_iterator p_begin,
+			std::map<std::string, GameObject*>::const_iterator p_end);
 
 	protected:
 		//---------------------------------------------------------------------------

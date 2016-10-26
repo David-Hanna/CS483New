@@ -58,11 +58,11 @@ namespace HeatStroke
 
 	// Debug wrapper
 	void DebugParsingWrapper::LiveReloadXml(
-		std::map<std::string, GameObject*>::const_iterator begin,
-		std::map<std::string, GameObject*>::const_iterator end)
+		std::map<std::string, GameObject*>::const_iterator p_begin,
+		std::map<std::string, GameObject*>::const_iterator p_end)
 	{
 		Log("Live reloading XML files");
-		m_pParsingService->LiveReloadXml(begin, end);
+		m_pParsingService->LiveReloadXml(p_begin, p_end);
 	}
 
 	// Debug wrapper
