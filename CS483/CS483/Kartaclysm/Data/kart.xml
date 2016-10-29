@@ -1,0 +1,8 @@
+<!-- Kart -->
+<!-- Author: David MacIntosh -->
+
+<GameObject>
+  <Components>
+    <GOC_KartController/>
+  </Components>
+</GameObject>

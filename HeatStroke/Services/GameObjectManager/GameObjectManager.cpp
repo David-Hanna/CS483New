@@ -134,13 +134,11 @@ void GameObjectManager::LoadComponents(tinyxml2::XMLElement* p_pComponentsRootEl
 
 	if (p_pComponentsRootElement != nullptr)
 	{
-		for (tinyxml2::XMLElement* pComponentElement = p_pComponentsRootElement->FirstChildElement("Component");
+		for (tinyxml2::XMLElement* pComponentElement = p_pComponentsRootElement->FirstChildElement();
 			 pComponentElement != nullptr;
-			 pComponentElement = pComponentElement->NextSiblingElement("Component"))
+			 pComponentElement = pComponentElement->NextSiblingElement())
 		{
-			std::string strComponentType = "";
-			EasyXML::GetRequiredStringAttribute(pComponentElement, "type", strComponentType);
-
+			std::string strComponentType = pComponentElement->Value();
 			ComponentFactoryMap::iterator it = m_mComponentFactoryMap.find(strComponentType.c_str());
 #if _DEBUG
 			assert(it != m_mComponentFactoryMap.end());

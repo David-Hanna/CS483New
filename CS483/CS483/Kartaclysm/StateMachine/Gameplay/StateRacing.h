@@ -10,6 +10,8 @@
 
 #include "GameplayState.h"
 
+#include "LineDrawer.h"
+
 namespace Kartaclysm
 {
 	class StateRacing : public Kartaclysm::GameplayState
@@ -30,6 +32,9 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
+
+		HeatStroke::LineDrawer *lineDrawer;
+
 		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;

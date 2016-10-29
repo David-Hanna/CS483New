@@ -7,6 +7,10 @@
 
 #include "StateRacing.h"
 
+#include "ComponentCamera.h"
+#include "Components\ComponentCameraController.h"
+#include "Components\ComponentKartController.h"
+
 //------------------------------------------------------------------------------
 // Method:    StateRacing
 // Returns:   
@@ -50,15 +54,18 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	// Register component factory methods
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_CameraController", ComponentCameraController::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 
 	// Handle passed context parameters
 
 	// Load XML to create GameObjects
 	m_pGameObjectManager->LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
-	//TODO: delete this
-	//Matt: just used for testing that GameObjectManager can properly load levels
-	m_pGameObjectManager->Print();
-	
+
+	// line stuff
+	lineDrawer = new HeatStroke::LineDrawer();
+	lineDrawer->Init("CS483/CS483/Kartaclysm/lines.vsh", "CS483/CS483/Kartaclysm/lines.fsh");
 }
 
 //------------------------------------------------------------------------------
@@ -96,6 +103,25 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	{
 		m_pGameObjectManager->Update(p_fDelta);
 	}
+
+
+
+	// bad shit
+	HeatStroke::SceneCamera *cam = HeatStroke::SceneManager::Instance()->GetActiveCamera();
+
+	float h = 0.0f;
+	for (int i = 1; i <= 10; i++)
+	{
+		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(-i, h, i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+		lineDrawer->AddLine(glm::vec3(i, h, -i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+		lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	glm::vec3 pos = m_pGameObjectManager->GetGameObject("Kart")->GetTransform().GetTranslation();
+	lineDrawer->AddLine(pos, pos + glm::vec3(0.0f, 0.2f, 0.0f), HeatStroke::Color4(0.0f, 0.0f, 1.0f, 1.0f));
+
+	lineDrawer->Render(cam->GetProjectionMatrix(), cam->GetViewMatrix());
 }
 
 //------------------------------------------------------------------------------

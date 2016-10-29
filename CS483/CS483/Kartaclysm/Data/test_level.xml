@@ -1,9 +1,8 @@
+<!-- Test Level -->
+<!-- Author: David MacIntosh -->
+
 <Level>
-	<GameObject guid="obj1" definition="CS483/CS483/Kartaclysm/Data/test_object.xml">
-		<Transform>
-			<Scale x="2.0" y="2.0" z="2.0" />
-			<Rotation angle="90.0" x="2.0" y="2.0" z="2.0" />
-			<Translation x="2.0" y="2.0" z="2.0" />
-		</Transform>
-	</GameObject>
+	<!-- Test Kart -->
+	<GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
+	<GameObject guid="Camera" definition="CS483/CS483/Kartaclysm/Data/camera.xml"/>
 </Level>
