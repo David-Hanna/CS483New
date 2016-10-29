@@ -94,19 +94,12 @@ namespace HeatStroke
 		// We don't need a derived translation dirty flag because the derived transform dirty doubles
 		// as one for translation as well, since it needs to be recomputed to find the correct transformation
 		// (after rotating around the parent) anyway.
-		mutable bool m_bTransformDirty;
 
 		// The parent's scale, rotation and translation which also incorporates
 		// the values of its parent, and so on up the chain.
 		glm::vec3 m_vParentScale;
 		glm::quat m_qParentRotation;
 		glm::vec3 m_vParentTranslation;
-
-		// The components of this Transform.
-		mutable glm::vec3 m_vScale;
-		mutable glm::quat m_qRotation;
-		mutable glm::vec3 m_vTranslation;
-		mutable glm::mat4 m_mTransform;
 
 		// Parent transform reference
 		HierarchicalTransform* m_pParent;
