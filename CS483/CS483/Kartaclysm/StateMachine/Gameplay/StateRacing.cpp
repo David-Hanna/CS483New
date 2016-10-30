@@ -32,12 +32,7 @@ Kartaclysm::StateRacing::StateRacing()
 //------------------------------------------------------------------------------
 Kartaclysm::StateRacing::~StateRacing()
 {
-	if (m_pGameObjectManager != nullptr)
-	{
-		m_pGameObjectManager->DestroyAllGameObjects();
-		delete m_pGameObjectManager;
-		m_pGameObjectManager = nullptr;
-	}
+	Exit();
 }
 
 //------------------------------------------------------------------------------
@@ -54,31 +49,43 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	// Register component factory methods
+	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_CameraController", ComponentCameraController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 
 	// Handle passed context parameters
 
-	// Load XML to create GameObjects
+	// Load the GameObjects from XML.
+	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
 
-	// SHITTTT
-	// Load XML
-	tinyxml2::XMLDocument doc;
-	doc.LoadFile("CS483/CS483/Kartaclysm/Data/test_level.xml");
-
-	// TODO: this is bad, so bad, fix pls
-	tinyxml2::XMLNode *node = doc.LastChild()->LastChild();
-	tinyxml2::XMLNode *node2 = node->PreviousSibling();
-
-	m_pGameObjectManager->CreateGameObject(node2);
-	m_pGameObjectManager->CreateGameObject(node);
-	
-
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
+	pKart->GetTransform().SetScaleXYZ(0.1f, 0.1f, 0.25f);
 
 	// line stuff
 	lineDrawer = new HeatStroke::LineDrawer();
-	lineDrawer->Init("CS483/CS483/Kartaclysm/lines.vsh", "CS483/CS483/Kartaclysm/lines.fsh");
+	lineDrawer->Init("CS483/CS483/Kartaclysm/Data/lines.vsh", "CS483/CS483/Kartaclysm/Data/lines.fsh");
+}
+
+void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
+{
+	tinyxml2::XMLDocument mLevelDoc;
+	assert(mLevelDoc.LoadFile(p_strLevelPath.c_str()) == tinyxml2::XML_NO_ERROR);
+
+	tinyxml2::XMLNode* pLevelNode = mLevelDoc.RootElement();
+	assert(pLevelNode != nullptr);
+	assert(strcmp(pLevelNode->Value(), "Level") == 0);
+
+	// Iterate elements in the xml.
+	for (tinyxml2::XMLNode* pGameObjectNode = pLevelNode->FirstChild(); pGameObjectNode != nullptr; pGameObjectNode = pGameObjectNode->NextSibling())
+	{
+		// skip comments
+		if (pGameObjectNode->ToComment() != nullptr)
+			continue;
+		assert(strcmp(pGameObjectNode->Value(), "GameObject") == 0);
+		m_pGameObjectManager->CreateGameObject(pGameObjectNode);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -111,18 +118,29 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
+	// good shit
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 
-
-
 	// bad shit
-	HeatStroke::SceneCamera *cam = HeatStroke::SceneManager::Instance()->GetActiveCamera();
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
+	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 
-	float h = 0.0f;
+	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
+
+	glm::vec3 offset = glm::vec3(0.0f, 0.5f, -1.0f);
+
+	offset = offset * pKart->GetTransform().GetRotation();
+	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
+	offset = offset + vKartPosition;
+
+	pCamera->GetTransform().SetTranslation(offset);
+
+	// more bad shit
+	float h = -0.2f;
 	for (int i = 1; i <= 10; i++)
 	{
 		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -131,10 +149,8 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
-	glm::vec3 pos = m_pGameObjectManager->GetGameObject("Kart")->GetTransform().GetTranslation();
-	lineDrawer->AddLine(pos, pos + glm::vec3(0.0f, 0.2f, 0.0f), HeatStroke::Color4(0.0f, 0.0f, 1.0f, 1.0f));
-
-	lineDrawer->Render(cam->GetProjectionMatrix(), cam->GetViewMatrix());
+	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActiveCamera();
+	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());
 }
 
 //------------------------------------------------------------------------------
@@ -156,6 +172,7 @@ void Kartaclysm::StateRacing::PreRender()
 void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();

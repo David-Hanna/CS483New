@@ -6,7 +6,6 @@
 //------------------------------------------------------------------------
 
 #include <cstdlib>
-
 #include "KartGame.h"
 
 int main(int argc, char* argv[])
