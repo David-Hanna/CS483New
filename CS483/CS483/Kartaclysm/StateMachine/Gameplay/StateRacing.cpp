@@ -133,7 +133,15 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	glm::vec3 offset = glm::vec3(0.0f, 0.5f, -1.0f);
 
-	offset = offset * pKart->GetTransform().GetRotation();
+	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
+	if (controller != nullptr)
+	{
+		offset = offset * controller->GetRotationMinusSwerve();
+	}
+	else
+	{
+		offset = offset * pKart->GetTransform().GetRotation();
+	}
 	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
 	offset = offset + vKartPosition;
 
