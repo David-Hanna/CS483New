@@ -1,34 +1,28 @@
 //------------------------------------------------------------------------
-// StateRacing
+// StatePaused
 // Author:	Bradley Cooper
 //	
-// Gameplay state for racing.
+// Gameplay state for pausing during a race.
 //------------------------------------------------------------------------
 
-#ifndef STATE_RACING_H
-#define STATE_RACING_H
+#ifndef STATE_PAUSED_H
+#define STATE_PAUSED_H
 
 #include <functional>
 
-#include "Common.h"
 #include "GameplayState.h"
-#include "Component3DModel.h"
-#include "ComponentAmbientLight.h"
-#include "ComponentDirectionalLight.h"
 #include "EventManager.h"
-
-#include "LineDrawer.h"
 
 namespace Kartaclysm
 {
-	class StateRacing : public Kartaclysm::GameplayState
+	class StatePaused : public Kartaclysm::GameplayState
 	{
 	public:
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		StateRacing();
-		virtual ~StateRacing();
+		StatePaused();
+		virtual ~StatePaused();
 
 		// Inherited
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
@@ -39,17 +33,14 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
-
-		HeatStroke::LineDrawer *lineDrawer;
-
 		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 
 	private:
+		int m_iPausedPlayer;
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 
-		void LoadLevel(const std::string& p_strLevelPath);
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 	};
 } // namespace Kartaclysm

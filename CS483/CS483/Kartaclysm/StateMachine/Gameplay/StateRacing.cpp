@@ -20,7 +20,8 @@
 Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true)
+	m_bSuspended(true),
+	m_pPauseDelegate(nullptr)
 {
 }
 
@@ -44,6 +45,10 @@ Kartaclysm::StateRacing::~StateRacing()
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+
+	// Register listening for pause
+	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
@@ -173,10 +178,37 @@ void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
 
+	if (m_pPauseDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+		delete m_pPauseDelegate;
+		m_pPauseDelegate = nullptr;
+	}
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+}
+
+//------------------------------------------------------------------------------
+// Method:    PauseGame
+// Parameter: const HeatStroke::Event* p_pEvent - Event that triggers when a player pauses
+// 
+// Pause the game by pushing the Pause State.
+//------------------------------------------------------------------------------
+void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
+{
+	// Get the player who paused the game
+	int iPlayer = 0;
+	p_pEvent->GetOptionalIntParameter("Player", iPlayer, iPlayer);
+
+	// Create context for pushing to pause state
+	HeatStroke::StateMachine::ContextParameters mContext = HeatStroke::StateMachine::ContextParameters();
+	mContext["Player"] = std::to_string(iPlayer);
+
+	// Push pause state
+	m_pStateMachine->Push(1, mContext);
 }
