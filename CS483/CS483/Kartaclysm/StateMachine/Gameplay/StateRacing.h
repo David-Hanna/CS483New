@@ -13,6 +13,11 @@
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
 #include "ComponentDirectionalLight.h"
+#include "ComponentCamera.h"
+#include "ComponentCameraController.h"
+#include "ComponentKartController.h"
+#include "ComponentAbilityConditions.h"
+#include "ComponentSampleAbility.h"
 
 #include "LineDrawer.h"
 
