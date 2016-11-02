@@ -29,6 +29,7 @@ class IndexBuffer : public Buffer
 
 		// Made private to enforce creation and deletion via BufferManager
 		IndexBuffer(unsigned int p_uiNumIndices);
+		IndexBuffer(const void* p_pData, unsigned int p_uiLength);
 		virtual ~IndexBuffer();
 };
 

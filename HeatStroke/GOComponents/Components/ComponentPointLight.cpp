@@ -33,7 +33,7 @@ namespace HeatStroke
 			p_fRange
 		)
 	{
-		SceneManager::Instance()->AddLight(&m_mScenePointLight);
+		SceneManager::Instance()->AddPointLight(&m_mScenePointLight);
 	}
 
 	//------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace HeatStroke
 	//------------------------------------------------------------------------------
 	ComponentPointLight::~ComponentPointLight()
 	{
-		SceneManager::Instance()->RemoveLight(&m_mScenePointLight);
+		SceneManager::Instance()->RemovePointLight(&m_mScenePointLight);
 	}
 
 	//------------------------------------------------------------------------------
@@ -106,9 +106,9 @@ namespace HeatStroke
 	//--------------------------------------------------------------------------------------------
 	void ComponentPointLight::SetScenePointLight(const ScenePointLight& p_mScenePointLight)
 	{
-		SceneManager::Instance()->RemoveLight(&m_mScenePointLight);
+		SceneManager::Instance()->RemovePointLight(&m_mScenePointLight);
 		m_mScenePointLight = p_mScenePointLight;
-		SceneManager::Instance()->AddLight(&m_mScenePointLight);
+		SceneManager::Instance()->AddPointLight(&m_mScenePointLight);
 	}
 
 	//---------------------------------------------------------------------------------------------

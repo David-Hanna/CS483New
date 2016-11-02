@@ -59,7 +59,7 @@ Sprite::Sprite(const std::string& p_strTexture, const std::string& p_strVertexPr
 	glBindTexture(GL_TEXTURE_2D, m_uiTex);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
 
-	FIBITMAP* image = LoadTGA(p_strTexture);
+	FIBITMAP* image = HeatStroke::Common::LoadTGA(p_strTexture);
 	glTexImage2D(GL_TEXTURE_2D, 
 		0, 
 		GL_RGBA, 

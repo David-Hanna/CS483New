@@ -2,7 +2,6 @@
 <!-- Author: David MacIntosh -->
 
 <GameObject>
-  <GOC_CameraController/>
   <GOC_Camera>
     <Target guid="Kart"/>
   </GOC_Camera>

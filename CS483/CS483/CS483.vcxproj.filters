@@ -70,6 +70,12 @@
     <Filter Include="Kartaclysm\Data">
       <UniqueIdentifier>{d0092d9f-cd87-4aea-9857-bb41fb0689c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\OBJ">
+      <UniqueIdentifier>{bb51c5f1-cadb-441f-a497-a37473fc604c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeatStroke\Services\MTL">
+      <UniqueIdentifier>{710270de-b3d4-4ab5-b57e-e9771cf81f9e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HeatStroke\Graphics\GDebug">
       <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
@@ -192,6 +198,12 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\OBJ\OBJFile.cpp">
+      <Filter>HeatStroke\Services\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\MTL\MTLFile.cpp">
+      <Filter>HeatStroke\Services\MTL</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClCompile>
@@ -204,8 +216,14 @@
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\KartGame.cpp">
-      <Filter>Kartaclysm</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp">
       <Filter>Kartaclysm\Components</Filter>
@@ -356,6 +374,15 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\OBJ\OBJFile.h">
+      <Filter>HeatStroke\Services\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\MTL\MTLFile.h">
+      <Filter>HeatStroke\Services\MTL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Common\Common.h">
+      <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\KartGame.h">
       <Filter>Kartaclysm</Filter>
     </ClInclude>
@@ -380,14 +407,26 @@
     <ClInclude Include="Kartaclysm\Services\IO\InputActions.h">
       <Filter>Kartaclysm\Services\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneAmbientLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\Services\IO\PlayerInputMapping.h">
       <Filter>Kartaclysm\Services\IO</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h">
       <Filter>HeatStroke\Services\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Common\Common.h">
-      <Filter>HeatStroke\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>

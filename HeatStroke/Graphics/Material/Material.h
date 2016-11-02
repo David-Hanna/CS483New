@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// File:			W_Material.h
+// File:			Material.h
 // Original Author:	Gordon Wood
 //
 // Class representing a material, which is a combination of state + shaders
