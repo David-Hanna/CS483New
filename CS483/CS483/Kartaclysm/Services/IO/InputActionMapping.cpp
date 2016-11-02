@@ -249,7 +249,7 @@ namespace Kartaclysm
 			(*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility2] =	GLFW_KEY_S;
 			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility1] =	GLFW_KEY_D;
 			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility2] =	GLFW_KEY_F;
-			(*m_pInputMap)[Input::eKeyboard][Racer::ePause] =			GLFW_KEY_ESCAPE;
+			(*m_pInputMap)[Input::eKeyboard][Racer::ePause] =			GLFW_KEY_ENTER;
 		}
 
 		if (p_bResetJoystick)

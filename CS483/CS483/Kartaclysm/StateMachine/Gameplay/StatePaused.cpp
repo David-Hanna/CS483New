@@ -7,8 +7,6 @@
 
 #include "StatePaused.h"
 
-#include "ComponentCamera.h"
-
 //------------------------------------------------------------------------------
 // Method:    StatePaused
 // Returns:   
@@ -73,6 +71,14 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 {
 	m_bSuspended = true;
+
+	if (m_pPauseDelegate != nullptr)
+	{
+		// If this is the first frame suspended: remove listener
+		HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+		delete m_pPauseDelegate;
+		m_pPauseDelegate = nullptr;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -84,6 +90,12 @@ void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
+	
+	if (m_pPauseDelegate == nullptr)
+	{
+		m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::PauseGame, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -149,5 +161,6 @@ void Kartaclysm::StatePaused::PauseGame(const HeatStroke::Event* p_pEvent)
 	p_pEvent->GetOptionalIntParameter("Player", iPlayer, iPlayer);
 
 	// Pop current state
+	printf("Unpausing\n");
 	m_pStateMachine->Pop();
 }

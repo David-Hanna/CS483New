@@ -102,6 +102,13 @@ void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = true;
+
+	if (m_pPauseDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+		delete m_pPauseDelegate;
+		m_pPauseDelegate = nullptr;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -113,6 +120,12 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
+
+	if (m_pPauseDelegate == nullptr)
+	{
+		m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -210,5 +223,6 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	mContext["Player"] = std::to_string(iPlayer);
 
 	// Push pause state
+	printf("Pausing\n");
 	m_pStateMachine->Push(1, mContext);
 }
