@@ -50,24 +50,6 @@ void GameObjectManager::RegisterComponentFactory(const std::string& p_strCompone
 	m_mComponentFactoryMap.insert(std::pair<std::string, ComponentFactoryMethod>(p_strComponentId, p_factoryMethod));
 }
 
-void GameObjectManager::LoadLevel(const std::string& p_strLevelDefinitionFile)
-{
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError err = doc.LoadFile(p_strLevelDefinitionFile.c_str());
-#if _DEBUG
-	assert(err == tinyxml2::XML_NO_ERROR);
-#endif
-
-	tinyxml2::XMLElement* pLevelRootElement = doc.FirstChildElement("Level");
-	for (tinyxml2::XMLElement* pGameObjectRootElement = pLevelRootElement->FirstChildElement("GameObject");
-		 pGameObjectRootElement != nullptr;
-		 pGameObjectRootElement = pGameObjectRootElement->NextSiblingElement("GameObject"))
-	{
-		GameObject* pObj = CreateGameObject(pGameObjectRootElement);
-		pObj->m_Transform.ParseTransformNode(pGameObjectRootElement->FirstChildElement("Transform"));
-	}
-}
-
 GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid /*= ""*/)
 {
 	tinyxml2::XMLDocument doc;
@@ -92,11 +74,13 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 	if (!strDefinitionFile.empty())
 	{
 		GameObject* pObj = CreateGameObject(strDefinitionFile, strGuid);
+		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
 		return pObj;
 	}
 	else
 	{
 		GameObject* pObj = new GameObject(this, strGuid);
+		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
 
 		LoadComponents(p_pGameObjectRootElement->FirstChildElement("Components"), pObj);
 		LoadChildren(p_pGameObjectRootElement->FirstChildElement("Children"), pObj);
@@ -243,7 +227,7 @@ void GameObjectManager::PreRender()
 	}
 }
 
-//TODO: delete this
+//TODO: delete this (once all bugs are worked out)
 //Matt: just using this to make sure game objects loaded properly
 void GameObjectManager::Print()
 {

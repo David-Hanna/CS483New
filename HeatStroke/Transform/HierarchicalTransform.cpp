@@ -349,7 +349,7 @@ namespace HeatStroke
 		}
 	}
 
-	//TODO: delete this
+	//TODO: delete this (once all bugs are worked out)
 	//Matt: just using this to make sure transform values are correct
 	void HierarchicalTransform::Print() const
 	{

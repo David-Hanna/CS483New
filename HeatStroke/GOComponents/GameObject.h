@@ -52,6 +52,7 @@ namespace HeatStroke
 		void DeleteAllComponents();
 
 		void AddChild(GameObject* p_pChild);
+		void SetParent(GameObject* p_pParent);
 		GameObject* RemoveChild(const std::string& p_strChildGuid);
 		GameObject* GetChild(const std::string& p_strChildGuid);
 		void DeleteAllChildren();
@@ -66,7 +67,7 @@ namespace HeatStroke
 		virtual void Init();
 		virtual void Update(float p_fDelta);
 
-		//TODO: delete this
+		//TODO: delete this (once all bugs are worked out)
 		//Matt: just using to show that children are being added properly
 		void Print();
 		
@@ -81,8 +82,6 @@ namespace HeatStroke
 
 		// Only GameObjectManager can set new GUID as it maintains the mapping of GUID -> GO
 		void SetGUID(const std::string& p_strGUID) { m_strGUID = p_strGUID; }
-
-		void SetParent(GameObject* p_pParent);
 
 	private:
 		//------------------------------------------------------------------------------
