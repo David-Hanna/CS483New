@@ -6,10 +6,8 @@
 //-----------------------------------------------------------------------------
 
 #include "Common.h"
-#include "Types.h"
 
 #ifdef _DEBUG
-#include <iostream>
 void GL_CHECK_ERROR(const char* file, int line)
 {
 	GLenum e = glGetError();
@@ -24,13 +22,7 @@ void GL_CHECK_ERROR(const char* file, int line)
 inline void GL_CHECK_ERROR(const char* file, int line) {}
 #endif
 
-namespace HeatStroke
-{
-
-//----------------------------------------------------------
-// Loads in a whole file and returns the contents.
-//----------------------------------------------------------
-std::shared_ptr<std::string> LoadWholeFile(const std::string& p_strFile)
+std::string HeatStroke::Common::LoadWholeFile(const std::string& p_strFile)
 {
 	std::ifstream ifs(p_strFile);
 #if _DEBUG
@@ -40,12 +32,7 @@ std::shared_ptr<std::string> LoadWholeFile(const std::string& p_strFile)
 		system("pause");
 	}
 #endif
-
-	std::shared_ptr<std::string> pFileContents = std::shared_ptr<std::string>(new std::string(
-		std::istreambuf_iterator<char>(ifs),
-		std::istreambuf_iterator<char>()));
-
-	return pFileContents;
+	return std::string(std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>());
 }
 
 //----------------------------------------------------------
@@ -56,48 +43,48 @@ std::shared_ptr<std::string> LoadWholeFile(const std::string& p_strFile)
 //----------------------------------------------------------
 bool CompileShader(GLuint* p_pShader, GLenum p_eType, const std::string& p_strFile)
 {
-    GLint iStatus;
-    const GLchar* pSource;
-    
-	std::shared_ptr<std::string> pBuff = LoadWholeFile(p_strFile);
-    pSource = static_cast<const GLchar*>(pBuff->c_str());
-    if( !pSource )
-    {
-        printf("Failed to load vertex shader\n");
-        return false;
-    }
-    
-    *p_pShader = glCreateShader(p_eType);
+	GLint iStatus;
+	const GLchar* pSource;
+
+	std::string strBuff = HeatStroke::Common::LoadWholeFile(p_strFile);
+	pSource = static_cast<const GLchar*>(strBuff.c_str());
+	if (!pSource)
+	{
+		printf("Failed to load vertex shader\n");
+		return false;
+	}
+
+	*p_pShader = glCreateShader(p_eType);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    glShaderSource(*p_pShader, 1, &pSource, NULL);
+	glShaderSource(*p_pShader, 1, &pSource, NULL);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    glCompileShader(*p_pShader);
+	glCompileShader(*p_pShader);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    
+
 #if defined(_DEBUG)
-    GLint iLogLength;
-    glGetShaderiv(*p_pShader, GL_INFO_LOG_LENGTH, &iLogLength);
+	GLint iLogLength;
+	glGetShaderiv(*p_pShader, GL_INFO_LOG_LENGTH, &iLogLength);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    if( iLogLength > 0 )
-    {
-        GLchar* pLog = (GLchar *)malloc(iLogLength);
-        glGetShaderInfoLog(*p_pShader, iLogLength, &iLogLength, pLog);
+	if (iLogLength > 0)
+	{
+		GLchar* pLog = (GLchar *)malloc(iLogLength);
+		glGetShaderInfoLog(*p_pShader, iLogLength, &iLogLength, pLog);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
-        printf("Shader compile log:\n%s\n", pLog);
-        free(pLog);
-    }
+		printf("Shader compile log:\n%s\n", pLog);
+		free(pLog);
+	}
 #endif
-    
-    glGetShaderiv(*p_pShader, GL_COMPILE_STATUS, &iStatus);
+
+	glGetShaderiv(*p_pShader, GL_COMPILE_STATUS, &iStatus);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    if( iStatus == 0 )
-    {
-        glDeleteShader(*p_pShader);
+	if (iStatus == 0)
+	{
+		glDeleteShader(*p_pShader);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
-        return false;
-    }
-    
-    return true;
+		return false;
+	}
+
+	return true;
 }
 
 //----------------------------------------------------------
@@ -107,31 +94,31 @@ bool CompileShader(GLuint* p_pShader, GLenum p_eType, const std::string& p_strFi
 //----------------------------------------------------------
 bool LinkProgram(GLuint p_uiProg)
 {
-    GLint iStatus;
-    
-    glLinkProgram(p_uiProg);
+	GLint iStatus;
+
+	glLinkProgram(p_uiProg);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    
+
 #if defined(_DEBUG)
-    GLint iLogLength;
-    glGetProgramiv(p_uiProg, GL_INFO_LOG_LENGTH, &iLogLength);
+	GLint iLogLength;
+	glGetProgramiv(p_uiProg, GL_INFO_LOG_LENGTH, &iLogLength);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    if (iLogLength > 0)
-    {
-        GLchar* pLog = (GLchar *)malloc(iLogLength);
-        glGetProgramInfoLog(p_uiProg, iLogLength, &iLogLength, pLog);
+	if (iLogLength > 0)
+	{
+		GLchar* pLog = (GLchar *)malloc(iLogLength);
+		glGetProgramInfoLog(p_uiProg, iLogLength, &iLogLength, pLog);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
-        printf("Program link log:\n%s\n", pLog);
-        free(pLog);
-    }
+		printf("Program link log:\n%s\n", pLog);
+		free(pLog);
+	}
 #endif
-    
-    glGetProgramiv(p_uiProg, GL_LINK_STATUS, &iStatus);
+
+	glGetProgramiv(p_uiProg, GL_LINK_STATUS, &iStatus);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    if (iStatus == 0)
-        return false;
-    
-    return true;
+	if (iStatus == 0)
+		return false;
+
+	return true;
 }
 //----------------------------------------------------------
 // Loads a vertex and pixel shader from the given files, and
@@ -139,61 +126,61 @@ bool LinkProgram(GLuint p_uiProg)
 // failure (and print errors to stdout), else the created
 // program object
 //----------------------------------------------------------
-GLuint LoadShaders(const std::string& p_strVSFile, const std::string& p_strPSFile)
+GLuint HeatStroke::Common::LoadShaders(const std::string& p_strVSFile, const std::string& p_strPSFile)
 {
-    GLuint uiVS, uiPS;
-    
-    // 1. Create and compile vertex shader.
-    if( !CompileShader(&uiVS, GL_VERTEX_SHADER, p_strVSFile))
+	GLuint uiVS, uiPS;
+
+	// 1. Create and compile vertex shader.
+	if (!CompileShader(&uiVS, GL_VERTEX_SHADER, p_strVSFile))
 	{
-        printf("Failed to compile vertex shader\n");
-        return 0;
-    }
-    
-    // 2. Create and compile fragment shader.
-    if( !CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPSFile))
+		printf("Failed to compile vertex shader\n");
+		return 0;
+	}
+
+	// 2. Create and compile fragment shader.
+	if (!CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPSFile))
 	{
-        printf("Failed to compile pixel shader\n");
+		printf("Failed to compile pixel shader\n");
 		glDeleteShader(uiVS);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
-        return 0;
-    }
+		return 0;
+	}
 
-    // 3. Create shader program that we'll (hopefully) eventually return
-    GLuint uiProgram = glCreateProgram();
+	// 3. Create shader program that we'll (hopefully) eventually return
+	GLuint uiProgram = glCreateProgram();
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    
-    // 4. Attach vertex shader and pixel shader to program.
-    glAttachShader(uiProgram, uiVS);
+
+	// 4. Attach vertex shader and pixel shader to program.
+	glAttachShader(uiProgram, uiVS);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    glAttachShader(uiProgram, uiPS);
+	glAttachShader(uiProgram, uiPS);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    
-    // 5. Link program.
-    if( !LinkProgram(uiProgram) )
-    {
-        printf("Failed to link program: %d\n", uiProgram);
-        
-        if( uiVS )
-        {
-            glDeleteShader(uiVS);
+
+	// 5. Link program.
+	if (!LinkProgram(uiProgram))
+	{
+		printf("Failed to link program: %d\n", uiProgram);
+
+		if (uiVS)
+		{
+			glDeleteShader(uiVS);
 			GL_CHECK_ERROR(__FILE__, __LINE__);
-        }
-        if( uiPS )
-        {
-            glDeleteShader(uiPS);
+		}
+		if (uiPS)
+		{
+			glDeleteShader(uiPS);
 			GL_CHECK_ERROR(__FILE__, __LINE__);
-        }
-        if( uiProgram )
-        {
-            glDeleteProgram(uiProgram);
+		}
+		if (uiProgram)
+		{
+			glDeleteProgram(uiProgram);
 			GL_CHECK_ERROR(__FILE__, __LINE__);
-        }
-        
-        return 0;
-    }
-    
-    // Release vertex and fragment shaders.
+		}
+
+		return 0;
+	}
+
+	// Release vertex and fragment shaders.
 	if (uiVS)
 	{
 		glDeleteShader(uiVS);
@@ -204,11 +191,11 @@ GLuint LoadShaders(const std::string& p_strVSFile, const std::string& p_strPSFil
 		glDeleteShader(uiPS);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
 	}
-    
-    return uiProgram;
+
+	return uiProgram;
 }
 
-FIBITMAP* LoadTGA(const std::string& p_strFile)
+FIBITMAP* HeatStroke::Common::LoadTGA(const std::string& p_strFile)
 {
 	FIBITMAP* image = FreeImage_Load(FIF_TARGA, p_strFile.c_str(), 0);
 	assert(image != nullptr);
@@ -224,41 +211,41 @@ enum
 	DDSF_MAX_MIPMAPS = 16,
 	DDSF_MAX_TEXTURES = 16,
 
-	DDSF_CAPS			= 0x00000001,
-	DDSF_HEIGHT         = 0x00000002,
-	DDSF_WIDTH          = 0x00000004,
-	DDSF_PITCH          = 0x00000008,
-	DDSF_PIXELFORMAT    = 0x00001000,
-	DDSF_MIPMAPCOUNT    = 0x00020000,
-	DDSF_LINEARSIZE     = 0x00080000,
-	DDSF_DEPTH			= 0x00800000,
+	DDSF_CAPS = 0x00000001,
+	DDSF_HEIGHT = 0x00000002,
+	DDSF_WIDTH = 0x00000004,
+	DDSF_PITCH = 0x00000008,
+	DDSF_PIXELFORMAT = 0x00001000,
+	DDSF_MIPMAPCOUNT = 0x00020000,
+	DDSF_LINEARSIZE = 0x00080000,
+	DDSF_DEPTH = 0x00800000,
 
 	// pixel format flags
-	DDSF_ALPHAPIXELS	= 0x00000001,
-	DDSF_FOURCC			= 0x00000004,
-	DDSF_RGB			= 0x00000040,
-	DDSF_RGBA			= 0x00000041,
+	DDSF_ALPHAPIXELS = 0x00000001,
+	DDSF_FOURCC = 0x00000004,
+	DDSF_RGB = 0x00000040,
+	DDSF_RGBA = 0x00000041,
 
 	// dwCaps1 flags
-	DDSF_COMPLEX			= 0x00000008,
-	DDSF_TEXTURE			= 0x00001000,
-	DDSF_MIPMAP				= 0x00400000,
+	DDSF_COMPLEX = 0x00000008,
+	DDSF_TEXTURE = 0x00001000,
+	DDSF_MIPMAP = 0x00400000,
 
 	// dwCaps2 flags
-	DDSF_CUBEMAP			= 0x00000200l,
-	DDSF_CUBEMAP_POSITIVEX  = 0x00000400l,
-	DDSF_CUBEMAP_NEGATIVEX  = 0x00000800l,
-	DDSF_CUBEMAP_POSITIVEY  = 0x00001000l,
-	DDSF_CUBEMAP_NEGATIVEY  = 0x00002000l,
-	DDSF_CUBEMAP_POSITIVEZ  = 0x00004000l,
-	DDSF_CUBEMAP_NEGATIVEZ  = 0x00008000l,
-	DDSF_CUBEMAP_ALL_FACES  = 0x0000FC00l,
-	DDSF_VOLUME				= 0x00200000l,
+	DDSF_CUBEMAP = 0x00000200l,
+	DDSF_CUBEMAP_POSITIVEX = 0x00000400l,
+	DDSF_CUBEMAP_NEGATIVEX = 0x00000800l,
+	DDSF_CUBEMAP_POSITIVEY = 0x00001000l,
+	DDSF_CUBEMAP_NEGATIVEY = 0x00002000l,
+	DDSF_CUBEMAP_POSITIVEZ = 0x00004000l,
+	DDSF_CUBEMAP_NEGATIVEZ = 0x00008000l,
+	DDSF_CUBEMAP_ALL_FACES = 0x0000FC00l,
+	DDSF_VOLUME = 0x00200000l,
 
 	// compressed texture types
-	FOURCC_DXT1				= 0x31545844,
-	FOURCC_DXT3				= 0x33545844,
-	FOURCC_DXT5				= 0x35545844,
+	FOURCC_DXT1 = 0x31545844,
+	FOURCC_DXT3 = 0x33545844,
+	FOURCC_DXT5 = 0x35545844,
 };
 
 struct DXTColBlock
@@ -339,48 +326,48 @@ struct DDS_TEXTURE
 #define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT  0x83F2
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT  0x83F3
 
-bool ImageSpec(DDS_HEADER *ddsh, unsigned int *format,unsigned int *components)
+bool ImageSpec(DDS_HEADER *ddsh, unsigned int *format, unsigned int *components)
 {
 	assert(format);
 	assert(components);
 
 	if (ddsh->ddspf.dwFlags & DDSF_FOURCC)	//its a compressed texture
 	{
-		switch(ddsh->ddspf.dwFourCC)
+		switch (ddsh->ddspf.dwFourCC)
 		{
-			case FOURCC_DXT1:
-				*format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-				*components = 3;
-				break;
-			case FOURCC_DXT3:
-				*format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-				*components = 4;
-				break;
-			case FOURCC_DXT5:
-				*format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-				*components = 4;
-				break;
-			default:
-				printf("ERROR: Uses a compressed texture of unsupported type\n");
-				return false;
+		case FOURCC_DXT1:
+			*format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+			*components = 3;
+			break;
+		case FOURCC_DXT3:
+			*format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+			*components = 4;
+			break;
+		case FOURCC_DXT5:
+			*format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+			*components = 4;
+			break;
+		default:
+			printf("ERROR: Uses a compressed texture of unsupported type\n");
+			return false;
 		}
 	}
 	else if (ddsh->ddspf.dwFlags == DDSF_RGBA && ddsh->ddspf.dwRGBBitCount == 32)
 	{
-		*format = GL_BGRA; 
+		*format = GL_BGRA;
 		*components = 4;
 	}
 	else if (ddsh->ddspf.dwFlags == DDSF_RGB  && ddsh->ddspf.dwRGBBitCount == 32)
 	{
-		*format = GL_BGRA; 
+		*format = GL_BGRA;
 		*components = 4;
 	}
 	else if (ddsh->ddspf.dwFlags == DDSF_RGB  && ddsh->ddspf.dwRGBBitCount == 24)
 	{
-		*format = GL_BGR; 
+		*format = GL_BGR;
 		*components = 3;
 	}
-	else 
+	else
 	{
 		printf("ERROR: Uses a texture of unsupported type");
 		return false;
@@ -390,36 +377,35 @@ bool ImageSpec(DDS_HEADER *ddsh, unsigned int *format,unsigned int *components)
 }
 
 int DDSImageSize(unsigned int w,
-		unsigned int h,
-		unsigned int components,
-		unsigned int format)
+	unsigned int h,
+	unsigned int components,
+	unsigned int format)
 {
-	switch(format)
+	switch (format)
 	{
-		case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
-			return ((w+3)/4)* ((h+3)/4)* 8;   
-		case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
-		case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
-			return ((w+3)/4)*((h+3)/4)* 16;   
-		default:
-			printf("ERROR: unable to determine image size\n");
-			return 0;
+	case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+		return ((w + 3) / 4)* ((h + 3) / 4) * 8;
+	case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+	case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+		return ((w + 3) / 4)*((h + 3) / 4) * 16;
+	default:
+		printf("ERROR: unable to determine image size\n");
+		return 0;
 	}
 }
 
-GLuint CreateTextureFromDDS(const std::string& p_strFile, unsigned int* p_pWidth, unsigned int* p_pHeight, bool* p_pHasMips)
+GLuint HeatStroke::Common::CreateTextureFromDDS(const std::string& p_strFile, unsigned int* p_pWidth, unsigned int* p_pHeight, bool* p_pHasMips)
 {
 	DDS_TEXTURE dds;
 	memset(&dds, 0, sizeof(dds));
 
-	//unsigned char* pBuff = (unsigned char*) LoadWholeFile(p_strFile);
-	std::shared_ptr<std::string> pBuff = LoadWholeFile(p_strFile);
+	std::string strBuff = LoadWholeFile(p_strFile);
 
-	const unsigned char* pStart = reinterpret_cast<const unsigned char*>(pBuff->c_str());
+	const unsigned char* pStart = reinterpret_cast<const unsigned char*>(strBuff.c_str());
 	const unsigned char* pCurrent = pStart;
 
 	// read in file marker, make sure its a DDS file
-	if(strncmp(pBuff->c_str(), "DDS ", 4) != 0)
+	if (strncmp(strBuff.c_str(), "DDS ", 4) != 0)
 	{
 		printf("%s is not a dds file", p_strFile.c_str());
 		return 0;
@@ -441,63 +427,63 @@ GLuint CreateTextureFromDDS(const std::string& p_strFile, unsigned int* p_pWidth
 		printf("ERROR: %s is a volume texture ", p_strFile.c_str());
 		return 0;
 	}
-	        
+
 	// get the format of the image
 	unsigned int	format;
 	unsigned int	components;
 
 	//get the texture format and number of color channels
-	ImageSpec(ddsh,&format,&components);
+	ImageSpec(ddsh, &format, &components);
 
 	unsigned int width, height;
 	width = ddsh->dwWidth;
 	height = ddsh->dwHeight;
 
-	dds.buffer		= (unsigned char*)pStart;
-	dds.format		= format;
-	dds.components	= components;
-	dds.height		= height;
-	dds.width		= width;
+	dds.buffer = (unsigned char*)pStart;
+	dds.format = format;
+	dds.components = components;
+	dds.height = height;
+	dds.width = width;
 
-	if(ddsh->dwMipMapCount==0) ddsh->dwMipMapCount++;
+	if (ddsh->dwMipMapCount == 0) ddsh->dwMipMapCount++;
 
-	dds.mips		= ddsh->dwMipMapCount;
-	dds.surfaces	= 1;
+	dds.mips = ddsh->dwMipMapCount;
+	dds.surfaces = 1;
 
-    GLuint uiTex = 0;
-    glGenTextures(1,&uiTex);
+	GLuint uiTex = 0;
+	glGenTextures(1, &uiTex);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-    glBindTexture(GL_TEXTURE_2D,uiTex);
+	glBindTexture(GL_TEXTURE_2D, uiTex);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
 
 	int iWidth = dds.width;
 	int iHeight = dds.height;
 	const unsigned char* pData = pCurrent;
 
-	for( unsigned int iMipLevel = 0; iMipLevel < dds.mips; iMipLevel++ )
+	for (unsigned int iMipLevel = 0; iMipLevel < dds.mips; iMipLevel++)
 	{
-		if( iWidth == 0 )
+		if (iWidth == 0)
 			iWidth = 1;
-		if( iHeight == 0 )
+		if (iHeight == 0)
 			iHeight = 1;
 
-		unsigned int size = DDSImageSize(iWidth,iHeight,components,format);
+		unsigned int size = DDSImageSize(iWidth, iHeight, components, format);
 
 		//Start fill our texture
 		glCompressedTexImage2D(
-				GL_TEXTURE_2D,
-				iMipLevel, 
-				format,
-				iWidth,
-				iHeight,
-				0,
-				size,
-				pData);
+			GL_TEXTURE_2D,
+			iMipLevel,
+			format,
+			iWidth,
+			iHeight,
+			0,
+			size,
+			pData);
 		GL_CHECK_ERROR(__FILE__, __LINE__);
 
-        iWidth /= 2;
+		iWidth /= 2;
 		iHeight /= 2;
-        
+
 		pData += size;
 	}
 
@@ -513,14 +499,20 @@ GLuint CreateTextureFromDDS(const std::string& p_strFile, unsigned int* p_pWidth
 	}
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-	
-	if( p_pWidth )
+
+	if (p_pWidth)
 		*p_pWidth = dds.width;
-	if( p_pHeight )
+	if (p_pHeight)
 		*p_pHeight = dds.height;
-	if( p_pHasMips )
+	if (p_pHasMips)
 		*p_pHasMips = dds.mips > 1;
 
-    return uiTex;
+	return uiTex;
 }
+
+std::vector<std::string> HeatStroke::Common::StringSplit(const std::string& p_strToSplit, const char* p_strDelimiter)
+{
+	std::vector<std::string> vResult;
+	boost::split(vResult, p_strToSplit, boost::is_any_of(p_strDelimiter));
+	return vResult;
 }

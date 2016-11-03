@@ -20,6 +20,16 @@ IndexBuffer::IndexBuffer(unsigned int p_uiNumIndices) : m_uiLength(p_uiNumIndice
 }
 
 //----------------------------------------------------------
+// Constructor
+//----------------------------------------------------------
+IndexBuffer::IndexBuffer(const void* p_pData, unsigned int p_uiLength) : m_uiLength(p_uiLength)
+{
+	glGenBuffers(1, &m_uiBuffer);
+	GL_CHECK_ERROR(__FILE__, __LINE__);
+	Write(p_pData);
+}
+
+//----------------------------------------------------------
 // Destructor
 //----------------------------------------------------------
 IndexBuffer::~IndexBuffer()

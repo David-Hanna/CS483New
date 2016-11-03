@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------
 // SceneManager
-//
-// Created:	2012/12/23
-// Author:	Carel Boers
+// Author:	David Hanna
 //	
-// A simple scene manager to manage our models and camera.
+// Responsible for rendering a whole scene. Manages models, cameras,
+// and lights.
 //------------------------------------------------------------------------
 
 #ifndef SCENEMANAGER_H
@@ -13,6 +12,8 @@
 #include "Model.h"
 #include "Sprite.h"
 #include "SceneCamera.h"
+#include "SceneAmbientLight.h"
+#include "SceneDirectionalLight.h"
 #include "ScenePointLight.h"
 
 #include <vector>
@@ -21,31 +22,30 @@ namespace HeatStroke
 {
 	class SceneManager
 	{
-		// Typedef for convenience
-		typedef std::vector<HeatStroke::Model*> ModelList;
-		typedef std::vector<HeatStroke::Sprite*> SpriteList;
-		typedef std::vector<ScenePointLight*> LightList;
-		typedef std::vector<SceneCamera*> CameraList;
-
 	public:
-		//------------------------------------------------------------------------------
-		// Public methods.
-		//------------------------------------------------------------------------------
 		static void CreateInstance(GLFWwindow* p_pWindow);
 		static void DestroyInstance();
 		static SceneManager* Instance();
 
 		void AddModel(HeatStroke::Model* p_pModel);
 		void RemoveModel(HeatStroke::Model* p_pModel);
-		void Clear();
+		void ClearModels();
 
 		void AddSprite(HeatStroke::Sprite* p_pSprite);
 		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
 		void ClearSprites();
 
-		void AddLight(ScenePointLight* p_pLight);
-		void RemoveLight(ScenePointLight* p_pLight);
-		void ClearLights();
+		void AddAmbientLight(SceneAmbientLight* p_pAmbientLight);
+		void RemoveAmbientLight(SceneAmbientLight* p_pAmbientLight);
+		void ClearAmbientLights();
+
+		void AddDirectionalLight(SceneDirectionalLight* p_pDirectionalLight);
+		void RemoveDirectionalLight(SceneDirectionalLight* p_pDirectionalLight);
+		void ClearDirectionalLights();
+
+		void AddPointLight(ScenePointLight* p_pPointLight);
+		void RemovePointLight(ScenePointLight* p_pPointLight);
+		void ClearPointLights();
 
 		void AddCamera(SceneCamera* p_pCamera);
 		void SetActiveCamera(SceneCamera* p_pCamera);
@@ -53,46 +53,36 @@ namespace HeatStroke
 		void RemoveCamera(SceneCamera* p_pCamera);
 		void ClearCameras();
 
-		void Update(const float p_fDelta);
 		void Render();
 
 	private:
-		//------------------------------------------------------------------------------
-		// Private methods.
-		//------------------------------------------------------------------------------
-		
-		// Constructor/Destructor are private because we're a Singleton
-		SceneManager(GLFWwindow* p_pWindow);
-		virtual ~SceneManager();
+		typedef std::vector<Model*>					ModelList;
+		typedef std::vector<Sprite*>				SpriteList;
+		typedef std::vector<SceneAmbientLight*>		AmbientLightList;
+		typedef std::vector<SceneDirectionalLight*> DirectionalLightList;
+		typedef std::vector<ScenePointLight*>		PointLightList;
+		typedef std::vector<SceneCamera*>			CameraList;
+
+
+		static SceneManager*	s_pSceneManagerInstance;
+
+		const unsigned int		NUM_AMBIENT_LIGHTS		= 1;
+		const unsigned int		NUM_DIRECTIONAL_LIGHTS	= 1;
+		const unsigned int		NUM_POINT_LIGHTS		= 0;
+
+		GLFWwindow*				m_pWindow;
+
+		ModelList				m_lModelList;
+		SpriteList				m_lSpriteList;
+		AmbientLightList		m_lAmbientLightList;
+		DirectionalLightList	m_lDirectionalLightList;
+		PointLightList			m_lPointLightList;
+		CameraList				m_lCameras;
+		SceneCamera*			m_pActiveCamera;
 
 	private:
-		//------------------------------------------------------------------------------
-		// Private members.
-		//------------------------------------------------------------------------------
-
-		// Static singleton instance
-		static SceneManager* s_pSceneManagerInstance;
-
-		// A list of models to render
-		ModelList m_lModelList;
-
-		// A list of sprites to render
-		SpriteList m_lSpriteList;
-
-		// A list of lights in the scene
-		LightList m_lLightList;
-
-		// A list of cameras from which to view the current scene.
-		CameraList m_lCameras;
-
-		// The currently active camera, which is a member of m_lCameras.
-		SceneCamera* m_pActiveCamera;
-
-		// Boolean for keeping track of changes in the C key.
-		bool m_bCKeyHeld;
-
-		// The window this scene is rendering to.
-		GLFWwindow* m_pWindow;
+		SceneManager(GLFWwindow* p_pWindow) : m_pActiveCamera(nullptr), m_pWindow(p_pWindow) {}
+		virtual ~SceneManager() {}
 	};
 
 } // namespace HeatStroke

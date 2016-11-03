@@ -34,7 +34,6 @@ bool Kartaclysm::KartGame::Init()
 
 void Kartaclysm::KartGame::Update(const float p_fDelta)
 {
-	HeatStroke::SceneManager::Instance()->Update(p_fDelta);
 	HeatStroke::EventManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);

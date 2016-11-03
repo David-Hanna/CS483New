@@ -3,6 +3,9 @@
 
 <GameObject>
   <Components>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Kart/Kart.obj"/>
+    </GOC_3DModel>
     <GOC_KartController/>
   </Components>
 </GameObject>

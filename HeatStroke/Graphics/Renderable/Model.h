@@ -22,41 +22,45 @@
 #include "VertexDeclaration.h"
 #include "TextureManager.h"
 #include "ProgramManager.h"
-//#include "PVRTModelPOD.h"
+#include "MaterialManager.h"
+#include "OBJFile.h"
+#include "MTLFile.h"
+
 #include <string>
 #include <map>
 #include <vector>
 
+#ifdef _DEBUG
+#include "Common.h"
+#endif
+
 namespace HeatStroke
 {
-class Model : public Renderable
-{
+	class Model : public Renderable
+	{
 	public:
-		Model(const std::string& p_strFile, const std::string& p_strTexturePrefix = "", const std::string& p_strVertexProgram = "", const std::string& p_strFragmentProgram = "");
+		struct Mesh
+		{
+			VertexBuffer*		m_pVertexBuffer;
+			VertexDeclaration*	m_pVertexDeclaration;
+			Texture*			m_pTexture;
+			Material*			m_pMaterial;
+		};
+
+	public:
+		Model(const std::string& p_strOBJFileName);
 		~Model();
 
 		void Update(float p_fDelta);
 		virtual void Render(const Camera* p_pCamera = nullptr) override;
 
-		//void SetAnimFrame(float p_fFrame) { m_fFrame = p_fFrame; m_pod.SetFrame(m_fFrame); }
-		HeatStroke::Material* GetMaterial() { return m_pMaterial; }
-		void SetTransform(const glm::mat4& p_mWorldTransform) { m_mWorldTransform = p_mWorldTransform; }
+		std::vector<Mesh>&			GetMeshes()											{ return m_vMeshes; }
+		void						SetTransform(const glm::mat4& p_mWorldTransform)	{ m_mWorldTransform = p_mWorldTransform; }
 
 	private:
-		struct Mesh
-		{
-			HeatStroke::VertexBuffer* m_pVB;
-			HeatStroke::IndexBuffer* m_pIB;
-			HeatStroke::VertexDeclaration* m_pDecl;
-		};
-
-		float				m_fFrame;
-		//CPVRTModelPOD		m_pod;
-		std::vector<Mesh>	m_lMeshes;
-		Material*			m_pMaterial;
-		glm::mat4			m_mWorldTransform;
-};
-
+		std::vector<Mesh>					m_vMeshes;
+		glm::mat4							m_mWorldTransform;
+	};
 }
 
 #endif
