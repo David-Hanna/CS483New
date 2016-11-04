@@ -11,6 +11,7 @@
 #include "Components\ComponentCameraController.h"
 #include "Components\ComponentKartController.h"
 #include "Components\ComponentSphereCollider.h"
+#include "Components\ComponentWallCollider.h"
 
 //------------------------------------------------------------------------------
 // Method:    StateRacing
@@ -55,6 +56,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SphereCollider", HeatStroke::ComponentSphereCollider::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_WallCollider", HeatStroke::ComponentWallCollider::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 
 	// Handle passed context parameters
@@ -160,8 +162,13 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	}
 
 	// collider debug rendering
-	HeatStroke::ComponentSphereCollider *collider = (HeatStroke::ComponentSphereCollider*)pKart->GetComponent("GOC_Collider");
-	collider->DebugRender(lineDrawer);
+	HeatStroke::ComponentSphereCollider *kartCollider = (HeatStroke::ComponentSphereCollider*)pKart->GetComponent("GOC_Collider");
+	kartCollider->DebugRender(lineDrawer);
+
+	HeatStroke::GameObject* pWall = m_pGameObjectManager->GetGameObject("Wall");
+	HeatStroke::ComponentWallCollider *wallCollider = (HeatStroke::ComponentWallCollider*)pWall->GetComponent("GOC_Collider");
+	wallCollider->DebugRender(lineDrawer);
+
 
 	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActiveCamera();
 	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());

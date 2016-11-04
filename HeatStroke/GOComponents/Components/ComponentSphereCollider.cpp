@@ -16,13 +16,10 @@ HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	m_pOffset(p_pOffset),
 	m_fRadius(p_fRadius)
 {
-	//SceneManager::Instance()->AddModel(&m_mModel);
-	printf("");
 }
 
 HeatStroke::ComponentSphereCollider::~ComponentSphereCollider()
 {
-	//SceneManager::Instance()->RemoveModel(&m_mModel);
 }
 
 HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
@@ -36,7 +33,6 @@ HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
 	// The values we need to fill by the end of parsing.
 	glm::vec3 offset;
 	float radius;
-	//std::string strOBJFileName("");
 
 	// Neither base nor override node are mandatory, but it is mandatory
 	// that all strings are given values between the two of them.
@@ -67,22 +63,18 @@ HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
 
 void HeatStroke::ComponentSphereCollider::Init()
 {
-	printf("");
 }
 
 void HeatStroke::ComponentSphereCollider::Update(const float p_fDelta)
 {
-	printf("");
 }
 
 void HeatStroke::ComponentSphereCollider::SyncTransform()
 {
-	//m_mModel.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 }
 
 void HeatStroke::ComponentSphereCollider::ParseNode(
 	tinyxml2::XMLNode* p_pNode,
-	//std::string& p_strOBJFileName
 	glm::vec3& p_pOffset,
 	float& p_fRadius)
 {
@@ -102,7 +94,6 @@ void HeatStroke::ComponentSphereCollider::ParseNode(
 
 		if (strcmp(szNodeName, "Offset") == 0)
 		{
-			//HeatStroke::EasyXML::GetRequiredStringAttribute(pElement, "path", p_strOBJFileName);
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "x", p_pOffset.x);
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "y", p_pOffset.y);
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "z", p_pOffset.z);

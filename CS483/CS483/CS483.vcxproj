@@ -82,6 +82,7 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
+    <Xml Include="Kartaclysm\Data\wall.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

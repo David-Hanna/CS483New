@@ -1,0 +1,10 @@
+<!-- Wall -->
+<!-- Author: David MacIntosh -->
+
+<GameObject>
+  <GOC_WallCollider>
+    <Offset x="0" y="0.1" z="3.5" />
+    <SurfaceNormal x="0" y="0" z="-1" />
+    <Wall height="0.3" width="2" />
+  </GOC_WallCollider>
+</GameObject>
