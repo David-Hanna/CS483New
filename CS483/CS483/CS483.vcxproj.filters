@@ -243,6 +243,9 @@
     <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -430,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
