@@ -39,6 +39,7 @@ namespace HeatStroke
 
 		//get contents of .fnt file to read through
 		std::string strFntFile = Common::LoadWholeFile(p_strFile);
+		assert(strFntFile.length() != 0 && "Error reading font.");
 		std::stringstream mFileStream(strFntFile.c_str());
 
 		//keep looping through contents of file until end of file
