@@ -61,7 +61,10 @@ namespace Kartaclysm
 		// Private methods
 		//-------------------------------------------------------------
 
+		// Called every frame by PlayerInputMapping::Update
 		void SendInputEventForPlayer(const int p_iPlayer, const int p_iGLFWJoystick);
+
+		// Manual query for inputs by PlayerInputMapping::QueryPlayerInput
 		bool GetButton(const int p_iGLFWJoystick, const Racer::Action p_eAction);
 		float GetTurning(const int p_iGLFWJoystick);
 
