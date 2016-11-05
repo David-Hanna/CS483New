@@ -161,6 +161,5 @@ void Kartaclysm::StatePaused::PauseGame(const HeatStroke::Event* p_pEvent)
 	p_pEvent->GetOptionalIntParameter("Player", iPlayer, iPlayer);
 
 	// Pop current state
-	printf("Unpausing\n");
 	m_pStateMachine->Pop();
 }

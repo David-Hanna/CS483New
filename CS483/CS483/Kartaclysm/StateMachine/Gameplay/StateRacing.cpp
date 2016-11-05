@@ -223,6 +223,5 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	mContext["Player"] = std::to_string(iPlayer);
 
 	// Push pause state
-	printf("Pausing\n");
 	m_pStateMachine->Push(1, mContext);
 }
