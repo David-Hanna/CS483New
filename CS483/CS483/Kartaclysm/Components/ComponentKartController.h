@@ -48,6 +48,12 @@ namespace Kartaclysm
 			HeatStroke::GameObject* p_pGameObject
 			);
 
+		void UpdateSpeed(int p_iAccelerateInput, int p_iBrakeInput, float p_fDelta);
+		void UpdateTurn(float p_fTurnInput, float p_fDelta);
+		float UpdateHop(int p_iSlideInput, float p_fDelta);
+		void UpdateSlide(int p_iSlideInput, float p_fDelta);
+		void UpdateTransform(float p_fHeightMod);
+
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
@@ -57,21 +63,21 @@ namespace Kartaclysm
 		const float m_fSpeedScale = 1.0f;
 		const float m_fVerticalSpeedScale = 1.0f;
 
-		float m_fMaxSpeedStat = 10.0f;
-		float m_fMaxReverseSpeedStat = 4.0f;
-		float m_fAccelerationStat = 0.3f;
-		float m_fReverseAccelerationStat = 0.6f;
-		float m_fAccelerationFrictionStat = 1.2f;
-		float m_fSpeedWhileTurningStat = 0.7f;
-		float m_fSpeedWhileSlidingMinStat = 0.9f;
-		float m_fSpeedWhileSlidingMaxStat = 0.7f;
-		float m_fMaxTurnStat = 2.0f;
-		float m_fTurnAccelerationStat = 24.0f;
+		float m_fMaxSpeedStat = 20.f;
+		float m_fMaxReverseSpeedStat = 6.0f;
+		float m_fAccelerationStat = 2.0f;
+		float m_fReverseAccelerationStat = 2.0f;
+		float m_fAccelerationFrictionStat = 2.0f;
+		float m_fSpeedWhileTurningStat = 0.8f;
+		float m_fSpeedWhileSlidingMinStat = 0.95f;
+		float m_fSpeedWhileSlidingMaxStat = 0.9f;
+		float m_fMaxTurnStat = 0.8f;
+		float m_fTurnAccelerationStat = 120.0f;
 		float m_fHopInitialSpeedStat = 2.0f;
 		float m_fGravityAccelerationStat = -12.0f;
-		float m_fSlideModifierStat = 0.1f;
-		float m_fSlideMaxTurnModifierStat = 1.2f;
-		float m_fTurnAtMaxSpeedStat = 0.7f;
+		float m_fSlideModifierStat = 0.006f;
+		float m_fSlideMaxTurnModifierStat = 1.5f;
+		float m_fTurnAtMaxSpeedStat = 0.8f;
 		float m_fPeakTurnRatio = 0.2f;
 
 		float m_fGroundHeight = 0.0f;
