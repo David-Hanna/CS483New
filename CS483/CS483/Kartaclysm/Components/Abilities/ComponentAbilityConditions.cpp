@@ -42,7 +42,7 @@ namespace Kartaclysm
 
 		// Defaults (some for testing purposes only)
 		float fCooldown = 1.0f;
-		int iCharges = 2;
+		int iCharges = 3;
 		bool bUseOnGround = true;
 		bool bUseInAir = false;
 		bool bUseWhileSpinningOut = false;
@@ -70,7 +70,7 @@ namespace Kartaclysm
 	void ComponentAbilityConditions::Init()
 	{
 		// TO DO, this is hardcoded for the first ability of the first player
-		m_strEventName = "P0_Kart1_HUD";
+		m_strEventName = "Player0_KartAbility1_HUD";
 	}
 
 	void ComponentAbilityConditions::Update(const float p_fDelta)

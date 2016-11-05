@@ -20,7 +20,7 @@ namespace Kartaclysm
 			p_strName,
 			p_strDescription,
 			p_strIdentifier),
-		m_fChargeCooldown(6.0f)
+		m_fChargeCooldown(3.0f)
 	{
 		// TO DO, hard coded for first player and first ability (but this is only a sample)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentSampleAbility::AbilityCallback, this, std::placeholders::_1));
@@ -44,7 +44,7 @@ namespace Kartaclysm
 		// Defaults
 		std::string strName = "Sample Ability";
 		std::string strDescription = "A very long, convoluted description that goes on for what seems like forever.";
-		std::string strIdentifier = "P0_Kart1"; // first player, first ability of the kart
+		std::string strIdentifier = "Player0_KartAbility1";
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
@@ -78,7 +78,7 @@ namespace Kartaclysm
 		}
 		else
 		{
-			m_fChargeCooldown = 6.0f;
+			m_fChargeCooldown = 3.0f;
 			m_pConditions->AddCharge();
 		}
 	}
