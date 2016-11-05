@@ -53,9 +53,11 @@ namespace HeatStroke
 		// Game Loop Method
 		void Update(const float p_fDelta);
 
-		// Returns true if the given button is down. False if not, or
-		// if the key is not supported.
-		bool IsButtonDown(const int p_iGLFWJoystick, const char p_iGLFWJoystickButton) const;
+		// Returns true if the given button is down this frame but was not last frame.
+		bool IsButtonDownOnce(const int p_iGLFWJoystick, const char p_iGLFWKeyConstant) const;
+
+		// Returns true if the given button is down.
+		bool IsButtonDownContinuous(const int p_iGLFWJoystick, const char p_iGLFWJoystickButton) const;
 
 		// Sets parameters to axes tilt if they exceed the dead zone,
 		// otherwise set to 0. Positive indicates right and up.
@@ -87,7 +89,7 @@ namespace HeatStroke
 		void Init();
 
 		// Helper function
-		Joystick* const GetJoystick(const int p_iGLFWJoystick) const;
+		Joystick* const GetJoystick(const int p_iGLFWJoystick, const bool p_bPreviousFrame = false) const;
 	};
 }
 
