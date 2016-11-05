@@ -19,7 +19,7 @@ namespace Kartaclysm
 		m_fSpeedScale(0.002f),
 		m_fVerticalSpeedScale(0.002f),
 		m_fMaxSpeedStat(20.0f),
-		m_fMaxReverseSpeedStat(4.0f),
+		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(2.0f),
 		m_fReverseAccelerationStat(2.0f),
 		m_fAccelerationFrictionStat(2.0f),
@@ -55,40 +55,11 @@ namespace Kartaclysm
 		tinyxml2::XMLNode* p_pBaseNode,
 		tinyxml2::XMLNode* p_pOverrideNode)
 	{
-		//assert(p_pGameObject != nullptr);
-
-		// Defaults
-		/*float fFOV = 45.0f;
-		float fAspectRatioWidth = 1280.0f;
-		float fAspectRatioHeight = 720.0f;
-		float fNearClip = 0.1f;
-		float fFarClip = 1000.0f;*/
 		std::string strTargetGUID("");
 		HeatStroke::GameObject* pTargetGameObject = nullptr;
 
-		// All parameters are optional. Some cameras may be attached "as is". (example_level.xml)
-		if (p_pBaseNode != nullptr)
-		{
-			//ParseNode(p_pBaseNode, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
-		}
-		if (p_pOverrideNode != nullptr)
-		{
-			//ParseNode(p_pOverrideNode, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
-		}
-
-		// Apply the target if one was set.
-		/*if (strTargetGUID != "")
-		{
-		pTargetGameObject = p_pGameObject->GetManager()->GetGameObject(strTargetGUID);
-		}*/
-
 		return new ComponentKartController(
-			p_pGameObject/*,
-			fFOV,
-			fAspectRatioWidth / fAspectRatioHeight,
-			fNearClip,
-			fFarClip,
-			pTargetGameObject*/
+			p_pGameObject
 			);
 	}
 
@@ -98,10 +69,28 @@ namespace Kartaclysm
 		int iAccelerate, iBrake, iSlide;
 		float fTurn;
 		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-		fTurn *= -1.0f; // TO DO, the calculations seem reversed...
+		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
 
 		// Speeding up & slowing down
+		UpdateSpeed(iAccelerate, iBrake, p_fDelta);
 
+		// Turning
+		UpdateTurn(fTurn, p_fDelta);
+
+		// Hopping
+		float fHeightMod = 0.0f;
+		fHeightMod = UpdateHop(iSlide, p_fDelta);
+		
+		// Sliding
+		UpdateSlide(iSlide, p_fDelta);
+
+		// Transform
+		UpdateTransform(fHeightMod);
+	}
+
+	void ComponentKartController::UpdateSpeed(int p_iAccelerateInput, int p_iBrakeInput, float p_fDelta)
+	{
+		// Determine modifier from turning
 		float fSpeedModifer;
 		if (!m_bSliding)
 		{
@@ -112,11 +101,12 @@ namespace Kartaclysm
 			fSpeedModifer = m_fSpeedWhileSlidingMinStat - ((m_fSpeedWhileSlidingMinStat - m_fSpeedWhileSlidingMaxStat) * (abs(m_fTurnSpeed) / m_fMaxTurnStat));
 		}
 
-		if (iAccelerate != 0)
+		// Adjust speed based on input
+		if (p_iAccelerateInput != 0)
 		{
 			m_fSpeed += fmax((m_fMaxSpeedStat * m_fSpeedScale * fSpeedModifer - fmax(m_fSpeed, 0.0f)) * m_fAccelerationStat, -m_fSpeed * m_fAccelerationFrictionStat * 2.0f) * p_fDelta;
 		}
-		else if (iBrake != 0)
+		else if (p_iBrakeInput != 0)
 		{
 
 			m_fSpeed += fmin((-m_fMaxReverseSpeedStat * m_fSpeedScale * fSpeedModifer - fmin(m_fSpeed, 0.0f)) * m_fReverseAccelerationStat, -m_fSpeed * m_fAccelerationFrictionStat * 2.0f) * p_fDelta;
@@ -125,30 +115,35 @@ namespace Kartaclysm
 		{
 			m_fSpeed -= m_fSpeed * m_fAccelerationFrictionStat * p_fDelta;
 		}
+	}
 
-		// Turning
-
+	void ComponentKartController::UpdateTurn(float p_fTurnInput, float p_fDelta)
+	{
+		// Determine slide direction, if sliding
 		if (m_bSliding)
 		{
-			if (fTurn < 0 && m_iSlideDirection >= 0)
+			if (p_fTurnInput < 0 && m_iSlideDirection >= 0)
 			{
 				m_iSlideDirection = 1;
 			}
-			else if (fTurn > 0 && m_iSlideDirection <= 0)
+			else if (p_fTurnInput > 0 && m_iSlideDirection <= 0)
 			{
 				m_iSlideDirection = -1;
 			}
 		}
 
-		float fTurnTarget = m_fMaxTurnStat * fTurn;
+		// Variables!
+		float fTurnTarget = m_fMaxTurnStat * p_fTurnInput;
 		float fModifier = 1.0f;
 
+		// Adjust turn parameters if sliding
 		if (m_bSliding)
 		{
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier = m_fSlideModifierStat;
 		}
 
+		// Starighten out the turn a bit if moving fast (or very slow)
 		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
 		{
 			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
@@ -158,6 +153,7 @@ namespace Kartaclysm
 			fTurnTarget *= m_fTurnAtMaxSpeedStat + (1.0f - m_fTurnAtMaxSpeedStat) * (((m_fMaxSpeedStat * m_fSpeedScale) - m_fSpeed) / ((m_fMaxSpeedStat * m_fSpeedScale) - (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)));
 		}
 
+		// Accelerate the current turn angle closer to the target
 		if (fTurnTarget < m_fTurnSpeed)
 		{
 			m_fTurnSpeed += fmax(-m_fTurnAccelerationStat * fModifier * p_fDelta, fTurnTarget - m_fTurnSpeed);
@@ -167,6 +163,7 @@ namespace Kartaclysm
 			m_fTurnSpeed += fmin(m_fTurnAccelerationStat * fModifier * p_fDelta, fTurnTarget - m_fTurnSpeed);
 		}
 
+		// Adjust kart direction based on the turn angle
 		m_fDirection += m_fTurnSpeed * p_fDelta;
 		if (m_fDirection < 0)
 		{
@@ -176,11 +173,14 @@ namespace Kartaclysm
 		{
 			m_fDirection -= PI * 2.0f;
 		}
+	}
 
-		// Hopping
-
+	float ComponentKartController::UpdateHop(int p_iSlideInput, float p_fDelta)
+	{
+		// How much the kart moves vertically this frame
 		float fHeightMod = 0.0f;
-
+		
+		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
 		{
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
@@ -193,22 +193,27 @@ namespace Kartaclysm
 				m_fSpeed *= 0.99f;
 				m_bAirborne = false;
 
-				// landing
-				if (iSlide != 0)
+				// Landing
+				if (p_iSlideInput != 0)
 				{
 					m_bSliding = true;
 					m_iSlideDirection = 0;
 				}
 			}
 		}
-		else if (iSlide != 0 && !m_bSliding)
+		// If not airborne, try to hop
+		else if (p_iSlideInput != 0 && !m_bSliding)
 		{
 			m_fVerticalSpeed = m_fHopInitialSpeedStat * m_fVerticalSpeedScale;
 			m_bAirborne = true;
 		}
-		
-		// Sliding
 
+		return fHeightMod;
+	}
+
+	void ComponentKartController::UpdateSlide(int p_iSlideInput, float p_fDelta)
+	{
+		// End the slide if the input is released, or if speed drops too low
 		if (m_bSliding)
 		{
 			if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
@@ -217,21 +222,22 @@ namespace Kartaclysm
 				m_iSlideDirection = 0;
 			}
 
-			if (iSlide == 0)
+			if (p_iSlideInput == 0)
 			{
 				m_bSliding = false;
 				m_iSlideDirection = 0;
 
-				// BOOST HERE
+				// TODO: BOOST HERE
 			}
 		}
+	}
 
-		// Transform
-
-		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), fHeightMod, m_fSpeed * cosf(m_fDirection));
+	void ComponentKartController::UpdateTransform(float p_fHeightMod)
+	{
+		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
 
-		HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
+		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\nTurn Modifier:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection, fSpeedModifer);
 	}
 }
