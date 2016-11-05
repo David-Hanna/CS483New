@@ -110,7 +110,7 @@ namespace Kartaclysm
 		}
 
 		// Helpful variables to avoid repetition
-		std::string strPlayerIdentifier = "P" + std::to_string(p_iPlayer) + "_";
+		std::string strPlayerIdentifier = "Player" + std::to_string(p_iPlayer);
 		HeatStroke::EventManager* pEventManager = HeatStroke::EventManager::Instance();
 
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1) // Keyboard
@@ -120,23 +120,23 @@ namespace Kartaclysm
 			ActionMap mActionMap = (*m_pInputMap)[Input::eKeyboard];
 
 			// Iterate ability and pause actions
-			if (pBuffer->IsKeyDown(mActionMap[Racer::eDriverAbility1]))
+			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eDriverAbility1]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Driver1"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_DriverAbility1"));
 			}
-			if (pBuffer->IsKeyDown(mActionMap[Racer::eDriverAbility2]))
+			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eDriverAbility2]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Driver2"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_DriverAbility2"));
 			}
-			if (pBuffer->IsKeyDown(mActionMap[Racer::eKartAbility1]))
+			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eKartAbility1]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Kart1"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_KartAbility1"));
 			}
-			if (pBuffer->IsKeyDown(mActionMap[Racer::eKartAbility2]))
+			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eKartAbility2]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Kart2"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_KartAbility2"));
 			}
-			if (pBuffer->IsKeyDown(mActionMap[Racer::ePause]))
+			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::ePause]))
 			{
 				HeatStroke::Event* pEvent = new HeatStroke::Event("Pause");
 				pEvent->SetIntParameter("Player", p_iPlayer);
@@ -150,23 +150,23 @@ namespace Kartaclysm
 			ActionMap mActionMap = (*m_pInputMap)[Input::eJoystick];
 
 			// Iterate ability and pause actions
-			if (pBuffer->IsButtonDown(p_iGLFWJoystick, mActionMap[Racer::eDriverAbility1]))
+			if (pBuffer->IsButtonDownOnce(p_iGLFWJoystick, mActionMap[Racer::eDriverAbility1]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Driver1"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_DriverAbility1"));
 			}
-			if (pBuffer->IsButtonDown(p_iGLFWJoystick, mActionMap[Racer::eDriverAbility2]))
+			if (pBuffer->IsButtonDownOnce(p_iGLFWJoystick, mActionMap[Racer::eDriverAbility2]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Driver2"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_DriverAbility2"));
 			}
-			if (pBuffer->IsButtonDown(p_iGLFWJoystick, mActionMap[Racer::eKartAbility1]))
+			if (pBuffer->IsButtonDownOnce(p_iGLFWJoystick, mActionMap[Racer::eKartAbility1]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Kart1"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_KartAbility1"));
 			}
-			if (pBuffer->IsButtonDown(p_iGLFWJoystick, mActionMap[Racer::eKartAbility2]))
+			if (pBuffer->IsButtonDownOnce(p_iGLFWJoystick, mActionMap[Racer::eKartAbility2]))
 			{
-				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "Kart2"));
+				pEventManager->TriggerEvent(new HeatStroke::Event(strPlayerIdentifier + "_KartAbility2"));
 			}
-			if (pBuffer->IsButtonDown(p_iGLFWJoystick, mActionMap[Racer::ePause]))
+			if (pBuffer->IsButtonDownOnce(p_iGLFWJoystick, mActionMap[Racer::ePause]))
 			{
 				HeatStroke::Event* pEvent = new HeatStroke::Event("Pause");
 				pEvent->SetIntParameter("Player", p_iPlayer);
@@ -186,19 +186,19 @@ namespace Kartaclysm
 	{
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
-			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][p_eAction]);
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][p_eAction]);
 		}
 		else
 		{
 			if (p_eAction == Racer::eSlide)
 			{
 				// Sliding is controlled by button or by the bumpers
-				bool bSlide = HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]);
+				bool bSlide = HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownContinuous(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]);
 				return (bSlide == true ? true : static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, XBOX_AXIS_TRIGGERS)) != 0.0f);
 			}
 			else
 			{
-				return HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][p_eAction]);
+				return HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownContinuous(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][p_eAction]);
 			}
 		}
 	}
@@ -214,16 +214,16 @@ namespace Kartaclysm
 		float fTurn = 0.0f;
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
-			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eRight]));
-			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown((*m_pInputMap)[Input::eKeyboard][Racer::eLeft]));
+			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][Racer::eLeft]));
 		}
 		else
 		{
 			fTurn = HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick]);
 			if (fTurn == 0.0f)
 			{
-				fTurn = static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eRight]));
-				fTurn -= static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDown(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eLeft]));
+				fTurn = static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownContinuous(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eRight]));
+				fTurn -= static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownContinuous(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eLeft]));
 			}
 		}
 		return fTurn;
@@ -249,7 +249,7 @@ namespace Kartaclysm
 			(*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility2] =	GLFW_KEY_S;
 			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility1] =	GLFW_KEY_D;
 			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility2] =	GLFW_KEY_F;
-			(*m_pInputMap)[Input::eKeyboard][Racer::ePause] =			GLFW_KEY_ESCAPE;
+			(*m_pInputMap)[Input::eKeyboard][Racer::ePause] =			GLFW_KEY_ENTER;
 		}
 
 		if (p_bResetJoystick)

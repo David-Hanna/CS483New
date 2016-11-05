@@ -162,21 +162,57 @@ namespace HeatStroke
 	}
 
 	//--------------------------------------------------------------------------------
-	// JoystickInputBuffer::IsButtonDown
+	// JoystickInputBuffer::IsButtonDownOnce
 	// Parameter:	const int p_iGLFWJoystick - GLFW integer for joystick
 	//				const int p_iGLFWButtonConstant - the key to check, should be a glfw key constant.
 	//
-	// Returns true if the given key is down. False if not, or
-	// if the key is not supported.
+	// Returns true if the given button is down this frame but was not last frame.
 	//--------------------------------------------------------------------------------
-	bool JoystickInputBuffer::IsButtonDown(const int p_iGLFWJoystick, const char p_iGLFWJoystickButton) const
+	bool JoystickInputBuffer::IsButtonDownOnce(const int p_iGLFWJoystick, const char p_iGLFWJoystickButton) const
 	{
+		// Return false if no joystick or joystick has no buttons
+		Joystick* pCurrJoystick = GetJoystick(p_iGLFWJoystick, false);
+		if (pCurrJoystick == nullptr || pCurrJoystick->m_iButtonsCount == 0)
+		{
+			return false;
+		}
+
+		// Do the same for joystick from the last frame
+		Joystick* pPrevJoystick = GetJoystick(p_iGLFWJoystick, true);
+		if (pPrevJoystick == nullptr || pPrevJoystick->m_iButtonsCount == 0)
+		{
+			return false;
+		}
+
+		// Find button pressed value for current and previous frame
+		JoystickButtonMap::iterator findCurr = pCurrJoystick->m_mButtonsDown.find(p_iGLFWJoystickButton);
+		JoystickButtonMap::iterator findPrev = pPrevJoystick->m_mButtonsDown.find(p_iGLFWJoystickButton);
+		if (findCurr != (*m_pJoysticks)[p_iGLFWJoystick].m_mButtonsDown.end() &&
+			findPrev != (*m_pJoysticksLast)[p_iGLFWJoystick].m_mButtonsDown.end())
+		{
+			return (findCurr->second && !findPrev->second);
+		}
+
+		return false;
+	}
+
+	//--------------------------------------------------------------------------------
+	// JoystickInputBuffer::IsButtonDownContinuous
+	// Parameter:	const int p_iGLFWJoystick - GLFW integer for joystick
+	//				const int p_iGLFWButtonConstant - the key to check, should be a glfw key constant.
+	//
+	// Returns true if the given button is down.
+	//--------------------------------------------------------------------------------
+	bool JoystickInputBuffer::IsButtonDownContinuous(const int p_iGLFWJoystick, const char p_iGLFWJoystickButton) const
+	{
+		// Return false if no joystick or joystick has no buttons
 		Joystick* pJoystick = GetJoystick(p_iGLFWJoystick);
 		if (pJoystick == nullptr || pJoystick->m_iButtonsCount == 0)
 		{
 			return false;
 		}
 
+		// Return the button result if found. Otherwise, return false.
 		JoystickButtonMap::iterator find = pJoystick->m_mButtonsDown.find(p_iGLFWJoystickButton);
 		if (find != (*m_pJoysticks)[p_iGLFWJoystick].m_mButtonsDown.end())
 		{
@@ -215,19 +251,24 @@ namespace HeatStroke
 
 	//--------------------------------------------------------------------------------
 	// JoystickInputBuffer::GetJoystick
-	// Parameter: const int p_iGLFWJoystick - GLFW integer for joystick
+	// Parameter:	const int p_iGLFWJoystick - GLFW integer for joystick
+	//				const bool p_bPreviousFrame - Get Joystick from previous frame. False by default.
 	//
 	// Returns reference to joystick in map, or nullptr if not found
 	//--------------------------------------------------------------------------------
-	JoystickInputBuffer::Joystick* const JoystickInputBuffer::GetJoystick(const int p_iGLFWJoystick) const
+	JoystickInputBuffer::Joystick* const JoystickInputBuffer::GetJoystick(const int p_iGLFWJoystick, const bool p_bPreviousFrame) const
 	{
 		if (p_iGLFWJoystick < 0 || p_iGLFWJoystick > GLFW_JOYSTICK_LAST)
 		{
 			return nullptr;
 		}
 
-		JoystickMap::iterator find = m_pJoysticks->find(p_iGLFWJoystick);
-		if (find != m_pJoysticks->end())
+		// Get iteratore based on current frame Joystick or previous frame Joystick
+		JoystickMap::iterator find = (p_bPreviousFrame ? 
+			m_pJoysticksLast->find(p_iGLFWJoystick) : 
+			m_pJoysticks->find(p_iGLFWJoystick));
+
+		if (find != m_pJoysticks->end() && find != m_pJoysticksLast->end())
 		{
 			return &find->second;
 		}
