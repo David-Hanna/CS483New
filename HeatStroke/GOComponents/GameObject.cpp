@@ -44,8 +44,11 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
-	//TODO: I think GameObjectManager::DestroyObject() is causing parents to hang on to references of their deleted children.
-	// Can you have a look at this and see if there's a way around it David Hanna?
+	if (m_pParent != nullptr)
+	{
+		m_pParent->RemoveChild(m_strGUID);
+	}
+
 	DeleteAllComponents();
 	DeleteAllChildren();
 }
@@ -156,7 +159,8 @@ GameObject* GameObject::RemoveChild(const std::string& p_strChildGuid)
 	if (it != m_mChildMap.end())
 	{
 		pChildGameObject = it->second;
-		pChildGameObject->SetParent(nullptr);
+		pChildGameObject->m_pParent = nullptr;
+		pChildGameObject->m_Transform.SetParent(nullptr);
 		m_mChildMap.erase(it);
 	}
 
