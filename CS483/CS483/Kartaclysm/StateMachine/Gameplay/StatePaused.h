@@ -41,7 +41,7 @@ namespace Kartaclysm
 		int m_iPausedPlayer;
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 
-		void PauseGame(const HeatStroke::Event* p_pEvent);
+		void UnpauseGame(const HeatStroke::Event* p_pEvent);
 	};
 } // namespace Kartaclysm
 

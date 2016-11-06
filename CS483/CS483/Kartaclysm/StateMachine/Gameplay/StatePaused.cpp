@@ -2,7 +2,7 @@
 // StatePaused
 // Author:	Bradley Cooper
 //	
-// Gameplay state for racing.
+// Gameplay state for pausing during a race.
 //------------------------------------------------------------------------
 
 #include "StatePaused.h"
@@ -44,7 +44,7 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	m_bSuspended = false;
 
 	// Register listening for pause
-	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::PauseGame, this, std::placeholders::_1));
+	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::UnpauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
 	// Initialize our GameObjectManager
@@ -93,7 +93,7 @@ void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 	
 	if (m_pPauseDelegate == nullptr)
 	{
-		m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::PauseGame, this, std::placeholders::_1));
+		m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::UnpauseGame, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 	}
 }
@@ -149,12 +149,12 @@ void Kartaclysm::StatePaused::Exit()
 }
 
 //------------------------------------------------------------------------------
-// Method:    PauseGame
+// Method:    UnpauseGame
 // Parameter: const HeatStroke::Event* p_pEvent - Event that triggers when a player pauses
 // 
 // Unpause the game by popping the Pause State.
 //------------------------------------------------------------------------------
-void Kartaclysm::StatePaused::PauseGame(const HeatStroke::Event* p_pEvent)
+void Kartaclysm::StatePaused::UnpauseGame(const HeatStroke::Event* p_pEvent)
 {
 	// Get the player who paused the game
 	int iPlayer = 0;
