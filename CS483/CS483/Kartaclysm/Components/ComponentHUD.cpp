@@ -36,6 +36,7 @@ namespace Kartaclysm
 
 		// Iterate through all layers
 		HeatStroke::EventManager* pEventManager = HeatStroke::EventManager::Instance();
+		HeatStroke::SceneManager* pSceneManager = HeatStroke::SceneManager::Instance();
 		LayerMap::iterator it = m_mLayerMap.begin();
 		while (it != m_mLayerMap.end())
 		{
@@ -51,12 +52,15 @@ namespace Kartaclysm
 					section.m_pDelegate = nullptr;
 				}
 
-				// Iterate and delete all TextBoxes
+				// Iterate and delete all renderables
 				RenderMap::iterator it3 = section.m_mRenderMap.begin();
 				while (it3 != section.m_mRenderMap.end())
 				{
 					if (it3->second != nullptr)
 					{
+						// TO DO, don't assume all renderables are text boxes
+						pSceneManager->RemoveTextBox(static_cast<HeatStroke::TextBox*>(it3->second));
+
 						delete it3->second;
 						it3->second = nullptr;
 					}
@@ -175,43 +179,54 @@ namespace Kartaclysm
 
 	void ComponentHUD::AssignInitialRenderables()
 	{
+		HeatStroke::SceneManager* pSceneManager = HeatStroke::SceneManager::Instance();
+
 		// TO DO, currently everything renders but practice mode might not need to render position (as example)
 		// Assign the callbacks for events
 		HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
 		section.m_mRenderMap["Time"] = new HeatStroke::TextBox(m_pFont, "0.0", 320.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Time"])->SetPosition(1000.0f, 40.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Time"]));
 
 		section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
 		section.m_mRenderMap["Icon"] = new HeatStroke::TextBox(m_pFont, "D1", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"])->SetPosition(900.0f, 700.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"]));
 
 		section = m_mLayerMap[eRaceInfo]["DriverAbility2"];
 		section.m_mRenderMap["Icon"] = new HeatStroke::TextBox(m_pFont, "D2", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"])->SetPosition(1000.0f, 700.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"]));
 
 		section = m_mLayerMap[eRaceInfo]["KartAbility1"];
 		section.m_mRenderMap["Icon"] = new HeatStroke::TextBox(m_pFont, "K1", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"])->SetPosition(1100.0f, 700.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"]));
 
 		section = m_mLayerMap[eRaceInfo]["KartAbility2"];
 		section.m_mRenderMap["Icon"] = new HeatStroke::TextBox(m_pFont, "K2", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"])->SetPosition(1200.0f, 700.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Icon"]));
 
 		section = m_mLayerMap[eRaceInfo]["Position"];
 		section.m_mRenderMap["Number"] = new HeatStroke::TextBox(m_pFont, "1st", 120.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Number"])->SetPosition(100.0f, 700.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Number"]));
 
 		section = m_mLayerMap[eRaceInfo]["Lap"];
 		section.m_mRenderMap["Current"] = new HeatStroke::TextBox(m_pFont, "1/3", 120.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Current"])->SetPosition(1000.0f, 120.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Current"]));
 
 		section = m_mLayerMap[ePopups]["Popup"];
-		section.m_mRenderMap["Warning"] = new HeatStroke::TextBox(m_pFont, "", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
+		section.m_mRenderMap["Warning"] = new HeatStroke::TextBox(m_pFont, "Popup", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Warning"])->SetPosition(540.0f, 320.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Warning"]));
 
 		section = m_mLayerMap[eDebug]["Debug"];
-		section.m_mRenderMap["Message"] = new HeatStroke::TextBox(m_pFont, "", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
+		section.m_mRenderMap["Message"] = new HeatStroke::TextBox(m_pFont, "Debug", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Message"])->SetPosition(40.0f, 40.0f);
+		pSceneManager->AddTextBox(static_cast<HeatStroke::TextBox*>(section.m_mRenderMap["Message"]));
 	}
 
 	void ComponentHUD::PauseCallback(const HeatStroke::Event* p_pEvent)

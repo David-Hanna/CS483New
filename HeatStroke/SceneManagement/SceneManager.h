@@ -11,6 +11,7 @@
 
 #include "Model.h"
 #include "Sprite.h"
+#include "TextBox.h"
 #include "SceneCamera.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
@@ -35,6 +36,10 @@ namespace HeatStroke
 		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
 		void ClearSprites();
 
+		void AddTextBox(HeatStroke::TextBox* p_pTextBox);
+		void RemoveTextBox(HeatStroke::TextBox* p_pTextBox);
+		void ClearTextBoxes();
+
 		void AddAmbientLight(SceneAmbientLight* p_pAmbientLight);
 		void RemoveAmbientLight(SceneAmbientLight* p_pAmbientLight);
 		void ClearAmbientLights();
@@ -58,6 +63,7 @@ namespace HeatStroke
 	private:
 		typedef std::vector<Model*>					ModelList;
 		typedef std::vector<Sprite*>				SpriteList;
+		typedef std::vector<TextBox*>				TextBoxList;
 		typedef std::vector<SceneAmbientLight*>		AmbientLightList;
 		typedef std::vector<SceneDirectionalLight*> DirectionalLightList;
 		typedef std::vector<ScenePointLight*>		PointLightList;
@@ -74,6 +80,7 @@ namespace HeatStroke
 
 		ModelList				m_lModelList;
 		SpriteList				m_lSpriteList;
+		TextBoxList				m_lTextBoxList;
 		AmbientLightList		m_lAmbientLightList;
 		DirectionalLightList	m_lDirectionalLightList;
 		PointLightList			m_lPointLightList;

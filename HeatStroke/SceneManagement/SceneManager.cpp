@@ -85,6 +85,31 @@ void HeatStroke::SceneManager::ClearSprites()
 }
 
 
+
+void HeatStroke::SceneManager::AddTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	m_lTextBoxList.push_back(p_pTextBox);
+}
+
+
+
+void HeatStroke::SceneManager::RemoveTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	TextBoxList::iterator it = std::find(m_lTextBoxList.begin(), m_lTextBoxList.end(), p_pTextBox);
+	if (it != m_lTextBoxList.end())
+	{
+		m_lTextBoxList.erase(it);
+	}
+}
+
+
+
+void HeatStroke::SceneManager::ClearTextBoxes()
+{
+	m_lTextBoxList.clear();
+}
+
+
 void HeatStroke::SceneManager::AddAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
 {
 	m_lAmbientLightList.push_back(p_pAmbientLight);
@@ -265,5 +290,13 @@ void HeatStroke::SceneManager::Render()
 	{
 		HeatStroke::Sprite* pSprite = static_cast<HeatStroke::Sprite*>(*sIt);
 		pSprite->Render(&mSpriteCamera);
+	}
+
+	// Iterate and render TextBoxes using the sprite (ortho) camera
+	TextBoxList::iterator tbIt = m_lTextBoxList.begin(), tbEnd = m_lTextBoxList.end();
+	for (; tbIt != tbEnd; ++tbIt)
+	{
+		HeatStroke::TextBox* pTextBox = static_cast<HeatStroke::TextBox*>(*tbIt);
+		pTextBox->Render(&mSpriteCamera);
 	}
 }

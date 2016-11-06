@@ -14,6 +14,7 @@
 #include "TextBox.h"
 #include "Font.h"
 #include "EventManager.h"
+#include "SceneManager.h"
 #include <map>
 
 namespace Kartaclysm
