@@ -12,14 +12,11 @@
 
 namespace HeatStroke
 {
-class Texture
-{
-	friend class TextureManager;
+	class Texture
+	{
+		friend class TextureManager;
 
 	public:
-		//-------------------------------------------------------------------------
-		// PUBLIC TYPES
-		//-------------------------------------------------------------------------
 		enum Format
 		{
 			FMT_888,
@@ -27,7 +24,8 @@ class Texture
 			FMT_565,
 			FMT_4444,
 			FMT_5551,
-			FMT_NUM_FORMATS
+			FMT_NUM_FORMATS,
+			FMT_INVALID
 		};
 
 		enum WrapMode
@@ -49,11 +47,8 @@ class Texture
 			FM_NUM_FILTER_MODES,
 			FM_Invalid
 		};
-		//-------------------------------------------------------------------------
 
-		//-------------------------------------------------------------------------
-		// PUBLIC INTERFACE
-		//-------------------------------------------------------------------------
+	public:
 		void Bind() const;
 
 		void SetWrapMode(WrapMode p_eWrapU, WrapMode p_eWrapV = WM_Invalid);
@@ -61,25 +56,8 @@ class Texture
 
 		unsigned int GetWidth() const { return m_uiWidth; }
 		unsigned int GetHeight() const { return m_uiHeight; }
-		//-------------------------------------------------------------------------
 
 	private:
-		//-------------------------------------------------------------------------
-		// PRIVATE METHODS
-		//-------------------------------------------------------------------------
-
-		// Made private to enforce creation/destruction via TextureManager
-		Texture(const std::string& p_strFile);
-		Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat);
-		virtual ~Texture();
-
-		void LoadFromDDS(const std::string& p_strFile);
-		void LoadFromTGA(const std::string& p_strFile);
-		//-------------------------------------------------------------------------
-
-		//-------------------------------------------------------------------------
-		// PRIVATE MEMBERS
-		//-------------------------------------------------------------------------
 		GLuint			m_uiTex;
 		WrapMode		m_eWrapU;
 		WrapMode		m_eWrapV;
@@ -87,9 +65,14 @@ class Texture
 		FilterMode		m_eFilterMag;
 		unsigned int	m_uiWidth;
 		unsigned int    m_uiHeight;
-		//-------------------------------------------------------------------------
-};
 
+		// Made private to enforce creation/destruction via TextureManager
+		Texture(const std::string& p_strFile);
+		Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat);
+		virtual ~Texture();
+
+		void LoadFromTGA(const std::string& p_strFile);
+	};
 }
 
 #endif

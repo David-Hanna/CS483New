@@ -5,17 +5,9 @@
 	<Children>
 		<GameObject>
 			<Transform>
-				<Scale x="1.0" y="1.0" z="1.0" />
-				<Rotation angle="90.0" x="1.0" y="1.0" z="1.0" />
-				<Translation x="1.0" y="1.0" z="1.0" />
-			</Transform>
-		</GameObject>
-
-		<GameObject>
-			<Transform>
-				<Scale x="-1.0" y="-1.0" z="-1.0" />
-				<Rotation angle="-90.0" x="-1.0" y="-1.0" z="-1.0" />
-				<Translation x="-1.0" y="-1.0" z="-1.0" />
+				<Scale x="3.0" y="3.0" z="3.0" />
+				<Rotation angle="90.0" x="3.0" y="3.0" z="3.0" />
+				<Translation x="3.0" y="3.0" z="3.0" />
 			</Transform>
 		</GameObject>
 	</Children>

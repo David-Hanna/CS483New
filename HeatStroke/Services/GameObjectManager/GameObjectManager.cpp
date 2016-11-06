@@ -50,24 +50,6 @@ void GameObjectManager::RegisterComponentFactory(const std::string& p_strCompone
 	m_mComponentFactoryMap.insert(std::pair<std::string, ComponentFactoryMethod>(p_strComponentId, p_factoryMethod));
 }
 
-void GameObjectManager::LoadLevel(const std::string& p_strLevelDefinitionFile)
-{
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError err = doc.LoadFile(p_strLevelDefinitionFile.c_str());
-#if _DEBUG
-	assert(err == tinyxml2::XML_NO_ERROR);
-#endif
-
-	tinyxml2::XMLElement* pLevelRootElement = doc.FirstChildElement("Level");
-	for (tinyxml2::XMLElement* pGameObjectRootElement = pLevelRootElement->FirstChildElement("GameObject");
-		 pGameObjectRootElement != nullptr;
-		 pGameObjectRootElement = pGameObjectRootElement->NextSiblingElement("GameObject"))
-	{
-		GameObject* pObj = CreateGameObject(pGameObjectRootElement);
-		pObj->m_Transform.ParseTransformNode(pGameObjectRootElement->FirstChildElement("Transform"));
-	}
-}
-
 GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid /*= ""*/)
 {
 	tinyxml2::XMLDocument doc;
@@ -91,11 +73,14 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 	EasyXML::GetOptionalStringAttribute(p_pGameObjectRootElement, "definition", strDefinitionFile, strDefinitionFile);
 	if (!strDefinitionFile.empty())
 	{
-		return CreateGameObject(strDefinitionFile, strGuid);
+		GameObject* pObj = CreateGameObject(strDefinitionFile, strGuid);
+		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
+		return pObj;
 	}
 	else
 	{
 		GameObject* pObj = new GameObject(this, strGuid);
+		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
 
 		LoadComponents(p_pGameObjectRootElement->FirstChildElement("Components"), pObj);
 		LoadChildren(p_pGameObjectRootElement->FirstChildElement("Children"), pObj);
@@ -133,13 +118,11 @@ void GameObjectManager::LoadComponents(tinyxml2::XMLElement* p_pComponentsRootEl
 
 	if (p_pComponentsRootElement != nullptr)
 	{
-		for (tinyxml2::XMLElement* pComponentElement = p_pComponentsRootElement->FirstChildElement("Component");
+		for (tinyxml2::XMLElement* pComponentElement = p_pComponentsRootElement->FirstChildElement();
 			 pComponentElement != nullptr;
-			 pComponentElement = pComponentElement->NextSiblingElement("Component"))
+			 pComponentElement = pComponentElement->NextSiblingElement())
 		{
-			std::string strComponentType = "";
-			EasyXML::GetRequiredStringAttribute(pComponentElement, "type", strComponentType);
-
+			std::string strComponentType = pComponentElement->Value();
 			ComponentFactoryMap::iterator it = m_mComponentFactoryMap.find(strComponentType.c_str());
 #if _DEBUG
 			assert(it != m_mComponentFactoryMap.end());
@@ -263,7 +246,7 @@ void GameObjectManager::PreRender()
 	}
 }
 
-//TODO: delete this
+//TODO: delete this (once all bugs are worked out)
 //Matt: just using this to make sure game objects loaded properly
 void GameObjectManager::Print()
 {

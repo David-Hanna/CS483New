@@ -8,7 +8,16 @@
 #ifndef STATE_RACING_H
 #define STATE_RACING_H
 
+#include <functional>
+
+#include "Common.h"
 #include "GameplayState.h"
+#include "Component3DModel.h"
+#include "ComponentAmbientLight.h"
+#include "ComponentDirectionalLight.h"
+#include "EventManager.h"
+
+#include "LineDrawer.h"
 
 namespace Kartaclysm
 {
@@ -30,9 +39,18 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
+
+		HeatStroke::LineDrawer *lineDrawer;
+
 		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+	private:
+		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+
+		void LoadLevel(const std::string& p_strLevelPath);
+		void PauseGame(const HeatStroke::Event* p_pEvent);
 	};
 } // namespace Kartaclysm
 
