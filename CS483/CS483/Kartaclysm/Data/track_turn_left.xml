@@ -1,0 +1,7 @@
+<GameObject>
+	<Components>
+		<GOC_3DModel>
+			<OBJFileName path="Assets/Track/track_turn_left.obj"/>
+		</GOC_3DModel>
+	</Components>
+</GameObject>
