@@ -1,0 +1,6 @@
+<!-- HUD -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  <GOC_HUD />
+</GameObject>

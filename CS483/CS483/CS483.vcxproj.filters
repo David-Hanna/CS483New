@@ -466,5 +466,8 @@
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\hud.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

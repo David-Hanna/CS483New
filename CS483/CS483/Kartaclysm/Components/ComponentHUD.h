@@ -15,7 +15,6 @@
 #include "Font.h"
 #include "EventManager.h"
 #include <map>
-#include <vector>
 
 namespace Kartaclysm
 {
@@ -39,7 +38,7 @@ namespace Kartaclysm
 			);
 
 		// Game Loop methods.
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;
 		virtual void PreRender() { HeatStroke::ComponentRenderable::PreRender(); }
 
@@ -55,23 +54,23 @@ namespace Kartaclysm
 		};
 
 		typedef std::function<void(const HeatStroke::Event*)>* EventDelegate;
-		typedef std::map<std::string, HeatStroke::TextBox*> TextBoxMap;
+		typedef std::map<std::string, HeatStroke::Renderable*> RenderMap;
 
 		// A HUD section records TextBoxes associated with a section of the HUD,
 		// and the information to register/unregister with EventManager
 		struct HUDSection {
 			std::string	m_strEventRegistered;
 			EventDelegate m_pDelegate;
-			TextBoxMap m_mTextBoxMap;
+			RenderMap m_mRenderMap;
 
 			HUDSection() :
 				m_strEventRegistered(""),
 				m_pDelegate(nullptr),
-				m_mTextBoxMap() {}
+				m_mRenderMap() {}
 		};
 
-		typedef std::vector<HUDSection> SectionList;
-		typedef std::map<eRenderLayer, SectionList> LayerMap;
+		typedef std::map<std::string, HUDSection> SectionMap;
+		typedef std::map<eRenderLayer, SectionMap> LayerMap;
 
 		//--------------------------------------------------------------------------
 		// Protected methods
@@ -87,12 +86,29 @@ namespace Kartaclysm
 		// Required for Renderable Components, but does nothing
 		virtual void SyncTransform() {}
 
-		// void JoystickCallback(const HeatStroke::Event* p_pEvent);
+		// Break up the initialization process
+		virtual void AssignEventDelegates(const int p_iPlayerNumber);
+		virtual void AssignInitialRenderables();
+
+		// All of the callback methods for this HUD
+		virtual void PauseCallback(const HeatStroke::Event* p_pEvent);
+		virtual void DriverAbility1Callback(const HeatStroke::Event* p_pEvent);
+		virtual void DriverAbility2Callback(const HeatStroke::Event* p_pEvent);
+		virtual void KartAbility1Callback(const HeatStroke::Event* p_pEvent);
+		virtual void KartAbility2Callback(const HeatStroke::Event* p_pEvent);
+		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
+		virtual void LapCallback(const HeatStroke::Event* p_pEvent);
+		virtual void PopupCallback(const HeatStroke::Event* p_pEvent);
+		virtual void DebugCallback(const HeatStroke::Event* p_pEvent);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
+
+		// Timer control
+		bool m_bPaused;
+		float m_fRaceTime;
 
 		// Information for creating textboxes
 		HeatStroke::Font*	m_pFont;

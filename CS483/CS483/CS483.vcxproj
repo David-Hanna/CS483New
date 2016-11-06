@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\camera.xml" />
+    <Xml Include="Kartaclysm\Data\hud.xml" />
     <Xml Include="Kartaclysm\Data\kart.xml">
       <SubType>Designer</SubType>
     </Xml>

@@ -12,7 +12,10 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------
-	Font::Font(const std::string& p_strFontFile, const std::string& p_strTextureFilesPath)
+	Font::Font(const std::string& p_strFontFile, const std::string& p_strTextureFilesPath) :
+		m_strName(""),
+		m_uiSize(0),
+		m_mMapping()
 	{
 		ReadFont(p_strFontFile, p_strTextureFilesPath);
 	}

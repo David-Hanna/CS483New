@@ -10,6 +10,7 @@
 #include "ComponentCamera.h"
 #include "Components\ComponentCameraController.h"
 #include "Components\ComponentKartController.h"
+#include "ComponentHUD.h"
 
 //------------------------------------------------------------------------------
 // Method:    StateRacing
@@ -54,6 +55,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD", ComponentHUD::CreateComponent);
 
 	// Handle passed context parameters
 

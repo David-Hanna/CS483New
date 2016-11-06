@@ -4,6 +4,7 @@
 <Level>
   <!-- Test Kart -->
   <GameObject guid="Kart" base="kart"/>
+  <GameObject guid="HUD" base="hud"/>
   <GameObject guid="Camera" base="camera"/>
   <GameObject guid="Light" base="light"/>
 </Level>
