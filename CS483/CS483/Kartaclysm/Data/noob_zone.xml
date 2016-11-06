@@ -1,0 +1,63 @@
+<GameObject>
+	<Components>
+	</Components>
+
+	<Children>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="270.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_straight.xml">
+			<Transform>
+				<Translation x="18.0" y="0.0" z="42.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_turn_left.xml">
+			<Transform>
+				<Translation x="38.0" y="0.0" z="42.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="40.0" y="0.0" z="24.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="40.0" y="0.0" z="4.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="40.0" y="0.0" z="-16.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_straight.xml">
+			<Transform>
+				<Translation x="22.0" y="0.0" z="-18.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="2.0" y="0.0" z="-18.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/track_finish.xml">
+			<Transform>
+				<Rotation angle="270.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+	</Children>
+</GameObject>

@@ -52,11 +52,6 @@ namespace HeatStroke
 
 		void RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod);		
 
-		//TODO: abstract away
-		//Matt: I think this would be better suited as part of a scene.
-		//		It's fine here for now, but something to consider in the future
-		void LoadLevel(const std::string& p_strLevelDefinitionFile);
-
 		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "");
 		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "");
 
@@ -76,7 +71,7 @@ namespace HeatStroke
 
 		bool empty() const { return m_mGameObjectMap.empty(); }
 
-		//TODO: delete this
+		//TODO: delete this (once all bugs are worked out)
 		//Matt: just here to make sure all game objects loaded properly
 		void Print();
 

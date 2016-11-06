@@ -52,7 +52,7 @@ namespace Kartaclysm
 		//Matt: just here to simulate a racer going around the track
 		static int iCurrentTrackPieceIndex = 7;
 		static bool wasPressed = false;
-		bool isPressed = HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDown(GLFW_KEY_SPACE);
+		bool isPressed = HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_SPACE);
 		if (isPressed && !wasPressed)
 		{
 			int iRacerIndex = std::rand() % 3;

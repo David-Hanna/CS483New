@@ -44,8 +44,8 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
-	SetParent(nullptr);
-
+	// TODO - I don't know what's happening, but it's started throwing errors again when trying to remove itself as a child from its parent.
+	//			I'm removing this for now so it doesn't throw errors, but I'll need to figure this out soon.
 	DeleteAllComponents();
 	DeleteAllChildren();
 }
@@ -124,23 +124,27 @@ void GameObject::DeleteAllComponents()
 
 void GameObject::AddChild(GameObject* p_pChild)
 {
-	if (p_pChild != nullptr)
-	{
-		m_mChildMap.insert(std::pair<std::string, GameObject*>(p_pChild->GetGUID(), p_pChild));
-		p_pChild->SetParent(this);
-		m_Transform.AddChild(&(p_pChild->GetTransform()));
-	}
+	assert(p_pChild != nullptr);
+	p_pChild->SetParent(this);
 }
 
-// TODO - this->SetParent currently gets called twice when this->m_pParent != nullptr. Should look to improve that
 void GameObject::SetParent(GameObject* p_pParent)
 {
-	GameObject* pOldParent = m_pParent;
-	m_pParent = p_pParent;
-
-	if (pOldParent != nullptr)
+	if (m_pParent == p_pParent)
 	{
-		pOldParent->RemoveChild(m_strGUID);
+		return;
+	}
+
+	if (m_pParent != nullptr)
+	{
+		m_pParent->RemoveChild(m_strGUID);
+	}
+
+	m_pParent = p_pParent;
+	if (m_pParent != nullptr)
+	{
+		m_pParent->m_mChildMap.insert(std::pair<std::string, GameObject*>(m_strGUID, this));
+		m_Transform.SetParent(&(m_pParent->GetTransform()));
 	}
 }
 
@@ -152,7 +156,8 @@ GameObject* GameObject::RemoveChild(const std::string& p_strChildGuid)
 	if (it != m_mChildMap.end())
 	{
 		pChildGameObject = it->second;
-		pChildGameObject->SetParent(nullptr);
+		pChildGameObject->m_pParent = nullptr;
+		pChildGameObject->m_Transform.SetParent(nullptr);
 		m_mChildMap.erase(it);
 	}
 
@@ -221,7 +226,7 @@ void GameObject::Update(float p_fDelta)
 	}
 }
 
-//TODO: delete this
+//TODO: delete this (once all bugs are worked out)
 //Matt: Just using this to check that children are being added properly
 void GameObject::Print()
 {

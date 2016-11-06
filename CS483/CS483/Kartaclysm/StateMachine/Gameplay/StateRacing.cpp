@@ -7,6 +7,9 @@
 
 #include "StateRacing.h"
 
+#include "ComponentCamera.h"
+#include "Components\ComponentCameraController.h"
+#include "Components\ComponentKartController.h"
 #include "Components\ComponentTrack.h"
 
 //------------------------------------------------------------------------------
@@ -18,7 +21,8 @@
 Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true)
+	m_bSuspended(true),
+	m_pPauseDelegate(nullptr)
 {
 }
 
@@ -30,12 +34,7 @@ Kartaclysm::StateRacing::StateRacing()
 //------------------------------------------------------------------------------
 Kartaclysm::StateRacing::~StateRacing()
 {
-	if (m_pGameObjectManager != nullptr)
-	{
-		m_pGameObjectManager->DestroyAllGameObjects();
-		delete m_pGameObjectManager;
-		m_pGameObjectManager = nullptr;
-	}
+	Exit();
 }
 
 //------------------------------------------------------------------------------
@@ -48,20 +47,43 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 {
 	m_bSuspended = false;
 
+	// Register listening for pause
+	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	// Register component factory methods
+	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
 
 	// Handle passed context parameters
 
-	// Load XML to create GameObjects
-	m_pGameObjectManager->LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
-	//TODO: delete this
-	//Matt: just used for testing that GameObjectManager can properly load levels
-	m_pGameObjectManager->Print();
-	
+	// Load the GameObjects from XML.
+	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+}
+
+void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
+{
+	tinyxml2::XMLDocument mLevelDoc;
+	assert(mLevelDoc.LoadFile(p_strLevelPath.c_str()) == tinyxml2::XML_NO_ERROR);
+
+	tinyxml2::XMLElement* pLevelRootElement = mLevelDoc.RootElement();
+	assert(pLevelRootElement != nullptr);
+	assert(strcmp(pLevelRootElement->Value(), "Level") == 0);
+
+	// Iterate elements in the xml.
+	for (tinyxml2::XMLElement* pGameObjectElement = pLevelRootElement->FirstChildElement("GameObject");
+		 pGameObjectElement != nullptr;
+		 pGameObjectElement = pGameObjectElement->NextSiblingElement("GameObject"))
+	{
+		m_pGameObjectManager->CreateGameObject(pGameObjectElement);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -73,6 +95,13 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = true;
+
+	if (m_pPauseDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+		delete m_pPauseDelegate;
+		m_pPauseDelegate = nullptr;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -84,6 +113,12 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
+
+	if (m_pPauseDelegate == nullptr)
+	{
+		m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -94,11 +129,35 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
+	// good shit
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
 		m_pGameObjectManager->Update(p_fDelta);
 	}
+
+	// TODO: add camera as child object of kart
+	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
+	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
+
+	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
+
+	glm::vec3 offset = glm::vec3(0.0f, 2.5f, -5.0f);
+
+	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
+	if (controller != nullptr)
+	{
+		offset = offset * controller->GetRotationMinusSwerve();
+	}
+	else
+	{
+		offset = offset * pKart->GetTransform().GetRotation();
+	}
+	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
+	offset = offset + vKartPosition;
+
+	pCamera->GetTransform().SetTranslation(offset);
 }
 
 //------------------------------------------------------------------------------
@@ -120,10 +179,38 @@ void Kartaclysm::StateRacing::PreRender()
 void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
+
+	if (m_pPauseDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+		delete m_pPauseDelegate;
+		m_pPauseDelegate = nullptr;
+	}
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+}
+
+//------------------------------------------------------------------------------
+// Method:    PauseGame
+// Parameter: const HeatStroke::Event* p_pEvent - Event that triggers when a player pauses
+// 
+// Pause the game by pushing the Pause State.
+//------------------------------------------------------------------------------
+void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
+{
+	// Get the player who paused the game
+	int iPlayer = 0;
+	p_pEvent->GetOptionalIntParameter("Player", iPlayer, iPlayer);
+
+	// Create context for pushing to pause state
+	HeatStroke::StateMachine::ContextParameters mContext = HeatStroke::StateMachine::ContextParameters();
+	mContext["Player"] = std::to_string(iPlayer);
+
+	// Push pause state
+	m_pStateMachine->Push(1, mContext);
 }

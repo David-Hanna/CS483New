@@ -18,6 +18,7 @@ class VertexBuffer : public Buffer
 	friend class BufferManager;
 
 	public:
+		virtual unsigned int GetLength() { return m_uiLength; }
 		virtual void Bind();
 		virtual void Write(const void* p_pData, int p_iLength = -1);
 

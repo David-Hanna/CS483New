@@ -10,7 +10,6 @@
 #ifndef COMPONENTRENDERABLE_H
 #define COMPONENTRENDERABLE_H
 
-#include "Model.h"
 #include "Component.h"
 
 namespace HeatStroke
