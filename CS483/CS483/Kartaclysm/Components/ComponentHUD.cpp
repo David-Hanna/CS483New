@@ -78,7 +78,7 @@ namespace Kartaclysm
 
 		// Defaults
 		std::string strFontFilePath = "Assets/Fonts/ComicSans/Comic_Sans.fnt";
-		std::string strFontTextureFilesPath = "Assets/Fonts/ComicSans";
+		std::string strFontTextureFilesPath = "Assets/Fonts/ComicSans/";
 		std::string strVertexProgramPath = "Assets/Fonts/font.vsh";
 		std::string strFragmentProgramPath = "Assets/Fonts/font.fsh";
 

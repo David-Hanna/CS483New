@@ -105,7 +105,7 @@ namespace HeatStroke
 				//get texture file corresponding to page id
 				std::getline(lineStream, strRead, ' ');
 				GLuint uiPos = strRead.find('\"') + 1;
-				std::string strTextureFile = strRead.substr(uiPos, strRead.length() - uiPos - 2);
+				std::string strTextureFile = strRead.substr(uiPos, strRead.length() - uiPos - 1);
 
 				mTextures[uiPageID] = p_strTextureFilesPath + strTextureFile;
 			}
