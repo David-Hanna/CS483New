@@ -28,12 +28,14 @@ namespace Kartaclysm
 		m_fSpeedWhileSlidingMaxStat(0.9f),
 		m_fMaxTurnStat(0.8f),
 		m_fTurnAccelerationStat(120.0f),
-		m_fHopInitialSpeedStat(2.0f),
+		m_fHopInitialSpeedStat(2.5f),
 		m_fGravityAccelerationStat(-12.0f),
 		m_fSlideModifierStat(0.006f),
 		m_fSlideMaxTurnModifierStat(1.5f),
 		m_fTurnAtMaxSpeedStat(0.8f),
 		m_fPeakTurnRatio(0.2f),
+		m_fSwerveTurnModifier(0.35f),
+		m_fSwerveAccelerationStat(2.0f),
 
 		m_fGroundHeight(0.0f),
 		m_fSpeed(0.0f),
@@ -42,7 +44,8 @@ namespace Kartaclysm
 		m_bAirborne(false),
 		m_fVerticalSpeed(0.0f),
 		m_bSliding(false),
-		m_iSlideDirection(0)
+		m_iSlideDirection(0),
+		m_fSwerve(0.0f)
 	{
 	}
 
@@ -119,31 +122,32 @@ namespace Kartaclysm
 
 	void ComponentKartController::UpdateTurn(float p_fTurnInput, float p_fDelta)
 	{
-		// Determine slide direction, if sliding
-		if (m_bSliding)
-		{
-			if (p_fTurnInput < 0 && m_iSlideDirection >= 0)
-			{
-				m_iSlideDirection = 1;
-			}
-			else if (p_fTurnInput > 0 && m_iSlideDirection <= 0)
-			{
-				m_iSlideDirection = -1;
-			}
-		}
-
 		// Variables!
 		float fTurnTarget = m_fMaxTurnStat * p_fTurnInput;
 		float fModifier = 1.0f;
 
-		// Adjust turn parameters if sliding
+		// Determine slide direction and adjust turn parameters, if sliding
 		if (m_bSliding)
 		{
+			if (p_fTurnInput < 0 && m_iSlideDirection == 0)
+			{
+				m_iSlideDirection = -1;
+			}
+			else if (p_fTurnInput > 0 && m_iSlideDirection == 0)
+			{
+				m_iSlideDirection = 1;
+			}
+
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier = m_fSlideModifierStat;
+
+			if ((m_iSlideDirection > 0 && fTurnTarget < 0) || (m_iSlideDirection < 0 && fTurnTarget > 0))
+			{
+				fTurnTarget = 0.0f;
+			}
 		}
 
-		// Starighten out the turn a bit if moving fast (or very slow)
+		// Straighten out the turn a bit if moving fast (or very slow)
 		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
 		{
 			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
@@ -172,6 +176,28 @@ namespace Kartaclysm
 		if (m_fDirection >= PI * 2.0f)
 		{
 			m_fDirection -= PI * 2.0f;
+		}
+
+		// Swerve
+		float fSwerveTarget = m_fTurnSpeed * m_fSwerveTurnModifier;
+
+		if (m_bAirborne || m_bSliding)
+		{
+			fSwerveTarget *= 1.5f;
+		}
+
+		/*if (m_bSliding)
+		{
+			fSwerveTarget += 0.2f * m_iSlideDirection;
+		}*/
+
+		if (fSwerveTarget < m_fSwerve)
+		{
+			m_fSwerve += fmax(-m_fSwerveAccelerationStat * p_fDelta, fSwerveTarget - m_fSwerve);
+		}
+		else if (fSwerveTarget > m_fSwerve)
+		{
+			m_fSwerve += fmin(m_fSwerveAccelerationStat * p_fDelta, fSwerveTarget - m_fSwerve);
 		}
 	}
 
@@ -235,9 +261,20 @@ namespace Kartaclysm
 	void ComponentKartController::UpdateTransform(float p_fHeightMod)
 	{
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
+		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
-		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\nTurn Modifier:\n  %f\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection, fSpeedModifer);
+		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
+	}
+
+	glm::quat ComponentKartController::GetRotationMinusSwerve()
+	{
+		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
+
+		glm::quat result = m_pGameObject->GetTransform().GetRotation();
+
+		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+
+		return result;
 	}
 }
