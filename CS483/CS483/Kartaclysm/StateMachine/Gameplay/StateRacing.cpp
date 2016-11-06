@@ -80,18 +80,16 @@ void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
 	tinyxml2::XMLDocument mLevelDoc;
 	assert(mLevelDoc.LoadFile(p_strLevelPath.c_str()) == tinyxml2::XML_NO_ERROR);
 
-	tinyxml2::XMLNode* pLevelNode = mLevelDoc.RootElement();
-	assert(pLevelNode != nullptr);
-	assert(strcmp(pLevelNode->Value(), "Level") == 0);
+	tinyxml2::XMLElement* pLevelRootElement = mLevelDoc.RootElement();
+	assert(pLevelRootElement != nullptr);
+	assert(strcmp(pLevelRootElement->Value(), "Level") == 0);
 
 	// Iterate elements in the xml.
-	for (tinyxml2::XMLNode* pGameObjectNode = pLevelNode->FirstChild(); pGameObjectNode != nullptr; pGameObjectNode = pGameObjectNode->NextSibling())
+	for (tinyxml2::XMLElement* pGameObjectElement = pLevelRootElement->FirstChildElement("GameObject");
+		 pGameObjectElement != nullptr;
+		 pGameObjectElement = pGameObjectElement->NextSiblingElement("GameObject"))
 	{
-		// skip comments
-		if (pGameObjectNode->ToComment() != nullptr)
-			continue;
-		assert(strcmp(pGameObjectNode->Value(), "GameObject") == 0);
-		m_pGameObjectManager->CreateGameObject(pGameObjectNode);
+		m_pGameObjectManager->CreateGameObject(pGameObjectElement);
 	}
 }
 

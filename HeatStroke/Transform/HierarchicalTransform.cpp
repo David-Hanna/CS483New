@@ -15,14 +15,9 @@ namespace HeatStroke
 		m_strName(p_strName),
 		m_bScaleDirty(true),
 		m_bRotationDirty(true),
-		m_bTransformDirty(true),
 		m_vParentScale(1.0f, 1.0f, 1.0f),
 		m_qParentRotation(1.0f, 0.0f, 0.0f, 0.0f),
 		m_vParentTranslation(0.0f, 0.0f, 0.0f),
-		m_vScale(1.0f, 1.0f, 1.0f),
-		m_qRotation(1.0f, 0.0f, 0.0f, 0.0f),
-		m_vTranslation(0.0f, 0.0f, 0.0f),
-		m_mTransform(),
 		m_pParent(nullptr),
 		m_vChildren()
 	{
@@ -352,5 +347,15 @@ namespace HeatStroke
 			// Propagate the update to its children.
 			(*it)->UpdateChildrensParentTranslation();
 		}
+	}
+
+	//TODO: delete this (once all bugs are worked out)
+	//Matt: just using this to make sure transform values are correct
+	void HierarchicalTransform::Print() const
+	{
+		const glm::vec3 scale = GetScale();
+		const glm::vec3 trans = GetTranslation();
+		printf("scale: %f, %f, %f\n", scale.x, scale.y, scale.z);
+		printf("translate: %f, %f, %f\n", trans.x, trans.y, trans.z);
 	}
 }
