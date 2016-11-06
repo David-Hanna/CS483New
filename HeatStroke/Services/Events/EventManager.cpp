@@ -137,8 +137,11 @@ namespace HeatStroke
 		{
 			// Iterate over the listeners and call their handler method with
 			// the Event parameter.
-			ListenerList::iterator it = findListenerList->second.begin();
-			ListenerList::iterator end = findListenerList->second.end();
+			// TO DO, currently uses local copy to avoid iterator problems if
+			// AddListener() or RemoveListener() are called during event dispatch
+			ListenerList mLocalCopy(findListenerList->second);
+			ListenerList::iterator it = mLocalCopy.begin();
+			ListenerList::iterator end = mLocalCopy.end();
 
 			for (; it != end; ++it)
 			{

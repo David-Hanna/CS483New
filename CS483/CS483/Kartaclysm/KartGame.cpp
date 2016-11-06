@@ -27,6 +27,7 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	m_pGameStates->RegisterState(0, new StateRacing());
+	m_pGameStates->RegisterState(1, new StatePaused());
 	m_pGameStates->Push(0);
 
 	return true;
