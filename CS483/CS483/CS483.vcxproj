@@ -122,6 +122,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="Kartaclysm\Services\IO\InputActions.h" />
     <ClInclude Include="Kartaclysm\Services\IO\PlayerInputMapping.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
   </ItemGroup>
