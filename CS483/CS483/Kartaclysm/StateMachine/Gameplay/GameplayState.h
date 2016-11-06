@@ -10,6 +10,7 @@
 
 #include "State.h"
 #include "GameObjectManager.h"
+#include "StateMachine.h"
 
 namespace Kartaclysm
 {

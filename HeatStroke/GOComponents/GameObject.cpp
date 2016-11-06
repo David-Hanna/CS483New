@@ -3,6 +3,8 @@
 //
 // Created:	2012/12/14
 // Author:	Carel Boers
+// Editor:	David Hanna
+// Editor:	Matthew White
 //	
 // This class defines a "GameObject". An GameObject for our purpose is 
 // essentially just an empty container to define any object in our game 
@@ -27,7 +29,10 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 	m_pGameObjectManager(p_pGameObjectManager),
 	m_strGUID(p_strGUID),
 	m_Transform(p_strGUID),
-	m_mComponentMap()
+	m_pParent(nullptr),
+	m_mComponentMap(),
+	m_mChildMap(),
+	m_mTagList()
 {
 }
 
@@ -39,7 +44,13 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
-	this->DeleteAllComponents();
+	if (m_pParent != nullptr)
+	{
+		m_pParent->RemoveChild(m_strGUID);
+	}
+
+	DeleteAllComponents();
+	DeleteAllChildren();
 }
 
 //------------------------------------------------------------------------------
@@ -113,6 +124,71 @@ void GameObject::DeleteAllComponents()
 	m_mComponentMap.clear();
 }
 
+
+void GameObject::AddChild(GameObject* p_pChild)
+{
+	assert(p_pChild != nullptr);
+	p_pChild->SetParent(this);
+}
+
+void GameObject::SetParent(GameObject* p_pParent)
+{
+	if (m_pParent == p_pParent)
+	{
+		return;
+	}
+
+	if (m_pParent != nullptr)
+	{
+		m_pParent->RemoveChild(m_strGUID);
+	}
+
+	m_pParent = p_pParent;
+	if (m_pParent != nullptr)
+	{
+		m_pParent->m_mChildMap.insert(std::pair<std::string, GameObject*>(m_strGUID, this));
+		m_Transform.SetParent(&(m_pParent->GetTransform()));
+	}
+}
+
+GameObject* GameObject::RemoveChild(const std::string& p_strChildGuid)
+{
+	GameObject* pChildGameObject = nullptr;
+
+	ChildMap::iterator it = m_mChildMap.find(p_strChildGuid);
+	if (it != m_mChildMap.end())
+	{
+		pChildGameObject = it->second;
+		pChildGameObject->m_pParent = nullptr;
+		pChildGameObject->m_Transform.SetParent(nullptr);
+		m_mChildMap.erase(it);
+	}
+
+	return pChildGameObject;
+}
+
+GameObject* GameObject::GetChild(const std::string& p_strChildGuid)
+{
+	GameObject* pChildGameObject = nullptr;
+
+	ChildMap::iterator it = m_mChildMap.find(p_strChildGuid);
+	if (it != m_mChildMap.end())
+	{
+		pChildGameObject = it->second;
+	}
+
+	return pChildGameObject;
+}
+
+void GameObject::DeleteAllChildren()
+{
+	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)
+	{
+		m_pGameObjectManager->DestroyGameObject(it->second);
+	}
+	m_mChildMap.clear();
+}
+
 //------------------------------------------------------------------------------
 // Method:    Init
 // Returns:   void
@@ -140,4 +216,26 @@ void GameObject::Update(float p_fDelta)
 	{
 		it->second->Update(p_fDelta);
 	}
+}
+
+//TODO: delete this (once all bugs are worked out)
+//Matt: Just using this to check that children are being added properly
+void GameObject::Print()
+{
+	printf("guid: %s\n", m_strGUID.c_str());
+	m_Transform.Print();
+	printf("parent: %s\n", m_pParent == nullptr ? "none" : m_pParent->GetGUID().c_str());
+	printf("children:\n");
+	if (m_mChildMap.size() == 0)
+	{
+		printf("none\n");
+	}
+	else
+	{
+		for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)
+		{
+			printf("%s\n", it->second->GetGUID().c_str());
+		}
+	}
+	printf("\n");
 }

@@ -1,0 +1,10 @@
+<!-- Camera -->
+<!-- Author: David MacIntosh -->
+
+<GameObject>
+  <Components>
+    <GOC_Camera>
+      <Target guid="Kart"/>
+    </GOC_Camera>
+  </Components>
+</GameObject>

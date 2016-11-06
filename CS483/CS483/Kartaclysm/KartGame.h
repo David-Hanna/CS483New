@@ -5,14 +5,20 @@
 // Class that handles core game logic.
 //----------------------------------------------------------------------------
 
-#ifndef KART_GAME_H
-#define KART_GAME_H
+#ifndef KARTGAME_H
+#define KARTGAME_H
 
 #include "Game.h"
 #include "KeyboardInputBuffer.h"
+#include "JoystickInputBuffer.h"
+#include "InputActionMapping.h"
+#include "PlayerInputMapping.h"
+#include "EventManager.h"
 #include "StateMachine.h"
 #include "GameplayState.h"
 #include "StateRacing.h"
+#include "StatePaused.h"
+#include "SceneManager.h"
 #include "ParsingServiceLocator.h"
 #include "DebugParsingWrapper.h"
 #include "StoredParsingService.h"
@@ -22,6 +28,10 @@ namespace Kartaclysm
 	class KartGame : public HeatStroke::Game
 	{
 	public:
+		//--------------------------------------------------------------------------
+		// Public methods
+		//--------------------------------------------------------------------------
+
 		KartGame() {}
 		~KartGame() {}
 		
@@ -39,6 +49,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Private variables
 		//--------------------------------------------------------------------------
+
 		// State machine to hold game states
 		HeatStroke::StateMachine* m_pGameStates;
 	};

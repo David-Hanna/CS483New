@@ -14,13 +14,11 @@
 
 namespace HeatStroke
 {
-class Program
-{
-	friend class ProgramManager;
+	class Program
+	{
+		friend class ProgramManager;
+
 	public:
-		//-------------------------------------------------------------------------
-		// PUBLIC INTERFACE
-		//-------------------------------------------------------------------------
 		void Bind();
 
         void SetUniform(const char* p_strName, const glm::mat4& p_m);
@@ -32,12 +30,10 @@ class Program
 		void SetUniform(const char* p_strName, int p_i);
 		void SetUniform(const char* p_strName, const glm::mat4* p_m, int p_uiNumMatrices);
 		void SetUniform(const char* p_strName, const glm::mat3* p_m, int p_uiNumMatrices);
-		//-------------------------------------------------------------------------
 
 	private:
-		//-------------------------------------------------------------------------
-		// PRIVATE METHODS
-		//-------------------------------------------------------------------------
+		GLuint		m_uiProgram;
+
 
 		// Made private to enforce usage via ProgramManager
 		Program(const std::string& p_strVS, const std::string& p_strPS);
@@ -45,15 +41,7 @@ class Program
 		
 		bool CompileShader(GLuint* p_pShader, GLenum p_eType, const std::string& p_strFile);
 		bool LinkProgram();
-		//-------------------------------------------------------------------------
-
-		//-------------------------------------------------------------------------
-		// PRIVATE MEMBERS
-		//-------------------------------------------------------------------------
-		GLuint		m_uiProgram;
-		//-------------------------------------------------------------------------
-};
-
+	};
 }
 
 #endif

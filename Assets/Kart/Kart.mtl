@@ -1,0 +1,12 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl Main-Body-Mat
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ka 1.000000 1.000000 1.000000
+Kd 0.596078 0.000000 0.000000
+Ks 0.664000 0.664000 0.664000
+Ns 358.823529
+d 1.000000
+map_Kd Assets/Kart/kart.tga

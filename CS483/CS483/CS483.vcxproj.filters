@@ -70,6 +70,12 @@
     <Filter Include="Kartaclysm\Data">
       <UniqueIdentifier>{d0092d9f-cd87-4aea-9857-bb41fb0689c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\OBJ">
+      <UniqueIdentifier>{bb51c5f1-cadb-441f-a497-a37473fc604c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeatStroke\Services\MTL">
+      <UniqueIdentifier>{710270de-b3d4-4ab5-b57e-e9771cf81f9e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HeatStroke\Graphics\GDebug">
       <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
     </Filter>
@@ -79,11 +85,20 @@
     <Filter Include="Kartaclysm\StateMachine\Gameplay">
       <UniqueIdentifier>{11fb4673-e684-4054-a1a3-2d8759f10f62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\GO/Components\Parsing">
-      <UniqueIdentifier>{f68080bb-b279-4e17-9cff-3b5b09602c40}</UniqueIdentifier>
+    <Filter Include="Kartaclysm\Services">
+      <UniqueIdentifier>{702a3674-2ddc-4df1-b974-48274a5bfc69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\GO/Components\Parsing\Services">
+    <Filter Include="Kartaclysm\Data\UserConfig">
+      <UniqueIdentifier>{82517b1b-1d69-43a3-bb61-97554a55e377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Services\IO">
+      <UniqueIdentifier>{8b1fb89a-a01f-4cec-b8ff-55e0c25b8b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeatStroke\GOComponents\Parsing\Services">
       <UniqueIdentifier>{142bec93-49de-4486-8205-9c4dacb9794a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeatStroke\GO/Components\ParsingService">
+      <UniqueIdentifier>{d0379ca1-fe47-4ad9-bae3-e2cfe4ba1dc7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +204,12 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\OBJ\OBJFile.cpp">
+      <Filter>HeatStroke\Services\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\MTL\MTLFile.cpp">
+      <Filter>HeatStroke\Services\MTL</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
@@ -204,17 +225,47 @@
     <ClCompile Include="Kartaclysm\main.cpp">
       <Filter>Kartaclysm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugParsingWrapper.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GOComponents\Parsing\Services</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadParsingService.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GOComponents\Parsing\Services</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\StoredParsingService.cpp">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GOComponents\Parsing\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.cpp">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
+      <Filter>HeatStroke\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.cpp">
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,11 +398,26 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\OBJ\OBJFile.h">
+      <Filter>HeatStroke\Services\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\MTL\MTLFile.h">
+      <Filter>HeatStroke\Services\MTL</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Common\Common.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\KartGame.h">
+      <Filter>Kartaclysm</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentKartController.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
@@ -362,23 +428,67 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="Kartaclysm\KartGame.h">
-      <Filter>Kartaclysm</Filter>
+    <ClInclude Include="Kartaclysm\Services\IO\InputActionMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    <ClInclude Include="Kartaclysm\Services\IO\InputActions.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h">
-      <Filter>HeatStroke\GO/Components\Parsing</Filter>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneAmbientLight.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\IO\PlayerInputMapping.h">
+      <Filter>Kartaclysm\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h">
+      <Filter>HeatStroke\Services\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Common\Types.h">
+      <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugParsingWrapper.h">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingService.h">
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\ParsingServiceLocator.h">
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadParsingService.h">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\StoredParsingService.h">
-      <Filter>HeatStroke\GO/Components\Parsing\Services</Filter>
+      <Filter>HeatStroke\GO/Components\ParsingService</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Kartaclysm\Data\kart.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\test_level.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

@@ -3,9 +3,15 @@
 //
 // Created:	2012/12/26
 // Author:	Carel Boers
+// Editor:	David Hanna
+// Editor:	Matthew White
 //	
 // Manages the collection of Game Objects used by a game.
 //------------------------------------------------------------------------
+
+//TODO: re-implement override element in xml files
+//Matt: override was removed for now to simplify converting to a hierarchical GameObject.
+//		it's a really powerful feature though, so we should re-implement soon
 
 #ifndef GAMEOBJECTMANAGER_H
 #define GAMEOBJECTMANAGER_H
@@ -14,7 +20,6 @@
 #include <set>
 
 #include "GameObject.h"
-#include "ParsingServiceLocator.h"
 
 // For parsing GameObject XML
 #include "tinyxml2.h"
@@ -27,40 +32,34 @@ namespace HeatStroke
 	public:
 		//---------------------------------------------------------------------
 		// Public Types
-		//---------------------------------------------------------------------		
-		// Any object which wants to iterate over the GameObject collection will need this typedef.
+		//---------------------------------------------------------------------
+		// Typedef for the function signature which must be provided to RegisterComponentFactory().
+		typedef Component*						// Return value - the pointer to the created Component.
+			(*ComponentFactoryMethod)				// The typedef for the function pointer.
+			(GameObject* p_pGameObject,				// The GameObject which owns the Component.
+			tinyxml2::XMLNode* p_pBaseNode,			// The Base Node from which to construct the Component.
+			tinyxml2::XMLNode* p_pOverrideNode);	// The Override Node from which to construct the Component.
+		
+		// Any object which wants to iterate over the GameObject collection will need
+		// this typedef.
 		typedef std::map<std::string, GameObject*> GameObjectMap;
 
 		//---------------------------------------------------------------------
 		// Public interface
 		//---------------------------------------------------------------------
-		// Creates a new blank slate GameObjectManager
 		GameObjectManager();
-
-		// Now automatically cleans up after itself in the destructor, so no more
-		// of the user of this class being forced to remember to manually clean up.
 		~GameObjectManager();
 
-		// Creates a game object using the given <GameObject> node that is a child
-		// of <Level> (this is at the instance level, rather than class level). 
-		// Make sure all the necessary Component Factory Methods have been registered before using this.
-		GameObject* CreateGameObject(tinyxml2::XMLNode* p_pGameObjectInstanceNode);
+		void RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod);		
 
-		// Overload for creating Game Objects from a base file.
-		GameObject* CreateGameObject(const std::string& p_strBaseFileName, const std::string& p_strGUID = "");
+		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "");
+		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "");
 
-		// Accessor.
 		GameObject* GetGameObject(const std::string &p_strGameObjectGUID);
 
-		// Removing Game Objects from the world.
 		void DestroyGameObject(GameObject* p_pGameObject);
 		void DestroyAllGameObjects();
 
-		// This shouldn't exist? Seems to be unnecessary where GUIDs should be loaded in data
-		// or randomly generated at construction.
-		//bool SetGameObjectGUID(GameObject* p_pGameObject, const std::string &p_strGOGUID);
-
-		// Game Loop Methods
 		void Update(const float p_fDelta);
 		void PreRender();
 
@@ -70,22 +69,29 @@ namespace HeatStroke
 		GameObjectMap::const_iterator begin() const { return m_mGameObjectMap.begin(); }
 		GameObjectMap::const_iterator end()   const	{ return m_mGameObjectMap.end(); }
 
-		// Simple empty query
 		bool empty() const { return m_mGameObjectMap.empty(); }
+
+		//TODO: delete this (once all bugs are worked out)
+		//Matt: just here to make sure all game objects loaded properly
+		void Print();
 
 	private:
 		//---------------------------------------------------------------------
+		// Private types
+		//---------------------------------------------------------------------
+		typedef std::map<std::string, ComponentFactoryMethod> ComponentFactoryMap;
+
+		//---------------------------------------------------------------------
 		// Private members
 		//---------------------------------------------------------------------
+		GameObjectMap m_mGameObjectMap;
+		ComponentFactoryMap m_mComponentFactoryMap;
+
 		// Flags so we can move Destroying Game Objects to the end of the Update loop.
 		bool m_bUpdating;
 		std::set<GameObject*> m_vToDelete;
 
-		// This number is appended to auto-generated GUIDs to ensure uniqueness.
 		unsigned int m_uiAutoGUIDNum;
-
-		// Map of Game Objects
-		GameObjectMap m_mGameObjectMap;
 
 		//---------------------------------------------------------------------
 		// Private methods
@@ -94,22 +100,11 @@ namespace HeatStroke
 		GameObjectManager(const GameObjectManager&) = delete;
 		GameObjectManager& operator=(const GameObjectManager) = delete;
 
-		// Parses the attributes of the Game Object Instance Node.
-		void ParseInstanceNodeAttributes(
-			tinyxml2::XMLNode* p_pGameObjectInstanceNode,
-			std::string& p_strGUID, 
-			std::string& p_strBase);
+		void LoadComponents(tinyxml2::XMLElement* p_pComponentsRootElement, GameObject* p_pGameObject);
+		void LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElement, GameObject* p_pParent);
 
-		// Helper method for CreateGameObject to add a brand new GameObject to
-		// its own list and return a pointer to it to continue construction.
-		GameObject* AddBlankGameObject(const std::string& p_strGUID);
-
-		// Handles the special case of the Transform override.
-		// <TO DO> This needs massive improvement. Right now it does an extra loop
-		// over the children of <Override> instead of mixing in with the loop that
-		// already goes over them. Also need a way to let Hierarchical Transforms
-		// handle parsing children and parents by themselves.
-		void ParseTransformOverride(GameObject* p_pGameObject, tinyxml2::XMLNode* p_pOverrideNode);
+		std::string GetGuid(tinyxml2::XMLElement* p_pGameObjectRootElement);
+		std::string GetAutoGuid();
 	};
 } // namespace HeatStroke
 

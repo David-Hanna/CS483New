@@ -77,6 +77,10 @@ namespace HeatStroke
 		virtual std::vector<HierarchicalTransform*>::const_iterator begin() const	{ return m_vChildren.begin(); }
 		virtual std::vector<HierarchicalTransform*>::const_iterator end() const		{ return m_vChildren.end(); }
 
+		//TODO: delete this (once all bugs are worked out)
+		//Matt: just using this to check that values of transform are correct
+		void Print() const;
+
 	protected:
 		// The name of this transform, which distinguishes it from other transforms.
 		const std::string m_strName;
@@ -90,19 +94,12 @@ namespace HeatStroke
 		// We don't need a derived translation dirty flag because the derived transform dirty doubles
 		// as one for translation as well, since it needs to be recomputed to find the correct transformation
 		// (after rotating around the parent) anyway.
-		mutable bool m_bTransformDirty;
 
 		// The parent's scale, rotation and translation which also incorporates
 		// the values of its parent, and so on up the chain.
 		glm::vec3 m_vParentScale;
 		glm::quat m_qParentRotation;
 		glm::vec3 m_vParentTranslation;
-
-		// The components of this Transform.
-		mutable glm::vec3 m_vScale;
-		mutable glm::quat m_qRotation;
-		mutable glm::vec3 m_vTranslation;
-		mutable glm::mat4 m_mTransform;
 
 		// Parent transform reference
 		HierarchicalTransform* m_pParent;
