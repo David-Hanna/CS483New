@@ -2,5 +2,7 @@
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
-  <GOC_HUD />
+  <Components>
+      <GOC_HUD />
+  </Components>
 </GameObject>

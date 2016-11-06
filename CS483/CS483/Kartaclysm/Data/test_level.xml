@@ -4,7 +4,7 @@
 <Level>
 	<!-- Test Kart -->
 	<GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
-  	<GameObject guid="HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
+  <GameObject guid="HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
 	<GameObject guid="Camera" definition="CS483/CS483/Kartaclysm/Data/camera.xml"/>
   <GameObject guid="Light" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
 </Level>
