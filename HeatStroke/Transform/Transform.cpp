@@ -93,10 +93,10 @@ const glm::mat4& HeatStroke::Transform::GetTransform() const
 
 void HeatStroke::Transform::ParseTransformNode(tinyxml2::XMLNode* p_pTransformNode)
 {
-	assert(strcmp(p_pTransformNode->Value(), "Transform") == 0);
-
 	if (p_pTransformNode == nullptr)
 		return;
+
+	assert(strcmp(p_pTransformNode->Value(), "Transform") == 0);
 
 	for (tinyxml2::XMLNode* pTransformChildNode = p_pTransformNode->FirstChild();
 		pTransformChildNode != nullptr;

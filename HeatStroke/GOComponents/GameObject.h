@@ -3,6 +3,8 @@
 //
 // Created:	2012/12/14
 // Author:	Carel Boers
+// Editor:	David Hanna
+// Editor:	Matthew White
 //	
 // This class defines a "GameObject". An GameObject for our purpose is 
 // essentially just an empty container to define any object in our game 
@@ -28,6 +30,7 @@ namespace HeatStroke
 	{
 		// Typedef for convenience
 		typedef std::map<std::string, Component*> ComponentMap;
+		typedef std::map<std::string, GameObject*> ChildMap;
 		typedef std::set<std::string> TagList;
 
 		// Only GameObjectManager can create instances (private constructor/destructor)
@@ -48,6 +51,12 @@ namespace HeatStroke
 		Component* RemoveComponent(const std::string &p_strFamilyId);
 		void DeleteAllComponents();
 
+		void AddChild(GameObject* p_pChild);
+		void SetParent(GameObject* p_pParent);
+		GameObject* RemoveChild(const std::string& p_strChildGuid);
+		GameObject* GetChild(const std::string& p_strChildGuid);
+		void DeleteAllChildren();
+
 		// Tag management
 		void AddTag(const std::string& p_strTag)		{ m_mTagList.insert(p_strTag); }
 		bool HasTag(const std::string& p_strTag) const	{ return m_mTagList.find(p_strTag) != m_mTagList.end(); }
@@ -58,6 +67,10 @@ namespace HeatStroke
 		virtual void Init();
 		virtual void Update(float p_fDelta);
 
+		//TODO: delete this (once all bugs are worked out)
+		//Matt: just using to show that children are being added properly
+		void Print();
+		
 	private:
 		//------------------------------------------------------------------------------
 		// Private methods.
@@ -86,6 +99,9 @@ namespace HeatStroke
 
 		// List of components
 		ComponentMap m_mComponentMap;
+
+		GameObject* m_pParent;
+		ChildMap m_mChildMap;
 
 		// List of tags
 		TagList m_mTagList;
