@@ -2,12 +2,14 @@
 <!-- Author: David MacIntosh -->
 
 <GameObject>
-  <GOC_3DModel>
-		<OBJFileName path="Assets/Kart/Kart.obj"/>
-	</GOC_3DModel>
-  <GOC_SphereCollider>
-    <Offset x="0" y="0" z="0" />
-    <Sphere radius="0.1" />
-  </GOC_SphereCollider>
-  <GOC_KartController/>
+  <Components>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Kart/Kart.obj"/>
+    </GOC_3DModel>
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="0.1" />
+    </GOC_SphereCollider>
+    <GOC_KartController/>
+  </Components>
 </GameObject>

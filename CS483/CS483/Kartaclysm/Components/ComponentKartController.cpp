@@ -122,7 +122,11 @@ namespace Kartaclysm
 
 	void ComponentKartController::UpdateTurn(float p_fTurnInput, float p_fDelta)
 	{
-		// Determine slide direction, if sliding
+		// Variables!
+		float fTurnTarget = m_fMaxTurnStat * p_fTurnInput;
+		float fModifier = 1.0f;
+
+		// Determine slide direction and adjust turn parameters, if sliding
 		if (m_bSliding)
 		{
 			if (p_fTurnInput < 0 && m_iSlideDirection == 0)
@@ -133,15 +137,7 @@ namespace Kartaclysm
 			{
 				m_iSlideDirection = 1;
 			}
-		}
 
-		// Variables!
-		float fTurnTarget = m_fMaxTurnStat * p_fTurnInput;
-		float fModifier = 1.0f;
-
-		// Adjust turn parameters if sliding
-		if (m_bSliding)
-		{
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier = m_fSlideModifierStat;
 
@@ -151,7 +147,7 @@ namespace Kartaclysm
 			}
 		}
 
-		// Starighten out the turn a bit if moving fast (or very slow)
+		// Straighten out the turn a bit if moving fast (or very slow)
 		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
 		{
 			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);

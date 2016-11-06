@@ -249,6 +249,9 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

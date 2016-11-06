@@ -2,7 +2,9 @@
 <!-- Author: David MacIntosh -->
 
 <GameObject>
-  <GOC_Camera>
-    <Target guid="Kart"/>
-  </GOC_Camera>
+  <Components>
+    <GOC_Camera>
+      <Target guid="Kart"/>
+    </GOC_Camera>
+  </Components>
 </GameObject>
