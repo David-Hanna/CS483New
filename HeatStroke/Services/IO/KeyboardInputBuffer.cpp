@@ -254,13 +254,33 @@ namespace HeatStroke
 	}
 
 	//--------------------------------------------------------------------------------
-	// KeyboardInputBuffer::IsKeyDown
+	// KeyboardInputBuffer::IsKeyDownOnce
+	// Parameter: const int p_iGLFWKeyConstant - the key to check, should be a glfw key constant.
+	//
+	// Returns true if the given key is down this frame but was
+	// not last frame. False if not, or if the key is not supported.
+	//--------------------------------------------------------------------------------
+	bool KeyboardInputBuffer::IsKeyDownOnce(const int p_iGLFWKeyConstant) const
+	{
+		KeyMap::iterator findCurr = m_pKeysDown->find(p_iGLFWKeyConstant);
+		KeyMap::iterator findPrev = m_pKeysDownLast->find(p_iGLFWKeyConstant);
+		if (findCurr != m_pKeysDown->end() &&
+			findPrev != m_pKeysDownLast->end())
+		{
+			return (findCurr->second && !findPrev->second);
+		}
+
+		return false;
+	}
+
+	//--------------------------------------------------------------------------------
+	// KeyboardInputBuffer::IsKeyDownContinuous
 	// Parameter: const int p_iGLFWKeyConstant - the key to check, should be a glfw key constant.
 	//
 	// Returns true if the given key is down. False if not, or
 	// if the key is not supported.
 	//--------------------------------------------------------------------------------
-	bool KeyboardInputBuffer::IsKeyDown(const int p_iGLFWKeyConstant) const
+	bool KeyboardInputBuffer::IsKeyDownContinuous(const int p_iGLFWKeyConstant) const
 	{
 		KeyMap::iterator find = m_pKeysDown->find(p_iGLFWKeyConstant);
 		if (find != m_pKeysDown->end())
