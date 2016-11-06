@@ -68,7 +68,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
 
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
-	pKart->GetTransform().SetScaleXYZ(0.1f, 0.1f, 0.25f);
+	pKart->GetTransform().SetScaleXYZ(0.1f, 0.1f, 0.1f);
 
 	// line stuff
 	lineDrawer = new HeatStroke::LineDrawer();
@@ -149,9 +149,17 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
 
-	glm::vec3 offset = glm::vec3(0.0f, 0.5f, -1.0f);
+	glm::vec3 offset = glm::vec3(0.0f, 0.25f, -0.5f);
 
-	offset = offset * pKart->GetTransform().GetRotation();
+	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
+	if (controller != nullptr)
+	{
+		offset = offset * controller->GetRotationMinusSwerve();
+	}
+	else
+	{
+		offset = offset * pKart->GetTransform().GetRotation();
+	}
 	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
 	offset = offset + vKartPosition;
 
