@@ -34,9 +34,13 @@ namespace HeatStroke
 		// Returns true if the given key is tracked by GLFW.
 		bool IsValidKey(const int p_iGLFWKeyConstant) const;
 
+		// Returns true if the given key is down this frame but was
+		// not last frame. False if not, or if the key is not supported.
+		bool IsKeyDownOnce(const int p_iGLFWKeyConstant) const;
+
 		// Returns true if the given key is down. False if not, or
 		// if the key is not supported.
-		bool IsKeyDown(const int p_iGLFWKeyConstant) const;
+		bool IsKeyDownContinuous(const int p_iGLFWKeyConstant) const;
 
 	private:
 		//-------------------------------------------------------------
