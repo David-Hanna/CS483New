@@ -14,13 +14,6 @@ namespace Kartaclysm
 	{
 		std::function<void(const HeatStroke::Event*)>* func = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::RacerTrackPieceUpdatedDelegate, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", func);
-
-		//TEMP: used to test tracking racer progress
-		m_vRacers = {
-			{"racer1", 7, 0},
-			{"racer2", 7, 0},
-			{"racer3", 7, 0},
-		};
 	}
 
 	ComponentTrack::~ComponentTrack()
@@ -36,26 +29,32 @@ namespace Kartaclysm
 
 	void ComponentTrack::Init()
 	{
-		//TODO: change method for adding track pieces
-		//Matt: current method assumes GameObject::GetChildren() returns them in the correct order, which probably isn't great. Good enough for now though
-		std::vector<HeatStroke::GameObject*> vGameObjectChildren = m_pGameObject->GetChildren();
-
-		//TODO: check that child is actually track pice
-		//Matt: once tags are implemented, will check that each child has the 'TrackPiece' tag before adding
-
-		m_vTrackPieces = vGameObjectChildren;
+		// generate list of track pieces and racers
+		int iNumTrackPieces = m_vTrackPieces.size() - 1;
+		for (HeatStroke::GameObject* pChildGameObject : m_pGameObject->GetChildren())
+		{
+			for (const std::string& strTag : pChildGameObject->GetTagList())
+			{
+				if (strcmp(strTag.c_str(), "Trackpiece") == 0)
+				{
+					m_vTrackPieces.push_back(pChildGameObject);
+					break;
+				}
+				else if (strcmp(strTag.c_str(), "Racer") == 0)
+				{
+					m_vRacers.push_back({pChildGameObject->GetGUID(), iNumTrackPieces, 0});
+				}
+			}
+		}
 	}
 
 	void ComponentTrack::Update(const float p_fDelta)
 	{
-		//TODO: remove
-		//Matt: just here to simulate a racer going around the track
-		static int iCurrentTrackPieceIndex = 7;
-		static bool wasPressed = false;
-		bool isPressed = HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_SPACE);
-		if (isPressed && !wasPressed)
+		// TODO: remove
+		// Matt: just here to simulate a racer going around the track
+		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_P))
 		{
-			int iRacerIndex = std::rand() % 3;
+			int iRacerIndex = GetRacerIndex("Kart");
 			int iNextTrackIndex = m_vRacers[iRacerIndex].currentTrackPiece + 1;
 			if (iNextTrackIndex >= m_vTrackPieces.size())
 			{
@@ -67,7 +66,29 @@ namespace Kartaclysm
 			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iNextTrackIndex]->GetGUID());
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
-		wasPressed = isPressed;
+
+		// TODO: remove
+		// Matt: just here to simulate an opponent going around the track
+		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_O))
+		{
+			int iRacerIndex = GetRacerIndex("Opponent");
+			int iNextTrackIndex = m_vRacers[iRacerIndex].currentTrackPiece + 1;
+			if (iNextTrackIndex >= m_vTrackPieces.size())
+			{
+				iNextTrackIndex = 0;
+			}
+
+			m_pGameObject->GetManager()->GetGameObject("Opponent")->GetTransform().SetTranslation(m_vTrackPieces[iNextTrackIndex]->GetTransform().GetTranslation());
+
+			HeatStroke::Event* pEvent = new HeatStroke::Event("RacerTrackPieceUpdated");
+			pEvent->SetStringParameter("racerId", m_vRacers[iRacerIndex].id);
+			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iNextTrackIndex]->GetGUID());
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+		}
+
+		UpdateRacerPositions();
+
+		PrintRacerPositions();
 	}
 
 	void ComponentTrack::RacerTrackPieceUpdatedDelegate(const HeatStroke::Event* p_pEvent)
@@ -88,21 +109,10 @@ namespace Kartaclysm
 		{
 			m_vRacers[iRacerIndex].currentTrackPiece = 0;
 			m_vRacers[iRacerIndex].currentLap++;
-			UpdateRacerPosition(iRacerIndex);
 		}
 		else if (iTrackPieceIndex == m_vRacers[iRacerIndex].currentTrackPiece + 1)
 		{
 			m_vRacers[iRacerIndex].currentTrackPiece = iTrackPieceIndex;
-			UpdateRacerPosition(iRacerIndex);
-		}
-
-		//TEMP
-		//Matt: just using to test
-		printf("**************************************************\n");
-		for (int i = 0; i < 3; ++i)
-		{
-			RacerMock racer = m_vRacers[i];
-			printf("position: %i\tid: %s\tlap: %i\tpiece: %i\n", i + 1, racer.id.c_str(), racer.currentLap, racer.currentTrackPiece);
 		}
 	}
 
@@ -134,24 +144,68 @@ namespace Kartaclysm
 		return -1;
 	}
 
-	void ComponentTrack::UpdateRacerPosition(int p_iRacerIndex)
+	void ComponentTrack::UpdateRacerPositions()
 	{
-		if (p_iRacerIndex <= 0)
+		for (int i = 1; i < m_vRacers.size(); ++i)
 		{
-			return;
+			RacerMock racerA = m_vRacers[i];
+			bool bRacerPositionUpdated = false;
+			for (int j = i - 1; j >= 0; --j)
+			{
+				RacerMock racerB = m_vRacers[j];
+				if (IsAhead(racerA, racerB))
+				{
+					m_vRacers[i] = racerB;
+					m_vRacers[j] = racerA;
+					bRacerPositionUpdated = true;
+					TriggerRacerPositionUpdateEvent(racerB.id);
+				}
+			}
+
+			if (bRacerPositionUpdated)
+			{
+				TriggerRacerPositionUpdateEvent(racerA.id);
+			}
 		}
+	}
 
-		if ((m_vRacers[p_iRacerIndex].currentLap > m_vRacers[p_iRacerIndex - 1].currentLap)
-			|| (m_vRacers[p_iRacerIndex].currentLap == m_vRacers[p_iRacerIndex - 1].currentLap && m_vRacers[p_iRacerIndex].currentTrackPiece > m_vRacers[p_iRacerIndex - 1].currentTrackPiece))
+	bool ComponentTrack::IsAhead(const RacerMock& p_RacerA, const RacerMock& p_RacerB)
+	{
+		// ahead by lap
+		if (p_RacerA.currentLap > p_RacerB.currentLap)
 		{
-			RacerMock tempRacer = m_vRacers[p_iRacerIndex];
-			m_vRacers[p_iRacerIndex] = m_vRacers[p_iRacerIndex - 1];
-			m_vRacers[p_iRacerIndex - 1] = tempRacer;
+			return true;
+		}
+		else if (p_RacerA.currentLap < p_RacerB.currentLap)
+		{
+			return false;
+		}
+		else
+		{
+			// ahead by track piece
+			if (p_RacerA.currentTrackPiece > p_RacerB.currentTrackPiece)
+			{
+				return true;
+			}
+			else if (p_RacerA.currentTrackPiece < p_RacerB.currentTrackPiece)
+			{
+				return false;
+			}
+			else
+			{
+				// ahead by distance
+				int iNextPieceIndex = p_RacerA.currentTrackPiece + 1;
+				if (iNextPieceIndex >= m_vTrackPieces.size())
+				{
+					iNextPieceIndex = 0;
+				}
 
-			TriggerRacerPositionUpdateEvent(m_vRacers[p_iRacerIndex].id);
-			TriggerRacerPositionUpdateEvent(m_vRacers[p_iRacerIndex - 1].id);
+				glm::vec3 vNextTrackPiecePosition = m_vTrackPieces[iNextPieceIndex]->GetTransform().GetTranslation();
+				glm::vec3 vRacerPosition = m_pGameObject->GetManager()->GetGameObject(p_RacerA.id)->GetTransform().GetTranslation();
+				glm::vec3 vOpponentPosition = m_pGameObject->GetManager()->GetGameObject(p_RacerB.id)->GetTransform().GetTranslation();
 
-			UpdateRacerPosition(p_iRacerIndex - 1);
+				return glm::distance(vNextTrackPiecePosition, vRacerPosition) < glm::distance(vNextTrackPiecePosition, vOpponentPosition);
+			}
 		}
 	}
 
@@ -160,5 +214,15 @@ namespace Kartaclysm
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerPositionUpdated");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
+	void ComponentTrack::PrintRacerPositions()
+	{
+		printf("**************************************************\n");
+		for (int i = 0; i < m_vRacers.size(); ++i)
+		{
+			RacerMock racer = m_vRacers[i];
+			printf("position: %i\tid: %s\tlap: %i\tpiece: %i\n", i + 1, racer.id.c_str(), racer.currentLap, racer.currentTrackPiece);
+		}
 	}
 }

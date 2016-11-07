@@ -1,5 +1,6 @@
 <GameObject>
 	<Components>
+		<GOC_Track />
 	</Components>
 
 	<Children>

@@ -66,6 +66,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 	// Load the GameObjects from XML.
 	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+
+	HeatStroke::GameObject* pOpponent = m_pGameObjectManager->GetGameObject("Opponent");
+	pOpponent->GetTransform().TranslateXYZ(-2.0f, 0.0f, 0.0f);
 }
 
 void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)

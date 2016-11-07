@@ -55,8 +55,13 @@ namespace Kartaclysm
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
 			int GetRacerIndex(const std::string& p_strRacerId);
 
-			void UpdateRacerPosition(int p_iRacerIndex);
+			void UpdateRacerPositions();
+			bool IsAhead(const RacerMock& p_RacerA, const RacerMock& p_RacerB);
+
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
+
+			// TEMP
+			void PrintRacerPositions();
 
 	};
 }
