@@ -124,7 +124,7 @@ void HeatStroke::Model::Update(float p_fDelta)
 }
 
 
-void HeatStroke::Model::Render(const Camera* p_pCamera)
+void HeatStroke::Model::Render(const SceneCamera* p_pCamera)
 {
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);

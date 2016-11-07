@@ -11,7 +11,7 @@
 
 #include "Model.h"
 #include "Sprite.h"
-#include "SceneCamera.h"
+#include "ScenePerspectiveCamera.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
 #include "ScenePointLight.h"
@@ -47,21 +47,21 @@ namespace HeatStroke
 		void RemovePointLight(ScenePointLight* p_pPointLight);
 		void ClearPointLights();
 
-		void AddCamera(SceneCamera* p_pCamera);
-		void SetActiveCamera(SceneCamera* p_pCamera);
-		SceneCamera* GetActiveCamera();
-		void RemoveCamera(SceneCamera* p_pCamera);
-		void ClearCameras();
+		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
+		ScenePerspectiveCamera* GetActivePerspectiveCamera();
+		void RemovePerspectiveCamera(ScenePerspectiveCamera* p_pCamera);
+		void ClearPerspectiveCameras();
 
 		void Render();
 
 	private:
-		typedef std::vector<Model*>					ModelList;
-		typedef std::vector<Sprite*>				SpriteList;
-		typedef std::vector<SceneAmbientLight*>		AmbientLightList;
-		typedef std::vector<SceneDirectionalLight*> DirectionalLightList;
-		typedef std::vector<ScenePointLight*>		PointLightList;
-		typedef std::vector<SceneCamera*>			CameraList;
+		typedef std::vector<Model*>						ModelList;
+		typedef std::vector<Sprite*>					SpriteList;
+		typedef std::vector<SceneAmbientLight*>			AmbientLightList;
+		typedef std::vector<SceneDirectionalLight*>		DirectionalLightList;
+		typedef std::vector<ScenePointLight*>			PointLightList;
+		typedef std::vector<ScenePerspectiveCamera*>	PerspectiveCameraList;
 
 
 		static SceneManager*	s_pSceneManagerInstance;
@@ -77,11 +77,11 @@ namespace HeatStroke
 		AmbientLightList		m_lAmbientLightList;
 		DirectionalLightList	m_lDirectionalLightList;
 		PointLightList			m_lPointLightList;
-		CameraList				m_lCameras;
-		SceneCamera*			m_pActiveCamera;
+		PerspectiveCameraList	m_lPerspectiveCameras;
+		ScenePerspectiveCamera*	m_pActivePerspectiveCamera;
 
 	private:
-		SceneManager(GLFWwindow* p_pWindow) : m_pActiveCamera(nullptr), m_pWindow(p_pWindow) {}
+		SceneManager(GLFWwindow* p_pWindow) : m_pActivePerspectiveCamera(nullptr), m_pWindow(p_pWindow) {}
 		virtual ~SceneManager() {}
 	};
 

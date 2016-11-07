@@ -7,7 +7,7 @@
 
 #include "StateRacing.h"
 
-#include "ComponentCamera.h"
+#include "ComponentPerspectiveCamera.h"
 #include "Components\ComponentCameraController.h"
 #include "Components\ComponentKartController.h"
 
@@ -57,7 +57,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 
 	// Handle passed context parameters
@@ -173,7 +173,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
-	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActiveCamera();
+	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActivePerspectiveCamera();
 	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());
 }
 

@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------
 // SceneManager
-//
-// Created:	2012/12/23
-// Author:	Carel Boers
+// Author:	David Hanna
 //	
-// A simple scene manager to manage our models and camera.
+// Responsible for rendering a whole scene. Manages models, cameras,
+// and lights.
 //------------------------------------------------------------------------
 
 #include "SceneManager.h"
@@ -154,56 +153,56 @@ void HeatStroke::SceneManager::ClearPointLights()
 
 
 
-void HeatStroke::SceneManager::AddCamera(SceneCamera* p_pCamera)
+void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
-	m_lCameras.push_back(p_pCamera);
+	m_lPerspectiveCameras.push_back(p_pPerspectiveCamera);
 
-	if (m_pActiveCamera == nullptr)
+	if (m_pActivePerspectiveCamera == nullptr)
 	{
-		m_pActiveCamera = p_pCamera;
+		m_pActivePerspectiveCamera = p_pPerspectiveCamera;
 	}
 }
 
 
 
-void HeatStroke::SceneManager::SetActiveCamera(SceneCamera* p_pCamera)
+void HeatStroke::SceneManager::SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pCamera)
 {
-	CameraList::iterator it = std::find(m_lCameras.begin(), m_lCameras.end(), p_pCamera);
+	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
 
-	if (it == m_lCameras.end())
+	if (it == m_lPerspectiveCameras.end())
 	{
-		m_lCameras.push_back(p_pCamera);
+		m_lPerspectiveCameras.push_back(p_pCamera);
 	}
 
-	m_pActiveCamera = p_pCamera;
+	m_pActivePerspectiveCamera = p_pCamera;
 }
 
 
 
-HeatStroke::SceneCamera* HeatStroke::SceneManager::GetActiveCamera()
+HeatStroke::ScenePerspectiveCamera* HeatStroke::SceneManager::GetActivePerspectiveCamera()
 {
-	return m_pActiveCamera;
+	return m_pActivePerspectiveCamera;
 }
 
 
 
-void HeatStroke::SceneManager::RemoveCamera(HeatStroke::SceneCamera* p_pCamera)
+void HeatStroke::SceneManager::RemovePerspectiveCamera(HeatStroke::ScenePerspectiveCamera* p_pCamera)
 {
-	CameraList::iterator it = std::find(m_lCameras.begin(), m_lCameras.end(), p_pCamera);
+	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
 
-	if (it != m_lCameras.end())
+	if (it != m_lPerspectiveCameras.end())
 	{
-		m_lCameras.erase(it);
+		m_lPerspectiveCameras.erase(it);
 
-		if (p_pCamera == m_pActiveCamera)
+		if (p_pCamera == m_pActivePerspectiveCamera)
 		{
-			if (m_lCameras.empty())
+			if (m_lPerspectiveCameras.empty())
 			{
-				m_pActiveCamera = nullptr;
+				m_pActivePerspectiveCamera = nullptr;
 			}
 			else
 			{
-				m_pActiveCamera = m_lCameras[0];
+				m_pActivePerspectiveCamera = m_lPerspectiveCameras[0];
 			}
 		}
 	}
@@ -211,10 +210,10 @@ void HeatStroke::SceneManager::RemoveCamera(HeatStroke::SceneCamera* p_pCamera)
 
 
 
-void HeatStroke::SceneManager::ClearCameras()
+void HeatStroke::SceneManager::ClearPerspectiveCameras()
 {
-	m_pActiveCamera = nullptr;
-	m_lCameras.clear();
+	m_pActivePerspectiveCamera = nullptr;
+	m_lPerspectiveCameras.clear();
 }
 
 
@@ -222,7 +221,7 @@ void HeatStroke::SceneManager::ClearCameras()
 void HeatStroke::SceneManager::Render()
 {
 	// Can't render without a camera
-	if (m_pActiveCamera == nullptr)
+	if (m_pActivePerspectiveCamera == nullptr)
 	{
 		return;
 	}
@@ -249,7 +248,7 @@ void HeatStroke::SceneManager::Render()
 			}
 		}
 
-		pModel->Render(m_pActiveCamera);
+		pModel->Render(m_pActivePerspectiveCamera);
 	}
 
 
@@ -257,7 +256,7 @@ void HeatStroke::SceneManager::Render()
 	// Render the sprite list with an ortho camera. 
 	// Rendering sprites currently out of order.
 	// TODO: We should really add the camera separately rather than hard code it.
-	SceneCamera mSpriteCamera;
+	/*SceneCamera mSpriteCamera;
 	mSpriteCamera.SetProjectionMatrix(glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.0f, 1000.0f));
 
 	SpriteList::iterator sIt = m_lSpriteList.begin(), sEnd = m_lSpriteList.end();
@@ -265,5 +264,5 @@ void HeatStroke::SceneManager::Render()
 	{
 		HeatStroke::Sprite* pSprite = static_cast<HeatStroke::Sprite*>(*sIt);
 		pSprite->Render(&mSpriteCamera);
-	}
+	}*/
 }

@@ -52,7 +52,7 @@ namespace HeatStroke
 		~Model();
 
 		void Update(float p_fDelta);
-		virtual void Render(const Camera* p_pCamera = nullptr) override;
+		virtual void Render(const SceneCamera* p_pCamera = nullptr) override;
 
 		std::vector<Mesh>&			GetMeshes()											{ return m_vMeshes; }
 		void						SetTransform(const glm::mat4& p_mWorldTransform)	{ m_mWorldTransform = p_mWorldTransform; }

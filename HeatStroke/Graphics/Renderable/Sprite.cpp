@@ -100,7 +100,7 @@ void Sprite::Update(float p_fDelta)
 //----------------------------------------------------------
 // Renders this sprite
 //----------------------------------------------------------
-void Sprite::Render(const Camera* p_pCamera)
+void Sprite::Render(const SceneCamera* p_pCamera)
 {
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);
