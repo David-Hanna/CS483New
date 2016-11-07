@@ -293,10 +293,19 @@ void HeatStroke::SceneManager::Render()
 	}
 
 	// Iterate and render TextBoxes using the sprite (ortho) camera
+	static bool bOnce = true;
+	int iCount = 0;
 	TextBoxList::iterator tbIt = m_lTextBoxList.begin(), tbEnd = m_lTextBoxList.end();
 	for (; tbIt != tbEnd; ++tbIt)
 	{
 		HeatStroke::TextBox* pTextBox = static_cast<HeatStroke::TextBox*>(*tbIt);
+		if (bOnce)
+		{
+			printf("Textbox %i: [%.2f , %.2f]\n", iCount++, pTextBox->GetPosition().x, pTextBox->GetPosition().y);
+		}
+
 		pTextBox->Render(&mSpriteCamera);
 	}
+	bOnce = false;
+	return;
 }
