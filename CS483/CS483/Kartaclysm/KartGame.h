@@ -15,13 +15,10 @@
 #include "PlayerInputMapping.h"
 #include "EventManager.h"
 #include "StateMachine.h"
-#include "GameplayState.h"
-#include "StateRacing.h"
-#include "StatePaused.h"
 #include "SceneManager.h"
-#include "ParsingServiceLocator.h"
-#include "DebugParsingWrapper.h"
-#include "StoredParsingService.h"
+#include "XmlRegistryServiceLocator.h"
+#include "DebugXmlRegistryWrapper.h"
+#include "ReloadXmlRegistryService.h"
 
 namespace Kartaclysm
 {

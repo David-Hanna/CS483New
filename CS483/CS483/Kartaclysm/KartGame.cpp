@@ -7,11 +7,18 @@
 
 #include "KartGame.h"
 
-#include "ComponentKartController.h"
-#include "ComponentCameraController.h"
+// Components to register
+#include "Component3DModel.h"
+#include "ComponentAmbientLight.h"
+#include "ComponentDirectionalLight.h"
+#include "ComponentPointLight.h"
 #include "ComponentCamera.h"
-#include "SceneManager.h"
-#include "KeyboardInputBuffer.h"
+#include "ComponentCameraController.h"
+#include "ComponentKartController.h"
+
+// States to push
+#include "StateRacing.h"
+#include "StatePaused.h"
 
 bool Kartaclysm::KartGame::Init()
 {
@@ -22,7 +29,15 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
-	HeatStroke::ParsingServiceLocator::CreateInstance(new HeatStroke::DebugParsingWrapper(new HeatStroke::StoredParsingService()));
+	HeatStroke::XmlRegistryServiceLocator::CreateInstance(new HeatStroke::DebugXmlRegistryWrapper(new HeatStroke::ReloadXmlRegistryService()));
+
+	// Map factory methods for components
+	HeatStroke::XmlRegistryService* pService = HeatStroke::XmlRegistryServiceLocator::Instance()->GetService();
+	pService->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
+	pService->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
+	pService->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
+	pService->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
+	pService->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -65,7 +80,7 @@ void Kartaclysm::KartGame::Shutdown()
 	delete m_pGameStates;
 	m_pGameStates = nullptr;
 
-	HeatStroke::ParsingServiceLocator::DestroyInstance();
+	HeatStroke::XmlRegistryServiceLocator::DestroyInstance();
 	PlayerInputMapping::DestroyInstance();
 	InputActionMapping::DestroyInstance();
 	HeatStroke::JoystickInputBuffer::DestroyInstance();

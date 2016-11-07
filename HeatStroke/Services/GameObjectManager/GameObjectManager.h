@@ -20,6 +20,8 @@
 #include <set>
 
 #include "GameObject.h"
+#include "XmlRegistryServiceLocator.h"
+#include "KeyboardInputBuffer.h"
 
 // For parsing GameObject XML
 #include "tinyxml2.h"
@@ -33,13 +35,6 @@ namespace HeatStroke
 		//---------------------------------------------------------------------
 		// Public Types
 		//---------------------------------------------------------------------
-		// Typedef for the function signature which must be provided to RegisterComponentFactory().
-		typedef Component*						// Return value - the pointer to the created Component.
-			(*ComponentFactoryMethod)				// The typedef for the function pointer.
-			(GameObject* p_pGameObject,				// The GameObject which owns the Component.
-			tinyxml2::XMLNode* p_pBaseNode,			// The Base Node from which to construct the Component.
-			tinyxml2::XMLNode* p_pOverrideNode);	// The Override Node from which to construct the Component.
-		
 		// Any object which wants to iterate over the GameObject collection will need
 		// this typedef.
 		typedef std::map<std::string, GameObject*> GameObjectMap;
@@ -48,9 +43,7 @@ namespace HeatStroke
 		// Public interface
 		//---------------------------------------------------------------------
 		GameObjectManager();
-		~GameObjectManager();
-
-		void RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod);		
+		~GameObjectManager();	
 
 		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "");
 		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "");
@@ -79,13 +72,11 @@ namespace HeatStroke
 		//---------------------------------------------------------------------
 		// Private types
 		//---------------------------------------------------------------------
-		typedef std::map<std::string, ComponentFactoryMethod> ComponentFactoryMap;
 
 		//---------------------------------------------------------------------
 		// Private members
 		//---------------------------------------------------------------------
 		GameObjectMap m_mGameObjectMap;
-		ComponentFactoryMap m_mComponentFactoryMap;
 
 		// Flags so we can move Destroying Game Objects to the end of the Update loop.
 		bool m_bUpdating;

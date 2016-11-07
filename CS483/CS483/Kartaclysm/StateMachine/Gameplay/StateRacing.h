@@ -12,12 +12,13 @@
 
 #include "Common.h"
 #include "GameplayState.h"
-#include "Component3DModel.h"
-#include "ComponentAmbientLight.h"
-#include "ComponentDirectionalLight.h"
 #include "EventManager.h"
 
+// debug includes
 #include "LineDrawer.h"
+#include "ComponentKartController.h"
+#include "SceneManager.h"
+#include "Camera.h"
 
 namespace Kartaclysm
 {

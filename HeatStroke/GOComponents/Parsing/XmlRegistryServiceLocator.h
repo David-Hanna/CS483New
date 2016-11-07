@@ -1,54 +1,54 @@
 //==================================================================================
-// ParsingServiceLocator
+// XmlRegistryServiceLocator
 // Author: Bradley Cooper
 //
-// Manage access to ParsingService for components.
+// Manage access to XmlRegistryService for components.
 //==================================================================================
 
-#ifndef PARSING_SERVICE_LOCATOR_H
-#define PARSING_SERVICE_LOCATOR_H
+#ifndef XML_REGISTRY_SERVICE_LOCATOR_H
+#define XML_REGISTRY_SERVICE_LOCATOR_H
 
 #include <assert.h>
-#include "ParsingService.h"
+#include "XmlRegistryService.h"
 
 namespace HeatStroke
 {
-	class ParsingServiceLocator
+	class XmlRegistryServiceLocator
 	{
 	public:
 		//-----------------------------------------------------------------------------
 		// Public Interface
 		//-----------------------------------------------------------------------------
 		// Singleton methods
-		static void CreateInstance(ParsingService* p_pParsingService);
+		static void CreateInstance(XmlRegistryService* p_pXmlRegistryService);
 		static void DestroyInstance();
-		static ParsingServiceLocator* Instance();
+		static XmlRegistryServiceLocator* Instance();
 
 		// Service locator methods
-		ParsingService* const GetService() const { return m_pParsingService; }
-		void DeleteAndReplaceParsingService(ParsingService* p_pParsingService);
+		XmlRegistryService* const GetService() const { return m_pXmlRegistryService; }
+		void DeleteAndReplaceXmlRegistryService(XmlRegistryService* p_pXmlRegistryService);
 
 	private:
 		//---------------------------------------------------------------------------
 		// Private members
 		//---------------------------------------------------------------------------
 		// Service to provide
-		ParsingService* m_pParsingService;
+		XmlRegistryService* m_pXmlRegistryService;
 
 		// Static singleton instance
-		static ParsingServiceLocator* s_pParsingServiceLocatorInstance;
+		static XmlRegistryServiceLocator* s_pXmlRegistryServiceLocatorInstance;
 
 		//---------------------------------------------------------------------------
 		// Private methods
 		//---------------------------------------------------------------------------
 		// Hide constructor and destructor for singleton.
-		ParsingServiceLocator(ParsingService* p_pParsingService);
-		virtual ~ParsingServiceLocator();
+		XmlRegistryServiceLocator(XmlRegistryService* p_pXmlRegistryService);
+		virtual ~XmlRegistryServiceLocator();
 
-		// ParsingServiceLocators shouldn't be copied.
-		ParsingServiceLocator(const ParsingServiceLocator&) = delete;
-		ParsingServiceLocator& operator=(const ParsingServiceLocator&) = delete;
+		// XmlRegistryServiceLocators shouldn't be copied.
+		XmlRegistryServiceLocator(const XmlRegistryServiceLocator&) = delete;
+		XmlRegistryServiceLocator& operator=(const XmlRegistryServiceLocator&) = delete;
 	};
 }
 
-#endif // PARSING_SERVICE_LOCATOR_H
+#endif // XML_REGISTRY_SERVICE_LOCATOR_H

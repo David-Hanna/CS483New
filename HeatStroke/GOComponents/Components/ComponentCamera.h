@@ -9,6 +9,7 @@
 #ifndef COMPONENT_CAMERA_H
 #define COMPONENT_CAMERA_H
 
+#include <GL\glew.h>
 #include <glm.hpp>
 #include <tinyxml2.h>
 

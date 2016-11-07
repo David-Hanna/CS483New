@@ -9,10 +9,11 @@
 #ifndef COMPONENT_POINT_LIGHT_H
 #define COMPONENT_POINT_LIGHT_H
 
+#include <GL\glew.h>
 #include "Component.h"
 #include "GameObject.h"
-#include "ScenePointLight.h"
 #include "SceneManager.h"
+#include "ScenePointLight.h"
 
 namespace HeatStroke
 {

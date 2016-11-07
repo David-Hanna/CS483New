@@ -19,7 +19,6 @@ GameObjectManager::GameObjectManager()
 	m_bUpdating(false),
 	m_vToDelete(),
 	m_uiAutoGUIDNum(0),
-	m_mComponentFactoryMap(),
 	m_mGameObjectMap()
 {
 }
@@ -34,22 +33,6 @@ GameObjectManager::~GameObjectManager()
 #endif
 }
 
-void GameObjectManager::RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod p_factoryMethod)
-{
-#ifdef _DEBUG
-	// In debug only, we check if the component factory is already in the map
-	// and raise an assert to warn the programmer this is happening.
-	ComponentFactoryMap::const_iterator find = m_mComponentFactoryMap.find(p_strComponentId);
-	if (find != m_mComponentFactoryMap.end())
-	{
-		assert(false && "Component Factory was registered twice.");
-	}
-#endif
-	// No need to check if it already exists in the map before inserting it
-	// in release mode, std::map::insert does that for us.
-	m_mComponentFactoryMap.insert(std::pair<std::string, ComponentFactoryMethod>(p_strComponentId, p_factoryMethod));
-}
-
 GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid /*= ""*/)
 {
 	tinyxml2::XMLDocument doc;
@@ -58,7 +41,15 @@ GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObje
 	assert(err == tinyxml2::XML_NO_ERROR);
 #endif
 
-	return CreateGameObject(doc.FirstChildElement("GameObject"), p_strGuid);
+	// Get GUID to register for live reload
+	tinyxml2::XMLElement* pGameObjectRootElement = doc.FirstChildElement("GameObject");
+	std::string strGuid = p_strGuid.empty() ? GetGuid(pGameObjectRootElement) : p_strGuid;
+
+	// Register for live reload
+	XmlRegistryService* pService = XmlRegistryServiceLocator::Instance()->GetService();
+	pService->RegisterGameObjectXml(strGuid, p_strGameObjectDefinitionFile);
+
+	return CreateGameObject(pGameObjectRootElement, strGuid);
 }
 
 GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid /*= ""*/)
@@ -67,6 +58,7 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 	assert(p_pGameObjectRootElement != nullptr);
 #endif
 
+	// Has to be called (perhaps redundantly) to catch if this method was called directly
 	std::string strGuid = p_strGuid.empty() ? GetGuid(p_pGameObjectRootElement) : p_strGuid;
 
 	std::string strDefinitionFile = "";
@@ -123,12 +115,14 @@ void GameObjectManager::LoadComponents(tinyxml2::XMLElement* p_pComponentsRootEl
 			 pComponentElement = pComponentElement->NextSiblingElement())
 		{
 			std::string strComponentType = pComponentElement->Value();
-			ComponentFactoryMap::iterator it = m_mComponentFactoryMap.find(strComponentType.c_str());
+
+			XmlRegistryService* pService = XmlRegistryServiceLocator::Instance()->GetService();
+			XmlRegistryService::ComponentFactoryMethod pFactory = pService->GetComponentFactory(strComponentType.c_str());
 #if _DEBUG
-			assert(it != m_mComponentFactoryMap.end());
+			assert(pFactory != nullptr);
 #endif
 
-			Component* pComponent = it->second(p_pGameObject, pComponentElement, nullptr);
+			Component* pComponent = pFactory(p_pGameObject, pComponentElement, nullptr);
 #if _DEBUG
 			assert(pComponent != nullptr);
 #endif
@@ -190,6 +184,10 @@ GameObject* GameObjectManager::GetGameObject(const std::string &p_strGOGUID)
 
 void GameObjectManager::DestroyGameObject(GameObject* p_pGameObject)
 {
+	// Remove from live reload
+	XmlRegistryService* pService = XmlRegistryServiceLocator::Instance()->GetService();
+	pService->UnregisterGameObjectXml(p_pGameObject->GetGUID());
+
 	m_vToDelete.insert(p_pGameObject);
 }
 
@@ -207,6 +205,7 @@ void GameObjectManager::DestroyAllGameObjects()
 
 void GameObjectManager::Update(const float p_fDelta)
 {
+	// Update all GameObjects
 	GameObjectMap::iterator it = m_mGameObjectMap.begin(), end = m_mGameObjectMap.end();
 	for (; it != end; ++it)
 	{
@@ -227,6 +226,31 @@ void GameObjectManager::Update(const float p_fDelta)
 		}
 
 		delete_it = m_vToDelete.erase(delete_it);
+	}
+
+	// Live reload if necessary
+	if (KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_KP_9))
+	{
+		XmlRegistryService* pService = XmlRegistryServiceLocator::Instance()->GetService();
+		XmlRegistryService::XmlFileMap mMapping = pService->GetChangedXmlFiles();
+
+		// Iterate all changed files
+		XmlRegistryService::XmlFileMap::iterator it = mMapping.begin(), end = mMapping.end();
+		for (; it != end; it++)
+		{
+			// Find if this GameObjectManager is in charge of the GO by its GUID
+			GameObjectMap::iterator find = m_mGameObjectMap.find(it->first);
+			if (find != m_mGameObjectMap.end())
+			{
+				// Delete GameObject and its entry in the mapping
+				delete find->second;
+				find->second = nullptr;
+				m_mGameObjectMap.erase(find);
+
+				// Recreate from XML (reusing the same GUID)
+				CreateGameObject(it->second, it->first);
+			}
+		}
 	}
 }
 
