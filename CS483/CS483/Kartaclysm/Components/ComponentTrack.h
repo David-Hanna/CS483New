@@ -31,7 +31,7 @@ namespace Kartaclysm
 			virtual void Init() override;
 			virtual void Update(const float p_fDelta) override;
 
-			void RacerTrackPieceUpdatedDelegate(const HeatStroke::Event* p_pEvent);
+			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
@@ -41,7 +41,7 @@ namespace Kartaclysm
 		private:
 			//TODO: remove this
 			//Matt: using this to simulate a racer going around the track
-			struct RacerMock
+			struct RacerData
 			{
 				std::string id;
 				int currentTrackPiece;
@@ -50,13 +50,14 @@ namespace Kartaclysm
 
 			std::string m_strTrackName;
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
-			std::vector<RacerMock> m_vRacers;
+			std::vector<RacerData> m_vRacers;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
+			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);
 			int GetRacerIndex(const std::string& p_strRacerId);
 
 			void UpdateRacerPositions();
-			bool IsAhead(const RacerMock& p_RacerA, const RacerMock& p_RacerB);
+			bool IsAhead(const RacerData& p_RacerA, const RacerData& p_RacerB);
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
 

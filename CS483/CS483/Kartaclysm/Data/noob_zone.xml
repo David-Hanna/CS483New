@@ -1,6 +1,8 @@
 <GameObject>
 	<Components>
-		<GOC_Track />
+		<GOC_Track>
+			<Name value="Noob Zone" />
+		</GOC_Track>
 	</Components>
 
 	<Children>
