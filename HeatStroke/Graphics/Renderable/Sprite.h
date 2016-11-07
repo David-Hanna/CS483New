@@ -1,61 +1,38 @@
 //-----------------------------------------------------------------------------
-// File:			Sprite.h
-// Original Author:	Carel Boers
+// Sprite
+// Author: David Hanna
 //
-// Class representing a 2D textured quad.
-//
+// Renderable 2D textured quad.
 //-----------------------------------------------------------------------------
-#ifndef W_SPRITE_H
-#define W_SPRITE_H
 
-#include "Types.h"
-#include "Renderable.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "BufferManager.h"
-#include "Material.h"
-#include "VertexDeclaration.h"
-#include "TextureManager.h"
-#include "ProgramManager.h"
+#ifndef SPRITE_H
+#define SPRITE_H
+
+#include "Mesh.h"
+#include "MTLFile.h"
+
 #include <string>
-#include <map>
-#include <vector>
 
 namespace HeatStroke
 {
-class Sprite : public Renderable
-{
+	class Sprite : public Renderable
+	{
 	public:
-		//-------------------------------------------------------------------------
-		// PUBLIC INTERFACE
-		//-------------------------------------------------------------------------
-		Sprite(const std::string& p_strTexture, const std::string& p_strVertexProgram, const std::string& p_strFragmentProgram, const glm::vec2& p_vDimensions);
+		Sprite(const std::string& p_strMTLFileName, const std::string& p_strMaterialName);
 		~Sprite();
 
-		void Update(float p_fDelta);
+		void		 Update(float p_fDelta);
 		virtual void Render(const SceneCamera* p_pCamera = nullptr) override;
 
-		void SetTransform(const glm::mat4& p_mWorldTransform) { m_mWorldTransform = p_mWorldTransform; }
-		//-------------------------------------------------------------------------
+		Mesh& GetMesh()										   { return m_mMesh; }
+		void  SetTransform(const glm::mat4& p_mWorldTransform) { m_mWorldTransform = p_mWorldTransform; }
 
 	private:
-		//-------------------------------------------------------------------------
-		// PRIVATE MEMBERS
-		//-------------------------------------------------------------------------
+		static float m_vQuad[];
 
-		HeatStroke::VertexBuffer*			m_pVB;
-		HeatStroke::VertexDeclaration*	m_pDecl;
-		HeatStroke::Program*				m_pProgram;
-		GLuint						m_uiTex;
-
-		glm::mat4					m_mWorldTransform;
-
-		//-------------------------------------------------------------------------
-};
-
+		Mesh		m_mMesh;
+		glm::mat4	m_mWorldTransform;
+	};
 }
 
 #endif
-
-
-

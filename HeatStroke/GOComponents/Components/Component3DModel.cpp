@@ -30,9 +30,6 @@ HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
 	// The values we need to fill by the end of parsing.
 	std::string strOBJFileName("");
 
-	// Neither base nor override node are mandatory, but it is mandatory
-	// that all strings are given values between the two of them.
-
 	// Parse the elements of the base node.
 	if (p_pBaseNode != nullptr)
 	{
@@ -52,14 +49,6 @@ HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
 		p_pGameObject,
 		strOBJFileName
 	);
-}
-
-void HeatStroke::Component3DModel::Init()
-{
-}
-
-void HeatStroke::Component3DModel::Update(const float p_fDelta)
-{
 }
 
 void HeatStroke::Component3DModel::SyncTransform()

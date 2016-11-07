@@ -237,6 +237,15 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneCamera.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.cpp">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -418,6 +427,18 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneCamera.h">
       <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Mesh.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

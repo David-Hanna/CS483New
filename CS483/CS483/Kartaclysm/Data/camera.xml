@@ -6,5 +6,6 @@
     <GOC_PerspectiveCamera>
       <Target guid="Kart"/>
     </GOC_PerspectiveCamera>
+    <GOC_OrthographicCamera/>
   </Components>
 </GameObject>

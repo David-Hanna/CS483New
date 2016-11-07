@@ -26,9 +26,9 @@ namespace HeatStroke
 		virtual const glm::vec3& GetTarget()	const	{ return m_vTarget; }
 		virtual const glm::vec3& GetUp()		const	{ return m_vUp; }
 
-		virtual const glm::mat4& GetViewMatrix()			const = 0;
-		virtual const glm::mat4& GetProjectionMatrix()		const = 0;
-		virtual const glm::mat4& GetViewProjectionMatrix()	const = 0;
+		virtual const glm::mat4& GetViewMatrix()			const;
+		virtual const glm::mat4& GetProjectionMatrix()		const;
+		virtual const glm::mat4& GetViewProjectionMatrix()	const;
 
 		virtual void SetPosition(const glm::vec3 &p_vPosition);
 		virtual void SetTarget(const glm::vec3& p_vTarget);
@@ -45,6 +45,8 @@ namespace HeatStroke
 		mutable glm::mat4 m_mViewMatrix;
 		mutable glm::mat4 m_mProjectionMatrix;
 		mutable glm::mat4 m_mViewProjectionMatrix;
+
+		virtual glm::mat4 ComputeProjectionMatrix() const = 0;
 	};
 }
 

@@ -78,9 +78,11 @@
     <ClCompile Include="..\..\HeatStroke\Geometry\Collisions.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.cpp" />
@@ -98,6 +100,7 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Texture\TextureManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneManager.cpp" />
+    <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\Event.cpp" />
@@ -134,10 +137,12 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />
@@ -149,6 +154,7 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\Program.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\ProgramManager.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Mesh.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Model.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Renderable.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Sprite.h" />
@@ -156,6 +162,7 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneAmbientLight.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneCamera.h" />
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneManager.h" />

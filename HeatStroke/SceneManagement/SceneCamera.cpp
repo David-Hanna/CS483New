@@ -31,6 +31,36 @@ HeatStroke::SceneCamera::SceneCamera(const glm::vec3& p_vPosition, const glm::ve
 {
 }
 
+const glm::mat4& HeatStroke::SceneCamera::GetViewMatrix() const
+{
+	if (m_bViewDirty)
+	{
+		m_mViewMatrix = glm::lookAt(m_vPosition, m_vTarget, m_vUp);
+		m_bViewDirty = false;
+	}
+	return m_mViewMatrix;
+}
+
+const glm::mat4& HeatStroke::SceneCamera::GetProjectionMatrix() const
+{
+	if (m_bProjectionDirty)
+	{
+		m_mProjectionMatrix = ComputeProjectionMatrix();
+		m_bProjectionDirty = false;
+	}
+	return m_mProjectionMatrix;
+}
+
+const glm::mat4& HeatStroke::SceneCamera::GetViewProjectionMatrix() const
+{
+	if (m_bViewDirty || m_bProjectionDirty)
+	{
+		m_mViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
+	}
+
+	return m_mViewProjectionMatrix;
+}
+
 void HeatStroke::SceneCamera::SetPosition(const glm::vec3 &p_vPosition)
 {
 	m_bViewDirty = true;

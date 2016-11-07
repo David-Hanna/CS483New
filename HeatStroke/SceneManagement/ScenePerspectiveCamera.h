@@ -35,10 +35,7 @@ namespace HeatStroke
 		float GetNearClip()		const	{ return m_fNearClip; }
 		float GetFarClip()		const	{ return m_fFarClip; }
 
-		virtual const glm::mat4& GetViewMatrix()			const override;
-		virtual const glm::mat4& GetProjectionMatrix()		const override;
-		virtual const glm::mat4& GetViewProjectionMatrix()	const override;
-		        const Frustum&   GetViewFrustum()				const;
+		const Frustum& GetViewFrustum() const;
 
 		virtual void SetPosition(const glm::vec3 &p_vPos) override;
 		virtual void SetTarget(const glm::vec3& p_vTarget) override;
@@ -49,7 +46,7 @@ namespace HeatStroke
 		void SetNearClip(const float p_fNearClip);
 		void SetFarClip(const float p_fFarClip);
 
-	private:
+	protected:
 		float m_fFOV;
 		float m_fAspectRatio;
 		float m_fNearClip;
@@ -58,6 +55,8 @@ namespace HeatStroke
 		mutable bool m_bViewFrustumDirty;
 
 		mutable Frustum m_mViewFrustum;
+
+		virtual glm::mat4 ComputeProjectionMatrix() const override;
 	};
 }
 

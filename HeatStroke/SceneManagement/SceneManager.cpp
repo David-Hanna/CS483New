@@ -16,8 +16,6 @@ void HeatStroke::SceneManager::CreateInstance(GLFWwindow* p_pWindow)
 	s_pSceneManagerInstance = new SceneManager(p_pWindow);
 }
 
-
-
 void HeatStroke::SceneManager::DestroyInstance()
 {
 	assert(s_pSceneManagerInstance != nullptr);
@@ -25,47 +23,16 @@ void HeatStroke::SceneManager::DestroyInstance()
 	s_pSceneManagerInstance = nullptr;
 }
 
-
-
 HeatStroke::SceneManager* HeatStroke::SceneManager::Instance()
 {
 	assert(s_pSceneManagerInstance != nullptr);
 	return s_pSceneManagerInstance;
 }
 
-
-
-void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
-{
-	m_lModelList.push_back(p_pModel);
-}
-
-
-
-void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
-{
-	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
-	if (it != m_lModelList.end())
-	{
-		m_lModelList.erase(it);
-	}	
-}
-
-
-
-void HeatStroke::SceneManager::ClearModels()
-{
-	m_lModelList.clear();
-}
-
-
-
 void HeatStroke::SceneManager::AddSprite(HeatStroke::Sprite* p_pSprite)
 {
 	m_lSpriteList.push_back(p_pSprite);
 }
-
-
 
 void HeatStroke::SceneManager::RemoveSprite(HeatStroke::Sprite* p_pSprite)
 {
@@ -76,82 +43,84 @@ void HeatStroke::SceneManager::RemoveSprite(HeatStroke::Sprite* p_pSprite)
 	}
 }
 
-
-
 void HeatStroke::SceneManager::ClearSprites()
 {
 	m_lSpriteList.clear();
 }
 
-
-void HeatStroke::SceneManager::AddAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
+void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera)
 {
-	m_lAmbientLightList.push_back(p_pAmbientLight);
-}
+	m_lOrthographicCameras.push_back(p_pOrthographicCamera);
 
-
-void HeatStroke::SceneManager::RemoveAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
-{
-	AmbientLightList::iterator it = std::find(m_lAmbientLightList.begin(), m_lAmbientLightList.end(), p_pAmbientLight);
-	if (it != m_lAmbientLightList.end())
+	if (m_pActiveOrthographicCamera == nullptr)
 	{
-		m_lAmbientLightList.erase(it);
+		m_pActiveOrthographicCamera = p_pOrthographicCamera;
 	}
 }
 
-
-void HeatStroke::SceneManager::ClearAmbientLights()
+void HeatStroke::SceneManager::SetActiveOrthographicCamera(SceneOrthographicCamera* p_pCamera)
 {
-	m_lAmbientLightList.clear();
-}
+	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
 
-
-void HeatStroke::SceneManager::AddDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
-{
-	m_lDirectionalLightList.push_back(p_pDirectionalLight);
-}
-
-
-void HeatStroke::SceneManager::RemoveDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
-{
-	DirectionalLightList::iterator it = std::find(m_lDirectionalLightList.begin(), m_lDirectionalLightList.end(), p_pDirectionalLight);
-	if (it != m_lDirectionalLightList.end())
+	if (it == m_lOrthographicCameras.end())
 	{
-		m_lDirectionalLightList.erase(it);
+		m_lOrthographicCameras.push_back(p_pCamera);
+	}
+
+	m_pActiveOrthographicCamera = p_pCamera;
+}
+
+HeatStroke::SceneOrthographicCamera* HeatStroke::SceneManager::GetActiveOrthographicCamera()
+{
+	return m_pActiveOrthographicCamera;
+}
+
+void HeatStroke::SceneManager::RemoveOrthographicCamera(HeatStroke::SceneOrthographicCamera* p_pCamera)
+{
+	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
+
+	if (it != m_lOrthographicCameras.end())
+	{
+		m_lOrthographicCameras.erase(it);
+
+		if (p_pCamera == m_pActiveOrthographicCamera)
+		{
+			if (m_lOrthographicCameras.empty())
+			{
+				m_pActiveOrthographicCamera = nullptr;
+			}
+			else
+			{
+				m_pActiveOrthographicCamera = m_lOrthographicCameras[0];
+			}
+		}
 	}
 }
 
-
-void HeatStroke::SceneManager::ClearDirectionalLights()
+void HeatStroke::SceneManager::ClearOrthographicCameras()
 {
-	m_lDirectionalLightList.clear();
+	m_pActiveOrthographicCamera = nullptr;
+	m_lOrthographicCameras.clear();
 }
 
-
-void HeatStroke::SceneManager::AddPointLight(HeatStroke::ScenePointLight* p_pPointLight)
+void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
 {
-	m_lPointLightList.push_back(p_pPointLight);
+	m_lModelList.push_back(p_pModel);
 }
 
-
-
-void HeatStroke::SceneManager::RemovePointLight(HeatStroke::ScenePointLight* p_pPointLight)
+void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
 {
-	PointLightList::iterator it = std::find(m_lPointLightList.begin(), m_lPointLightList.end(), p_pPointLight);
-	if (it != m_lPointLightList.end())
+	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
+	if (it != m_lModelList.end())
 	{
-		m_lPointLightList.erase(it);
-	}
+		m_lModelList.erase(it);
+	}	
 }
 
-
-
-void HeatStroke::SceneManager::ClearPointLights()
+void HeatStroke::SceneManager::ClearModels()
 {
-	m_lPointLightList.clear();
+	m_lModelList.clear();
 }
-
-
 
 void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
@@ -162,8 +131,6 @@ void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pP
 		m_pActivePerspectiveCamera = p_pPerspectiveCamera;
 	}
 }
-
-
 
 void HeatStroke::SceneManager::SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pCamera)
 {
@@ -177,14 +144,10 @@ void HeatStroke::SceneManager::SetActivePerspectiveCamera(ScenePerspectiveCamera
 	m_pActivePerspectiveCamera = p_pCamera;
 }
 
-
-
 HeatStroke::ScenePerspectiveCamera* HeatStroke::SceneManager::GetActivePerspectiveCamera()
 {
 	return m_pActivePerspectiveCamera;
 }
-
-
 
 void HeatStroke::SceneManager::RemovePerspectiveCamera(HeatStroke::ScenePerspectiveCamera* p_pCamera)
 {
@@ -208,61 +171,140 @@ void HeatStroke::SceneManager::RemovePerspectiveCamera(HeatStroke::ScenePerspect
 	}
 }
 
-
-
 void HeatStroke::SceneManager::ClearPerspectiveCameras()
 {
 	m_pActivePerspectiveCamera = nullptr;
 	m_lPerspectiveCameras.clear();
 }
 
+void HeatStroke::SceneManager::AddAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
+{
+	m_lAmbientLightList.push_back(p_pAmbientLight);
+}
 
+void HeatStroke::SceneManager::RemoveAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
+{
+	AmbientLightList::iterator it = std::find(m_lAmbientLightList.begin(), m_lAmbientLightList.end(), p_pAmbientLight);
+	if (it != m_lAmbientLightList.end())
+	{
+		m_lAmbientLightList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearAmbientLights()
+{
+	m_lAmbientLightList.clear();
+}
+
+void HeatStroke::SceneManager::AddDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
+{
+	m_lDirectionalLightList.push_back(p_pDirectionalLight);
+}
+
+void HeatStroke::SceneManager::RemoveDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
+{
+	DirectionalLightList::iterator it = std::find(m_lDirectionalLightList.begin(), m_lDirectionalLightList.end(), p_pDirectionalLight);
+	if (it != m_lDirectionalLightList.end())
+	{
+		m_lDirectionalLightList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearDirectionalLights()
+{
+	m_lDirectionalLightList.clear();
+}
+
+void HeatStroke::SceneManager::AddPointLight(HeatStroke::ScenePointLight* p_pPointLight)
+{
+	m_lPointLightList.push_back(p_pPointLight);
+}
+
+void HeatStroke::SceneManager::RemovePointLight(HeatStroke::ScenePointLight* p_pPointLight)
+{
+	PointLightList::iterator it = std::find(m_lPointLightList.begin(), m_lPointLightList.end(), p_pPointLight);
+	if (it != m_lPointLightList.end())
+	{
+		m_lPointLightList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearPointLights()
+{
+	m_lPointLightList.clear();
+}
 
 void HeatStroke::SceneManager::Render()
 {
-	// Can't render without a camera
-	if (m_pActivePerspectiveCamera == nullptr)
+	if (m_pActivePerspectiveCamera != nullptr)
 	{
-		return;
+		RenderModels();
 	}
 
-	// Iterate over the list of models and render them
+	if (m_pActiveOrthographicCamera != nullptr)
+	{
+		RenderSprites();
+	}
+}
+
+void HeatStroke::SceneManager::RenderModels()
+{
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		Model* pModel = *it;
-		
-		std::vector<Model::Mesh>& vMeshes = pModel->GetMeshes();
-		std::vector<Model::Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
-		for (; meshIt != meshEnd; meshIt++)
-		{
-			if (m_lAmbientLightList.size() > 0)
-			{
-				meshIt->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
-			}
-
-			if (m_lDirectionalLightList.size() > 0)
-			{
-				meshIt->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
-				meshIt->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
-			}
-		}
-
-		pModel->Render(m_pActivePerspectiveCamera);
+		RenderModel(*it);
 	}
+}
 
+void HeatStroke::SceneManager::RenderModel(Model* p_pModel)
+{
+	SetModelLights(p_pModel);
+	p_pModel->Render(m_pActivePerspectiveCamera);
+}
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Render the sprite list with an ortho camera. 
-	// Rendering sprites currently out of order.
-	// TODO: We should really add the camera separately rather than hard code it.
-	/*SceneCamera mSpriteCamera;
-	mSpriteCamera.SetProjectionMatrix(glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.0f, 1000.0f));
-
-	SpriteList::iterator sIt = m_lSpriteList.begin(), sEnd = m_lSpriteList.end();
-	for (; sIt != sEnd; ++sIt)
+void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
+{
+	std::vector<Mesh>& vMeshes = p_pModel->GetMeshes();
+	std::vector<Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
+	for (; meshIt != meshEnd; meshIt++)
 	{
-		HeatStroke::Sprite* pSprite = static_cast<HeatStroke::Sprite*>(*sIt);
-		pSprite->Render(&mSpriteCamera);
-	}*/
+		SetMeshLights(&(*meshIt));
+	}
+}
+
+void HeatStroke::SceneManager::SetMeshLights(Mesh* p_pMesh)
+{
+	SetMeshAmbientLight(p_pMesh);
+	SetMeshDirectionalLight(p_pMesh);
+}
+
+void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
+{
+	if (m_lAmbientLightList.size() > 0)
+	{
+		p_pMesh->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
+	}
+}
+
+void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
+{
+	if (m_lDirectionalLightList.size() > 0)
+	{
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+	}
+}
+
+void HeatStroke::SceneManager::RenderSprites()
+{
+	SpriteList::iterator it = m_lSpriteList.begin(), end = m_lSpriteList.end();
+	for (; it != end; ++it)
+	{
+		RenderSprite(*it);
+	}
+}
+
+void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite)
+{
+	p_pSprite->Render(m_pActiveOrthographicCamera);
 }

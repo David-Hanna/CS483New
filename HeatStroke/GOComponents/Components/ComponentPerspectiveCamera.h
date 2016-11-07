@@ -8,15 +8,9 @@
 #ifndef COMPONENT_PERSPECTIVE_CAMERA_H
 #define COMPONENT_PERSPECTIVE_CAMERA_H
 
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <tinyxml2.h>
-
 #include "Component.h"
-#include "HierarchicalTransform.h"
 #include "GameObject.h"
 #include "EasyXML.h"
-#include "ScenePerspectiveCamera.h"
 #include "SceneManager.h"
 
 namespace HeatStroke
@@ -63,7 +57,6 @@ namespace HeatStroke
 			GameObject* p_pTargetGameObject
 		);
 
-		// Helper for parsing the GOC_Camera node.
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			float& p_fFOV,

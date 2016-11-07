@@ -39,6 +39,16 @@ HeatStroke::ScenePerspectiveCamera::ScenePerspectiveCamera(
 {
 }
 
+const HeatStroke::Frustum& HeatStroke::ScenePerspectiveCamera::GetViewFrustum() const
+{
+	if (m_bViewFrustumDirty)
+	{
+		m_mViewFrustum = HeatStroke::Frustum(GetViewProjectionMatrix());
+		m_bViewFrustumDirty = false;
+	}
+	return m_mViewFrustum;
+}
+
 void HeatStroke::ScenePerspectiveCamera::SetPosition(const glm::vec3 &p_vPos)
 {
 	SceneCamera::SetPosition(p_vPos);
@@ -85,42 +95,7 @@ void HeatStroke::ScenePerspectiveCamera::SetFarClip(float p_fFarClip)
 	m_fFarClip = p_fFarClip;
 }
 
-const glm::mat4& HeatStroke::ScenePerspectiveCamera::GetProjectionMatrix() const
+glm::mat4 HeatStroke::ScenePerspectiveCamera::ComputeProjectionMatrix() const
 {
-	if (m_bProjectionDirty)
-	{
-		m_mProjectionMatrix = glm::perspective(m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
-		m_bProjectionDirty = false;
-	}
-	return m_mProjectionMatrix;
-}
-
-const glm::mat4& HeatStroke::ScenePerspectiveCamera::GetViewMatrix() const
-{
-	if (m_bViewDirty)
-	{
-		m_mViewMatrix = glm::lookAt(m_vPosition, m_vTarget, m_vUp);
-		m_bViewDirty = false;
-	}
-	return m_mViewMatrix;
-}
-
-const glm::mat4& HeatStroke::ScenePerspectiveCamera::GetViewProjectionMatrix() const
-{
-	if (m_bViewDirty || m_bProjectionDirty)
-	{
-		m_mViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
-	}
-	
-	return m_mViewProjectionMatrix;
-}
-
-const HeatStroke::Frustum& HeatStroke::ScenePerspectiveCamera::GetViewFrustum() const
-{
-	if (m_bViewFrustumDirty)
-	{
-		m_mViewFrustum = HeatStroke::Frustum(GetViewProjectionMatrix());
-		m_bViewFrustumDirty = false;
-	}
-	return m_mViewFrustum;
+	return glm::perspective(m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
 }
