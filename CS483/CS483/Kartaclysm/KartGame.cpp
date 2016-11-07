@@ -11,6 +11,7 @@
 #include "ComponentCameraController.h"
 #include "ComponentCamera.h"
 #include "SceneManager.h"
+#include "Collisions\CollisionManager.h"
 #include "KeyboardInputBuffer.h"
 
 bool Kartaclysm::KartGame::Init()
@@ -18,6 +19,7 @@ bool Kartaclysm::KartGame::Init()
 	// Initialize singletons
 	HeatStroke::EventManager::CreateInstance();
 	HeatStroke::SceneManager::CreateInstance(m_pWindow);
+	HeatStroke::CollisionManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
@@ -36,6 +38,7 @@ bool Kartaclysm::KartGame::Init()
 void Kartaclysm::KartGame::Update(const float p_fDelta)
 {
 	HeatStroke::EventManager::Instance()->Update(p_fDelta);
+	HeatStroke::CollisionManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
 	PlayerInputMapping::Instance()->Update(p_fDelta);
@@ -70,4 +73,5 @@ void Kartaclysm::KartGame::Shutdown()
 	HeatStroke::KeyboardInputBuffer::DestroyInstance();
 	HeatStroke::SceneManager::DestroyInstance();
 	HeatStroke::EventManager::DestroyInstance();
+	HeatStroke::CollisionManager::DestroyInstance();
 }

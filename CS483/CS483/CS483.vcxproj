@@ -104,6 +104,7 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Texture\TextureManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\Event.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\EventManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneManager.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h" />
+    <ClInclude Include="..\..\HeatStroke\Services\Collisions\CollisionManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\Event.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\EventManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.h" />

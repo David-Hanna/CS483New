@@ -7,6 +7,8 @@
 
 #include "ComponentSphereCollider.h"
 
+#include "Collisions\CollisionManager.h"
+
 HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	HeatStroke::GameObject* p_pGameObject,
 	glm::vec3 p_pOffset,
@@ -16,6 +18,7 @@ HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	m_pOffset(p_pOffset),
 	m_fRadius(p_fRadius)
 {
+	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, p_pGameObject->GetGUID());
 }
 
 HeatStroke::ComponentSphereCollider::~ComponentSphereCollider()

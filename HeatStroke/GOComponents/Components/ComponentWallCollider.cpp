@@ -7,6 +7,8 @@
 
 #include "ComponentWallCollider.h"
 
+#include "Collisions\CollisionManager.h"
+
 HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	HeatStroke::GameObject* p_pGameObject,
 	glm::vec3 p_pOffset,
@@ -20,6 +22,7 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	m_fHeight(p_fHeight),
 	m_fWidth(p_fWidth)
 {
+	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, p_pGameObject->GetGUID());
 }
 
 HeatStroke::ComponentWallCollider::~ComponentWallCollider()

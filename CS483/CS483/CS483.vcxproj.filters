@@ -94,6 +94,9 @@
     <Filter Include="Kartaclysm\Services\IO">
       <UniqueIdentifier>{8b1fb89a-a01f-4cec-b8ff-55e0c25b8b2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\Collisions">
+      <UniqueIdentifier>{43e779e8-a38b-49c5-a357-85f062251a82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -251,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp">
+      <Filter>HeatStroke\Services\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +457,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\Collisions\CollisionManager.h">
+      <Filter>HeatStroke\Services\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
