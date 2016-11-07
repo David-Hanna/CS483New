@@ -97,6 +97,9 @@
     <Filter Include="HeatStroke\GO/Components\XmlRegistry">
       <UniqueIdentifier>{d0379ca1-fe47-4ad9-bae3-e2cfe4ba1dc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\GO/Components\XmlRegistry\Services">
+      <UniqueIdentifier>{e3a870ec-d2c9-4da8-bf12-9958390b58b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -252,16 +255,16 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadXmlRegistryService.cpp">
-      <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\BaseXmlRegistryService.cpp">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugXmlRegistryWrapper.cpp">
-      <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\DebugXmlRegistryWrapper.cpp">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryServiceLocator.cpp">
-      <Filter>HeatStroke\GO/Components</Filter>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\ReloadXmlRegistryService.cpp">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\BaseXmlRegistryService.cpp">
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryServiceLocator.cpp">
       <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
     </ClCompile>
   </ItemGroup>
@@ -458,19 +461,19 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryService.h">
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\BaseXmlRegistryService.h">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\DebugXmlRegistryWrapper.h">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\ReloadXmlRegistryService.h">
+      <Filter>HeatStroke\GO/Components\XmlRegistry\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryService.h">
       <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadXmlRegistryService.h">
-      <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugXmlRegistryWrapper.h">
-      <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryServiceLocator.h">
-      <Filter>HeatStroke\GO/Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\BaseXmlRegistryService.h">
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryServiceLocator.h">
       <Filter>HeatStroke\GO/Components\XmlRegistry</Filter>
     </ClInclude>
   </ItemGroup>

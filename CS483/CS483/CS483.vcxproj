@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\boost_1_62_0\libs;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\GOComponents\Parsing;$(ProjectDir)\..\..\HeatStroke\GOComponents\Parsing\Services;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\boost_1_60_0;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\GOComponents\XmlRegistry;$(ProjectDir)\..\..\HeatStroke\GOComponents\XmlRegistry\Services;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\boost_1_60_0;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CONSOLE;GLEW_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -82,10 +82,10 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryServiceLocator.cpp" />
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugXmlRegistryWrapper.cpp" />
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadXmlRegistryService.cpp" />
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Parsing\Services\BaseXmlRegistryService.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\BaseXmlRegistryService.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\DebugXmlRegistryWrapper.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\ReloadXmlRegistryService.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryServiceLocator.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.cpp" />
@@ -145,11 +145,11 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryService.h" />
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\XmlRegistryServiceLocator.h" />
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\DebugXmlRegistryWrapper.h" />
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\ReloadXmlRegistryService.h" />
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Parsing\Services\BaseXmlRegistryService.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\BaseXmlRegistryService.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\DebugXmlRegistryWrapper.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\Services\ReloadXmlRegistryService.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryService.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\XmlRegistry\XmlRegistryServiceLocator.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.h" />
