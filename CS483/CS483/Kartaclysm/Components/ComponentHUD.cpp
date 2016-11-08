@@ -192,17 +192,18 @@ namespace Kartaclysm
 
 		// TO DO, currently everything renders but practice mode might not need to render position (as example)
 		// Assign the callbacks for events
-		HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "0.0", 320.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(10.0f, 10.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Time"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
+		//HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
+		//pTextBox = new HeatStroke::TextBox(m_pFont, "0.0", 320.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
+		//pTextBox->SetPosition(10.0f, 10.0f);
+		//pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
+		//section.m_mRenderMap["Time"] = pTextBox;
+		//pSceneManager->AddTextBox(pTextBox);
 
-		section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
-		pSprite = new HeatStroke::Sprite("Assets/Hud/ability.mtl", "ability");
-		section.m_mRenderMap["Icon"] = pSprite;
-		pSceneManager->AddSprite(pSprite);
+		//section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
+		//pSprite = new HeatStroke::Sprite("Assets/Hud/ability.mtl", "ability");
+		//pSprite->SetTransform(glm::scale(glm::vec3(4.0f, 4.0f, 1.0f)) * glm::translate(glm::vec3(60.0f, 20.0f, 0.0f)));
+		//section.m_mRenderMap["Icon"] = pSprite;
+		//pSceneManager->AddSprite(pSprite);
 
 		/*
 		section = m_mLayerMap[eRaceInfo]["DriverAbility2"];

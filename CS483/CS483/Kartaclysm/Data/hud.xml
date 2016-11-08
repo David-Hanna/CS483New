@@ -9,22 +9,55 @@
   
   <Children>
     <GameObject>
-      
       <Transform>
-        <Translation x="80.0" y="80.0" z="0.0" />
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="40.0" y="-80.0" z="0.0" />
       </Transform>
-      
       <Components>
 	      <GOC_Sprite>
-          <!--
 		      <MTLFileName path="Assets/Hud/ability.mtl"/>
 		      <MaterialName name="ability"/>
-          -->
-          <MTLFileName path="Assets/sample_sprite/sample_sprite.mtl"/>
-          <MaterialName name="sample_sprite"/>
 	      </GOC_Sprite>
       </Components>
-      
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="55.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Sprite>
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Sprite>
+      </Components>
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="70.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Sprite>
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Sprite>
+      </Components>
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="85.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Sprite>
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Sprite>
+      </Components>
     </GameObject>
   </Children>
   
