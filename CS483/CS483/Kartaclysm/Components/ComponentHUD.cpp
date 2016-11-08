@@ -114,10 +114,7 @@ namespace Kartaclysm
 
 	void ComponentHUD::Init()
 	{
-		// Break up an otherwise insanely long method
-		// TO DO, find another way to get the player number
-		AssignEventDelegates(0);
-		AssignInitialRenderables();
+		
 	}
 
 	void ComponentHUD::Update(const float p_fDelta)
@@ -129,135 +126,6 @@ namespace Kartaclysm
 		}
 
 		// TO DO, also reduce ability cooldowns
-	}
-
-	void ComponentHUD::AssignEventDelegates(const int p_iPlayerNumber)
-	{
-		// Some common variables
-		std::string strPlayer = "HUD_Player" + p_iPlayerNumber;
-		HeatStroke::EventManager* pEventManager = HeatStroke::EventManager::Instance();
-
-		// Assign the callbacks for events
-		HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
-		section.m_strEventRegistered = "HUD_Pause"; // not attached to any player
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::PauseCallback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
-		section.m_strEventRegistered = strPlayer + "_DriverAbility1";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::DriverAbility1Callback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["DriverAbility2"];
-		section.m_strEventRegistered = strPlayer + "_DriverAbility2";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::DriverAbility2Callback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["KartAbility1"];
-		section.m_strEventRegistered = strPlayer + "_KartAbility1";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::KartAbility1Callback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["KartAbility2"];
-		section.m_strEventRegistered = strPlayer + "_KartAbility2";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::KartAbility2Callback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["Position"];
-		section.m_strEventRegistered = strPlayer + "_Position";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::PositionCallback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eRaceInfo]["Lap"];
-		section.m_strEventRegistered = strPlayer + "_Lap";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::LapCallback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[ePopups]["Popup"];
-		section.m_strEventRegistered = strPlayer + "_Popup";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::PopupCallback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-
-		section = m_mLayerMap[eDebug]["Debug"];
-		section.m_strEventRegistered = strPlayer + "_Debug";
-		section.m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHUD::DebugCallback, this, std::placeholders::_1));
-		pEventManager->AddListener(section.m_strEventRegistered, section.m_pDelegate);
-	}
-
-	void ComponentHUD::AssignInitialRenderables()
-	{
-		HeatStroke::SceneManager* pSceneManager = HeatStroke::SceneManager::Instance();
-		HeatStroke::TextBox* pTextBox;
-		HeatStroke::Sprite* pSprite;
-
-		// TO DO, currently everything renders but practice mode might not need to render position (as example)
-		// Assign the callbacks for events
-		//HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
-		//pTextBox = new HeatStroke::TextBox(m_pFont, "0.0", 320.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		//pTextBox->SetPosition(10.0f, 10.0f);
-		//pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		//section.m_mRenderMap["Time"] = pTextBox;
-		//pSceneManager->AddTextBox(pTextBox);
-
-		//section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
-		//pSprite = new HeatStroke::Sprite("Assets/Hud/ability.mtl", "ability");
-		//pSprite->SetTransform(glm::scale(glm::vec3(4.0f, 4.0f, 1.0f)) * glm::translate(glm::vec3(60.0f, 20.0f, 0.0f)));
-		//section.m_mRenderMap["Icon"] = pSprite;
-		//pSceneManager->AddSprite(pSprite);
-
-		/*
-		section = m_mLayerMap[eRaceInfo]["DriverAbility2"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "D2", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		//pTextBox->SetPosition(1000.0f, 700.0f);
-		pTextBox->SetPosition(-50.0f, -50.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Icon"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[eRaceInfo]["KartAbility1"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "K1", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		//pTextBox->SetPosition(1100.0f, 700.0f);
-		pTextBox->SetPosition(-1100.0f, -700.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Icon"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[eRaceInfo]["KartAbility2"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "K2", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		//pTextBox->SetPosition(1200.0f, 700.0f);
-		pTextBox->SetPosition(0.5f, 0.5f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Icon"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[eRaceInfo]["Position"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "1st", 120.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(100.0f, 700.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Number"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[eRaceInfo]["Lap"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "1/3", 120.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(1000.0f, 120.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Current"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[ePopups]["Popup"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "Popup", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(540.0f, 320.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Warning"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-
-		section = m_mLayerMap[eDebug]["Debug"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "Debug", 200.0f, 80.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(40.0f, 40.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Message"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
-		*/
 	}
 
 	void ComponentHUD::PauseCallback(const HeatStroke::Event* p_pEvent)

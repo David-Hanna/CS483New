@@ -31,7 +31,7 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 	m_Transform(p_strGUID),
 	m_pParent(nullptr),
 	m_mComponentMap(),
-	m_mChildMap(),
+	m_mChildMap(ChildMap()),
 	m_mTagList()
 {
 }
@@ -44,10 +44,16 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
+	/*
+	// Warning: Causes an error when program tries to exit
+	// Parent is not a nullptr, it simple does not exist in memory
+	// This should maybe be handled by the code that would delete it
+	// Such as in the GameObjectManager
 	if (m_pParent != nullptr)
 	{
 		m_pParent->RemoveChild(m_strGUID);
 	}
+	*/
 
 	DeleteAllComponents();
 	DeleteAllChildren();

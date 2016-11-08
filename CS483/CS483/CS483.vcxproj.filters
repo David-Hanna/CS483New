@@ -481,12 +481,6 @@
     <Xml Include="Kartaclysm\Data\light.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\test_object.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\sample_sprite.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="Kartaclysm\Data\lines.fsh">

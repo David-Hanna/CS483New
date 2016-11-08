@@ -173,13 +173,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActivePerspectiveCamera();
 	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());
-
-	/*
-	// FIX ME - move this into data.
-	HeatStroke::GameObject* pSprite = m_pGameObjectManager->GetGameObject("SampleSprite");
-	pSprite->GetTransform().SetTranslationXYZ(80.0f, 80.0f, 0.0f);
-	pSprite->GetTransform().SetScaleXYZ(20.0f, 20.0f, 1.0f);
-	*/
 }
 
 //------------------------------------------------------------------------------

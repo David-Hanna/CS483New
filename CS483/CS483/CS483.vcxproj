@@ -197,7 +197,6 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="Kartaclysm\Data\light.xml" />
-    <Xml Include="Kartaclysm\Data\sample_sprite.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <SubType>Designer</SubType>
     </Xml>
@@ -207,7 +206,6 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
-    <Xml Include="Kartaclysm\Data\test_object.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
   </ItemGroup>
   <ItemGroup>

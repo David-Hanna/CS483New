@@ -87,10 +87,6 @@ namespace Kartaclysm
 		// Required for Renderable Components, but does nothing
 		virtual void SyncTransform() {}
 
-		// Break up the initialization process
-		virtual void AssignEventDelegates(const int p_iPlayerNumber);
-		virtual void AssignInitialRenderables();
-
 		// All of the callback methods for this HUD
 		virtual void PauseCallback(const HeatStroke::Event* p_pEvent);
 		virtual void DriverAbility1Callback(const HeatStroke::Event* p_pEvent);
