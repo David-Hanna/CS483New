@@ -3,9 +3,9 @@
 
 <GameObject>
   <Components>
-	<GOC_Sprite>
-		<MTLFileName path="Assets/sample_sprite/sample_sprite.mtl"/>
-		<MaterialName name="sample_sprite"/>
-	</GOC_Sprite>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/sample_sprite/sample_sprite.mtl"/>
+			<MaterialName name="sample_sprite"/>
+		</GOC_Sprite>
   </Components>
 </GameObject>

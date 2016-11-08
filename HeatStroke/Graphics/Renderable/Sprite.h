@@ -28,7 +28,8 @@ namespace HeatStroke
 		void  SetTransform(const glm::mat4& p_mWorldTransform) { m_mWorldTransform = p_mWorldTransform; }
 
 	private:
-		static float m_vQuad[];
+		static float		  m_vQuadVertex[];
+		static unsigned short m_vQuadIndex[];
 
 		Mesh		m_mMesh;
 		glm::mat4	m_mWorldTransform;
