@@ -11,6 +11,7 @@
       </Transform>
       <Components>
 	      <GOC_Hud_Ability>
+          <Ability name="KartAbility1" />
 		      <MTLFileName path="Assets/Hud/ability.mtl"/>
 		      <MaterialName name="ability"/>
 	      </GOC_Hud_Ability>
@@ -24,6 +25,7 @@
       </Transform>
       <Components>
         <GOC_Hud_Ability>
+          <Ability name="KartAbility2" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_Hud_Ability>
@@ -37,6 +39,7 @@
       </Transform>
       <Components>
         <GOC_Hud_Ability>
+          <Ability name="DriverAbility1" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_Hud_Ability>
@@ -50,6 +53,7 @@
       </Transform>
       <Components>
         <GOC_Hud_Ability>
+          <Ability name="DriverAbility2" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_Hud_Ability>

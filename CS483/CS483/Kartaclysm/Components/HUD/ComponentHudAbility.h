@@ -45,10 +45,11 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentHudAbility( 
+		ComponentHudAbility(
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strMTLFileName,
-			const std::string& p_strMaterialName
+			const std::string& p_strMaterialName,
+			const std::string& p_strAbility
 			);
 
 		virtual void SyncTransform() { HeatStroke::ComponentSprite::SyncTransform(); }
@@ -58,13 +59,18 @@ namespace Kartaclysm
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strOBJFileName,
-			std::string& p_strMaterialName
+			std::string& p_strMaterialName,
+			std::string& p_strAbility
 			);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
-
+		
+		bool m_bReady;
+		std::string m_strEventName;
+		
+		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 		// Information for creating textboxes
 		// HeatStroke::Font*	m_pFont;
 		// std::string			m_strVertexProgramPath;

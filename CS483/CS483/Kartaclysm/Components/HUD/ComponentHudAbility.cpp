@@ -12,15 +12,22 @@ namespace Kartaclysm
 	ComponentHudAbility::ComponentHudAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		const std::string& p_strMTLFileName,
-		const std::string& p_strMaterialName
+		const std::string& p_strMaterialName,
+		const std::string& p_strAbility
 		) :
-		HeatStroke::ComponentSprite(p_pGameObject, p_strMTLFileName, p_strMaterialName)
+		HeatStroke::ComponentSprite(p_pGameObject, p_strMTLFileName, p_strMaterialName),
+		m_strEventName("Player0_" + p_strAbility + "_HUD"),
+		m_bReady(false)
 	{
-		
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	ComponentHudAbility::~ComponentHudAbility()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
+		delete m_pDelegate;
+		m_pDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentHudAbility::CreateComponent(
@@ -34,39 +41,64 @@ namespace Kartaclysm
 		// The values we need to fill by the end of parsing.
 		std::string strMTLFileName("");
 		std::string strMaterialName("");
+		std::string strAbility("");
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName);
+			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strAbility);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, strMTLFileName, strMaterialName);
+			ParseNode(p_pOverrideNode, strMTLFileName, strMaterialName, strAbility);
 		}
 
 		// Check that we got everything we needed.
 		assert(strMTLFileName != "");
 		assert(strMaterialName != "");
+		assert(strAbility != "");
 
 		// Now we can create and return the Component.
 		return new ComponentHudAbility(
 			p_pGameObject,
 			strMTLFileName,
-			strMaterialName
+			strMaterialName,
+			strAbility
 			);
 	}
 
 	void ComponentHudAbility::AbilityCallback(const HeatStroke::Event* p_pEvent)
 	{
+		int iCharges = 0;
+		float fCooldown = 0.0f;
 
+		p_pEvent->GetRequiredFloatParameter("Cooldown", fCooldown);
+		p_pEvent->GetRequiredIntParameter("Charges", iCharges);
+
+		if (fCooldown <= 0.0f && iCharges != 0)
+		{
+			if (!m_bReady)
+			{
+				m_bReady = true;
+				printf("HUD: Ability is ready to be activated.\n");
+			}
+		}
+		else
+		{
+			if (m_bReady)
+			{
+				m_bReady = false;
+				printf("HUD: Ability is not ready to be activated.\n");
+			}
+		}
 	}
 
 	void ComponentHudAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		std::string& p_strMTLFileName,
-		std::string& p_strMaterialName)
+		std::string& p_strMaterialName,
+		std::string& p_strAbility)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_Hud_Ability") == 0);
@@ -88,6 +120,10 @@ namespace Kartaclysm
 			else if (strcmp(szNodeName, "MaterialName") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "name", p_strMaterialName);
+			}
+			else if (strcmp(szNodeName, "Ability") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "name", p_strAbility);
 			}
 		}
 	}
