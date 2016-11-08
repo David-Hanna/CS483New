@@ -13,6 +13,7 @@
 
 #include "BufferManager.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 #include "VertexDeclaration.h"
 
@@ -27,6 +28,7 @@ namespace HeatStroke
 	struct Mesh
 	{
 		VertexBuffer*		m_pVertexBuffer;
+		IndexBuffer*		m_pIndexBuffer;
 		VertexDeclaration*	m_pVertexDeclaration;
 		Texture*			m_pTexture;
 		Material*			m_pMaterial;

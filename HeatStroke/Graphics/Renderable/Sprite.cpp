@@ -7,16 +7,15 @@
 
 #include "Sprite.h"
 
-float HeatStroke::Sprite::m_vQuad[] = {
+float HeatStroke::Sprite::m_vQuadVertex[] = {
 				// pos           // uv
 /* top left	*/	-1.0f,  1.0f,	0.0f, 1.0f,
 /* top right*/	 1.0f,  1.0f,	1.0f, 1.0f,
 /* bot right*/	 1.0f, -1.0f,	1.0f, 0.0f,
-
-/* top left	*/	-1.0f,  1.0f,   0.0f, 1.0f,
-/* bot right*/	 1.0f, -1.0f,   1.0f, 0.0f,
 /* bot left */	-1.0f, -1.0f,	0.0f, 0.0f
 };
+
+unsigned short HeatStroke::Sprite::m_vQuadIndex[] = { 0, 1, 2, 0, 2, 3 };
 
 HeatStroke::Sprite::Sprite(const std::string& p_strMTLFileName, const std::string& p_strMaterialName)
 {
@@ -24,7 +23,8 @@ HeatStroke::Sprite::Sprite(const std::string& p_strMTLFileName, const std::strin
 	mMTLFile.ParseFile();
 	const MTLFile::MTLMaterial* mMTLMaterial = mMTLFile.GetMaterial(p_strMaterialName);
 
-	m_mMesh.m_pVertexBuffer = HeatStroke::BufferManager::CreateVertexBuffer(m_vQuad, 24 * sizeof(float));
+	m_mMesh.m_pVertexBuffer = HeatStroke::BufferManager::CreateVertexBuffer(m_vQuadVertex, 16 * sizeof(float));
+	m_mMesh.m_pIndexBuffer = HeatStroke::BufferManager::CreateIndexBuffer(m_vQuadIndex, 6 * sizeof(unsigned short));
 
 	m_mMesh.m_pVertexDeclaration = new HeatStroke::VertexDeclaration;
 	m_mMesh.m_pVertexDeclaration->Begin();
@@ -33,6 +33,7 @@ HeatStroke::Sprite::Sprite(const std::string& p_strMTLFileName, const std::strin
 	m_mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 2 * sizeof(float));
 
 	m_mMesh.m_pVertexDeclaration->SetVertexBuffer(m_mMesh.m_pVertexBuffer);
+	m_mMesh.m_pVertexDeclaration->SetIndexBuffer(m_mMesh.m_pIndexBuffer);
 	m_mMesh.m_pVertexDeclaration->End();
 
 	m_mMesh.m_pMaterial = HeatStroke::MaterialManager::CreateMaterial(mMTLMaterial->GetMaterialName());
@@ -66,5 +67,5 @@ void HeatStroke::Sprite::Render(const SceneCamera* p_pCamera)
 	m_mMesh.m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 	m_mMesh.m_pMaterial->Apply();
 
-	glDrawArrays(GL_TRIANGLES, 0, m_mMesh.m_pVertexBuffer->GetLength());
+	glDrawElements(GL_TRIANGLES, m_mMesh.m_pIndexBuffer->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 }

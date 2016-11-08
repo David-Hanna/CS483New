@@ -67,24 +67,19 @@ void HeatStroke::ComponentSprite::ParseNode(
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_Sprite") == 0);
 
-	for (tinyxml2::XMLNode* pChildNode = p_pNode->FirstChild();
-		pChildNode != nullptr;
-		pChildNode = pChildNode->NextSibling())
+	for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
+		pChildElement != nullptr;
+		pChildElement = pChildElement->NextSiblingElement())
 	{
-		// skip comments
-		if (pChildNode->ToComment() != nullptr)
-			continue;
-
-		const char* szNodeName = pChildNode->Value();
-		tinyxml2::XMLElement* pElement = pChildNode->ToElement();
+		const char* szNodeName = pChildElement->Value();
 
 		if (strcmp(szNodeName, "MTLFileName") == 0)
 		{
-			HeatStroke::EasyXML::GetRequiredStringAttribute(pElement, "path", p_strMTLFileName);
+			HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strMTLFileName);
 		}
 		else if (strcmp(szNodeName, "MaterialName") == 0)
 		{
-			HeatStroke::EasyXML::GetRequiredStringAttribute(pElement, "name", p_strMaterialName);
+			HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "name", p_strMaterialName);
 		}
 	}
 }

@@ -19,6 +19,8 @@
 #include "ComponentKartController.h"
 #include "ComponentSprite.h"
 #include "ComponentOrthographicCamera.h"
+#include "ComponentAbilityConditions.h"
+#include "ComponentSampleAbility.h"
 #include "ComponentHudAbility.h"
 
 #include "Common.h"
