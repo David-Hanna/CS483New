@@ -3,10 +3,6 @@
 
 <GameObject>
   
-  <Components>
-      <GOC_HUD />
-  </Components>
-  
   <Children>
     <GameObject>
       <Transform>
@@ -14,10 +10,10 @@
         <Translation x="40.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-	      <GOC_Sprite>
+	      <GOC_Hud_Ability>
 		      <MTLFileName path="Assets/Hud/ability.mtl"/>
 		      <MaterialName name="ability"/>
-	      </GOC_Sprite>
+	      </GOC_Hud_Ability>
       </Components>
     </GameObject>
 
@@ -27,10 +23,10 @@
         <Translation x="55.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Sprite>
+        <GOC_Hud_Ability>
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Sprite>
+        </GOC_Hud_Ability>
       </Components>
     </GameObject>
 
@@ -40,10 +36,10 @@
         <Translation x="70.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Sprite>
+        <GOC_Hud_Ability>
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Sprite>
+        </GOC_Hud_Ability>
       </Components>
     </GameObject>
 
@@ -53,10 +49,10 @@
         <Translation x="85.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Sprite>
+        <GOC_Hud_Ability>
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Sprite>
+        </GOC_Hud_Ability>
       </Components>
     </GameObject>
   </Children>

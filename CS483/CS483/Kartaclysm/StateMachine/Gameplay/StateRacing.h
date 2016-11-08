@@ -19,7 +19,7 @@
 #include "ComponentKartController.h"
 #include "ComponentSprite.h"
 #include "ComponentOrthographicCamera.h"
-#include "ComponentHUD.h"
+#include "ComponentHudAbility.h"
 
 #include "Common.h"
 #include "GameplayState.h"
