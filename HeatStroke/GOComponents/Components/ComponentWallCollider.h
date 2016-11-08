@@ -35,6 +35,11 @@ namespace HeatStroke
 		//virtual void PreRender() override { ComponentRenderable::PreRender(); }
 		void DebugRender(LineDrawer* p_pLineDrawer);
 
+		glm::vec3 GetOffset() { return m_pOffset; }
+		glm::vec3 GetSurfaceNormal() { return m_pSurfaceNormal; }
+		float GetHeight() { return m_fHeight; }
+		float GetWidth() { return m_fWidth; }
+
 	protected:
 		ComponentWallCollider(
 			GameObject* p_pGameObject,

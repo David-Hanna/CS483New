@@ -150,7 +150,8 @@ namespace Kartaclysm
 		// Straighten out the turn a bit if moving fast (or very slow)
 		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
 		{
-			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
+			// TODO: Seeing how it feels with this disabled
+			//fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
 		}
 		else
 		{

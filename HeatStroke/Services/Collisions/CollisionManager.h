@@ -12,6 +12,9 @@
 
 #include "ComponentCollider.h"
 
+#include "ComponentSphereCollider.h"
+#include "ComponentWallCollider.h"
+
 namespace HeatStroke
 {
 	class CollisionManager
@@ -58,6 +61,12 @@ namespace HeatStroke
 		//---------------------------------------------------------------------
 		CollisionManager();
 		~CollisionManager();
+
+		void CheckCollision(ComponentCollider* p_pCollider1, ComponentCollider* p_pCollider2);
+
+		// Collision pairs
+		void CheckCollision(ComponentSphereCollider* p_pCollider1, ComponentSphereCollider* p_pCollider2);
+		void CheckCollision(ComponentSphereCollider* p_pCollider1, ComponentWallCollider* p_pCollider2);
 	};
 }
 

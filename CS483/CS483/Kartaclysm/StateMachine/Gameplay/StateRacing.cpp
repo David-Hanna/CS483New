@@ -168,7 +168,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	pCamera->GetTransform().SetTranslation(offset);
 
 	// more bad shit
-	float h = -0.2f;
+	float h = -0.02f;
 	for (int i = 1; i <= 10; i++)
 	{
 		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
