@@ -102,6 +102,7 @@ namespace HeatStroke
 
 		void LoadComponents(tinyxml2::XMLElement* p_pComponentsRootElement, GameObject* p_pGameObject);
 		void LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElement, GameObject* p_pParent);
+		void ParseTags(tinyxml2::XMLElement* p_pTagsRootElement, GameObject* p_pGameObject);
 
 		std::string GetGuid(tinyxml2::XMLElement* p_pGameObjectRootElement);
 		std::string GetAutoGuid();

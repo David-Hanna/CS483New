@@ -237,5 +237,17 @@ void GameObject::Print()
 			printf("%s\n", it->second->GetGUID().c_str());
 		}
 	}
+	printf("tags:\n");
+	if (m_mTagList.size() == 0)
+	{
+		printf("none\n");
+	}
+	else
+	{
+		for (TagList::iterator it = m_mTagList.begin(); it != m_mTagList.end(); ++it)
+		{
+			printf("%s\n", it->c_str());
+		}
+	}
 	printf("\n");
 }
