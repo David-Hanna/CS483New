@@ -10,18 +10,20 @@
 
 #include <functional>
 
-#include "Common.h"
-#include "GameplayState.h"
+
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
 #include "ComponentDirectionalLight.h"
-#include "ComponentCamera.h"
+#include "ComponentPerspectiveCamera.h"
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
+#include "ComponentSprite.h"
+#include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentSampleAbility.h"
+#include "Common.h"
+#include "GameplayState.h"
 #include "EventManager.h"
-
 #include "LineDrawer.h"
 
 namespace Kartaclysm
