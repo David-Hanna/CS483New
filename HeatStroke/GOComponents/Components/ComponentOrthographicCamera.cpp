@@ -85,50 +85,45 @@ void HeatStroke::ComponentOrthographicCamera::ParseNode(
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_OrthographicCamera") == 0);
 
-	for (tinyxml2::XMLNode*  pChildNode = p_pNode->FirstChild();
-		pChildNode != nullptr;
-		pChildNode = pChildNode->NextSibling())
+	for (tinyxml2::XMLElement*  pChildElement = p_pNode->FirstChildElement();
+		pChildElement != nullptr;
+		pChildElement = pChildElement->NextSiblingElement())
 	{
-		// skip comments
-		if (pChildNode->ToComment() != nullptr)
-			continue;
-
-		const char* szNodeName = pChildNode->Value();
-		tinyxml2::XMLElement* pElement = pChildNode->ToElement();
+		const char* szNodeName = pChildElement->Value();
 
 		if (strcmp(szNodeName, "Position") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "x", p_vPosition.x);
-			EasyXML::GetRequiredFloatAttribute(pElement, "y", p_vPosition.y);
-			EasyXML::GetRequiredFloatAttribute(pElement, "z", p_vPosition.z);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vPosition.x);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vPosition.y);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vPosition.z);
 		}
 		else if (strcmp(szNodeName, "Target") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "x", p_vTarget.x);
-			EasyXML::GetRequiredFloatAttribute(pElement, "y", p_vTarget.y);
-			EasyXML::GetRequiredFloatAttribute(pElement, "z", p_vTarget.z);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vTarget.x);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vTarget.y);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vTarget.z);
 		}
 		else if (strcmp(szNodeName, "Up") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "x", p_vUp.x);
-			EasyXML::GetRequiredFloatAttribute(pElement, "y", p_vUp.y);
-			EasyXML::GetRequiredFloatAttribute(pElement, "z", p_vUp.z);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vUp.x);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vUp.y);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vUp.z);
 		}
 		else if (strcmp(szNodeName, "Left") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fLeft);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fLeft);
 		}
 		else if (strcmp(szNodeName, "Right") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fRight);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fRight);
 		}
 		else if (strcmp(szNodeName, "Bottom") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fBottom);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fBottom);
 		}
 		else if (strcmp(szNodeName, "Top") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fTop);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fTop);
 		}
 	}
 }

@@ -116,40 +116,35 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_PerspectiveCamera") == 0);
 
-	for (tinyxml2::XMLNode*  pChildNode = p_pNode->FirstChild();
-		pChildNode != nullptr;
-		pChildNode = pChildNode->NextSibling())
+	for (tinyxml2::XMLElement*  pChildElement = p_pNode->FirstChildElement();
+		pChildElement != nullptr;
+		pChildElement = pChildElement->NextSiblingElement())
 	{
-		// skip comments
-		if (pChildNode->ToComment() != nullptr)
-			continue;
-
-		const char* szNodeName = pChildNode->Value();
-		tinyxml2::XMLElement* pElement = pChildNode->ToElement();
+		const char* szNodeName = pChildElement->Value();
 
 		if (strcmp(szNodeName, "FieldOfView") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fFOV);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fFOV);
 		}
 		else if (strcmp(szNodeName, "AspectRatioWidth") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fAspectRatioWidth);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fAspectRatioWidth);
 		}
 		else if (strcmp(szNodeName, "AspectRatioHeight") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fAspectRatioHeight);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fAspectRatioHeight);
 		}
 		else if (strcmp(szNodeName, "NearClip") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fNearClip);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fNearClip);
 		}
 		else if (strcmp(szNodeName, "FarClip") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pElement, "value", p_fFarClip);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fFarClip);
 		}
 		else if (strcmp(szNodeName, "Target") == 0)
 		{
-			EasyXML::GetRequiredStringAttribute(pElement, "guid", p_strTargetGUID);
+			EasyXML::GetRequiredStringAttribute(pChildElement, "guid", p_strTargetGUID);
 		}
 	}
 }
