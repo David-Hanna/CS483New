@@ -15,6 +15,7 @@
 #include "PlayerInputMapping.h"
 #include "GameObject.h"
 #include "KeyboardInputBuffer.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {
@@ -58,11 +59,15 @@ namespace Kartaclysm
 		void UpdateSlide(int p_iSlideInput, float p_fDelta);
 		void UpdateTransform(float p_fHeightMod);
 
+		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
+
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 		int m_iPlayerNum;
+
+		glm::vec3 m_pOutsideForce;
 
 		const float m_fSpeedScale = 1.0f;
 		const float m_fVerticalSpeedScale = 1.0f;
@@ -85,6 +90,9 @@ namespace Kartaclysm
 		float m_fPeakTurnRatio = 0.2f;
 		float m_fSwerveTurnModifier = 0.5f;
 		float m_fSwerveAccelerationStat = 0.1f;
+		float m_fWallBumpStat = 0.01f;
+		float m_fWallSlowdownStat = 0.8f;
+		float m_fOutsideForceAccelerationStat = 0.6f;
 
 		float m_fGroundHeight = 0.0f;
 		float m_fSpeed = 0.0f;
@@ -95,6 +103,9 @@ namespace Kartaclysm
 		bool m_bSliding = false;
 		int m_iSlideDirection = 0;
 		float m_fSwerve = 0.0f;
+
+	private:
+		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
 	};
 }
 

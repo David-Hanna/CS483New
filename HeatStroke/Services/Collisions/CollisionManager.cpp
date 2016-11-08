@@ -116,7 +116,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointX", contactPoint.x);
 		collisionEvent->SetFloatParameter("ContactPointY", contactPoint.y);
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
-		EventManager::Instance()->QueueEvent(collisionEvent);
+		EventManager::Instance()->TriggerEvent(collisionEvent);
 	}
 }
 
@@ -205,6 +205,6 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointX", contactPoint.x);
 		collisionEvent->SetFloatParameter("ContactPointY", contactPoint.y);
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
-		EventManager::Instance()->QueueEvent(collisionEvent);
+		EventManager::Instance()->TriggerEvent(collisionEvent);
 	}
 }
