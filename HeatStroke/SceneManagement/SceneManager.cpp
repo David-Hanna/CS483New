@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------
 // SceneManager
-//
-// Created:	2012/12/23
-// Author:	Carel Boers
+// Author:	David Hanna
 //	
-// A simple scene manager to manage our models and camera.
+// Responsible for rendering a whole scene. Manages models, cameras,
+// and lights.
 //------------------------------------------------------------------------
 
 #include "SceneManager.h"
@@ -17,8 +16,6 @@ void HeatStroke::SceneManager::CreateInstance(GLFWwindow* p_pWindow)
 	s_pSceneManagerInstance = new SceneManager(p_pWindow);
 }
 
-
-
 void HeatStroke::SceneManager::DestroyInstance()
 {
 	assert(s_pSceneManagerInstance != nullptr);
@@ -26,47 +23,16 @@ void HeatStroke::SceneManager::DestroyInstance()
 	s_pSceneManagerInstance = nullptr;
 }
 
-
-
 HeatStroke::SceneManager* HeatStroke::SceneManager::Instance()
 {
 	assert(s_pSceneManagerInstance != nullptr);
 	return s_pSceneManagerInstance;
 }
 
-
-
-void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
-{
-	m_lModelList.push_back(p_pModel);
-}
-
-
-
-void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
-{
-	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
-	if (it != m_lModelList.end())
-	{
-		m_lModelList.erase(it);
-	}	
-}
-
-
-
-void HeatStroke::SceneManager::ClearModels()
-{
-	m_lModelList.clear();
-}
-
-
-
 void HeatStroke::SceneManager::AddSprite(HeatStroke::Sprite* p_pSprite)
 {
 	m_lSpriteList.push_back(p_pSprite);
 }
-
-
 
 void HeatStroke::SceneManager::RemoveSprite(HeatStroke::Sprite* p_pSprite)
 {
@@ -77,21 +43,15 @@ void HeatStroke::SceneManager::RemoveSprite(HeatStroke::Sprite* p_pSprite)
 	}
 }
 
-
-
 void HeatStroke::SceneManager::ClearSprites()
 {
 	m_lSpriteList.clear();
 }
 
-
-
 void HeatStroke::SceneManager::AddTextBox(HeatStroke::TextBox* p_pTextBox)
 {
 	m_lTextBoxList.push_back(p_pTextBox);
 }
-
-
 
 void HeatStroke::SceneManager::RemoveTextBox(HeatStroke::TextBox* p_pTextBox)
 {
@@ -102,11 +62,138 @@ void HeatStroke::SceneManager::RemoveTextBox(HeatStroke::TextBox* p_pTextBox)
 	}
 }
 
-
-
 void HeatStroke::SceneManager::ClearTextBoxes()
 {
 	m_lTextBoxList.clear();
+}
+
+void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera)
+{
+	m_lOrthographicCameras.push_back(p_pOrthographicCamera);
+
+	if (m_pActiveOrthographicCamera == nullptr)
+	{
+		m_pActiveOrthographicCamera = p_pOrthographicCamera;
+	}
+}
+
+void HeatStroke::SceneManager::SetActiveOrthographicCamera(SceneOrthographicCamera* p_pCamera)
+{
+	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
+
+	if (it == m_lOrthographicCameras.end())
+	{
+		m_lOrthographicCameras.push_back(p_pCamera);
+	}
+
+	m_pActiveOrthographicCamera = p_pCamera;
+}
+
+HeatStroke::SceneOrthographicCamera* HeatStroke::SceneManager::GetActiveOrthographicCamera()
+{
+	return m_pActiveOrthographicCamera;
+}
+
+void HeatStroke::SceneManager::RemoveOrthographicCamera(HeatStroke::SceneOrthographicCamera* p_pCamera)
+{
+	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
+
+	if (it != m_lOrthographicCameras.end())
+	{
+		m_lOrthographicCameras.erase(it);
+
+		if (p_pCamera == m_pActiveOrthographicCamera)
+		{
+			if (m_lOrthographicCameras.empty())
+			{
+				m_pActiveOrthographicCamera = nullptr;
+			}
+			else
+			{
+				m_pActiveOrthographicCamera = m_lOrthographicCameras[0];
+			}
+		}
+	}
+}
+
+void HeatStroke::SceneManager::ClearOrthographicCameras()
+{
+	m_pActiveOrthographicCamera = nullptr;
+	m_lOrthographicCameras.clear();
+}
+
+void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
+{
+	m_lModelList.push_back(p_pModel);
+}
+
+void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
+{
+	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
+	if (it != m_lModelList.end())
+	{
+		m_lModelList.erase(it);
+	}	
+}
+
+void HeatStroke::SceneManager::ClearModels()
+{
+	m_lModelList.clear();
+}
+
+void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	m_lPerspectiveCameras.push_back(p_pPerspectiveCamera);
+
+	if (m_pActivePerspectiveCamera == nullptr)
+	{
+		m_pActivePerspectiveCamera = p_pPerspectiveCamera;
+	}
+}
+
+void HeatStroke::SceneManager::SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pCamera)
+{
+	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
+
+	if (it == m_lPerspectiveCameras.end())
+	{
+		m_lPerspectiveCameras.push_back(p_pCamera);
+	}
+
+	m_pActivePerspectiveCamera = p_pCamera;
+}
+
+HeatStroke::ScenePerspectiveCamera* HeatStroke::SceneManager::GetActivePerspectiveCamera()
+{
+	return m_pActivePerspectiveCamera;
+}
+
+void HeatStroke::SceneManager::RemovePerspectiveCamera(HeatStroke::ScenePerspectiveCamera* p_pCamera)
+{
+	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
+
+	if (it != m_lPerspectiveCameras.end())
+	{
+		m_lPerspectiveCameras.erase(it);
+
+		if (p_pCamera == m_pActivePerspectiveCamera)
+		{
+			if (m_lPerspectiveCameras.empty())
+			{
+				m_pActivePerspectiveCamera = nullptr;
+			}
+			else
+			{
+				m_pActivePerspectiveCamera = m_lPerspectiveCameras[0];
+			}
+		}
+	}
+}
+
+void HeatStroke::SceneManager::ClearPerspectiveCameras()
+{
+	m_pActivePerspectiveCamera = nullptr;
+	m_lPerspectiveCameras.clear();
 }
 
 
@@ -114,7 +201,6 @@ void HeatStroke::SceneManager::AddAmbientLight(HeatStroke::SceneAmbientLight* p_
 {
 	m_lAmbientLightList.push_back(p_pAmbientLight);
 }
-
 
 void HeatStroke::SceneManager::RemoveAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
 {
@@ -125,18 +211,15 @@ void HeatStroke::SceneManager::RemoveAmbientLight(HeatStroke::SceneAmbientLight*
 	}
 }
 
-
 void HeatStroke::SceneManager::ClearAmbientLights()
 {
 	m_lAmbientLightList.clear();
 }
 
-
 void HeatStroke::SceneManager::AddDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
 {
 	m_lDirectionalLightList.push_back(p_pDirectionalLight);
 }
-
 
 void HeatStroke::SceneManager::RemoveDirectionalLight(HeatStroke::SceneDirectionalLight* p_pDirectionalLight)
 {
@@ -147,19 +230,15 @@ void HeatStroke::SceneManager::RemoveDirectionalLight(HeatStroke::SceneDirection
 	}
 }
 
-
 void HeatStroke::SceneManager::ClearDirectionalLights()
 {
 	m_lDirectionalLightList.clear();
 }
 
-
 void HeatStroke::SceneManager::AddPointLight(HeatStroke::ScenePointLight* p_pPointLight)
 {
 	m_lPointLightList.push_back(p_pPointLight);
 }
-
-
 
 void HeatStroke::SceneManager::RemovePointLight(HeatStroke::ScenePointLight* p_pPointLight)
 {
@@ -170,142 +249,97 @@ void HeatStroke::SceneManager::RemovePointLight(HeatStroke::ScenePointLight* p_p
 	}
 }
 
-
-
 void HeatStroke::SceneManager::ClearPointLights()
 {
 	m_lPointLightList.clear();
 }
 
-
-
-void HeatStroke::SceneManager::AddCamera(SceneCamera* p_pCamera)
-{
-	m_lCameras.push_back(p_pCamera);
-
-	if (m_pActiveCamera == nullptr)
-	{
-		m_pActiveCamera = p_pCamera;
-	}
-}
-
-
-
-void HeatStroke::SceneManager::SetActiveCamera(SceneCamera* p_pCamera)
-{
-	CameraList::iterator it = std::find(m_lCameras.begin(), m_lCameras.end(), p_pCamera);
-
-	if (it == m_lCameras.end())
-	{
-		m_lCameras.push_back(p_pCamera);
-	}
-
-	m_pActiveCamera = p_pCamera;
-}
-
-
-
-HeatStroke::SceneCamera* HeatStroke::SceneManager::GetActiveCamera()
-{
-	return m_pActiveCamera;
-}
-
-
-
-void HeatStroke::SceneManager::RemoveCamera(HeatStroke::SceneCamera* p_pCamera)
-{
-	CameraList::iterator it = std::find(m_lCameras.begin(), m_lCameras.end(), p_pCamera);
-
-	if (it != m_lCameras.end())
-	{
-		m_lCameras.erase(it);
-
-		if (p_pCamera == m_pActiveCamera)
-		{
-			if (m_lCameras.empty())
-			{
-				m_pActiveCamera = nullptr;
-			}
-			else
-			{
-				m_pActiveCamera = m_lCameras[0];
-			}
-		}
-	}
-}
-
-
-
-void HeatStroke::SceneManager::ClearCameras()
-{
-	m_pActiveCamera = nullptr;
-	m_lCameras.clear();
-}
-
-
-
 void HeatStroke::SceneManager::Render()
 {
-	// Can't render without a camera
-	if (m_pActiveCamera == nullptr)
+	if (m_pActivePerspectiveCamera != nullptr)
 	{
-		return;
+		RenderModels();
 	}
 
-	// Iterate over the list of models and render them
+	if (m_pActiveOrthographicCamera != nullptr)
+	{
+		RenderSprites();
+		RenderTextBoxes();
+	}
+}
+
+void HeatStroke::SceneManager::RenderModels()
+{
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		Model* pModel = *it;
-		
-		std::vector<Model::Mesh>& vMeshes = pModel->GetMeshes();
-		std::vector<Model::Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
-		for (; meshIt != meshEnd; meshIt++)
-		{
-			if (m_lAmbientLightList.size() > 0)
-			{
-				meshIt->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
-			}
-
-			if (m_lDirectionalLightList.size() > 0)
-			{
-				meshIt->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
-				meshIt->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
-			}
-		}
-
-		pModel->Render(m_pActiveCamera);
+		RenderModel(*it);
 	}
+}
 
+void HeatStroke::SceneManager::RenderModel(Model* p_pModel)
+{
+	SetModelLights(p_pModel);
+	p_pModel->Render(m_pActivePerspectiveCamera);
+}
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Render the sprite list with an ortho camera. 
-	// Rendering sprites currently out of order.
-	// TODO: We should really add the camera separately rather than hard code it.
-	SceneCamera mSpriteCamera;
-	mSpriteCamera.SetProjectionMatrix(glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.0f, 1000.0f));
-
-	SpriteList::iterator sIt = m_lSpriteList.begin(), sEnd = m_lSpriteList.end();
-	for (; sIt != sEnd; ++sIt)
+void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
+{
+	std::vector<Mesh>& vMeshes = p_pModel->GetMeshes();
+	std::vector<Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
+	for (; meshIt != meshEnd; meshIt++)
 	{
-		HeatStroke::Sprite* pSprite = static_cast<HeatStroke::Sprite*>(*sIt);
-		pSprite->Render(&mSpriteCamera);
+		SetMeshLights(&(*meshIt));
 	}
+}
 
-	// Iterate and render TextBoxes using the sprite (ortho) camera
-	static bool bOnce = true;
-	int iCount = 0;
-	TextBoxList::iterator tbIt = m_lTextBoxList.begin(), tbEnd = m_lTextBoxList.end();
-	for (; tbIt != tbEnd; ++tbIt)
+void HeatStroke::SceneManager::SetMeshLights(Mesh* p_pMesh)
+{
+	SetMeshAmbientLight(p_pMesh);
+	SetMeshDirectionalLight(p_pMesh);
+}
+
+void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
+{
+	if (m_lAmbientLightList.size() > 0)
 	{
-		HeatStroke::TextBox* pTextBox = static_cast<HeatStroke::TextBox*>(*tbIt);
-		if (bOnce)
-		{
-			printf("Textbox %i: [%.2f , %.2f]\n", iCount++, pTextBox->GetPosition().x, pTextBox->GetPosition().y);
-		}
-
-		pTextBox->Render(&mSpriteCamera);
+		p_pMesh->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
 	}
-	bOnce = false;
-	return;
+}
+
+void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
+{
+	if (m_lDirectionalLightList.size() > 0)
+	{
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+	}
+}
+
+void HeatStroke::SceneManager::RenderSprites()
+{
+	SpriteList::iterator it = m_lSpriteList.begin(), end = m_lSpriteList.end();
+	for (; it != end; ++it)
+	{
+		RenderSprite(*it);
+	}
+}
+
+void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite)
+{
+	p_pSprite->Render(m_pActiveOrthographicCamera);
+}
+
+void HeatStroke::SceneManager::RenderTextBoxes()
+{
+	TextBoxList::iterator it = m_lTextBoxList.begin(), end = m_lTextBoxList.end();
+	for (; it != end; ++it)
+	{
+		RenderTextBox(*it);
+	}
+}
+
+void HeatStroke::SceneManager::RenderTextBox(TextBox* p_pTextBox)
+{
+	p_pTextBox->Render(m_pActiveOrthographicCamera);
 }

@@ -58,8 +58,15 @@ namespace Kartaclysm
 				{
 					if (it3->second != nullptr)
 					{
-						// TO DO, don't assume all renderables are text boxes
-						pSceneManager->RemoveTextBox(static_cast<HeatStroke::TextBox*>(it3->second));
+						// Remove renderable from Scene Management
+						if (HeatStroke::TextBox* pTextBox = dynamic_cast<HeatStroke::TextBox*>(it3->second))
+						{
+							pSceneManager->RemoveTextBox(pTextBox);
+						}
+						else if (HeatStroke::Sprite* pSprite = dynamic_cast<HeatStroke::Sprite*>(it3->second))
+						{
+							pSceneManager->RemoveSprite(pSprite);
+						}
 
 						delete it3->second;
 						it3->second = nullptr;
@@ -181,28 +188,27 @@ namespace Kartaclysm
 	{
 		HeatStroke::SceneManager* pSceneManager = HeatStroke::SceneManager::Instance();
 		HeatStroke::TextBox* pTextBox;
+		HeatStroke::Sprite* pSprite;
 
 		// TO DO, currently everything renders but practice mode might not need to render position (as example)
 		// Assign the callbacks for events
 		HUDSection section = m_mLayerMap[eRaceInfo]["Timer"];
 		pTextBox = new HeatStroke::TextBox(m_pFont, "0.0", 320.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		pTextBox->SetPosition(1000.0f, 40.0f);
+		pTextBox->SetPosition(10.0f, 10.0f);
 		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
 		section.m_mRenderMap["Time"] = pTextBox;
 		pSceneManager->AddTextBox(pTextBox);
 
 		section = m_mLayerMap[eRaceInfo]["DriverAbility1"];
-		pTextBox = new HeatStroke::TextBox(m_pFont, "D1", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
-		//pTextBox->SetPosition(900.0f, 700.0f);
-		pTextBox->SetPosition(-900.0f, 700.0f);
-		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
-		section.m_mRenderMap["Icon"] = pTextBox;
-		pSceneManager->AddTextBox(pTextBox);
+		pSprite = new HeatStroke::Sprite("Assets/Hud/ability.mtl", "ability");
+		section.m_mRenderMap["Icon"] = pSprite;
+		pSceneManager->AddSprite(pSprite);
 
+		/*
 		section = m_mLayerMap[eRaceInfo]["DriverAbility2"];
 		pTextBox = new HeatStroke::TextBox(m_pFont, "D2", 80.0f, 40.0f, m_strVertexProgramPath, m_strFragmentProgramPath);
 		//pTextBox->SetPosition(1000.0f, 700.0f);
-		pTextBox->SetPosition(1000.0f, -700.0f);
+		pTextBox->SetPosition(-50.0f, -50.0f);
 		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
 		section.m_mRenderMap["Icon"] = pTextBox;
 		pSceneManager->AddTextBox(pTextBox);
@@ -250,6 +256,7 @@ namespace Kartaclysm
 		pTextBox->SetColour(glm::vec4(0.0, 0.0f, 0.0f, 1.0f));
 		section.m_mRenderMap["Message"] = pTextBox;
 		pSceneManager->AddTextBox(pTextBox);
+		*/
 	}
 
 	void ComponentHUD::PauseCallback(const HeatStroke::Event* p_pEvent)

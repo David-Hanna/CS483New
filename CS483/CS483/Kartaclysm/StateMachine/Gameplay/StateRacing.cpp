@@ -7,11 +7,6 @@
 
 #include "StateRacing.h"
 
-#include "ComponentCamera.h"
-#include "Components\ComponentCameraController.h"
-#include "Components\ComponentKartController.h"
-#include "ComponentHUD.h"
-
 //------------------------------------------------------------------------------
 // Method:    StateRacing
 // Returns:   
@@ -58,7 +53,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD", ComponentHUD::CreateComponent);
 
@@ -136,7 +133,6 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
-	// good shit
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
@@ -175,8 +171,15 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
-	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActiveCamera();
+	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActivePerspectiveCamera();
 	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());
+
+	/*
+	// FIX ME - move this into data.
+	HeatStroke::GameObject* pSprite = m_pGameObjectManager->GetGameObject("SampleSprite");
+	pSprite->GetTransform().SetTranslationXYZ(80.0f, 80.0f, 0.0f);
+	pSprite->GetTransform().SetScaleXYZ(20.0f, 20.0f, 1.0f);
+	*/
 }
 
 //------------------------------------------------------------------------------

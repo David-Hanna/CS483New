@@ -40,9 +40,6 @@
     <Filter Include="HeatStroke\Graphics\Renderable">
       <UniqueIdentifier>{e58524fb-efb3-40d5-8750-721fdaef031d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\Graphics\Scene">
-      <UniqueIdentifier>{7a7d4d43-930f-49e2-8938-6eac3dbdbc66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HeatStroke\Graphics\Texture">
       <UniqueIdentifier>{fa26569a-9192-4547-8a8b-dfc184e0ef78}</UniqueIdentifier>
     </Filter>
@@ -117,9 +114,6 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp">
       <Filter>HeatStroke\GO/Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentCamera.cpp">
-      <Filter>HeatStroke\GO/Components\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClCompile>
@@ -150,19 +144,7 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Texture\TextureManager.cpp">
       <Filter>HeatStroke\Graphics\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Scene\Camera.cpp">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Scene\Scene.cpp">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Scene\SceneQuadTreeNode.cpp">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\Model.cpp">
-      <Filter>HeatStroke\Graphics\Renderable</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\Node.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\Sprite.cpp">
@@ -249,6 +231,24 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.cpp">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneCamera.cpp">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.cpp">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
@@ -293,9 +293,6 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCamera.h">
-      <Filter>HeatStroke\GO/Components\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
@@ -329,19 +326,7 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Texture\TextureManager.h">
       <Filter>HeatStroke\Graphics\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Scene\Camera.h">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Scene\Scene.h">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Scene\SceneQuadTreeNode.h">
-      <Filter>HeatStroke\Graphics\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Model.h">
-      <Filter>HeatStroke\Graphics\Renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Node.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Renderable.h">
@@ -379,9 +364,6 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Services\XML\EasyXML.h">
       <Filter>HeatStroke\Services\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneCamera.h">
-      <Filter>HeatStroke\SceneManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneManager.h">
       <Filter>HeatStroke\SceneManagement</Filter>
@@ -449,6 +431,27 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneCamera.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.h">
+      <Filter>HeatStroke\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Mesh.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
@@ -479,6 +482,9 @@
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\test_object.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\sample_sprite.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
   </ItemGroup>

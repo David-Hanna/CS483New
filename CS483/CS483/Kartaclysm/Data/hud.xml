@@ -2,7 +2,30 @@
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
+  
   <Components>
       <GOC_HUD />
   </Components>
+  
+  <Children>
+    <GameObject>
+      
+      <Transform>
+        <Translation x="80.0" y="80.0" z="0.0" />
+      </Transform>
+      
+      <Components>
+	      <GOC_Sprite>
+          <!--
+		      <MTLFileName path="Assets/Hud/ability.mtl"/>
+		      <MaterialName name="ability"/>
+          -->
+          <MTLFileName path="Assets/sample_sprite/sample_sprite.mtl"/>
+          <MaterialName name="sample_sprite"/>
+	      </GOC_Sprite>
+      </Components>
+      
+    </GameObject>
+  </Children>
+  
 </GameObject>

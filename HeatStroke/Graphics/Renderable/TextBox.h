@@ -51,7 +51,7 @@ namespace HeatStroke
 		virtual void SetPosition(const GLfloat& p_fXPos, const GLfloat& p_fYPos);
 		virtual void SetColour(const glm::vec4& p_vColour);
 		virtual void SetAlignment(const HORIZONTAL_ALIGNMENT& p_eHorizontal, const VERTICAL_ALIGNMENT& p_eVertical);
-		virtual void Render(const Camera* p_pCamera);
+		virtual void Render(const SceneCamera* p_pCamera);
 
 		virtual std::string GetText() const { return m_strMessage; };
 		virtual GLfloat GetHeight() const { return m_fHeight; };

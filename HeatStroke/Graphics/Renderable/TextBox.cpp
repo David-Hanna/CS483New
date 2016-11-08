@@ -374,7 +374,7 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	// Renders all quads necessary for this textbox
 	//----------------------------------------------------------
-	void TextBox::Render(const Camera* p_pCamera)
+	void TextBox::Render(const SceneCamera* p_pCamera)
 	{
 		//iterate through all quads and render
 		for (std::vector<Texture_Page_Quads>::iterator itQuadIter = m_mQuads.begin(); itQuadIter != m_mQuads.end(); ++itQuadIter)

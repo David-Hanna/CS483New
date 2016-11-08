@@ -3,8 +3,9 @@
 
 <GameObject>
   <Components>
-    <GOC_Camera>
+    <GOC_PerspectiveCamera>
       <Target guid="Kart"/>
-    </GOC_Camera>
+    </GOC_PerspectiveCamera>
+    <GOC_OrthographicCamera/>
   </Components>
 </GameObject>
