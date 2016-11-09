@@ -78,10 +78,6 @@ namespace HeatStroke
 
 		static SceneManager*	s_pSceneManagerInstance;
 
-		const unsigned int		NUM_AMBIENT_LIGHTS		= 1;
-		const unsigned int		NUM_DIRECTIONAL_LIGHTS	= 1;
-		const unsigned int		NUM_POINT_LIGHTS		= 0;
-
 		GLFWwindow*				m_pWindow;
 
 		ModelList				m_lModelList;
@@ -111,6 +107,7 @@ namespace HeatStroke
 		void SetMeshLights(Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);
 		void SetMeshDirectionalLight(Mesh* p_pMesh);
+		void SetMeshPointLight(Mesh* p_pMesh);
 
 		void RenderSprites();
 		void RenderSprite(Sprite* p_pSprite);

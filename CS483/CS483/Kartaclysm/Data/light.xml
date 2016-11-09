@@ -4,9 +4,17 @@
 			<AmbientLightColor r="0.2" g="0.2" b="0.2"/>
 		</GOC_AmbientLight>
 
+		<!--
 		<GOC_DirectionalLight>
 			<DirectionalLightDirection x="0.0" y="1.0" z="0.0"/>
 			<DirectionalLightColor r="1.0" g="1.0" b="1.0"/>
 		</GOC_DirectionalLight>
+		-->
+
+		<GOC_PointLight>
+			<Diffuse r="1.0" g="0.0" b="0.0"/>
+			<Attenuation constant="0.0" linear="0.05" quadratic="0.0"/>
+			<Range value="150.0"/>
+		</GOC_PointLight>
 	</Components>
 </GameObject>

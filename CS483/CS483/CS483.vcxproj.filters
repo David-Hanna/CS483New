@@ -183,9 +183,6 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneManager.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp">
-      <Filter>HeatStroke\SceneManagement</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\OBJ\OBJFile.cpp">
       <Filter>HeatStroke\Services\OBJ</Filter>
     </ClCompile>
@@ -437,9 +434,6 @@
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
-      <Filter>HeatStroke\GO/Components\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
@@ -499,5 +493,31 @@
     <Xml Include="Kartaclysm\Data\wall.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\light.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\noob_zone.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\sample_sprite.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\track_finish.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\track_straight.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\track_turn_left.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Kartaclysm\Data\lines.fsh">
+      <Filter>Kartaclysm\Data</Filter>
+    </None>
+    <None Include="Kartaclysm\Data\lines.vsh">
+      <Filter>Kartaclysm\Data</Filter>
+    </None>
   </ItemGroup>
 </Project>

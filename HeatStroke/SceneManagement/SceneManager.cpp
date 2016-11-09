@@ -276,6 +276,7 @@ void HeatStroke::SceneManager::SetMeshLights(Mesh* p_pMesh)
 {
 	SetMeshAmbientLight(p_pMesh);
 	SetMeshDirectionalLight(p_pMesh);
+	SetMeshPointLight(p_pMesh);
 }
 
 void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
@@ -292,6 +293,17 @@ void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
 	{
 		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
 		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+	}
+}
+
+void HeatStroke::SceneManager::SetMeshPointLight(Mesh* p_pMesh)
+{
+	if (m_lPointLightList.size() > 0)
+	{
+		p_pMesh->m_pMaterial->SetUniform("PointLightPosition", m_lPointLightList[0]->GetPosition());
+		p_pMesh->m_pMaterial->SetUniform("PointLightDiffuseColor", m_lPointLightList[0]->GetDiffuse());
+		p_pMesh->m_pMaterial->SetUniform("PointLightAttenuation", m_lPointLightList[0]->GetAttenuation());
+		p_pMesh->m_pMaterial->SetUniform("PointLightRange", m_lPointLightList[0]->GetRange());
 	}
 }
 
