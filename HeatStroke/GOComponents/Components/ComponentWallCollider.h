@@ -5,8 +5,8 @@
 // Collider that takes the shape of a wall
 //------------------------------------------------------------------------
 
-#ifndef COMPONENT_WALL_COLLIDER
-#define COMPONENT_WALL_COLLIDER
+#ifndef COMPONENT_WALL_COLLIDER_H
+#define COMPONENT_WALL_COLLIDER_H
 
 #include "ComponentCollider.h"
 #include "SceneManager.h"
@@ -71,4 +71,4 @@ namespace HeatStroke
 	};
 }
 
-#endif // COMPONENT_WALL_COLLIDER
+#endif // COMPONENT_WALL_COLLIDER_H
