@@ -276,8 +276,8 @@ namespace Kartaclysm
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
 
-		HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
-		printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
+		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
+		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
 	}
 
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
@@ -316,12 +316,7 @@ namespace Kartaclysm
 			glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
 			float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
-			HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-			if (m_pOutsideForce.y != 0.0f)
-			{
-				printf("");
-			}
 			m_fSpeed *= m_fWallSlowdownStat;
 		}
 	}
