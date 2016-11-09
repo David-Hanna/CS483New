@@ -92,9 +92,5 @@ namespace Kartaclysm
 			m_pConditions->RemoveCharge();
 			m_fChargeCooldown = 6.0f;
 		}
-		else
-		{
-			printf("Ability cannot be activated.\n");
-		}
 	}
 }

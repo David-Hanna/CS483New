@@ -31,7 +31,7 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 	m_Transform(p_strGUID),
 	m_pParent(nullptr),
 	m_mComponentMap(),
-	m_mChildMap(),
+	m_mChildMap(ChildMap()),
 	m_mTagList()
 {
 }
@@ -46,7 +46,14 @@ GameObject::~GameObject()
 {
 	// TODO - I don't know what's happening, but it's started throwing errors again when trying to remove itself as a child from its parent.
 	//			I'm removing this for now so it doesn't throw errors, but I'll need to figure this out soon.
-	DeleteAllComponents();
+	
+	// Brad: Causes an error when program tries to exit
+	// Parent is not a nullptr, it simple does not exist in memory (deconstructed)
+	// This should maybe be handled by the code that would delete it, setting it to nullptr
+	// Such as in the GameObjectManager
+	// Repeatable by checking memory address and size of map in debugger.
+
+DeleteAllComponents();
 	DeleteAllChildren();
 }
 

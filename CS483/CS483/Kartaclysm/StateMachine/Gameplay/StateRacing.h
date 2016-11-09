@@ -21,6 +21,8 @@
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentSampleAbility.h"
+#include "ComponentHudAbility.h"
+
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"

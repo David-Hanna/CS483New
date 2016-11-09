@@ -1,0 +1,79 @@
+<!-- HUD -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Children>
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="40.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+	      <GOC_Hud_Ability>
+          <Ability name="KartAbility1" />
+		      <MTLFileName path="Assets/Hud/ability.mtl"/>
+		      <MaterialName name="ability"/>
+	      </GOC_Hud_Ability>
+      </Components>
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="55.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Hud_Ability>
+          <Ability name="KartAbility2" />
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Hud_Ability>
+      </Components>
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="70.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Hud_Ability>
+          <Ability name="DriverAbility1" />
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Hud_Ability>
+      </Components>
+    </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="85.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_Hud_Ability>
+          <Ability name="DriverAbility2" />
+          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MaterialName name="ability"/>
+        </GOC_Hud_Ability>
+      </Components>
+    </GameObject>
+
+  <GameObject>
+    <Transform>
+      <Scale x="6.0" y="6.0" z="1.0" />
+      <Translation x="-80.0" y="-80.0" z="0.0" />
+    </Transform>
+    <Components>
+      <GOC_Hud_Ability>
+        <Ability name="Wrong Class" />
+        <MTLFileName path="Assets/Hud/position_1.mtl"/>
+        <MaterialName name="position_1"/>
+      </GOC_Hud_Ability>
+    </Components>
+  </GameObject>
+    
+  </Children>
+  
+</GameObject>

@@ -94,6 +94,12 @@
     <Filter Include="HeatStroke\Services\Collisions">
       <UniqueIdentifier>{43e779e8-a38b-49c5-a357-85f062251a82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Graphics\Font">
+      <UniqueIdentifier>{9550c6d0-5e23-4b57-be80-aa56e6783cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Components\HUD">
+      <UniqueIdentifier>{c34f7bb6-cde5-48f3-99a0-9500ccc534f9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Components\Abilities">
       <UniqueIdentifier>{1c3afe35-5875-45e5-84c1-a9e7945a7e14}</UniqueIdentifier>
     </Filter>
@@ -266,6 +272,15 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Font\Font.cpp">
+      <Filter>HeatStroke\Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudAbility.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -479,6 +494,15 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Font\Font.h">
+      <Filter>HeatStroke\Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudAbility.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\kart.xml">
@@ -496,10 +520,10 @@
     <Xml Include="Kartaclysm\Data\wall.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\noob_zone.xml">
+    <Xml Include="Kartaclysm\Data\light.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\sample_sprite.xml">
+    <Xml Include="Kartaclysm\Data\noob_zone.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\track_finish.xml">
@@ -515,6 +539,9 @@
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\test_wall_2.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\hud.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
   </ItemGroup>
