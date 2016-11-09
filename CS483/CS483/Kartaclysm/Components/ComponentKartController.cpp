@@ -7,6 +7,8 @@
 
 #include "ComponentKartController.h"
 
+#include "ComponentSphereCollider.h"
+
 namespace Kartaclysm
 {
 	ComponentKartController::ComponentKartController(
@@ -36,8 +38,11 @@ namespace Kartaclysm
 		m_fPeakTurnRatio(0.2f),
 		m_fSwerveTurnModifier(0.35f),
 		m_fSwerveAccelerationStat(2.0f),
+		m_fWallBumpStat(0.5f),
+		m_fWallSlowdownStat(0.3f),
+		m_fOutsideForceAccelerationStat(0.92f),
 
-		m_fGroundHeight(0.0f),
+		m_fGroundHeight(0.2f),
 		m_fSpeed(0.0f),
 		m_fDirection(0.0f),
 		m_fTurnSpeed(0.0f),
@@ -47,6 +52,10 @@ namespace Kartaclysm
 		m_iSlideDirection(0),
 		m_fSwerve(0.0f)
 	{
+		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
+
+		m_pOutsideForce = glm::vec3();
 	}
 
 	ComponentKartController::~ComponentKartController()
@@ -150,7 +159,8 @@ namespace Kartaclysm
 		// Straighten out the turn a bit if moving fast (or very slow)
 		if (m_fSpeed <= m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio)
 		{
-			fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
+			// TODO: Seeing how it feels with this disabled
+			//fTurnTarget *= m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale * m_fPeakTurnRatio);
 		}
 		else
 		{
@@ -260,6 +270,9 @@ namespace Kartaclysm
 
 	void ComponentKartController::UpdateTransform(float p_fHeightMod)
 	{
+		m_pGameObject->GetTransform().Translate(m_pOutsideForce);
+		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
+		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
 
@@ -276,5 +289,35 @@ namespace Kartaclysm
 		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
 
 		return result;
+	}
+
+	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
+	{
+		std::string guid1;
+		std::string guid2;
+		p_pEvent->GetRequiredGameObjectParameter("Object1GUID", guid1);
+		p_pEvent->GetRequiredGameObjectParameter("Object2GUID", guid2);
+
+		if (guid1.compare(m_pGameObject->GetGUID()) == 0 || guid2.compare(m_pGameObject->GetGUID()) == 0)
+		{
+			glm::vec3 contactPoint = glm::vec3();
+			p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
+			p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
+			p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+
+			HeatStroke::ComponentSphereCollider* collider = (HeatStroke::ComponentSphereCollider*) m_pGameObject->GetComponent("GOC_Collider");
+
+			glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+			float distance = collider->GetRadius() - glm::length(difference);
+
+			difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+			m_pGameObject->GetTransform().Translate(difference);
+
+			glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+			float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+
+			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+			m_fSpeed *= m_fWallSlowdownStat;
+		}
 	}
 }

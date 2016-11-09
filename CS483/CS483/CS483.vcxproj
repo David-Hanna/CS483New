@@ -82,6 +82,8 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
@@ -103,6 +105,7 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\Event.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\EventManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.cpp" />
@@ -146,6 +149,8 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />
@@ -170,6 +175,7 @@
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneDirectionalLight.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneManager.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePointLight.h" />
+    <ClInclude Include="..\..\HeatStroke\Services\Collisions\CollisionManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\Event.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\EventManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.h" />
@@ -192,10 +198,14 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Kartaclysm\Data\camera.xml" />
+    <Xml Include="Kartaclysm\Data\camera.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\kart.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="Kartaclysm\Data\noob_zone.xml" />
+    <Xml Include="Kartaclysm\Data\sample_sprite.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <SubType>Designer</SubType>
     </Xml>
@@ -205,7 +215,13 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
+    <Xml Include="Kartaclysm\Data\test_wall_1.xml" />
+    <Xml Include="Kartaclysm\Data\test_wall_2.xml" />
+    <Xml Include="Kartaclysm\Data\track_finish.xml" />
+    <Xml Include="Kartaclysm\Data\track_straight.xml" />
+    <Xml Include="Kartaclysm\Data\track_turn_left.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
+    <Xml Include="Kartaclysm\Data\wall.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
