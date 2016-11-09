@@ -59,6 +59,21 @@
         </GOC_Hud_Ability>
       </Components>
     </GameObject>
+
+  <GameObject>
+    <Transform>
+      <Scale x="6.0" y="6.0" z="1.0" />
+      <Translation x="-80.0" y="-80.0" z="0.0" />
+    </Transform>
+    <Components>
+      <GOC_Hud_Ability>
+        <Ability name="Wrong Class" />
+        <MTLFileName path="Assets/Hud/position_1.mtl"/>
+        <MaterialName name="position_1"/>
+      </GOC_Hud_Ability>
+    </Components>
+  </GameObject>
+    
   </Children>
   
 </GameObject>

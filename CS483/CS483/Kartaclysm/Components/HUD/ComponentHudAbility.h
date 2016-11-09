@@ -11,12 +11,13 @@
 #include <tinyxml2.h>
 
 #include "ComponentRenderable.h"
-#include "ComponentSprite.h"
+#include "SceneManager.h"
 #include "EventManager.h"
+#include "Sprite.h"
 
 namespace Kartaclysm
 {
-	class ComponentHudAbility : public HeatStroke::ComponentSprite
+	class ComponentHudAbility : public HeatStroke::ComponentRenderable
 	{
 	public:
 		//--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ namespace Kartaclysm
 
 		virtual void Init() override {}
 		virtual void Update(const float p_fDelta) override {}
+		virtual void SyncTransform() override { m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform()); };
 
 	protected:
 
@@ -52,8 +54,6 @@ namespace Kartaclysm
 			const std::string& p_strAbility
 			);
 
-		virtual void SyncTransform() { HeatStroke::ComponentSprite::SyncTransform(); }
-
 		virtual void AbilityCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
@@ -66,11 +66,13 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
-		
+
+		HeatStroke::Sprite m_mSprite;
 		bool m_bReady;
 		std::string m_strEventName;
 		
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
+
 		// Information for creating textboxes
 		// HeatStroke::Font*	m_pFont;
 		// std::string			m_strVertexProgramPath;

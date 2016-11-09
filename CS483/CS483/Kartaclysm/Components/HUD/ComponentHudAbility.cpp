@@ -15,16 +15,21 @@ namespace Kartaclysm
 		const std::string& p_strMaterialName,
 		const std::string& p_strAbility
 		) :
-		HeatStroke::ComponentSprite(p_pGameObject, p_strMTLFileName, p_strMaterialName),
+		HeatStroke::ComponentRenderable(p_pGameObject),
+		m_mSprite(p_strMTLFileName, p_strMaterialName),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
 		m_bReady(false)
 	{
+		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+
 		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::AbilityCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	ComponentHudAbility::~ComponentHudAbility()
 	{
+		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
+
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
 		m_pDelegate = nullptr;
@@ -81,7 +86,8 @@ namespace Kartaclysm
 			if (!m_bReady)
 			{
 				m_bReady = true;
-				printf("HUD: Ability is ready to be activated.\n");
+				printf("add sprite\n");
+				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
 			}
 		}
 		else
@@ -89,7 +95,8 @@ namespace Kartaclysm
 			if (m_bReady)
 			{
 				m_bReady = false;
-				printf("HUD: Ability is not ready to be activated.\n");
+				printf("remove sprite\n");
+				HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 			}
 		}
 	}
