@@ -118,6 +118,7 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h" />

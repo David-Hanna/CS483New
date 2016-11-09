@@ -151,7 +151,13 @@ void GameObjectManager::LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElemen
 			 pChildGameObjectElement = pChildGameObjectElement->NextSiblingElement("GameObject"))
 		{
 			GameObject* pChild = CreateGameObject(pChildGameObjectElement);
-			pChild->m_Transform.ParseTransformNode(pChildGameObjectElement->FirstChildElement("Transform"));
+
+			tinyxml2::XMLElement* pChildTransformElement = pChildGameObjectElement->FirstChildElement("Transform");
+			if (pChildTransformElement != nullptr)
+			{
+				pChild->m_Transform.ParseTransformNode(pChildTransformElement);
+			}
+
 			p_pParent->AddChild(pChild);
 		}
 	}

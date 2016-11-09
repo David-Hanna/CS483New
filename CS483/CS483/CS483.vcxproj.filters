@@ -219,6 +219,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp">
       <Filter>Kartaclysm\Services\IO</Filter>
     </ClCompile>
@@ -396,6 +399,9 @@
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentTrack.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
