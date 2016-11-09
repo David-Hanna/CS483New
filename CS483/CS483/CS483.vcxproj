@@ -215,6 +215,8 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
+    <Xml Include="Kartaclysm\Data\test_wall_1.xml" />
+    <Xml Include="Kartaclysm\Data\test_wall_2.xml" />
     <Xml Include="Kartaclysm\Data\track_finish.xml" />
     <Xml Include="Kartaclysm\Data\track_straight.xml" />
     <Xml Include="Kartaclysm\Data\track_turn_left.xml" />

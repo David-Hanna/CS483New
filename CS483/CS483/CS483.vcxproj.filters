@@ -525,5 +525,11 @@
     <None Include="Kartaclysm\Data\lines.vsh">
       <Filter>Kartaclysm\Data</Filter>
     </None>
+    <Xml Include="Kartaclysm\Data\test_wall_1.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\test_wall_2.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
