@@ -2,8 +2,13 @@
 <!-- Author: David MacIntosh -->
 
 <Level>
-	<GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
+  <!-- Test Kart -->
+  <GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
+
+  <!-- Test Wall -->
+  <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
   <GameObject guid="HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
 	<GameObject guid="Camera" definition="CS483/CS483/Kartaclysm/Data/camera.xml"/>
   <GameObject guid="Light" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
+	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/noob_zone.xml"/>
 </Level>

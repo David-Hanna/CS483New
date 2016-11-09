@@ -44,18 +44,16 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
-	/*
-	// Warning: Causes an error when program tries to exit
-	// Parent is not a nullptr, it simple does not exist in memory
-	// This should maybe be handled by the code that would delete it
+	// TODO - I don't know what's happening, but it's started throwing errors again when trying to remove itself as a child from its parent.
+	//			I'm removing this for now so it doesn't throw errors, but I'll need to figure this out soon.
+	
+	// Brad: Causes an error when program tries to exit
+	// Parent is not a nullptr, it simple does not exist in memory (deconstructed)
+	// This should maybe be handled by the code that would delete it, setting it to nullptr
 	// Such as in the GameObjectManager
-	if (m_pParent != nullptr)
-	{
-		m_pParent->RemoveChild(m_strGUID);
-	}
-	*/
+	// Repeatable by checking memory address and size of map in debugger.
 
-	DeleteAllComponents();
+DeleteAllComponents();
 	DeleteAllChildren();
 }
 
