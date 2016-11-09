@@ -59,5 +59,29 @@
 				<Translation x="2.0" y="0.0" z="-18.0" />
 			</Transform>
 		</GameObject>
+
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_1.xml">
+      <Transform>
+        <Translation x="-8.0" y="0.0" z="0.0" />
+      </Transform>      
+    </GameObject>
+
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_1.xml">
+      <Transform>
+        <Translation x="48.0" y="0.0" z="0.0" />
+      </Transform>
+    </GameObject>
+
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_2.xml">
+      <Transform>
+        <Translation x="0.0" y="0.0" z="50.0" />
+      </Transform>
+    </GameObject>
+
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_2.xml">
+      <Transform>
+        <Translation x="0.0" y="0.0" z="-26.0" />
+      </Transform>
+    </GameObject>
 	</Children>
 </GameObject>

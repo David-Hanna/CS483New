@@ -1,0 +1,9 @@
+<GameObject>
+  <Components>
+    <GOC_WallCollider>
+      <Offset x="0" y="0" z="0" />
+      <SurfaceNormal x="1" y="0" z="0" />
+      <Wall height="5" width="100" />
+    </GOC_WallCollider>
+  </Components>
+</GameObject>
