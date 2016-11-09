@@ -18,7 +18,7 @@ namespace Kartaclysm
 		HeatStroke::ComponentRenderable(p_pGameObject),
 		m_mSprite(p_strMTLFileName, p_strMaterialName),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
-		m_bReady(false)
+		m_bReady(true)
 	{
 		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
 
