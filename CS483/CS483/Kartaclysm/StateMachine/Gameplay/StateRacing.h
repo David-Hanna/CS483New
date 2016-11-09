@@ -10,10 +10,10 @@
 
 #include <functional>
 
-
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
 #include "ComponentDirectionalLight.h"
+#include "ComponentPointLight.h"
 #include "ComponentPerspectiveCamera.h"
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
@@ -21,6 +21,8 @@
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentSampleAbility.h"
+#include "ComponentSphereCollider.h"
+#include "ComponentWallCollider.h"
 #include "ComponentHudAbility.h"
 
 #include "Common.h"

@@ -15,21 +15,25 @@ namespace HeatStroke
 	class ScenePointLight
 	{
 	public:
-		//--------------------------------------------------------------------------
-		// Public methods
-		//--------------------------------------------------------------------------
-		// Construction/Destruction
-		ScenePointLight(
+		ScenePointLight::ScenePointLight(
 			const glm::vec3& p_vPosition,
 			const glm::vec3& p_vAmbient,
 			const glm::vec3& p_vDiffuse,
 			const glm::vec3& p_vSpecular,
 			const glm::vec3& p_vAttenuation,
-			const float      p_fRange );
+			const float      p_fRange)
+			:
+			m_vPosition(p_vPosition),
+			m_vAmbient(p_vAmbient),
+			m_vDiffuse(p_vDiffuse),
+			m_vSpecular(p_vSpecular),
+			m_vAttenuation(p_vAttenuation),
+			m_fRange(p_fRange)
+		{
+		}
 
 		~ScenePointLight() {}
 
-		// Accessors
 		const glm::vec3& GetPosition()			{ return m_vPosition; }
 		const glm::vec3& GetAmbient()			{ return m_vAmbient; }
 		const glm::vec3& GetDiffuse()			{ return m_vDiffuse; }
@@ -37,17 +41,14 @@ namespace HeatStroke
 		const glm::vec3& GetAttenuation()		{ return m_vAttenuation; }
 		float			 GetRange()				{ return m_fRange; }
 
-		// Mutators
 		void SetPosition(const glm::vec3& p_vPosition)			{ m_vPosition = p_vPosition; }
 		void SetAmbient(const glm::vec3& p_vAmbient)			{ m_vAmbient = p_vAmbient; }
 		void SetDiffuse(const glm::vec3& p_vDiffuse)			{ m_vDiffuse = p_vDiffuse; }
 		void SetSpecular(const glm::vec3& p_vSpecular)			{ m_vSpecular = p_vSpecular; }
 		void SetAttenuation(const glm::vec3& p_vAttenuation)	{ m_vAttenuation = p_vAttenuation; }
+		void SetRange(const float p_fRange)						{ m_fRange = p_fRange; }
 
 	protected:
-		//---------------------------------------------------------------------------
-		// Protected members
-		//---------------------------------------------------------------------------
 		glm::vec3 m_vPosition;
 		glm::vec3 m_vAmbient;
 		glm::vec3 m_vDiffuse;

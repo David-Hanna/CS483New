@@ -106,7 +106,6 @@
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneOrthographicCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.cpp" />
-    <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\Event.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\EventManager.cpp" />
@@ -202,6 +201,7 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera.xml" />
     <Xml Include="Kartaclysm\Data\hud.xml" />
     <Xml Include="Kartaclysm\Data\kart.xml">
@@ -209,6 +209,7 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\light.xml" />
     <Xml Include="Kartaclysm\Data\noob_zone.xml" />
+    <Xml Include="Kartaclysm\Data\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <SubType>Designer</SubType>
     </Xml>
@@ -225,6 +226,10 @@
     <Xml Include="Kartaclysm\Data\track_turn_left.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\wall.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Kartaclysm\Data\lines.fsh" />
+    <None Include="Kartaclysm\Data\lines.vsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

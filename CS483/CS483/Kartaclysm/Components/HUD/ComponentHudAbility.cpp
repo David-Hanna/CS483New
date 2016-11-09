@@ -86,7 +86,6 @@ namespace Kartaclysm
 			if (!m_bReady)
 			{
 				m_bReady = true;
-				printf("add sprite\n");
 				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
 			}
 		}
@@ -95,7 +94,6 @@ namespace Kartaclysm
 			if (m_bReady)
 			{
 				m_bReady = false;
-				printf("remove sprite\n");
 				HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 			}
 		}

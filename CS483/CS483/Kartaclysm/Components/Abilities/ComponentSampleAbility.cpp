@@ -87,7 +87,6 @@ namespace Kartaclysm
 	{
 		if (m_pConditions->CanActivate())
 		{
-			printf("Ability activated.\n");
 			m_pConditions->ResetCooldown();
 			m_pConditions->RemoveCharge();
 			m_fChargeCooldown = 6.0f;
