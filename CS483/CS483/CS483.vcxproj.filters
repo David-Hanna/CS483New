@@ -91,6 +91,9 @@
     <Filter Include="Kartaclysm\Services\IO">
       <UniqueIdentifier>{8b1fb89a-a01f-4cec-b8ff-55e0c25b8b2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\Collisions">
+      <UniqueIdentifier>{43e779e8-a38b-49c5-a357-85f062251a82}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Components\Abilities">
       <UniqueIdentifier>{1c3afe35-5875-45e5-84c1-a9e7945a7e14}</UniqueIdentifier>
     </Filter>
@@ -228,8 +231,17 @@
     <ClCompile Include="..\..\HeatStroke\Common\Common.cpp">
       <Filter>HeatStroke\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp">
+      <Filter>HeatStroke\Services\Collisions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.cpp">
       <Filter>HeatStroke\SceneManagement</Filter>
@@ -425,8 +437,20 @@
     <ClInclude Include="..\..\HeatStroke\Common\Types.h">
       <Filter>HeatStroke\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\Collisions\CollisionManager.h">
+      <Filter>HeatStroke\Services\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\SceneManagement\ScenePerspectiveCamera.h">
       <Filter>HeatStroke\SceneManagement</Filter>
@@ -471,6 +495,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\wall.xml">
+      <Filter>Kartaclysm\Data</Filter>
     </Xml>
   </ItemGroup>
 </Project>
