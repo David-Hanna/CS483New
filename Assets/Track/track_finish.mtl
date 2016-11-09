@@ -1,7 +1,9 @@
 # Blender MTL File: 'track_finish.blend'
 # Material Count: 5
 
-newmtl Material
+newmtl finish
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -9,9 +11,12 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
+map_Kd Assets/Track/checkered_ground.tga
 illum 2
 
-newmtl Material.001
+newmtl flag
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -19,9 +24,12 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
+map_Kd Assets/Track/checkered.tga
 illum 2
 
-newmtl Material.002
+newmtl grass
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -29,9 +37,12 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
+map_Kd Assets/Track/grass.tga
 illum 2
 
-newmtl Material.003
+newmtl pole
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -39,9 +50,12 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
+map_Kd Assets/Track/pole.tga
 illum 2
 
-newmtl Material.004
+newmtl road
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -49,4 +63,5 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
+map_Kd Assets/Track/pavement.tga
 illum 2

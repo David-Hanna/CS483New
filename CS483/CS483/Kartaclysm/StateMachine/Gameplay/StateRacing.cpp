@@ -7,7 +7,6 @@
 
 #include "StateRacing.h"
 
-#include "ComponentCamera.h"
 #include "Components\ComponentCameraController.h"
 #include "Components\ComponentKartController.h"
 #include "Components\ComponentSphereCollider.h"
@@ -59,22 +58,19 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_Camera", HeatStroke::ComponentCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SphereCollider", HeatStroke::ComponentSphereCollider::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_WallCollider", HeatStroke::ComponentWallCollider::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityConditions", ComponentAbilityConditions::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_SampleAbility", ComponentSampleAbility::CreateComponent);
 
 	// Handle passed context parameters
 
 	// Load the GameObjects from XML.
 	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
-
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
-	pKart->GetTransform().SetScaleXYZ(0.1f, 0.1f, 0.1f);
-
-	// line stuff
-	lineDrawer = new HeatStroke::LineDrawer();
-	lineDrawer->Init("CS483/CS483/Kartaclysm/Data/lines.vsh", "CS483/CS483/Kartaclysm/Data/lines.fsh");
 }
 
 void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
@@ -138,20 +134,20 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
-	// good shit
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 
-	// bad shit
+	// TODO: add camera as child object of kart
+	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
 
-	glm::vec3 offset = glm::vec3(0.0f, 0.25f, -0.5f);
+	glm::vec3 offset = glm::vec3(0.0f, 2.5f, -5.0f);
 
 	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
 	if (controller != nullptr)
@@ -167,27 +163,10 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	pCamera->GetTransform().SetTranslation(offset);
 
-	// more bad shit
-	float h = -0.02f;
-	for (int i = 1; i <= 10; i++)
-	{
-		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
-		lineDrawer->AddLine(glm::vec3(i, h, i), glm::vec3(-i, h, i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
-		lineDrawer->AddLine(glm::vec3(i, h, -i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
-		lineDrawer->AddLine(glm::vec3(-i, h, i), glm::vec3(-i, h, -i), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
-	}
-
-	// collider debug rendering
-	HeatStroke::ComponentSphereCollider *kartCollider = (HeatStroke::ComponentSphereCollider*)pKart->GetComponent("GOC_Collider");
-	kartCollider->DebugRender(lineDrawer);
-
-	HeatStroke::GameObject* pWall = m_pGameObjectManager->GetGameObject("Wall");
-	HeatStroke::ComponentWallCollider *wallCollider = (HeatStroke::ComponentWallCollider*)pWall->GetComponent("GOC_Collider");
-	wallCollider->DebugRender(lineDrawer);
-
-
-	HeatStroke::SceneCamera* pActiveCamera = HeatStroke::SceneManager::Instance()->GetActiveCamera();
-	lineDrawer->Render(pActiveCamera->GetProjectionMatrix(), pActiveCamera->GetViewMatrix());
+	// FIX ME - move this into data.
+	HeatStroke::GameObject* pSprite = m_pGameObjectManager->GetGameObject("SampleSprite");
+	pSprite->GetTransform().SetTranslationXYZ(80.0f, 80.0f, 0.0f);
+	pSprite->GetTransform().SetScaleXYZ(20.0f, 20.0f, 1.0f);
 }
 
 //------------------------------------------------------------------------------

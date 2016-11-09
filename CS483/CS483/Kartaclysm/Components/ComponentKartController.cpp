@@ -18,8 +18,8 @@ namespace Kartaclysm
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(0), // TO DO, handle this number better
 
-		m_fSpeedScale(0.002f),
-		m_fVerticalSpeedScale(0.002f),
+		m_fSpeedScale(0.02f),
+		m_fVerticalSpeedScale(0.02f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(2.0f),
