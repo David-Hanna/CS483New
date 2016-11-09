@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------
-// Component3DModel
+// ComponentSprite
 // Author:	David Hanna
 //	
 // Provides 3D rendering of a .obj model to the screen for a GameObject.
 //------------------------------------------------------------------------
 
-#ifndef COMPONENT_3D_MODEL_H
-#define COMPONENT_3D_MODEL_H
+#ifndef COMPONENT_SPRITE_H
+#define COMPONENT_SPRITE_H
 
 #include "ComponentRenderable.h"
 #include "SceneManager.h"
@@ -15,12 +15,12 @@
 
 namespace HeatStroke
 {
-	class Component3DModel : public ComponentRenderable
+	class ComponentSprite : public ComponentRenderable
 	{
 	public:
-		virtual const std::string ComponentID() const override { return std::string("GOC_3DModel"); }
+		virtual const std::string ComponentID() const override { return std::string("GOC_Sprite"); }
 
-		virtual ~Component3DModel();
+		virtual ~ComponentSprite();
 
 		static HeatStroke::Component* CreateComponent(
 			HeatStroke::GameObject* p_pGameObject,
@@ -32,20 +32,21 @@ namespace HeatStroke
 		virtual void Update(const float p_fDelta) override	{}
 
 	protected:
-		Component3DModel(GameObject* p_pGameObject, const std::string& p_strOBJFileName);
+		ComponentSprite(GameObject* p_pGameObject, const std::string& p_strMTLFileName, const std::string& p_strMaterialName);
 
 		virtual void SyncTransform();
 
 	private:
-		Model m_mModel;
+		Sprite m_mSprite;
 
 		// Prevent copying
-		Component3DModel(const Component3DModel&) = delete;
-		Component3DModel& operator=(const Component3DModel&) = delete;
+		ComponentSprite(const ComponentSprite&) = delete;
+		ComponentSprite& operator=(const ComponentSprite&) = delete;
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strOBJFileName
+			std::string& p_strOBJFileName,
+			std::string& p_strMaterialName
 		);
 	};
 }

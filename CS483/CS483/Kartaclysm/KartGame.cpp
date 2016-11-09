@@ -10,7 +10,7 @@
 
 #include "ComponentKartController.h"
 #include "ComponentCameraController.h"
-#include "ComponentCamera.h"
+#include "ComponentPerspectiveCamera.h"
 #include "SceneManager.h"
 #include "KeyboardInputBuffer.h"
 
