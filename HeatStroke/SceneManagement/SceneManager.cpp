@@ -268,15 +268,15 @@ void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
 	std::vector<Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
 	for (; meshIt != meshEnd; meshIt++)
 	{
-		SetMeshLights(&(*meshIt));
+		SetMeshLights(p_pModel, &(*meshIt));
 	}
 }
 
-void HeatStroke::SceneManager::SetMeshLights(Mesh* p_pMesh)
+void HeatStroke::SceneManager::SetMeshLights(Model* p_pModel, Mesh* p_pMesh)
 {
 	SetMeshAmbientLight(p_pMesh);
 	SetMeshDirectionalLight(p_pMesh);
-	SetMeshPointLight(p_pMesh);
+	SetMeshPointLight(p_pModel, p_pMesh);
 }
 
 void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
@@ -296,15 +296,42 @@ void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
 	}
 }
 
-void HeatStroke::SceneManager::SetMeshPointLight(Mesh* p_pMesh)
+void HeatStroke::SceneManager::SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh)
 {
-	if (m_lPointLightList.size() > 0)
+	ScenePointLight* pPointLight = DetermineClosestPointLight(p_pModel);
+	if (pPointLight != nullptr)
 	{
-		p_pMesh->m_pMaterial->SetUniform("PointLightPosition", m_lPointLightList[0]->GetPosition());
-		p_pMesh->m_pMaterial->SetUniform("PointLightDiffuseColor", m_lPointLightList[0]->GetDiffuse());
-		p_pMesh->m_pMaterial->SetUniform("PointLightAttenuation", m_lPointLightList[0]->GetAttenuation());
-		p_pMesh->m_pMaterial->SetUniform("PointLightRange", m_lPointLightList[0]->GetRange());
+		p_pMesh->m_pMaterial->SetUniform("PointLightPosition", pPointLight->GetPosition());
+		p_pMesh->m_pMaterial->SetUniform("PointLightDiffuseColor", pPointLight->GetDiffuse());
+		p_pMesh->m_pMaterial->SetUniform("PointLightAttenuation", pPointLight->GetAttenuation());
+		p_pMesh->m_pMaterial->SetUniform("PointLightRange", pPointLight->GetRange());
 	}
+}
+
+HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLight(Model* p_pModel)
+{
+	if (m_lPointLightList.size() == 0)
+	{
+		return nullptr;
+	}
+
+	const glm::vec3& vTranslation = p_pModel->GetTransform().GetTranslation();
+
+	ScenePointLight* pClosestPointLight = m_lPointLightList[0];
+	float fClosestPointLightDistance = glm::distance(vTranslation, pClosestPointLight->GetPosition());
+
+	PointLightList::iterator it = m_lPointLightList.begin(), end = m_lPointLightList.end();
+	it++; // skip the first one
+	for (; it != end; it++)
+	{
+		float fDistance = glm::distance(vTranslation, (*it)->GetPosition());
+		if (fDistance < fClosestPointLightDistance)
+		{
+			pClosestPointLight = (*it);
+		}
+	}
+
+	return pClosestPointLight;
 }
 
 void HeatStroke::SceneManager::RenderSprites()

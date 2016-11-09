@@ -104,10 +104,11 @@ namespace HeatStroke
 		void RenderModels();
 		void RenderModel(Model* p_pModel);
 		void SetModelLights(Model* p_pModel);
-		void SetMeshLights(Mesh* p_pMesh);
+		void SetMeshLights(Model* p_pModel, Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);
 		void SetMeshDirectionalLight(Mesh* p_pMesh);
-		void SetMeshPointLight(Mesh* p_pMesh);
+		void SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh);
+		ScenePointLight* DetermineClosestPointLight(Model* p_pModel);
 
 		void RenderSprites();
 		void RenderSprite(Sprite* p_pSprite);
