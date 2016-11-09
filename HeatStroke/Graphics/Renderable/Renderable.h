@@ -10,7 +10,7 @@
 #ifndef RENDERABLE_H
 #define RENDERABLE_H
 
-#include "Camera.h"
+#include "SceneCamera.h"
 
 namespace HeatStroke
 {
@@ -19,7 +19,7 @@ namespace HeatStroke
 	public:
 		virtual ~Renderable() = 0 {}
 
-		virtual void Render(const Camera* p_pCamera = nullptr) = 0;
+		virtual void Render(const SceneCamera* p_pCamera = nullptr) = 0;
 	};
 }
 

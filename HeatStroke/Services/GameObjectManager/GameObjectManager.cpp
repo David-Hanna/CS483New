@@ -84,13 +84,13 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 
 		LoadComponents(p_pGameObjectRootElement->FirstChildElement("Components"), pObj);
 		LoadChildren(p_pGameObjectRootElement->FirstChildElement("Children"), pObj);
+		ParseTags(p_pGameObjectRootElement->FirstChildElement("Tags"), pObj);
 
 		m_mGameObjectMap.insert(std::pair<std::string, GameObject*>(strGuid, pObj));
 		pObj->Init();
 
 		return pObj;
 	}
-
 }
 
 std::string GameObjectManager::GetGuid(tinyxml2::XMLElement* p_pGameObjectRootElement)
@@ -153,6 +153,25 @@ void GameObjectManager::LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElemen
 			GameObject* pChild = CreateGameObject(pChildGameObjectElement);
 			pChild->m_Transform.ParseTransformNode(pChildGameObjectElement->FirstChildElement("Transform"));
 			p_pParent->AddChild(pChild);
+		}
+	}
+}
+
+void GameObjectManager::ParseTags(tinyxml2::XMLElement* p_pTagsRootElement, GameObject* p_pGameObject)
+{
+#if _DEBUG
+	assert(p_pGameObject != nullptr);
+#endif
+
+	if (p_pTagsRootElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* pTagElement = p_pTagsRootElement->FirstChildElement("Tag");
+			 pTagElement != nullptr;
+			 pTagElement = pTagElement->NextSiblingElement("Tag"))
+		{
+			std::string strTag = "";
+			EasyXML::GetRequiredStringAttribute(pTagElement, "value", strTag);
+			p_pGameObject->AddTag(strTag);
 		}
 	}
 }

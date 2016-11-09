@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
-// File:			Model.cpp
-// Original Author:	Gordon Wood
+// Model
+// Author: David Hanna
 //
-// See header for notes
+// A renderable model loaded in from .obj and .mtl data.
 //-----------------------------------------------------------------------------
 
 #include "Model.h"
@@ -13,14 +13,14 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 	OBJFile mOBJFile(p_mOBJFileName);
 	mOBJFile.ParseFile();
 
+	// Load the MTL file.
+	MTLFile mMTLFile(mOBJFile.GetMTLFileName());
+	mMTLFile.ParseFile();
+
 	// Grab the lists of positions, normals, and uvs for convenience.
 	const std::vector<const glm::vec3>& vPositions = mOBJFile.GetPositions();
 	const std::vector<const glm::vec3>& vNormals = mOBJFile.GetNormals();
 	const std::vector<const glm::vec2>& vUVs = mOBJFile.GetUVs();
-
-	// Load the MTL file.
-	MTLFile mMTLFile(mOBJFile.GetMTLFileName());
-	mMTLFile.ParseFile();
 	
 	// Loop over all the OBJObjects in the OBJFile, which will turn into our meshes.
 	const OBJFile::OBJObjectList& vOBJObjectList = mOBJFile.GetOBJObjectList();
@@ -38,7 +38,7 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 		// 3 floats for position, 3 for normals, and 2 for uvs (8 floats) per vertex. 
 		// 3 vertices (24 floats) per triangle.
 		// 24 floats per triangle * 4 bytes per float = 96 bytes per triangle.
-		unsigned int uiVertexDataLength = 96 * vTriangles.size();
+		unsigned int uiVertexDataLength = 24 * sizeof(float) * vTriangles.size();
 
 		// Load all the float data into a vector in an order that our vertex declaration (below) will expect.
 		std::vector<float> vVertexData;
@@ -74,8 +74,8 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 		mMesh.m_pVertexDeclaration->Begin();
 
 		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Position, 3, HeatStroke::CT_Float, 0);
-		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Normal, 3, HeatStroke::CT_Float, 12);
-		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 24);
+		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Normal, 3, HeatStroke::CT_Float, 3 * sizeof(float));
+		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 6 * sizeof(float));
 
 		mMesh.m_pVertexDeclaration->SetVertexBuffer(mMesh.m_pVertexBuffer);
 		mMesh.m_pVertexDeclaration->End();
@@ -112,8 +112,10 @@ HeatStroke::Model::~Model()
 	std::vector<Mesh>::iterator meshIt = m_vMeshes.begin(), meshEnd = m_vMeshes.end();
 	for (; meshIt != meshEnd; meshIt++)
 	{
-		//HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
-		//DELETE_IF(meshIt->m_pVertexDeclaration);
+		HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
+		DELETE_IF(meshIt->m_pVertexDeclaration);
+
+		// TODO: crash here, must fix
 		//HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
 	}
 }
@@ -124,7 +126,7 @@ void HeatStroke::Model::Update(float p_fDelta)
 }
 
 
-void HeatStroke::Model::Render(const Camera* p_pCamera)
+void HeatStroke::Model::Render(const SceneCamera* p_pCamera)
 {
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);

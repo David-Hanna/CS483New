@@ -3,6 +3,8 @@
 
 <GameObject>
   <Components>
+    <GOC_AbilityConditions />
+    <GOC_SampleAbility />
     <GOC_3DModel>
       <OBJFileName path="Assets/Kart/Kart.obj"/>
     </GOC_3DModel>
