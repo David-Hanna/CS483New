@@ -2,6 +2,9 @@
 <!-- Author: David MacIntosh -->
 
 <GameObject>
+  <Transform>
+    <Translation x="0.0" y="0.2" z="0.0" />
+  </Transform>
   <Components>
     <GOC_AbilityConditions />
     <GOC_SampleAbility />
