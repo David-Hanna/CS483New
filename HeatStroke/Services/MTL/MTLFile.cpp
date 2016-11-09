@@ -69,8 +69,6 @@ bool HeatStroke::MTLFile::ParseFile()
 			// assume the following lines apply to the current material until we find a new "newmtl" line.
 			while (linesIt != linesEnd && strTabs[0] != "newmtl")
 			{
-				strTabs = Common::StringSplit(*linesIt, " ");
-
 				if (strTabs[0] == "vs")
 				{
 					mMTLMaterial.m_strVertexShaderName = strTabs[1];
@@ -121,6 +119,10 @@ bool HeatStroke::MTLFile::ParseFile()
 				}
 
 				linesIt++;
+				if (linesIt != linesEnd)
+				{
+					strTabs = Common::StringSplit(*linesIt, " ");
+				}
 			}
 
 			m_vMaterials.push_back(mMTLMaterial);
