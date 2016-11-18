@@ -213,6 +213,7 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\light.xml" />
     <Xml Include="Kartaclysm\Data\noob_zone.xml" />
+    <Xml Include="Kartaclysm\Data\opponent.xml" />
     <Xml Include="Kartaclysm\Data\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <SubType>Designer</SubType>

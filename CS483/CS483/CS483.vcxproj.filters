@@ -550,6 +550,9 @@
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\opponent.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\test_wall_1.xml">

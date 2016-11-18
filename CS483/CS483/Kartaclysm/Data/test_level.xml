@@ -4,6 +4,7 @@
 <Level>
   <!-- Test Kart -->
   <GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
+  <GameObject guid="Opponent" definition="CS483/CS483/Kartaclysm/Data/opponent.xml"/>
 
   <!-- Test Wall -->
   <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
