@@ -47,6 +47,18 @@ namespace HeatStroke
 	}
 
 	//----------------------------------------------------------
+	// Sets position and scale of textbox quads.
+	//----------------------------------------------------------
+	void TextBox::SetTransform(const glm::mat4& p_mWorldTransform)
+	{
+		//iterate through all renderable quads and set the matrix uniform
+		for (std::vector<Texture_Page_Quads>::iterator iter = m_mQuads.begin(); iter != m_mQuads.end(); ++iter)
+		{
+			iter->m_mWorld = p_mWorldTransform;
+		}
+	}
+
+	//----------------------------------------------------------
 	// Sets height and width of textbox and recreates quads if necessary
 	//----------------------------------------------------------
 	void TextBox::SetSize(const GLfloat& p_fWidth, const GLfloat& p_fHeight)

@@ -2,6 +2,10 @@
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
+  <Transform>
+    <Translation x="80.0" y="80.0" z="0.0" />
+    <Scale x="0.25" y="0.25" z="1.0" />
+  </Transform>
   <Components>
 		<GOC_TextBox>
 			<FontFile path="Assets/Fonts/ComicSans/Comic_Sans.fnt"/>

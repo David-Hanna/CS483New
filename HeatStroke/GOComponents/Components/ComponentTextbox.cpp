@@ -74,7 +74,7 @@ HeatStroke::Component* HeatStroke::ComponentTextBox::CreateComponent(
 
 void HeatStroke::ComponentTextBox::SyncTransform()
 {
-	//m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+	m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 }
 
 void HeatStroke::ComponentTextBox::ParseNode(
