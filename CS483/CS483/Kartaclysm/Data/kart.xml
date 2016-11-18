@@ -23,4 +23,8 @@
     <GOC_KartController/>
 
   </Components>
+
+  <Tags>
+  	<Tag value="Racer"/>
+  </Tags>
 </GameObject>

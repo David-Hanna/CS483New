@@ -44,8 +44,9 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
-		TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth, const GLfloat& p_fHeight, const std::string& p_strVertexProgramPath, const std::string& p_strFragmentProgramPath);
+		TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth, const GLfloat& p_fHeight);
 		virtual ~TextBox();
+		virtual void SetTransform(const glm::mat4& p_mWorldTransform);
 		virtual void SetSize(const GLfloat& p_fWidth, const GLfloat& p_fHeight);
 		virtual void SetText(const std::string& p_strMessage);
 		virtual void SetPosition(const GLfloat& p_fXPos, const GLfloat& p_fYPos);
@@ -109,8 +110,6 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		Font*								m_pFont;
 		std::string							m_strMessage;
-		std::string							m_strVertexProgramPath;
-		std::string							m_strFragmentProgramPath;
 		GLfloat								m_fWidth;
 		GLfloat								m_fHeight;
 		glm::vec2							m_vPosition;

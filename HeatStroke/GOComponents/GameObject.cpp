@@ -184,6 +184,17 @@ GameObject* GameObject::GetChild(const std::string& p_strChildGuid)
 	return pChildGameObject;
 }
 
+std::vector<GameObject*> GameObject::GetChildren()
+{
+	std::vector<GameObject*> vChildren;
+	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)
+	{
+		vChildren.push_back(it->second);
+	}
+
+	return vChildren;
+}
+
 void GameObject::DeleteAllChildren()
 {
 	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)

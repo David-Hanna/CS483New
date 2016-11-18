@@ -83,6 +83,7 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
@@ -151,6 +153,7 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
@@ -192,6 +195,7 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h" />
@@ -226,10 +230,6 @@
     <Xml Include="Kartaclysm\Data\track_turn_left.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\wall.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Kartaclysm\Data\lines.fsh" />
-    <None Include="Kartaclysm\Data\lines.vsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

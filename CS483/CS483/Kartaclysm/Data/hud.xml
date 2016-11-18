@@ -10,11 +10,11 @@
         <Translation x="40.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-	      <GOC_Hud_Ability>
+        <GOC_HUD_Ability>
           <Ability name="KartAbility1" />
 		      <MTLFileName path="Assets/Hud/ability.mtl"/>
 		      <MaterialName name="ability"/>
-	      </GOC_Hud_Ability>
+	      </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
@@ -24,11 +24,11 @@
         <Translation x="55.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Hud_Ability>
+        <GOC_HUD_Ability>
           <Ability name="KartAbility2" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Hud_Ability>
+        </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
@@ -38,11 +38,11 @@
         <Translation x="70.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Hud_Ability>
+        <GOC_HUD_Ability>
           <Ability name="DriverAbility1" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Hud_Ability>
+        </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
@@ -52,11 +52,11 @@
         <Translation x="85.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_Hud_Ability>
+        <GOC_HUD_Ability>
           <Ability name="DriverAbility2" />
           <MTLFileName path="Assets/Hud/ability.mtl"/>
           <MaterialName name="ability"/>
-        </GOC_Hud_Ability>
+        </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
@@ -66,13 +66,28 @@
       <Translation x="-80.0" y="-80.0" z="0.0" />
     </Transform>
     <Components>
-      <GOC_Hud_Ability>
+      <GOC_HUD_Ability>
         <Ability name="Wrong Class" />
         <MTLFileName path="Assets/Hud/position_1.mtl"/>
         <MaterialName name="position_1"/>
-      </GOC_Hud_Ability>
+      </GOC_HUD_Ability>
     </Components>
   </GameObject>
+
+    <GameObject>
+      <Transform>
+        <Translation x="80.0" y="80.0" z="0.0" />
+        <Scale x="0.25" y="0.25" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_TextBox>
+          <FontFile path="Assets/Fonts/ComicSans/Comic_Sans.fnt"/>
+          <Message value="Hi"/>
+          <Width value="100"/>
+          <Height value="100"/>
+        </GOC_TextBox>
+      </Components>
+    </GameObject>
     
   </Children>
   

@@ -222,6 +222,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp">
       <Filter>Kartaclysm\Services\IO</Filter>
     </ClCompile>
@@ -275,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Font\Font.cpp">
       <Filter>HeatStroke\Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudAbility.cpp">
       <Filter>Kartaclysm\Components\HUD</Filter>
@@ -410,6 +416,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentTrack.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
       <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
@@ -497,6 +506,9 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Font\Font.h">
       <Filter>HeatStroke\Graphics\Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudAbility.h">
       <Filter>Kartaclysm\Components\HUD</Filter>
     </ClInclude>
@@ -540,12 +552,6 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Kartaclysm\Data\lines.fsh">
-      <Filter>Kartaclysm\Data</Filter>
-    </None>
-    <None Include="Kartaclysm\Data\lines.vsh">
-      <Filter>Kartaclysm\Data</Filter>
-    </None>
     <Xml Include="Kartaclysm\Data\test_wall_1.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>

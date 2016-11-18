@@ -4,4 +4,8 @@
 			<OBJFileName path="Assets/Track/track_turn_left.obj"/>
 		</GOC_3DModel>
 	</Components>
+
+	<Tags>
+		<Tag value="Trackpiece"/>
+	</Tags>
 </GameObject>

@@ -106,7 +106,7 @@ namespace Kartaclysm
 		std::string& p_strAbility)
 	{
 		assert(p_pNode != nullptr);
-		assert(strcmp(p_pNode->Value(), "GOC_Hud_Ability") == 0);
+		assert(strcmp(p_pNode->Value(), "GOC_HUD_Ability") == 0);
 
 		for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
 			pChildElement != nullptr;
