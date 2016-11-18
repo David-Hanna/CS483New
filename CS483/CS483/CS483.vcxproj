@@ -209,7 +209,9 @@
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera.xml" />
-    <Xml Include="Kartaclysm\Data\hud.xml" />
+    <Xml Include="Kartaclysm\Data\hud.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\kart.xml">
       <SubType>Designer</SubType>
     </Xml>

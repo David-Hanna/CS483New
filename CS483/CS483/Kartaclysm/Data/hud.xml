@@ -1,9 +1,10 @@
-<!-- HUD -->
+<!-- Heads Up Display (HUD) -->
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
   
   <Children>
+    <!-- Kart Ability 1 -->
     <GameObject>
       <Transform>
         <Scale x="6.0" y="6.0" z="1.0" />
@@ -12,12 +13,13 @@
       <Components>
         <GOC_HUD_Ability>
           <Ability name="KartAbility1" />
-		      <MTLFileName path="Assets/Hud/ability.mtl"/>
+		      <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
 		      <MaterialName name="ability"/>
 	      </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
+    <!-- Kart Ability 2 -->
     <GameObject>
       <Transform>
         <Scale x="6.0" y="6.0" z="1.0" />
@@ -26,12 +28,13 @@
       <Components>
         <GOC_HUD_Ability>
           <Ability name="KartAbility2" />
-          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
-
+    
+    <!-- Driver Ability 1 -->
     <GameObject>
       <Transform>
         <Scale x="6.0" y="6.0" z="1.0" />
@@ -40,12 +43,13 @@
       <Components>
         <GOC_HUD_Ability>
           <Ability name="DriverAbility1" />
-          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
+    <!-- Driver Ability 2 -->
     <GameObject>
       <Transform>
         <Scale x="6.0" y="6.0" z="1.0" />
@@ -54,26 +58,45 @@
       <Components>
         <GOC_HUD_Ability>
           <Ability name="DriverAbility2" />
-          <MTLFileName path="Assets/Hud/ability.mtl"/>
+          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
 
-  <GameObject>
-    <Transform>
-      <Scale x="6.0" y="6.0" z="1.0" />
-      <Translation x="-80.0" y="-80.0" z="0.0" />
-    </Transform>
-    <Components>
-      <GOC_HUD_Ability>
-        <Ability name="Wrong Class" />
-        <MTLFileName path="Assets/Hud/position_1.mtl"/>
-        <MaterialName name="position_1"/>
-      </GOC_HUD_Ability>
-    </Components>
-  </GameObject>
+    <!-- Position -->
+    <GameObject>
+      <Transform>
+        <Scale x="6.0" y="6.0" z="1.0" />
+        <Translation x="-80.0" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Ability>
+          <Ability name="Wrong Class" />
+          <MTLFileName path="Assets/Hud/Positions/position_1.mtl"/>
+          <MaterialName name="position_1"/>
+        </GOC_HUD_Ability>
+      </Components>
+    </GameObject>
 
+    <!-- Race Timer -->
+    <GameObject>
+      <Transform>
+        <Translation x="68.0" y="93.0" z="0.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_RaceTimer>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
+          <LabelOffset value="-40.0"/>
+        </GOC_HUD_RaceTimer>
+      </Components>
+    </GameObject>
+
+    <!-- Lap Count -->
+    <!--
     <GameObject>
       <Transform>
         <Translation x="75.0" y="90.0" z="0.0" />
@@ -81,13 +104,14 @@
       </Transform>
       <Components>
         <GOC_HUD_RaceTimer>
-          <FontFile path="Assets/Fonts/ComicSans/Comic_Sans.fnt"/>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
           <Width value="100.0"/>
           <Height value="100.0"/>
           <LabelOffset value="-70.0"/>
         </GOC_HUD_RaceTimer>
       </Components>
     </GameObject>
+    -->
     
   </Children>
   

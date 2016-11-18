@@ -1,6 +1,6 @@
 info face="Comic Sans MS" size=32 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=2,2 outline=0
 common lineHeight=31 base=24 scaleW=256 scaleH=256 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
-paths fragment="Assets/Fonts/font.fsh" vertex="Assets/Fonts/font.vsh" textures="Assets/Fonts/ComicSans/"
+paths fragment="Assets/Hud/Fonts/font.fsh" vertex="Assets/Hud/Fonts/font.vsh" textures="Assets/Hud/Fonts/ComicSans/"
 page id=0 file="Comic_Sans_0.tga"
 chars count=95
 char id=32   x=115   y=165   width=7     height=31    xoffset=0     yoffset=0     xadvance=7     page=0  chnl=15
