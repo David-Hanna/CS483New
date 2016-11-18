@@ -97,6 +97,9 @@
     <Filter Include="Kartaclysm\Components\Abilities">
       <UniqueIdentifier>{1c3afe35-5875-45e5-84c1-a9e7945a7e14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Graphics\Font">
+      <UniqueIdentifier>{c302e852-ea04-49aa-b023-fd1036a7e2a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -269,6 +272,12 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Font\Font.cpp">
+      <Filter>HeatStroke\Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +493,12 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Font\Font.h">
+      <Filter>HeatStroke\Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
