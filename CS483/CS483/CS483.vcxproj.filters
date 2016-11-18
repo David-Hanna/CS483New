@@ -279,6 +279,9 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -499,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

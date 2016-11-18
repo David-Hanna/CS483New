@@ -12,13 +12,13 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------
-	TextBox::TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth, const GLfloat& p_fHeight, const std::string& p_strVertexProgramPath, const std::string& p_strFragmentProgramPath) :
-		m_pFont(p_pFont), m_strMessage(p_strMessage), m_fWidth(p_fWidth), m_fHeight(p_fHeight), m_strVertexProgramPath(p_strVertexProgramPath), m_strFragmentProgramPath(p_strFragmentProgramPath)
+	TextBox::TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth, const GLfloat& p_fHeight) :
+		m_pFont(p_pFont), m_strMessage(p_strMessage), m_fWidth(p_fWidth), m_fHeight(p_fHeight)
 	{
 		m_eHorizontal = H_ALIGN_LEFT;
 		m_eVertical = V_ALIGN_TOP;
 		m_vColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); //white, opaque
-		m_vPosition = glm::vec2(0.0f, 720.0f); //top-left of screen
+		m_vPosition = glm::vec2(0.0f, 0.0f); //top-left of screen
 		CreateQuads();
 	}
 
@@ -90,7 +90,7 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	void TextBox::SetPosition(const GLfloat& p_fXPos, const GLfloat& p_fYPos)
 	{
-		m_vPosition = glm::vec2(p_fXPos, 720.0f-p_fYPos);
+		m_vPosition = glm::vec2(p_fXPos, p_fYPos);
 		glm::mat4 mWorld = glm::translate(glm::vec3(m_vPosition, 0.0f));
 
 		//iterate through all renderable quads and set the matrix uniform
@@ -172,7 +172,7 @@ namespace HeatStroke
 
 			Material* pMat = MaterialManager::CreateMaterial(m_pFont->GetFontName() +
 				"-" + std::to_string(m_pFont->GetFontSize()) + "-" + std::to_string(uiFontCount++));
-			pMat->SetProgram(m_strVertexProgramPath, m_strFragmentProgramPath);
+			pMat->SetProgram(m_pFont->GetVertexProgramPath(), m_pFont->GetFragmentProgramPath());
 			pMat->SetTexture("texture", iter3->m_pTexture);
 			pMat->SetUniform("UnifColor", m_vColour);
 

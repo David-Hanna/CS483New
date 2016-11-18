@@ -48,6 +48,25 @@ void HeatStroke::SceneManager::ClearSprites()
 	m_lSpriteList.clear();
 }
 
+void HeatStroke::SceneManager::AddTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	m_lTextBoxList.push_back(p_pTextBox);
+}
+
+void HeatStroke::SceneManager::RemoveTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	TextBoxList::iterator it = std::find(m_lTextBoxList.begin(), m_lTextBoxList.end(), p_pTextBox);
+	if (it != m_lTextBoxList.end())
+	{
+		m_lTextBoxList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearTextBoxes()
+{
+	m_lTextBoxList.clear();
+}
+
 void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera)
 {
 	m_lOrthographicCameras.push_back(p_pOrthographicCamera);
@@ -244,6 +263,7 @@ void HeatStroke::SceneManager::Render()
 	if (m_pActiveOrthographicCamera != nullptr)
 	{
 		RenderSprites();
+		RenderTextBoxes();
 	}
 }
 
@@ -307,4 +327,18 @@ void HeatStroke::SceneManager::RenderSprites()
 void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite)
 {
 	p_pSprite->Render(m_pActiveOrthographicCamera);
+}
+
+void HeatStroke::SceneManager::RenderTextBoxes()
+{
+	TextBoxList::iterator it = m_lTextBoxList.begin(), end = m_lTextBoxList.end();
+	for (; it != end; ++it)
+	{
+		RenderTextBox(*it);
+	}
+}
+
+void HeatStroke::SceneManager::RenderTextBox(TextBox* p_pTextBox)
+{
+	p_pTextBox->Render(m_pActiveOrthographicCamera);
 }

@@ -83,6 +83,7 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
