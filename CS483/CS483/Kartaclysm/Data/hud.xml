@@ -108,6 +108,21 @@
         </GOC_HUD_LapCount>
       </Components>
     </GameObject>
+
+    <!-- FPS -->
+    <GameObject>
+      <Transform>
+        <Translation x="-85.0" y="93.0" z="0.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Fps>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
+        </GOC_HUD_Fps>
+      </Components>
+    </GameObject>
     
   </Children>
   

@@ -126,6 +126,7 @@
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudFps.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudLapCount.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPosition.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartController.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudFps.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudLapCount.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />

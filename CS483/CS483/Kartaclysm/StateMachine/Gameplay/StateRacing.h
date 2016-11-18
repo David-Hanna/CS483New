@@ -28,6 +28,7 @@
 #include "ComponentHudRaceTimer.h"
 #include "ComponentHudPosition.h"
 #include "ComponentHudLapCount.h"
+#include "ComponentHudFps.h"
 
 #include "Common.h"
 #include "GameplayState.h"
