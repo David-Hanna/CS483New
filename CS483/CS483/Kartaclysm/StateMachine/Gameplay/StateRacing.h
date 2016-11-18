@@ -18,6 +18,7 @@
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
 #include "ComponentSprite.h"
+#include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentSampleAbility.h"

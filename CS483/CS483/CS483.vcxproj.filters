@@ -544,5 +544,8 @@
     <Xml Include="Kartaclysm\Data\test_wall_2.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\sample_textbox.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

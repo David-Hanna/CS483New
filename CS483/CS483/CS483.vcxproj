@@ -212,6 +212,7 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\sample_sprite.xml" />
+    <Xml Include="Kartaclysm\Data\sample_textbox.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <SubType>Designer</SubType>
     </Xml>

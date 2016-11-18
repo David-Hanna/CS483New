@@ -1,0 +1,13 @@
+<!-- Demonstrating Sprites -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  <Components>
+		<GOC_TextBox>
+			<FontFile path="Assets/Fonts/ComicSans/Comic_Sans.fnt"/>
+			<Message value="Hi"/>
+			<Width value="100"/>
+			<Height value="100"/>
+		</GOC_TextBox>
+  </Components>
+</GameObject>

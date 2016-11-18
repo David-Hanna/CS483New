@@ -16,5 +16,6 @@
 			<Translation x="-2.0" y="0.0" z="0.0" />
 		</Transform>
 	</GameObject>
-	<GameObject guid="SampleSprite" definition="CS483/CS483/Kartaclysm/Data/sample_sprite.xml"/>
+	<!--<GameObject guid="SampleSprite" definition="CS483/CS483/Kartaclysm/Data/sample_sprite.xml"/>-->
+  <GameObject guid="SampleTextBox" definition="CS483/CS483/Kartaclysm/Data/sample_textbox.xml"/>
 </Level>
