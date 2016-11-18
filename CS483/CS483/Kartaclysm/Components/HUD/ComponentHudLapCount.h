@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------------
-// ComponentHudRaceTimer.h
+// ComponentHudLapCount.h
 // Author: Bradley Cooper
 //
-// Component that displays race time on the HUD.
+// Component that handles player lap count.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_HUD_RACE_TIMER_H
-#define COMPONENT_HUD_RACE_TIMER_H
+#ifndef COMPONENT_HUD_LAP_COUNT_H
+#define COMPONENT_HUD_LAP_COUNT_H
 
 #include <tinyxml2.h>
 
@@ -17,15 +17,15 @@
 
 namespace Kartaclysm
 {
-	class ComponentHudRaceTimer : public HeatStroke::ComponentRenderable
+	class ComponentHudLapCount : public HeatStroke::ComponentRenderable
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_Hud_RaceTimer"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_Hud_LapCount"; }
 
-		virtual ~ComponentHudRaceTimer();
+		virtual ~ComponentHudLapCount();
 
 		static HeatStroke::Component* CreateComponent(
 			HeatStroke::GameObject* p_pGameObject,
@@ -34,7 +34,7 @@ namespace Kartaclysm
 			);
 
 		virtual void Init() override {}
-		virtual void Update(const float p_fDelta) override;
+		virtual void Update(const float p_fDelta) override {}
 		virtual void SyncTransform() override;
 
 	protected:
@@ -47,7 +47,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentHudRaceTimer(
+		ComponentHudLapCount(
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strFontFilePath,
 			float p_fWidth,
@@ -55,7 +55,7 @@ namespace Kartaclysm
 			float p_fLabelOffset
 			);
 
-		virtual void RaceTimerCallback(const HeatStroke::Event* p_pEvent);
+		virtual void LapCountCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -71,16 +71,15 @@ namespace Kartaclysm
 
 		HeatStroke::Font m_mFont;
 		HeatStroke::TextBox m_mLabelTextBox;
-		HeatStroke::TextBox m_mTimerTextBox;
+		HeatStroke::TextBox m_mLapTextBox;
 
-		bool m_bPaused;
 		std::string m_strEventName;
 
-		float m_fTime;
+		int m_iLap;
 		float m_fLabelOffset;
 
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 	};
 }
 
-#endif // COMPONENT_HUD_RACE_TIMER_H
+#endif // COMPONENT_HUD_LAP_COUNT_H

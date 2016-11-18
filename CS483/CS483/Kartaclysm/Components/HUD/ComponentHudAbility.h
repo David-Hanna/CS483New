@@ -58,7 +58,7 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strOBJFileName,
+			std::string& p_strMTLFileName,
 			std::string& p_strMaterialName,
 			std::string& p_strAbility
 			);
@@ -72,12 +72,7 @@ namespace Kartaclysm
 		std::string m_strEventName;
 		
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
-
-		// Information for creating textboxes
-		// HeatStroke::Font*	m_pFont;
-		// std::string			m_strVertexProgramPath;
-		// std::string			m_strFragmentProgramPath;
 	};
 }
 
-#endif // COMPONENT_HUD_H
+#endif // COMPONENT_HUD_ABILITY_H

@@ -71,11 +71,9 @@
         <Translation x="-80.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
-        <GOC_HUD_Ability>
-          <Ability name="Wrong Class" />
-          <MTLFileName path="Assets/Hud/Positions/position_1.mtl"/>
-          <MaterialName name="position_1"/>
-        </GOC_HUD_Ability>
+        <GOC_HUD_Position>
+          <PositionFilePrefix path="Assets/Hud/Positions/" />
+        </GOC_HUD_Position>
       </Components>
     </GameObject>
 
@@ -96,22 +94,20 @@
     </GameObject>
 
     <!-- Lap Count -->
-    <!--
     <GameObject>
       <Transform>
-        <Translation x="75.0" y="90.0" z="0.0" />
-        <Scale x="0.25" y="0.25" z="1.0" />
+        <Translation x="85.0" y="83.0" z="0.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
-        <GOC_HUD_RaceTimer>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-          <Width value="100.0"/>
-          <Height value="100.0"/>
-          <LabelOffset value="-70.0"/>
-        </GOC_HUD_RaceTimer>
+        <GOC_HUD_LapCount>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
+          <LabelOffset value="-30.0"/>
+        </GOC_HUD_LapCount>
       </Components>
     </GameObject>
-    -->
     
   </Children>
   

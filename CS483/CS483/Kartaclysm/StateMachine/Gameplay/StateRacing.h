@@ -26,6 +26,8 @@
 #include "ComponentWallCollider.h"
 #include "ComponentHudAbility.h"
 #include "ComponentHudRaceTimer.h"
+#include "ComponentHudPosition.h"
+#include "ComponentHudLapCount.h"
 
 #include "Common.h"
 #include "GameplayState.h"

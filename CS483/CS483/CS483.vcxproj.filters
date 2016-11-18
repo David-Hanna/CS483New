@@ -288,6 +288,12 @@
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.cpp">
       <Filter>Kartaclysm\Components\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPosition.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudLapCount.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -516,6 +522,12 @@
       <Filter>Kartaclysm\Components\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudLapCount.h">
       <Filter>Kartaclysm\Components\HUD</Filter>
     </ClInclude>
   </ItemGroup>
