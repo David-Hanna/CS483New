@@ -14,20 +14,14 @@ HeatStroke::ComponentTextBox::ComponentTextBox(GameObject* p_pGameObject,
 	float p_fHeight)
 	:
 	ComponentRenderable(p_pGameObject),
-	m_pFont(new Font(p_strFontFilePath)),
-	m_mTextBox(m_pFont, p_strMessage, p_fWidth, p_fHeight)
+	m_mFont(p_strFontFilePath),
+	m_mTextBox(&m_mFont, p_strMessage, p_fWidth, p_fHeight)
 {
 	SceneManager::Instance()->AddTextBox(&m_mTextBox);
 }
 
 HeatStroke::ComponentTextBox::~ComponentTextBox()
 {
-	if (m_pFont != nullptr)
-	{
-		delete m_pFont;
-		m_pFont = nullptr;
-	}
-
 	SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
 }
 

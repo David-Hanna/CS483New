@@ -126,6 +126,7 @@
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.cpp" />
     <ClCompile Include="Kartaclysm\KartGame.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartController.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>

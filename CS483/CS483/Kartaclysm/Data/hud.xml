@@ -76,16 +76,16 @@
 
     <GameObject>
       <Transform>
-        <Translation x="80.0" y="80.0" z="0.0" />
+        <Translation x="75.0" y="90.0" z="0.0" />
         <Scale x="0.25" y="0.25" z="1.0" />
       </Transform>
       <Components>
-        <GOC_TextBox>
+        <GOC_HUD_RaceTimer>
           <FontFile path="Assets/Fonts/ComicSans/Comic_Sans.fnt"/>
-          <Message value="Hi"/>
-          <Width value="100"/>
-          <Height value="100"/>
-        </GOC_TextBox>
+          <Width value="100.0"/>
+          <Height value="100.0"/>
+          <LabelOffset value="-70.0"/>
+        </GOC_HUD_RaceTimer>
       </Components>
     </GameObject>
     

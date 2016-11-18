@@ -25,6 +25,7 @@
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"
 #include "ComponentHudAbility.h"
+#include "ComponentHudRaceTimer.h"
 
 #include "Common.h"
 #include "GameplayState.h"

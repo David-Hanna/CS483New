@@ -41,7 +41,7 @@ namespace HeatStroke
 		virtual void SyncTransform();
 
 	private:
-		Font* m_pFont;
+		Font m_mFont;
 		TextBox m_mTextBox;
 
 		// Prevent copying
