@@ -29,6 +29,7 @@
 #include "ComponentHudPosition.h"
 #include "ComponentHudLapCount.h"
 #include "ComponentHudFps.h"
+#include "ComponentHudPopup.h"
 
 #include "Common.h"
 #include "GameplayState.h"

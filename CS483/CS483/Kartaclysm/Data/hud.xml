@@ -123,6 +123,40 @@
         </GOC_HUD_Fps>
       </Components>
     </GameObject>
+
+    <!-- Wrong way -->
+    <GameObject>
+      <Transform>
+        <Translation x="-20" y="10.0" z="0.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Popup>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
+          <Event value="Player0_WrongWay_HUD"/>
+          <Message value="WRONG WAY"/>
+        </GOC_HUD_Popup>
+      </Components>
+    </GameObject>
+
+    <!-- Pause -->
+    <GameObject>
+      <Transform>
+        <Translation x="-15.0" y="-10.0" z="0.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Popup>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
+          <Event value="Pause_HUD"/>
+          <Message value="PAUSED"/>
+        </GOC_HUD_Popup>
+      </Components>
+    </GameObject>
     
   </Children>
   

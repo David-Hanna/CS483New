@@ -75,6 +75,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Position", ComponentHudPosition::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_LapCount", ComponentHudLapCount::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Fps", ComponentHudFps::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Popup", ComponentHudPopup::CreateComponent);
 
 	// Handle passed context parameters
 
@@ -226,4 +227,9 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 
 	// Push pause state
 	m_pStateMachine->Push(1, mContext);
+
+	// Tell the HUD to render a pause message
+	HeatStroke::Event* pHudEvent = new HeatStroke::Event("Pause_HUD");
+	pHudEvent->SetIntParameter("Display", 1);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
 }

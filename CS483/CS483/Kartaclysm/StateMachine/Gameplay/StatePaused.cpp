@@ -162,4 +162,9 @@ void Kartaclysm::StatePaused::UnpauseGame(const HeatStroke::Event* p_pEvent)
 
 	// Pop current state
 	m_pStateMachine->Pop();
+
+	// Tell the HUD to stop rendering a pause message
+	HeatStroke::Event* pHudEvent = new HeatStroke::Event("Pause_HUD");
+	pHudEvent->SetIntParameter("Display", 0);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
 }
