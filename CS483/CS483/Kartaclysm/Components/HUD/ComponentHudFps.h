@@ -14,6 +14,7 @@
 #include "SceneManager.h"
 #include "EventManager.h"
 #include "TextBox.h"
+#include <vector>
 
 namespace Kartaclysm
 {
@@ -60,7 +61,8 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		float m_fFPS;
-		int m_iFramesSinceLastRender;
+		int m_iFrameCounter;
+		std::vector<float> m_lFrameSpeeds;
 
 		HeatStroke::Font m_mFont;
 		HeatStroke::TextBox m_mTextBox;

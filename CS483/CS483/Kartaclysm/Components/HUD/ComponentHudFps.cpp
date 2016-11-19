@@ -19,7 +19,8 @@ namespace Kartaclysm
 		m_mFont(p_strFontFilePath),
 		m_mTextBox(&m_mFont, "0", p_fWidth, p_fHeight),
 		m_fFPS(0.0f),
-		m_iFramesSinceLastRender(0)
+		m_iFrameCounter(0),
+		m_lFrameSpeeds(std::vector<float>(90))
 	{
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
 	}
@@ -69,12 +70,28 @@ namespace Kartaclysm
 
 	void ComponentHudFps::Update(const float p_fDelta)
 	{
-		// smooth out fps over number of frames
-		m_fFPS = (m_fFPS * 0.8f) + (0.2f / p_fDelta);
-		if (m_iFramesSinceLastRender++ > 10)
+		/*
+		// calculate FPS using a smoothed average
+		m_fFPS = (m_fFPS * 0.95f) + (0.05f / p_fDelta);
+		if (m_iFrameCounter++ > 10)
 		{
-			m_iFramesSinceLastRender = 0;
+			m_iFrameCounter = 0;
 			m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS)));
+		}
+		*/
+
+		// calculate FPS using a simple moving average (SMA) algorithm
+		m_fFPS -= m_lFrameSpeeds[m_iFrameCounter];
+		m_fFPS += 1.0f / p_fDelta;
+		m_lFrameSpeeds[m_iFrameCounter] = 1.0f / p_fDelta;
+		if (++m_iFrameCounter == m_lFrameSpeeds.size())
+		{
+			m_iFrameCounter = 0;
+		}
+
+		if (m_iFrameCounter % 10 == 0)
+		{
+			m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS / m_lFrameSpeeds.size())));
 		}
 	}
 
