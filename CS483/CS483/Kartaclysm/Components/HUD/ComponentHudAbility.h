@@ -35,7 +35,7 @@ namespace Kartaclysm
 
 		virtual void Init() override {}
 		virtual void Update(const float p_fDelta) override {}
-		virtual void SyncTransform() override { m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform()); };
+		virtual void SyncTransform() override;
 
 	protected:
 
@@ -67,7 +67,9 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 
-		HeatStroke::Sprite m_mSprite;
+		HeatStroke::Sprite m_mActiveSprite;
+		HeatStroke::Sprite m_mInactiveSprite;
+
 		bool m_bReady;
 		std::string m_strEventName;
 		

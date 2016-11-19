@@ -67,7 +67,6 @@ namespace Kartaclysm
 			);
 	}
 
-
 	void ComponentHudFps::Update(const float p_fDelta)
 	{
 		// smooth out fps over number of frames

@@ -16,11 +16,12 @@ namespace Kartaclysm
 		const std::string& p_strAbility
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
-		m_mSprite(p_strMTLFileName, p_strMaterialName),
+		m_mActiveSprite(p_strMTLFileName, p_strMaterialName),
+		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_off.mtl", p_strMaterialName + "_off"),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
-		m_bReady(true)
+		m_bReady(false)
 	{
-		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->AddSprite(&m_mInactiveSprite);
 
 		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::AbilityCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
@@ -28,7 +29,8 @@ namespace Kartaclysm
 
 	ComponentHudAbility::~ComponentHudAbility()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mActiveSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mInactiveSprite);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
@@ -73,6 +75,18 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentHudAbility::SyncTransform()
+	{
+		if (m_bReady)
+		{
+			m_mActiveSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+		}
+		else
+		{
+			m_mInactiveSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+		}
+	}
+
 	void ComponentHudAbility::AbilityCallback(const HeatStroke::Event* p_pEvent)
 	{
 		int iCharges = 0;
@@ -81,22 +95,24 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredFloatParameter("Cooldown", fCooldown);
 		p_pEvent->GetRequiredIntParameter("Charges", iCharges);
 
+		// Ability icon
 		if (fCooldown <= 0.0f && iCharges != 0)
 		{
 			if (!m_bReady)
 			{
 				m_bReady = true;
-				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+				HeatStroke::SceneManager::Instance()->AddSprite(&m_mActiveSprite);
+				HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mInactiveSprite);
 			}
 		}
-		else
+		else if (m_bReady)
 		{
-			if (m_bReady)
-			{
-				m_bReady = false;
-				HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
-			}
+			m_bReady = false;
+			HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mActiveSprite);
+			HeatStroke::SceneManager::Instance()->AddSprite(&m_mInactiveSprite);
 		}
+
+		// TO DO, Charge textbox
 	}
 
 	void ComponentHudAbility::ParseNode(
