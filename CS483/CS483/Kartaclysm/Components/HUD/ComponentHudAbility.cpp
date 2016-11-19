@@ -11,15 +11,21 @@ namespace Kartaclysm
 {
 	ComponentHudAbility::ComponentHudAbility(
 		HeatStroke::GameObject* p_pGameObject,
+		const std::string& p_strFontFilePath,
+		float p_fWidth,
+		float p_fHeight,
 		const std::string& p_strMTLFileName,
 		const std::string& p_strMaterialName,
 		const std::string& p_strAbility
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
+		m_mFont(p_strFontFilePath),
+		m_mTextBox(&m_mFont, "", p_fWidth, p_fHeight),
 		m_mActiveSprite(p_strMTLFileName, p_strMaterialName),
 		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_off.mtl", p_strMaterialName + "_off"),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
-		m_bReady(false)
+		m_bReady(false),
+		m_bHasCharges(false)
 	{
 		HeatStroke::SceneManager::Instance()->AddSprite(&m_mInactiveSprite);
 
@@ -31,6 +37,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mActiveSprite);
 		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mInactiveSprite);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
@@ -46,6 +53,9 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// The values we need to fill by the end of parsing.
+		std::string strFontFilePath("");
+		float fWidth(0.0f);
+		float fHeight(0.0f);
 		std::string strMTLFileName("");
 		std::string strMaterialName("");
 		std::string strAbility("");
@@ -53,15 +63,18 @@ namespace Kartaclysm
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strAbility);
+			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, strMTLFileName, strMaterialName, strAbility);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, strMTLFileName, strMaterialName, strAbility);
+			ParseNode(p_pOverrideNode, strFontFilePath, fWidth, fHeight, strMTLFileName, strMaterialName, strAbility);
 		}
 
 		// Check that we got everything we needed.
+		assert(strFontFilePath != "");
+		assert(fWidth != 0.0f);
+		assert(fHeight != 0.0f);
 		assert(strMTLFileName != "");
 		assert(strMaterialName != "");
 		assert(strAbility != "");
@@ -69,6 +82,9 @@ namespace Kartaclysm
 		// Now we can create and return the Component.
 		return new ComponentHudAbility(
 			p_pGameObject,
+			strFontFilePath,
+			fWidth,
+			fHeight,
 			strMTLFileName,
 			strMaterialName,
 			strAbility
@@ -85,15 +101,23 @@ namespace Kartaclysm
 		{
 			m_mInactiveSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 		}
+
+		if (m_bHasCharges)
+		{
+			m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::scale(glm::vec3(0.05f, 0.05f, 0.0f)) *
+				glm::translate(glm::vec3(0.0f, 28.0f, 0.0f)));
+		}
 	}
 
 	void ComponentHudAbility::AbilityCallback(const HeatStroke::Event* p_pEvent)
 	{
-		int iCharges = 0;
-		float fCooldown = 0.0f;
+		int iCharges, iMaxCharges;
+		float fCooldown;
 
 		p_pEvent->GetRequiredFloatParameter("Cooldown", fCooldown);
-		p_pEvent->GetRequiredIntParameter("Charges", iCharges);
+		p_pEvent->GetOptionalIntParameter("Charges", iCharges, -1);
+		p_pEvent->GetOptionalIntParameter("MaxCharges", iMaxCharges, -1);
 
 		// Ability icon
 		if (fCooldown <= 0.0f && iCharges != 0)
@@ -112,11 +136,38 @@ namespace Kartaclysm
 			HeatStroke::SceneManager::Instance()->AddSprite(&m_mInactiveSprite);
 		}
 
-		// TO DO, Charge textbox
+		// Charge textbox
+		if (iCharges > 0)
+		{
+			if (!m_bHasCharges)
+			{
+				m_bHasCharges = true;
+				HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
+			}
+
+			if (iCharges == iMaxCharges)
+			{
+				m_mTextBox.SetColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+			}
+			else
+			{
+				m_mTextBox.SetColour(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+			}
+
+			m_mTextBox.SetText(std::to_string(iCharges));
+		}
+		else if (m_bHasCharges)
+		{
+			m_bHasCharges = false;
+			HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+		}
 	}
 
 	void ComponentHudAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
+		std::string& p_strFontFilePath,
+		float& p_fWidth,
+		float& p_fHeight,
 		std::string& p_strMTLFileName,
 		std::string& p_strMaterialName,
 		std::string& p_strAbility)
@@ -134,7 +185,19 @@ namespace Kartaclysm
 
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "MTLFileName") == 0)
+			if (strcmp(szNodeName, "FontFile") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
+			}
+			else if (strcmp(szNodeName, "Width") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fWidth);
+			}
+			else if (strcmp(szNodeName, "Height") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
+			}
+			else if (strcmp(szNodeName, "MTLFileName") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strMTLFileName);
 			}

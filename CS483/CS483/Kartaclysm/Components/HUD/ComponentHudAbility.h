@@ -49,6 +49,9 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentHudAbility(
 			HeatStroke::GameObject* p_pGameObject,
+			const std::string& p_strFontFilePath,
+			float p_fWidth,
+			float p_fHeight,
 			const std::string& p_strMTLFileName,
 			const std::string& p_strMaterialName,
 			const std::string& p_strAbility
@@ -58,6 +61,9 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
+			std::string& p_strFontFilePath,
+			float& p_fWidth,
+			float& p_fHeight,
 			std::string& p_strMTLFileName,
 			std::string& p_strMaterialName,
 			std::string& p_strAbility
@@ -67,10 +73,13 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 
+		HeatStroke::Font m_mFont;
+		HeatStroke::TextBox m_mTextBox;
 		HeatStroke::Sprite m_mActiveSprite;
 		HeatStroke::Sprite m_mInactiveSprite;
 
 		bool m_bReady;
+		bool m_bHasCharges;
 		std::string m_strEventName;
 		
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;

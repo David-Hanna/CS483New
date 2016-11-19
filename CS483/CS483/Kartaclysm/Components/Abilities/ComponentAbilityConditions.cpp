@@ -149,6 +149,7 @@ namespace Kartaclysm
 		HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
 		pEvent->SetFloatParameter("Cooldown", m_fCurrentCooldown);
 		pEvent->SetIntParameter("Charges", m_iCurrentCharges);
+		pEvent->SetIntParameter("MaxCharges", m_iMaxCharges);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }

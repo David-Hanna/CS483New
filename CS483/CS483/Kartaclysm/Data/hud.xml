@@ -12,6 +12,9 @@
       </Transform>
       <Components>
         <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
           <Ability name="KartAbility1" />
 		      <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
 		      <MaterialName name="ability"/>
@@ -27,6 +30,9 @@
       </Transform>
       <Components>
         <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
           <Ability name="KartAbility2" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
@@ -42,6 +48,9 @@
       </Transform>
       <Components>
         <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
           <Ability name="DriverAbility1" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
@@ -57,6 +66,9 @@
       </Transform>
       <Components>
         <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Width value="1000.0"/>
+          <Height value="1000.0"/>
           <Ability name="DriverAbility2" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
