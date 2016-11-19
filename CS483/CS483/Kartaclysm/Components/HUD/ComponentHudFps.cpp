@@ -18,7 +18,8 @@ namespace Kartaclysm
 		ComponentRenderable(p_pGameObject),
 		m_mFont(p_strFontFilePath),
 		m_mTextBox(&m_mFont, "0", p_fWidth, p_fHeight),
-		m_fFPS(0.0f)
+		m_fFPS(0.0f),
+		m_iFramesSinceLastRender(0)
 	{
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
 	}
@@ -71,7 +72,11 @@ namespace Kartaclysm
 	{
 		// smooth out fps over number of frames
 		m_fFPS = (m_fFPS * 0.8f) + (0.2f / p_fDelta);
-		m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS)));
+		if (m_iFramesSinceLastRender++ > 10)
+		{
+			m_iFramesSinceLastRender = 0;
+			m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS)));
+		}
 	}
 
 	void ComponentHudFps::SyncTransform()

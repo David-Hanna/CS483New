@@ -60,6 +60,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		float m_fFPS;
+		int m_iFramesSinceLastRender;
 
 		HeatStroke::Font m_mFont;
 		HeatStroke::TextBox m_mTextBox;

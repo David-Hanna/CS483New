@@ -80,7 +80,7 @@
     <!-- Race Timer -->
     <GameObject>
       <Transform>
-        <Translation x="68.0" y="93.0" z="0.0" />
+        <Translation x="79.0" y="93.0" z="0.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
@@ -112,7 +112,7 @@
     <!-- FPS -->
     <GameObject>
       <Transform>
-        <Translation x="-85.0" y="93.0" z="0.0" />
+        <Translation x="-95.0" y="96.0" z="0.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>

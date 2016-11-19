@@ -55,8 +55,6 @@ namespace Kartaclysm
 			float p_fLabelOffset
 			);
 
-		virtual void RaceTimerCallback(const HeatStroke::Event* p_pEvent);
-
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strFontFilePath,
@@ -73,13 +71,8 @@ namespace Kartaclysm
 		HeatStroke::TextBox m_mLabelTextBox;
 		HeatStroke::TextBox m_mTimerTextBox;
 
-		bool m_bPaused;
-		std::string m_strEventName;
-
 		float m_fTime;
 		float m_fLabelOffset;
-
-		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 	};
 }
 
