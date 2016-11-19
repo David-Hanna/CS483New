@@ -12,14 +12,12 @@ namespace Kartaclysm
 	ComponentHudRaceTimer::ComponentHudRaceTimer(
 		HeatStroke::GameObject* p_pGameObject,
 		const std::string& p_strFontFilePath,
-		float p_fWidth,
-		float p_fHeight,
 		float p_fLabelOffset
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_mFont(p_strFontFilePath),
-		m_mLabelTextBox(&m_mFont, "TIME", p_fWidth, p_fHeight),
-		m_mTimerTextBox(&m_mFont, "00:00.000", p_fWidth, p_fHeight),
+		m_mLabelTextBox(&m_mFont, "TIME"),
+		m_mTimerTextBox(&m_mFont, "00:00.000"),
 		m_fLabelOffset(p_fLabelOffset),
 		m_fTime(0.0f)
 	{
@@ -44,33 +42,27 @@ namespace Kartaclysm
 
 		// The values we need to fill by the end of parsing.
 		std::string strFontFilePath("");
-		float fWidth(0.0f);
-		float fHeight(0.0f);
 		float fLabelOffset(999.999f);
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, fLabelOffset);
+			ParseNode(p_pBaseNode, strFontFilePath, fLabelOffset);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, fLabelOffset);
+			ParseNode(p_pBaseNode, strFontFilePath, fLabelOffset);
 		}
 
 		// Check that we got everything we needed.
 		assert(strFontFilePath != "");
-		assert(fWidth != 0.0f);
-		assert(fHeight != 0.0f);
 		assert(fLabelOffset != 999.999f);
 
 		// Now we can create and return the Component.
 		return new ComponentHudRaceTimer(
 			p_pGameObject,
 			strFontFilePath,
-			fWidth,
-			fHeight,
 			fLabelOffset
 			);
 	}
@@ -116,8 +108,6 @@ namespace Kartaclysm
 	void ComponentHudRaceTimer::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		std::string& p_strFontFilePath,
-		float& p_fWidth,
-		float& p_fHeight,
 		float& p_fLabelOffset)
 	{
 		assert(p_pNode != nullptr);
@@ -132,14 +122,6 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "FontFile") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
-			}
-			else if (strcmp(szNodeName, "Width") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fWidth);
-			}
-			else if (strcmp(szNodeName, "Height") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
 			}
 			else if (strcmp(szNodeName, "LabelOffset") == 0)
 			{

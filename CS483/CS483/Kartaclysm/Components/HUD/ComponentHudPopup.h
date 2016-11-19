@@ -44,8 +44,6 @@ namespace Kartaclysm
 		ComponentHudPopup(
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strFontFilePath,
-			float p_fWidth,
-			float p_fHeight,
 			const std::string& p_strEventName,
 			const std::string& p_strMessage
 			);
@@ -55,8 +53,6 @@ namespace Kartaclysm
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strFontFilePath,
-			float& p_fWidth,
-			float& p_fHeight,
 			std::string& p_strEventName,
 			std::string& p_strMessage
 			);

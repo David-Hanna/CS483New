@@ -44,7 +44,7 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
-		TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth, const GLfloat& p_fHeight);
+		TextBox(Font* p_pFont, const std::string& p_strMessage, const GLfloat& p_fWidth = 200.0f, const GLfloat& p_fHeight = 200.0f);
 		virtual ~TextBox();
 		virtual void SetTransform(const glm::mat4& p_mWorldTransform);
 		virtual void SetSize(const GLfloat& p_fWidth, const GLfloat& p_fHeight);

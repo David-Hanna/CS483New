@@ -13,8 +13,6 @@
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Ability name="KartAbility1" />
 		      <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
 		      <MaterialName name="ability"/>
@@ -31,8 +29,6 @@
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Ability name="KartAbility2" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
@@ -49,8 +45,6 @@
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Ability name="DriverAbility1" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
@@ -67,8 +61,6 @@
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Ability name="DriverAbility2" />
           <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
           <MaterialName name="ability"/>
@@ -98,8 +90,6 @@
       <Components>
         <GOC_HUD_RaceTimer>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <LabelOffset value="-40.0"/>
         </GOC_HUD_RaceTimer>
       </Components>
@@ -114,8 +104,6 @@
       <Components>
         <GOC_HUD_LapCount>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <LabelOffset value="-30.0"/>
         </GOC_HUD_LapCount>
       </Components>
@@ -130,8 +118,6 @@
       <Components>
         <GOC_HUD_Fps>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
         </GOC_HUD_Fps>
       </Components>
     </GameObject>
@@ -145,8 +131,6 @@
       <Components>
         <GOC_HUD_Popup>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Event value="Player0_WrongWay_HUD"/>
           <Message value="WRONG WAY"/>
         </GOC_HUD_Popup>
@@ -162,8 +146,6 @@
       <Components>
         <GOC_HUD_Popup>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Width value="1000.0"/>
-          <Height value="1000.0"/>
           <Event value="Pause_HUD"/>
           <Message value="PAUSED"/>
         </GOC_HUD_Popup>

@@ -44,16 +44,12 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentHudFps(
 			HeatStroke::GameObject* p_pGameObject,
-			const std::string& p_strFontFilePath,
-			float p_fWidth,
-			float p_fHeight
+			const std::string& p_strFontFilePath
 			);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strFontFilePath,
-			float& p_fWidth,
-			float& p_fHeight
+			std::string& p_strFontFilePath
 			);
 
 		//--------------------------------------------------------------------------

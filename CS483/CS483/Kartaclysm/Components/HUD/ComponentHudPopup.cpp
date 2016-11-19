@@ -12,14 +12,12 @@ namespace Kartaclysm
 	ComponentHudPopup::ComponentHudPopup(
 		HeatStroke::GameObject* p_pGameObject,
 		const std::string& p_strFontFilePath,
-		float p_fWidth,
-		float p_fHeight,
 		const std::string& p_strEventName,
 		const std::string& p_strMessage
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, p_strMessage, p_fWidth, p_fHeight),
+		m_mTextBox(&m_mFont, p_strMessage),
 		m_strEventName(p_strEventName),
 		m_bDisplaying(false)
 	{
@@ -46,26 +44,22 @@ namespace Kartaclysm
 
 		// The values we need to fill by the end of parsing.
 		std::string strFontFilePath("");
-		float fWidth(0.0f);
-		float fHeight(0.0f);
 		std::string strEventName("");
 		std::string strMessage("");
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, strEventName, strMessage);
+			ParseNode(p_pBaseNode, strFontFilePath, strEventName, strMessage);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, strEventName, strMessage);
+			ParseNode(p_pBaseNode, strFontFilePath, strEventName, strMessage);
 		}
 
 		// Check that we got everything we needed.
 		assert(strFontFilePath != "");
-		assert(fWidth != 0.0f);
-		assert(fHeight != 0.0f);
 		assert(strEventName != "");
 		assert(strMessage != "");
 
@@ -73,8 +67,6 @@ namespace Kartaclysm
 		return new ComponentHudPopup(
 			p_pGameObject,
 			strFontFilePath,
-			fWidth,
-			fHeight,
 			strEventName,
 			strMessage
 			);
@@ -107,8 +99,6 @@ namespace Kartaclysm
 	void ComponentHudPopup::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		std::string& p_strFontFilePath,
-		float& p_fWidth,
-		float& p_fHeight,
 		std::string& p_strEventName,
 		std::string& p_strMessage)
 	{
@@ -124,14 +114,6 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "FontFile") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
-			}
-			else if (strcmp(szNodeName, "Width") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fWidth);
-			}
-			else if (strcmp(szNodeName, "Height") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
 			}
 			else if (strcmp(szNodeName, "Event") == 0)
 			{

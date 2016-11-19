@@ -12,15 +12,13 @@ namespace Kartaclysm
 	ComponentHudAbility::ComponentHudAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		const std::string& p_strFontFilePath,
-		float p_fWidth,
-		float p_fHeight,
 		const std::string& p_strMTLFileName,
 		const std::string& p_strMaterialName,
 		const std::string& p_strAbility
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
 		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, "", p_fWidth, p_fHeight),
+		m_mTextBox(&m_mFont, ""),
 		m_mActiveSprite(p_strMTLFileName, p_strMaterialName),
 		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_off.mtl", p_strMaterialName + "_off"),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
@@ -54,8 +52,6 @@ namespace Kartaclysm
 
 		// The values we need to fill by the end of parsing.
 		std::string strFontFilePath("");
-		float fWidth(0.0f);
-		float fHeight(0.0f);
 		std::string strMTLFileName("");
 		std::string strMaterialName("");
 		std::string strAbility("");
@@ -63,18 +59,16 @@ namespace Kartaclysm
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight, strMTLFileName, strMaterialName, strAbility);
+			ParseNode(p_pBaseNode, strFontFilePath, strMTLFileName, strMaterialName, strAbility);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, strFontFilePath, fWidth, fHeight, strMTLFileName, strMaterialName, strAbility);
+			ParseNode(p_pOverrideNode, strFontFilePath, strMTLFileName, strMaterialName, strAbility);
 		}
 
 		// Check that we got everything we needed.
 		assert(strFontFilePath != "");
-		assert(fWidth != 0.0f);
-		assert(fHeight != 0.0f);
 		assert(strMTLFileName != "");
 		assert(strMaterialName != "");
 		assert(strAbility != "");
@@ -83,8 +77,6 @@ namespace Kartaclysm
 		return new ComponentHudAbility(
 			p_pGameObject,
 			strFontFilePath,
-			fWidth,
-			fHeight,
 			strMTLFileName,
 			strMaterialName,
 			strAbility
@@ -166,8 +158,6 @@ namespace Kartaclysm
 	void ComponentHudAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		std::string& p_strFontFilePath,
-		float& p_fWidth,
-		float& p_fHeight,
 		std::string& p_strMTLFileName,
 		std::string& p_strMaterialName,
 		std::string& p_strAbility)
@@ -188,14 +178,6 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "FontFile") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
-			}
-			else if (strcmp(szNodeName, "Width") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fWidth);
-			}
-			else if (strcmp(szNodeName, "Height") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
 			}
 			else if (strcmp(szNodeName, "MTLFileName") == 0)
 			{

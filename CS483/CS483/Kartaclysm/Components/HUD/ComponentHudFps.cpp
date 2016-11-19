@@ -11,13 +11,11 @@ namespace Kartaclysm
 {
 	ComponentHudFps::ComponentHudFps(
 		HeatStroke::GameObject* p_pGameObject,
-		const std::string& p_strFontFilePath,
-		float p_fWidth,
-		float p_fHeight
+		const std::string& p_strFontFilePath
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, "0", p_fWidth, p_fHeight),
+		m_mTextBox(&m_mFont, "0"),
 		m_fFPS(0.0f),
 		m_iFrameCounter(0),
 		m_lFrameSpeeds(std::vector<float>(90))
@@ -40,31 +38,25 @@ namespace Kartaclysm
 
 		// The values we need to fill by the end of parsing.
 		std::string strFontFilePath("");
-		float fWidth(0.0f);
-		float fHeight(0.0f);
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight);
+			ParseNode(p_pBaseNode, strFontFilePath);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, fWidth, fHeight);
+			ParseNode(p_pBaseNode, strFontFilePath);
 		}
 
 		// Check that we got everything we needed.
 		assert(strFontFilePath != "");
-		assert(fWidth != 0.0f);
-		assert(fHeight != 0.0f);
 
 		// Now we can create and return the Component.
 		return new ComponentHudFps(
 			p_pGameObject,
-			strFontFilePath,
-			fWidth,
-			fHeight
+			strFontFilePath
 			);
 	}
 
@@ -102,9 +94,7 @@ namespace Kartaclysm
 
 	void ComponentHudFps::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		std::string& p_strFontFilePath,
-		float& p_fWidth,
-		float& p_fHeight)
+		std::string& p_strFontFilePath)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_HUD_Fps") == 0);
@@ -118,14 +108,6 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "FontFile") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
-			}
-			else if (strcmp(szNodeName, "Width") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fWidth);
-			}
-			else if (strcmp(szNodeName, "Height") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
 			}
 		}
 	}
