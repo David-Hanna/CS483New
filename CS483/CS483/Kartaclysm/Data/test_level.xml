@@ -20,10 +20,10 @@
 			<Translation x="40.0" y="5.0" z="0.0"/>
 		</Transform>
 	</GameObject>
-	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/noob_zone.xml"/>
+	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/Tracks/shift_rift.xml"/>
 	<GameObject guid="Opponent" definition="CS483/CS483/Kartaclysm/Data/opponent.xml">
 		<Transform>
-			<Translation x="-2.0" y="0.0" z="0.0" />
+			<Translation x="0.0" y="0.0" z="1.0" />
 		</Transform>
 	</GameObject>
 	<GameObject guid="SampleSprite" definition="CS483/CS483/Kartaclysm/Data/sample_sprite.xml"/>
