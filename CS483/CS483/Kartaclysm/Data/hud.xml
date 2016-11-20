@@ -132,7 +132,7 @@
         <GOC_HUD_Popup>
           <MTLFileName path="Assets/Hud/Popups/wrong_way.mtl"/>
           <MaterialName name="wrong_way"/>
-          <Event value="Player0_WrongWay_HUD"/>
+          <Event value="Player0_HUD_WrongWay"/>
         </GOC_HUD_Popup>
       </Components>
     </GameObject>

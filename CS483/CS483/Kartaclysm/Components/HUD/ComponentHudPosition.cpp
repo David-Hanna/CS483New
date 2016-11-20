@@ -15,13 +15,9 @@ namespace Kartaclysm
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
 		m_strPositionFilePrefix(p_strPositionFilePrefix),
-		m_mSprite(m_strPositionFilePrefix + "position_1.mtl", "position_1"),
-		m_strEventName("Player0_Position_HUD")
+		m_mSprite(m_strPositionFilePrefix + "position_1.mtl", "position_1")
 	{
 		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
-
-		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPosition::PositionCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	ComponentHudPosition::~ComponentHudPosition()
@@ -65,13 +61,28 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentHudPosition::Init()
+	{
+		// event name follows "Player0_HUD_Lap" format
+		assert(GetGameObject()->GetParent() != nullptr && "HUD hierarchy error");
+		m_strEventName = GetGameObject()->GetParent()->GetGUID() + "_Position";
+
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPosition::PositionCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
+	}
+
+	void ComponentHudPosition::SyncTransform()
+	{
+		m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+	};
+
 	void ComponentHudPosition::PositionCallback(const HeatStroke::Event* p_pEvent)
 	{
 		int iPosition;
 		p_pEvent->GetRequiredIntParameter("Position", iPosition);
 		std::string strPosition = "position_" + std::to_string(iPosition);
 
-		// TO DO, not very efficient I imagine
+		// TO DO, not very efficient I imagine. Should have them memo-ized or stored for quick switching
 		m_mSprite = HeatStroke::Sprite(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
 	}
 

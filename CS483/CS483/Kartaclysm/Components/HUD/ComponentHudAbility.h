@@ -33,7 +33,7 @@ namespace Kartaclysm
 			tinyxml2::XMLNode* p_pOverrideNode
 			);
 
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override {}
 		virtual void SyncTransform() override;
 

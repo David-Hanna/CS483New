@@ -70,7 +70,7 @@ namespace Kartaclysm
 	void ComponentAbilityConditions::Init()
 	{
 		// TO DO, this is hardcoded for the first ability of the first player
-		m_strEventName = "Player0_KartAbility1_HUD";
+		m_strEventName = "Player0_HUD_KartAbility1";
 	}
 
 	void ComponentAbilityConditions::Update(const float p_fDelta)

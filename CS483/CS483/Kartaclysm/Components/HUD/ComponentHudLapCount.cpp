@@ -18,15 +18,11 @@ namespace Kartaclysm
 		m_mFont(p_strFontFilePath),
 		m_mLabelTextBox(&m_mFont, "LAP"),
 		m_mLapTextBox(&m_mFont, "1/3"),
-		m_fLabelOffset(p_fLabelOffset),
-		m_strEventName("Player0_Lap_HUD")
+		m_fLabelOffset(p_fLabelOffset)
 	{
 		m_mLabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLabelTextBox);
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLapTextBox);
-
-		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudLapCount::LapCountCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	ComponentHudLapCount::~ComponentHudLapCount()
@@ -72,6 +68,16 @@ namespace Kartaclysm
 			strFontFilePath,
 			fLabelOffset
 			);
+	}
+
+	void ComponentHudLapCount::Init()
+	{
+		// event name follows "Player0_HUD_Lap" format
+		assert(GetGameObject()->GetParent() != nullptr && "HUD hierarchy error");
+		m_strEventName = GetGameObject()->GetParent()->GetGUID() + "_Lap";
+
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudLapCount::LapCountCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	void ComponentHudLapCount::SyncTransform()

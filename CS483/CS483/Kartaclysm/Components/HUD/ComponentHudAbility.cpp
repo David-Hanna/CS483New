@@ -21,14 +21,11 @@ namespace Kartaclysm
 		m_mTextBox(&m_mFont, ""),
 		m_mActiveSprite(p_strMTLFileName, p_strMaterialName),
 		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_inactive.mtl", p_strMaterialName + "_inactive"),
-		m_strEventName("Player0_" + p_strAbility + "_HUD"),
+		m_strEventName(p_strAbility),
 		m_bReady(false),
 		m_bHasCharges(false)
 	{
 		HeatStroke::SceneManager::Instance()->AddSprite(&m_mInactiveSprite);
-
-		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	ComponentHudAbility::~ComponentHudAbility()
@@ -81,6 +78,16 @@ namespace Kartaclysm
 			strMaterialName,
 			strAbility
 			);
+	}
+
+	void ComponentHudAbility::Init()
+	{
+		// event name follows "Player0_HUD_KartAbility1" format
+		assert(GetGameObject()->GetParent() != nullptr && "HUD hierarchy error");
+		m_strEventName = GetGameObject()->GetParent()->GetGUID() + "_" + m_strEventName;
+
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	void ComponentHudAbility::SyncTransform()
