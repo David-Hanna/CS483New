@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------
 
 #include "KartGame.h"
+#include "EventManager.h"
 
 #include "ComponentKartController.h"
 #include "ComponentCameraController.h"
