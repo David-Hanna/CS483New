@@ -6,16 +6,22 @@
     <Translation x="0.0" y="0.2" z="0.0" />
   </Transform>
   <Components>
+  
     <GOC_AbilityConditions />
+
     <GOC_SampleAbility />
+
     <GOC_3DModel>
       <OBJFileName path="Assets/Kart/Kart.obj"/>
     </GOC_3DModel>
+
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
       <Sphere radius="1" />
     </GOC_SphereCollider>
+
     <GOC_KartController/>
+
   </Components>
 
   <Tags>
