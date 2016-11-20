@@ -57,7 +57,7 @@ namespace Kartaclysm
 			int GetRacerIndex(const std::string& p_strRacerId);
 
 			void UpdateRacerPositions();
-			void TEMP_DetermineFacingWrongWay();
+			void CheckRacerFacingForward();
 			bool IsAhead(const RacerData& p_RacerA, const RacerData& p_RacerB);
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);

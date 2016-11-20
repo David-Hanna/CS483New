@@ -83,7 +83,7 @@ namespace Kartaclysm
 		}
 
 		UpdateRacerPositions();
-		TEMP_DetermineFacingWrongWay();
+		CheckRacerFacingForward();
 
 		PrintRacerPositions();
 	}
@@ -178,7 +178,8 @@ namespace Kartaclysm
 		}
 	}
 
-	void ComponentTrack::TEMP_DetermineFacingWrongWay()
+	// TODO: move to component of racer object once that is created
+	void ComponentTrack::CheckRacerFacingForward()
 	{
 		for (RacerData racer : m_vRacers)
 		{
