@@ -11,13 +11,12 @@ namespace Kartaclysm
 {
 	ComponentHudPopup::ComponentHudPopup(
 		HeatStroke::GameObject* p_pGameObject,
-		const std::string& p_strFontFilePath,
-		const std::string& p_strEventName,
-		const std::string& p_strMessage
+		const std::string& p_strMTLFileName,
+		const std::string& p_strMaterialName,
+		const std::string& p_strEventName
 		) :
 		ComponentRenderable(p_pGameObject),
-		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, p_strMessage),
+		m_mSprite(p_strMTLFileName, p_strMaterialName),
 		m_strEventName(p_strEventName),
 		m_bDisplaying(false)
 	{
@@ -27,7 +26,7 @@ namespace Kartaclysm
 
 	ComponentHudPopup::~ComponentHudPopup()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
@@ -43,38 +42,38 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// The values we need to fill by the end of parsing.
-		std::string strFontFilePath("");
+		std::string strMTLFileName("");
+		std::string strMaterialName("");
 		std::string strEventName("");
-		std::string strMessage("");
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, strEventName, strMessage);
+			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strFontFilePath, strEventName, strMessage);
+			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName);
 		}
 
 		// Check that we got everything we needed.
-		assert(strFontFilePath != "");
+		assert(strMTLFileName != "");
+		assert(strMaterialName != "");
 		assert(strEventName != "");
-		assert(strMessage != "");
 
 		// Now we can create and return the Component.
 		return new ComponentHudPopup(
 			p_pGameObject,
-			strFontFilePath,
-			strEventName,
-			strMessage
+			strMTLFileName,
+			strMaterialName,
+			strEventName
 			);
 	}
 
 	void ComponentHudPopup::SyncTransform()
 	{
-		m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+		m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 	}
 
 
@@ -86,21 +85,21 @@ namespace Kartaclysm
 		if (iDisplay == 0)
 		{
 			m_bDisplaying = false;
-			HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+			HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 		}
 		else if (!m_bDisplaying)
 		{
 			m_bDisplaying = true;
-			HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
+			HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
 		}
 
 	}
 
 	void ComponentHudPopup::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		std::string& p_strFontFilePath,
-		std::string& p_strEventName,
-		std::string& p_strMessage)
+		std::string& p_strMTLFileName,
+		std::string& p_strMaterialName,
+		std::string& p_strEventName)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_HUD_Popup") == 0);
@@ -111,17 +110,17 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "FontFile") == 0)
+			if (strcmp(szNodeName, "MTLFileName") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strFontFilePath);
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strMTLFileName);
+			}
+			else if (strcmp(szNodeName, "MaterialName") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "name", p_strMaterialName);
 			}
 			else if (strcmp(szNodeName, "Event") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "value", p_strEventName);
-			}
-			else if (strcmp(szNodeName, "Message") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "value", p_strMessage);
 			}
 		}
 	}

@@ -13,7 +13,6 @@
 #include "ComponentRenderable.h"
 #include "SceneManager.h"
 #include "EventManager.h"
-#include "TextBox.h"
 
 namespace Kartaclysm
 {
@@ -43,27 +42,26 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentHudPopup(
 			HeatStroke::GameObject* p_pGameObject,
-			const std::string& p_strFontFilePath,
-			const std::string& p_strEventName,
-			const std::string& p_strMessage
+			const std::string& p_strMTLFileName,
+			const std::string& p_strMaterialName,
+			const std::string& p_strEventName
 			);
 
 		virtual void ToggleCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strFontFilePath,
-			std::string& p_strEventName,
-			std::string& p_strMessage
+			std::string& p_strMTLFileName,
+			std::string& p_strMaterialName,
+			std::string& p_strEventName
 			);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 
-		HeatStroke::Font m_mFont;
-		HeatStroke::TextBox m_mTextBox;
-
+		std::string m_strPositionFilePrefix;
+		HeatStroke::Sprite m_mSprite;
 		std::string m_strEventName;
 		bool m_bDisplaying;
 
