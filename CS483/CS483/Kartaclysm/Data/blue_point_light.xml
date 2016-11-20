@@ -1,0 +1,9 @@
+<GameObject>
+  <Components>
+    <GOC_PointLight>
+      <Diffuse r="0.0" g="0.0" b="1.0"/>
+      <Attenuation constant="0.0" linear="0.1" quadratic="0.0"/>
+      <Range value="150.0"/>
+    </GOC_PointLight>
+  </Components>
+</GameObject>

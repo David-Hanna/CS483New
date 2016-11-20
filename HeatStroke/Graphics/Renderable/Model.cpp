@@ -131,16 +131,18 @@ void HeatStroke::Model::Render(const SceneCamera* p_pCamera)
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);
 
-	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * m_mWorldTransform;
+	const glm::mat4& mWorldTransform = m_mWorldTransform.GetTransform();
+
+	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorldTransform;
 	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetProjectionMatrix() * mWorldViewTransform;
-	glm::mat3 mWorldInverseTransposeTransform = glm::transpose(glm::inverse(glm::mat3(m_mWorldTransform)));
+	glm::mat3 mWorldInverseTransposeTransform = glm::transpose(glm::inverse(glm::mat3(mWorldTransform)));
 
 	std::vector<Mesh>::iterator meshIt = m_vMeshes.begin(), meshEnd = m_vMeshes.end();
 	for (; meshIt != meshEnd; meshIt++)
 	{
 		meshIt->m_pVertexDeclaration->Bind();
 
-		meshIt->m_pMaterial->SetUniform("WorldTransform", m_mWorldTransform);
+		meshIt->m_pMaterial->SetUniform("WorldTransform", mWorldTransform);
 		meshIt->m_pMaterial->SetUniform("WorldViewTransform", mWorldViewTransform);
 		meshIt->m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 		meshIt->m_pMaterial->SetUniform("WorldInverseTransposeTransform", mWorldInverseTransposeTransform);

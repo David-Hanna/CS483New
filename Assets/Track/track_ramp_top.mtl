@@ -1,4 +1,4 @@
-# Blender MTL File: 'track_straight.blend'
+# Blender MTL File: 'track_ramp_top.blend'
 # Material Count: 2
 
 newmtl grass
@@ -14,7 +14,7 @@ d 1.000000
 map_Kd Assets/Track/grass.tga
 illum 2
 
-newmtl pavement
+newmtl road
 vs Assets/Kart/kart.vsh
 fs Assets/Kart/kart.fsh
 Ns 96.078431

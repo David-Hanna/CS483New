@@ -1,0 +1,125 @@
+<GameObject>
+	<Components>
+		<GOC_Track>
+			<Name value="Noob Zone" />
+		</GOC_Track>
+	</Components>
+
+	<Children>
+		<GameObject guid="00" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="01" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="02" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="5.0" y="0.0" z="35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="03" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="04" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="30.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="05" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="45.0" y="0.0" z="35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="50.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="07" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="50.0" y="0.0" z="10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="08" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="50.0" y="0.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="09" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="50.0" y="0.0" z="-10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="10" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left.xml">
+			<Transform>
+				<Rotation angle="270.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="45.0" y="0.0" z="-25.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="11" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="30.0" y="0.0" z="-30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="12" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="-30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="13" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left.xml">
+			<Transform>
+				<Translation x="5.0" y="0.0" z="-25.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="14" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="-10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="finish" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_finish.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_1.xml">
+      <Transform>
+        <Translation x="-5.0" y="1.0" z="5.0" />
+        <Scale x="0.01" y="1" z="40" />
+      </Transform>      
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_1.xml">
+      <Transform>
+        <Translation x="55" y="1.0" z="5.0" />
+        <Scale x="0.01" y="1" z="40" />
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_2.xml">
+      <Transform>
+        <Translation x="25.0" y="1.0" z="45.0" />
+        <Scale x="30" y="1" z="0.01" />
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/test_wall_2.xml">
+      <Transform>
+        <Translation x="25.0" y="1.0" z="-35.0" />
+        <Scale x="30" y="1" z="0.01" />
+      </Transform>
+    </GameObject>
+	</Children>
+</GameObject>
