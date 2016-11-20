@@ -21,6 +21,7 @@
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentSampleAbility.h"
+#include "ComponentBoostAbility.h"
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"
 #include "ComponentTrack.h"

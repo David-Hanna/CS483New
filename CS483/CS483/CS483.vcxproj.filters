@@ -100,6 +100,12 @@
     <Filter Include="HeatStroke\Graphics\Font">
       <UniqueIdentifier>{c302e852-ea04-49aa-b023-fd1036a7e2a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Abilities">
+      <UniqueIdentifier>{80180ac7-8558-4a30-a6ed-a21b21e0b204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Tracks">
+      <UniqueIdentifier>{e40c632c-9332-48bb-8e99-7f64988f019c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -275,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,6 +506,9 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\kart.xml">
@@ -537,6 +549,24 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
       <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\test_track.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_finish.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_lturn.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_straight.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>

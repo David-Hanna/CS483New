@@ -60,10 +60,13 @@ namespace Kartaclysm
 		ComponentAbilityConditions(
 			HeatStroke::GameObject* p_pGameObject,
 			float p_fCooldown,
-			int p_iCharges,
-			bool p_bUseOnGround,
-			bool p_bUseInAir,
-			bool p_bUseWhileSpinningOut
+			int p_iCharges
+			);
+
+		static void ParseNode(
+			tinyxml2::XMLNode* p_pNode,
+			float& p_fCooldown,
+			int& p_iCharges
 			);
 
 		virtual void SendEventForHud() const;
@@ -76,6 +79,9 @@ namespace Kartaclysm
 		// Name for the event to send to the HUD
 		std::string m_strEventName;
 
+		// Only send one event per multiple calls
+		mutable bool m_bSendEvent;
+
 		// Cooldown
 		float	m_fMaxCooldown;
 		float	m_fCurrentCooldown;
@@ -83,11 +89,6 @@ namespace Kartaclysm
 		// Charges
 		int		m_iMaxCharges;
 		int		m_iCurrentCharges;
-
-		// Special conditions
-		bool	m_bUseOnGround;
-		bool	m_bUseInAir;
-		bool	m_bUseWhileSpinningOut;
 	};
 }
 

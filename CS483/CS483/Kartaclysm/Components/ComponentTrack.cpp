@@ -84,7 +84,7 @@ namespace Kartaclysm
 
 		UpdateRacerPositions();
 
-		PrintRacerPositions();
+		//PrintRacerPositions();
 	}
 
 	void ComponentTrack::OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent)
