@@ -7,15 +7,15 @@
     <!-- Kart Ability 1 -->
     <GameObject>
       <Transform>
-        <Scale x="6.0" y="6.0" z="1.0" />
+        <Scale x="10.0" y="10.0" z="1.0" />
         <Translation x="40.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="KartAbility1" />
-		      <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
-		      <MaterialName name="ability"/>
+		      <MTLFileName path="Assets/Hud/Abilities/boost.mtl"/>
+		      <MaterialName name="boost"/>
 	      </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -23,15 +23,15 @@
     <!-- Kart Ability 2 -->
     <GameObject>
       <Transform>
-        <Scale x="6.0" y="6.0" z="1.0" />
+        <Scale x="10.0" y="10.0" z="1.0" />
         <Translation x="55.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="KartAbility2" />
-          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
-          <MaterialName name="ability"/>
+          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
+          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -39,15 +39,15 @@
     <!-- Driver Ability 1 -->
     <GameObject>
       <Transform>
-        <Scale x="6.0" y="6.0" z="1.0" />
+        <Scale x="10.0" y="10.0" z="1.0" />
         <Translation x="70.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="DriverAbility1" />
-          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
-          <MaterialName name="ability"/>
+          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
+          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -55,15 +55,15 @@
     <!-- Driver Ability 2 -->
     <GameObject>
       <Transform>
-        <Scale x="6.0" y="6.0" z="1.0" />
+        <Scale x="10.0" y="10.0" z="1.0" />
         <Translation x="85.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="DriverAbility2" />
-          <MTLFileName path="Assets/Hud/Abilities/ability.mtl"/>
-          <MaterialName name="ability"/>
+          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
+          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -71,8 +71,8 @@
     <!-- Position -->
     <GameObject>
       <Transform>
-        <Scale x="6.0" y="6.0" z="1.0" />
-        <Translation x="-80.0" y="-80.0" z="0.0" />
+        <Scale x="10.0" y="10.0" z="1.0" />
+        <Translation x="-85.0" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Position>

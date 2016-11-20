@@ -20,7 +20,7 @@ namespace Kartaclysm
 		m_mFont(p_strFontFilePath),
 		m_mTextBox(&m_mFont, ""),
 		m_mActiveSprite(p_strMTLFileName, p_strMaterialName),
-		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_off.mtl", p_strMaterialName + "_off"),
+		m_mInactiveSprite(p_strMTLFileName.substr(0, p_strMTLFileName.find('.')) + "_inactive.mtl", p_strMaterialName + "_inactive"),
 		m_strEventName("Player0_" + p_strAbility + "_HUD"),
 		m_bReady(false),
 		m_bHasCharges(false)
@@ -93,13 +93,6 @@ namespace Kartaclysm
 		{
 			m_mInactiveSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 		}
-
-		if (m_bHasCharges)
-		{
-			m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
-				glm::scale(glm::vec3(0.05f, 0.05f, 0.0f)) *
-				glm::translate(glm::vec3(0.0f, 28.0f, 0.0f)));
-		}
 	}
 
 	void ComponentHudAbility::AbilityCallback(const HeatStroke::Event* p_pEvent)
@@ -147,6 +140,9 @@ namespace Kartaclysm
 			}
 
 			m_mTextBox.SetText(std::to_string(iCharges));
+			m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::scale(glm::vec3(0.05f, 0.05f, 0.0f)) *
+				glm::translate(glm::vec3(10.0f, 32.0f, 0.0f)));
 		}
 		else if (m_bHasCharges)
 		{
