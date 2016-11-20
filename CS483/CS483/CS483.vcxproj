@@ -124,6 +124,7 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentTrackPiece.cpp" />
     <ClCompile Include="Kartaclysm\KartGame.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentCameraController.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartController.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentTrackPiece.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
@@ -224,7 +226,9 @@
     <Xml Include="Kartaclysm\Data\test_wall_1.xml" />
     <Xml Include="Kartaclysm\Data\test_wall_2.xml" />
     <Xml Include="Kartaclysm\Data\track_finish.xml" />
-    <Xml Include="Kartaclysm\Data\track_straight.xml" />
+    <Xml Include="Kartaclysm\Data\track_straight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\track_turn_left.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\wall.xml" />

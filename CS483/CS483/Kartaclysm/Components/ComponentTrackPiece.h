@@ -31,7 +31,7 @@ namespace Kartaclysm
 			virtual void Update(const float p_fDelta) override;
 
 		protected:
-			ComponentTrackPiece(HeatStroke::GameObject* p_pGameObject /* parameters */);
+			ComponentTrackPiece(HeatStroke::GameObject* p_pGameObject, float p_fWidth, float p_fHeight);
 
 		private:
 			float m_fWidth;
