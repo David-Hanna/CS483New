@@ -8,7 +8,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "Transform.h"
 #include "Mesh.h"
 #include "OBJFile.h"
 #include "MTLFile.h"
@@ -32,12 +31,12 @@ namespace HeatStroke
 		virtual void Render(const SceneCamera* p_pCamera = nullptr) override;
 
 		std::vector<Mesh>&			GetMeshes()											{ return m_vMeshes; }
-		void						SetTransform(const Transform& p_mWorldTransform)	{ m_mWorldTransform = p_mWorldTransform; }
-		Transform&					GetTransform()										{ return m_mWorldTransform; }
+		void						SetTransform(const glm::mat4& p_mWorldTransform)	{ m_mWorldTransform = p_mWorldTransform; }
+		glm::mat4&					GetTransform()										{ return m_mWorldTransform; }
 
 	private:
 		std::vector<Mesh>					m_vMeshes;
-		Transform							m_mWorldTransform;
+		glm::mat4							m_mWorldTransform;
 	};
 }
 
