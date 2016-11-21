@@ -3,6 +3,9 @@
 		<GOC_3DModel>
 			<OBJFileName path="Assets/Track/track_turn_left_large.obj"/>
 		</GOC_3DModel>
+    <GOC_TrackPiece>
+      <Bounds widthX="20" widthZ="20"/>
+    </GOC_TrackPiece>
 	</Components>
 
 	<Tags>
