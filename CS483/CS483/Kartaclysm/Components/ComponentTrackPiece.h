@@ -30,12 +30,14 @@ namespace Kartaclysm
 			virtual void Init() override;
 			virtual void Update(const float p_fDelta) override;
 
+			bool CheckInBounds(glm::vec3 p_pPosition);
+
 		protected:
-			ComponentTrackPiece(HeatStroke::GameObject* p_pGameObject, float p_fWidth, float p_fHeight);
+			ComponentTrackPiece(HeatStroke::GameObject* p_pGameObject, float p_fWidthX, float p_fWidthZ);
 
 		private:
-			float m_fWidth;
-			float m_fHeight;
+			float m_fWidthX;
+			float m_fWidthZ;
 	};
 }
 

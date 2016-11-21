@@ -2,6 +2,7 @@
 
 #include "KeyboardInputBuffer.h"
 #include "EventManager.h"
+#include "ComponentTrackPiece.h"
 #include <iostream>
 
 namespace Kartaclysm
@@ -54,22 +55,31 @@ namespace Kartaclysm
 
 	void ComponentTrack::Update(const float p_fDelta)
 	{
-		// TODO: remove
-		// Matt: just here to simulate a racer going around the track
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_P))
+		// Iterate through track pieces to find which karts are located on them
+		for (unsigned int i = 0; i < m_vTrackPieces.size(); ++i)
 		{
-			int iRacerIndex = GetRacerIndex("Kart");
-			int iNextTrackIndex = GetNextTrackPieceIndex(m_vRacers[iRacerIndex].currentTrackPiece);
+			ComponentTrackPiece* trackComponent = (ComponentTrackPiece*)m_vTrackPieces[i]->GetComponent("GOC_TrackPiece");
 
-			HeatStroke::Event* pEvent = new HeatStroke::Event("RacerTrackPieceUpdated");
-			pEvent->SetStringParameter("racerId", m_vRacers[iRacerIndex].id);
-			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iNextTrackIndex]->GetGUID());
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			if (trackComponent != nullptr)
+			{
+				for (unsigned int j = 0; j < m_vRacers.size(); ++j)
+				{
+					HeatStroke::GameObject* racerObject = m_pGameObject->GetManager()->GetGameObject(m_vRacers[j].id);
+
+					if (trackComponent->CheckInBounds(racerObject->GetTransform().GetTranslation()))
+					{
+						HeatStroke::Event* pEvent = new HeatStroke::Event("RacerTrackPieceUpdated");
+						pEvent->SetStringParameter("racerId", m_vRacers[j].id);
+						pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[i]->GetGUID());
+						HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+					}
+				}
+			}
 		}
 
 		// TODO: remove
 		// Matt: just here to simulate an opponent going around the track
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_O))
+		/*if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_O))
 		{
 			int iRacerIndex = GetRacerIndex("Opponent");
 			int iNextTrackIndex = GetNextTrackPieceIndex(m_vRacers[iRacerIndex].currentTrackPiece);
@@ -80,7 +90,7 @@ namespace Kartaclysm
 			pEvent->SetStringParameter("racerId", m_vRacers[iRacerIndex].id);
 			pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[iNextTrackIndex]->GetGUID());
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-		}
+		}*/
 
 		UpdateRacerPositions();
 

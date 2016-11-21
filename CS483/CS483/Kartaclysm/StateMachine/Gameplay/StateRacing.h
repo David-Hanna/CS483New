@@ -24,6 +24,7 @@
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"
 #include "ComponentTrack.h"
+#include "ComponentTrackPiece.h"
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"
 #include "Common.h"
