@@ -83,6 +83,7 @@ namespace Kartaclysm
 		}
 
 		UpdateRacerPositions();
+		CheckRacerFacingForward();
 
 		//PrintRacerPositions();
 	}
@@ -175,6 +176,41 @@ namespace Kartaclysm
 				TriggerRacerPositionUpdateEvent(racerA.id);
 			}
 		}
+	}
+
+	// TODO: move to component of racer object once that is created
+	void ComponentTrack::CheckRacerFacingForward()
+	{
+		for (RacerData racer : m_vRacers)
+		{
+			glm::vec3 trackForwardDirection = DetermineTrackForwardDirection(racer.currentTrackPiece);
+			glm::vec3 racerForwardDirection = DetermineRacerForwardDirection(racer.id);
+
+			if (glm::dot(trackForwardDirection, racerForwardDirection) < 0.0f)
+			{
+				printf("%s: WRONG WAY DOWN A ONE WAY STREET\n", racer.id.c_str());
+			}
+		}
+	}
+
+	glm::vec3 ComponentTrack::DetermineTrackForwardDirection(int p_iTrackPieceIndex)
+	{
+		int iNextTrackPieceIndex = GetNextTrackPieceIndex(p_iTrackPieceIndex);
+
+		glm::vec3 vNextTrackPiecePos = m_vTrackPieces[iNextTrackPieceIndex]->GetTransform().GetTranslation();
+		glm::vec3 vCurrentTrackPiecePos = m_vTrackPieces[p_iTrackPieceIndex]->GetTransform().GetTranslation();
+
+		return vNextTrackPiecePos - vCurrentTrackPiecePos;
+	}
+
+	glm::vec3 ComponentTrack::DetermineRacerForwardDirection(const std::string& p_strRacerId)
+	{
+		HeatStroke::GameObject* pGameObject = m_pGameObject->GetManager()->GetGameObject(p_strRacerId);
+		HeatStroke::Transform pRacerTransform = pGameObject->GetTransform();
+
+		glm::vec3 vRacerForwardPosition = pRacerTransform.GetTranslation() + (pRacerTransform.GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
+
+		return vRacerForwardPosition - pRacerTransform.GetTranslation();
 	}
 
 	// TODO: clean this up

@@ -101,6 +101,9 @@ namespace HeatStroke
 		glm::quat m_qParentRotation;
 		glm::vec3 m_vParentTranslation;
 
+		// The overall translation of this object
+		mutable glm::vec3 m_vWorldTranslation;
+
 		// Parent transform reference
 		HierarchicalTransform* m_pParent;
 

@@ -18,6 +18,7 @@ namespace HeatStroke
 		m_vParentScale(1.0f, 1.0f, 1.0f),
 		m_qParentRotation(1.0f, 0.0f, 0.0f, 0.0f),
 		m_vParentTranslation(0.0f, 0.0f, 0.0f),
+		m_vWorldTranslation(0.0f, 0.0f, 0.0f),
 		m_pParent(nullptr),
 		m_vChildren()
 	{
@@ -130,10 +131,10 @@ namespace HeatStroke
 		if (m_bTransformDirty)
 		{
 			GetTransform();
-			m_vTranslation = glm::vec3(m_mTransform[3]);
+			m_vWorldTranslation = glm::vec3(m_mTransform[3]);
 		}
 
-		return m_vTranslation;
+		return m_vWorldTranslation;
 	}
 
 
