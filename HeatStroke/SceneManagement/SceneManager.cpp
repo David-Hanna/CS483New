@@ -336,7 +336,7 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 		return nullptr;
 	}
 
-	const glm::vec3& vTranslation = p_pModel->GetTransform().GetTranslation();
+	const glm::vec3& vTranslation = glm::vec3(p_pModel->GetTransform()[3]);
 
 	ScenePointLight* pClosestPointLight = m_lPointLightList[0];
 	float fClosestPointLightDistance = glm::distance(vTranslation, pClosestPointLight->GetPosition());

@@ -131,7 +131,7 @@ void HeatStroke::Model::Render(const SceneCamera* p_pCamera)
 	// Can't render without a camera.
 	assert(p_pCamera != nullptr);
 
-	const glm::mat4& mWorldTransform = m_mWorldTransform.GetTransform();
+	const glm::mat4& mWorldTransform = m_mWorldTransform;
 
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorldTransform;
 	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetProjectionMatrix() * mWorldViewTransform;
