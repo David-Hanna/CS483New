@@ -9,6 +9,7 @@
 #ifndef COMPONENT_TRACK_H
 #define COMPONENT_TRACK_H
 
+#include "ComponentKartController.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "Event.h"

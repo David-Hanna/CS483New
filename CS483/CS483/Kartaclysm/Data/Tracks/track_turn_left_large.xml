@@ -5,6 +5,7 @@
 		</GOC_3DModel>
     <GOC_TrackPiece>
       <Bounds widthX="20" widthZ="20"/>
+      <Height function="flat"/>
     </GOC_TrackPiece>
 	</Components>
 
