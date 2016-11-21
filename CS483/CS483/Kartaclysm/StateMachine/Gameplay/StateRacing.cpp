@@ -7,12 +7,6 @@
 
 #include "StateRacing.h"
 
-#include "Components\ComponentCameraController.h"
-#include "Components\ComponentKartController.h"
-#include "Components\ComponentTrack.h"
-#include "Components\ComponentSphereCollider.h"
-#include "Components\ComponentWallCollider.h"
-
 //------------------------------------------------------------------------------
 // Method:    StateRacing
 // Returns:   
@@ -227,9 +221,4 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 
 	// Push pause state
 	m_pStateMachine->Push(1, mContext);
-
-	// Tell the HUD to render a pause message
-	HeatStroke::Event* pHudEvent = new HeatStroke::Event("Pause_HUD");
-	pHudEvent->SetIntParameter("Display", 1);
-	HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
 }

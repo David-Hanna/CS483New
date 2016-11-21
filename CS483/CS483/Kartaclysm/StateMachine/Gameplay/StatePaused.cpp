@@ -43,6 +43,11 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 {
 	m_bSuspended = false;
 
+	// Tell the HUD to render a pause message
+	HeatStroke::Event* pHudEvent = new HeatStroke::Event("Pause_HUD");
+	pHudEvent->SetIntParameter("Display", 1);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
+
 	// Register listening for pause
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StatePaused::UnpauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);

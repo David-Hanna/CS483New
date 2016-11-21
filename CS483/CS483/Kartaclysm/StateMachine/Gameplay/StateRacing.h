@@ -17,6 +17,7 @@
 #include "ComponentPerspectiveCamera.h"
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
+#include "ComponentTrack.h"
 #include "ComponentSprite.h"
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
@@ -34,7 +35,6 @@
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "LineDrawer.h"
 
 namespace Kartaclysm
 {

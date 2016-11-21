@@ -19,9 +19,7 @@ namespace Kartaclysm
 		m_mSprite(p_strMTLFileName, p_strMaterialName),
 		m_strEventName(p_strEventName),
 		m_bDisplaying(false)
-	{
-		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPopup::ToggleCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
+	{	
 	}
 
 	ComponentHudPopup::~ComponentHudPopup()
@@ -69,6 +67,19 @@ namespace Kartaclysm
 			strMaterialName,
 			strEventName
 			);
+	}
+
+	void ComponentHudPopup::Init()
+	{
+		// Replace generic "PlayerX" found in XML to the proper player number ("Player0" as example)
+		std::size_t find = m_strEventName.find("PlayerX");
+		if (find != std::string::npos)
+		{
+			m_strEventName.replace(find, find + 8, GetGameObject()->GetParent()->GetGUID().substr(0, 8));
+		}
+
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPopup::ToggleCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	void ComponentHudPopup::SyncTransform()

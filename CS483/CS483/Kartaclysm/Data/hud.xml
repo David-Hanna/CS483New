@@ -84,13 +84,13 @@
     <!-- Race Timer -->
     <GameObject>
       <Transform>
-        <Translation x="80.0" y="95.0" z="0.0" />
+        <Translation x="78.0" y="95.0" z="0.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_RaceTimer>
-          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <LabelOffset value="-40.0"/>
+          <FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
+          <LabelOffset value="-42.0"/>
         </GOC_HUD_RaceTimer>
       </Components>
     </GameObject>
@@ -103,8 +103,8 @@
       </Transform>
       <Components>
         <GOC_HUD_LapCount>
-          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <LabelOffset value="-30.0"/>
+          <FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
+          <LabelOffset value="-33.0"/>
         </GOC_HUD_LapCount>
       </Components>
     </GameObject>
@@ -117,7 +117,7 @@
       </Transform>
       <Components>
         <GOC_HUD_Fps>
-          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
         </GOC_HUD_Fps>
       </Components>
     </GameObject>
@@ -126,13 +126,13 @@
     <GameObject>
       <Transform>
         <Translation x="0" y="30.0" z="0.0" />
-        <Scale x="16.0" y="16.0" z="1.0" />
+        <Scale x="20.0" y="20.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Popup>
           <MTLFileName path="Assets/Hud/Popups/wrong_way.mtl"/>
           <MaterialName name="wrong_way"/>
-          <Event value="Player0_HUD_WrongWay"/>
+          <Event value="PlayerX_HUD_WrongWay"/>
         </GOC_HUD_Popup>
       </Components>
     </GameObject>

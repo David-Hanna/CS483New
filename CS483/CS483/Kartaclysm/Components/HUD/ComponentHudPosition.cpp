@@ -83,7 +83,9 @@ namespace Kartaclysm
 		std::string strPosition = "position_" + std::to_string(iPosition);
 
 		// TO DO, not very efficient I imagine. Should have them memo-ized or stored for quick switching
+		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 		m_mSprite = HeatStroke::Sprite(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
+		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
 	}
 
 	void ComponentHudPosition::ParseNode(

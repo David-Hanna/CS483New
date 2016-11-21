@@ -186,10 +186,17 @@ namespace Kartaclysm
 			glm::vec3 trackForwardDirection = DetermineTrackForwardDirection(racer.currentTrackPiece);
 			glm::vec3 racerForwardDirection = DetermineRacerForwardDirection(racer.id);
 
+			// TO DO, handle event better (toggle it, don't send every frame) and don't hardcode it for Player0
+			HeatStroke::Event* pEvent = new HeatStroke::Event("Player0_HUD_WrongWay");
 			if (glm::dot(trackForwardDirection, racerForwardDirection) < 0.0f)
 			{
-				printf("%s: WRONG WAY DOWN A ONE WAY STREET\n", racer.id.c_str());
+				pEvent->SetIntParameter("Display", 1);
 			}
+			else
+			{
+				pEvent->SetIntParameter("Display", 0);
+			}
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
 
