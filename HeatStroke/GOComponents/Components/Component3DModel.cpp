@@ -53,7 +53,7 @@ HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
 
 void HeatStroke::Component3DModel::SyncTransform()
 {
-	m_mModel.SetTransform(this->GetGameObject()->GetTransform());
+	m_mModel.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 }
 
 void HeatStroke::Component3DModel::ParseNode(
