@@ -70,7 +70,7 @@ namespace Kartaclysm
 	void ComponentAbilityConditions::Init()
 	{
 		// TO DO, this is hardcoded for the first ability of the first player
-		m_strEventName = "Player0_KartAbility1_HUD";
+		m_strEventName = "Player0_HUD_KartAbility1";
 	}
 
 	void ComponentAbilityConditions::Update(const float p_fDelta)
@@ -79,6 +79,11 @@ namespace Kartaclysm
 		if (m_fMaxCooldown >= 0.0f && m_fCurrentCooldown > 0.0f)
 		{
 			m_fCurrentCooldown -= p_fDelta;
+
+			if (m_fCurrentCooldown <= 0.0f)
+			{
+				SendEventForHud();
+			}
 		}
 	}
 
@@ -95,7 +100,8 @@ namespace Kartaclysm
 		}
 
 		// TO DO, figure out the way to do special conditions (ground/air/spinning out)
-		// Will also need to update HUD with event based on special conditions
+
+		SendEventForHud();
 
 		return true;
 	}
@@ -106,11 +112,7 @@ namespace Kartaclysm
 		if (m_fMaxCooldown > 0.0f)
 		{
 			m_fCurrentCooldown = m_fMaxCooldown;
-
-			// Trigger event for HUD (needs to trigger now to stay synchronous)
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
-			pEvent->SetFloatParameter("Cooldown", m_fCurrentCooldown);
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			SendEventForHud();
 		}
 	}
 
@@ -120,11 +122,7 @@ namespace Kartaclysm
 		if (m_fMaxCooldown > 0.0f)
 		{
 			m_fCurrentCooldown = std::fminf(0.0f, m_fCurrentCooldown - p_fSeconds);
-
-			// Trigger event for HUD (needs to trigger now to stay synchronous)
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
-			pEvent->SetFloatParameter("Cooldown", m_fCurrentCooldown);
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			SendEventForHud();
 		}
 	}
 
@@ -133,11 +131,7 @@ namespace Kartaclysm
 		if (m_iCurrentCharges < m_iMaxCharges)
 		{
 			m_iCurrentCharges++;
-
-			// Queue event for HUD (can be asynchronous)
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
-			pEvent->SetIntParameter("Charges", m_iCurrentCharges);
-			HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
+			SendEventForHud();
 		}
 	}
 
@@ -146,11 +140,16 @@ namespace Kartaclysm
 		if (m_iCurrentCharges > 0)
 		{
 			m_iCurrentCharges--;
-
-			// Queue event for HUD (can be asynchronous)
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
-			pEvent->SetIntParameter("Charges", m_iCurrentCharges);
-			HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
+			SendEventForHud();
 		}
+	}
+
+	void ComponentAbilityConditions::SendEventForHud() const
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event(m_strEventName);
+		pEvent->SetFloatParameter("Cooldown", m_fCurrentCooldown);
+		pEvent->SetIntParameter("Charges", m_iCurrentCharges);
+		pEvent->SetIntParameter("MaxCharges", m_iMaxCharges);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }

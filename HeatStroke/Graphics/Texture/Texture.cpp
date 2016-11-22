@@ -49,7 +49,7 @@ namespace HeatStroke
 		}
 		else
 		{
-			printf("ERROR: No idea how to load this file - %s!", p_strFile.c_str());
+			printf("TEXTURE ERROR: No idea how to load this file - %s!\n", p_strFile.c_str());
 		}
 
 		SetWrapMode(WM_Clamp);
