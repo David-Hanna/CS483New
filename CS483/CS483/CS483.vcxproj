@@ -249,6 +249,8 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_small.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\wall.xml" />
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml" />
+    <Xml Include="Kartaclysm\Data\wall_northsouth.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

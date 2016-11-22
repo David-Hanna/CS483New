@@ -149,10 +149,11 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
+	//pKart->GetTransform().SetScaleXYZ(0.2f, 0.2f, 0.2f);
 
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
 
-	glm::vec3 offset = glm::vec3(0.0f, 2.5f, -5.0f);
+	glm::vec3 offset = glm::vec3(0.0f, 0.6f, -1.2f);
 
 	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
 	if (controller != nullptr)

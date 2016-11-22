@@ -622,8 +622,22 @@
     <Xml Include="Kartaclysm\Data\Tracks\trackpiece_straight.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Kartaclysm\Data\lines.fsh">
+      <Filter>Kartaclysm\Data</Filter>
+    </None>
+    <None Include="Kartaclysm\Data\lines.vsh">
+      <Filter>Kartaclysm\Data</Filter>
+    </None>
   </ItemGroup>
 </Project>
