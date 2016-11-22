@@ -52,8 +52,8 @@ namespace HeatStroke
 
 		void RegisterComponentFactory(const std::string& p_strComponentId, ComponentFactoryMethod);		
 
-		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "");
-		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "");
+		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "", GameObject* p_pParent = nullptr);
+		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "", GameObject* p_pParent = nullptr);
 
 		GameObject* GetGameObject(const std::string &p_strGameObjectGUID);
 

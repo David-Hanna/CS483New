@@ -7,7 +7,6 @@
 
 #include "StateRacing.h"
 
-
 //------------------------------------------------------------------------------
 // Method:    StateRacing
 // Returns:   
@@ -62,9 +61,16 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityConditions", ComponentAbilityConditions::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SampleAbility", ComponentSampleAbility::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Ability", ComponentHudAbility::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_RaceTimer", ComponentHudRaceTimer::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Position", ComponentHudPosition::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_LapCount", ComponentHudLapCount::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Fps", ComponentHudFps::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Popup", ComponentHudPopup::CreateComponent);
 
 	// Handle passed context parameters
 
@@ -162,11 +168,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	offset = offset + vKartPosition;
 
 	pCamera->GetTransform().SetTranslation(offset);
-
-	// FIX ME - move this into data.
-	HeatStroke::GameObject* pSprite = m_pGameObjectManager->GetGameObject("SampleSprite");
-	pSprite->GetTransform().SetTranslationXYZ(80.0f, 80.0f, 0.0f);
-	pSprite->GetTransform().SetScaleXYZ(20.0f, 20.0f, 1.0f);
 }
 
 //------------------------------------------------------------------------------

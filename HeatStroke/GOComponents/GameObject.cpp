@@ -46,6 +46,7 @@ GameObject::~GameObject()
 {
 	// TODO - I don't know what's happening, but it's started throwing errors again when trying to remove itself as a child from its parent.
 	//			I'm removing this for now so it doesn't throw errors, but I'll need to figure this out soon.
+
 	DeleteAllComponents();
 	DeleteAllChildren();
 }
