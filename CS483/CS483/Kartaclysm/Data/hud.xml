@@ -133,6 +133,7 @@
           <MTLFileName path="Assets/Hud/Popups/wrong_way.mtl"/>
           <MaterialName name="wrong_way"/>
           <Event value="PlayerX_HUD_WrongWay"/>
+          <Delay value="2.0"/>
         </GOC_HUD_Popup>
       </Components>
     </GameObject>

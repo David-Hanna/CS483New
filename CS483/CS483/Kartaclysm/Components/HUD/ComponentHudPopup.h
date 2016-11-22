@@ -33,7 +33,7 @@ namespace Kartaclysm
 			);
 
 		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override {}
+		virtual void Update(const float p_fDelta) override;
 		virtual void SyncTransform() override;
 
 	protected:
@@ -44,7 +44,8 @@ namespace Kartaclysm
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strMTLFileName,
 			const std::string& p_strMaterialName,
-			const std::string& p_strEventName
+			const std::string& p_strEventName,
+			float p_fDelay
 			);
 
 		virtual void ToggleCallback(const HeatStroke::Event* p_pEvent);
@@ -53,7 +54,8 @@ namespace Kartaclysm
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strMTLFileName,
 			std::string& p_strMaterialName,
-			std::string& p_strEventName
+			std::string& p_strEventName,
+			float& p_fDelay
 			);
 
 		//--------------------------------------------------------------------------
@@ -63,6 +65,9 @@ namespace Kartaclysm
 		std::string m_strPositionFilePrefix;
 		HeatStroke::Sprite m_mSprite;
 		std::string m_strEventName;
+
+		float m_fDelay;
+		float m_fWaitingToRender;
 		bool m_bDisplaying;
 
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;

@@ -13,12 +13,15 @@ namespace Kartaclysm
 		HeatStroke::GameObject* p_pGameObject,
 		const std::string& p_strMTLFileName,
 		const std::string& p_strMaterialName,
-		const std::string& p_strEventName
+		const std::string& p_strEventName,
+		float p_fDelay
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_mSprite(p_strMTLFileName, p_strMaterialName),
 		m_strEventName(p_strEventName),
-		m_bDisplaying(false)
+		m_bDisplaying(false),
+		m_fDelay(p_fDelay),
+		m_fWaitingToRender(0.0f)
 	{	
 	}
 
@@ -43,16 +46,17 @@ namespace Kartaclysm
 		std::string strMTLFileName("");
 		std::string strMaterialName("");
 		std::string strEventName("");
+		float fDelay = 0.0f;
 
 		// Parse the elements of the base node.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName);
+			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName, fDelay);
 		}
 		// Then override with the Override node.
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName);
+			ParseNode(p_pBaseNode, strMTLFileName, strMaterialName, strEventName, fDelay);
 		}
 
 		// Check that we got everything we needed.
@@ -65,7 +69,8 @@ namespace Kartaclysm
 			p_pGameObject,
 			strMTLFileName,
 			strMaterialName,
-			strEventName
+			strEventName,
+			fDelay
 			);
 	}
 
@@ -82,11 +87,24 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
+	void ComponentHudPopup::Update(const float p_fDelta)
+	{
+		// Update time to render until it surpasses the delay (if delay == 0.0f, handled in ToggleCallback instead)
+		if (m_bDisplaying && m_fWaitingToRender < m_fDelay)
+		{
+			m_fWaitingToRender += p_fDelta;
+
+			if (m_fWaitingToRender >= m_fDelay)
+			{
+				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+			}
+		}
+	}
+
 	void ComponentHudPopup::SyncTransform()
 	{
 		m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 	}
-
 
 	void ComponentHudPopup::ToggleCallback(const HeatStroke::Event* p_pEvent)
 	{
@@ -96,21 +114,26 @@ namespace Kartaclysm
 		if (iDisplay == 0)
 		{
 			m_bDisplaying = false;
+			m_fWaitingToRender = 0.0f;
 			HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
 		}
-		else if (!m_bDisplaying)
+		else
 		{
 			m_bDisplaying = true;
-			HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
-		}
 
+			if (m_fDelay == 0.0f)
+			{
+				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+			}
+		}
 	}
 
 	void ComponentHudPopup::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		std::string& p_strMTLFileName,
 		std::string& p_strMaterialName,
-		std::string& p_strEventName)
+		std::string& p_strEventName,
+		float& p_fDelay)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_HUD_Popup") == 0);
@@ -132,6 +155,10 @@ namespace Kartaclysm
 			else if (strcmp(szNodeName, "Event") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "value", p_strEventName);
+			}
+			else if (strcmp(szNodeName, "Delay") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDelay);
 			}
 		}
 	}
