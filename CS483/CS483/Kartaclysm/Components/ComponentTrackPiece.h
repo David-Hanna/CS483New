@@ -9,6 +9,7 @@
 #ifndef COMPONENT_TRACK_PIECE_H
 #define COMPONENT_TRACK_PIECE_H
 
+#include "Common.h"
 #include "Component.h"
 #include "GameObject.h"
 

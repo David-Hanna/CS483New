@@ -45,8 +45,8 @@ namespace Kartaclysm
 		}
 		else
 		{
-			HeatStroke::EasyXML::GetRequiredFloatAttribute(p_pBaseNode->FirstChildElement("Bounds"), "height1", fHeight1);
-			HeatStroke::EasyXML::GetRequiredFloatAttribute(p_pBaseNode->FirstChildElement("Bounds"), "height2", fHeight2);
+			HeatStroke::EasyXML::GetRequiredFloatAttribute(p_pBaseNode->FirstChildElement("Height"), "height1", fHeight1);
+			HeatStroke::EasyXML::GetRequiredFloatAttribute(p_pBaseNode->FirstChildElement("Height"), "height2", fHeight2);
 			
 			if (sHeightFunction.compare("linear") == 0)
 			{
@@ -104,14 +104,37 @@ namespace Kartaclysm
 	float ComponentTrackPiece::HeightAtPosition(glm::vec3 p_pPosition)
 	{
 		float baseHeight = m_pGameObject->GetTransform().GetTranslation().y;
+
+		if (m_eHeightFunction == Flat)
+		{
+			return baseHeight;
+		}
+
+		glm::vec3 checkPosition = p_pPosition;
+		checkPosition = checkPosition - m_pGameObject->GetTransform().GetTranslation();
+		checkPosition = checkPosition * -m_pGameObject->GetTransform().GetRotation();
+
+		float progress = 1.0f - ((checkPosition.x / m_fWidthX) + 0.5f);
 		
 		switch (m_eHeightFunction)
 		{
-			case Flat:
-				return baseHeight;
+			case Linear:
+				return baseHeight + m_fHeight1 + (m_fHeight2 * progress);
+				break;
+			case Sin1:
+				return baseHeight + m_fHeight1 + (m_fHeight2 * sinf(progress*(PI / 2.0f)));
+				break;
+			case Sin2:
+				return baseHeight + m_fHeight2 + (m_fHeight1 * sinf((PI / 2.0f) + (progress*(PI / 2.0f))));
+				break;
+			case Sin3:
+				return baseHeight + m_fHeight2 + (m_fHeight1 * (sinf(PI + (progress*(PI / 2.0f))) + 1.0f));
+				break;
+			case Sin4:
+				return baseHeight + m_fHeight1 + (m_fHeight2 * (sinf((PI * 1.5f) + (progress*(PI / 2.0f))) + 1.0f));
 				break;
 			default:
-				return 0.0f;
+				return baseHeight;
 				break;
 		}
 	}
