@@ -18,6 +18,7 @@
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
 #include "ComponentTrack.h"
+#include "ComponentTrackPiece.h"
 #include "ComponentSprite.h"
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
