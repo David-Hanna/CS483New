@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Track/track_ramp_bottom.obj"/>
+			<OBJFileName path="Assets/Track/track_ramp_flat_down.obj"/>
 		</GOC_3DModel>
     <GOC_TrackPiece>
       <Bounds widthX="10" widthZ="10"/>
