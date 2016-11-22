@@ -24,15 +24,17 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
-		Font(const std::string& p_strFontFile, const std::string& p_strTextureFilesPath);
+		Font(const std::string& p_strFontFile);
 		virtual ~Font();
 		virtual GLuint GetCharWidth(const GLchar& p_cCharID);
 		virtual GLuint GetCharHeight(const GLchar& p_cCharID);
 		virtual Texture* GetTextureForChar(const GLchar& p_cCharID);
 		virtual void GetMappingForChar(const GLchar& p_cCharID, GLfloat& p_fLeft, GLfloat& p_fRight, GLfloat& p_fTop, GLfloat& p_fBottom);
 
-		virtual std::string GetFontName() const { return m_strName; };
-		virtual GLuint GetFontSize() const { return m_uiSize; };
+		virtual const std::string& GetFontName() const				{ return m_strName; };
+		virtual GLuint GetFontSize() const							{ return m_uiSize; };
+		virtual const std::string& GetFragmentProgramPath() const	{ return m_strFragmentProgramPath; };
+		virtual const std::string& GetVertexProgramPath() const		{ return m_strVertexProgramPath; };
 		//-------------------------------------------------------------------------
 
 	private:
@@ -53,7 +55,7 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
 		//-------------------------------------------------------------------------
-		virtual void ReadFont(const std::string& p_strFile, const std::string& p_strTextureFilesPath);
+		virtual void ReadFont(const std::string& p_strFile);
 		//-------------------------------------------------------------------------
 
 		//-------------------------------------------------------------------------
@@ -61,6 +63,8 @@ namespace HeatStroke
 		//-------------------------------------------------------------------------
 		std::string							m_strName;
 		GLuint								m_uiSize;
+		std::string							m_strFragmentProgramPath;
+		std::string							m_strVertexProgramPath;
 		std::map<GLchar, TextureMapping*>	m_mMapping;
 		//-------------------------------------------------------------------------
 	};

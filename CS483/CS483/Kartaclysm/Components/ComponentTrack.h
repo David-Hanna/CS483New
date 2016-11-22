@@ -11,7 +11,7 @@
 
 #include "Component.h"
 #include "GameObject.h"
-#include "Event.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {

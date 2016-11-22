@@ -21,4 +21,6 @@ out vec4 FragmentColor;
 void main()
 {
     FragmentColor = texture(DiffuseTexture, v_uv1);
+	if (FragmentColor.a < 0.75f)
+		discard;
 }
