@@ -583,6 +583,12 @@
     <Xml Include="Kartaclysm\Data\Tracks\trackpiece_straight.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="Kartaclysm\Data\lines.fsh">
