@@ -62,6 +62,7 @@ namespace Kartaclysm
 		void UpdateTransform(float p_fHeightMod);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
+		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
 
 		void Boost(float p_fPower);
 
@@ -115,6 +116,7 @@ namespace Kartaclysm
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
 	};
 }
 

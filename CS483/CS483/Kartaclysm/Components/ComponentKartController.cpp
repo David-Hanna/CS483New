@@ -60,6 +60,9 @@ namespace Kartaclysm
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
 
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleAbilityEvent, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("AbilityUse", m_pAbilityDelegate);
+
 		m_pOutsideForce = glm::vec3();
 	}
 
@@ -356,6 +359,28 @@ namespace Kartaclysm
 
 			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
 			m_fSpeed *= m_fWallSlowdownStat;
+		}
+	}
+
+	void ComponentKartController::HandleAbilityEvent(const HeatStroke::Event* p_pEvent)
+	{
+		// TODO: make this use game objects (brad, ya dingus)
+		std::string originator;
+		p_pEvent->GetRequiredStringParameter("Originator", originator);
+
+		if (originator.compare("Player0") == 0)
+		{
+			// TODO: make this use enums or something
+			std::string ability;
+			p_pEvent->GetRequiredStringParameter("Ability", ability);
+
+			if (ability.compare("Boost") == 0)
+			{
+				float power;
+				p_pEvent->GetRequiredFloatParameter("Power", power);
+
+				Boost(power);
+			}
 		}
 	}
 }

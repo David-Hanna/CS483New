@@ -11,10 +11,10 @@ namespace Kartaclysm
 {
 	ComponentBoostAbility::ComponentBoostAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		int p_iStrength)
+		float p_fStrength)
 		:
 		ComponentAbility(p_pGameObject),
-		m_iStrength(p_iStrength)
+		m_fStrength(p_fStrength)
 	{
 	}
 
@@ -33,24 +33,24 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		int iStrength = 0;
+		float fStrength = 0.0f;
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, iStrength);
+			ParseNode(p_pBaseNode, fStrength);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, iStrength);
+			ParseNode(p_pOverrideNode, fStrength);
 		}
 
 		// Check that we got everything we needed.
-		assert(iStrength != 0);
+		assert(fStrength != 0.0f);
 
 		return new ComponentBoostAbility(
 			p_pGameObject,
-			iStrength
+			fStrength
 			);
 	}
 
@@ -71,17 +71,18 @@ namespace Kartaclysm
 		{
 			m_pConditions->ResetCooldown();
 
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strPlayerX + "_Ability");
+			//HeatStroke::Event* pEvent = new HeatStroke::Event(m_strPlayerX + "_Ability");
+			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
-			pEvent->SetIntParameter("MaxSpeed", m_iStrength);
-			pEvent->SetIntParameter("Acceleration", m_iStrength);
+			pEvent->SetStringParameter("Ability", "Boost");
+			pEvent->SetFloatParameter("Power", m_fStrength);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
 
 	void ComponentBoostAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		int& p_iStrength)
+		float& p_fStrength)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_BoostAbility") == 0);
@@ -94,7 +95,7 @@ namespace Kartaclysm
 
 			if (strcmp(szNodeName, "Strength") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStrength);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
 			}
 		}
 	}
