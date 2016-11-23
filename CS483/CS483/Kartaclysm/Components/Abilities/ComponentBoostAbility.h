@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------------
-// ComponentSampleAbility.h
+// ComponentBoostAbility.h
 // Author: Bradley Cooper
 //
-// Sample ability that does nothing: shows off Ability Conditions.
+// Speedster's ability to give a temporary speed boost.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_SAMPLE_ABILITY_H
-#define COMPONENT_SAMPLE_ABILITY_H
+#ifndef COMPONENT_BOOST_ABILITY_H
+#define COMPONENT_BOOST_ABILITY_H
 
 #include <tinyxml2.h>
 #include <string>
@@ -15,16 +15,16 @@
 
 namespace Kartaclysm
 {
-	class ComponentSampleAbility : public ComponentAbility
+	class ComponentBoostAbility : public ComponentAbility
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_SampleAbility"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_BoostAbility"; }
 
 		// Destruction.
-		virtual ~ComponentSampleAbility();
+		virtual ~ComponentBoostAbility();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -35,7 +35,7 @@ namespace Kartaclysm
 
 		// Game Loop methods.
 		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override;
+		virtual void Update(const float p_fDelta) override {}
 
 		// Required ability override
 		virtual void Activate() override;
@@ -44,16 +44,16 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentSampleAbility(
+		ComponentBoostAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fChargeCooldown
+			float p_fStrength
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& p_fChargeCooldown
+			float& m_fStrength
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,8 +61,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		// Every N seconds, add another charge
-		float m_fChargeCooldown;
+		float m_fStrength;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
@@ -72,4 +71,4 @@ namespace Kartaclysm
 	};
 }
 
-#endif // COMPONENT_ABILITY_CONDITIONS_H
+#endif // COMPONENT_BOOST_ABILITY_H
