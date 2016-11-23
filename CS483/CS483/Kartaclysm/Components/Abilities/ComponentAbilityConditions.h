@@ -63,13 +63,12 @@ namespace Kartaclysm
 			int p_iCharges
 			);
 
+		virtual void SendEventForHud() const;
+
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			float& p_fCooldown,
-			int& p_iCharges
-			);
-
-		virtual void SendEventForHud() const;
+			int& p_iCharges);
 
 		//--------------------------------------------------------------------------
 		// Protected variables

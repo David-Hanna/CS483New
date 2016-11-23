@@ -12,12 +12,12 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------
-	Font::Font(const std::string& p_strFontFile, const std::string& p_strTextureFilesPath) :
+	Font::Font(const std::string& p_strFontFile) :
 		m_strName(""),
 		m_uiSize(0),
 		m_mMapping()
 	{
-		ReadFont(p_strFontFile, p_strTextureFilesPath);
+		ReadFont(p_strFontFile);
 	}
 
 	//----------------------------------------------------------
@@ -34,9 +34,9 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	// Reads font mapping from .fnt file
 	//----------------------------------------------------------
-	void Font::ReadFont(const std::string& p_strFile, const std::string& p_strTextureFilesPath)
+	void Font::ReadFont(const std::string& p_strFile)
 	{
-		std::string strLine, strRead;
+		std::string strLine = "", strRead = "", strTexturesPath = "";
 		GLfloat fTextureWidth = 1.0f, fTextureHeight = 1.0f; //default values to avoid divide by zero
 		std::map<GLuint, std::string> mTextures;
 
@@ -107,7 +107,7 @@ namespace HeatStroke
 				GLuint uiPos = strRead.find('\"') + 1;
 				std::string strTextureFile = strRead.substr(uiPos, strRead.length() - uiPos - 1);
 
-				mTextures[uiPageID] = p_strTextureFilesPath + strTextureFile;
+				mTextures[uiPageID] = strTexturesPath + strTextureFile;
 			}
 			else if (strRead == "info")
 			{
@@ -134,6 +134,23 @@ namespace HeatStroke
 				//get height of all texture pages
 				std::getline(lineStream, strRead, ' ');
 				fTextureHeight = (float)atoi(strRead.substr(strRead.find('=') + 1).c_str());
+			}
+			else if (strRead == "paths")
+			{
+				//fragment shader path
+				std::getline(lineStream, strRead, ' ');
+				GLuint uiPos = strRead.find('\"') + 1;
+				m_strFragmentProgramPath = strRead.substr(uiPos, strRead.length() - uiPos - 1);
+
+				//vertex shader path
+				std::getline(lineStream, strRead, ' ');
+				uiPos = strRead.find('\"') + 1;
+				m_strVertexProgramPath = strRead.substr(uiPos, strRead.length() - uiPos - 1);
+
+				//textures path
+				std::getline(lineStream, strRead, ' ');
+				uiPos = strRead.find('\"') + 1;
+				strTexturesPath = strRead.substr(uiPos, strRead.length() - uiPos - 1);
 			}
 		}
 	}

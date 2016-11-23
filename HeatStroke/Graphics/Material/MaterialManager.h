@@ -41,7 +41,7 @@ class MaterialManager
 		{
 			Material*	m_pMat;
 			int			m_iRefCount;
-			Entry(Material* p_pMat) : m_pMat(p_pMat), m_iRefCount(0) {}
+			Entry(Material* p_pMat) : m_pMat(p_pMat), m_iRefCount(1) {}
 		};
 		//-------------------------------------------------------------------------
 

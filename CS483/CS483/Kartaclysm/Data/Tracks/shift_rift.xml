@@ -42,14 +42,15 @@
 				<Translation x="30.0" y="0.0" z="30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_top.xml">
+		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_down.xml">
 			<Transform>
 				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="40.0" y="-1.0" z="30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="07" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_bottom.xml">
+		<GameObject guid="07" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_down_flat.xml">
 			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="50.0" y="-2.0" z="30.0" />
 			</Transform>
 		</GameObject>
@@ -111,15 +112,15 @@
 				<Translation x="45.0" y="-2.0" z="-45.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="18" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_bottom.xml">
+		<GameObject guid="18" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
 			<Transform>
 				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="40.0" y="-2.0" z="-30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="19" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_top.xml">
+		<GameObject guid="19" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_up_flat.xml">
 			<Transform>
-				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="40.0" y="-1.0" z="-20.0" />
 			</Transform>
 		</GameObject>

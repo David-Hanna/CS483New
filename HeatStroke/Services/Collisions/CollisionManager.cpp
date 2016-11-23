@@ -149,10 +149,12 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	}
 
 	glm::vec3 normal = p_pCollider2->GetSurfaceNormal();
+	glm::quat rotation = p_pCollider2->GetGameObject()->GetTransform().GetRotation();
+	normal = normal * rotation;
 	glm::vec3 contactPoint;
 
 	// Find the contact point
-	if ((normal.x == 1.0f || normal.x == -1.0f) && normal.z == 0.0f)
+	if ((normal.x > 0.9f || normal.x < -0.9f) && abs(normal.z) < 0.1f)
 	{
 		glm::vec3 l1 = pos2 + glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
 		glm::vec3 l2 = pos2 - glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
@@ -170,7 +172,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 			contactPoint = glm::vec3(pos2.x, pos1.y, pos1.z);
 		}
 	}
-	else if ((normal.z == 1.0f || normal.z == -1.0f) && normal.x == 0.0f)
+	else if ((normal.z > 0.9f || normal.z < -0.9f) && abs(normal.x) < 0.1f)
 	{
 		glm::vec3 l1 = pos2 + glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);
 		glm::vec3 l2 = pos2 - glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);

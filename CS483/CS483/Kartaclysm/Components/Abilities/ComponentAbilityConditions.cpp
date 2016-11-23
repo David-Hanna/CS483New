@@ -19,7 +19,8 @@ namespace Kartaclysm
 		m_fMaxCooldown(p_fCooldown),
 		m_fCurrentCooldown(p_fCooldown),
 		m_iMaxCharges(p_iCharges),
-		m_iCurrentCharges(std::min(0, p_iCharges))
+		m_iCurrentCharges(std::min(0, p_iCharges)),
+		m_bSendEvent(false)
 	{
 	}
 

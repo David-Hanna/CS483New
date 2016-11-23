@@ -10,12 +10,11 @@
 #define SCENEMANAGER_H
 
 
-#include "Sprite.h"
-#include "SceneOrthographicCamera.h"
-
-#include "Model.h"
 #include "ScenePerspectiveCamera.h"
-
+#include "SceneOrthographicCamera.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "TextBox.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
 #include "ScenePointLight.h"
@@ -35,15 +34,19 @@ namespace HeatStroke
 		void RemoveModel(HeatStroke::Model* p_pModel);
 		void ClearModels();
 
+		void AddSprite(HeatStroke::Sprite* p_pSprite);
+		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
+		void ClearSprites();
+
+		void AddTextBox(HeatStroke::TextBox* p_pTextBox);
+		void RemoveTextBox(HeatStroke::TextBox* p_pTextBox);
+		void ClearTextBoxes();
+
 		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
 		void SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
 		ScenePerspectiveCamera* GetActivePerspectiveCamera();
 		void RemovePerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
 		void ClearPerspectiveCameras();
-
-		void AddSprite(HeatStroke::Sprite* p_pSprite);
-		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
-		void ClearSprites();
 
 		void AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera);
 		void SetActiveOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera);
@@ -66,10 +69,11 @@ namespace HeatStroke
 		void Render();
 
 	private:
-		typedef std::vector<Model*>						ModelList;
-		typedef std::vector<ScenePerspectiveCamera*>	PerspectiveCameraList;
+		typedef std::vector<Model*>					ModelList;
+		typedef std::vector<Sprite*>				SpriteList;
+		typedef std::vector<TextBox*>				TextBoxList;
 
-		typedef std::vector<Sprite*>					SpriteList;
+		typedef std::vector<ScenePerspectiveCamera*>	PerspectiveCameraList;
 		typedef std::vector<SceneOrthographicCamera*>	OrthographicCameraList;
 		
 		typedef std::vector<SceneAmbientLight*>			AmbientLightList;
@@ -81,10 +85,12 @@ namespace HeatStroke
 		GLFWwindow*				m_pWindow;
 
 		ModelList				m_lModelList;
+		SpriteList				m_lSpriteList;
+		TextBoxList				m_lTextBoxList;
+
 		PerspectiveCameraList	m_lPerspectiveCameras;
 		ScenePerspectiveCamera*	m_pActivePerspectiveCamera;
 
-		SpriteList				m_lSpriteList;
 		OrthographicCameraList  m_lOrthographicCameras;
 		SceneOrthographicCamera* m_pActiveOrthographicCamera;
 		
@@ -112,6 +118,9 @@ namespace HeatStroke
 
 		void RenderSprites();
 		void RenderSprite(Sprite* p_pSprite);
+
+		void RenderTextBoxes();
+		void RenderTextBox(TextBox* p_pTextBox);
 	};
 
 }

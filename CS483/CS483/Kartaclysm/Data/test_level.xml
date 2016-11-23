@@ -3,11 +3,15 @@
 
 <Level>
   <!-- Test Kart -->
-  <GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml"/>
+  <GameObject guid="Kart" definition="CS483/CS483/Kartaclysm/Data/kart.xml">
+    <Transform>
+      <Scale x="0.2" y="0.2" z="0.2" />
+    </Transform>
+  </GameObject>
 
   <!-- Test Wall -->
   <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
-
+  <GameObject guid="Player0_HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
 	<GameObject guid="Camera" definition="CS483/CS483/Kartaclysm/Data/camera.xml"/>
 	<GameObject guid="AmbientAndDirectionalLight" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
   <GameObject guid="RedPointLight" definition="CS483/CS483/Kartaclysm/Data/red_point_light.xml">
@@ -24,7 +28,7 @@
 	<GameObject guid="Opponent" definition="CS483/CS483/Kartaclysm/Data/opponent.xml">
 		<Transform>
 			<Translation x="0.0" y="0.0" z="1.0" />
+      <Scale x="0.2" y="0.2" z="0.2" />
 		</Transform>
 	</GameObject>
-	<GameObject guid="SampleSprite" definition="CS483/CS483/Kartaclysm/Data/sample_sprite.xml"/>
 </Level>
