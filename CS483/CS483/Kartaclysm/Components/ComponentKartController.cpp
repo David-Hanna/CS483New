@@ -316,7 +316,11 @@ namespace Kartaclysm
 
 	void ComponentKartController::Boost(float p_fPower)
 	{
-		//float base = m_fMaxSpeedStat * m_fSpeedScale;
+		if (m_fSpeed < m_fMaxSpeedStat * m_fSpeedScale * 0.5f)
+		{
+			m_fSpeed = m_fMaxSpeedStat * m_fSpeedScale * 0.5f;
+		}
+
 		float extra = (m_fMaxSpeedStat * m_fSpeedScale * p_fPower) - m_fSpeed;
 		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
 	}
