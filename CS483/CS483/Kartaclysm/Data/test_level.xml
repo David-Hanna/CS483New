@@ -8,9 +8,18 @@
   <!-- Test Wall -->
   <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
 
-	<GameObject guid="Camera" definition="CS483/CS483/Kartaclysm/Data/camera.xml"/>
+	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_full.xml"/-->
+	
+	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top.xml"/>
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom.xml"/-->
+
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_left.xml"/>
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_right.xml"/>
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_left.xml"/>
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/>
+
 	<GameObject guid="AmbientAndDirectionalLight" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
-  <GameObject guid="RedPointLight" definition="CS483/CS483/Kartaclysm/Data/red_point_light.xml">
+  	<!--GameObject guid="RedPointLight" definition="CS483/CS483/Kartaclysm/Data/red_point_light.xml">
 		<Transform>
 			<Translation x="0.0" y="5.0" z="0.0"/>
 		</Transform>
@@ -19,7 +28,7 @@
 		<Transform>
 			<Translation x="40.0" y="5.0" z="0.0"/>
 		</Transform>
-	</GameObject>
+	</GameObject-->
 	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/noob_zone.xml"/>
 	<GameObject guid="Opponent" definition="CS483/CS483/Kartaclysm/Data/opponent.xml">
 		<Transform>

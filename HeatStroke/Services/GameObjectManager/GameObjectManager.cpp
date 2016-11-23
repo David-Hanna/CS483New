@@ -194,6 +194,21 @@ GameObject* GameObjectManager::GetGameObject(const std::string &p_strGOGUID)
 	return pGameObject;
 }
 
+std::vector<GameObject*> GameObjectManager::GetGameObjectsByTag(const std::string& p_strGameObjectTag)
+{
+	std::vector<GameObject*> vResult;
+	GameObjectMap::iterator it = m_mGameObjectMap.begin(), end = m_mGameObjectMap.end();
+	for (; it != end; it++)
+	{
+		if (it->second->HasTag(p_strGameObjectTag))
+		{
+			vResult.push_back(it->second);
+		}
+	}
+
+	return vResult;
+}
+
 void GameObjectManager::DestroyGameObject(GameObject* p_pGameObject)
 {
 	m_vToDelete.insert(p_pGameObject);

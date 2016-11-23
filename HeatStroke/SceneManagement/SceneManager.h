@@ -27,28 +27,42 @@ namespace HeatStroke
 	class SceneManager
 	{
 	public:
+		enum SceneViewportSelection
+		{
+			SVS_FULL = 0,
+			SVS_TOP,
+			SVS_BOTTOM,
+			SVS_TOP_LEFT,
+			SVS_TOP_RIGHT,
+			SVS_BOTTOM_LEFT,
+			SVS_BOTTOM_RIGHT,
+			SVS_LENGTH,
+			SVS_INVALID
+		};
+
+		static SceneViewportSelection ParseViewportSelection(const std::string& p_strViewportSelection);
+
+	public:
 		static void CreateInstance(GLFWwindow* p_pWindow);
 		static void DestroyInstance();
 		static SceneManager* Instance();
+
+		GLFWwindow* GetWindow()	{ return m_pWindow; }
 
 		void AddModel(HeatStroke::Model* p_pModel);
 		void RemoveModel(HeatStroke::Model* p_pModel);
 		void ClearModels();
 
-		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
-		void SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
-		ScenePerspectiveCamera* GetActivePerspectiveCamera();
-		void RemovePerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection);
+		void RemovePerspectiveCamera(SceneViewportSelection p_eViewportSelection);
 		void ClearPerspectiveCameras();
 
 		void AddSprite(HeatStroke::Sprite* p_pSprite);
 		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
 		void ClearSprites();
 
-		void AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera);
-		void SetActiveOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera);
-		SceneOrthographicCamera* GetActiveOrthographicCamera();
-		void RemoveOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera);
+		void AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera, SceneViewportSelection p_eViewportSelection);
+		void RemoveOrthographicCamera(SceneViewportSelection p_eViewportSelection);
 		void ClearOrthographicCameras();
 
 		void AddAmbientLight(SceneAmbientLight* p_pAmbientLight);
@@ -67,10 +81,8 @@ namespace HeatStroke
 
 	private:
 		typedef std::vector<Model*>						ModelList;
-		typedef std::vector<ScenePerspectiveCamera*>	PerspectiveCameraList;
 
 		typedef std::vector<Sprite*>					SpriteList;
-		typedef std::vector<SceneOrthographicCamera*>	OrthographicCameraList;
 		
 		typedef std::vector<SceneAmbientLight*>			AmbientLightList;
 		typedef std::vector<SceneDirectionalLight*>		DirectionalLightList;
@@ -81,28 +93,22 @@ namespace HeatStroke
 		GLFWwindow*				m_pWindow;
 
 		ModelList				m_lModelList;
-		PerspectiveCameraList	m_lPerspectiveCameras;
-		ScenePerspectiveCamera*	m_pActivePerspectiveCamera;
+		ScenePerspectiveCamera*	m_lPerspectiveCameras[SVS_LENGTH];
 
 		SpriteList				m_lSpriteList;
-		OrthographicCameraList  m_lOrthographicCameras;
-		SceneOrthographicCamera* m_pActiveOrthographicCamera;
+		SceneOrthographicCamera* m_lOrthographicCameras[SVS_LENGTH];
 		
 		AmbientLightList		m_lAmbientLightList;
 		DirectionalLightList	m_lDirectionalLightList;
 		PointLightList			m_lPointLightList;
 
 	private:
-		SceneManager(GLFWwindow* p_pWindow) : 
-			m_pActivePerspectiveCamera(nullptr), 
-			m_pActiveOrthographicCamera(nullptr),
-			m_pWindow(p_pWindow) 
-		{}
+		SceneManager(GLFWwindow* p_pWindow);
 
 		virtual ~SceneManager() {}
 
-		void RenderModels();
-		void RenderModel(Model* p_pModel);
+		void RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera);
 		void SetModelLights(Model* p_pModel);
 		void SetMeshLights(Model* p_pModel, Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);
@@ -110,8 +116,8 @@ namespace HeatStroke
 		void SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh);
 		ScenePointLight* DetermineClosestPointLight(Model* p_pModel);
 
-		void RenderSprites();
-		void RenderSprite(Sprite* p_pSprite);
+		void RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera);
+		void RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);
 	};
 
 }

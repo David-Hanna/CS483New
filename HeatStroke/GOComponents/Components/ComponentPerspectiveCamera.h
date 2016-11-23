@@ -35,13 +35,12 @@ namespace HeatStroke
 		virtual void Init() override {}
 		virtual void Update(const float p_fDelta) override;
 
-		// Accessors
-		ScenePerspectiveCamera& GetScenePerspectiveCamera()	{ return m_mScenePerspectiveCamera; }
-		void					SetScenePerspectiveCamera(const ScenePerspectiveCamera& p_mScenePerspectiveCamera);
-
 	private:
 		// The Scene Camera this component is responsible for.
 		ScenePerspectiveCamera m_mScenePerspectiveCamera;
+
+		// The viewport the scene camera was placed in in the scene manager.
+		SceneManager::SceneViewportSelection m_eViewportSelection;
 
 		// If this Camera is targetting a Game Object, this will be non-null.
 		GameObject* m_pTargetGameObject;
@@ -50,6 +49,7 @@ namespace HeatStroke
 		// Prevent public construction.
 		ComponentPerspectiveCamera(
 			GameObject* p_pGameObject,
+			SceneManager::SceneViewportSelection p_eViewportSelection,
 			const float p_fFOV,
 			const float p_fAspectRatio,
 			const float p_fNearClip,
@@ -59,6 +59,7 @@ namespace HeatStroke
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
+			std::string& p_strViewportSelection,
 			float& p_fFOV,
 			float& p_fAspectRatioWidth,
 			float& p_fAspectRatioHeight,

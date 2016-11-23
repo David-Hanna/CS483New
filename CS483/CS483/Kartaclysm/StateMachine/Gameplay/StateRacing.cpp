@@ -143,8 +143,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 
-	HeatStroke::GameObject* pCamera = m_pGameObjectManager->GetGameObject("Camera");
-
+	
 	glm::vec3 offset = glm::vec3(0.0f, 2.5f, -5.0f);
 
 	ComponentKartController *controller = (ComponentKartController*)pKart->GetComponent("GOC_KartController");
@@ -159,7 +158,12 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
 	offset = offset + vKartPosition;
 
-	pCamera->GetTransform().SetTranslation(offset);
+	std::vector<HeatStroke::GameObject*> pCameras = m_pGameObjectManager->GetGameObjectsByTag("Camera");
+	std::vector<HeatStroke::GameObject*>::iterator it = pCameras.begin(), end = pCameras.end();
+	for (; it != end; it++)
+	{
+		(*it)->GetTransform().SetTranslation(offset);
+	}
 
 	// FIX ME - move this into data.
 	HeatStroke::GameObject* pSprite = m_pGameObjectManager->GetGameObject("SampleSprite");

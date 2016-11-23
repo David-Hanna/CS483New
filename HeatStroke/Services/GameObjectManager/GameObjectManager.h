@@ -18,6 +18,7 @@
 
 #include <map>
 #include <set>
+#include <vector>
 
 #include "GameObject.h"
 
@@ -55,7 +56,8 @@ namespace HeatStroke
 		GameObject* CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid = "");
 		GameObject* CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid = "");
 
-		GameObject* GetGameObject(const std::string &p_strGameObjectGUID);
+		GameObject*              GetGameObject(const std::string& p_strGameObjectGUID);
+		std::vector<GameObject*> GetGameObjectsByTag(const std::string& p_strGameObjectTag);
 
 		void DestroyGameObject(GameObject* p_pGameObject);
 		void DestroyAllGameObjects();

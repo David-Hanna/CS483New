@@ -8,14 +8,7 @@
 #include "SceneCamera.h"
 
 HeatStroke::SceneCamera::SceneCamera() :
-	m_vPosition(glm::vec3(0.0f, 0.0f, -5.0f)),
-	m_vTarget(glm::vec3(0.0f, 0.0f, 0.0f)),
-	m_vUp(glm::vec3(0.0f, 1.0f, 0.0f)),
-	m_bViewDirty(true),
-	m_bProjectionDirty(true),
-	m_mViewMatrix(),
-	m_mProjectionMatrix(),
-	m_mViewProjectionMatrix()
+	SceneCamera(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f))
 {
 }
 
