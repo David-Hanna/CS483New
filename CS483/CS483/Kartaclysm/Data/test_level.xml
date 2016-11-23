@@ -20,7 +20,7 @@
 	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_left.xml"/>
 	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_right.xml"/>
 	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_left.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/--
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/-->
 
   <GameObject guid="Player0_HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
 
