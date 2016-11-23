@@ -63,6 +63,8 @@ namespace Kartaclysm
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 
+		void Boost(float p_fPower);
+
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
@@ -96,6 +98,9 @@ namespace Kartaclysm
 		float m_fWallBumpStat = 0.01f;
 		float m_fWallSlowdownStat = 0.8f;
 		float m_fOutsideForceAccelerationStat = 0.6f;
+		float m_fSlideChargeAccelerationStat = 0.1f;
+		float m_fSlideChargeMaxStat = 1.0f;
+		float m_fSlideChargeThreshold = 0.5f;
 
 		float m_fGroundHeight = 0.0f;
 		float m_fSpeed = 0.0f;
@@ -106,6 +111,7 @@ namespace Kartaclysm
 		bool m_bSliding = false;
 		int m_iSlideDirection = 0;
 		float m_fSwerve = 0.0f;
+		float m_fSlideCharge = 0.0f;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

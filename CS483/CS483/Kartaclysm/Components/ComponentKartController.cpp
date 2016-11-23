@@ -42,6 +42,9 @@ namespace Kartaclysm
 		m_fWallBumpStat(0.15f),
 		m_fWallSlowdownStat(0.3f),
 		m_fOutsideForceAccelerationStat(0.92f),
+		m_fSlideChargeAccelerationStat(0.5f),
+		m_fSlideChargeMaxStat(1.0f),
+		m_fSlideChargeThreshold(0.2f),
 
 		m_fGroundHeight(0.04f),
 		m_fSpeed(0.0f),
@@ -51,7 +54,8 @@ namespace Kartaclysm
 		m_fVerticalSpeed(0.0f),
 		m_bSliding(false),
 		m_iSlideDirection(0),
-		m_fSwerve(0.0f)
+		m_fSwerve(0.0f),
+		m_fSlideCharge(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -178,6 +182,17 @@ namespace Kartaclysm
 			m_fTurnSpeed += fmin(m_fTurnAccelerationStat * fModifier * p_fDelta, fTurnTarget - m_fTurnSpeed);
 		}
 
+		// Update slide charge
+		if (m_bSliding)
+		{
+			m_fSlideCharge += abs(m_fTurnSpeed * m_fSlideChargeAccelerationStat * p_fDelta);
+
+			if (m_fSlideCharge > m_fSlideChargeMaxStat)
+			{
+				m_fSlideCharge = m_fSlideChargeMaxStat;
+			}
+		}
+
 		// Adjust kart direction based on the turn angle
 		m_fDirection += m_fTurnSpeed * p_fDelta;
 		if (m_fDirection < 0)
@@ -196,11 +211,6 @@ namespace Kartaclysm
 		{
 			fSwerveTarget *= 1.5f;
 		}
-
-		/*if (m_bSliding)
-		{
-			fSwerveTarget += 0.2f * m_iSlideDirection;
-		}*/
 
 		if (fSwerveTarget < m_fSwerve)
 		{
@@ -248,6 +258,7 @@ namespace Kartaclysm
 				{
 					m_bSliding = true;
 					m_iSlideDirection = 0;
+					m_fSlideCharge = 0.0f;
 				}
 			}
 		}
@@ -270,6 +281,7 @@ namespace Kartaclysm
 			{
 				m_bSliding = false;
 				m_iSlideDirection = 0;
+				m_fSlideCharge = 0.0f;
 			}
 
 			if (p_iSlideInput == 0)
@@ -277,7 +289,12 @@ namespace Kartaclysm
 				m_bSliding = false;
 				m_iSlideDirection = 0;
 
-				// TODO: BOOST HERE
+				if (m_fSlideCharge >= m_fSlideChargeThreshold)
+				{
+					Boost(1.0f + m_fSlideCharge);
+				}
+
+				m_fSlideCharge = 0.0f;
 			}
 		}
 	}
@@ -292,6 +309,13 @@ namespace Kartaclysm
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
+	}
+
+	void ComponentKartController::Boost(float p_fPower)
+	{
+		//float base = m_fMaxSpeedStat * m_fSpeedScale;
+		float extra = (m_fMaxSpeedStat * m_fSpeedScale * p_fPower) - m_fSpeed;
+		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
 	}
 
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
