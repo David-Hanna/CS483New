@@ -652,5 +652,30 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_ramp_up_flat.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml" />
+    <Xml Include="Kartaclysm\Data\camera_bottom.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_bottom_left.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_bottom_right.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_full.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_top.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_top_left.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\camera_top_right.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\test_level.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
