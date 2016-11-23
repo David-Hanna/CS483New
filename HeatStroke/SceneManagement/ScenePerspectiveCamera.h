@@ -11,6 +11,10 @@
 #include "SceneCamera.h"
 #include "Frustum.h"
 
+#ifdef _DEBUG
+#include "Common.h"
+#endif
+
 namespace HeatStroke
 {
 	class ScenePerspectiveCamera : public SceneCamera

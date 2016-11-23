@@ -3,9 +3,13 @@
 
 <GameObject>
   <Components>
-    <GOC_PerspectiveCamera>
+    <GOC_PerspectiveCamera viewport="full">
       <Target guid="Kart"/>
     </GOC_PerspectiveCamera>
-    <GOC_OrthographicCamera/>
+    <GOC_OrthographicCamera viewport="full"/>
   </Components>
+
+  <Tags>
+    <Tag value="Camera"/>
+  </Tags>
 </GameObject>

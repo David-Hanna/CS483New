@@ -10,6 +10,38 @@
 
 HeatStroke::SceneManager* HeatStroke::SceneManager::s_pSceneManagerInstance = nullptr;
 
+HeatStroke::SceneManager::SceneViewportSelection HeatStroke::SceneManager::ParseViewportSelection(const std::string& p_strViewportSelection)
+{
+	if (p_strViewportSelection == "full")
+		return SVS_FULL;
+	if (p_strViewportSelection == "top")
+		return SVS_TOP;
+	if (p_strViewportSelection == "bottom")
+		return SVS_BOTTOM;
+	if (p_strViewportSelection == "top_left")
+		return SVS_TOP_LEFT;
+	if (p_strViewportSelection == "top_right")
+		return SVS_TOP_RIGHT;
+	if (p_strViewportSelection == "bottom_left")
+		return SVS_BOTTOM_LEFT;
+	if (p_strViewportSelection == "bottom_right")
+		return SVS_BOTTOM_RIGHT;
+
+#ifdef _DEBUG
+	assert(false && "Invalid viewport selection.");
+#endif
+	return SVS_INVALID;
+}
+
+HeatStroke::SceneManager::SceneManager(GLFWwindow* p_pWindow) : m_pWindow(p_pWindow) 
+{
+	for (int i = 0; i < SVS_LENGTH; i++)
+	{
+		m_lPerspectiveCameras[i] = nullptr;
+		m_lOrthographicCameras[i] = nullptr;
+	}
+}
+
 void HeatStroke::SceneManager::CreateInstance(GLFWwindow* p_pWindow)
 {
 	assert(s_pSceneManagerInstance == nullptr);
@@ -27,6 +59,43 @@ HeatStroke::SceneManager* HeatStroke::SceneManager::Instance()
 {
 	assert(s_pSceneManagerInstance != nullptr);
 	return s_pSceneManagerInstance;
+}
+
+void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
+{
+	m_lModelList.push_back(p_pModel);
+}
+
+void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
+{
+	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
+	if (it != m_lModelList.end())
+	{
+		m_lModelList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearModels()
+{
+	m_lModelList.clear();
+}
+
+void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection)
+{
+	m_lPerspectiveCameras[p_eViewportSelection] = p_pPerspectiveCamera;
+}
+
+void HeatStroke::SceneManager::RemovePerspectiveCamera(SceneViewportSelection p_eViewportSelection)
+{
+	m_lPerspectiveCameras[p_eViewportSelection] = nullptr;
+}
+
+void HeatStroke::SceneManager::ClearPerspectiveCameras()
+{
+	for (int i = 0; i < SVS_LENGTH; i++)
+	{
+		m_lPerspectiveCameras[i] = nullptr;
+	}
 }
 
 void HeatStroke::SceneManager::AddSprite(HeatStroke::Sprite* p_pSprite)
@@ -67,135 +136,23 @@ void HeatStroke::SceneManager::ClearTextBoxes()
 	m_lTextBoxList.clear();
 }
 
-void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera)
+void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera, SceneViewportSelection p_eViewportSelection)
 {
-	m_lOrthographicCameras.push_back(p_pOrthographicCamera);
-
-	if (m_pActiveOrthographicCamera == nullptr)
-	{
-		m_pActiveOrthographicCamera = p_pOrthographicCamera;
-	}
+	m_lOrthographicCameras[p_eViewportSelection] = p_pOrthographicCamera;
 }
 
-void HeatStroke::SceneManager::SetActiveOrthographicCamera(SceneOrthographicCamera* p_pCamera)
+void HeatStroke::SceneManager::RemoveOrthographicCamera(SceneViewportSelection p_eViewportSelection)
 {
-	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
-
-	if (it == m_lOrthographicCameras.end())
-	{
-		m_lOrthographicCameras.push_back(p_pCamera);
-	}
-
-	m_pActiveOrthographicCamera = p_pCamera;
-}
-
-HeatStroke::SceneOrthographicCamera* HeatStroke::SceneManager::GetActiveOrthographicCamera()
-{
-	return m_pActiveOrthographicCamera;
-}
-
-void HeatStroke::SceneManager::RemoveOrthographicCamera(HeatStroke::SceneOrthographicCamera* p_pCamera)
-{
-	OrthographicCameraList::iterator it = std::find(m_lOrthographicCameras.begin(), m_lOrthographicCameras.end(), p_pCamera);
-
-	if (it != m_lOrthographicCameras.end())
-	{
-		m_lOrthographicCameras.erase(it);
-
-		if (p_pCamera == m_pActiveOrthographicCamera)
-		{
-			if (m_lOrthographicCameras.empty())
-			{
-				m_pActiveOrthographicCamera = nullptr;
-			}
-			else
-			{
-				m_pActiveOrthographicCamera = m_lOrthographicCameras[0];
-			}
-		}
-	}
+	m_lOrthographicCameras[p_eViewportSelection] = nullptr;
 }
 
 void HeatStroke::SceneManager::ClearOrthographicCameras()
 {
-	m_pActiveOrthographicCamera = nullptr;
-	m_lOrthographicCameras.clear();
-}
-
-void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
-{
-	m_lModelList.push_back(p_pModel);
-}
-
-void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
-{
-	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
-	if (it != m_lModelList.end())
+	for (int i = 0; i < SVS_LENGTH; i++)
 	{
-		m_lModelList.erase(it);
-	}	
-}
-
-void HeatStroke::SceneManager::ClearModels()
-{
-	m_lModelList.clear();
-}
-
-void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera)
-{
-	m_lPerspectiveCameras.push_back(p_pPerspectiveCamera);
-
-	if (m_pActivePerspectiveCamera == nullptr)
-	{
-		m_pActivePerspectiveCamera = p_pPerspectiveCamera;
+		m_lOrthographicCameras[i] = nullptr;
 	}
 }
-
-void HeatStroke::SceneManager::SetActivePerspectiveCamera(ScenePerspectiveCamera* p_pCamera)
-{
-	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
-
-	if (it == m_lPerspectiveCameras.end())
-	{
-		m_lPerspectiveCameras.push_back(p_pCamera);
-	}
-
-	m_pActivePerspectiveCamera = p_pCamera;
-}
-
-HeatStroke::ScenePerspectiveCamera* HeatStroke::SceneManager::GetActivePerspectiveCamera()
-{
-	return m_pActivePerspectiveCamera;
-}
-
-void HeatStroke::SceneManager::RemovePerspectiveCamera(HeatStroke::ScenePerspectiveCamera* p_pCamera)
-{
-	PerspectiveCameraList::iterator it = std::find(m_lPerspectiveCameras.begin(), m_lPerspectiveCameras.end(), p_pCamera);
-
-	if (it != m_lPerspectiveCameras.end())
-	{
-		m_lPerspectiveCameras.erase(it);
-
-		if (p_pCamera == m_pActivePerspectiveCamera)
-		{
-			if (m_lPerspectiveCameras.empty())
-			{
-				m_pActivePerspectiveCamera = nullptr;
-			}
-			else
-			{
-				m_pActivePerspectiveCamera = m_lPerspectiveCameras[0];
-			}
-		}
-	}
-}
-
-void HeatStroke::SceneManager::ClearPerspectiveCameras()
-{
-	m_pActivePerspectiveCamera = nullptr;
-	m_lPerspectiveCameras.clear();
-}
-
 
 void HeatStroke::SceneManager::AddAmbientLight(HeatStroke::SceneAmbientLight* p_pAmbientLight)
 {
@@ -256,31 +213,123 @@ void HeatStroke::SceneManager::ClearPointLights()
 
 void HeatStroke::SceneManager::Render()
 {
-	if (m_pActivePerspectiveCamera != nullptr)
+	int width, height;
+	glfwGetWindowSize(m_pWindow, &width, &height);
+	int halfWidth = width / 2;
+	int halfHeight = height / 2;
+
+	if (m_lPerspectiveCameras[SVS_FULL] != nullptr || m_lOrthographicCameras[SVS_FULL] != nullptr)
 	{
-		RenderModels();
+		glViewport(0, 0, width, height);
+		if (m_lPerspectiveCameras[SVS_FULL] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_FULL]);
+		}
+		if (m_lOrthographicCameras[SVS_FULL] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_FULL]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_FULL]);
+		}
 	}
 
-	if (m_pActiveOrthographicCamera != nullptr)
+	if (m_lPerspectiveCameras[SVS_TOP] != nullptr || m_lOrthographicCameras[SVS_TOP] != nullptr)
 	{
-		RenderSprites();
-		RenderTextBoxes();
+		glViewport(0, halfHeight, width, halfHeight);
+		if (m_lPerspectiveCameras[SVS_TOP] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_TOP]);
+		}
+		if (m_lOrthographicCameras[SVS_TOP] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_TOP]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_BOTTOM] != nullptr || m_lOrthographicCameras[SVS_BOTTOM] != nullptr)
+	{
+		glViewport(0, 0, width, halfHeight);
+		if (m_lPerspectiveCameras[SVS_BOTTOM] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM]);
+		}
+		if (m_lOrthographicCameras[SVS_BOTTOM] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_TOP_LEFT] != nullptr || m_lOrthographicCameras[SVS_TOP_LEFT] != nullptr)
+	{
+		glViewport(0, halfHeight, halfWidth, halfHeight);
+		if (m_lPerspectiveCameras[SVS_TOP_LEFT] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_TOP_LEFT]);
+		}
+		if (m_lOrthographicCameras[SVS_TOP_LEFT] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_TOP_LEFT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP_LEFT]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_TOP_RIGHT] != nullptr || m_lOrthographicCameras[SVS_TOP_RIGHT] != nullptr)
+	{
+		glViewport(halfWidth, halfHeight, halfWidth, halfHeight);
+		if (m_lPerspectiveCameras[SVS_TOP_RIGHT] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
+		}
+		if (m_lOrthographicCameras[SVS_TOP_RIGHT] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_TOP_RIGHT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP_RIGHT]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_BOTTOM_LEFT] != nullptr || m_lOrthographicCameras[SVS_BOTTOM_LEFT] != nullptr)
+	{
+		glViewport(0, 0, halfWidth, halfHeight);
+		if (m_lPerspectiveCameras[SVS_BOTTOM_LEFT] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
+		}
+		if (m_lOrthographicCameras[SVS_BOTTOM_LEFT] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM_LEFT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM_LEFT]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_BOTTOM_RIGHT] != nullptr || m_lOrthographicCameras[SVS_BOTTOM_RIGHT] != nullptr)
+	{
+		glViewport(halfWidth, 0, halfWidth, halfHeight);
+		if (m_lPerspectiveCameras[SVS_BOTTOM_RIGHT] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
+		}
+		if (m_lOrthographicCameras[SVS_BOTTOM_RIGHT] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
+		}
 	}
 }
 
-void HeatStroke::SceneManager::RenderModels()
+void HeatStroke::SceneManager::RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		RenderModel(*it);
+		RenderModel(*it, p_pPerspectiveCamera);
 	}
 }
 
-void HeatStroke::SceneManager::RenderModel(Model* p_pModel)
+void HeatStroke::SceneManager::RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
 	SetModelLights(p_pModel);
-	p_pModel->Render(m_pActivePerspectiveCamera);
+	p_pModel->Render(p_pPerspectiveCamera);
 }
 
 void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
@@ -306,6 +355,10 @@ void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
 	{
 		p_pMesh->m_pMaterial->SetUniform("AmbientLightColor", m_lAmbientLightList[0]->GetColor());
 	}
+	else
+	{
+		p_pMesh->m_pMaterial->SetUniform("AmbientLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+	}
 }
 
 void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
@@ -314,6 +367,11 @@ void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
 	{
 		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDirection", m_lDirectionalLightList[0]->GetDirection());
 		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", m_lDirectionalLightList[0]->GetColor());
+	}
+	else
+	{
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDirection", glm::vec3(0.0f, 1.0f, 0.0f));
+		p_pMesh->m_pMaterial->SetUniform("DirectionalLightDiffuseColor", glm::vec3(0.0f, 0.0f, 0.0f));
 	}
 }
 
@@ -326,6 +384,13 @@ void HeatStroke::SceneManager::SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh)
 		p_pMesh->m_pMaterial->SetUniform("PointLightDiffuseColor", pPointLight->GetDiffuse());
 		p_pMesh->m_pMaterial->SetUniform("PointLightAttenuation", pPointLight->GetAttenuation());
 		p_pMesh->m_pMaterial->SetUniform("PointLightRange", pPointLight->GetRange());
+	}
+	else
+	{
+		p_pMesh->m_pMaterial->SetUniform("PointLightPosition", glm::vec3(0.0f, 0.0f, 0.0f));
+		p_pMesh->m_pMaterial->SetUniform("PointLightDiffuseColor", glm::vec3(0.0f, 0.0f, 0.0f));
+		p_pMesh->m_pMaterial->SetUniform("PointLightAttenuation", glm::vec3(0.0f, 0.0f, 1.0f));
+		p_pMesh->m_pMaterial->SetUniform("PointLightRange", 0.0f);
 	}
 }
 
@@ -355,30 +420,30 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 	return pClosestPointLight;
 }
 
-void HeatStroke::SceneManager::RenderSprites()
+void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera)
 {
 	SpriteList::iterator it = m_lSpriteList.begin(), end = m_lSpriteList.end();
 	for (; it != end; ++it)
 	{
-		RenderSprite(*it);
+		RenderSprite(*it, p_pOrthographicCamera);
 	}
 }
 
-void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite)
+void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera)
 {
-	p_pSprite->Render(m_pActiveOrthographicCamera);
+	p_pSprite->Render(p_pOrthographicCamera);
 }
 
-void HeatStroke::SceneManager::RenderTextBoxes()
+void HeatStroke::SceneManager::RenderTextBoxes(const SceneOrthographicCamera* p_pOrthographicCamera)
 {
 	TextBoxList::iterator it = m_lTextBoxList.begin(), end = m_lTextBoxList.end();
 	for (; it != end; ++it)
 	{
-		RenderTextBox(*it);
+		RenderTextBox(*it, p_pOrthographicCamera);
 	}
 }
 
-void HeatStroke::SceneManager::RenderTextBox(TextBox* p_pTextBox)
+void HeatStroke::SceneManager::RenderTextBox(TextBox* p_pTextBox, const SceneOrthographicCamera* p_pOrthographicCamera)
 {
-	p_pTextBox->Render(m_pActiveOrthographicCamera);
+	p_pTextBox->Render(p_pOrthographicCamera);
 }
