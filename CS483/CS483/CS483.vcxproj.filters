@@ -568,9 +568,6 @@
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\camera.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\kart.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>

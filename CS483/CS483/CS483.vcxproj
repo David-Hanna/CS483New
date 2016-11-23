@@ -239,7 +239,9 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
-    <Xml Include="Kartaclysm\Data\kart.xml" />
+    <Xml Include="Kartaclysm\Data\kart.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\light.xml" />
     <Xml Include="Kartaclysm\Data\opponent.xml" />
     <Xml Include="Kartaclysm\Data\red_point_light.xml" />
