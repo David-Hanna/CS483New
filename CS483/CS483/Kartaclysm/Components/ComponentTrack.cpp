@@ -1,9 +1,9 @@
 #include "ComponentTrack.h"
 
-#include "KeyboardInputBuffer.h"
+//#include "KeyboardInputBuffer.h"
 #include "EventManager.h"
 #include "ComponentTrackPiece.h"
-#include <iostream>
+//#include <iostream>
 
 namespace Kartaclysm
 {
@@ -123,6 +123,14 @@ namespace Kartaclysm
 		else if (iTrackPieceIndex == m_vRacers[iRacerIndex].currentTrackPiece + 1)
 		{
 			m_vRacers[iRacerIndex].currentTrackPiece = iTrackPieceIndex;
+		}
+
+		// update track height for racer
+		ComponentKartController* kartController = (ComponentKartController*)m_pGameObject->GetManager()->GetGameObject(strRacerId)->GetComponent("GOC_KartController");
+		ComponentTrackPiece* trackPiece = (ComponentTrackPiece*)m_pGameObject->GetManager()->GetGameObject(strTrackPieceId)->GetComponent("GOC_TrackPiece");
+		if (kartController != nullptr && trackPiece != nullptr)
+		{
+			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
 		}
 	}
 

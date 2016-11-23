@@ -245,9 +245,15 @@
     <Xml Include="Kartaclysm\Data\Tracks\trackpiece_lturn.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\trackpiece_straight.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_finish.xml" />
-    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_bottom.xml" />
-    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_top.xml" />
-    <Xml Include="Kartaclysm\Data\Tracks\track_straight.xml" />
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_down_flat.xml" />
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_flat_down.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_flat_up.xml" />
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_up_flat.xml" />
+    <Xml Include="Kartaclysm\Data\Tracks\track_straight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_left_large.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_left_small.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_small.xml" />
