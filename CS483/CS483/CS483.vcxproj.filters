@@ -106,6 +106,12 @@
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{3aa6de3a-9cb0-421a-b5c0-d7235f3e89b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Abilities">
+      <UniqueIdentifier>{80180ac7-8558-4a30-a6ed-a21b21e0b204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Tracks">
+      <UniqueIdentifier>{e40c632c-9332-48bb-8e99-7f64988f019c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -305,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentTrackPiece.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,6 +560,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentTrackPiece.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
@@ -619,8 +631,11 @@
     <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
-      <Filter>Kartaclysm\Data</Filter>
+    <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>

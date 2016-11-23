@@ -1,0 +1,22 @@
+<!-- Boost ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+  
+    <GOC_AbilityConditions>
+      <Cooldown value="10.0" />
+      <Charges value="-1" />
+    </GOC_AbilityConditions>
+
+    <GOC_BoostAbility>
+      <Strength value="2" />
+    </GOC_BoostAbility>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Ability"/>
+  </Tags>
+</GameObject>
