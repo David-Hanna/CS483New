@@ -115,8 +115,7 @@ HeatStroke::Model::~Model()
 		HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
 		DELETE_IF(meshIt->m_pVertexDeclaration);
 
-		// TODO: crash here, must fix
-		//HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
+		HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
 	}
 }
 
