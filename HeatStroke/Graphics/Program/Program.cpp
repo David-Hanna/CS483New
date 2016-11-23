@@ -307,7 +307,8 @@ namespace HeatStroke
 			GLchar* pLog = (GLchar *)malloc(iLogLength);
 			glGetShaderInfoLog(*p_pShader, iLogLength, &iLogLength, pLog);
 			GL_CHECK_ERROR(__FILE__, __LINE__);
-			printf("Shader compile log:\n%s\n", pLog);
+			if (pLog[0] != '\0')
+				printf("Shader compile log:\n%s\n", pLog);
 			free(pLog);
 		}
 	#endif
@@ -345,7 +346,8 @@ namespace HeatStroke
 			GLchar* pLog = (GLchar *)malloc(iLogLength);
 			glGetProgramInfoLog(m_uiProgram, iLogLength, &iLogLength, pLog);
 			GL_CHECK_ERROR(__FILE__, __LINE__);
-			printf("Program link log:\n%s\n", pLog);
+			if (pLog[0] != '\0')
+				printf("Program link log:\n%s\n", pLog);
 			free(pLog);
 		}
 	#endif

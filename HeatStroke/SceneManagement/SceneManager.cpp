@@ -117,6 +117,25 @@ void HeatStroke::SceneManager::ClearSprites()
 	m_lSpriteList.clear();
 }
 
+void HeatStroke::SceneManager::AddTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	m_lTextBoxList.push_back(p_pTextBox);
+}
+
+void HeatStroke::SceneManager::RemoveTextBox(HeatStroke::TextBox* p_pTextBox)
+{
+	TextBoxList::iterator it = std::find(m_lTextBoxList.begin(), m_lTextBoxList.end(), p_pTextBox);
+	if (it != m_lTextBoxList.end())
+	{
+		m_lTextBoxList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearTextBoxes()
+{
+	m_lTextBoxList.clear();
+}
+
 void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera, SceneViewportSelection p_eViewportSelection)
 {
 	m_lOrthographicCameras[p_eViewportSelection] = p_pOrthographicCamera;
@@ -209,6 +228,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_FULL] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_FULL]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_FULL]);
 		}
 	}
 
@@ -222,6 +242,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_TOP] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_TOP]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP]);
 		}
 	}
 
@@ -235,6 +256,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_BOTTOM] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM]);
 		}
 	}
 
@@ -248,6 +270,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_TOP_LEFT] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_TOP_LEFT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP_LEFT]);
 		}
 	}
 
@@ -261,6 +284,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_TOP_RIGHT] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_TOP_RIGHT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_TOP_RIGHT]);
 		}
 	}
 
@@ -274,6 +298,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_BOTTOM_LEFT] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM_LEFT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM_LEFT]);
 		}
 	}
 
@@ -287,6 +312,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lOrthographicCameras[SVS_BOTTOM_RIGHT] != nullptr)
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
 		}
 	}
 }
@@ -375,7 +401,7 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 		return nullptr;
 	}
 
-	const glm::vec3& vTranslation = p_pModel->GetTransform().GetTranslation();
+	const glm::vec3& vTranslation = glm::vec3(p_pModel->GetTransform()[3]);
 
 	ScenePointLight* pClosestPointLight = m_lPointLightList[0];
 	float fClosestPointLightDistance = glm::distance(vTranslation, pClosestPointLight->GetPosition());
@@ -406,4 +432,18 @@ void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pO
 void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera)
 {
 	p_pSprite->Render(p_pOrthographicCamera);
+}
+
+void HeatStroke::SceneManager::RenderTextBoxes(const SceneOrthographicCamera* p_pOrthographicCamera)
+{
+	TextBoxList::iterator it = m_lTextBoxList.begin(), end = m_lTextBoxList.end();
+	for (; it != end; ++it)
+	{
+		RenderTextBox(*it, p_pOrthographicCamera);
+	}
+}
+
+void HeatStroke::SceneManager::RenderTextBox(TextBox* p_pTextBox, const SceneOrthographicCamera* p_pOrthographicCamera)
+{
+	p_pTextBox->Render(p_pOrthographicCamera);
 }

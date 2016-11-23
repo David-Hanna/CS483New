@@ -18,12 +18,13 @@ namespace Kartaclysm
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(0), // TO DO, handle this number better
 
-		m_fSpeedScale(0.02f),
+		m_fHeightAboveGroundStat(0.04f),
+		m_fSpeedScale(0.024f),
 		m_fVerticalSpeedScale(0.02f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
-		m_fAccelerationStat(2.0f),
-		m_fReverseAccelerationStat(2.0f),
+		m_fAccelerationStat(1.2f),
+		m_fReverseAccelerationStat(1.2f),
 		m_fAccelerationFrictionStat(2.0f),
 		m_fSpeedWhileTurningStat(0.8f),
 		m_fSpeedWhileSlidingMinStat(0.95f),
@@ -38,11 +39,11 @@ namespace Kartaclysm
 		m_fPeakTurnRatio(0.2f),
 		m_fSwerveTurnModifier(0.35f),
 		m_fSwerveAccelerationStat(2.0f),
-		m_fWallBumpStat(0.5f),
+		m_fWallBumpStat(0.15f),
 		m_fWallSlowdownStat(0.3f),
 		m_fOutsideForceAccelerationStat(0.92f),
 
-		m_fGroundHeight(0.2f),
+		m_fGroundHeight(0.04f),
 		m_fSpeed(0.0f),
 		m_fDirection(0.0f),
 		m_fTurnSpeed(0.0f),
@@ -215,6 +216,19 @@ namespace Kartaclysm
 	{
 		// How much the kart moves vertically this frame
 		float fHeightMod = 0.0f;
+
+		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
+
+		// Handle changes in ground height
+		if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight)
+		{
+			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
+			m_bAirborne = false;
+		}
+		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight)
+		{
+			m_bAirborne = true;
+		}
 		
 		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
@@ -222,9 +236,9 @@ namespace Kartaclysm
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
 			fHeightMod = m_fVerticalSpeed;
 
-			if (m_fGroundHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
+			if (fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
 			{
-				fHeightMod = m_fGroundHeight - m_pGameObject->GetTransform().GetTranslation().y;
+				fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
 				m_fVerticalSpeed = 0.0f;
 				m_fSpeed *= 0.99f;
 				m_bAirborne = false;

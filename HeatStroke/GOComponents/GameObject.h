@@ -51,12 +51,14 @@ namespace HeatStroke
 		Component* RemoveComponent(const std::string &p_strFamilyId);
 		void DeleteAllComponents();
 
+		// Hierarchy management
 		void AddChild(GameObject* p_pChild);
 		void SetParent(GameObject* p_pParent);
 		GameObject* RemoveChild(const std::string& p_strChildGuid);
 		GameObject* GetChild(const std::string& p_strChildGuid);
 		std::vector<GameObject*> GetChildren();
 		void DeleteAllChildren();
+		const GameObject* GetParent() const				{ return m_pParent; }
 
 		// Tag management
 		void AddTag(const std::string& p_strTag)		{ m_mTagList.insert(p_strTag); }

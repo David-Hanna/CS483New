@@ -10,12 +10,11 @@
 #define SCENEMANAGER_H
 
 
-#include "Sprite.h"
-#include "SceneOrthographicCamera.h"
-
-#include "Model.h"
 #include "ScenePerspectiveCamera.h"
-
+#include "SceneOrthographicCamera.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "TextBox.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
 #include "ScenePointLight.h"
@@ -61,6 +60,10 @@ namespace HeatStroke
 		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
 		void ClearSprites();
 
+		void AddTextBox(HeatStroke::TextBox* p_pTextBox);
+		void RemoveTextBox(HeatStroke::TextBox* p_pTextBox);
+		void ClearTextBoxes();
+
 		void AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera, SceneViewportSelection p_eViewportSelection);
 		void RemoveOrthographicCamera(SceneViewportSelection p_eViewportSelection);
 		void ClearOrthographicCameras();
@@ -80,9 +83,9 @@ namespace HeatStroke
 		void Render();
 
 	private:
-		typedef std::vector<Model*>						ModelList;
-
-		typedef std::vector<Sprite*>					SpriteList;
+		typedef std::vector<Model*>					ModelList;
+		typedef std::vector<Sprite*>				SpriteList;
+		typedef std::vector<TextBox*>				TextBoxList;
 		
 		typedef std::vector<SceneAmbientLight*>			AmbientLightList;
 		typedef std::vector<SceneDirectionalLight*>		DirectionalLightList;
@@ -96,6 +99,7 @@ namespace HeatStroke
 		ScenePerspectiveCamera*	m_lPerspectiveCameras[SVS_LENGTH];
 
 		SpriteList				m_lSpriteList;
+		TextBoxList				m_lTextBoxList;
 		SceneOrthographicCamera* m_lOrthographicCameras[SVS_LENGTH];
 		
 		AmbientLightList		m_lAmbientLightList;
@@ -118,8 +122,10 @@ namespace HeatStroke
 
 		void RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera);
 		void RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);
-	};
 
+		void RenderTextBoxes(const SceneOrthographicCamera* p_pOrthographicCamera);
+		void RenderTextBox(TextBox* p_pTextBox, const SceneOrthographicCamera* p_pOrthographicCamera);
+	};
 }
 
 #endif

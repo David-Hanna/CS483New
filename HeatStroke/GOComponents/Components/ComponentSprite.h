@@ -45,7 +45,7 @@ namespace HeatStroke
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strOBJFileName,
+			std::string& p_strMTLFileName,
 			std::string& p_strMaterialName
 		);
 	};

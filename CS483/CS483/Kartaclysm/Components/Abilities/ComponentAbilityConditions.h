@@ -66,6 +66,8 @@ namespace Kartaclysm
 			bool p_bUseWhileSpinningOut
 			);
 
+		virtual void SendEventForHud() const;
+
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------

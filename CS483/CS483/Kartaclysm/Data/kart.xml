@@ -3,7 +3,7 @@
 
 <GameObject>
   <Transform>
-    <Translation x="0.0" y="0.2" z="0.0" />
+    <Translation x="0.0" y="0.04" z="0.0" />
   </Transform>
   <Components>
   
@@ -17,7 +17,7 @@
 
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
-      <Sphere radius="1" />
+      <Sphere radius="0.2" />
     </GOC_SphereCollider>
 
     <GOC_KartController/>

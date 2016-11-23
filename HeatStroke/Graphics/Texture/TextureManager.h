@@ -39,7 +39,7 @@ class TextureManager
 		{
 			Texture*	m_pTex;
 			int			m_iRefCount;
-			Entry(Texture* p_pTex) : m_pTex(p_pTex), m_iRefCount(0) {}
+			Entry(Texture* p_pTex) : m_pTex(p_pTex), m_iRefCount(1) {}
 		};
 		//-------------------------------------------------------------------------
 

@@ -9,9 +9,10 @@
 #ifndef COMPONENT_TRACK_H
 #define COMPONENT_TRACK_H
 
+#include "ComponentKartController.h"
 #include "Component.h"
 #include "GameObject.h"
-#include "Event.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {
@@ -57,12 +58,15 @@ namespace Kartaclysm
 			int GetRacerIndex(const std::string& p_strRacerId);
 
 			void UpdateRacerPositions();
+			void CheckRacerFacingForward();
 			bool IsAhead(const RacerData& p_RacerA, const RacerData& p_RacerB);
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
 
 			// TEMP
 			void PrintRacerPositions();
+			glm::vec3 DetermineTrackForwardDirection(int p_iTrackPieceIndex);
+			glm::vec3 DetermineRacerForwardDirection(const std::string& p_strRacerId);
 
 	};
 }

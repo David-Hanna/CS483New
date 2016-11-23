@@ -50,7 +50,7 @@ void GameObjectManager::RegisterComponentFactory(const std::string& p_strCompone
 	m_mComponentFactoryMap.insert(std::pair<std::string, ComponentFactoryMethod>(p_strComponentId, p_factoryMethod));
 }
 
-GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid /*= ""*/)
+GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObjectDefinitionFile, const std::string& p_strGuid /*= ""*/, GameObject* p_pParent /*= nullptr*/)
 {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError err = doc.LoadFile(p_strGameObjectDefinitionFile.c_str());
@@ -58,10 +58,10 @@ GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObje
 	assert(err == tinyxml2::XML_NO_ERROR);
 #endif
 
-	return CreateGameObject(doc.FirstChildElement("GameObject"), p_strGuid);
+	return CreateGameObject(doc.FirstChildElement("GameObject"), p_strGuid, p_pParent);
 }
 
-GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid /*= ""*/)
+GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObjectRootElement, const std::string& p_strGuid /*= ""*/, GameObject* p_pParent /*= nullptr*/)
 {
 #if _DEBUG
 	assert(p_pGameObjectRootElement != nullptr);
@@ -73,13 +73,14 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 	EasyXML::GetOptionalStringAttribute(p_pGameObjectRootElement, "definition", strDefinitionFile, strDefinitionFile);
 	if (!strDefinitionFile.empty())
 	{
-		GameObject* pObj = CreateGameObject(strDefinitionFile, strGuid);
+		GameObject* pObj = CreateGameObject(strDefinitionFile, strGuid, p_pParent);
 		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
 		return pObj;
 	}
 	else
 	{
 		GameObject* pObj = new GameObject(this, strGuid);
+		pObj->SetParent(p_pParent);
 		pObj->m_Transform.ParseTransformNode(p_pGameObjectRootElement->FirstChildElement("Transform"));
 
 		LoadComponents(p_pGameObjectRootElement->FirstChildElement("Components"), pObj);
@@ -150,15 +151,13 @@ void GameObjectManager::LoadChildren(tinyxml2::XMLElement* p_pChildrenRootElemen
 			 pChildGameObjectElement != nullptr;
 			 pChildGameObjectElement = pChildGameObjectElement->NextSiblingElement("GameObject"))
 		{
-			GameObject* pChild = CreateGameObject(pChildGameObjectElement);
+			GameObject* pChild = CreateGameObject(pChildGameObjectElement, "", p_pParent);
 
 			tinyxml2::XMLElement* pChildTransformElement = pChildGameObjectElement->FirstChildElement("Transform");
 			if (pChildTransformElement != nullptr)
 			{
 				pChild->m_Transform.ParseTransformNode(pChildTransformElement);
 			}
-
-			p_pParent->AddChild(pChild);
 		}
 	}
 }
