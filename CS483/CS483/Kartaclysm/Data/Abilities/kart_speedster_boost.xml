@@ -12,7 +12,6 @@
 
     <GOC_BoostAbility>
       <Strength value="2" />
-      <Duration value="1.5" />
     </GOC_BoostAbility>
 
   </Components>

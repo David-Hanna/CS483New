@@ -12,7 +12,7 @@
 #include "ComponentCameraController.h"
 #include "ComponentPerspectiveCamera.h"
 #include "SceneManager.h"
-#include "Collisions\CollisionManager.h"
+#include "CollisionManager.h"
 #include "KeyboardInputBuffer.h"
 
 bool Kartaclysm::KartGame::Init()

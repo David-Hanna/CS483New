@@ -11,12 +11,10 @@ namespace Kartaclysm
 {
 	ComponentBoostAbility::ComponentBoostAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		int p_iStrength,
-		float p_fDuration)
+		int p_iStrength)
 		:
 		ComponentAbility(p_pGameObject),
-		m_iStrength(p_iStrength),
-		m_fDuration(p_fDuration)
+		m_iStrength(p_iStrength)
 	{
 	}
 
@@ -36,26 +34,23 @@ namespace Kartaclysm
 
 		// Defaults
 		int iStrength = 0;
-		float fDuration = 0.0f;
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, iStrength, fDuration);
+			ParseNode(p_pBaseNode, iStrength);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, iStrength, fDuration);
+			ParseNode(p_pOverrideNode, iStrength);
 		}
 
 		// Check that we got everything we needed.
 		assert(iStrength != 0);
-		assert(fDuration != 0.0f);
 
 		return new ComponentBoostAbility(
 			p_pGameObject,
-			iStrength,
-			fDuration
+			iStrength
 			);
 	}
 
@@ -76,14 +71,17 @@ namespace Kartaclysm
 		{
 			m_pConditions->ResetCooldown();
 
-			// TO DO, implement the speed up
+			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strPlayerX + "_Ability");
+			pEvent->SetStringParameter("Originator", m_strPlayerX);
+			pEvent->SetIntParameter("MaxSpeed", m_iStrength);
+			pEvent->SetIntParameter("Acceleration", m_iStrength);
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
 
 	void ComponentBoostAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		int& p_iStrength,
-		float& p_fDuration)
+		int& p_iStrength)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_BoostAbility") == 0);
@@ -97,10 +95,6 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "Strength") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStrength);
-			}
-			else if (strcmp(szNodeName, "Duration") == 0)
-			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDuration);
 			}
 		}
 	}

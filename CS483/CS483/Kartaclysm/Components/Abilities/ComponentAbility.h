@@ -36,6 +36,9 @@ namespace Kartaclysm
 		// Required ability override
 		virtual void Activate() = 0;
 
+		// Accessor
+		const std::string& GetPlayerIdentifier() const { return m_strPlayerX; }
+
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
@@ -43,16 +46,20 @@ namespace Kartaclysm
 		ComponentAbility(
 			HeatStroke::GameObject* p_pGameObject)
 			:
-			HeatStroke::Component(p_pGameObject) {}
+			HeatStroke::Component(p_pGameObject),
+			m_strPlayerX(p_pGameObject->GetGUID().substr(0, p_pGameObject->GetGUID().find_first_of("_"))) {}
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
+		// The player number determined by the Ability GUID
+		std::string m_strPlayerX;
+
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 	};
 }
 
-#endif // COMPONENT_ABILITY_CONDITIONS_H
+#endif // COMPONENT_ABILITY_H

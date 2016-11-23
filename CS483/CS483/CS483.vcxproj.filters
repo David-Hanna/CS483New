@@ -637,13 +637,17 @@
     <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Kartaclysm\Data\lines.fsh">
+    <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
       <Filter>Kartaclysm\Data</Filter>
-    </None>
-    <None Include="Kartaclysm\Data\lines.vsh">
-      <Filter>Kartaclysm\Data</Filter>
-    </None>
+    </Xml>
   </ItemGroup>
 </Project>
