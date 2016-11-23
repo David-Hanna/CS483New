@@ -45,6 +45,8 @@ namespace Kartaclysm
 		// Used in determining camera position
 		glm::quat GetRotationMinusSwerve();
 
+		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
+
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
@@ -72,6 +74,7 @@ namespace Kartaclysm
 		const float m_fSpeedScale = 1.0f;
 		const float m_fVerticalSpeedScale = 1.0f;
 
+		float m_fHeightAboveGroundStat = 0.2f;
 		float m_fMaxSpeedStat = 20.f;
 		float m_fMaxReverseSpeedStat = 6.0f;
 		float m_fAccelerationStat = 2.0f;

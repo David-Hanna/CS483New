@@ -18,6 +18,7 @@ namespace Kartaclysm
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(0), // TO DO, handle this number better
 
+		m_fHeightAboveGroundStat(0.04f),
 		m_fSpeedScale(0.024f),
 		m_fVerticalSpeedScale(0.02f),
 		m_fMaxSpeedStat(20.0f),
@@ -215,6 +216,19 @@ namespace Kartaclysm
 	{
 		// How much the kart moves vertically this frame
 		float fHeightMod = 0.0f;
+
+		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
+
+		// Handle changes in ground height
+		if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight)
+		{
+			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
+			m_bAirborne = false;
+		}
+		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight)
+		{
+			m_bAirborne = true;
+		}
 		
 		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
@@ -222,9 +236,9 @@ namespace Kartaclysm
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
 			fHeightMod = m_fVerticalSpeed;
 
-			if (m_fGroundHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
+			if (fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
 			{
-				fHeightMod = m_fGroundHeight - m_pGameObject->GetTransform().GetTranslation().y;
+				fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
 				m_fVerticalSpeed = 0.0f;
 				m_fSpeed *= 0.99f;
 				m_bAirborne = false;

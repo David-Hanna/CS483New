@@ -595,12 +595,6 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_finish.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_bottom.xml">
-      <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_top.xml">
-      <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_straight.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
@@ -631,13 +625,17 @@
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Kartaclysm\Data\lines.fsh">
-      <Filter>Kartaclysm\Data</Filter>
-    </None>
-    <None Include="Kartaclysm\Data\lines.vsh">
-      <Filter>Kartaclysm\Data</Filter>
-    </None>
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_down_flat.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_flat_down.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_flat_up.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_ramp_up_flat.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
