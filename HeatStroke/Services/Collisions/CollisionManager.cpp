@@ -129,6 +129,13 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	glm::vec3 pos1 = p_pCollider1->GetGameObject()->GetTransform().GetTranslation() + p_pCollider1->GetOffset();
 	glm::vec3 pos2 = p_pCollider2->GetGameObject()->GetTransform().GetTranslation() + p_pCollider2->GetOffset();
 
+	// Do an area check to see if we can exit out of this early
+	float checkDistance = p_pCollider1->GetRadius() + p_pCollider2->GetWidth();
+	if (pos1.x < pos2.x - checkDistance || pos1.x > pos2.x + checkDistance || pos1.z < pos2.z - checkDistance || pos1.z > pos2.z + checkDistance)
+	{
+		return;
+	}
+
 	float heightDifference = abs(pos1.y - pos2.y);
 	float radius;
 
