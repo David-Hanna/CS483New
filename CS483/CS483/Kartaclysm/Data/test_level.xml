@@ -37,7 +37,7 @@
 	</GameObject-->
 
 	<!--GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/noob_zone.xml"/-->
-	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/Tracks/shift_rift.xml"/>
+	<GameObject guid="Track" definition="CS483/CS483/Kartaclysm/Data/Tracks/up_and_over.xml"/>
 	<GameObject guid="Opponent" definition="CS483/CS483/Kartaclysm/Data/opponent.xml">
 		<Transform>
 			<Translation x="0.0" y="0.0" z="1.0" />
