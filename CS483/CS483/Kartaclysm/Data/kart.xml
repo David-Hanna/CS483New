@@ -7,8 +7,8 @@
   </Transform>
 
   <Children>
-    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />
-    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/none_none_sample.xml" />
+    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_juggernaut_armor.xml" />
+    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_juggernaut_maintain.xml" />
   </Children>
   
   <Components>

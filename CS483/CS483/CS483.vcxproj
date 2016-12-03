@@ -120,7 +120,9 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp" />
@@ -202,7 +204,9 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h" />
@@ -219,10 +223,11 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml" />
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
-    <Xml Include="Kartaclysm\Data\camera.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom_left.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom_right.xml" />
@@ -245,7 +250,9 @@
     <Xml Include="Kartaclysm\Data\light.xml" />
     <Xml Include="Kartaclysm\Data\opponent.xml" />
     <Xml Include="Kartaclysm\Data\red_point_light.xml" />
-    <Xml Include="Kartaclysm\Data\test_level.xml" />
+    <Xml Include="Kartaclysm\Data\test_level.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\test_wall_1.xml" />
     <Xml Include="Kartaclysm\Data\test_wall_2.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml" />

@@ -53,6 +53,9 @@ namespace Kartaclysm
 		void AddCharge();
 		void RemoveCharge();
 
+		// Manual control of a special condition
+		void SetSpecialCondition(bool p_bSpecial) { m_bSpecial = p_bSpecial; }
+
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
@@ -60,7 +63,8 @@ namespace Kartaclysm
 		ComponentAbilityConditions(
 			HeatStroke::GameObject* p_pGameObject,
 			float p_fCooldown,
-			int p_iCharges
+			int p_iMaxCharges,
+			int p_iStartCharges
 			);
 
 		virtual void SendEventForHud() const;
@@ -68,7 +72,8 @@ namespace Kartaclysm
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			float& p_fCooldown,
-			int& p_iCharges);
+			int& p_iMaxCharges,
+			int& p_iStartCharges);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -88,6 +93,9 @@ namespace Kartaclysm
 		// Charges
 		int		m_iMaxCharges;
 		int		m_iCurrentCharges;
+
+		// Special condition manually controlled by ability
+		bool	m_bSpecial;
 	};
 }
 
