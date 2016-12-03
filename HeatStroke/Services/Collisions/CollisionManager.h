@@ -17,6 +17,18 @@
 
 namespace HeatStroke
 {
+	enum ColliderType
+	{
+		Sphere,
+		Wall
+	};
+
+	struct RegisteredCollider
+	{
+		ComponentCollider* collider;
+		ColliderType type;
+	};
+	
 	class CollisionManager
 	{
 	public:
@@ -26,7 +38,8 @@ namespace HeatStroke
 
 		// Any object which wants to iterate over the Collider collection will need
 		// this typedef.
-		typedef std::map<std::string, ComponentCollider*> ColliderMap;
+		//typedef std::map<std::string, ComponentCollider*> ColliderMap;
+		typedef std::map<std::string, RegisteredCollider> ColliderMap;
 
 		//---------------------------------------------------------------------
 		// Public interface
@@ -62,7 +75,7 @@ namespace HeatStroke
 		CollisionManager();
 		~CollisionManager();
 
-		void CheckCollision(ComponentCollider* p_pCollider1, ComponentCollider* p_pCollider2);
+		void CheckCollision(RegisteredCollider p_sCollider1, RegisteredCollider p_sCollider2);
 
 		// Collision pairs
 		void CheckCollision(ComponentSphereCollider* p_pCollider1, ComponentSphereCollider* p_pCollider2);

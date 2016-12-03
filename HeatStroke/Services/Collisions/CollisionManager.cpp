@@ -44,7 +44,21 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::RegisterCollider(ComponentCollider* p_pCollider, std::string p_strGuid = "")
 {
-	m_mColliderMap.insert(std::pair<std::string, ComponentCollider*>(p_strGuid, p_pCollider));
+	//m_mColliderMap.insert(std::pair<std::string, ComponentCollider*>(p_strGuid, p_pCollider));
+
+	RegisteredCollider collider;
+	collider.collider = p_pCollider;
+
+	if (p_pCollider->ComponentID().compare("GOC_SphereCollider") == 0)
+	{
+		collider.type = Sphere;
+	}
+	else if (p_pCollider->ComponentID().compare("GOC_WallCollider") == 0)
+	{
+		collider.type = Wall;
+	}
+
+	m_mColliderMap.insert(std::pair<std::string, RegisteredCollider>(p_strGuid, collider));
 }
 
 void CollisionManager::Update(const float p_fDelta)
@@ -66,33 +80,28 @@ void CollisionManager::PreRender()
 {
 }
 
-void CollisionManager::CheckCollision(ComponentCollider* p_pCollider1, ComponentCollider* p_pCollider2)
+void CollisionManager::CheckCollision(RegisteredCollider p_sCollider1, RegisteredCollider p_sCollider2)
 {
-	// The structure of this function is actually AIDS but I couldn't think of a better way
-	
-	ComponentCollider* pFirst;
-	ComponentCollider* pSecond;
+	// Make sure they're in order, to simplify comparisons
 
-	if (p_pCollider1->ComponentID().compare("GOC_SphereCollider") == 0 || p_pCollider2->ComponentID().compare("GOC_SphereCollider") == 0)
+	if (p_sCollider1.type > p_sCollider2.type)
 	{
-		if (p_pCollider1->ComponentID().compare("GOC_SphereCollider") == 0)
-		{
-			pFirst = p_pCollider1;
-			pSecond = p_pCollider2;
-		}
-		else
-		{
-			pFirst = p_pCollider2;
-			pSecond = p_pCollider1;
-		}
+		RegisteredCollider temp = p_sCollider1;
+		p_sCollider1 = p_sCollider2;
+		p_sCollider2 = temp;
+	}
 
-		if (pSecond->ComponentID().compare("GOC_SphereCollider") == 0)
+	// Now find the right function
+
+	if (p_sCollider1.type == Sphere)
+	{
+		if (p_sCollider2.type == Sphere)
 		{
-			CheckCollision((ComponentSphereCollider*)pFirst, (ComponentSphereCollider*)pSecond);
+			CheckCollision((ComponentSphereCollider*)p_sCollider1.collider, (ComponentSphereCollider*)p_sCollider2.collider);
 		}
-		if (pSecond->ComponentID().compare("GOC_WallCollider") == 0)
+		else if (p_sCollider2.type == Wall)
 		{
-			CheckCollision((ComponentSphereCollider*)pFirst, (ComponentWallCollider*)pSecond);
+			CheckCollision((ComponentSphereCollider*)p_sCollider1.collider, (ComponentWallCollider*)p_sCollider2.collider);
 		}
 	}
 }
@@ -128,6 +137,13 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	
 	glm::vec3 pos1 = p_pCollider1->GetGameObject()->GetTransform().GetTranslation() + p_pCollider1->GetOffset();
 	glm::vec3 pos2 = p_pCollider2->GetGameObject()->GetTransform().GetTranslation() + p_pCollider2->GetOffset();
+
+	// Do an area check to see if we can exit out of this early
+	float checkDistance = p_pCollider1->GetRadius() + p_pCollider2->GetWidth();
+	if (pos1.x < pos2.x - checkDistance || pos1.x > pos2.x + checkDistance || pos1.z < pos2.z - checkDistance || pos1.z > pos2.z + checkDistance)
+	{
+		return;
+	}
 
 	float heightDifference = abs(pos1.y - pos2.y);
 	float radius;
