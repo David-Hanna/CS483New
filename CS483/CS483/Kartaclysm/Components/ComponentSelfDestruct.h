@@ -1,30 +1,32 @@
 //----------------------------------------------------------------------------
-// ComponentTurkeyAbility.h
+// ComponentSelfDestruct.cpp
 // Author: Bradley Cooper
 //
-// Speedster's ability to give a temporary speed boost.
+// Component that destroys the game object after a time period.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_TURKEY_H
-#define COMPONENT_TURKEY_H
+#ifndef COMPONENT_SELF_DESTRUCT_H
+#define COMPONENT_SELF_DESTRUCT_H
 
 #include <tinyxml2.h>
-#include <string>
 
-#include "ComponentAbility.h"
+#include "Component.h"
+#include "GameObject.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {
-	class ComponentTurkeyAbility : public ComponentAbility
+	class ComponentSelfDestruct : public HeatStroke::Component
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_TurkeyAbility"; }
+		virtual const std::string FamilyID() const override		{ return "GOC_SelfDestruct"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_SelfDestruct"; }
 
 		// Destruction.
-		virtual ~ComponentTurkeyAbility();
+		virtual ~ComponentSelfDestruct();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -34,26 +36,21 @@ namespace Kartaclysm
 			);
 
 		// Game Loop methods.
-		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override {}
-
-		// Required ability override
-		virtual void Activate() override;
+		virtual void Init() override {}
+		virtual void Update(const float p_fDelta) override;
 
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentTurkeyAbility(
+		ComponentSelfDestruct(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			float p_fTimer
 			);
-
-		void OnHitCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& m_fStrength
+			float& p_fTimer
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,14 +58,11 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
+		float m_fTimer;
 
-		// Prevent querying the GameObject for the ComponentAbilityConditions
-		ComponentAbilityConditions* m_pConditions;
-
-		// Delegate function to register with EventManager for strike ability hit event
-		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
+	private:
+		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
 	};
 }
 
-#endif // COMPONENT_TURKEY_H
+#endif // COMPONENT_SELF_DESTRUCT_H

@@ -27,6 +27,8 @@
 #include "ComponentStrikeAbility.h"
 #include "ComponentTurkeyAbility.h"
 #include "ComponentProjectile.h"
+#include "ComponentSelfDestruct.h"
+#include "ComponentSimplePhysics.h"
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"
 #include "ComponentHudAbility.h"

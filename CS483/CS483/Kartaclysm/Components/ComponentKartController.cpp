@@ -377,10 +377,27 @@ namespace Kartaclysm
 	void ComponentKartController::HandleAbilityEvent(const HeatStroke::Event* p_pEvent)
 	{
 		// TODO: make this use game objects (brad, ya dingus)
-		std::string originator;
+		std::string originator, target = "";
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
+		p_pEvent->GetOptionalStringParameter("Target", target, target);
 
-		if (originator.compare("Player0") == 0)
+		if (target.compare("Player0") == 0)
+		{
+			std::string ability, effect;
+			p_pEvent->GetRequiredStringParameter("Ability", ability);
+			p_pEvent->GetRequiredStringParameter("Effect", effect);
+
+			// TODO: MacIntosh, spin me right round baby right round like a record player
+			/*if (ability.compare("Strike") == 0)
+			{
+
+			}
+			if (effect.compare("SpinOut") == 0)
+			{
+
+			}*/
+		}
+		else if (originator.compare("Player0") == 0)
 		{
 			// TODO: make this use enums or something
 			std::string ability;

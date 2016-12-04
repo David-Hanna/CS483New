@@ -12,6 +12,7 @@
 #include <string>
 
 #include "ComponentAbility.h"
+#include "ComponentProjectile.h"
 
 namespace Kartaclysm
 {
@@ -50,6 +51,7 @@ namespace Kartaclysm
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void OnHitCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -68,6 +70,9 @@ namespace Kartaclysm
 
 		// Delegate function to register with EventManager for ability activation
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+
+		// Delegate function to register with EventManager for strike ability hit event
+		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
 	};
 }
 

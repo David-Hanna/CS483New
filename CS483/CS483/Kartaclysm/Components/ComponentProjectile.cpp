@@ -1,13 +1,11 @@
 //----------------------------------------------------------------------------
 // ComponentProjectile.cpp
-// Author: David MacIntosh
+// Author: Bradley Cooper
 //
-// Component that handles generic kart behaviour.
+// Component that handles projectile collisions and events.
 //----------------------------------------------------------------------------
 
 #include "ComponentProjectile.h"
-
-#include "ComponentSphereCollider.h"
 
 namespace Kartaclysm
 {
@@ -17,27 +15,17 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_strOriginator(""),
-		m_strEventName(""),
-
-		m_fHeightAboveGroundStat(0.04f),
-		m_fVerticalSpeedScale(0.02f),
-		m_fAccelerationFrictionStat(2.0f),
-		m_fGravityAccelerationStat(-12.0f),
-		m_fOutsideForceAccelerationStat(0.92f),
-
-		m_fGroundHeight(0.04f),
-		m_fSpeed(2.0f),
-		m_bAirborne(false),
-		m_fVerticalSpeed(0.0f)
+		m_strOnHitEvent("")
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentProjectile::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
-
-		m_pOutsideForce = glm::vec3();
 	}
 
 	ComponentProjectile::~ComponentProjectile()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Collision", m_pCollisionDelegate);
+		delete m_pCollisionDelegate;
+		m_pCollisionDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentProjectile::CreateComponent(
@@ -45,76 +33,29 @@ namespace Kartaclysm
 		tinyxml2::XMLNode* p_pBaseNode,
 		tinyxml2::XMLNode* p_pOverrideNode)
 	{
-		std::string strTargetGUID("");
-		HeatStroke::GameObject* pTargetGameObject = nullptr;
+		assert(p_pGameObject != nullptr);
+
+		/*
+		// Defaults
+		float fStrength = 0.0f;
+
+		// All parameters are optional.
+		if (p_pBaseNode != nullptr)
+		{
+			ParseNode(p_pBaseNode, fStrength);
+		}
+		if (p_pOverrideNode != nullptr)
+		{
+			ParseNode(p_pOverrideNode, fStrength);
+		}
+
+		// Check that we got everything we needed.
+		assert(fStrength != 0.0f);
+		*/
 
 		return new ComponentProjectile(
 			p_pGameObject
 			);
-	}
-
-	void ComponentProjectile::Update(const float p_fDelta)
-	{
-		// Speeding up & slowing down
-		UpdateSpeed(p_fDelta);
-
-		// Hopping
-		float fHeightMod = UpdateHop(p_fDelta);
-
-		// Transform
-		UpdateTransform(fHeightMod);
-	}
-
-	void ComponentProjectile::UpdateSpeed(float p_fDelta)
-	{
-		// Adjust speed based on friction
-		if (!m_bAirborne)
-		{
-			m_fSpeed -= m_fSpeed * m_fAccelerationFrictionStat * p_fDelta;
-		}
-	}
-
-	float ComponentProjectile::UpdateHop(float p_fDelta)
-	{
-		// How much the kart moves vertically this frame
-		float fHeightMod = 0.0f;
-		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
-
-		// Handle changes in ground height
-		if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight)
-		{
-			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
-			m_bAirborne = false;
-		}
-		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight)
-		{
-			m_bAirborne = true;
-		}
-
-		// If airborne, fall towards the ground and attempt to land
-		if (m_bAirborne)
-		{
-			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
-			fHeightMod = m_fVerticalSpeed;
-
-			if (fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
-			{
-				fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
-				m_fVerticalSpeed = 0.0f;
-				m_fSpeed *= 0.99f;
-				m_bAirborne = false;
-			}
-		}
-
-		return fHeightMod;
-	}
-
-	void ComponentProjectile::UpdateTransform(float p_fHeightMod)
-	{
-		m_pGameObject->GetTransform().Translate(m_pOutsideForce);
-		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
-
-		m_pGameObject->GetTransform().TranslateXYZ(0, p_fHeightMod, m_fSpeed);
 	}
 
 	void ComponentProjectile::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
@@ -123,30 +64,51 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredGameObjectParameter("Object1GUID", guid1);
 		p_pEvent->GetRequiredGameObjectParameter("Object2GUID", guid2);
 
-		if (guid1.compare(m_pGameObject->GetGUID()) == 0 || guid2.compare(m_pGameObject->GetGUID()) == 0)
+		HeatStroke::GameObject* pOther = nullptr;
+		if (guid1.compare(m_pGameObject->GetGUID()) == 0)
 		{
+			pOther = GetGameObject()->GetManager()->GetGameObject(guid2);
+		}
+		else if (guid2.compare(m_pGameObject->GetGUID()) == 0)
+		{
+			pOther = GetGameObject()->GetManager()->GetGameObject(guid1);
+		}
 
+		if (pOther != nullptr)
+		{
+			if (pOther->HasTag("Racer"))
+			{
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strOnHitEvent);
+				pEvent->SetGameObjectParameter("Originator", m_strOriginator);
+				pEvent->SetGameObjectParameter("Target", pOther->GetGUID());
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-			/*
-			glm::vec3 contactPoint = glm::vec3();
-			p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
-			p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
-			p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+				GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
+			}
+			else if (pOther->HasTag("Wall") || pOther->HasTag("Proectile"))
+			{
+				GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
+			}
+		}
 
-			HeatStroke::ComponentSphereCollider* collider = (HeatStroke::ComponentSphereCollider*) m_pGameObject->GetComponent("GOC_Collider");
+	}
 
-			glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-			float distance = collider->GetRadius() - glm::length(difference);
+	void ComponentProjectile::ParseNode(
+		tinyxml2::XMLNode* p_pNode)
+	{
+		assert(p_pNode != nullptr);
+		assert(strcmp(p_pNode->Value(), "GOC_Projectile") == 0);
 
-			difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-			m_pGameObject->GetTransform().Translate(difference);
+		for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
+			pChildElement != nullptr;
+			pChildElement = pChildElement->NextSiblingElement())
+		{
+			const char* szNodeName = pChildElement->Value();
 
-			glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 1.0f);
-			float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
-
-			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-			m_fSpeed *= m_fWallSlowdownStat;
-			*/
+			/*if (strcmp(szNodeName, "Strength") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
+			}*/
 		}
 	}
 }

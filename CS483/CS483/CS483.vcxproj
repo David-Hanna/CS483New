@@ -123,6 +123,8 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentSelfDestruct.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentSimplePhysics.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentProjectile.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp" />
@@ -207,6 +209,8 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentSelfDestruct.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentSimplePhysics.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentProjectile.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbility.h" />

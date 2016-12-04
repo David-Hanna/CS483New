@@ -16,14 +16,16 @@ namespace Kartaclysm
 		ComponentAbility(p_pGameObject),
 		m_fStrength(p_fStrength)
 	{
+		// Listen to on hit event
+		m_pOnHitDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTurkeyAbility::OnHitCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
 	}
 
 	ComponentTurkeyAbility::~ComponentTurkeyAbility()
 	{
-		// TODO: Needs to have the same event string as a Strike hit
-		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pStrikeDelegate);
-		delete m_pStrikeDelegate;
-		m_pStrikeDelegate = nullptr;
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
+		delete m_pOnHitDelegate;
+		m_pOnHitDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentTurkeyAbility::CreateComponent(
@@ -61,10 +63,6 @@ namespace Kartaclysm
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
 		//TODO: Set Special condition to false
-
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pStrikeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTurkeyAbility::StrikeCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pStrikeDelegate);
 	}
 
 	void ComponentTurkeyAbility::Activate()
@@ -76,7 +74,7 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 
-	void ComponentTurkeyAbility::StrikeCallback(const HeatStroke::Event* p_pEvent)
+	void ComponentTurkeyAbility::OnHitCallback(const HeatStroke::Event* p_pEvent)
 	{
 		m_pConditions->AddCharge();
 
