@@ -12,11 +12,11 @@ namespace Kartaclysm
 	ComponentWheelieAbility::ComponentWheelieAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		int p_iStrength,
-		float p_fStatusDuration)		
+		float p_fDuration)		
 		:
 		ComponentAbility(p_pGameObject),
 		m_iStrength(p_iStrength),
-		m_fStatusDuration(p_fStatusDuration)
+		m_fDuration(p_fDuration)
 	{
 	}
 
@@ -36,16 +36,16 @@ namespace Kartaclysm
 
 		// Defaults
 		int iStrength = 0;
-		float fStatusDuration = 0.0f;
+		float fDuration = 0.0f;
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, iStrength, fStatusDuration);
+			ParseNode(p_pBaseNode, iStrength, fDuration);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, iStrength, fStatusDuration);
+			ParseNode(p_pOverrideNode, iStrength, fDuration);
 		}
 
 		// Check that we got everything we needed.
@@ -55,7 +55,7 @@ namespace Kartaclysm
 		return new ComponentWheelieAbility(
 			p_pGameObject,
 			iStrength,
-			fStatusDuration
+			fDuration
 			);
 	}
 
@@ -76,12 +76,11 @@ namespace Kartaclysm
 		{
 			m_pConditions->ResetCooldown();
 
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strPlayerX + "_Ability");
+			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
-			pEvent->SetIntParameter("MaxSpeed", m_iStrength);
-			pEvent->SetIntParameter("Acceleration", m_iStrength);
-			pEvent->SetStringParameter("Status", "TurnReduce");
-			pEvent->SetFloatParameter("StatusDuration", m_fStatusDuration);
+			pEvent->SetStringParameter("Ability", "Wheelie");
+			pEvent->SetIntParameter("Power", m_iStrength);
+			pEvent->SetFloatParameter("Duration", m_fDuration);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
@@ -89,7 +88,7 @@ namespace Kartaclysm
 	void ComponentWheelieAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		int& p_iStrength,
-		float& p_fStatusDuration)
+		float& p_fDuration)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_WheelieAbility") == 0);
@@ -104,9 +103,9 @@ namespace Kartaclysm
 			{
 				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStrength);
 			}
-			else if (strcmp(szNodeName, "TurnReduce") == 0)
+			else if (strcmp(szNodeName, "Duration") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "duration", p_fStatusDuration);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDuration);
 			}
 		}
 	}

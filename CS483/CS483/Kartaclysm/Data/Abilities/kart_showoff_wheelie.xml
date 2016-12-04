@@ -12,7 +12,7 @@
 
     <GOC_WheelieAbility>
       <Strength value="1" />
-	    <TurnReduce duration="1.0" />
+	    <Duration value="1.0" />
     </GOC_WheelieAbility>
 
   </Components>

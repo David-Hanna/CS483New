@@ -380,10 +380,18 @@ namespace Kartaclysm
 
 			if (ability.compare("Boost") == 0)
 			{
-				float power;
-				p_pEvent->GetRequiredFloatParameter("Power", power);
+				float fPower;
+				p_pEvent->GetRequiredFloatParameter("Power", fPower);
 
-				Boost(power);
+				Boost(fPower);
+			}
+			else if (ability.compare("Wheelie") == 0)
+			{
+				float fPower, fDuration;
+				p_pEvent->GetRequiredFloatParameter("Power", fPower);
+				p_pEvent->GetRequiredFloatParameter("Duration", fDuration);
+
+				// TODO: MacIntosh, do your thingie thing
 			}
 		}
 	}

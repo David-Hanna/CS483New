@@ -47,7 +47,7 @@ namespace Kartaclysm
 		ComponentWheelieAbility(
 			HeatStroke::GameObject* p_pGameObject,
 			int p_iStrength,
-			float p_fStatusDuration
+			float p_fDuration
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
@@ -55,7 +55,7 @@ namespace Kartaclysm
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			int& p_iStrength,
-			float& p_fStatusDuration
+			float& p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		int		m_iStrength;
-		float	m_fStatusDuration;
+		float	m_fDuration;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
