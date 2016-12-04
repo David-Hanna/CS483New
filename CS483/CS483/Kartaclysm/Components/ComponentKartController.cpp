@@ -19,6 +19,7 @@ namespace Kartaclysm
 		m_iPlayerNum(0), // TO DO, handle this number better
 
 		m_fHeightAboveGroundStat(0.04f),
+		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.024f),
 		m_fVerticalSpeedScale(0.02f),
 		m_fMaxSpeedStat(20.0f),
@@ -47,6 +48,7 @@ namespace Kartaclysm
 		m_fSlideChargeThreshold(0.2f),
 
 		m_fGroundHeight(0.04f),
+		m_fPreviousHeight(0.04f),
 		m_fSpeed(0.0f),
 		m_fDirection(0.0f),
 		m_fTurnSpeed(0.0f),
@@ -233,13 +235,17 @@ namespace Kartaclysm
 		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
 
 		// Handle changes in ground height
-		if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight)
+		if (!m_bAirborne && m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight + m_fStickyHeightStat)
 		{
 			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
 			m_bAirborne = false;
 		}
-		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight)
+		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight + m_fStickyHeightStat)
 		{
+			// TODO: Make this (and a lot of other stuff) use delta time properly
+			float heightDifference = m_pGameObject->GetTransform().GetTranslation().y - m_fPreviousHeight;
+
+			m_fVerticalSpeed = heightDifference;
 			m_bAirborne = true;
 		}
 		
@@ -271,6 +277,8 @@ namespace Kartaclysm
 			m_fVerticalSpeed = m_fHopInitialSpeedStat * m_fVerticalSpeedScale;
 			m_bAirborne = true;
 		}
+
+		m_fPreviousHeight = m_pGameObject->GetTransform().GetTranslation().y;
 
 		return fHeightMod;
 	}
