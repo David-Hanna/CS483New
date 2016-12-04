@@ -35,10 +35,10 @@ namespace Kartaclysm
 
 		// Game Loop methods.
 		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override {}
+		virtual void Update(const float p_fDelta) override;
 
 		// Required ability override
-		virtual void Activate() override {}
+		virtual void Activate() override;
 
 	protected:
 		//--------------------------------------------------------------------------
@@ -63,6 +63,7 @@ namespace Kartaclysm
 		ComponentAbilityConditions* m_pConditions;
 
 		std::string m_strChargeEventName;
+		bool m_bSentImmuneEvent;
 
 		// Delegate function to register with EventManager for managing charges
 		std::function<void(const HeatStroke::Event*)>* m_pChargeDelegate;

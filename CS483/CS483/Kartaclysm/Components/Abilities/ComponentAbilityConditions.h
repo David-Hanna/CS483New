@@ -45,11 +45,13 @@ namespace Kartaclysm
 
 		// Cooldown timer control
 		float GetCooldown() const { return m_fCurrentCooldown; }
+		float GetMaxCooldown() const { return m_fMaxCooldown; }
 		void ResetCooldown();
 		void ReduceCooldown(float p_fSeconds);
 
 		// Charge control
 		int GetCharges() const { return m_iCurrentCharges; }
+		int GetMaxCharges() const { return m_iMaxCharges; }
 		void AddCharge();
 		void RemoveCharge();
 

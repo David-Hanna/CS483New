@@ -14,7 +14,8 @@ namespace Kartaclysm
 		)
 		:
 		ComponentAbility(p_pGameObject),
-		m_pChargeDelegate(nullptr)
+		m_pChargeDelegate(nullptr),
+		m_bSentImmuneEvent(false)
 	{
 	}
 
@@ -65,12 +66,31 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
+	void ComponentArmorPlateAbility::Update(const float p_fDelta)
+	{
+		if (!m_bSentImmuneEvent && m_pConditions->CanActivate())
+		{
+			m_bSentImmuneEvent = true;
+			Activate();
+		}
+	}
+
+	void ComponentArmorPlateAbility::Activate()
+	{
+		// Send immunity event for kart controller
+		HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
+		pEvent->SetStringParameter("Originator", m_strPlayerX);
+		pEvent->SetStringParameter("Ability", "Immune");
+		pEvent->SetStringParameter("ListenEvent", m_strChargeEventName);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
 	void ComponentArmorPlateAbility::ChargeCallback(const HeatStroke::Event* p_pEvent)
 	{
 		int iChange = 0;
 		int iNegated = 0;
 
-		p_pEvent->GetRequiredIntParameter("ArmorChange", iChange);
+		p_pEvent->GetOptionalIntParameter("ArmorChange", iChange, 0);
 		p_pEvent->GetOptionalIntParameter("Negated", iNegated, 0);
 
 		if (iChange == 1)
@@ -82,9 +102,22 @@ namespace Kartaclysm
 			m_pConditions->RemoveCharge();
 		}
 
-		if (iNegated != 0)
+		if (iNegated == 1)
 		{
+			iChange--;
+			m_pConditions->RemoveCharge();
 			m_pConditions->ResetCooldown();
+		}
+
+		if (iChange != 0)
+		{
+			// Charge count changed: send armor plate event for kart controller (changes stats)
+			HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
+			pEvent->SetStringParameter("Originator", m_strPlayerX);
+			pEvent->SetStringParameter("Ability", "ArmorPlate");
+			pEvent->SetIntParameter("Layers", m_pConditions->GetCharges());
+			pEvent->SetIntParameter("MaxLayers", m_pConditions->GetMaxCharges());
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
 

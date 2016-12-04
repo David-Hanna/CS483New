@@ -99,19 +99,23 @@ namespace Kartaclysm
 	void ComponentMaintainAbility::ChargeCallback(const HeatStroke::Event* p_pEvent)
 	{
 		int iChange = 0;
-		p_pEvent->GetRequiredIntParameter("ArmorChange", iChange);
+		int iNegated = 0;
 
-		if (iChange == -1)
+		p_pEvent->GetOptionalIntParameter("ArmorChange", iChange, 0);
+		p_pEvent->GetOptionalIntParameter("Negated", iNegated, 0);
+
+		if (iChange == 1)
 		{
-			m_iCurrentCharges--;
-			m_pConditions->SetSpecialCondition(true);
-			assert(m_iCurrentCharges != -1);
+			m_iCurrentCharges++;
 		}
-		else if (iChange == 1)
+		else if (iChange == -1)
 		{
 			m_iCurrentCharges--;
-			m_pConditions->SetSpecialCondition(m_iCurrentCharges != m_iMaxCharges);
-			assert(m_iCurrentCharges != -1);
+		}
+
+		if (iNegated == 1)
+		{
+			m_iCurrentCharges--;
 		}
 	}
 
