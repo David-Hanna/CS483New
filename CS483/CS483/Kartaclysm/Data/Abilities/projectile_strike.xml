@@ -1,0 +1,20 @@
+<!-- Projectile for King Pin's Strike Ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+
+    <GOC_3DModel>
+      <OBJFileName path="Assets/box/box.obj"/>
+    </GOC_3DModel>
+    
+    <GOC_Projectile />
+    <!-- TODO: Needs to auto-destroy after X seconds or on collision -->
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Harmful"/>
+  </Tags>
+</GameObject>

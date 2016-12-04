@@ -1,100 +1,88 @@
 //----------------------------------------------------------------------------
-// ComponentSampleAbility.h
+// ComponentStrikeAbility.h
 // Author: Bradley Cooper
 //
-// Component that handles the conditions for activating an ability.
+// King Pin's ability to fire a linear projectile.
 //----------------------------------------------------------------------------
 
-#include "ComponentSampleAbility.h"
+#include "ComponentStrikeAbility.h"
 
 namespace Kartaclysm
 {
-	ComponentSampleAbility::ComponentSampleAbility(
+	ComponentStrikeAbility::ComponentStrikeAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		float p_fChargeCooldown)
+		std::string p_strProjectileXML)
 		:
-		ComponentSampleAbility::ComponentAbility(p_pGameObject),
-		m_fChargeCooldown(p_fChargeCooldown)
+		ComponentAbility(p_pGameObject),
+		m_strProjectileXML(p_strProjectileXML)
 	{
-
 	}
 
-	ComponentSampleAbility::~ComponentSampleAbility()
+	ComponentStrikeAbility::~ComponentStrikeAbility()
 	{
 		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 	}
 
-	HeatStroke::Component* ComponentSampleAbility::CreateComponent(
+	HeatStroke::Component* ComponentStrikeAbility::CreateComponent(
 		HeatStroke::GameObject* p_pGameObject,
 		tinyxml2::XMLNode* p_pBaseNode,
 		tinyxml2::XMLNode* p_pOverrideNode)
 	{
-		//assert(p_pGameObject != nullptr);
+		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		float fChargeCooldown = 0.0f;
+		std::string strProjectileXML("");
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, fChargeCooldown);
+			ParseNode(p_pBaseNode, strProjectileXML);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, fChargeCooldown);
+			ParseNode(p_pOverrideNode, strProjectileXML);
 		}
 
 		// Check that we got everything we needed.
-		assert(fChargeCooldown != 0.0f);
+		assert(strProjectileXML != "");
 
-		return new ComponentSampleAbility(
+		return new ComponentStrikeAbility(
 			p_pGameObject,
-			fChargeCooldown
+			strProjectileXML
 			);
 	}
 
-	void ComponentSampleAbility::Init()
+	void ComponentStrikeAbility::Init()
 	{
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
 
 		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentSampleAbility::AbilityCallback, this, std::placeholders::_1));
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentStrikeAbility::AbilityCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
 	}
 
-	void ComponentSampleAbility::Update(const float p_fDelta)
-	{
-		if (m_fChargeCooldown > 0.0f)
-		{
-			m_fChargeCooldown -= p_fDelta;
-		}
-		else
-		{
-			m_fChargeCooldown = 3.0f;
-			m_pConditions->AddCharge();
-		}
-	}
-
-	void ComponentSampleAbility::Activate()
+	void ComponentStrikeAbility::Activate()
 	{
 		if (m_pConditions->CanActivate())
 		{
 			m_pConditions->ResetCooldown();
-			m_pConditions->RemoveCharge();
-			m_fChargeCooldown = 6.0f;
+
+			// TODO: Move projectile and assign which event to send after colliding with racer
+			HeatStroke::GameObject* pProjectile = GetGameObject()->GetManager()->CreateGameObject(m_strProjectileXML);
+			pProjectile->GetTransform().SetTranslation(GetGameObject()->GetTransform().GetTranslation());
 		}
 	}
 
-	void ComponentSampleAbility::ParseNode(
+	void ComponentStrikeAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		float& p_fChargeCooldown)
+		std::string& p_strProjectileXML)
 	{
 		assert(p_pNode != nullptr);
-		assert(strcmp(p_pNode->Value(), "GOC_SampleAbility") == 0);
+		assert(strcmp(p_pNode->Value(), "GOC_StrikeAbility") == 0);
 
 		for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
 			pChildElement != nullptr;
@@ -102,9 +90,9 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "ChargeCooldown") == 0)
+			if (strcmp(szNodeName, "ProjectileXML") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fChargeCooldown);
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strProjectileXML);
 			}
 		}
 	}

@@ -1,0 +1,22 @@
+<!-- Strike ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+  
+    <GOC_AbilityConditions>
+      <Cooldown value="12.0" />
+      <Charges value="-1" />
+    </GOC_AbilityConditions>
+
+    <GOC_StrikeAbility>
+      <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_strike.xml" />
+    </GOC_StrikeAbility>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Ability"/>
+  </Tags>
+</GameObject>
