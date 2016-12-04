@@ -78,6 +78,7 @@ namespace Kartaclysm
 		const float m_fVerticalSpeedScale = 1.0f;
 
 		float m_fHeightAboveGroundStat = 0.2f;
+		float m_fStickyHeightStat = 0.1f;
 		float m_fMaxSpeedStat = 20.f;
 		float m_fMaxReverseSpeedStat = 6.0f;
 		float m_fAccelerationStat = 2.0f;
@@ -104,6 +105,7 @@ namespace Kartaclysm
 		float m_fSlideChargeThreshold = 0.5f;
 
 		float m_fGroundHeight = 0.0f;
+		float m_fPreviousHeight = 0.0f;
 		float m_fSpeed = 0.0f;
 		float m_fDirection = 0.0f;
 		float m_fTurnSpeed = 0.0f;
