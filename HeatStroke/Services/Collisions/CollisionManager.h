@@ -49,6 +49,7 @@ namespace HeatStroke
 		static CollisionManager* Instance();
 
 		void RegisterCollider(ComponentCollider* p_pCollider, std::string p_strGuid);
+		void UnregisterCollider(std::string p_strGuid) { m_mColliderMap.erase(p_strGuid); }
 
 		void Update(const float p_fDelta);
 		void PreRender();
