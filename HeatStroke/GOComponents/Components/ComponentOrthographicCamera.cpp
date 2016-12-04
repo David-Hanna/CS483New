@@ -9,6 +9,7 @@
 
 HeatStroke::ComponentOrthographicCamera::ComponentOrthographicCamera(
 	GameObject* p_pGameObject,
+	SceneManager::SceneViewportSelection p_eViewportSelection,
 	const glm::vec3& p_vPosition,
 	const glm::vec3& p_vTarget,
 	const glm::vec3& p_vUp,
@@ -26,14 +27,15 @@ HeatStroke::ComponentOrthographicCamera::ComponentOrthographicCamera(
 		p_fRight,
 		p_fBottom,
 		p_fTop
-	)
+	),
+	m_eViewportSelection(p_eViewportSelection)
 {
-	SceneManager::Instance()->AddOrthographicCamera(&m_mSceneOrthographicCamera);
+	SceneManager::Instance()->AddOrthographicCamera(&m_mSceneOrthographicCamera, m_eViewportSelection);
 }
 
 HeatStroke::ComponentOrthographicCamera::~ComponentOrthographicCamera()
 {
-	SceneManager::Instance()->RemoveOrthographicCamera(&m_mSceneOrthographicCamera);
+	SceneManager::Instance()->RemoveOrthographicCamera(m_eViewportSelection);
 }
 
 HeatStroke::Component* HeatStroke::ComponentOrthographicCamera::CreateComponent(
@@ -44,6 +46,7 @@ HeatStroke::Component* HeatStroke::ComponentOrthographicCamera::CreateComponent(
 	assert(p_pGameObject != nullptr);
 
 	// Defaults
+	std::string strViewportSelection("full");
 	glm::vec3 vPosition(0.0f, 0.0f, 0.0f);
 	glm::vec3 vTarget(0.0f, 0.0f, -5.0f);
 	glm::vec3 vUp(0.0f, 1.0f, 0.0f);
@@ -54,25 +57,29 @@ HeatStroke::Component* HeatStroke::ComponentOrthographicCamera::CreateComponent(
 
 	if (p_pBaseNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, vPosition, vTarget, vUp, fLeft, fRight, fBottom, fTop);
+		ParseNode(p_pBaseNode, strViewportSelection, vPosition, vTarget, vUp, fLeft, fRight, fBottom, fTop);
 	}
 	if (p_pOverrideNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, vPosition, vTarget, vUp, fLeft, fRight, fBottom, fTop);
+		ParseNode(p_pBaseNode, strViewportSelection, vPosition, vTarget, vUp, fLeft, fRight, fBottom, fTop);
 	}
 
-	return new ComponentOrthographicCamera(p_pGameObject, vPosition, vTarget, vUp, fLeft, fRight, fBottom, fTop);
-}
-
-void HeatStroke::ComponentOrthographicCamera::SetSceneOrthographicCamera(const HeatStroke::SceneOrthographicCamera& p_mSceneOrthographicCamera)
-{
-	SceneManager::Instance()->RemoveOrthographicCamera(&m_mSceneOrthographicCamera);
-	m_mSceneOrthographicCamera = p_mSceneOrthographicCamera;
-	SceneManager::Instance()->AddOrthographicCamera(&m_mSceneOrthographicCamera);
+	return new ComponentOrthographicCamera(
+		p_pGameObject, 
+		SceneManager::ParseViewportSelection(strViewportSelection), 
+		vPosition, 
+		vTarget, 
+		vUp, 
+		fLeft, 
+		fRight, 
+		fBottom, 
+		fTop
+	);
 }
 
 void HeatStroke::ComponentOrthographicCamera::ParseNode(
 	tinyxml2::XMLNode* p_pNode,
+	std::string& p_strViewportSelection,
 	glm::vec3& p_vPosition,
 	glm::vec3& p_vTarget,
 	glm::vec3& p_vUp,
@@ -84,6 +91,8 @@ void HeatStroke::ComponentOrthographicCamera::ParseNode(
 {
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_OrthographicCamera") == 0);
+
+	EasyXML::GetRequiredStringAttribute(p_pNode->ToElement(), "viewport", p_strViewportSelection);
 
 	for (tinyxml2::XMLElement*  pChildElement = p_pNode->FirstChildElement();
 		pChildElement != nullptr;
