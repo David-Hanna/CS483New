@@ -9,6 +9,7 @@
 
 HeatStroke::ComponentPerspectiveCamera::ComponentPerspectiveCamera(
 	GameObject* p_pGameObject,
+	SceneManager::SceneViewportSelection p_eViewportSelection,
 	const float p_fFOV,
 	const float p_fAspectRatio,
 	const float p_fNearClip,
@@ -25,14 +26,15 @@ HeatStroke::ComponentPerspectiveCamera::ComponentPerspectiveCamera(
 		p_fNearClip,
 		p_fFarClip
 	),
+	m_eViewportSelection(p_eViewportSelection),
 	m_pTargetGameObject(p_pTargetGameObject)
 {
-	SceneManager::Instance()->AddPerspectiveCamera(&m_mScenePerspectiveCamera);
+	SceneManager::Instance()->AddPerspectiveCamera(&m_mScenePerspectiveCamera, m_eViewportSelection);
 }
 
 HeatStroke::ComponentPerspectiveCamera::~ComponentPerspectiveCamera()
 {
-	SceneManager::Instance()->RemovePerspectiveCamera(&m_mScenePerspectiveCamera);
+	SceneManager::Instance()->RemovePerspectiveCamera(m_eViewportSelection);
 }
 
 HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
@@ -43,6 +45,7 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 	assert(p_pGameObject != nullptr);
 
 	// Defaults
+	std::string strViewportSelection("full");
 	float fFOV = 45.0f;
 	float fAspectRatioWidth = 1280.0f;
 	float fAspectRatioHeight = 720.0f;
@@ -53,11 +56,11 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 
 	if (p_pBaseNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
+		ParseNode(p_pBaseNode, strViewportSelection, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
 	}
 	if (p_pOverrideNode != nullptr)
 	{
-		ParseNode(p_pOverrideNode, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
+		ParseNode(p_pOverrideNode, strViewportSelection, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
 	}
 
 	// Apply the target if one was set.
@@ -68,6 +71,7 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 
 	return new ComponentPerspectiveCamera(
 		p_pGameObject, 
+		SceneManager::ParseViewportSelection(strViewportSelection),
 		fFOV, 
 		fAspectRatioWidth / fAspectRatioHeight, 
 		fNearClip, 
@@ -95,16 +99,9 @@ void HeatStroke::ComponentPerspectiveCamera::Update(const float p_fDelta)
 }
 
 
-void HeatStroke::ComponentPerspectiveCamera::SetScenePerspectiveCamera(const HeatStroke::ScenePerspectiveCamera& p_mScenePerspectiveCamera)
-{
-	SceneManager::Instance()->RemovePerspectiveCamera(&m_mScenePerspectiveCamera);
-	m_mScenePerspectiveCamera = p_mScenePerspectiveCamera;
-	SceneManager::Instance()->AddPerspectiveCamera(&m_mScenePerspectiveCamera);
-}
-
-
 void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 	tinyxml2::XMLNode* p_pNode,
+	std::string& p_strViewportSelection,
 	float& p_fFOV,
 	float& p_fAspectRatioWidth,
 	float& p_fAspectRatioHeight,
@@ -115,6 +112,8 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 {
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_PerspectiveCamera") == 0);
+
+	EasyXML::GetRequiredStringAttribute(p_pNode->ToElement(), "viewport", p_strViewportSelection);
 
 	for (tinyxml2::XMLElement*  pChildElement = p_pNode->FirstChildElement();
 		pChildElement != nullptr;

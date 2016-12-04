@@ -46,8 +46,6 @@ Game::~Game()
 //------------------------------------------------------------------------------
 int Game::Run(const char* p_strAppName, int p_iWindowWidth, int p_iWindowHeight)
 {
-	int width, height;
-	double x;
 	float t;
 
 	// Initialise GLFW
@@ -100,15 +98,6 @@ int Game::Run(const char* p_strAppName, int p_iWindowWidth, int p_iWindowHeight)
 	while (bContinue && glfwGetKey(m_pWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(m_pWindow))
 	{
 		t = static_cast<float>(glfwGetTime());
-		glfwGetCursorPos(m_pWindow, &x, NULL);
-
-		// Get window size (may be different than the requested size)
-		glfwGetWindowSize(m_pWindow, &width, &height);
-
-		// Special case: avoid division by zero below
-		height = height > 0 ? height : 1;
-
-		glViewport(0, 0, width, height);
 
 		// Clear color buffer to black
 		glClearColor( 0.7f, 0.7f, 1.0f, 0.0f );

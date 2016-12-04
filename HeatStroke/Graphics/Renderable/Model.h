@@ -17,6 +17,7 @@
 
 #ifdef _DEBUG
 #include "Common.h"
+#include "ScenePerspectiveCamera.h"
 #endif
 
 namespace HeatStroke

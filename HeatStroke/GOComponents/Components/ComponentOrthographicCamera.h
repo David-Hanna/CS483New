@@ -35,18 +35,18 @@ namespace HeatStroke
 		virtual void Init() override						{}
 		virtual void Update(const float p_fDelta) override	{}
 
-		// Accessors
-		SceneOrthographicCamera& GetSceneOrthographicCamera()	{ return m_mSceneOrthographicCamera; }
-		void					 SetSceneOrthographicCamera(const SceneOrthographicCamera& p_mSceneOrthographicCamera);
-
 	private:
 		// The Scene Camera this component is responsible for.
 		SceneOrthographicCamera m_mSceneOrthographicCamera;
+
+		// The viewport the scene camera was placed in in the scene manager.
+		SceneManager::SceneViewportSelection m_eViewportSelection;
 
 	private:
 		// Prevent public construction.
 		ComponentOrthographicCamera(
 			GameObject* p_pGameObject,
+			SceneManager::SceneViewportSelection p_eViewportSelection,
 			const glm::vec3& p_vPosition,
 			const glm::vec3& p_vTarget,
 			const glm::vec3& p_vUp,
@@ -58,6 +58,7 @@ namespace HeatStroke
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
+			std::string& p_strViewportSelection,
 			glm::vec3& p_vPosition,
 			glm::vec3& p_vTarget,
 			glm::vec3& p_vUp,
