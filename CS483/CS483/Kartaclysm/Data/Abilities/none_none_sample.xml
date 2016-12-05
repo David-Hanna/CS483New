@@ -7,7 +7,8 @@
   
     <GOC_AbilityConditions>
       <Cooldown value="1.0" />
-      <Charges value="3" />
+      <MaxCharges value="3" />
+      <StartCharges value="0" />
     </GOC_AbilityConditions>
 
     <GOC_SampleAbility>

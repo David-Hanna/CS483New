@@ -26,12 +26,20 @@ bool Kartaclysm::KartGame::Init()
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
+	// TEMP: get kart and driver files
+	// this will eventually happen in a separate state before StateRacing
+	std::string strKartFile = "CS483/CS483/Kartaclysm/Data/kart.xml";
+	std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/driver.xml";
+	std::map<std::string, std::string> mContextParams;
+	mContextParams.insert(std::pair<std::string, std::string>("KartDefinitionFile", strKartFile));
+	mContextParams.insert(std::pair<std::string, std::string>("DriverDefinitionFile", strDriverFile));
+
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	m_pGameStates->RegisterState(0, new StateRacing());
 	m_pGameStates->RegisterState(1, new StatePaused());
-	m_pGameStates->Push(0);
+	m_pGameStates->Push(0, mContextParams);
 
 	return true;
 }

@@ -7,7 +7,8 @@
   
     <GOC_AbilityConditions>
       <Cooldown value="2.0" />
-      <Charges value="-1" />
+      <MaxCharges value="-1" />
+      <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
     <GOC_WheelieAbility>

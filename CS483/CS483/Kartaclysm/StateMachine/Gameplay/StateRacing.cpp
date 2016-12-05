@@ -37,6 +37,7 @@ Kartaclysm::StateRacing::~StateRacing()
 // Parameter:	std::map<std::string, std::string> p_mContextParameters - parameters for state
 // 
 // Called when this state is pushed onto the stack.
+// TODO: change context params from std::map<std::string, std::string> to be more like Event params
 //------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
@@ -67,6 +68,8 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SampleAbility", ComponentSampleAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_BoostAbility", ComponentBoostAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_WheelieAbility", ComponentWheelieAbility::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_ArmorPlateAbility", ComponentArmorPlateAbility::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_MaintainAbility", ComponentMaintainAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Ability", ComponentHudAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_RaceTimer", ComponentHudRaceTimer::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Position", ComponentHudPosition::CreateComponent);
@@ -74,10 +77,47 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Fps", ComponentHudFps::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Popup", ComponentHudPopup::CreateComponent);
 
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
+
 	// Handle passed context parameters
+	// TODO: need to be able to handle multiple racers
+	std::string kartFile = p_mContextParameters.at("KartDefinitionFile");
+	std::string driverFile = p_mContextParameters.at("DriverDefinitionFile");
+
+	// generate racers
+	HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, "Kart");
+	HeatStroke::GameObject* pOpponent = GenerateRacer(kartFile, driverFile, "Opponent");
 
 	// Load the GameObjects from XML.
 	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+
+	// add racers to track
+	HeatStroke::GameObject* pTrack = m_pGameObjectManager->GetGameObject("Track");
+	ComponentTrack* pTrackComponent = dynamic_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
+	pTrackComponent->RegisterRacer(pRacer);
+	pTrackComponent->RegisterRacer(pOpponent);
+	pOpponent->GetTransform().TranslateXYZ(1.0f, 0.0f, 0.0f);
+}
+
+HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid /*= ""*/)
+{
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile);
+	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile);
+
+	//TEMP: only here to allow creation of opponent
+	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/racer.xml";
+	if (strcmp(p_strGuid.c_str(), "Opponent") == 0)
+	{
+		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
+	}
+
+	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
+
+	ComponentRacer* pRacerComponent = dynamic_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
+	pRacerComponent->SetKart(pKart);
+	pRacerComponent->SetDriver(pDriver);
+
+	return pRacer;
 }
 
 void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
