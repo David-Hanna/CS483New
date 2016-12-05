@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
@@ -233,11 +235,12 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_turkey.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml" />
-    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\projectile_strike.xml" />
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom.xml" />

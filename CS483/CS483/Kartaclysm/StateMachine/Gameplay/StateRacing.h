@@ -24,6 +24,7 @@
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentBoostAbility.h"
+#include "ComponentWheelieAbility.h"
 #include "ComponentArmorPlateAbility.h"
 #include "ComponentMaintainAbility.h"
 #include "ComponentStrikeAbility.h"
