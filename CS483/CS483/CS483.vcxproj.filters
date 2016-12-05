@@ -709,5 +709,8 @@
     <Xml Include="Kartaclysm\Data\racer.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
