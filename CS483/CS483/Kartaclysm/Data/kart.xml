@@ -9,6 +9,7 @@
   <Children>
     <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />
     <GameObject guid="Player0_DriverAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_strike.xml" />
+    <GameObject guid="Player0_DriverAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_turkey.xml" />
   </Children>
   
   <Components>
