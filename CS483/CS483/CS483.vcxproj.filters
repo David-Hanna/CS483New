@@ -321,6 +321,9 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -575,6 +578,9 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentRacer.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
@@ -693,6 +699,12 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\driver.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\racer.xml">
+      <Filter>Kartaclysm\Data</Filter>
     </Xml>
   </ItemGroup>
 </Project>

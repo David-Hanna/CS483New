@@ -40,6 +40,8 @@
 #include "GameplayState.h"
 #include "EventManager.h"
 
+#include "ComponentRacer.h"
+
 namespace Kartaclysm
 {
 	class StateRacing : public Kartaclysm::GameplayState
@@ -69,6 +71,8 @@ namespace Kartaclysm
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+
+		HeatStroke::GameObject* GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid = "");
 
 		void LoadLevel(const std::string& p_strLevelPath);
 		void PauseGame(const HeatStroke::Event* p_pEvent);

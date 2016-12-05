@@ -10,6 +10,7 @@
 #define COMPONENT_TRACK_H
 
 #include "ComponentKartController.h"
+#include "ComponentRacer.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "EventManager.h"
@@ -32,6 +33,9 @@ namespace Kartaclysm
 			virtual void Init() override;
 			virtual void Update(const float p_fDelta) override;
 
+			void RegisterRacer(HeatStroke::GameObject* p_pRacer) { RegisterRacer(dynamic_cast<ComponentRacer*>(p_pRacer->GetComponent("GOC_Racer"))); }
+			void RegisterRacer(ComponentRacer* p_pRacer);
+
 			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
@@ -40,18 +44,11 @@ namespace Kartaclysm
 			ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName);
 
 		private:
-			//TODO: remove this
-			//Matt: using this to simulate a racer going around the track
-			struct RacerData
-			{
-				std::string id;
-				int currentTrackPiece;
-				int currentLap;
-			};
-
 			std::string m_strTrackName;
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
-			std::vector<RacerData> m_vRacers;
+			//NOTE: components are stored instead of objects, as it's faster to access objects from components than components from objects
+			std::vector<ComponentRacer*> m_vRacers;
+			std::function<void(const HeatStroke::Event*)>* m_pRacerTrackPieceUpdatedDelegate;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
 			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);
@@ -59,12 +56,11 @@ namespace Kartaclysm
 
 			void UpdateRacerPositions();
 			void CheckRacerFacingForward();
-			bool IsAhead(const RacerData& p_RacerA, const RacerData& p_RacerB);
+			bool IsAhead(ComponentRacer* p_RacerA, ComponentRacer* p_RacerB);
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
+			void TriggerRacerCompletedLapEvent(const std::string& p_strRacerId);
 
-			// TEMP
-			void PrintRacerPositions();
 			glm::vec3 DetermineTrackForwardDirection(int p_iTrackPieceIndex);
 			glm::vec3 DetermineRacerForwardDirection(const std::string& p_strRacerId);
 
