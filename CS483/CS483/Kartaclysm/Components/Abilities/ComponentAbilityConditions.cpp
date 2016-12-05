@@ -12,14 +12,16 @@ namespace Kartaclysm
 	ComponentAbilityConditions::ComponentAbilityConditions(
 		HeatStroke::GameObject* p_pGameObject,
 		float p_fCooldown,
-		int p_iCharges)
+		int p_iMaxCharges,
+		int p_iStartCharges)
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_fMaxCooldown(p_fCooldown),
 		m_fCurrentCooldown(p_fCooldown),
-		m_iMaxCharges(p_iCharges),
-		m_iCurrentCharges(std::min(0, p_iCharges)),
+		m_iMaxCharges(p_iMaxCharges),
+		m_iCurrentCharges(p_iStartCharges),
+		m_bSpecial(true),
 		m_bSendEvent(false)
 	{
 	}
@@ -37,26 +39,33 @@ namespace Kartaclysm
 
 		// Defaults (some for testing purposes only)
 		float fCooldown = -1.0f;
-		int iCharges = -1;
+		int iMaxCharges = -1;
+		int iStartCharges = -1;
 
 		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, fCooldown, iCharges);
+			ParseNode(p_pBaseNode, fCooldown, iMaxCharges, iStartCharges);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, fCooldown, iCharges);
+			ParseNode(p_pOverrideNode, fCooldown, iMaxCharges, iStartCharges);
 		}
 
 		// Check that we got everything we needed.
 		assert(fCooldown != -1.0f);
-		assert(iCharges >= -1);
+		assert(iMaxCharges >= -1);
+		if (iMaxCharges != -1)
+		{
+			iStartCharges = std::max(0, iStartCharges); // do not allow for -1 charges
+		}
+		assert(iStartCharges >= -1 && iStartCharges <= iMaxCharges);
 
 		return new ComponentAbilityConditions(
 			p_pGameObject,
 			fCooldown,
-			iCharges
+			iMaxCharges,
+			iStartCharges
 			);
 	}
 
@@ -97,6 +106,10 @@ namespace Kartaclysm
 			return false;
 		}
 		if (m_iCurrentCharges == 0)
+		{
+			return false;
+		}
+		if (!m_bSpecial)
 		{
 			return false;
 		}
@@ -145,7 +158,8 @@ namespace Kartaclysm
 	void ComponentAbilityConditions::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		float& p_fCooldown,
-		int& p_iCharges)
+		int& p_iMaxCharges,
+		int& p_iStartCharges)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_AbilityConditions") == 0);
@@ -160,9 +174,13 @@ namespace Kartaclysm
 			{
 				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fCooldown);
 			}
-			else if (strcmp(szNodeName, "Charges") == 0)
+			else if (strcmp(szNodeName, "MaxCharges") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iCharges);
+				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iMaxCharges);
+			}
+			else if (strcmp(szNodeName, "StartCharges") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStartCharges);
 			}
 		}
 	}

@@ -71,6 +71,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 		int m_iPlayerNum;
+		std::string m_strHitCallback;
 
 		glm::vec3 m_pOutsideForce;
 
