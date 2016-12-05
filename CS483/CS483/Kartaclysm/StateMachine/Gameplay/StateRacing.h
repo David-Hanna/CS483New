@@ -25,6 +25,7 @@
 #include "ComponentAbilityConditions.h"
 #include "ComponentAbilityIcon.h"
 #include "ComponentBoostAbility.h"
+#include "ComponentWheelieAbility.h"
 #include "ComponentArmorPlateAbility.h"
 #include "ComponentMaintainAbility.h"
 #include "ComponentSphereCollider.h"

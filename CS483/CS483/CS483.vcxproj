@@ -123,6 +123,7 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
@@ -225,11 +227,10 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
-    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
-      <SubType>Designer</SubType>
-    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom_left.xml" />
@@ -255,6 +256,7 @@
     <Xml Include="Kartaclysm\Data\opponent.xml" />
     <Xml Include="Kartaclysm\Data\racer.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />
     <Xml Include="Kartaclysm\Data\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\test_level.xml">
