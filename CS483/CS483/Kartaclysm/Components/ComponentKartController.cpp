@@ -15,6 +15,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(0), // TO DO, handle this number better
+		m_strHitCallback(""),
 
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
@@ -68,6 +69,13 @@ namespace Kartaclysm
 
 	ComponentKartController::~ComponentKartController()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Collision", m_pCollisionDelegate);
+		delete m_pCollisionDelegate;
+		m_pCollisionDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("AbilityUse", m_pAbilityDelegate);
+		delete m_pAbilityDelegate;
+		m_pAbilityDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentKartController::CreateComponent(
@@ -379,7 +387,7 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
 		p_pEvent->GetOptionalStringParameter("Target", target, target);
 
-		if (target.compare("Player0") == 0)
+		if (target.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
 		{
 			std::string ability, effect;
 			p_pEvent->GetRequiredStringParameter("Ability", ability);
@@ -395,7 +403,7 @@ namespace Kartaclysm
 
 			}*/
 		}
-		else if (originator.compare("Player0") == 0)
+		else if (originator.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
 		{
 			// TODO: make this use enums or something
 			std::string ability;
@@ -408,6 +416,30 @@ namespace Kartaclysm
 
 				Boost(power);
 			}
+			else if (ability.compare("ArmorPlate") == 0)
+			{
+				int iLayers, iMax;
+				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
+				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
+
+				// TODO: MacIntosh (ya goof), do something to change the stats here
+			}
+			else if (ability.compare("Immune") == 0)
+			{
+				p_pEvent->GetRequiredStringParameter("ListenEvent", m_strHitCallback);
+			}
+
+			/*
+			// See if an ability is waiting to negate an attack
+			if (m_strHitCallback != "")
+			{
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
+				pEvent->SetIntParameter("Negated", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				m_strHitCallback = "";
+			}
+			*/
 		}
 	}
 }

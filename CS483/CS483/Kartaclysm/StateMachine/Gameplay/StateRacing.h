@@ -24,6 +24,8 @@
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentBoostAbility.h"
+#include "ComponentArmorPlateAbility.h"
+#include "ComponentMaintainAbility.h"
 #include "ComponentStrikeAbility.h"
 #include "ComponentTurkeyAbility.h"
 #include "ComponentProjectile.h"
@@ -41,6 +43,8 @@
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"
+
+#include "ComponentRacer.h"
 
 namespace Kartaclysm
 {
@@ -71,6 +75,8 @@ namespace Kartaclysm
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+
+		HeatStroke::GameObject* GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid = "");
 
 		void LoadLevel(const std::string& p_strLevelPath);
 		void PauseGame(const HeatStroke::Event* p_pEvent);

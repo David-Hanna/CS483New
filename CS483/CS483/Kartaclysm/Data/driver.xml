@@ -1,0 +1,18 @@
+<!--TEMP: just used to simulate a driver in the kart-->
+<GameObject>
+  <Transform>
+    <Translation x="0.0" y="0.14" z="0.0" />
+	<Rotation angle="90.0" x="1.0" y="0.0" z="0.0" />
+    <Scale x="0.1" y="0.1" z="0.1" />
+  </Transform>
+
+  <Components>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Kart/Kart.obj"/>
+    </GOC_3DModel>
+  </Components>
+
+  <Tags>
+      <Tag value="Driver"/>
+  </Tags>
+</GameObject>

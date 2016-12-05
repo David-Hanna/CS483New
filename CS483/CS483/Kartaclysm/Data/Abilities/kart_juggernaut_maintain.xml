@@ -1,4 +1,4 @@
-<!-- Boost ability -->
+<!-- Maintain ability -->
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
@@ -6,14 +6,15 @@
   <Components>
   
     <GOC_AbilityConditions>
-      <Cooldown value="10.0" />
+      <Cooldown value="30.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
-    <GOC_BoostAbility>
-      <Strength value="2" />
-    </GOC_BoostAbility>
+    <GOC_MaintainAbility>
+      <MaxCharges value="5" />
+      <StartCharges value="3" />
+    </GOC_MaintainAbility>
 
   </Components>
 
