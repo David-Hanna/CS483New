@@ -112,6 +112,9 @@
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{e40c632c-9332-48bb-8e99-7f64988f019c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Racer">
+      <UniqueIdentifier>{45c8f60c-f8c3-419d-93df-45a9342544a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -279,9 +282,6 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp">
-      <Filter>Kartaclysm\Components\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
@@ -317,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -530,9 +533,6 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h">
-      <Filter>Kartaclysm\Components\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
@@ -568,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -634,9 +637,6 @@
     <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml">
-      <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
@@ -681,5 +681,14 @@
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\camera.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\driver.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\racer.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

@@ -1,30 +1,32 @@
 //----------------------------------------------------------------------------
-// ComponentSampleAbility.h
+// ComponentAbilityIcon.h
 // Author: Bradley Cooper
 //
-// Sample ability that does nothing: shows off Ability Conditions.
+// Component that sends event to set HUD icon for ability.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_SAMPLE_ABILITY_H
-#define COMPONENT_SAMPLE_ABILITY_H
+#ifndef COMPONENT_ABILITY_ICON_H
+#define COMPONENT_ABILITY_ICON_H
 
 #include <tinyxml2.h>
-#include <string>
 
-#include "ComponentAbility.h"
+#include "Component.h"
+#include "GameObject.h"
+#include "EventManager.h"
 
 namespace Kartaclysm
 {
-	class ComponentSampleAbility : public ComponentAbility
+	class ComponentAbilityIcon : public HeatStroke::Component
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_SampleAbility"; }
+		virtual const std::string FamilyID() const override		{ return "GOC_AbilityIcon"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_AbilityIcon"; }
 
 		// Destruction.
-		virtual ~ComponentSampleAbility();
+		virtual ~ComponentAbilityIcon();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -35,41 +37,40 @@ namespace Kartaclysm
 
 		// Game Loop methods.
 		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override;
-
-		// Required ability override
-		virtual void Activate() override;
+		virtual void Update(const float p_fDelta) override {}
 
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentSampleAbility(
+		ComponentAbilityIcon(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fChargeCooldown
+			const std::string& p_strAbility,
+			const std::string& p_strActiveMTLFileName,
+			const std::string& p_strActiveMaterialName,
+			const std::string& p_strInactiveMTLFileName,
+			const std::string& p_strInactiveMaterialName
 			);
-
-		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& p_fChargeCooldown
-			);
+			std::string& p_strAbility,
+			std::string& p_strActiveMTLFileName,
+			std::string& p_strActiveMaterialName,
+			std::string& p_strInactiveMTLFileName,
+			std::string& p_strInactiveMaterialName);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		// Every N seconds, add another charge
-		float m_fChargeCooldown;
-
-		// Prevent querying the GameObject for the ComponentAbilityConditions
-		ComponentAbilityConditions* m_pConditions;
-
-		// Delegate function to register with EventManager for ability activation
-		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+		std::string m_strAbility;
+		std::string m_strActiveMTLFileName;
+		std::string m_strActiveMaterialName;
+		std::string m_strInactiveMTLFileName;
+		std::string m_strInactiveMaterialName;
 	};
 }
 
-#endif // COMPONENT_ABILITY_CONDITIONS_H
+#endif // COMPONENT_ABILITY_ICON_H

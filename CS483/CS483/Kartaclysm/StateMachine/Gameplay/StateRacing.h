@@ -23,7 +23,7 @@
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
-#include "ComponentSampleAbility.h"
+#include "ComponentAbilityIcon.h"
 #include "ComponentBoostAbility.h"
 #include "ComponentSphereCollider.h"
 #include "ComponentWallCollider.h"

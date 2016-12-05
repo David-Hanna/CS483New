@@ -14,8 +14,6 @@
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="KartAbility1" />
-		      <MTLFileName path="Assets/Hud/Abilities/boost.mtl"/>
-		      <MaterialName name="boost"/>
 	      </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -30,8 +28,6 @@
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="KartAbility2" />
-          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
-          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -46,8 +42,6 @@
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="DriverAbility1" />
-          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
-          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
@@ -62,8 +56,6 @@
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="DriverAbility2" />
-          <MTLFileName path="Assets/Hud/Abilities/null.mtl"/>
-          <MaterialName name="null_ability"/>
         </GOC_HUD_Ability>
       </Components>
     </GameObject>

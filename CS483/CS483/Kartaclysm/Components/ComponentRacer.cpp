@@ -41,26 +41,16 @@ namespace Kartaclysm
 	{
 	}
 
-	void ComponentRacer::SetKart(HeatStroke::GameObject* p_pKart)
-	{
-		m_pKart = p_pKart;
-		m_pGameObject->AddChild(m_pKart);
-	}
-
-	void ComponentRacer::SetDriver(HeatStroke::GameObject* p_pDriver)
-	{
-		m_pDriver = p_pDriver;
-		m_pGameObject->AddChild(m_pDriver);
-	}
-
 	void ComponentRacer::FinishLap(const HeatStroke::Event* p_pEvent)
 	{
 		std::string strRacerId = "";
 		p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
 		if (strRacerId == GetGameObject()->GetGUID())
 		{
-			m_iCurrentLap++;
-			printf("lap: %i\n", m_iCurrentLap);
+			HeatStroke::Event* pEvent = new HeatStroke::Event(strRacerId + "_HUD_Lap");
+			pEvent->SetIntParameter("Current", ++m_iCurrentLap);
+			pEvent->SetIntParameter("Total", 3);
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}
 }

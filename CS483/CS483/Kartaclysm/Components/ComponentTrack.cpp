@@ -190,9 +190,7 @@ namespace Kartaclysm
 			glm::vec3 trackForwardDirection = DetermineTrackForwardDirection(pRacer->GetCurrentTrackPiece());
 			glm::vec3 racerForwardDirection = DetermineRacerForwardDirection(pRacer->GetGameObject()->GetGUID());
 
-			// TO DO, handle event better (toggle it, don't send every frame) and don't hardcode it Player0, Player1, etc.
-			int iRacer = (pRacer->GetGameObject()->GetGUID() == "Opponent" ? 1 : 0);
-			HeatStroke::Event* pEvent = new HeatStroke::Event("Player" + std::to_string(iRacer) + "_HUD_WrongWay");
+			HeatStroke::Event* pEvent = new HeatStroke::Event(pRacer->GetGameObject()->GetGUID() + "_HUD_WrongWay");
 			if (glm::dot(trackForwardDirection, racerForwardDirection) < 0.0f)
 			{
 				pEvent->SetIntParameter("Display", 1);
