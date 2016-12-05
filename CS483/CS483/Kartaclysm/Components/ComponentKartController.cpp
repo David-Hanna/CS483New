@@ -16,7 +16,7 @@ namespace Kartaclysm
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
-		m_iPlayerNum(0), // TO DO, handle this number better
+		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
 		m_strHitCallback(""),
 
 		m_fHeightAboveGroundStat(0.04f),
@@ -380,7 +380,7 @@ namespace Kartaclysm
 		std::string originator;
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
 
-		if (originator.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
+		if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
 			// TODO: make this use enums or something
 			std::string ability;

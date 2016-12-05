@@ -227,7 +227,9 @@
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
-    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom_left.xml" />
