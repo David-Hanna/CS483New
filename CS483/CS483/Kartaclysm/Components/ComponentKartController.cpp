@@ -389,6 +389,17 @@ namespace Kartaclysm
 
 		if (target.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
 		{
+			// See if an ability is waiting to negate an attack
+			if (m_strHitCallback != "")
+			{
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
+				pEvent->SetIntParameter("Negated", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				m_strHitCallback = "";
+				return;
+			}
+
 			std::string ability, effect;
 			p_pEvent->GetRequiredStringParameter("Ability", ability);
 			p_pEvent->GetRequiredStringParameter("Effect", effect);
@@ -428,18 +439,6 @@ namespace Kartaclysm
 			{
 				p_pEvent->GetRequiredStringParameter("ListenEvent", m_strHitCallback);
 			}
-
-			/*
-			// See if an ability is waiting to negate an attack
-			if (m_strHitCallback != "")
-			{
-				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
-				pEvent->SetIntParameter("Negated", 1);
-				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-
-				m_strHitCallback = "";
-			}
-			*/
 		}
 	}
 }

@@ -38,7 +38,6 @@ namespace Kartaclysm
 		// Defaults
 		float fStrength = 0.0f;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, fStrength);
@@ -62,7 +61,7 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-		//TODO: Set Special condition to false
+		m_pConditions->SetSpecialCondition(false);
 	}
 
 	void ComponentTurkeyAbility::Activate()
@@ -72,13 +71,15 @@ namespace Kartaclysm
 		pEvent->SetStringParameter("Ability", "Boost");
 		pEvent->SetFloatParameter("Power", m_fStrength);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+		m_pConditions->ResetCharges();
 	}
 
 	void ComponentTurkeyAbility::OnHitCallback(const HeatStroke::Event* p_pEvent)
 	{
 		m_pConditions->AddCharge();
 
-		if (m_pConditions->GetCharges() == 3) // TODO: Change 3 to GetMaxCharges() when pulled in
+		if (m_pConditions->GetCharges() == m_pConditions->GetMaxCharges())
 		{
 			m_pConditions->ResetCooldown();
 			Activate();

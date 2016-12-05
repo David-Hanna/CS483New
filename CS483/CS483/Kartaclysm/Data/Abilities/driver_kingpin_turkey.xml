@@ -7,12 +7,13 @@
 
     <GOC_AbilityConditions>
       <Cooldown value="0.0" />
-      <Charges value="-1" />
+      <MaxCharges value="3" />
+      <StartCharges value="0" />
     </GOC_AbilityConditions>
 
-    <GOC_BoostAbility>
+    <GOC_TurkeyAbility>
       <Strength value="2" />
-    </GOC_BoostAbility>
+    </GOC_TurkeyAbility>
 
   </Components>
 

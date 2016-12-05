@@ -155,6 +155,15 @@ namespace Kartaclysm
 		}
 	}
 
+	void ComponentAbilityConditions::ResetCharges()
+	{
+		if (m_iCurrentCharges > 0)
+		{
+			m_iCurrentCharges = 0;
+			m_bSendEvent = true;
+		}
+	}
+
 	void ComponentAbilityConditions::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		float& p_fCooldown,
@@ -193,6 +202,7 @@ namespace Kartaclysm
 		pEvent->SetFloatParameter("MaxCooldown", m_fMaxCooldown);
 		pEvent->SetIntParameter("Charges", m_iCurrentCharges);
 		pEvent->SetIntParameter("MaxCharges", m_iMaxCharges);
+		pEvent->SetIntParameter("Special", m_bSpecial ? 1 : 0);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }
