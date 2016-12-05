@@ -52,6 +52,7 @@ namespace Kartaclysm
 	private:
 		HeatStroke::GameObject* m_pKart;
 		HeatStroke::GameObject* m_pDriver;
+		std::function<void(const HeatStroke::Event*)>* m_pLapCompleteDelegate;
 
 		int m_iCurrentTrackPiece;
 		int m_iCurrentLap;

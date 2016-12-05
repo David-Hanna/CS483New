@@ -19,12 +19,14 @@ namespace Kartaclysm
 		m_iCurrentPosition(1),
 		m_iCurrentTrackPiece(0)
 	{
-		std::function<void(const HeatStroke::Event*)>* lapCompleteDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishLap, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", lapCompleteDelegate);
+		m_pLapCompleteDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishLap, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", m_pLapCompleteDelegate);
 	}
 
 	ComponentRacer::~ComponentRacer()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("RacerCompletedLap", m_pLapCompleteDelegate);
+		delete m_pLapCompleteDelegate;
 	}
 
 	HeatStroke::Component* ComponentRacer::CreateComponent(

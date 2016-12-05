@@ -12,12 +12,14 @@ namespace Kartaclysm
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces()
 	{
-		std::function<void(const HeatStroke::Event*)>* func = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", func);
+		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 	}
 
 	ComponentTrack::~ComponentTrack()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
+		delete m_pRacerTrackPieceUpdatedDelegate;
 	}
 
 	HeatStroke::Component* ComponentTrack::CreateComponent(HeatStroke::GameObject* p_pGameObject, tinyxml2::XMLNode* p_pBaseNode, tinyxml2::XMLNode* p_pOverrideNode)

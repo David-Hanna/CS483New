@@ -48,6 +48,7 @@ namespace Kartaclysm
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
 			//NOTE: components are stored instead of objects, as it's faster to access objects from components than components from objects
 			std::vector<ComponentRacer*> m_vRacers;
+			std::function<void(const HeatStroke::Event*)>* m_pRacerTrackPieceUpdatedDelegate;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
 			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);
