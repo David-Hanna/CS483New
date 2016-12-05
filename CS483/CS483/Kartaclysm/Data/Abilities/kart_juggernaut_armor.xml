@@ -1,0 +1,22 @@
+<!-- Armor Plate ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+
+  <Components>
+
+    <GOC_AbilityConditions>
+      <Cooldown value="5.0" />
+      <MaxCharges value="5" />
+      <StartCharges value="3" />
+    </GOC_AbilityConditions>
+
+    <GOC_ArmorPlateAbility>
+    </GOC_ArmorPlateAbility>
+
+  </Components>
+
+  <Tags>
+    <Tag value="Ability"/>
+  </Tags>
+</GameObject>

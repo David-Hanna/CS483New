@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------------
-// ComponentBoostAbility.h
+// ComponentArmorPlateAbility.h
 // Author: Bradley Cooper
 //
-// Speedster's ability to give a temporary speed boost.
+// Juggernaut's ability to use charges to negate attacks and affect stats.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_BOOST_ABILITY_H
-#define COMPONENT_BOOST_ABILITY_H
+#ifndef COMPONENT_ARMOR_ABILITY_H
+#define COMPONENT_ARMOR_ABILITY_H
 
 #include <tinyxml2.h>
 #include <string>
@@ -15,16 +15,16 @@
 
 namespace Kartaclysm
 {
-	class ComponentBoostAbility : public ComponentAbility
+	class ComponentArmorPlateAbility : public ComponentAbility
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_BoostAbility"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_ArmorPlateAbility"; }
 
 		// Destruction.
-		virtual ~ComponentBoostAbility();
+		virtual ~ComponentArmorPlateAbility();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -35,7 +35,7 @@ namespace Kartaclysm
 
 		// Game Loop methods.
 		virtual void Init() override;
-		virtual void Update(const float p_fDelta) override {}
+		virtual void Update(const float p_fDelta) override;
 
 		// Required ability override
 		virtual void Activate() override;
@@ -44,16 +44,14 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentBoostAbility(
-			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+		ComponentArmorPlateAbility(
+			HeatStroke::GameObject* p_pGameObject
 			);
 
-		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void ChargeCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength
+			tinyxml2::XMLNode* p_pNode
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,14 +59,15 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
-
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 
-		// Delegate function to register with EventManager for ability activation
-		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+		std::string m_strChargeEventName;
+		bool m_bSentImmuneEvent;
+
+		// Delegate function to register with EventManager for managing charges
+		std::function<void(const HeatStroke::Event*)>* m_pChargeDelegate;
 	};
 }
 
-#endif // COMPONENT_BOOST_ABILITY_H
+#endif // COMPONENT_ARMOR_ABILITY_H

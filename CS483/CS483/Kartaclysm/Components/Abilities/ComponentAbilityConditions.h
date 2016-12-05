@@ -45,13 +45,18 @@ namespace Kartaclysm
 
 		// Cooldown timer control
 		float GetCooldown() const { return m_fCurrentCooldown; }
+		float GetMaxCooldown() const { return m_fMaxCooldown; }
 		void ResetCooldown();
 		void ReduceCooldown(float p_fSeconds);
 
 		// Charge control
 		int GetCharges() const { return m_iCurrentCharges; }
+		int GetMaxCharges() const { return m_iMaxCharges; }
 		void AddCharge();
 		void RemoveCharge();
+
+		// Manual control of a special condition
+		void SetSpecialCondition(bool p_bSpecial) { m_bSpecial = p_bSpecial; }
 
 	protected:
 		//--------------------------------------------------------------------------
@@ -61,7 +66,8 @@ namespace Kartaclysm
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strAbility,
 			float p_fCooldown,
-			int p_iCharges
+			int p_iMaxCharges,
+			int p_iStartCharges
 			);
 
 		virtual void SendEventForHud() const;
@@ -70,7 +76,8 @@ namespace Kartaclysm
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strAbility,
 			float& p_fCooldown,
-			int& p_iCharges);
+			int& p_iMaxCharges,
+			int& p_iStartCharges);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -90,6 +97,9 @@ namespace Kartaclysm
 		// Charges
 		int		m_iMaxCharges;
 		int		m_iCurrentCharges;
+
+		// Special condition manually controlled by ability
+		bool	m_bSpecial;
 	};
 }
 
