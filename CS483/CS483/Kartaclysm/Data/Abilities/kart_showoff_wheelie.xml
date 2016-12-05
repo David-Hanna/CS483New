@@ -1,0 +1,24 @@
+<!-- Wheelie ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+  
+    <GOC_AbilityConditions>
+      <Cooldown value="2.0" />
+      <MaxCharges value="-1" />
+      <StartCharges value="-1" />
+    </GOC_AbilityConditions>
+
+    <GOC_WheelieAbility>
+      <Strength value="1" />
+	    <Duration value="1.0" />
+    </GOC_WheelieAbility>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Ability"/>
+  </Tags>
+</GameObject>
