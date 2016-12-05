@@ -11,8 +11,11 @@
 #include <tinyxml2.h>
 #include <string>
 
+#include "Common.h"
 #include "ComponentAbility.h"
 #include "ComponentProjectile.h"
+#include "ComponentKartController.h"
+#include "ComponentSimplePhysics.h"
 
 namespace Kartaclysm
 {

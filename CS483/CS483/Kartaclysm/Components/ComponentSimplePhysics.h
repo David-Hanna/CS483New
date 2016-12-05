@@ -36,10 +36,11 @@ namespace Kartaclysm
 			);
 
 		// Game Loop methods.
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
+		void SetDirection(float p_fDirection) { m_fDirection = p_fDirection; }
 
 	protected:
 		//--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ namespace Kartaclysm
 			);
 
 		void UpdateSpeed(float p_fDelta);
-		float UpdateHop(float p_fDelta);
+		float UpdateHeight(float p_fDelta);
 		void UpdateTransform(float p_fHeightMod);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
@@ -85,6 +86,7 @@ namespace Kartaclysm
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
 		float m_fSpeed;
+		float m_fDirection;
 		bool m_bAirborne;
 		float m_fVerticalSpeed;
 

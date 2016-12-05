@@ -86,6 +86,11 @@ namespace Kartaclysm
 			assert(pProjectile != nullptr);
 			pProjectile->SetOriginator(m_strPlayerX);
 			pProjectile->SetOnHitEvent(m_strPlayerX + "_StrikeHit");
+
+			// TODO: Absolute garbage way to handle this, but I'm not diving deep into the physics to change it
+			ComponentKartController* pKart = static_cast<ComponentKartController*>(GetGameObject()->GetParent()->GetComponent("GOC_KartController"));
+			ComponentSimplePhysics* pPhysics = static_cast<ComponentSimplePhysics*>(pStrike->GetComponent("GOC_SimplePhysics"));
+			pPhysics->SetDirection(pKart->GetDirection());
 		}
 	}
 

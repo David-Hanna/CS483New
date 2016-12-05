@@ -85,7 +85,7 @@ namespace Kartaclysm
 
 				GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
 			}
-			else if (pOther->HasTag("Wall") || pOther->HasTag("Proectile"))
+			else if (pOther->HasTag("Wall") || pOther->HasTag("Projectile"))
 			{
 				GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
 			}

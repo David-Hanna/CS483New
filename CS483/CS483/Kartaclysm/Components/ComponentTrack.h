@@ -10,6 +10,7 @@
 #define COMPONENT_TRACK_H
 
 #include "ComponentKartController.h"
+#include "ComponentSimplePhysics.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "EventManager.h"
@@ -33,6 +34,7 @@ namespace Kartaclysm
 			virtual void Update(const float p_fDelta) override;
 
 			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
+			void RegisterForTrackHeight(const HeatStroke::Event* p_pEvent);
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
@@ -52,6 +54,10 @@ namespace Kartaclysm
 			std::string m_strTrackName;
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
 			std::vector<RacerData> m_vRacers;
+			std::map<std::string, ComponentSimplePhysics*> m_vPhysicsObjects;
+
+			std::function<void(const HeatStroke::Event*)>* m_pRacerTrackDelegate;
+			std::function<void(const HeatStroke::Event*)>* m_pRegisterDelegate;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
 			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);

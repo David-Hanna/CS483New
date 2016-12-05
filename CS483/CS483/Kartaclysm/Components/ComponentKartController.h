@@ -12,10 +12,11 @@
 
 #include "Common.h"
 #include "Component.h"
-#include "PlayerInputMapping.h"
 #include "GameObject.h"
-#include "KeyboardInputBuffer.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
+#include "KeyboardInputBuffer.h"
+#include "ComponentSphereCollider.h"
 
 namespace Kartaclysm
 {
@@ -46,6 +47,7 @@ namespace Kartaclysm
 		glm::quat GetRotationMinusSwerve();
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
+		float GetDirection() const { return m_fDirection; }
 
 	protected:
 		//--------------------------------------------------------------------------

@@ -27,6 +27,7 @@ namespace Kartaclysm
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
 		m_fSpeed(p_fSpeed),
+		m_fDirection(0.0f),
 		m_bAirborne(false),
 		m_fVerticalSpeed(0.0f),
 		m_pOutsideForce(glm::vec3())
@@ -40,6 +41,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener("Collision", m_pCollisionDelegate);
 		delete m_pCollisionDelegate;
 		m_pCollisionDelegate = nullptr;
+
+		HeatStroke::Event* pEvent = new HeatStroke::Event("TrackHeightRegister");
+		pEvent->SetGameObjectParameter("Unregister", GetGameObject()->GetGUID());
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 
 	HeatStroke::Component* ComponentSimplePhysics::CreateComponent(
@@ -50,8 +55,8 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		float fSpeed = 2.0f;
-		float fFriction = 2.0f;
+		float fSpeed;
+		float fFriction;
 
 		if (p_pBaseNode != nullptr)
 		{
@@ -69,13 +74,20 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentSimplePhysics::Init()
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event("TrackHeightRegister");
+		pEvent->SetGameObjectParameter("Register", GetGameObject()->GetGUID());
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
 	void ComponentSimplePhysics::Update(const float p_fDelta)
 	{
 		// Speeding up & slowing down
 		UpdateSpeed(p_fDelta);
 
 		// Hopping
-		float fHeightMod = UpdateHop(p_fDelta);
+		float fHeightMod = UpdateHeight(p_fDelta);
 
 		// Transform
 		UpdateTransform(fHeightMod);
@@ -90,7 +102,7 @@ namespace Kartaclysm
 		}
 	}
 
-	float ComponentSimplePhysics::UpdateHop(float p_fDelta)
+	float ComponentSimplePhysics::UpdateHeight(float p_fDelta)
 	{
 		// How much the kart moves vertically this frame
 		float fHeightMod = 0.0f;
@@ -121,7 +133,7 @@ namespace Kartaclysm
 			{
 				fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
 				m_fVerticalSpeed = 0.0f;
-				m_fSpeed *= 0.99f;
+				//m_fSpeed *= 0.99f;
 				m_bAirborne = false;
 			}
 		}
@@ -133,10 +145,11 @@ namespace Kartaclysm
 
 	void ComponentSimplePhysics::UpdateTransform(float p_fHeightMod)
 	{
-		m_pGameObject->GetTransform().Translate(m_pOutsideForce);
-		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
+		/*m_pGameObject->GetTransform().Translate(m_pOutsideForce);
+		m_pOutsideForce *= m_fOutsideForceAccelerationStat;*/
 
-		m_pGameObject->GetTransform().TranslateXYZ(0, p_fHeightMod, m_fSpeed);
+		float fSum = sinf(m_fDirection) + cosf(m_fDirection);
+		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
 	}
 
 	void ComponentSimplePhysics::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)

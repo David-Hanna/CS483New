@@ -7,8 +7,6 @@
 
 #include "ComponentKartController.h"
 
-#include "ComponentSphereCollider.h"
-
 namespace Kartaclysm
 {
 	ComponentKartController::ComponentKartController(

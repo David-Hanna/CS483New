@@ -22,7 +22,7 @@
 
     <GOC_SimplePhysics>
       <Speed value="2.0" />
-      <Frition value="0.5" />
+      <Friction value="0.0" />
     </GOC_SimplePhysics>
 
     <GOC_SelfDestruct>
