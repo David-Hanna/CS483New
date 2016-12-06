@@ -16,7 +16,9 @@ HeatStroke::StateMachine::StateMachine()
 	:
 	m_mCurrentState(-1, nullptr),
 	m_fCurrentStateTime(0.0f),
-	m_pOwner(nullptr)
+	m_pOwner(nullptr),
+	m_mStateStack(),
+	m_mStateMap()
 {
 }
 
@@ -93,14 +95,14 @@ void HeatStroke::StateMachine::Push(int p_iState, const ContextParameters& p_mCo
 		m_mCurrentState.second->Suspend(it2->first);
 	}
 
-	// Push and enter new state
-	m_mStateStack.push_back(std::pair<int, State*>(p_iState, pState));
-	pState->Enter(p_mContextParameters);
-
 	// Set the new current state info
 	m_mCurrentState.first = p_iState;
 	m_mCurrentState.second = pState;
 	m_fCurrentStateTime = 0.0f;
+
+	// Push and enter new state
+	m_mStateStack.push_back(std::pair<int, State*>(p_iState, pState));
+	pState->Enter(p_mContextParameters);
 }
 
 //------------------------------------------------------------------------------
