@@ -348,6 +348,12 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentClockAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -626,6 +632,12 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentClockAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\blue_point_light.xml">
@@ -774,6 +786,15 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_clockmaster.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaster_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaster_tinker.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
   </ItemGroup>
 </Project>

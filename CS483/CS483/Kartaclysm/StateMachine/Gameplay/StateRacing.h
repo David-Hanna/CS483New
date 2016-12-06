@@ -30,6 +30,8 @@
 #include "ComponentMaintainAbility.h"
 #include "ComponentStrikeAbility.h"
 #include "ComponentTurkeyAbility.h"
+#include "ComponentClockAbility.h"
+#include "ComponentTinkerAbility.h"
 #include "ComponentProjectile.h"
 #include "ComponentSelfDestruct.h"
 #include "ComponentSimplePhysics.h"
