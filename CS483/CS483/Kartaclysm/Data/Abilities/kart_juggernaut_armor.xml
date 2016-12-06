@@ -5,7 +5,16 @@
 
   <Components>
 
+    <GOC_AbilityIcon>
+      <Ability value="KartAbility1" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
+      <ActiveMaterialName name="boost" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
+      <InactiveMaterialName name="boost_inactive" />
+    </GOC_AbilityIcon>
+
     <GOC_AbilityConditions>
+      <Ability value="KartAbility1" />
       <Cooldown value="5.0" />
       <MaxCharges value="5" />
       <StartCharges value="3" />

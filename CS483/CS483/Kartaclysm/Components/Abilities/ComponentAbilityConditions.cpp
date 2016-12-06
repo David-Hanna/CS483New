@@ -11,12 +11,14 @@ namespace Kartaclysm
 {
 	ComponentAbilityConditions::ComponentAbilityConditions(
 		HeatStroke::GameObject* p_pGameObject,
+		const std::string& p_strAbility,
 		float p_fCooldown,
 		int p_iMaxCharges,
 		int p_iStartCharges)
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
+		m_strEventName(p_strAbility),
 		m_fMaxCooldown(p_fCooldown),
 		m_fCurrentCooldown(p_fCooldown),
 		m_iMaxCharges(p_iMaxCharges),
@@ -38,21 +40,23 @@ namespace Kartaclysm
 		//assert(p_pGameObject != nullptr);
 
 		// Defaults
+		std::string strAbility("");
 		float fCooldown = -1.0f;
 		int iMaxCharges = -1;
 		int iStartCharges = -1;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, fCooldown, iMaxCharges, iStartCharges);
+			ParseNode(p_pBaseNode, strAbility, fCooldown, iMaxCharges, iStartCharges);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, fCooldown, iMaxCharges, iStartCharges);
+			ParseNode(p_pOverrideNode, strAbility, fCooldown, iMaxCharges, iStartCharges);
 		}
 
 		// Check that we got everything we needed.
-		assert(fCooldown != -1.0f);
+		assert(strAbility != "");
+		assert(fCooldown >= 0.0f);
 		assert(iMaxCharges >= -1);
 		if (iMaxCharges != -1)
 		{
@@ -62,6 +66,7 @@ namespace Kartaclysm
 
 		return new ComponentAbilityConditions(
 			p_pGameObject,
+			strAbility,
 			fCooldown,
 			iMaxCharges,
 			iStartCharges
@@ -70,10 +75,9 @@ namespace Kartaclysm
 
 	void ComponentAbilityConditions::Init()
 	{
-		//GUID follows format of "Player0_KartAbility1": needs to be "Player0_HUD_KartAbility1"
-		m_strEventName = GetGameObject()->GetGUID();
-		int iFind = m_strEventName.find('_');
-		m_strEventName = m_strEventName.substr(0, iFind) + "_HUD" + m_strEventName.substr(iFind);
+		//GUID follows format of "Player0": needs to be "Player0_HUD_KartAbility1"
+		std::string strPlayerX = GetGameObject()->GetParent()->GetParent()->GetGUID();
+		m_strEventName = strPlayerX + "_HUD_" + m_strEventName;
 	}
 
 	void ComponentAbilityConditions::Update(const float p_fDelta)
@@ -165,6 +169,7 @@ namespace Kartaclysm
 
 	void ComponentAbilityConditions::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
+		std::string& p_strAbility,
 		float& p_fCooldown,
 		int& p_iMaxCharges,
 		int& p_iStartCharges)
@@ -178,7 +183,11 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "Cooldown") == 0)
+			if (strcmp(szNodeName, "Ability") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "value", p_strAbility);
+			}
+			else if (strcmp(szNodeName, "Cooldown") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fCooldown);
 			}

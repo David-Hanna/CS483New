@@ -36,9 +36,9 @@ namespace Kartaclysm
 		virtual void Update(const float p_fDelta) override;
 
 		HeatStroke::GameObject* GetKart() {return m_pKart;}
-		void SetKart(HeatStroke::GameObject* p_pKart);
+		void SetKart(HeatStroke::GameObject* p_pKart) { m_pKart = p_pKart; }
 		HeatStroke::GameObject* GetDriver() {return m_pDriver;}
-		void SetDriver(HeatStroke::GameObject* p_pDriver);
+		void SetDriver(HeatStroke::GameObject* p_pDriver)  { m_pDriver = p_pDriver; }
 		int GetCurrentTrackPiece() const {return m_iCurrentTrackPiece;}
 		void SetCurrentTrackPiece(int p_iNewTrackPiece) {m_iCurrentTrackPiece = p_iNewTrackPiece;}
 		int GetCurrentLap() const {return m_iCurrentLap;}

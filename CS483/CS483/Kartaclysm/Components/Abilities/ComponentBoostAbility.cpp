@@ -20,7 +20,7 @@ namespace Kartaclysm
 
 	ComponentBoostAbility::~ComponentBoostAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 	}
@@ -61,7 +61,7 @@ namespace Kartaclysm
 		
 		// Listen to activation event ("Player0_KartAbility1" as example)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentBoostAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 	}
 
 	void ComponentBoostAbility::Activate()

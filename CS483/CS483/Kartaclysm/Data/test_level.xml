@@ -15,8 +15,6 @@
 	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_left.xml"/>
 	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/-->
 
-  <GameObject guid="Player0_HUD" definition="CS483/CS483/Kartaclysm/Data/hud.xml"/>
-
 	<GameObject guid="AmbientAndDirectionalLight" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
   <!--GameObject guid="RedPointLight" definition="CS483/CS483/Kartaclysm/Data/red_point_light.xml">
 		<Transform>

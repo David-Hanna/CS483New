@@ -112,6 +112,9 @@
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{e40c632c-9332-48bb-8e99-7f64988f019c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Racer">
+      <UniqueIdentifier>{45c8f60c-f8c3-419d-93df-45a9342544a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -323,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
@@ -596,6 +602,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
@@ -733,11 +742,20 @@
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\driver.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\racer.xml">
       <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
@@ -747,6 +765,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_turkey.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
   </ItemGroup>
 </Project>

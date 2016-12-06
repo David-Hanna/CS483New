@@ -65,6 +65,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentAbilityConditions(
 			HeatStroke::GameObject* p_pGameObject,
+			const std::string& p_strAbility,
 			float p_fCooldown,
 			int p_iMaxCharges,
 			int p_iStartCharges
@@ -74,6 +75,7 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
+			std::string& p_strAbility,
 			float& p_fCooldown,
 			int& p_iMaxCharges,
 			int& p_iStartCharges);

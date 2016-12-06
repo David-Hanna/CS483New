@@ -23,6 +23,7 @@
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
 #include "ComponentAbilityConditions.h"
+#include "ComponentAbilityIcon.h"
 #include "ComponentBoostAbility.h"
 #include "ComponentWheelieAbility.h"
 #include "ComponentArmorPlateAbility.h"

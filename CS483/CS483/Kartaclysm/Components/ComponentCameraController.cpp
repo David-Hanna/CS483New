@@ -20,7 +20,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject)
 	{
-		m_pTargetKart = m_pGameObject->GetManager()->GetGameObject("Kart");
+		m_pTargetKart = m_pGameObject->GetManager()->GetGameObject("Player0");
 	}
 
 	ComponentCameraController::~ComponentCameraController()

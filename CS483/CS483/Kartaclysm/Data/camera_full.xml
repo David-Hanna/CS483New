@@ -4,7 +4,7 @@
 <GameObject>
   <Components>
     <GOC_PerspectiveCamera viewport="full">
-      <Target guid="Kart"/>
+      <Target guid="Player0"/>
     </GOC_PerspectiveCamera>
     <GOC_OrthographicCamera viewport="full"/>
   </Components>

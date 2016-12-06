@@ -58,13 +58,12 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SphereCollider", HeatStroke::ComponentSphereCollider::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_WallCollider", HeatStroke::ComponentWallCollider::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
-	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
+
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityConditions", ComponentAbilityConditions::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityIcon", ComponentAbilityIcon::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_BoostAbility", ComponentBoostAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_WheelieAbility", ComponentWheelieAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_ArmorPlateAbility", ComponentArmorPlateAbility::CreateComponent);
@@ -81,43 +80,60 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Fps", ComponentHudFps::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Popup", ComponentHudPopup::CreateComponent);
 
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 
 	// Handle passed context parameters
-	// TODO: need to be able to handle multiple racers
-	std::string kartFile = p_mContextParameters.at("KartDefinitionFile");
-	std::string driverFile = p_mContextParameters.at("DriverDefinitionFile");
+	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
+	std::vector<HeatStroke::GameObject*> vRacers;
+	for (int i = 0; i < iCount; i++)
+	{
+		std::string strPlayerX = "Player" + std::to_string(i);
 
-	// generate racers
-	HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, "Kart");
-	HeatStroke::GameObject* pOpponent = GenerateRacer(kartFile, driverFile, "Opponent");
+		std::string kartFile = p_mContextParameters.at(strPlayerX + "_KartDefinitionFile");
+		std::string driverFile = p_mContextParameters.at(strPlayerX + "_DriverDefinitionFile");
+
+		// generate racers
+		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, strPlayerX);
+		vRacers.push_back(pRacer);
+	}
 
 	// Load the GameObjects from XML.
 	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
 
 	// add racers to track
+	// Note: Needs to be done after LoadLevel so the track is loaded
+	// LoadLevel also needs to be done after "Player0" GameObject is created for the camera
 	HeatStroke::GameObject* pTrack = m_pGameObjectManager->GetGameObject("Track");
 	ComponentTrack* pTrackComponent = dynamic_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
-	pTrackComponent->RegisterRacer(pRacer);
-	pTrackComponent->RegisterRacer(pOpponent);
-	pOpponent->GetTransform().TranslateXYZ(1.0f, 0.0f, 0.0f);
+	for (int i = 0; i < iCount; i++)
+	{
+		pTrackComponent->RegisterRacer(vRacers.at(i));
+		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
+	}
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid /*= ""*/)
 {
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile);
-	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile);
-
 	//TEMP: only here to allow creation of opponent
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/racer.xml";
-	if (strcmp(p_strGuid.c_str(), "Opponent") == 0)
+	if (strcmp(p_strGuid.c_str(), "Player1") == 0)
 	{
 		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
 	}
 
-	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
+	if (p_strGuid == "Player0") // Only one HUD for now
+	{
+		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/hud.xml", p_strGuid + "_HUD");
+	}
 
-	ComponentRacer* pRacerComponent = dynamic_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
+	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
+	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
+
+	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
 	pRacerComponent->SetDriver(pDriver);
 
@@ -193,7 +209,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	// TODO: add camera as child object of kart
 	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Kart");
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Player0");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 	//pKart->GetTransform().SetScaleXYZ(0.2f, 0.2f, 0.2f);
 

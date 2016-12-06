@@ -14,7 +14,7 @@ namespace Kartaclysm
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
-		m_iPlayerNum(0), // TO DO, handle this number better
+		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
 		m_strHitCallback(""),
 
 		m_fHeightAboveGroundStat(0.04f),
@@ -387,7 +387,7 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
 		p_pEvent->GetOptionalStringParameter("Target", target, target);
 
-		if (target.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
+		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
@@ -414,7 +414,7 @@ namespace Kartaclysm
 
 			}*/
 		}
-		else if (originator.compare("Player" + std::to_string(m_iPlayerNum)) == 0)
+		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
 			// TODO: make this use enums or something
 			std::string ability;
