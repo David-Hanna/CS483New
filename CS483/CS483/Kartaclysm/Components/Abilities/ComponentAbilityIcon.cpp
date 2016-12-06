@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
-// ComponentAbilityIcon.h
+// ComponentAbilityIcon.cpp
 // Author: Bradley Cooper
 //
-// Component that handles the conditions for activating an ability.
+// Component that handles the HUD icons for an ability.
 //----------------------------------------------------------------------------
 
 #include "ComponentAbilityIcon.h"

@@ -2,7 +2,7 @@
 // ComponentAbilityIcon.h
 // Author: Bradley Cooper
 //
-// Component that sends event to set HUD icon for ability.
+// Component that handles the HUD icons for an ability.
 //----------------------------------------------------------------------------
 
 #ifndef COMPONENT_ABILITY_ICON_H
