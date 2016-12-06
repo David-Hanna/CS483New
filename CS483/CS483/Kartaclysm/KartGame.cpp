@@ -31,15 +31,20 @@ bool Kartaclysm::KartGame::Init()
 	std::string strKartFile = "CS483/CS483/Kartaclysm/Data/kart.xml";
 	std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/driver.xml";
 	std::map<std::string, std::string> mContextParams;
-	mContextParams.insert(std::pair<std::string, std::string>("KartDefinitionFile", strKartFile));
-	mContextParams.insert(std::pair<std::string, std::string>("DriverDefinitionFile", strDriverFile));
+	mContextParams.insert(std::pair<std::string, std::string>("PlayerCount", "2"));
+	//mContextParams.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml"));
+	mContextParams.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
+	mContextParams.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
+	mContextParams.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
+	mContextParams.insert(std::pair<std::string, std::string>("Player1_DriverDefinitionFile", strDriverFile));
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	m_pGameStates->RegisterState(0, new StateRacing());
 	m_pGameStates->RegisterState(1, new StatePaused());
-	m_pGameStates->Push(0, mContextParams);
+	m_pGameStates->RegisterState(2, new StateMainMenu());
+	m_pGameStates->Push(2, mContextParams);
 
 	return true;
 }

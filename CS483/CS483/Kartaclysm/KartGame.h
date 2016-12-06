@@ -18,6 +18,7 @@
 #include "GameplayState.h"
 #include "StateRacing.h"
 #include "StatePaused.h"
+#include "StateMainMenu.h"
 #include "SceneManager.h"
 
 namespace Kartaclysm
