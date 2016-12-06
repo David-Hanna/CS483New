@@ -766,5 +766,8 @@
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_turkey.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

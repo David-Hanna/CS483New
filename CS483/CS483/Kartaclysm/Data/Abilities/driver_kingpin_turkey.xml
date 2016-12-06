@@ -5,7 +5,16 @@
 
   <Components>
 
+    <GOC_AbilityIcon>
+      <Ability value="DriverAbility2" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
+      <ActiveMaterialName name="boost" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
+      <InactiveMaterialName name="boost_inactive" />
+    </GOC_AbilityIcon>
+
     <GOC_AbilityConditions>
+      <Ability value="DriverAbility2" />
       <Cooldown value="0.0" />
       <MaxCharges value="3" />
       <StartCharges value="0" />

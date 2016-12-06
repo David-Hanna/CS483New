@@ -268,6 +268,7 @@
     <Xml Include="Kartaclysm\Data\light.xml" />
     <Xml Include="Kartaclysm\Data\opponent.xml" />
     <Xml Include="Kartaclysm\Data\racer.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />
