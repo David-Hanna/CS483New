@@ -112,10 +112,10 @@ namespace HeatStroke
 		if (m_bRotationDirty)
 		{
 			m_bRotationDirty = false;
-			m_qRotation = m_qParentRotation * m_qRotation;
+			m_qDerivedRotation = m_qParentRotation * GetRelativeRotation();
 		}
 
-		return m_qRotation;
+		return m_qDerivedRotation;
 	}
 
 
