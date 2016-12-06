@@ -674,5 +674,6 @@
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\camera.xml" />
   </ItemGroup>
 </Project>

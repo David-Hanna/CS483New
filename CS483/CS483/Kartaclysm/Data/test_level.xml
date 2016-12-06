@@ -12,10 +12,10 @@
   <!-- Test Wall -->
   <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
 
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_full.xml"/>
+	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_full.xml"/-->
 	
-	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom.xml"/-->
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top.xml"/>
+	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom.xml"/>
 
 	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_left.xml"/>
 	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_right.xml"/>
