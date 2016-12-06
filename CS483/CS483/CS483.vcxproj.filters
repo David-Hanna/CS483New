@@ -345,6 +345,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentSelfDestruct.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentSelfDestruct.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
