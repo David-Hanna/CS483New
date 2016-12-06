@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentArmorPlateAbility.h
+// ComponentArmorPlateAbility.cpp
 // Author: Bradley Cooper
 //
 // Juggernaut's ability to use charges to negate attacks and affect stats.
@@ -35,7 +35,6 @@ namespace Kartaclysm
 
 		// Defaults
 		
-
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode);

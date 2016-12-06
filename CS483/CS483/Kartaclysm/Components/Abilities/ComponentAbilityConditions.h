@@ -54,6 +54,7 @@ namespace Kartaclysm
 		int GetMaxCharges() const { return m_iMaxCharges; }
 		void AddCharge();
 		void RemoveCharge();
+		void ResetCharges();
 
 		// Manual control of a special condition
 		void SetSpecialCondition(bool p_bSpecial) { m_bSpecial = p_bSpecial; }

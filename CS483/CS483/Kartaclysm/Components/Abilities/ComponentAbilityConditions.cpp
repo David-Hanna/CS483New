@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentAbilityConditions.h
+// ComponentAbilityConditions.cpp
 // Author: Bradley Cooper
 //
 // Component that handles the conditions for activating an ability.
@@ -37,12 +37,11 @@ namespace Kartaclysm
 	{
 		//assert(p_pGameObject != nullptr);
 
-		// Defaults (some for testing purposes only)
+		// Defaults
 		float fCooldown = -1.0f;
 		int iMaxCharges = -1;
 		int iStartCharges = -1;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, fCooldown, iMaxCharges, iStartCharges);
@@ -155,6 +154,15 @@ namespace Kartaclysm
 		}
 	}
 
+	void ComponentAbilityConditions::ResetCharges()
+	{
+		if (m_iCurrentCharges > 0)
+		{
+			m_iCurrentCharges = 0;
+			m_bSendEvent = true;
+		}
+	}
+
 	void ComponentAbilityConditions::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		float& p_fCooldown,
@@ -193,6 +201,7 @@ namespace Kartaclysm
 		pEvent->SetFloatParameter("MaxCooldown", m_fMaxCooldown);
 		pEvent->SetIntParameter("Charges", m_iCurrentCharges);
 		pEvent->SetIntParameter("MaxCharges", m_iMaxCharges);
+		pEvent->SetIntParameter("Special", m_bSpecial ? 1 : 0);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }

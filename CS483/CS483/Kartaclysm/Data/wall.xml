@@ -9,4 +9,8 @@
       <Wall height="0.1" width="2" />
     </GOC_WallCollider>
   </Components>
+
+  <Tags>
+    <Tag value="Wall"/>
+  </Tags>
 </GameObject>

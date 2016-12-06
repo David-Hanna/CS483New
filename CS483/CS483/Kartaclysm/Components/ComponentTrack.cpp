@@ -14,12 +14,18 @@ namespace Kartaclysm
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
+
+		m_pRegisterDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::RegisterForTrackHeight, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("TrackHeightRegister", m_pRegisterDelegate);
 	}
 
 	ComponentTrack::~ComponentTrack()
 	{
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 		delete m_pRacerTrackPieceUpdatedDelegate;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("TrackHeightRegister", m_pRegisterDelegate);
+		delete m_pRegisterDelegate;
 	}
 
 	HeatStroke::Component* ComponentTrack::CreateComponent(HeatStroke::GameObject* p_pGameObject, tinyxml2::XMLNode* p_pBaseNode, tinyxml2::XMLNode* p_pOverrideNode)
@@ -55,6 +61,7 @@ namespace Kartaclysm
 
 			if (trackComponent != nullptr)
 			{
+				// racer collision
 				for (unsigned int j = 0; j < m_vRacers.size(); ++j)
 				{
 					HeatStroke::GameObject* pRacerObject = m_vRacers[j]->GetGameObject();
@@ -65,6 +72,19 @@ namespace Kartaclysm
 						pEvent->SetStringParameter("racerId", pRacerObject->GetGUID());
 						pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[i]->GetGUID());
 						HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+					}
+				}
+
+				// physics object heights
+				auto it = m_vPhysicsObjects.begin(), end = m_vPhysicsObjects.end();
+				for (; it != end; it++)
+				{
+					HeatStroke::GameObject* pPhysicsObject = it->second->GetGameObject();
+
+					if (trackComponent->CheckInBounds(pPhysicsObject->GetTransform().GetTranslation()))
+					{
+						ComponentTrackPiece* trackPiece = static_cast<ComponentTrackPiece*>(m_vTrackPieces[i]->GetComponent("GOC_TrackPiece"));
+						it->second->UpdateTrackHeight(trackPiece->HeightAtPosition(pPhysicsObject->GetTransform().GetTranslation()));
 					}
 				}
 			}
@@ -117,6 +137,24 @@ namespace Kartaclysm
 		if (kartController != nullptr && trackPiece != nullptr)
 		{
 			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
+		}
+	}
+
+	void ComponentTrack::RegisterForTrackHeight(const HeatStroke::Event* p_pEvent)
+	{
+		std::string strRegister, strUnregister;
+		p_pEvent->GetOptionalGameObjectParameter("Register", strRegister, "");
+		p_pEvent->GetOptionalGameObjectParameter("Unregister", strUnregister, "");
+
+		if (strRegister != "")
+		{
+			HeatStroke::GameObject* pGO = GetGameObject()->GetManager()->GetGameObject(strRegister);
+			ComponentSimplePhysics* pPhysics = static_cast<ComponentSimplePhysics*>(pGO->GetComponent("GOC_SimplePhysics"));
+			m_vPhysicsObjects[strRegister] = pPhysics;
+		}
+		else if (strUnregister != "")
+		{
+			m_vPhysicsObjects.erase(m_vPhysicsObjects.find(strUnregister));
 		}
 	}
 

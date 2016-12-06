@@ -11,6 +11,7 @@
 
 #include "ComponentKartController.h"
 #include "ComponentRacer.h"
+#include "ComponentSimplePhysics.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "EventManager.h"
@@ -37,6 +38,7 @@ namespace Kartaclysm
 			void RegisterRacer(ComponentRacer* p_pRacer);
 
 			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
+			void RegisterForTrackHeight(const HeatStroke::Event* p_pEvent);
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
@@ -48,7 +50,9 @@ namespace Kartaclysm
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
 			//NOTE: components are stored instead of objects, as it's faster to access objects from components than components from objects
 			std::vector<ComponentRacer*> m_vRacers;
+			std::map<std::string, ComponentSimplePhysics*> m_vPhysicsObjects;
 			std::function<void(const HeatStroke::Event*)>* m_pRacerTrackPieceUpdatedDelegate;
+			std::function<void(const HeatStroke::Event*)>* m_pRegisterDelegate;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
 			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);

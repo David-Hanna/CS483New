@@ -9,4 +9,8 @@
       <OBJFileName path="Assets/box/box.obj"/>
     </GOC_3DModel>
   </Components>
+  
+  <Tags>
+    <Tag value="Wall"/>
+  </Tags>
 </GameObject>

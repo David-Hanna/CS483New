@@ -104,15 +104,17 @@ namespace Kartaclysm
 
 	void ComponentHudAbility::AbilityCallback(const HeatStroke::Event* p_pEvent)
 	{
-		int iCharges, iMaxCharges;
+		int iCharges, iMaxCharges, iSpecial;
 		float fCooldown;
 
 		p_pEvent->GetRequiredFloatParameter("Cooldown", fCooldown);
-		p_pEvent->GetOptionalIntParameter("Charges", iCharges, -1);
-		p_pEvent->GetOptionalIntParameter("MaxCharges", iMaxCharges, -1);
+		//p_pEvent->GetRequiredFloatParameter("MaxCooldown", fMaxCooldown);
+		p_pEvent->GetRequiredIntParameter("Charges", iCharges);
+		p_pEvent->GetRequiredIntParameter("MaxCharges", iMaxCharges);
+		p_pEvent->GetRequiredIntParameter("Special", iSpecial);
 
 		// Ability icon
-		if (fCooldown <= 0.0f && iCharges != 0)
+		if (fCooldown <= 0.0f && iCharges != 0 && iSpecial == 1)
 		{
 			if (!m_bReady)
 			{

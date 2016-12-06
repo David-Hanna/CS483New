@@ -22,11 +22,12 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	m_fHeight(p_fHeight),
 	m_fWidth(p_fWidth)
 {
-	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, p_pGameObject->GetGUID());
+	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, GetGameObject()->GetGUID());
 }
 
 HeatStroke::ComponentWallCollider::~ComponentWallCollider()
 {
+	HeatStroke::CollisionManager::Instance()->UnregisterCollider(GetGameObject()->GetGUID());
 }
 
 HeatStroke::Component* HeatStroke::ComponentWallCollider::CreateComponent(
