@@ -126,6 +126,11 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentSelfDestruct.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentSimplePhysics.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentProjectile.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentTrack.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentCameraController.cpp" />
@@ -212,6 +217,11 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentSelfDestruct.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentSimplePhysics.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentProjectile.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h" />
@@ -231,6 +241,9 @@
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_turkey.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\projectile_strike.xml" />
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom.xml" />
     <Xml Include="Kartaclysm\Data\camera_bottom_left.xml" />

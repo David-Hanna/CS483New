@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentWheelieAbility.h
+// ComponentWheelieAbility.cpp
 // Author: Bradley Cooper
 //
 // Showoff's ability to reduce steering but gain speed.
@@ -38,7 +38,6 @@ namespace Kartaclysm
 		int iStrength = 0;
 		float fDuration = 0.0f;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, iStrength, fDuration);
@@ -50,7 +49,7 @@ namespace Kartaclysm
 
 		// Check that we got everything we needed.
 		assert(iStrength != 0);
-		assert(iStrength != 0.0f);
+		assert(fDuration != 0.0f);
 
 		return new ComponentWheelieAbility(
 			p_pGameObject,

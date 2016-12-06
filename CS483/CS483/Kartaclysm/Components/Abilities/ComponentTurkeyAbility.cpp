@@ -1,31 +1,34 @@
 //----------------------------------------------------------------------------
-// ComponentBoostAbility.cpp
+// ComponentTurkeyAbility.cpp
 // Author: Bradley Cooper
 //
-// Speedster's ability to give a temporary speed boost.
+// Kingpin's ability to give a temporary speed boost.
 //----------------------------------------------------------------------------
 
-#include "ComponentBoostAbility.h"
+#include "ComponentTurkeyAbility.h"
 
 namespace Kartaclysm
 {
-	ComponentBoostAbility::ComponentBoostAbility(
+	ComponentTurkeyAbility::ComponentTurkeyAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		float p_fStrength)
 		:
 		ComponentAbility(p_pGameObject),
 		m_fStrength(p_fStrength)
 	{
+		// Listen to on hit event
+		m_pOnHitDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTurkeyAbility::OnHitCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
 	}
 
-	ComponentBoostAbility::~ComponentBoostAbility()
+	ComponentTurkeyAbility::~ComponentTurkeyAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
-		delete m_pAbilityDelegate;
-		m_pAbilityDelegate = nullptr;
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
+		delete m_pOnHitDelegate;
+		m_pOnHitDelegate = nullptr;
 	}
 
-	HeatStroke::Component* ComponentBoostAbility::CreateComponent(
+	HeatStroke::Component* ComponentTurkeyAbility::CreateComponent(
 		HeatStroke::GameObject* p_pGameObject,
 		tinyxml2::XMLNode* p_pBaseNode,
 		tinyxml2::XMLNode* p_pOverrideNode)
@@ -47,44 +50,48 @@ namespace Kartaclysm
 		// Check that we got everything we needed.
 		assert(fStrength != 0.0f);
 
-		return new ComponentBoostAbility(
+		return new ComponentTurkeyAbility(
 			p_pGameObject,
 			fStrength
 			);
 	}
 
-	void ComponentBoostAbility::Init()
+	void ComponentTurkeyAbility::Init()
 	{
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-		
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentBoostAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
+		m_pConditions->SetSpecialCondition(false);
 	}
 
-	void ComponentBoostAbility::Activate()
+	void ComponentTurkeyAbility::Activate()
 	{
-		if (m_pConditions->CanActivate())
+		HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
+		pEvent->SetStringParameter("Originator", m_strPlayerX);
+		pEvent->SetStringParameter("Ability", "Boost");
+		pEvent->SetFloatParameter("Power", m_fStrength);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+		m_pConditions->ResetCharges();
+	}
+
+	void ComponentTurkeyAbility::OnHitCallback(const HeatStroke::Event* p_pEvent)
+	{
+		m_pConditions->AddCharge();
+
+		if (m_pConditions->GetCharges() == m_pConditions->GetMaxCharges())
 		{
 			m_pConditions->ResetCooldown();
-
-			//HeatStroke::Event* pEvent = new HeatStroke::Event(m_strPlayerX + "_Ability");
-			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
-			pEvent->SetStringParameter("Originator", m_strPlayerX);
-			pEvent->SetStringParameter("Ability", "Boost");
-			pEvent->SetFloatParameter("Power", m_fStrength);
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			Activate();
 		}
 	}
 
-	void ComponentBoostAbility::ParseNode(
+	void ComponentTurkeyAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		float& p_fStrength)
 	{
 		assert(p_pNode != nullptr);
-		assert(strcmp(p_pNode->Value(), "GOC_BoostAbility") == 0);
+		assert(strcmp(p_pNode->Value(), "GOC_TurkeyAbility") == 0);
 
 		for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
 			pChildElement != nullptr;

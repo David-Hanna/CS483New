@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentMaintainAbility.h
+// ComponentMaintainAbility.cpp
 // Author: Bradley Cooper
 //
 // Juggernaut's ability to use charges to negate attacks and affect stats.

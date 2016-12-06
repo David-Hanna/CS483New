@@ -1,0 +1,23 @@
+<!-- Turkey ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+
+  <Components>
+
+    <GOC_AbilityConditions>
+      <Cooldown value="0.0" />
+      <MaxCharges value="3" />
+      <StartCharges value="0" />
+    </GOC_AbilityConditions>
+
+    <GOC_TurkeyAbility>
+      <Strength value="2" />
+    </GOC_TurkeyAbility>
+
+  </Components>
+
+  <Tags>
+    <Tag value="Ability"/>
+  </Tags>
+</GameObject>
