@@ -67,6 +67,7 @@ namespace Kartaclysm
 		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
 
 		void Boost(float p_fPower);
+		void WheelieToggle();
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -106,6 +107,8 @@ namespace Kartaclysm
 		float m_fSlideChargeAccelerationStat;
 		float m_fSlideChargeMaxStat;
 		float m_fSlideChargeThreshold;
+		float m_fWheelieTurnModStat;
+		float m_fWheelieSpeedModStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -118,6 +121,7 @@ namespace Kartaclysm
 		int m_iSlideDirection;
 		float m_fSwerve;
 		float m_fSlideCharge;
+		bool m_bWheelie;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
