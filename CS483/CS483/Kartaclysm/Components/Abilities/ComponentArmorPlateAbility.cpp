@@ -35,7 +35,6 @@ namespace Kartaclysm
 
 		// Defaults
 		
-
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode);

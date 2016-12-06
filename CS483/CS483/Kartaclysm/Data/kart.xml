@@ -9,8 +9,8 @@
 
   <Children>
     <!--FIXME: having these is causing the kart to continuously spin when turning.  likely a bug with rotations of hierarchical transforms-->
-    <!--<GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_strike.xml" />
-    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_turkey.xml" />-->
+    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_strike.xml" />
+    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_turkey.xml" />
   </Children>
   
   <Components>

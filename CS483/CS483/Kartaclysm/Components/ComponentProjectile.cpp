@@ -39,7 +39,6 @@ namespace Kartaclysm
 		// Defaults
 		float fStrength = 0.0f;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, fStrength);

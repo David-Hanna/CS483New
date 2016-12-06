@@ -38,7 +38,6 @@ namespace Kartaclysm
 		int iStrength = 0;
 		float fDuration = 0.0f;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, iStrength, fDuration);

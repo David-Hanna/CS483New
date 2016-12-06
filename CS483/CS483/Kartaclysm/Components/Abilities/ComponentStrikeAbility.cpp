@@ -42,7 +42,6 @@ namespace Kartaclysm
 		// Defaults
 		std::string strProjectileXML("");
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, strProjectileXML);

@@ -37,12 +37,11 @@ namespace Kartaclysm
 	{
 		//assert(p_pGameObject != nullptr);
 
-		// Defaults (some for testing purposes only)
+		// Defaults
 		float fCooldown = -1.0f;
 		int iMaxCharges = -1;
 		int iStartCharges = -1;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, fCooldown, iMaxCharges, iStartCharges);

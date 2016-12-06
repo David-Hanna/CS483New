@@ -33,7 +33,6 @@ namespace Kartaclysm
 		// Defaults
 		float fTimer = 0.0f;
 
-		// All parameters are optional.
 		if (p_pBaseNode != nullptr)
 		{
 			ParseNode(p_pBaseNode, fTimer);
