@@ -49,7 +49,7 @@ namespace Kartaclysm
 
 		// Check that we got everything we needed.
 		assert(iStrength != 0);
-		assert(iStrength != 0.0f);
+		assert(fDuration != 0.0f);
 
 		return new ComponentWheelieAbility(
 			p_pGameObject,
