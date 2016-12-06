@@ -9,8 +9,8 @@
 
   <Children>
     <!--FIXME: having these is causing the kart to continuously spin when turning.  likely a bug with rotations of hierarchical transforms-->
-    <!--<GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />-->
-    <!--<GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/none_none_sample.xml" />-->
+    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />
+    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />
   </Children>
   
   <Components>

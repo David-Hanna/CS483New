@@ -228,12 +228,8 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml" />
-    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml">
-      <SubType>Designer</SubType>
-    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml" />
     <Xml Include="Kartaclysm\Data\blue_point_light.xml" />
