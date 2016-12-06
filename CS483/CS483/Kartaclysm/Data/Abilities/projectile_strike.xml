@@ -1,0 +1,38 @@
+<!-- Projectile for King Pin's Strike Ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+
+  <Transform>
+    <Scale x="0.5" y="0.5" z="0.5" />
+  </Transform>
+  
+  <Components>
+
+    <GOC_3DModel>
+      <OBJFileName path="Assets/box/box.obj"/>
+    </GOC_3DModel>
+
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="1.0" />
+    </GOC_SphereCollider>
+    
+    <GOC_Projectile />
+
+    <GOC_SimplePhysics>
+      <Speed value="2.0" />
+      <Friction value="0.0" />
+    </GOC_SimplePhysics>
+
+    <GOC_SelfDestruct>
+      <Timer value="5.0" />
+    </GOC_SelfDestruct>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Harmful"/>
+    <Tag value="Projectile"/>
+  </Tags>
+</GameObject>

@@ -47,7 +47,7 @@ namespace Kartaclysm
 			HeatStroke::GameObject* p_pGameObject)
 			:
 			HeatStroke::Component(p_pGameObject),
-			m_strPlayerX(p_pGameObject->GetGUID().substr(0, p_pGameObject->GetGUID().find_first_of("_"))) {}
+			m_strPlayerX(p_pGameObject->GetParent()->GetParent()->GetGUID()) {}
 
 		//--------------------------------------------------------------------------
 		// Protected variables

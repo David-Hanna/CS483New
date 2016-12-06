@@ -18,11 +18,12 @@ HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	m_pOffset(p_pOffset),
 	m_fRadius(p_fRadius)
 {
-	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, p_pGameObject->GetGUID());
+	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, GetGameObject()->GetGUID());
 }
 
 HeatStroke::ComponentSphereCollider::~ComponentSphereCollider()
 {
+	HeatStroke::CollisionManager::Instance()->UnregisterCollider(GetGameObject()->GetGUID());
 }
 
 HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(

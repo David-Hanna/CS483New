@@ -112,6 +112,9 @@
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{e40c632c-9332-48bb-8e99-7f64988f019c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Racer">
+      <UniqueIdentifier>{45c8f60c-f8c3-419d-93df-45a9342544a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -279,9 +282,6 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.cpp">
-      <Filter>Kartaclysm\Components\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClCompile>
@@ -314,6 +314,36 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentProjectile.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentSimplePhysics.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentSelfDestruct.cpp">
+      <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -527,9 +557,6 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityConditions.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentSampleAbility.h">
-      <Filter>Kartaclysm\Components\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h">
       <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
@@ -562,6 +589,36 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentRacer.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentProjectile.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentSimplePhysics.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentSelfDestruct.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -628,9 +685,6 @@
     <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Abilities\none_none_sample.xml">
-      <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
@@ -649,7 +703,12 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_ramp_up_flat.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\camera_bottom.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
@@ -674,6 +733,41 @@
     <Xml Include="Kartaclysm\Data\test_level.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\camera.xml" />
+    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_maintain.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\driver.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\racer.xml">
+      <Filter>Kartaclysm\Data</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\projectile_strike.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_turkey.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

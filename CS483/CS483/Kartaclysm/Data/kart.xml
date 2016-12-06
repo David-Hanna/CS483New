@@ -4,11 +4,13 @@
 <GameObject>
   <Transform>
     <Translation x="0.0" y="0.04" z="0.0" />
+    <Scale x="0.2" y="0.2" z="0.2" />
   </Transform>
 
   <Children>
-    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/kart_speedster_boost.xml" />
-    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/none_none_sample.xml" />
+    <!--FIXME: having these is causing the kart to continuously spin when turning.  likely a bug with rotations of hierarchical transforms-->
+    <GameObject guid="Player0_KartAbility1" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_strike.xml" />
+    <GameObject guid="Player0_KartAbility2" definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_turkey.xml" />
   </Children>
   
   <Components>
@@ -17,16 +19,9 @@
       <OBJFileName path="Assets/Kart/Kart.obj"/>
     </GOC_3DModel>
 
-    <GOC_SphereCollider>
-      <Offset x="0" y="0" z="0" />
-      <Sphere radius="0.2" />
-    </GOC_SphereCollider>
-
-    <GOC_KartController/>
-
   </Components>
 
   <Tags>
-  	<Tag value="Racer"/>
+  	<Tag value="Kart"/>
   </Tags>
 </GameObject>

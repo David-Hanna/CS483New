@@ -1,14 +1,17 @@
-<!-- Test opponent -->
-<!-- Used to show an opponent on the screen -->
-
 <GameObject>
   <Components>
-    <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Kart.obj"/>
-    </GOC_3DModel>
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="0.2" />
+    </GOC_SphereCollider>
+
+    <GOC_Racer/>
   </Components>
 
+  <Children>
+  </Children>
+
   <Tags>
-  	<Tag value="Racer"/>
+      <Tag value="Racer"/>
   </Tags>
 </GameObject>

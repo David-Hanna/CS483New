@@ -53,7 +53,7 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& m_fStrength
+			float& p_fStrength
 			);
 
 		//--------------------------------------------------------------------------

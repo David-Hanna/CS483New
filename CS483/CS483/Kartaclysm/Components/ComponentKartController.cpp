@@ -7,8 +7,6 @@
 
 #include "ComponentKartController.h"
 
-#include "ComponentSphereCollider.h"
-
 namespace Kartaclysm
 {
 	ComponentKartController::ComponentKartController(
@@ -16,9 +14,11 @@ namespace Kartaclysm
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
-		m_iPlayerNum(0), // TO DO, handle this number better
+		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
+		m_strHitCallback(""),
 
 		m_fHeightAboveGroundStat(0.04f),
+		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.024f),
 		m_fVerticalSpeedScale(0.02f),
 		m_fMaxSpeedStat(20.0f),
@@ -47,6 +47,7 @@ namespace Kartaclysm
 		m_fSlideChargeThreshold(0.2f),
 
 		m_fGroundHeight(0.04f),
+		m_fPreviousHeight(0.04f),
 		m_fSpeed(0.0f),
 		m_fDirection(0.0f),
 		m_fTurnSpeed(0.0f),
@@ -68,6 +69,13 @@ namespace Kartaclysm
 
 	ComponentKartController::~ComponentKartController()
 	{
+		HeatStroke::EventManager::Instance()->RemoveListener("Collision", m_pCollisionDelegate);
+		delete m_pCollisionDelegate;
+		m_pCollisionDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("AbilityUse", m_pAbilityDelegate);
+		delete m_pAbilityDelegate;
+		m_pAbilityDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentKartController::CreateComponent(
@@ -233,13 +241,17 @@ namespace Kartaclysm
 		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
 
 		// Handle changes in ground height
-		if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight)
+		if (!m_bAirborne && m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight + m_fStickyHeightStat)
 		{
 			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
 			m_bAirborne = false;
 		}
-		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight)
+		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight + m_fStickyHeightStat)
 		{
+			// TODO: Make this (and a lot of other stuff) use delta time properly
+			float heightDifference = m_pGameObject->GetTransform().GetTranslation().y - m_fPreviousHeight;
+
+			m_fVerticalSpeed = heightDifference;
 			m_bAirborne = true;
 		}
 		
@@ -271,6 +283,8 @@ namespace Kartaclysm
 			m_fVerticalSpeed = m_fHopInitialSpeedStat * m_fVerticalSpeedScale;
 			m_bAirborne = true;
 		}
+
+		m_fPreviousHeight = m_pGameObject->GetTransform().GetTranslation().y;
 
 		return fHeightMod;
 	}
@@ -369,10 +383,38 @@ namespace Kartaclysm
 	void ComponentKartController::HandleAbilityEvent(const HeatStroke::Event* p_pEvent)
 	{
 		// TODO: make this use game objects (brad, ya dingus)
-		std::string originator;
+		std::string originator, target = "";
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
+		p_pEvent->GetOptionalStringParameter("Target", target, target);
 
-		if (originator.compare("Player0") == 0)
+		if (target.compare(m_pGameObject->GetGUID()) == 0)
+		{
+			// See if an ability is waiting to negate an attack
+			if (m_strHitCallback != "")
+			{
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
+				pEvent->SetIntParameter("Negated", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				m_strHitCallback = "";
+				return;
+			}
+
+			std::string ability, effect;
+			p_pEvent->GetRequiredStringParameter("Ability", ability);
+			p_pEvent->GetRequiredStringParameter("Effect", effect);
+
+			// TODO: MacIntosh, spin me right round baby right round like a record player
+			/*if (ability.compare("Strike") == 0)
+			{
+
+			}
+			if (effect.compare("SpinOut") == 0)
+			{
+
+			}*/
+		}
+		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
 			// TODO: make this use enums or something
 			std::string ability;
@@ -380,10 +422,30 @@ namespace Kartaclysm
 
 			if (ability.compare("Boost") == 0)
 			{
-				float power;
-				p_pEvent->GetRequiredFloatParameter("Power", power);
+				float fPower;
+				p_pEvent->GetRequiredFloatParameter("Power", fPower);
 
-				Boost(power);
+				Boost(fPower);
+			}
+			else if (ability.compare("Wheelie") == 0)
+			{
+				float fPower, fDuration;
+				p_pEvent->GetRequiredFloatParameter("Power", fPower);
+				p_pEvent->GetRequiredFloatParameter("Duration", fDuration);
+
+				// TODO: MacIntosh, do your thingie thing
+			}
+			else if (ability.compare("ArmorPlate") == 0)
+			{
+				int iLayers, iMax;
+				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
+				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
+
+				// TODO: MacIntosh (ya goof), do something to change the stats here
+			}
+			else if (ability.compare("Immune") == 0)
+			{
+				p_pEvent->GetRequiredStringParameter("ListenEvent", m_strHitCallback);
 			}
 		}
 	}

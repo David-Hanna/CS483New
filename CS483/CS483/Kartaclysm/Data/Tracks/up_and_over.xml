@@ -1,0 +1,140 @@
+<GameObject>
+	<Components>
+		<GOC_Track>
+			<Name value="Up and Over" />
+		</GOC_Track>
+	</Components>
+
+	<Children>
+		<GameObject guid="00" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="0.0" y="0.0" z="10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="01" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_right_large.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-5.0" y="0.0" z="25.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="02" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_down.xml">
+			<Transform>
+				<Translation x="-20.0" y="-1.0" z="30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="03" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_down_flat.xml">
+			<Transform>
+				<Translation x="-30.0" y="-2.0" z="30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="04" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="-2.0" z="30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="05" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
+			<Transform>
+				<Translation x="-50.0" y="-2.0" z="30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_up_flat.xml">
+			<Transform>
+				<Translation x="-60.0" y="-1.0" z="30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="07" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left_large.xml">
+			<Transform>
+				<Translation x="-75.0" y="0.0" z="35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="08" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-80.0" y="0.0" z="50.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="09" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_up_flat.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-80.0" y="1.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="10" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left_large.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-75.0" y="2.0" z="75.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="11" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="-60.0" y="2.0" z="80.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="12" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_left_large.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-45.0" y="2.0" z="75.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="13" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="2.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="14" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="2.0" z="50.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="15" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_jump.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="3.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="16" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="17" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="0.0" z="10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="18" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="0.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="19" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_right_large.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-35.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="20" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="-20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="21" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_turn_right_large.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-5.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject guid="finish" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_finish.xml">
+			<Transform>
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+	</Children>
+</GameObject>
