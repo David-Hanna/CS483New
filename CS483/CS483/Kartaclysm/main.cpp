@@ -8,8 +8,6 @@
 #include <cstdlib>
 #include "KartGame.h"
 
-#include <SFML/Audio.hpp>
-
 int main(int argc, char* argv[])
 {
 	Kartaclysm::KartGame *game = new Kartaclysm::KartGame();
