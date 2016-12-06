@@ -18,13 +18,21 @@ namespace Kartaclysm
 		m_iCurrentCharges(p_iStartCharges),
 		m_iMaxCharges(p_iMaxCharges),
 		m_pAbilityDelegate(nullptr),
-		m_pChargeDelegate(nullptr)
+		m_pChargeDelegate(nullptr),
+		m_strChargeEventName(m_strPlayerX + "_ArmorPlate")
 	{
+		// Listen to activation event ("Player0_KartAbility1" as example)
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility2", m_pAbilityDelegate);
+
+		// Listen to any events that change the charge count for armor plates
+		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::ChargeCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
 	ComponentMaintainAbility::~ComponentMaintainAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_KartAbility2", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 
@@ -69,16 +77,6 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		std::string strGUID = GetGameObject()->GetGUID();
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
-
-		// Listen to any events that change the charge count for armor plates
-		m_strChargeEventName = strGUID.substr(0, strGUID.find('_')) + "_ArmorPlate";
-		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::ChargeCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
 	void ComponentMaintainAbility::Activate()
@@ -117,6 +115,8 @@ namespace Kartaclysm
 		{
 			m_iCurrentCharges--;
 		}
+
+		m_pConditions->SetSpecialCondition(m_iCurrentCharges != m_iMaxCharges);
 	}
 
 	void ComponentMaintainAbility::ParseNode(

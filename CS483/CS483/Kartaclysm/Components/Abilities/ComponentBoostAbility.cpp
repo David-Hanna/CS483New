@@ -16,6 +16,9 @@ namespace Kartaclysm
 		ComponentAbility(p_pGameObject),
 		m_fStrength(p_fStrength)
 	{
+		// Listen to activation event ("Player0_KartAbility1" as example)
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentBoostAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 	}
 
 	ComponentBoostAbility::~ComponentBoostAbility()
@@ -58,10 +61,6 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-		
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentBoostAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 	}
 
 	void ComponentBoostAbility::Activate()

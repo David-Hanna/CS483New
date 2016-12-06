@@ -28,11 +28,11 @@ bool Kartaclysm::KartGame::Init()
 
 	// TEMP: get kart and driver files
 	// this will eventually happen in a separate state before StateRacing
-	std::string strKartFile = "CS483/CS483/Kartaclysm/Data/kart.xml";
-	std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/driver.xml";
+	std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml";
+	std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml";
+
 	std::map<std::string, std::string> mContextParams;
 	mContextParams.insert(std::pair<std::string, std::string>("PlayerCount", "2"));
-	//mContextParams.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml"));
 	mContextParams.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
 	mContextParams.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
 	mContextParams.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
