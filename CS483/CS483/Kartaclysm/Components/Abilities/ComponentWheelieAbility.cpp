@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentWheelieAbility.h
+// ComponentWheelieAbility.cpp
 // Author: Bradley Cooper
 //
 // Showoff's ability to reduce steering but gain speed.

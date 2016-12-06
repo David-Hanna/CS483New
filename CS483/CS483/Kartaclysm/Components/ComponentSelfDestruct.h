@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentSelfDestruct.cpp
+// ComponentSelfDestruct.h
 // Author: Bradley Cooper
 //
 // Component that destroys the game object after a time period.

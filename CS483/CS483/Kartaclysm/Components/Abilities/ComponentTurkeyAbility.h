@@ -2,7 +2,7 @@
 // ComponentTurkeyAbility.h
 // Author: Bradley Cooper
 //
-// Speedster's ability to give a temporary speed boost.
+// Kingpin's ability to give a temporary speed boost.
 //----------------------------------------------------------------------------
 
 #ifndef COMPONENT_TURKEY_H

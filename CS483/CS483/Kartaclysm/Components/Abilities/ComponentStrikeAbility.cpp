@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentStrikeAbility.h
+// ComponentStrikeAbility.cpp
 // Author: Bradley Cooper
 //
 // King Pin's ability to fire a linear projectile.

@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentBoostAbility.h
+// ComponentBoostAbility.cpp
 // Author: Bradley Cooper
 //
 // Speedster's ability to give a temporary speed boost.

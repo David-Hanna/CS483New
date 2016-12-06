@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentAbilityConditions.h
+// ComponentAbilityConditions.cpp
 // Author: Bradley Cooper
 //
 // Component that handles the conditions for activating an ability.

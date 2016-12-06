@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// ComponentProjectile.cpp
+// ComponentProjectile.h
 // Author: Bradley Cooper
 //
 // Component that handles projectile collisions and events.
