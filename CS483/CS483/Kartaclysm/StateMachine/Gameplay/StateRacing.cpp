@@ -94,9 +94,10 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 		std::string kartFile = p_mContextParameters.at(strPlayerX + "_KartDefinitionFile");
 		std::string driverFile = p_mContextParameters.at(strPlayerX + "_DriverDefinitionFile");
+		std::string cameraFile = p_mContextParameters.at(strPlayerX + "_CameraDefinitionFile");
 
 		// generate racers
-		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, strPlayerX);
+		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		vRacers.push_back(pRacer);
 	}
 
@@ -115,23 +116,31 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	}
 }
 
-HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid /*= ""*/)
+HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
+(
+	const std::string& p_strKartDefinitionFile, 
+	const std::string& p_strDriverDefinitionFile, 
+	const std::string& p_strCameraDefinitionFile, 
+	const std::string& p_strGuid /*= ""*/
+)
 {
 	//TEMP: only here to allow creation of opponent
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/racer.xml";
-	if (strcmp(p_strGuid.c_str(), "Player1") == 0)
-	{
-		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
-	}
 
 	if (p_strGuid == "Player0") // Only one HUD for now
 	{
 		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/hud.xml", p_strGuid + "_HUD");
 	}
+	else if (p_strGuid == "Player1")
+	{
+		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
+	}
 
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
+	HeatStroke::GameObject* pCamera = m_pGameObjectManager->CreateGameObject(p_strCameraDefinitionFile, "", pRacer);
+	pCamera->GetTransform().SetTranslation(glm::vec3(0.0f, 0.6f, -1.2f));
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
@@ -209,6 +218,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	// TODO: add camera as child object of kart
 	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
+	/*
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Player0");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 	//pKart->GetTransform().SetScaleXYZ(0.2f, 0.2f, 0.2f);
@@ -227,12 +237,31 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
 	offset = offset + vKartPosition;
 
+	*/
+	/*
 	std::vector<HeatStroke::GameObject*> pCameras = m_pGameObjectManager->GetGameObjectsByTag("Camera");
 	std::vector<HeatStroke::GameObject*>::iterator it = pCameras.begin(), end = pCameras.end();
 	for (; it != end; it++)
 	{
-		(*it)->GetTransform().SetTranslation(offset);
+		//(*it)->GetTransform().SetTranslation(offset);
+		HeatStroke::GameObject* pCamera = *it;
+		const HeatStroke::GameObject* pParent = pCamera->GetParent();
+		const glm::vec3& vPosition = pParent->GetTransform().GetTranslation();
+		glm::vec3 vOffset = glm::vec3(0.0f, 0.6f, -1.2f);
+		ComponentKartController *pController = (ComponentKartController*)pParent->GetComponent("GOC_KartController");
+		if (pController != nullptr)
+		{
+			vOffset = vOffset * pController->GetRotationMinusSwerve();
+		}
+		else
+		{
+			vOffset = vOffset * pParent->GetTransform().GetRotation();
+		}
+		vOffset = vOffset * glm::vec3(1.0f, 1.0f, 1.0f);
+		vOffset = vOffset + vPosition;
+		pCamera->GetTransform().SetTranslation(vOffset);
 	}
+	*/
 }
 
 //------------------------------------------------------------------------------

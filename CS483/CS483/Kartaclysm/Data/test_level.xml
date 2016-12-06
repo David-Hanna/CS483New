@@ -5,15 +5,15 @@
   <!-- Test Wall -->
   <!-- <GameObject guid="Wall" definition="CS483/CS483/Kartaclysm/Data/wall.xml"/> -->
 
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_full.xml"/>
+	<!--GameObject guid="Camera-Full" definition="CS483/CS483/Kartaclysm/Data/camera_full.xml"/-->
 	
-	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom.xml"/-->
+	<!--GameObject guid="Camera-Top" definition="CS483/CS483/Kartaclysm/Data/camera_top.xml"/>
+	<GameObject guid="Camera-Bottom" definition="CS483/CS483/Kartaclysm/Data/camera_bottom.xml"/-->
 
-	<!--GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_left.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_top_right.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_left.xml"/>
-	<GameObject definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/-->
+	<!--GameObject guid="Camera-Top-Left" definition="CS483/CS483/Kartaclysm/Data/camera_top_left.xml"/>
+	<GameObject guid="Camera-Top-Right" definition="CS483/CS483/Kartaclysm/Data/camera_top_right.xml"/>
+	<GameObject guid="Camera-Bottom-Left" definition="CS483/CS483/Kartaclysm/Data/camera_bottom_left.xml"/>
+	<GameObject guid="Camera-Bottom-Right" definition="CS483/CS483/Kartaclysm/Data/camera_bottom_right.xml"/-->
 
 	<GameObject guid="AmbientAndDirectionalLight" definition="CS483/CS483/Kartaclysm/Data/light.xml"/>
   <!--GameObject guid="RedPointLight" definition="CS483/CS483/Kartaclysm/Data/red_point_light.xml">
