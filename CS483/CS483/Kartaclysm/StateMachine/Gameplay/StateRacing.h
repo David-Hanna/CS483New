@@ -78,7 +78,12 @@ namespace Kartaclysm
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 
-		HeatStroke::GameObject* GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid = "");
+		HeatStroke::GameObject* GenerateRacer(
+			const std::string& p_strKartDefinitionFile, 
+			const std::string& p_strDriverDefinitionFile, 
+			const std::string& p_strCameraDefinitionFile, 
+			const std::string& p_strGuid = ""
+		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 	};

@@ -1,7 +1,7 @@
 <GameObject>
   <Components>
     <GOC_PerspectiveCamera viewport="bottom">
-      <Target guid="Player0"/>
+      <Target guid="Player1"/>
 	  <AspectRatioHeight value="360.0"/>
     </GOC_PerspectiveCamera>
     <GOC_OrthographicCamera viewport="bottom"/>

@@ -55,7 +55,10 @@ namespace Kartaclysm
 	{
 		enum Type
 		{
-			eKeyboard = 0,
+			eKeyboard1 = 0,
+			eKeyboard2,
+			eKeyboard3,
+			eKeyboard4,
 			eJoystick
 		};
 	}
