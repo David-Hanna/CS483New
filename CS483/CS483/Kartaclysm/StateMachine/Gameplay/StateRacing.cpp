@@ -143,7 +143,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->CreateGameObject(p_strCameraDefinitionFile, "", pRacer);
-	pCamera->GetTransform().SetTranslation(glm::vec3(0.0f, 0.6f, -1.2f));
+	pCamera->GetTransform().SetTranslation(glm::vec3(0.0f, 0.4f, -1.2f));
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
