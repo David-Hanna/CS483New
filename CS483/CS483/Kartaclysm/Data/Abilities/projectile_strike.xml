@@ -10,6 +10,7 @@
   <Components>
 
     <GOC_3DModel>
+      <!--<OBJFileName path="Assets/Abilities/bowling_ball.obj"/>-->
       <OBJFileName path="Assets/box/box.obj"/>
     </GOC_3DModel>
 
