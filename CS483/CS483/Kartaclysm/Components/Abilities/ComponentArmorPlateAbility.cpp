@@ -15,8 +15,12 @@ namespace Kartaclysm
 		:
 		ComponentAbility(p_pGameObject),
 		m_pChargeDelegate(nullptr),
-		m_bSentImmuneEvent(false)
+		m_bSentImmuneEvent(false),
+		m_strChargeEventName(m_strPlayerX + "_ArmorPlate")
 	{
+		// Listen to any events that change the charge count
+		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentArmorPlateAbility::ChargeCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
 	ComponentArmorPlateAbility::~ComponentArmorPlateAbility()
@@ -58,11 +62,6 @@ namespace Kartaclysm
 		assert(m_pConditions != nullptr && "Cannot find component.");
 		m_pConditions->ResetCooldown(); // quick-fix to send HUD event to display charges
 		
-		// Listen to any events that change the charge count (GUID in format of "Player0_KartAbility1" as example)
-		std::string strGUID = GetGameObject()->GetGUID();
-		m_strChargeEventName = strGUID.substr(0, strGUID.find('_')) + "_ArmorPlate";
-		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentArmorPlateAbility::ChargeCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
 	void ComponentArmorPlateAbility::Update(const float p_fDelta)
