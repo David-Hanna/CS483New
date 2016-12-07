@@ -10,37 +10,37 @@
 	</Components>
 
   <Children>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_northsouth.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
         <Translation x="-5" y="1" z="-10" />
         <Scale x="5" y="1" z="0.01" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_northsouth.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
         <Translation x="5" y="1" z="-10" />
         <Scale x="5" y="1" z="0.01" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_northsouth.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
         <Translation x="5" y="1" z="10" />
         <Scale x="5" y="1" z="0.01" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_eastwest.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
         <Translation x="-10" y="1" z="-5" />
         <Scale x="0.01" y="1" z="5" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_eastwest.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
         <Translation x="-10" y="1" z="5" />
         <Scale x="0.01" y="1" z="5" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/wall_eastwest.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
         <Translation x="10" y="1" z="5" />
         <Scale x="0.01" y="1" z="5" />
