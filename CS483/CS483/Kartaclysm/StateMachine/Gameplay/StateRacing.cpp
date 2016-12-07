@@ -90,10 +90,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 
 	// Handle passed context parameters
-	for (std::map<std::string, std::string>::const_iterator it = p_mContextParameters.begin(); it != p_mContextParameters.end(); ++it)
-	{
-		m_mContextParams.insert(std::pair<std::string, std::string>(it->first, it->second));
-	}
+	m_mContextParams = p_mContextParameters;
 	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
 	std::vector<HeatStroke::GameObject*> vRacers;
 	for (int i = 0; i < iCount; i++)
