@@ -134,10 +134,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	{
 		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud.xml", p_strGuid + "_HUD");
 	}
-	else
-	{
-		delete pRacer->RemoveComponent("GOC_KartController");
-	}
+	// TODO: make the HUD work for multiple players.
 
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);

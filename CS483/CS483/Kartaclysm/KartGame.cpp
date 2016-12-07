@@ -25,6 +25,10 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
+	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
+	{
+		assert(false && "Failed to set number of players.");
+	}
 
 	// TEMP: get kart and driver files
 	// this will eventually happen in a separate state before StateRacing
