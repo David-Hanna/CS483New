@@ -110,7 +110,8 @@ namespace Kartaclysm
 		if (iChange != 0)
 		{
 			// Charge count changed: send armor plate event for kart controller (changes stats)
-			HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
+			//HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
+			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse"); // I don't think this is right, but it works (Brad, ya dingus)
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
 			pEvent->SetStringParameter("Ability", "ArmorPlate");
 			pEvent->SetIntParameter("Layers", m_pConditions->GetCharges());

@@ -17,6 +17,11 @@ namespace Kartaclysm
 		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
 		m_strHitCallback(""),
 
+		m_iMaxSpeedCoreStat(3),
+		m_iAccelerationCoreStat(3),
+		m_iHandlingCoreStat(3),
+		m_iDurabilityCoreStat(3),
+
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.024f),
@@ -45,6 +50,9 @@ namespace Kartaclysm
 		m_fSlideChargeAccelerationStat(0.5f),
 		m_fSlideChargeMaxStat(1.0f),
 		m_fSlideChargeThreshold(0.2f),
+		m_fWheelieTurnModStat(0.3f),
+		m_fWheelieSpeedModStat(1.2f),
+		m_fDurabilityStat(1.0f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -56,7 +64,9 @@ namespace Kartaclysm
 		m_bSliding(false),
 		m_iSlideDirection(0),
 		m_fSwerve(0.0f),
-		m_fSlideCharge(0.0f)
+		m_fSlideCharge(0.0f),
+		m_bWheelie(false),
+		m_fSpinout(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -65,6 +75,8 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener("AbilityUse", m_pAbilityDelegate);
 
 		m_pOutsideForce = glm::vec3();
+
+		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
 	ComponentKartController::~ComponentKartController()
@@ -91,6 +103,26 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		// Max Speed
+		m_fMaxSpeedStat = 18.0f + (0.8f * p_iMaxSpeed);
+		m_fMaxReverseSpeedStat = 5.6f + (0.1f * p_iMaxSpeed);
+
+		// Acceleration
+		m_fAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+		m_fReverseAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+
+		// Handling
+		m_fMaxTurnStat = 0.7f + (0.04f * p_iHandling);
+		m_fSlideModifierStat = 0.004f + (0.0005f * p_iHandling);
+		m_fSlideMaxTurnModifierStat = 1.2f + (0.1f * p_iHandling);
+		m_fTurnAtMaxSpeedStat = 0.65f + (0.05f * p_iHandling);
+
+		// Durability
+		m_fDurabilityStat = 1.0f - (0.08f * p_iDurability);
+	}
+
 	void ComponentKartController::Update(const float p_fDelta)
 	{
 		// Manually query for user input
@@ -98,6 +130,18 @@ namespace Kartaclysm
 		float fTurn;
 		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
 		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+
+		// Spinout causes all inputs to be ignored
+		if (m_fSpinout > 0.0f)
+		{
+			iAccelerate = 0;
+			iBrake = 0;
+			iSlide = 0;
+			fTurn = 0.0f;
+
+			m_fSpinout -= p_fDelta;
+			if (m_fSpinout < 0.0f) m_fSpinout = 0.0f;
+		}
 
 		// Speeding up & slowing down
 		UpdateSpeed(iAccelerate, iBrake, p_fDelta);
@@ -129,6 +173,12 @@ namespace Kartaclysm
 			fSpeedModifer = m_fSpeedWhileSlidingMinStat - ((m_fSpeedWhileSlidingMinStat - m_fSpeedWhileSlidingMaxStat) * (abs(m_fTurnSpeed) / m_fMaxTurnStat));
 		}
 
+		// And from wheelie
+		if (m_bWheelie)
+		{
+			fSpeedModifer *= m_fWheelieSpeedModStat;
+		}
+
 		// Adjust speed based on input
 		if (p_iAccelerateInput != 0)
 		{
@@ -150,6 +200,13 @@ namespace Kartaclysm
 		// Variables!
 		float fTurnTarget = m_fMaxTurnStat * p_fTurnInput;
 		float fModifier = 1.0f;
+
+		// Modify if in wheelie
+		if (m_bWheelie)
+		{
+			fTurnTarget *= m_fWheelieTurnModStat;
+			fModifier *= m_fWheelieTurnModStat;
+		}
 
 		// Determine slide direction and adjust turn parameters, if sliding
 		if (m_bSliding)
@@ -322,7 +379,14 @@ namespace Kartaclysm
 		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
 		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+		if (m_bWheelie)
+		{
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+		}
+		else
+		{
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
@@ -339,15 +403,30 @@ namespace Kartaclysm
 		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
 	}
 
+	void ComponentKartController::WheelieToggle()
+	{
+		m_bWheelie = !m_bWheelie;
+	}
+
+	void ComponentKartController::Spinout(float p_fDuration)
+	{
+		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
+	}
+
+	void ComponentKartController::ArmorPlate(int p_iArmorStack)
+	{
+		// TODO: I think maybe there should only actually be 4 stacks *shrug*
+		m_iMaxSpeedCoreStat = 1 + p_iArmorStack;
+		m_iAccelerationCoreStat = 5 - p_iArmorStack;
+		m_iHandlingCoreStat = 5 - p_iArmorStack;
+		m_iDurabilityCoreStat = 1 + p_iArmorStack;
+
+		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
+	}
+
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
-
-		glm::quat result = m_pGameObject->GetTransform().GetRotation();
-
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
-
-		return result;
+		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
 	}
 
 	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
@@ -404,15 +483,11 @@ namespace Kartaclysm
 			p_pEvent->GetRequiredStringParameter("Ability", ability);
 			p_pEvent->GetRequiredStringParameter("Effect", effect);
 
-			// TODO: MacIntosh, spin me right round baby right round like a record player
-			/*if (ability.compare("Strike") == 0)
+			if (ability.compare("Strike") == 0)
 			{
-
+				printf("Strike!\n");
+				Spinout(1.5f);
 			}
-			if (effect.compare("SpinOut") == 0)
-			{
-
-			}*/
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
@@ -425,15 +500,13 @@ namespace Kartaclysm
 				float fPower;
 				p_pEvent->GetRequiredFloatParameter("Power", fPower);
 
+				printf("Boost!\n");
 				Boost(fPower);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				float fPower, fDuration;
-				p_pEvent->GetRequiredFloatParameter("Power", fPower);
-				p_pEvent->GetRequiredFloatParameter("Duration", fDuration);
-
-				// TODO: MacIntosh, do your thingie thing
+				printf("Wheelie!\n");
+				WheelieToggle();
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{
@@ -441,7 +514,8 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
-				// TODO: MacIntosh (ya goof), do something to change the stats here
+				printf("ArmorPlate!\n");
+				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
 			{
