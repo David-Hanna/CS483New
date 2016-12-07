@@ -115,6 +115,15 @@
     <Filter Include="Kartaclysm\Data\Racer">
       <UniqueIdentifier>{45c8f60c-f8c3-419d-93df-45a9342544a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Camera">
+      <UniqueIdentifier>{14ec630b-5346-4ffc-9a08-bddd7d393716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Walls">
+      <UniqueIdentifier>{449bde97-5331-4319-8185-e58c161e2fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Lights">
+      <UniqueIdentifier>{52073a6f-9e4c-413b-9c66-41c2e571f01a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -628,33 +637,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Kartaclysm\Data\blue_point_light.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\kart.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\light.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\opponent.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\red_point_light.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\test_wall_1.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\test_wall_2.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\wall.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\hud.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
@@ -678,18 +660,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_small.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_finish.xml">
-      <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_lturn.xml">
-      <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Tracks\trackpiece_straight.xml">
-      <Filter>Kartaclysm\Data\Tracks</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\wall_northsouth.xml">
-      <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
@@ -715,33 +685,6 @@
     <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
       <Filter>Kartaclysm\Data</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\camera_bottom.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_bottom_left.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_bottom_right.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_full.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_top.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_top_left.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\camera_top_right.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\test_level.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
@@ -750,12 +693,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\driver.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\racer.xml">
-      <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
@@ -774,6 +711,60 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_jump.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_large.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\up_and_over.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_bottom.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_bottom_left.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_bottom_right.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_full.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_top.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_top_left.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_top_right.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_eastwest.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\racer.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml">
+      <Filter>Kartaclysm\Data\Lights</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Lights\light.xml">
+      <Filter>Kartaclysm\Data\Lights</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml">
+      <Filter>Kartaclysm\Data\Lights</Filter>
     </Xml>
   </ItemGroup>
 </Project>
