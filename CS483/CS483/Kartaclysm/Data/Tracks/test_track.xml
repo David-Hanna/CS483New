@@ -21,4 +21,8 @@
 		
 		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/trackpiece_finish.xml" />
 	</Children>
+
+  <Tags>
+    <Tag value="Track"/>
+  </Tags>
 </GameObject>

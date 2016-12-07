@@ -73,6 +73,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Projectile", ComponentProjectile::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SelfDestruct", ComponentSelfDestruct::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SimplePhysics", ComponentSimplePhysics::CreateComponent);
+
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Ability", ComponentHudAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_RaceTimer", ComponentHudRaceTimer::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Position", ComponentHudPosition::CreateComponent);
@@ -101,8 +102,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 		vRacers.push_back(pRacer);
 	}
 
-	// Load the GameObjects from XML.
-	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+	// Load Lights, and Tracks
+	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Light"), "AmbientAndDirectionalLight");
+	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Track"), "Track");
 
 	// add racers to track
 	// Note: Needs to be done after LoadLevel so the track is loaded
@@ -125,18 +127,18 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 )
 {
 	//TEMP: only here to allow creation of opponent
-	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/racer.xml";
-
-	if (p_strGuid == "Player0") // Only one HUD for now
-	{
-		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/hud.xml", p_strGuid + "_HUD");
-	}
-	else if (p_strGuid == "Player1")
-	{
-		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
-	}
-
+	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
+
+	if (p_strGuid == "Player0")
+	{
+		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud.xml", p_strGuid + "_HUD");
+	}
+	else
+	{
+		delete pRacer->RemoveComponent("GOC_KartController");
+	}
+
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->CreateGameObject(p_strCameraDefinitionFile, "", pRacer);
@@ -147,24 +149,6 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	pRacerComponent->SetDriver(pDriver);
 
 	return pRacer;
-}
-
-void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
-{
-	tinyxml2::XMLDocument mLevelDoc;
-	assert(mLevelDoc.LoadFile(p_strLevelPath.c_str()) == tinyxml2::XML_NO_ERROR);
-
-	tinyxml2::XMLElement* pLevelRootElement = mLevelDoc.RootElement();
-	assert(pLevelRootElement != nullptr);
-	assert(strcmp(pLevelRootElement->Value(), "Level") == 0);
-
-	// Iterate elements in the xml.
-	for (tinyxml2::XMLElement* pGameObjectElement = pLevelRootElement->FirstChildElement("GameObject");
-		 pGameObjectElement != nullptr;
-		 pGameObjectElement = pGameObjectElement->NextSiblingElement("GameObject"))
-	{
-		m_pGameObjectManager->CreateGameObject(pGameObjectElement);
-	}
 }
 
 //------------------------------------------------------------------------------
@@ -213,6 +197,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
+		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 
@@ -272,6 +257,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 void Kartaclysm::StateRacing::PreRender()
 {
 	// Render even when suspended
+	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }
 
