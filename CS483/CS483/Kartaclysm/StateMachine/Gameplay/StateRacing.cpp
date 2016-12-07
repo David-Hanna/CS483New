@@ -47,6 +47,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
+	m_pRaceFinishedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::FinishRace, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
+
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
@@ -87,6 +90,10 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 
 	// Handle passed context parameters
+	for (std::map<std::string, std::string>::const_iterator it = p_mContextParameters.begin(); it != p_mContextParameters.end(); ++it)
+	{
+		m_mContextParams.insert(std::pair<std::string, std::string>(it->first, it->second));
+	}
 	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
 	std::vector<HeatStroke::GameObject*> vRacers;
 	for (int i = 0; i < iCount; i++)
@@ -249,6 +256,10 @@ void Kartaclysm::StateRacing::Exit()
 		m_pPauseDelegate = nullptr;
 	}
 
+	HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
+	delete m_pRaceFinishedDelegate;
+	m_pRaceFinishedDelegate = nullptr;
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();
@@ -275,4 +286,12 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 
 	// Push pause state
 	m_pStateMachine->Push(1, mContext);
+}
+
+void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
+{
+	printf("restarting race\n");
+	m_pStateMachine->Pop();
+	m_pStateMachine->Push(0, m_mContextParams);
+	return;
 }
