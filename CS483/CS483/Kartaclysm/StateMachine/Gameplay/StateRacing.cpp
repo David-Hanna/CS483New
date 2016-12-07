@@ -104,7 +104,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	// Load Camera, Lights, and Tracks
 	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Camera"), "Camera");
 	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Light"), "AmbientAndDirectionalLight");
-	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Track"), "Track");
+	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("TrackDefinitionFile"), "Track");
 
 	// add racers to track
 	// Note: Needs to be done after LoadLevel so the track is loaded

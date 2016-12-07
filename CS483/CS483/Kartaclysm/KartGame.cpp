@@ -40,14 +40,15 @@ bool Kartaclysm::KartGame::Init()
 
 	mContextParams.insert(std::pair<std::string, std::string>("Camera", "CS483/CS483/Kartaclysm/Data/Camera/camera_full.xml"));
 	mContextParams.insert(std::pair<std::string, std::string>("Light", "CS483/CS483/Kartaclysm/Data/Lights/light.xml"));
-	mContextParams.insert(std::pair<std::string, std::string>("Track", "CS483/CS483/Kartaclysm/Data/Tracks/up_and_over.xml"));
 
 	// Setup State Machine and push first state
+	//TODO we need to get rid of the use of hardcoded int ids for states. It's ugly and error prone
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	m_pGameStates->RegisterState(0, new StateRacing());
 	m_pGameStates->RegisterState(1, new StatePaused());
 	m_pGameStates->RegisterState(2, new StateMainMenu());
+	m_pGameStates->RegisterState(3, new StateTrackSelect());
 	m_pGameStates->Push(2, mContextParams);
 
 	return true;

@@ -5,8 +5,8 @@
 // Gameplay state first viewed when the game loads.
 //------------------------------------------------------------------------
 
-#ifndef STATE_TEST_H
-#define STATE_TEST_H
+#ifndef STATE_MAIN_MENU_H
+#define STATE_MAIN_MENU_H
 
 #include <functional>
 
