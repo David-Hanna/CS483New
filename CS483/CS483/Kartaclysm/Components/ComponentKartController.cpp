@@ -17,6 +17,11 @@ namespace Kartaclysm
 		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
 		m_strHitCallback(""),
 
+		m_iMaxSpeedCoreStat(3),
+		m_iAccelerationCoreStat(3),
+		m_iHandlingCoreStat(3),
+		m_iDurabilityCoreStat(3),
+
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.024f),
@@ -47,6 +52,7 @@ namespace Kartaclysm
 		m_fSlideChargeThreshold(0.2f),
 		m_fWheelieTurnModStat(0.3f),
 		m_fWheelieSpeedModStat(1.2f),
+		m_fDurabilityStat(1.0f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -69,6 +75,8 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener("AbilityUse", m_pAbilityDelegate);
 
 		m_pOutsideForce = glm::vec3();
+
+		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
 	ComponentKartController::~ComponentKartController()
@@ -93,6 +101,26 @@ namespace Kartaclysm
 		return new ComponentKartController(
 			p_pGameObject
 			);
+	}
+
+	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		// Max Speed
+		m_fMaxSpeedStat = 18.0f + (0.8f * p_iMaxSpeed);
+		m_fMaxReverseSpeedStat = 5.6f + (0.1f * p_iMaxSpeed);
+
+		// Acceleration
+		m_fAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+		m_fReverseAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+
+		// Handling
+		m_fMaxTurnStat = 0.7f + (0.04f * p_iHandling);
+		m_fSlideModifierStat = 0.004f + (0.0005f * p_iHandling);
+		m_fSlideMaxTurnModifierStat = 1.2f + (0.1f * p_iHandling);
+		m_fTurnAtMaxSpeedStat = 0.65f + (0.05f * p_iHandling);
+
+		// Durability
+		m_fDurabilityStat = 1.0f - (0.08f * p_iDurability);
 	}
 
 	void ComponentKartController::Update(const float p_fDelta)
@@ -382,7 +410,18 @@ namespace Kartaclysm
 
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
-		m_fSpinout = fmaxf(p_fDuration, m_fSpinout);
+		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
+	}
+
+	void ComponentKartController::ArmorPlate(int p_iArmorStack)
+	{
+		// TODO: I think maybe there should only actually be 4 stacks *shrug*
+		m_iMaxSpeedCoreStat = 1 + p_iArmorStack;
+		m_iAccelerationCoreStat = 5 - p_iArmorStack;
+		m_iHandlingCoreStat = 5 - p_iArmorStack;
+		m_iDurabilityCoreStat = 1 + p_iArmorStack;
+
+		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
@@ -466,10 +505,6 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				//float fPower, fDuration;
-				//p_pEvent->GetRequiredFloatParameter("Power", fPower);
-				//p_pEvent->GetRequiredFloatParameter("Duration", fDuration);
-
 				printf("Wheelie!\n");
 				WheelieToggle();
 			}
@@ -480,6 +515,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
 				printf("ArmorPlate!\n");
+				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
 			{
