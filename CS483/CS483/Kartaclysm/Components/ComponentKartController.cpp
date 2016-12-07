@@ -59,7 +59,8 @@ namespace Kartaclysm
 		m_iSlideDirection(0),
 		m_fSwerve(0.0f),
 		m_fSlideCharge(0.0f),
-		m_bWheelie(false)
+		m_bWheelie(false),
+		m_fSpinout(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -101,6 +102,18 @@ namespace Kartaclysm
 		float fTurn;
 		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
 		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+
+		// Spinout causes all inputs to be ignored
+		if (m_fSpinout > 0.0f)
+		{
+			iAccelerate = 0;
+			iBrake = 0;
+			iSlide = 0;
+			fTurn = 0.0f;
+
+			m_fSpinout -= p_fDelta;
+			if (m_fSpinout < 0.0f) m_fSpinout = 0.0f;
+		}
 
 		// Speeding up & slowing down
 		UpdateSpeed(iAccelerate, iBrake, p_fDelta);
@@ -367,6 +380,11 @@ namespace Kartaclysm
 		m_bWheelie = !m_bWheelie;
 	}
 
+	void ComponentKartController::Spinout(float p_fDuration)
+	{
+		m_fSpinout = fmaxf(p_fDuration, m_fSpinout);
+	}
+
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
@@ -429,6 +447,7 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
+				Spinout(1.5f);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
