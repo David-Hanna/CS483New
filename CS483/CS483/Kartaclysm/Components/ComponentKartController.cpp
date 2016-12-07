@@ -338,7 +338,14 @@ namespace Kartaclysm
 		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
 		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+		if (m_bWheelie)
+		{
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+		}
+		else
+		{
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
@@ -358,26 +365,11 @@ namespace Kartaclysm
 	void ComponentKartController::WheelieToggle()
 	{
 		m_bWheelie = !m_bWheelie;
-
-		if (m_bWheelie)
-		{
-			printf("- wheelie started\n");
-		}
-		else
-		{
-			printf("- wheelie ended\n");
-		}
 	}
 
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f)));
-
-		glm::quat result = m_pGameObject->GetTransform().GetRotation();
-
-		m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
-
-		return result;
+		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
 	}
 
 	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
@@ -437,10 +429,6 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
-			}
-			if (effect.compare("SpinOut") == 0)
-			{
-				printf("SpinOut!\n");
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
