@@ -80,7 +80,6 @@ namespace Kartaclysm
 
 		HeatStroke::GameObject* GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid = "");
 
-		void LoadLevel(const std::string& p_strLevelPath);
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 	};
 } // namespace Kartaclysm

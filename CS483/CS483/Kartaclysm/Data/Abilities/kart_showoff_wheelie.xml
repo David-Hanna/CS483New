@@ -7,10 +7,10 @@
 
     <GOC_AbilityIcon>
       <Ability value="KartAbility1" />
-      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
-      <ActiveMaterialName name="boost" />
-      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
-      <InactiveMaterialName name="boost_inactive" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/wheelie.mtl" />
+      <ActiveMaterialName name="wheelie" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/wheelie_inactive.mtl" />
+      <InactiveMaterialName name="wheelie_inactive" />
     </GOC_AbilityIcon>
     
     <GOC_AbilityConditions>
@@ -21,7 +21,7 @@
     </GOC_AbilityConditions>
 
     <GOC_WheelieAbility>
-      <Strength value="1" />
+      <Strength value="1.0" />
 	    <Duration value="1.0" />
     </GOC_WheelieAbility>
 
