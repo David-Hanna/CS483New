@@ -47,6 +47,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
+	m_pRaceFinishedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::FinishRace, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
+
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
@@ -75,6 +78,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Projectile", ComponentProjectile::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SelfDestruct", ComponentSelfDestruct::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_SimplePhysics", ComponentSimplePhysics::CreateComponent);
+
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Ability", ComponentHudAbility::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_RaceTimer", ComponentHudRaceTimer::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_HUD_Position", ComponentHudPosition::CreateComponent);
@@ -88,6 +92,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 
 	// Handle passed context parameters
+	m_mContextParams = p_mContextParameters;
 	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
 	std::vector<HeatStroke::GameObject*> vRacers;
 	for (int i = 0; i < iCount; i++)
@@ -96,14 +101,16 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 		std::string kartFile = p_mContextParameters.at(strPlayerX + "_KartDefinitionFile");
 		std::string driverFile = p_mContextParameters.at(strPlayerX + "_DriverDefinitionFile");
+		std::string cameraFile = p_mContextParameters.at(strPlayerX + "_CameraDefinitionFile");
 
 		// generate racers
-		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, strPlayerX);
+		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		vRacers.push_back(pRacer);
 	}
 
-	// Load the GameObjects from XML.
-	LoadLevel("CS483/CS483/Kartaclysm/Data/test_level.xml");
+	// Load Lights, and Tracks
+	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Light"), "AmbientAndDirectionalLight");
+	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("TrackDefinitionFile"), "Track");
 
 	// add racers to track
 	// Note: Needs to be done after LoadLevel so the track is loaded
@@ -117,47 +124,34 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	}
 }
 
-HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid /*= ""*/)
+HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
+(
+	const std::string& p_strKartDefinitionFile, 
+	const std::string& p_strDriverDefinitionFile, 
+	const std::string& p_strCameraDefinitionFile, 
+	const std::string& p_strGuid /*= ""*/
+)
 {
 	//TEMP: only here to allow creation of opponent
-	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/racer.xml";
-	if (strcmp(p_strGuid.c_str(), "Player1") == 0)
-	{
-		strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/opponent.xml";
-	}
-
-	if (p_strGuid == "Player0") // Only one HUD for now
-	{
-		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/hud.xml", p_strGuid + "_HUD");
-	}
-
+	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
+
+	if (p_strGuid == "Player0")
+	{
+		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud.xml", p_strGuid + "_HUD");
+	}
+	// TODO: make the HUD work for multiple players.
+
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
+	HeatStroke::GameObject* pCamera = m_pGameObjectManager->CreateGameObject(p_strCameraDefinitionFile, "", pRacer);
+	pCamera->GetTransform().SetTranslation(glm::vec3(0.0f, 0.4f, -1.2f));
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
 	pRacerComponent->SetDriver(pDriver);
 
 	return pRacer;
-}
-
-void Kartaclysm::StateRacing::LoadLevel(const std::string& p_strLevelPath)
-{
-	tinyxml2::XMLDocument mLevelDoc;
-	assert(mLevelDoc.LoadFile(p_strLevelPath.c_str()) == tinyxml2::XML_NO_ERROR);
-
-	tinyxml2::XMLElement* pLevelRootElement = mLevelDoc.RootElement();
-	assert(pLevelRootElement != nullptr);
-	assert(strcmp(pLevelRootElement->Value(), "Level") == 0);
-
-	// Iterate elements in the xml.
-	for (tinyxml2::XMLElement* pGameObjectElement = pLevelRootElement->FirstChildElement("GameObject");
-		 pGameObjectElement != nullptr;
-		 pGameObjectElement = pGameObjectElement->NextSiblingElement("GameObject"))
-	{
-		m_pGameObjectManager->CreateGameObject(pGameObjectElement);
-	}
 }
 
 //------------------------------------------------------------------------------
@@ -212,6 +206,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 
 	// TODO: add camera as child object of kart
 	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
+	/*
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->GetGameObject("Player0");
 	const glm::vec3& vKartPosition = pKart->GetTransform().GetTranslation();
 	//pKart->GetTransform().SetScaleXYZ(0.2f, 0.2f, 0.2f);
@@ -230,12 +225,31 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	offset = offset * glm::vec3(-1.0f, 1.0f, 1.0f);
 	offset = offset + vKartPosition;
 
+	*/
+	/*
 	std::vector<HeatStroke::GameObject*> pCameras = m_pGameObjectManager->GetGameObjectsByTag("Camera");
 	std::vector<HeatStroke::GameObject*>::iterator it = pCameras.begin(), end = pCameras.end();
 	for (; it != end; it++)
 	{
-		(*it)->GetTransform().SetTranslation(offset);
+		//(*it)->GetTransform().SetTranslation(offset);
+		HeatStroke::GameObject* pCamera = *it;
+		const HeatStroke::GameObject* pParent = pCamera->GetParent();
+		const glm::vec3& vPosition = pParent->GetTransform().GetTranslation();
+		glm::vec3 vOffset = glm::vec3(0.0f, 0.6f, -1.2f);
+		ComponentKartController *pController = (ComponentKartController*)pParent->GetComponent("GOC_KartController");
+		if (pController != nullptr)
+		{
+			vOffset = vOffset * pController->GetRotationMinusSwerve();
+		}
+		else
+		{
+			vOffset = vOffset * pParent->GetTransform().GetRotation();
+		}
+		vOffset = vOffset * glm::vec3(1.0f, 1.0f, 1.0f);
+		vOffset = vOffset + vPosition;
+		pCamera->GetTransform().SetTranslation(vOffset);
 	}
+	*/
 }
 
 //------------------------------------------------------------------------------
@@ -266,6 +280,10 @@ void Kartaclysm::StateRacing::Exit()
 		m_pPauseDelegate = nullptr;
 	}
 
+	HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
+	delete m_pRaceFinishedDelegate;
+	m_pRaceFinishedDelegate = nullptr;
+
 	if (m_pGameObjectManager != nullptr)
 	{
 		m_pGameObjectManager->DestroyAllGameObjects();
@@ -292,4 +310,12 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 
 	// Push pause state
 	m_pStateMachine->Push(1, mContext);
+}
+
+void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
+{
+	printf("restarting race\n");
+	m_pStateMachine->Pop();
+	m_pStateMachine->Push(0, m_mContextParams);
+	return;
 }

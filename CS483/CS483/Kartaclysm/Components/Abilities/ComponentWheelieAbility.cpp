@@ -11,18 +11,21 @@ namespace Kartaclysm
 {
 	ComponentWheelieAbility::ComponentWheelieAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		int p_iStrength,
+		float p_fStrength,
 		float p_fDuration)		
 		:
 		ComponentAbility(p_pGameObject),
-		m_iStrength(p_iStrength),
+		m_fStrength(p_fStrength),
 		m_fDuration(p_fDuration)
 	{
+		// Listen to activation event ("Player0_KartAbility1" as example)
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentWheelieAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 	}
 
 	ComponentWheelieAbility::~ComponentWheelieAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_KartAbility1", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 	}
@@ -35,25 +38,25 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		int iStrength = 0;
+		float fStrength = 0.0;
 		float fDuration = 0.0f;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, iStrength, fDuration);
+			ParseNode(p_pBaseNode, fStrength, fDuration);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, iStrength, fDuration);
+			ParseNode(p_pOverrideNode, fStrength, fDuration);
 		}
 
 		// Check that we got everything we needed.
-		assert(iStrength != 0);
+		assert(fStrength != 0.0f);
 		assert(fDuration != 0.0f);
 
 		return new ComponentWheelieAbility(
 			p_pGameObject,
-			iStrength,
+			fStrength,
 			fDuration
 			);
 	}
@@ -63,10 +66,6 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentWheelieAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
 	}
 
 	void ComponentWheelieAbility::Activate()
@@ -78,7 +77,7 @@ namespace Kartaclysm
 			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
 			pEvent->SetStringParameter("Ability", "Wheelie");
-			pEvent->SetIntParameter("Power", m_iStrength);
+			pEvent->SetFloatParameter("Power", m_fStrength);
 			pEvent->SetFloatParameter("Duration", m_fDuration);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
@@ -86,7 +85,7 @@ namespace Kartaclysm
 
 	void ComponentWheelieAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		int& p_iStrength,
+		float& p_fStrength,
 		float& p_fDuration)
 	{
 		assert(p_pNode != nullptr);
@@ -100,7 +99,7 @@ namespace Kartaclysm
 
 			if (strcmp(szNodeName, "Strength") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStrength);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
 			}
 			else if (strcmp(szNodeName, "Duration") == 0)
 			{

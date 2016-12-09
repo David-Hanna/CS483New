@@ -168,4 +168,8 @@
 			</Transform>
 		</GameObject>
 	</Children>
+
+  <Tags>
+    <Tag value="Track"/>
+  </Tags>
 </GameObject>

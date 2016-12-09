@@ -219,9 +219,13 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	int PlayerInputMapping::GetFirstAvailableInput()
 	{
-		for (int i = 0; i <= GLFW_JOYSTICK_LAST + 1; i++)
+		for (int i = 0; i <= GLFW_JOYSTICK_LAST + 4; i++)
 		{
-			if (i == GLFW_JOYSTICK_LAST + 1 || glfwJoystickPresent(i))
+			if (i == GLFW_JOYSTICK_LAST + 1 ||
+				i == GLFW_JOYSTICK_LAST + 2 || 
+				i == GLFW_JOYSTICK_LAST + 3 || 
+				i == GLFW_JOYSTICK_LAST + 4 ||
+				glfwJoystickPresent(i))
 			{
 				// See if input is in use
 				bool bFound = false;

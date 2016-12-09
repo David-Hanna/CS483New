@@ -213,6 +213,8 @@ void HeatStroke::SceneManager::ClearPointLights()
 
 void HeatStroke::SceneManager::Render()
 {
+	SetModelsLights();
+
 	int width, height;
 	glfwGetWindowSize(m_pWindow, &width, &height);
 	int halfWidth = width / 2;
@@ -317,19 +319,13 @@ void HeatStroke::SceneManager::Render()
 	}
 }
 
-void HeatStroke::SceneManager::RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera)
+void HeatStroke::SceneManager::SetModelsLights()
 {
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		RenderModel(*it, p_pPerspectiveCamera);
+		SetModelLights(*it);
 	}
-}
-
-void HeatStroke::SceneManager::RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera)
-{
-	SetModelLights(p_pModel);
-	p_pModel->Render(p_pPerspectiveCamera);
 }
 
 void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
@@ -418,6 +414,20 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 	}
 
 	return pClosestPointLight;
+}
+
+void HeatStroke::SceneManager::RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
+	for (; it != end; ++it)
+	{
+		RenderModel(*it, p_pPerspectiveCamera);
+	}
+}
+
+void HeatStroke::SceneManager::RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	p_pModel->Render(p_pPerspectiveCamera);
 }
 
 void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera)

@@ -86,7 +86,10 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------
 	void InputActionMapping::Init()
 	{
-		(*m_pInputMap)[Input::eKeyboard] = ActionMap();
+		(*m_pInputMap)[Input::eKeyboard1] = ActionMap();
+		(*m_pInputMap)[Input::eKeyboard2] = ActionMap();
+		(*m_pInputMap)[Input::eKeyboard3] = ActionMap();
+		(*m_pInputMap)[Input::eKeyboard4] = ActionMap();
 		(*m_pInputMap)[Input::eJoystick] = ActionMap();
 
 		LoadUserControlBindings();
@@ -117,7 +120,7 @@ namespace Kartaclysm
 		{
 			// Helpful variables to avoid repetition
 			HeatStroke::KeyboardInputBuffer* pBuffer = HeatStroke::KeyboardInputBuffer::Instance();
-			ActionMap mActionMap = (*m_pInputMap)[Input::eKeyboard];
+			ActionMap mActionMap = (*m_pInputMap)[Input::eKeyboard1];
 
 			// Iterate ability and pause actions
 			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eDriverAbility1]))
@@ -186,7 +189,19 @@ namespace Kartaclysm
 	{
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
-			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][p_eAction]);
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard1][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 2)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard2][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 3)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard3][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 4)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard4][p_eAction]);
 		}
 		else
 		{
@@ -214,8 +229,23 @@ namespace Kartaclysm
 		float fTurn = 0.0f;
 		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
 		{
-			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][Racer::eRight]));
-			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard][Racer::eLeft]));
+			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard1][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard1][Racer::eLeft]));
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 2)
+		{
+			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard2][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard2][Racer::eLeft]));
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 3)
+		{
+			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard3][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard3][Racer::eLeft]));
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 4)
+		{
+			fTurn = static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard4][Racer::eRight]));
+			fTurn -= static_cast<float>(HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownContinuous((*m_pInputMap)[Input::eKeyboard4][Racer::eLeft]));
 		}
 		else
 		{
@@ -240,16 +270,49 @@ namespace Kartaclysm
 	{
 		if (p_bResetKeyboard)
 		{
-			(*m_pInputMap)[Input::eKeyboard][Racer::eAccelerate] =		GLFW_KEY_UP;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eBrake] =			GLFW_KEY_DOWN;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eLeft] =			GLFW_KEY_LEFT;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eRight] =			GLFW_KEY_RIGHT;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eSlide] =			GLFW_KEY_SPACE;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility1] =	GLFW_KEY_A;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eDriverAbility2] =	GLFW_KEY_S;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility1] =	GLFW_KEY_D;
-			(*m_pInputMap)[Input::eKeyboard][Racer::eKartAbility2] =	GLFW_KEY_F;
-			(*m_pInputMap)[Input::eKeyboard][Racer::ePause] =			GLFW_KEY_ENTER;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eAccelerate] =		GLFW_KEY_UP;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eBrake] =			GLFW_KEY_DOWN;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eLeft] =			GLFW_KEY_LEFT;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eRight] =			GLFW_KEY_RIGHT;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eSlide] =			GLFW_KEY_SPACE;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eDriverAbility1] =	GLFW_KEY_A;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eDriverAbility2] =	GLFW_KEY_S;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eKartAbility1] =	GLFW_KEY_D;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::eKartAbility2] =	GLFW_KEY_F;
+			(*m_pInputMap)[Input::eKeyboard1][Racer::ePause] =			GLFW_KEY_ENTER;
+
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eAccelerate] = GLFW_KEY_UP;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eBrake] = GLFW_KEY_DOWN;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eLeft] = GLFW_KEY_LEFT;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eRight] = GLFW_KEY_RIGHT;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eSlide] = GLFW_KEY_SPACE;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eDriverAbility1] = GLFW_KEY_A;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eDriverAbility2] = GLFW_KEY_S;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eKartAbility1] = GLFW_KEY_D;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::eKartAbility2] = GLFW_KEY_F;
+			(*m_pInputMap)[Input::eKeyboard2][Racer::ePause] = GLFW_KEY_ENTER;
+
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eAccelerate] = GLFW_KEY_UP;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eBrake] = GLFW_KEY_DOWN;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eLeft] = GLFW_KEY_LEFT;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eRight] = GLFW_KEY_RIGHT;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eSlide] = GLFW_KEY_SPACE;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eDriverAbility1] = GLFW_KEY_A;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eDriverAbility2] = GLFW_KEY_S;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eKartAbility1] = GLFW_KEY_D;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::eKartAbility2] = GLFW_KEY_F;
+			(*m_pInputMap)[Input::eKeyboard3][Racer::ePause] = GLFW_KEY_ENTER;
+
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eAccelerate] = GLFW_KEY_UP;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eBrake] = GLFW_KEY_DOWN;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eLeft] = GLFW_KEY_LEFT;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eRight] = GLFW_KEY_RIGHT;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eSlide] = GLFW_KEY_SPACE;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eDriverAbility1] = GLFW_KEY_A;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eDriverAbility2] = GLFW_KEY_S;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eKartAbility1] = GLFW_KEY_D;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::eKartAbility2] = GLFW_KEY_F;
+			(*m_pInputMap)[Input::eKeyboard4][Racer::ePause] = GLFW_KEY_ENTER;
 		}
 
 		if (p_bResetJoystick)
@@ -319,7 +382,10 @@ namespace Kartaclysm
 			int iActionsToMap;
 			switch (it->first)
 			{
-				case Input::eKeyboard: strInputName = "Keyboard"; iActionsToMap = 10; break;
+				case Input::eKeyboard1: strInputName = "Keyboard1"; iActionsToMap = 10; break;
+				case Input::eKeyboard2: strInputName = "Keyboard2"; iActionsToMap = 10; break;
+				case Input::eKeyboard3: strInputName = "Keyboard3"; iActionsToMap = 10; break;
+				case Input::eKeyboard4: strInputName = "Keyboard4"; iActionsToMap = 10; break;
 				case Input::eJoystick: strInputName = "Joystick"; iActionsToMap = 11; break;
 			}
 
@@ -330,7 +396,7 @@ namespace Kartaclysm
 #ifdef _DEBUG
 				assert(false && "ControlBindings.xml does not contain input type");
 #endif
-				ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
+				ResetUserControlBindings(it->first == Input::eKeyboard1, it->first == Input::eJoystick);
 				continue;
 			}
 
@@ -370,7 +436,11 @@ namespace Kartaclysm
 
 				// Validate that the key is tracked by GLFW if keyboard input
 				// TO DO, method to validate joystick input
-				if (it->first == Input::eKeyboard && !HeatStroke::KeyboardInputBuffer::Instance()->IsValidKey(iButton))
+				if ((it->first == Input::eKeyboard1 ||
+					it->first == Input::eKeyboard2 ||
+					it->first == Input::eKeyboard3 ||
+					it->first == Input::eKeyboard4)
+					&& !HeatStroke::KeyboardInputBuffer::Instance()->IsValidKey(iButton))
 				{
 					bError = true;
 					break;
@@ -400,7 +470,7 @@ namespace Kartaclysm
 #ifdef _DEBUG
 				printf("ControlBindings.xml error: restoring defaults");
 #endif
-				ResetUserControlBindings(it->first == Input::eKeyboard, it->first == Input::eJoystick);
+				ResetUserControlBindings(it->first == Input::eKeyboard1, it->first == Input::eJoystick);
 			}
 			else
 			{
