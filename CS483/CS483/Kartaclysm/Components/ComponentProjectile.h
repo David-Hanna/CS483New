@@ -48,13 +48,15 @@ namespace Kartaclysm
 		// Protected methods
 		//--------------------------------------------------------------------------
 		ComponentProjectile(
-			HeatStroke::GameObject* p_pGameObject
+			HeatStroke::GameObject* p_pGameObject,
+			bool p_bFriendlyFire
 			);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode
+			tinyxml2::XMLNode* p_pNode,
+			bool& p_bFriendlyFire
 			);
 
 		//--------------------------------------------------------------------------
@@ -64,6 +66,8 @@ namespace Kartaclysm
 
 		std::string m_strOriginator;
 		std::string m_strOnHitEvent;
+		
+		bool m_bFriendlyFire;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
