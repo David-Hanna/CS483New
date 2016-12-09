@@ -38,22 +38,20 @@ namespace Kartaclysm
 		virtual void Update(const float p_fDelta) override {}
 
 		// Required ability override
-		virtual void Activate() override;
+		virtual void Activate() override {}
 
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
 		ComponentRainAbility(
-			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			HeatStroke::GameObject* p_pGameObject
 			);
 
-		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void PassedCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength
+			tinyxml2::XMLNode* p_pNode
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,13 +59,13 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
+		int m_iPreviousPosition;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 
-		// Delegate function to register with EventManager for ability activation
-		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+		// Delegate function to register with EventManager for player passing
+		std::function<void(const HeatStroke::Event*)>* m_pPassedDelegate;
 	};
 }
 

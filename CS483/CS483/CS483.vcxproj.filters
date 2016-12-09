@@ -793,5 +793,8 @@
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml">
       <Filter>Kartaclysm\Data\Lights</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\projectile_bedazzle.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

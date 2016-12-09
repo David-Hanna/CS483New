@@ -6,7 +6,7 @@
   <Components>
 
     <GOC_AbilityIcon>
-      <Ability value="DriverAbility2" />
+      <Ability value="DriverAbility1" />
       <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
       <ActiveMaterialName name="boost" />
       <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
@@ -14,14 +14,14 @@
     </GOC_AbilityIcon>
   
     <GOC_AbilityConditions>
-      <Ability value="DriverAbility2" />
+      <Ability value="DriverAbility1" />
       <Cooldown value="1.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
     <GOC_BedazzleAbility>
-      <Strength value="2" />
+      <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_bedazzle.xml" />
     </GOC_BedazzleAbility>
 
   </Components>

@@ -485,6 +485,8 @@ namespace Kartaclysm
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
+				printf("->Negated\n");
+
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
@@ -501,6 +503,14 @@ namespace Kartaclysm
 			{
 				printf("Strike!\n");
 				Spinout(1.5f);
+			}
+			else if (ability.compare("Rain") == 0)
+			{
+				printf("Make it rain!\n");
+			}
+			else if (ability.compare("Bedazzle") == 0)
+			{
+				printf("Bedazzle!\n"); // Entangle!
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
