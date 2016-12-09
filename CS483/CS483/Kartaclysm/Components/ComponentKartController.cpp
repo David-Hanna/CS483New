@@ -436,26 +436,40 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredGameObjectParameter("Object1GUID", guid1);
 		p_pEvent->GetRequiredGameObjectParameter("Object2GUID", guid2);
 
-		if (guid1.compare(m_pGameObject->GetGUID()) == 0 || guid2.compare(m_pGameObject->GetGUID()) == 0)
+		HeatStroke::GameObject* pOther = nullptr;
+		if (guid1.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			glm::vec3 contactPoint = glm::vec3();
-			p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
-			p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
-			p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+			pOther = m_pGameObject->GetManager()->GetGameObject(guid2);
+		}
+		else if (guid2.compare(m_pGameObject->GetGUID()) == 0)
+		{
+			pOther = m_pGameObject->GetManager()->GetGameObject(guid1);
+		}
 
-			HeatStroke::ComponentSphereCollider* collider = (HeatStroke::ComponentSphereCollider*) m_pGameObject->GetComponent("GOC_Collider");
+		if (pOther != nullptr)
+		{
+			HeatStroke::ComponentCollider* pOtherCollider = static_cast<HeatStroke::ComponentCollider*>(pOther->GetComponent("GOC_Collider"));
+			if (pOtherCollider->HasPhysics())
+			{
+				glm::vec3 contactPoint = glm::vec3();
+				p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
+				p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
+				p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
 
-			glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-			float distance = collider->GetRadius() - glm::length(difference);
+				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
 
-			difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-			m_pGameObject->GetTransform().Translate(difference);
+				glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+				float distance = collider->GetRadius() - glm::length(difference);
 
-			glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
-			float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+				difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+				m_pGameObject->GetTransform().Translate(difference);
 
-			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-			m_fSpeed *= m_fWallSlowdownStat;
+				glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+				float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+
+				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+				m_fSpeed *= m_fWallSlowdownStat;
+			}
 		}
 	}
 
