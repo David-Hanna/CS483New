@@ -114,6 +114,7 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
+		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 }
@@ -126,6 +127,7 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 void Kartaclysm::StatePaused::PreRender()
 {
 	// Render even when suspended
+	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }
 

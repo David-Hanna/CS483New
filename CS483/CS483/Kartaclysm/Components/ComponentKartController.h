@@ -66,7 +66,12 @@ namespace Kartaclysm
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
 
+		void UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
+
 		void Boost(float p_fPower);
+		void WheelieToggle();
+		void Spinout(float p_fDuration);
+		void ArmorPlate(int p_iArmorStack);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -79,6 +84,20 @@ namespace Kartaclysm
 
 		const float m_fSpeedScale;
 		const float m_fVerticalSpeedScale;
+
+		// Core stats all range from 0 (worst) to 6 (best)
+		// 6 - S
+		// 5 - A
+		// 4 - B
+		// 3 - C
+		// 2 - D
+		// 1 - E
+		// 0 - F
+
+		int m_iMaxSpeedCoreStat;
+		int m_iAccelerationCoreStat;
+		int m_iHandlingCoreStat;
+		int m_iDurabilityCoreStat;
 
 		float m_fHeightAboveGroundStat;
 		float m_fStickyHeightStat;
@@ -106,6 +125,9 @@ namespace Kartaclysm
 		float m_fSlideChargeAccelerationStat;
 		float m_fSlideChargeMaxStat;
 		float m_fSlideChargeThreshold;
+		float m_fWheelieTurnModStat;
+		float m_fWheelieSpeedModStat;
+		float m_fDurabilityStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -118,6 +140,8 @@ namespace Kartaclysm
 		int m_iSlideDirection;
 		float m_fSwerve;
 		float m_fSlideCharge;
+		bool m_bWheelie;
+		float m_fSpinout;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

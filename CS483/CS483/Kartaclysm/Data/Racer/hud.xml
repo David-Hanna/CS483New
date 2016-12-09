@@ -3,40 +3,12 @@
 
 <GameObject>
   
-  <Children>
-    <!-- Kart Ability 1 -->
-    <GameObject>
-      <Transform>
-        <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="40" y="-80.0" z="0.0" />
-      </Transform>
-      <Components>
-        <GOC_HUD_Ability>
-          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Ability name="KartAbility1" />
-	      </GOC_HUD_Ability>
-      </Components>
-    </GameObject>
-
-    <!-- Kart Ability 2 -->
-    <GameObject>
-      <Transform>
-        <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="55" y="-80.0" z="0.0" />
-      </Transform>
-      <Components>
-        <GOC_HUD_Ability>
-          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
-          <Ability name="KartAbility2" />
-        </GOC_HUD_Ability>
-      </Components>
-    </GameObject>
-    
+  <Children>    
     <!-- Driver Ability 1 -->
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="70" y="-80.0" z="0.0" />
+        <Translation x="40" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -50,12 +22,40 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="85" y="-80.0" z="0.0" />
+        <Translation x="55" y="-80.0" z="0.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
           <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
           <Ability name="DriverAbility2" />
+        </GOC_HUD_Ability>
+      </Components>
+    </GameObject>
+    
+    <!-- Kart Ability 1 -->
+    <GameObject>
+      <Transform>
+        <Scale x="8.0" y="12.0" z="1.0" />
+        <Translation x="70" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Ability name="KartAbility1" />
+        </GOC_HUD_Ability>
+      </Components>
+    </GameObject>
+
+    <!-- Kart Ability 2 -->
+    <GameObject>
+      <Transform>
+        <Scale x="8.0" y="12.0" z="1.0" />
+        <Translation x="85" y="-80.0" z="0.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Ability>
+          <FontFile path="Assets/Hud/Fonts/Times_New_Roman_16.fnt"/>
+          <Ability name="KartAbility2" />
         </GOC_HUD_Ability>
       </Components>
     </GameObject>
