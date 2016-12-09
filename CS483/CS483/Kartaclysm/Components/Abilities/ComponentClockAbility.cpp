@@ -2,7 +2,7 @@
 // ComponentClockAbility.cpp
 // Author: Bradley Cooper
 //
-// Clockmaster's ability to throw an AoE lobbed bomb forward.
+// Clockmaker's ability to throw an AoE lobbed bomb forward.
 //----------------------------------------------------------------------------
 
 #include "ComponentClockAbility.h"

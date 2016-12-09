@@ -1,4 +1,4 @@
-<!-- Kingpin Driver -->
+<!-- Clockmaker Driver -->
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
@@ -8,8 +8,8 @@
   </Transform>
 
   <Children>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_strike.xml" />
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_kingpin_turkey.xml" />
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_clockmaker_clock.xml" />
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Abilities/driver_clockmaker_tinker.xml" />
   </Children>
 
   <Components>

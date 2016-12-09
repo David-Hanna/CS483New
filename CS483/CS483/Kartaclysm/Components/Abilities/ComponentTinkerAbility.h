@@ -2,7 +2,7 @@
 // ComponentTinkerAbility.h
 // Author: Bradley Cooper
 //
-// Clockmaster's ability to throw an AoE lobbed bomb forward.
+// Clockmaker's ability to throw an AoE lobbed bomb forward.
 //----------------------------------------------------------------------------
 
 #ifndef COMPONENT_TINKER_ABILITY_H

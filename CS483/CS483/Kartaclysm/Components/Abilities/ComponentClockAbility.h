@@ -2,7 +2,7 @@
 // ComponentClockAbility.h
 // Author: Bradley Cooper
 //
-// Clockmaster's ability to throw an AoE lobbed bomb forward.
+// Clockmaker's ability to throw an AoE lobbed bomb forward.
 //----------------------------------------------------------------------------
 
 #ifndef COMPONENT_CLOCK_ABILITY_H

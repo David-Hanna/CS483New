@@ -727,12 +727,6 @@
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaster_clock.xml">
-      <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaster_tinker.xml">
-      <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_jump.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
@@ -786,6 +780,15 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml">
       <Filter>Kartaclysm\Data\Lights</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_tinker.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
   </ItemGroup>
 </Project>
