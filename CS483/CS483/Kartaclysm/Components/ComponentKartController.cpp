@@ -482,12 +482,6 @@ namespace Kartaclysm
 
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			// Stop hitting yourself
-			if (originator == m_pGameObject->GetGUID())
-			{
-				return;
-			}
-
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
