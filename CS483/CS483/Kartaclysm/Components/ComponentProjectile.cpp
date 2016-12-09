@@ -10,12 +10,14 @@
 namespace Kartaclysm
 {
 	ComponentProjectile::ComponentProjectile(
-		HeatStroke::GameObject* p_pGameObject)
+		HeatStroke::GameObject* p_pGameObject,
+		bool p_bFriendlyFire)
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_strOriginator(""),
-		m_strOnHitEvent("")
+		m_strOnHitEvent(""),
+		m_bFriendlyFire(p_bFriendlyFire)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentProjectile::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -35,25 +37,24 @@ namespace Kartaclysm
 	{
 		assert(p_pGameObject != nullptr);
 
-		/*
 		// Defaults
-		float fStrength = 0.0f;
+		bool bFriendlyFire = false;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, fStrength);
+			ParseNode(p_pBaseNode, bFriendlyFire);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, fStrength);
+			ParseNode(p_pOverrideNode, bFriendlyFire);
 		}
 
 		// Check that we got everything we needed.
-		assert(fStrength != 0.0f);
-		*/
-
+		//assert(fStrength != 0.0f);
+		
 		return new ComponentProjectile(
-			p_pGameObject
+			p_pGameObject,
+			bFriendlyFire
 			);
 	}
 
@@ -75,7 +76,11 @@ namespace Kartaclysm
 
 		if (pOther != nullptr)
 		{
-			if (pOther->HasTag("Racer"))
+			if (!m_bFriendlyFire && pOther->GetGUID() == m_strOriginator)
+			{
+				return;
+			}
+			else if (pOther->HasTag("Racer"))
 			{
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strOnHitEvent);
 				pEvent->SetGameObjectParameter("Originator", m_strOriginator);
@@ -93,7 +98,8 @@ namespace Kartaclysm
 	}
 
 	void ComponentProjectile::ParseNode(
-		tinyxml2::XMLNode* p_pNode)
+		tinyxml2::XMLNode* p_pNode,
+		bool& p_bFriendlyFire)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_Projectile") == 0);
@@ -104,10 +110,10 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			/*if (strcmp(szNodeName, "Strength") == 0)
+			if (strcmp(szNodeName, "FriendlyFire") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
-			}*/
+				HeatStroke::EasyXML::GetRequiredBoolAttribute(pChildElement, "value", p_bFriendlyFire);
+			}
 		}
 	}
 }
