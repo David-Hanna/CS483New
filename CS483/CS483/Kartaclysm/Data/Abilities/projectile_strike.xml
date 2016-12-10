@@ -31,6 +31,7 @@
 
     <GOC_SelfDestruct>
       <Timer value="5.0" />
+      <Collision tags="Wall,Projectile" />
     </GOC_SelfDestruct>
 
   </Components>
