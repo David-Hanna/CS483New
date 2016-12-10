@@ -507,6 +507,16 @@ namespace Kartaclysm
 			else if (ability.compare("Rain") == 0)
 			{
 				printf("Make it rain!\n");
+
+				// Send event for HUD
+				HeatStroke::Event* pEvent = new HeatStroke::Event(target + "_HUD_Slow");
+				pEvent->SetIntParameter("Display", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				//// TODO: Move to wherever the countdown for the slow is over
+				//HeatStroke::Event* pEvent = new HeatStroke::Event(m_pGameObject->GetGUID() + "_HUD_Slow");
+				//pEvent->SetIntParameter("Display", 0);
+				//HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
