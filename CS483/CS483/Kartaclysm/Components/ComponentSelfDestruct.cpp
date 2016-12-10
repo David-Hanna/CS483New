@@ -18,6 +18,7 @@ namespace Kartaclysm
 		m_pGameObject(p_pGameObject),
 		m_fTimer(p_fTimer),
 		m_vCollisionTags(p_vCollisionTags),
+		m_bDestroy(false),
 		m_pCollisionDelegate(nullptr)
 	{
 		if (!m_vCollisionTags.empty())
@@ -69,7 +70,11 @@ namespace Kartaclysm
 
 	void ComponentSelfDestruct::Update(const float p_fDelta)
 	{
-		if (m_fTimer >= 0.0f)
+		if (m_bDestroy)
+		{
+			GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
+		}
+		else if (m_fTimer >= 0.0f)
 		{
 			m_fTimer -= p_fDelta;
 
@@ -111,8 +116,11 @@ namespace Kartaclysm
 
 	void ComponentSelfDestruct::SelfDestruct()
 	{
-		HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event(GetGameObject()->GetGUID() + "_SelfDestruct"));
-		GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
+		if (!m_bDestroy)
+		{
+			HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event(GetGameObject()->GetGUID() + "_SelfDestruct"));
+			m_bDestroy = true;
+		}
 	}
 
 	void ComponentSelfDestruct::ParseNode(

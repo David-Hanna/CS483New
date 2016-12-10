@@ -65,6 +65,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
+		bool m_bDestroy;
 		float m_fTimer;
 		std::vector<std::string> m_vCollisionTags;
 
