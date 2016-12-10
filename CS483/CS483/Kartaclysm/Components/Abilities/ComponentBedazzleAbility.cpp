@@ -11,10 +11,10 @@ namespace Kartaclysm
 {
 	ComponentBedazzleAbility::ComponentBedazzleAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		const std::string& p_strProjectileXML)
+		const std::string& p_strBlastXML)
 		:
 		ComponentAbility(p_pGameObject),
-		m_strProjectileXML(p_strProjectileXML)
+		m_strBlastXML(p_strBlastXML)
 	{
 		// Listen to activation event ("Player0_KartAbility1" as example)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentBedazzleAbility::AbilityCallback, this, std::placeholders::_1));
@@ -44,23 +44,23 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		std::string strProjectileXML("");
+		std::string strBlastXML("");
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strProjectileXML);
+			ParseNode(p_pBaseNode, strBlastXML);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, strProjectileXML);
+			ParseNode(p_pOverrideNode, strBlastXML);
 		}
 
 		// Check that we got everything we needed.
-		assert(strProjectileXML != "");
+		assert(strBlastXML != "");
 
 		return new ComponentBedazzleAbility(
 			p_pGameObject,
-			strProjectileXML
+			strBlastXML
 			);
 	}
 
@@ -77,7 +77,7 @@ namespace Kartaclysm
 		{
 			m_pConditions->ResetCooldown();
 
-			HeatStroke::GameObject* pStrike = GetGameObject()->GetManager()->CreateGameObject(m_strProjectileXML);
+			HeatStroke::GameObject* pStrike = GetGameObject()->GetManager()->CreateGameObject(m_strBlastXML);
 			pStrike->GetTransform().SetTranslation(GetGameObject()->GetTransform().GetTranslation());
 
 			ComponentProjectile* pProjectile = static_cast<ComponentProjectile*>(pStrike->GetComponent("GOC_Projectile"));
@@ -102,7 +102,7 @@ namespace Kartaclysm
 
 	void ComponentBedazzleAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		std::string& p_strProjectileXML)
+		std::string& p_strBlastXML)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_BedazzleAbility") == 0);
@@ -113,9 +113,9 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "ProjectileXML") == 0)
+			if (strcmp(szNodeName, "BlastXML") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strProjectileXML);
+				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strBlastXML);
 			}
 		}
 	}

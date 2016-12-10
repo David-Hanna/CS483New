@@ -21,7 +21,7 @@
     </GOC_AbilityConditions>
 
     <GOC_BedazzleAbility>
-      <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_bedazzle.xml" />
+      <BlastXML path="CS483/CS483/Kartaclysm/Data/Abilities/blast_bedazzle.xml" />
     </GOC_BedazzleAbility>
 
   </Components>
