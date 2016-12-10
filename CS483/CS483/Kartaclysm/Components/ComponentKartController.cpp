@@ -488,6 +488,7 @@ namespace Kartaclysm
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+				printf("->Negated");
 
 				m_strHitCallback = "";
 				return;
@@ -526,6 +527,10 @@ namespace Kartaclysm
 			{
 				printf("Wheelie!\n");
 				WheelieToggle();
+			}
+			else if (ability.compare("Tinker") == 0)
+			{
+				printf("Tinker!\n"); // More like tinker bell
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{

@@ -14,7 +14,8 @@ namespace Kartaclysm
 		const std::string& p_strProjectileXML)
 		:
 		ComponentAbility(p_pGameObject),
-		m_strProjectileXML(p_strProjectileXML)
+		m_strProjectileXML(p_strProjectileXML),
+		m_strChargeEventName(m_strPlayerX + "_ClockCharges")
 	{
 		// Listen to activation event ("Player0_KartAbility1" as example)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentClockAbility::AbilityCallback, this, std::placeholders::_1));
@@ -23,6 +24,10 @@ namespace Kartaclysm
 		// Listen to on hit event
 		m_pOnHitDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentClockAbility::OnHitCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_ClockHit", m_pOnHitDelegate);
+
+		// Listen to any events that change the charge count
+		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentClockAbility::ChargeCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
 	ComponentClockAbility::~ComponentClockAbility()
@@ -34,6 +39,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_ClockHit", m_pOnHitDelegate);
 		delete m_pOnHitDelegate;
 		m_pOnHitDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strChargeEventName, m_pChargeDelegate);
+		delete m_pChargeDelegate;
+		m_pChargeDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentClockAbility::CreateComponent(
@@ -76,8 +85,14 @@ namespace Kartaclysm
 		if (m_pConditions->CanActivate())
 		{
 			m_pConditions->ResetCooldown();
-			m_pConditions->ResetCharges();
 
+			// Send event for charge change
+			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strChargeEventName);
+			pEvent->SetIntParameter("Increase", 0);
+			pEvent->SetIntParameter("Reset", 1);
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+			// Spawn projectile
 			HeatStroke::GameObject* pStrike = GetGameObject()->GetManager()->CreateGameObject(m_strProjectileXML);
 			pStrike->GetTransform().SetTranslation(GetGameObject()->GetTransform().GetTranslation());
 			pStrike->GetTransform().SetRotation(GetGameObject()->GetTransform().GetRotation());
@@ -105,6 +120,27 @@ namespace Kartaclysm
 		pEvent->SetStringParameter("Ability", "Clock");
 		pEvent->SetStringParameter("Effect", "SpinOut");
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
+	void ComponentClockAbility::ChargeCallback(const HeatStroke::Event* p_pEvent)
+	{
+		int iIncrease = 0;
+		int iReset = 0;
+
+		p_pEvent->GetOptionalIntParameter("Increase", iIncrease, 0);
+		p_pEvent->GetOptionalIntParameter("Reset", iReset, 0);
+
+		if (iIncrease == 1)
+		{
+			m_pConditions->AddCharge();
+		}
+
+		if (iReset == 1)
+		{
+			m_pConditions->ResetCharges();
+		}
+
+		m_pConditions->SetSpecialCondition(m_pConditions->GetCharges() == m_pConditions->GetMaxCharges());
 	}
 
 	void ComponentClockAbility::ParseNode(

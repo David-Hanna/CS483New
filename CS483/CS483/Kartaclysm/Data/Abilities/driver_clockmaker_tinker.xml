@@ -21,7 +21,8 @@
     </GOC_AbilityConditions>
 
     <GOC_TinkerAbility>
-      <Strength value="2" />
+      <MaxCharges value="4" />
+      <StartCharges value="0" />
     </GOC_TinkerAbility>
 
   </Components>

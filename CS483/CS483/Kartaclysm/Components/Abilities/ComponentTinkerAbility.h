@@ -2,7 +2,7 @@
 // ComponentTinkerAbility.h
 // Author: Bradley Cooper
 //
-// Clockmaker's ability to throw an AoE lobbed bomb forward.
+// Clockmaker's ability to add charges to his clock bomb.
 //----------------------------------------------------------------------------
 
 #ifndef COMPONENT_TINKER_ABILITY_H
@@ -46,14 +46,17 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentTinkerAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			int p_iStartCharges,
+			int p_iMaxCharges
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void ChargeCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength
+			int& p_iStartCharges,
+			int& p_iMaxCharges
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,13 +64,18 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
-
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 
+		std::string m_strChargeEventName;
+		int m_iCurrentCharges;
+		int m_iMaxCharges;
+
 		// Delegate function to register with EventManager for ability activation
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+
+		// Delegate function to register with EventManager for listening to changes
+		std::function<void(const HeatStroke::Event*)>* m_pChargeDelegate;
 	};
 }
 

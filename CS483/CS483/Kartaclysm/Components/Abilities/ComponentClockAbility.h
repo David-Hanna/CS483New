@@ -55,6 +55,7 @@ namespace Kartaclysm
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 		void OnHitCallback(const HeatStroke::Event* p_pEvent);
+		void ChargeCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -67,6 +68,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		std::string m_strProjectileXML;
+		std::string m_strChargeEventName;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
@@ -76,6 +78,9 @@ namespace Kartaclysm
 
 		// Delegate function to register with EventManager for clock blast ability hit event
 		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
+
+		// Delegate function to register with EventManager for managing charges
+		std::function<void(const HeatStroke::Event*)>* m_pChargeDelegate;
 	};
 }
 

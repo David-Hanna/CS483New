@@ -16,8 +16,8 @@
     <GOC_AbilityConditions>
       <Ability value="DriverAbility1" />
       <Cooldown value="1.0" />
-      <MaxCharges value="-1" />
-      <StartCharges value="-1" />
+      <MaxCharges value="4" />
+      <StartCharges value="0" />
     </GOC_AbilityConditions>
 
     <GOC_ClockAbility>

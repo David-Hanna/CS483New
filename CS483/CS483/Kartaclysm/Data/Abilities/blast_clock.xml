@@ -20,7 +20,7 @@
     </GOC_SphereCollider>
 
     <GOC_Projectile>
-      <FriendlyFire value="false" />
+      <FriendlyFire value="true" />
       <BlastXML path="" />
     </GOC_Projectile>
 
