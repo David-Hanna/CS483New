@@ -20,7 +20,7 @@
     </GOC_Projectile>
 
     <GOC_SelfDestruct>
-      <Timer value="0.1" />
+      <Timer value="0.0" />
     </GOC_SelfDestruct>
 
   </Components>
