@@ -502,6 +502,11 @@ namespace Kartaclysm
 				printf("Strike!\n");
 				Spinout(1.5f);
 			}
+			else if (ability.compare("Clock") == 0)
+			{
+				printf("Clocked!\n");
+				//Spinout(1.5f);
+			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{

@@ -12,7 +12,7 @@
       <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
       <InactiveMaterialName name="boost_inactive" />
     </GOC_AbilityIcon>
-  
+
     <GOC_AbilityConditions>
       <Ability value="DriverAbility1" />
       <Cooldown value="1.0" />
@@ -21,7 +21,7 @@
     </GOC_AbilityConditions>
 
     <GOC_ClockAbility>
-      <Strength value="2" />
+      <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_clock.xml" />
     </GOC_ClockAbility>
 
   </Components>

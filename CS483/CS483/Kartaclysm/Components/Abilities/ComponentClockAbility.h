@@ -11,7 +11,11 @@
 #include <tinyxml2.h>
 #include <string>
 
+#include "Common.h"
 #include "ComponentAbility.h"
+#include "ComponentProjectile.h"
+#include "ComponentKartController.h"
+#include "ComponentSimplePhysics.h"
 
 namespace Kartaclysm
 {
@@ -46,14 +50,15 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentClockAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			const std::string& p_strProjectileXML
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void OnHitCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength
+			std::string& p_strProjectileXML
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,13 +66,16 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
+		std::string m_strProjectileXML;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 
 		// Delegate function to register with EventManager for ability activation
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+
+		// Delegate function to register with EventManager for clock blast ability hit event
+		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
 	};
 }
 

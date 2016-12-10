@@ -793,5 +793,11 @@
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

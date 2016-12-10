@@ -31,7 +31,7 @@ namespace Kartaclysm
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
 		delete m_pOnHitDelegate;
 		m_pOnHitDelegate = nullptr;
 	}

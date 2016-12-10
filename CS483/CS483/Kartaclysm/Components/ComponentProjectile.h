@@ -49,14 +49,17 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentProjectile(
 			HeatStroke::GameObject* p_pGameObject,
-			bool p_bFriendlyFire
+			bool p_bFriendlyFire,
+			const std::string& p_strBlastXML
 			);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
+		void HandleSelfDestructEvent(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			bool& p_bFriendlyFire
+			bool& p_bFriendlyFire,
+			std::string& p_strBlastXML
 			);
 
 		//--------------------------------------------------------------------------
@@ -66,11 +69,13 @@ namespace Kartaclysm
 
 		std::string m_strOriginator;
 		std::string m_strOnHitEvent;
+		std::string m_strBlastXML;
 		
 		bool m_bFriendlyFire;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pSelfDestructDelegate;
 	};
 }
 
