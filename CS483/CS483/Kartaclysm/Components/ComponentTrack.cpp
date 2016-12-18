@@ -101,6 +101,7 @@ namespace Kartaclysm
 	{
 		p_pRacer->SetCurrentLap(0);
 		p_pRacer->SetCurrentTrackPiece(m_vTrackPieces.size() - 1);
+		p_pRacer->SetFurthestTrackPiece(m_vTrackPieces.size() - 1);
 
 		m_vRacers.push_back(p_pRacer);
 	}
@@ -122,10 +123,11 @@ namespace Kartaclysm
 		}
 
 		// update lap/track piece information
+		int iRacerFurthestTrackPiece = m_vRacers[iRacerIndex]->GetFurthestTrackPiece();
 		int iRacerCurrentTrackPiece = m_vRacers[iRacerIndex]->GetCurrentTrackPiece();
-		if (iTrackPieceIndex == 0 && iRacerCurrentTrackPiece == m_vTrackPieces.size() - 1)
+		if (iTrackPieceIndex == 0 && iRacerFurthestTrackPiece == m_vTrackPieces.size() - 1)
 		{
-			m_vRacers[iRacerIndex]->SetCurrentTrackPiece(0);
+			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
 			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
 			TriggerRacerCompletedLapEvent(strRacerId);
 			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3)
@@ -133,11 +135,11 @@ namespace Kartaclysm
 				TriggerRacerFinishedRaceEvent(strRacerId);
 			}
 		}
-		else if (iTrackPieceIndex == iRacerCurrentTrackPiece + 1)
+		else if (iTrackPieceIndex == iRacerFurthestTrackPiece + 1)
 		{
-			//TODO: fix issue where wrong way is relative to most forward piece, rather than current piece
-			m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
+			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(iTrackPieceIndex);
 		}
+		m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
 
 		// update track height for racer
 		ComponentKartController* kartController = (ComponentKartController*)m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_KartController");
