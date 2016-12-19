@@ -48,6 +48,7 @@ namespace Kartaclysm
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
 		float GetDirection() const { return m_fDirection; }
+		float GetSwerve() const { return m_fSwerve; }
 
 	protected:
 		//--------------------------------------------------------------------------
