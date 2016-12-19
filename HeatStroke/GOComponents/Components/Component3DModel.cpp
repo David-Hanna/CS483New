@@ -9,14 +9,14 @@
 
 HeatStroke::Component3DModel::Component3DModel(HeatStroke::GameObject* p_pGameObject, const std::string& p_strOBJFileName) :
 	ComponentRenderable(p_pGameObject),
-	m_mModel(p_strOBJFileName)
+	m_mModelInstance(p_strOBJFileName)
 {
-	SceneManager::Instance()->AddModel(&m_mModel);
+	SceneManager::Instance()->AddModelInstance(&m_mModelInstance);
 }
 
 HeatStroke::Component3DModel::~Component3DModel()
 {
-	SceneManager::Instance()->RemoveModel(&m_mModel);
+	SceneManager::Instance()->RemoveModelInstance(&m_mModelInstance);
 }
 
 HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
@@ -53,7 +53,7 @@ HeatStroke::Component* HeatStroke::Component3DModel::CreateComponent(
 
 void HeatStroke::Component3DModel::SyncTransform()
 {
-	m_mModel.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+	m_mModelInstance.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 }
 
 void HeatStroke::Component3DModel::ParseNode(

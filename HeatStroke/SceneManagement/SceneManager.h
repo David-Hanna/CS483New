@@ -12,8 +12,8 @@
 
 #include "ScenePerspectiveCamera.h"
 #include "SceneOrthographicCamera.h"
-#include "Model.h"
-#include "Sprite.h"
+#include "ModelInstance.h"
+#include "SpriteInstance.h"
 #include "TextBox.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
@@ -48,17 +48,17 @@ namespace HeatStroke
 
 		GLFWwindow* GetWindow()	{ return m_pWindow; }
 
-		void AddModel(HeatStroke::Model* p_pModel);
-		void RemoveModel(HeatStroke::Model* p_pModel);
-		void ClearModels();
+		void AddModelInstance(HeatStroke::ModelInstance* p_pModelInstance);
+		void RemoveModelInstance(HeatStroke::ModelInstance* p_pModelInstance);
+		void ClearModelInstances();
 
 		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection);
 		void RemovePerspectiveCamera(SceneViewportSelection p_eViewportSelection);
 		void ClearPerspectiveCameras();
 
-		void AddSprite(HeatStroke::Sprite* p_pSprite);
-		void RemoveSprite(HeatStroke::Sprite* p_pSprite);
-		void ClearSprites();
+		void AddSpriteInstance(HeatStroke::SpriteInstance* p_pSpriteInstance);
+		void RemoveSpriteInstance(HeatStroke::SpriteInstance* p_pSpriteInstance);
+		void ClearSpriteInstances();
 
 		void AddTextBox(HeatStroke::TextBox* p_pTextBox);
 		void RemoveTextBox(HeatStroke::TextBox* p_pTextBox);
@@ -83,8 +83,8 @@ namespace HeatStroke
 		void Render();
 
 	private:
-		typedef std::vector<Model*>					ModelList;
-		typedef std::vector<Sprite*>				SpriteList;
+		typedef std::vector<ModelInstance*>			ModelList;
+		typedef std::vector<SpriteInstance*>		SpriteList;
 		typedef std::vector<TextBox*>				TextBoxList;
 		
 		typedef std::vector<SceneAmbientLight*>			AmbientLightList;
@@ -112,16 +112,16 @@ namespace HeatStroke
 		virtual ~SceneManager() {}
 
 		void RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera);
-		void RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera);
-		void SetModelLights(Model* p_pModel);
-		void SetMeshLights(Model* p_pModel, Mesh* p_pMesh);
+		void RenderModel(ModelInstance* p_pModelInstance, const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void SetModelLights(ModelInstance* p_pModelInstance);
+		void SetMeshLights(ModelInstance* p_pModelInstance, Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);
 		void SetMeshDirectionalLight(Mesh* p_pMesh);
-		void SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh);
-		ScenePointLight* DetermineClosestPointLight(Model* p_pModel);
+		void SetMeshPointLight(ModelInstance* p_pModelInstance, Mesh* p_pMesh);
+		ScenePointLight* DetermineClosestPointLight(ModelInstance* p_pModelInstance);
 
 		void RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera);
-		void RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);
+		void RenderSprite(SpriteInstance* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);
 
 		void RenderTextBoxes(const SceneOrthographicCamera* p_pOrthographicCamera);
 		void RenderTextBox(TextBox* p_pTextBox, const SceneOrthographicCamera* p_pOrthographicCamera);

@@ -20,6 +20,9 @@
 #include "StatePaused.h"
 #include "StateMainMenu.h"
 #include "SceneManager.h"
+#include "ModelManager.h"
+#include "SpriteManager.h"
+#include "FontManager.h"
 
 namespace Kartaclysm
 {

@@ -11,9 +11,9 @@
 
 #include "Renderable.h"
 
-#include "BufferManager.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "BufferManager.h"
 
 #include "VertexDeclaration.h"
 

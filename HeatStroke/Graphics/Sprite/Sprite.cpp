@@ -2,7 +2,7 @@
 // Sprite
 // Author: David Hanna
 //
-// Renderable 2D textured quad.
+// 2D textured quad.
 //-----------------------------------------------------------------------------
 
 #include "Sprite.h"
@@ -50,22 +50,4 @@ HeatStroke::Sprite::~Sprite()
 	HeatStroke::BufferManager::DestroyBuffer(m_mMesh.m_pVertexBuffer);
 	DELETE_IF(m_mMesh.m_pVertexDeclaration);
 	HeatStroke::MaterialManager::DestroyMaterial(m_mMesh.m_pMaterial);
-}
-
-void HeatStroke::Sprite::Update(float p_fDelta)
-{
-
-}
-
-void HeatStroke::Sprite::Render(const SceneCamera* p_pCamera)
-{
-	assert(p_pCamera != nullptr);
-
-	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetViewProjectionMatrix() * m_mWorldTransform;
-
-	m_mMesh.m_pVertexDeclaration->Bind();
-	m_mMesh.m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
-	m_mMesh.m_pMaterial->Apply();
-
-	glDrawElements(GL_TRIANGLES, m_mMesh.m_pIndexBuffer->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 }

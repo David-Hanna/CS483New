@@ -19,6 +19,10 @@ bool Kartaclysm::KartGame::Init()
 {
 	// Initialize singletons
 	HeatStroke::EventManager::CreateInstance();
+	HeatStroke::ModelManager::CreateInstance();
+	HeatStroke::SpriteManager::CreateInstance();
+	HeatStroke::FontManager::CreateInstance();
+	HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	HeatStroke::SceneManager::CreateInstance(m_pWindow);
 	HeatStroke::CollisionManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
@@ -91,5 +95,8 @@ void Kartaclysm::KartGame::Shutdown()
 	HeatStroke::KeyboardInputBuffer::DestroyInstance();
 	HeatStroke::SceneManager::DestroyInstance();
 	HeatStroke::EventManager::DestroyInstance();
+	HeatStroke::FontManager::DestroyInstance();
+	HeatStroke::SpriteManager::DestroyInstance();
+	HeatStroke::ModelManager::DestroyInstance();
 	HeatStroke::CollisionManager::DestroyInstance();
 }

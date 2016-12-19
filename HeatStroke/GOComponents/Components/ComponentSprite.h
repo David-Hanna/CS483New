@@ -37,7 +37,7 @@ namespace HeatStroke
 		virtual void SyncTransform();
 
 	private:
-		Sprite m_mSprite;
+		SpriteInstance m_mSpriteInstance;
 
 		// Prevent copying
 		ComponentSprite(const ComponentSprite&) = delete;

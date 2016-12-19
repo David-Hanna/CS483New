@@ -64,7 +64,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		std::string m_strPositionFilePrefix;
-		HeatStroke::Sprite m_mSprite;
+		HeatStroke::SpriteInstance m_mSprite;
 		std::string m_strEventName;
 
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
