@@ -66,7 +66,8 @@ namespace Kartaclysm
 		m_fSwerve(0.0f),
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
-		m_fSpinout(0.0f)
+		m_fSpinout(0.0f),
+		m_fTurnLock(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -141,6 +142,15 @@ namespace Kartaclysm
 
 			m_fSpinout -= p_fDelta;
 			if (m_fSpinout < 0.0f) m_fSpinout = 0.0f;
+		}
+
+		// Turnlock causes turn inputs to be ignored
+		if (m_fTurnLock > 0.0f)
+		{
+			fTurn = 0.0f;
+
+			m_fTurnLock -= p_fDelta;
+			if (m_fTurnLock < 0.0f) m_fTurnLock = 0.0f;
 		}
 
 		// Speeding up & slowing down
@@ -424,6 +434,11 @@ namespace Kartaclysm
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
+	void ComponentKartController::TurnLock(float p_fDuration)
+	{
+		m_fTurnLock = fmaxf(p_fDuration * m_fDurabilityStat, m_fTurnLock);
+	}
+
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
@@ -506,7 +521,7 @@ namespace Kartaclysm
 			else if (ability.compare("Clock") == 0)
 			{
 				printf("Clocked!\n");
-				//Spinout(1.5f);
+				Spinout(1.5f);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
@@ -530,7 +545,8 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
-				printf("Tinker!\n"); // More like tinker bell
+				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
+				TurnLock(1.0f);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{
