@@ -14,13 +14,16 @@
 #include "InputActionMapping.h"
 #include "PlayerInputMapping.h"
 #include "EventManager.h"
+#include "SceneManager.h"
 #include "StateMachine.h"
 #include "GameplayState.h"
+#include "GameplayStatesEnum.h"
+#include "StateMainMenu.h"
+#include "StatePlayerSelectionMenu.h"
+#include "StateTrackSelectionMenu.h"
 #include "StateRacing.h"
 #include "StatePaused.h"
-#include "StateMainMenu.h"
-#include "StateTrackSelect.h"
-#include "SceneManager.h"
+#include "StateRaceCompleteMenu.h"
 
 namespace Kartaclysm
 {

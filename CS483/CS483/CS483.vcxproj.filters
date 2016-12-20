@@ -357,7 +357,13 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp">
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
@@ -638,7 +644,16 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h">
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayStatesEnum.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
@@ -687,9 +702,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
-      <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>

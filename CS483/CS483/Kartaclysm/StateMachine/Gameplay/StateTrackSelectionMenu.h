@@ -1,12 +1,13 @@
 //------------------------------------------------------------------------
-// StateMainMenu
+// StateTrackSelectionMenu
 // Author:	David Hanna
 //	
-// Main menu state shows title screen and continues with enter key.
+// Allows player one to select a track to race on.
+// Continues to racing state.
 //------------------------------------------------------------------------
 
-#ifndef STATE_MAIN_MENU_H
-#define STATE_MAIN_MENU_H
+#ifndef STATE_TRACK_SELECTION_MENU_H
+#define STATE_TRACK_SELECTION_MENU_H
 
 #include "GameplayState.h"
 #include "GameplayStatesEnum.h"
@@ -15,11 +16,11 @@
 
 namespace Kartaclysm
 {
-	class StateMainMenu : public Kartaclysm::GameplayState
+	class StateTrackSelectionMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateMainMenu();
-		virtual ~StateMainMenu();
+		StateTrackSelectionMenu();
+		virtual ~StateTrackSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
 		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
@@ -31,6 +32,9 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+		// saved from player selection state to add to and pass on to racing state.
+		std::map<std::string, std::string> m_mContextParameters; 
 	};
 }
 

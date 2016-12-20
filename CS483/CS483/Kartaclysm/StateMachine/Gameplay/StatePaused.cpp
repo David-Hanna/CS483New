@@ -7,12 +7,6 @@
 
 #include "StatePaused.h"
 
-//------------------------------------------------------------------------------
-// Method:    StatePaused
-// Returns:   
-// 
-// Constructor.
-//------------------------------------------------------------------------------
 Kartaclysm::StatePaused::StatePaused()
 	:
 	m_pGameObjectManager(nullptr),
@@ -22,25 +16,15 @@ Kartaclysm::StatePaused::StatePaused()
 {
 }
 
-//------------------------------------------------------------------------------
-// Method:    ~StatePaused
-// Returns:   
-// 
-// Destructor.
-//------------------------------------------------------------------------------
 Kartaclysm::StatePaused::~StatePaused()
 {
 	Exit();
 }
 
-//------------------------------------------------------------------------------
-// Method:		Enter
-// Parameter:	std::map<std::string, std::string> p_mContextParameters - parameters for state
-// 
-// Called when this state is pushed onto the stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
+	printf("Entering State Paused.\n");
+
 	m_bSuspended = false;
 
 	// Tell the HUD to render a pause message
@@ -67,12 +51,6 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	// Load the GameObjects from XML.
 }
 
-//------------------------------------------------------------------------------
-// Method:		Suspend
-// Parameter:	const int p_iNewState - index of new state being pushed
-// 
-// Called when this state is pushed down in the stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 {
 	m_bSuspended = true;
@@ -86,12 +64,6 @@ void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:		Unsuspend
-// Parameter:	const int p_iPrevState - index of previous state popped
-// 
-// Called when this state is popped back to top of stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
@@ -103,12 +75,6 @@ void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:    Update
-// Parameter: const float p_fDelta
-// 
-// Called each from when this state is active.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::Update(const float p_fDelta)
 {
 	// Do not update when suspended
@@ -119,11 +85,6 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:    PreRender
-// 
-// Called before rendering occurs.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::PreRender()
 {
 	// Render even when suspended
@@ -131,13 +92,10 @@ void Kartaclysm::StatePaused::PreRender()
 	m_pGameObjectManager->PreRender();
 }
 
-//------------------------------------------------------------------------------
-// Method:    Exit
-// 
-// Called when this state is popped off the stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::Exit()
 {
+	printf("Exiting State Paused.\n");
+
 	m_bSuspended = false;
 
 	if (m_pPauseDelegate != nullptr)
@@ -155,12 +113,6 @@ void Kartaclysm::StatePaused::Exit()
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:    UnpauseGame
-// Parameter: const HeatStroke::Event* p_pEvent - Event that triggers when a player pauses
-// 
-// Unpause the game by popping the Pause State.
-//------------------------------------------------------------------------------
 void Kartaclysm::StatePaused::UnpauseGame(const HeatStroke::Event* p_pEvent)
 {
 	// Get the player who paused the game

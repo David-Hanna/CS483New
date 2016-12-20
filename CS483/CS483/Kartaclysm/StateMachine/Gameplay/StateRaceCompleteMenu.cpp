@@ -1,32 +1,32 @@
 //------------------------------------------------------------------------
-// StateMainMenu
+// StateRaceCompleteMenu
 // Author:	David Hanna
 //	
-// Main menu state shows title screen and continues with enter key.
+// Shows the results of the race and continues to the Main Menu state.
 //------------------------------------------------------------------------
 
-#include "StateMainMenu.h"
+#include "StateRaceCompleteMenu.h"
 
-Kartaclysm::StateMainMenu::StateMainMenu()
+Kartaclysm::StateRaceCompleteMenu::StateRaceCompleteMenu()
 	:
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {
 }
 
-Kartaclysm::StateMainMenu::~StateMainMenu()
+Kartaclysm::StateRaceCompleteMenu::~StateRaceCompleteMenu()
 {
 	Exit();
 }
 
-void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
+void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
-	printf("Entering Main Menu State.\n");
+	printf("Entering Race Complete Menu State.\n");
 }
 
-void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
+void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 {
 	// Do not update when suspended
 	if (!m_bSuspended)
@@ -37,19 +37,19 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
+			m_pStateMachine->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());
 		}
 	}
 }
 
-void Kartaclysm::StateMainMenu::PreRender()
+void Kartaclysm::StateRaceCompleteMenu::PreRender()
 {
 	// Render even when suspended
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }
 
-void Kartaclysm::StateMainMenu::Exit()
+void Kartaclysm::StateRaceCompleteMenu::Exit()
 {
 	m_bSuspended = false;
 
@@ -60,5 +60,5 @@ void Kartaclysm::StateMainMenu::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 
-	printf("Exiting Main Menu state.\n");
+	printf("Exiting Race Complete Menu state.\n");
 }
