@@ -445,6 +445,9 @@ namespace Kartaclysm
 			p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
 			p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
 			p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+			int passedThroughInt;
+			p_pEvent->GetOptionalIntParameter("PassedThrough", passedThroughInt, 0);
+			bool passedThrough = (bool)passedThroughInt; // I know
 
 			HeatStroke::ComponentSphereCollider* collider = (HeatStroke::ComponentSphereCollider*) m_pGameObject->GetComponent("GOC_Collider");
 
@@ -459,6 +462,19 @@ namespace Kartaclysm
 
 			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
 			m_fSpeed *= m_fWallSlowdownStat;
+
+			if (passedThrough)
+			{
+				// Again, not sure which is the right one, will depend on what order Update()s happen
+				if (m_pGameObject->GetTransform().GetTranslation() == collider->GetPosition())
+				{
+					m_pGameObject->GetTransform().SetTranslation(collider->GetPreviousPosition());
+				}
+				else
+				{
+					m_pGameObject->GetTransform().SetTranslation(collider->GetPosition());
+				}
+			}
 		}
 	}
 

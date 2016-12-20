@@ -641,6 +641,9 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -687,9 +690,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
-      <Filter>Kartaclysm\Data</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
