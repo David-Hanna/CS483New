@@ -8,7 +8,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="40" y="-80.0" z="0.0" />
+        <Translation x="40" y="-80.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -22,7 +22,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="55" y="-80.0" z="0.0" />
+        <Translation x="55" y="-80.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -36,7 +36,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="70" y="-80.0" z="0.0" />
+        <Translation x="70" y="-80.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -50,7 +50,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="85" y="-80.0" z="0.0" />
+        <Translation x="85" y="-80.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -64,7 +64,7 @@
     <GameObject>
       <Transform>
         <Scale x="16.0" y="16.0" z="1.0" />
-        <Translation x="-80.0" y="-75.0" z="0.0" />
+        <Translation x="-80.0" y="-75.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Position>
@@ -76,7 +76,7 @@
     <!-- Race Timer -->
     <GameObject>
       <Transform>
-        <Translation x="78.0" y="95.0" z="0.0" />
+        <Translation x="78.0" y="95.0" z="1.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
@@ -90,7 +90,7 @@
     <!-- Lap Count -->
     <GameObject>
       <Transform>
-        <Translation x="85.0" y="85.0" z="0.0" />
+        <Translation x="85.0" y="85.0" z="1.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
@@ -104,7 +104,7 @@
     <!-- FPS -->
     <GameObject>
       <Transform>
-        <Translation x="-95.0" y="96.0" z="0.0" />
+        <Translation x="-95.0" y="96.0" z="1.0" />
         <Scale x="0.5" y="0.5" z="1.0" />
       </Transform>
       <Components>
@@ -117,7 +117,7 @@
     <!-- Wrong way -->
     <GameObject>
       <Transform>
-        <Translation x="0" y="30.0" z="0.0" />
+        <Translation x="0" y="30.0" z="1.0" />
         <Scale x="20.0" y="20.0" z="1.0" />
       </Transform>
       <Components>
@@ -133,7 +133,7 @@
     <!-- Pause -->
     <GameObject>
       <Transform>
-        <Translation x="0.0" y="-10.0" z="0.0" />
+        <Translation x="0.0" y="-10.0" z="1.0" />
         <Scale x="16.0" y="16.0" z="1.0" />
       </Transform>
       <Components>

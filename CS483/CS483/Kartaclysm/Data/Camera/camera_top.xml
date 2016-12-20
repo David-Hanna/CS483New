@@ -4,7 +4,15 @@
       <Target guid="Player0"/>
 	  <AspectRatioHeight value="360.0"/>
     </GOC_PerspectiveCamera>
-    <GOC_OrthographicCamera viewport="top"/>
+    <GOC_OrthographicCamera viewport="top">
+      <Position x="0.0" y="0.0" z="0.0"/>
+      <Target x="0.0" y="0.0" z="-5.0"/>
+      <Up x="0.0" y="1.0" z="0.0"/>
+      <Left value="-100.0"/>
+      <Right value="100.0"/>
+      <Bottom value="-100.0"/>
+      <Top value="100.0"/>
+    </GOC_OrthographicCamera>
   </Components>
   <Tags>
     <Tag value="Camera"/>
