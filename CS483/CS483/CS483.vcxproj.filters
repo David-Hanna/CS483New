@@ -381,6 +381,9 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObjectManager.cpp">
       <Filter>HeatStroke\GO/Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -673,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObjectManager.h">
       <Filter>HeatStroke\GO/Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

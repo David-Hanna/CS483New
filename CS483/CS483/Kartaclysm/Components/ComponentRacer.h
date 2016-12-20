@@ -53,13 +53,14 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pKart;
 		HeatStroke::GameObject* m_pDriver;
 		std::function<void(const HeatStroke::Event*)>* m_pLapCompleteDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 
 		int m_iCurrentTrackPiece;
 		int m_iCurrentLap;
 		int m_iCurrentPosition;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
-
+		void FinishRace(const HeatStroke::Event* p_pEvent);
 	};
 }
 

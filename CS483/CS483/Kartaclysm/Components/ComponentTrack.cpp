@@ -10,7 +10,8 @@ namespace Kartaclysm
 		:
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
-		m_vTrackPieces()
+		m_vTrackPieces(),
+		m_fRaceTime(0.0f)
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -54,6 +55,8 @@ namespace Kartaclysm
 
 	void ComponentTrack::Update(const float p_fDelta)
 	{
+		m_fRaceTime += p_fDelta;
+
 		// Iterate through track pieces to find which karts are located on them
 		for (unsigned int i = 0; i < m_vTrackPieces.size(); ++i)
 		{
@@ -123,7 +126,12 @@ namespace Kartaclysm
 		if (iTrackPieceIndex == 0 && iRacerCurrentTrackPiece == m_vTrackPieces.size() - 1)
 		{
 			m_vRacers[iRacerIndex]->SetCurrentTrackPiece(0);
-			TriggerRacerCompletedLapEvent(m_vRacers[iRacerIndex]->GetGameObject()->GetGUID());
+			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
+			TriggerRacerCompletedLapEvent(strRacerId);
+			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3)
+			{
+				TriggerRacerFinishedRaceEvent(strRacerId);
+			}
 		}
 		else if (iTrackPieceIndex == iRacerCurrentTrackPiece + 1)
 		{
@@ -311,6 +319,14 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerCompletedLap");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
+	void ComponentTrack::TriggerRacerFinishedRaceEvent(const std::string& p_strRacerId)
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerFinishedRace");
+		pEvent->SetStringParameter("racerId", p_strRacerId);
+		pEvent->SetFloatParameter("raceTime", m_fRaceTime);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 }

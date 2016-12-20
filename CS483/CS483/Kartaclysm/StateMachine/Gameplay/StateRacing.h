@@ -68,19 +68,27 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
-
-		HeatStroke::LineDrawer *lineDrawer;
-
 		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 
-		HeatStroke::GameObject* GenerateRacer(const std::string& p_strKartDefinitionFile, const std::string& p_strDriverDefinitionFile, const std::string& p_strGuid = "");
+		//TEMP used to reset race state
+		//		can be removed once we return to menus after race
+		std::map<std::string, std::string> m_mContextParams;
+
+		HeatStroke::GameObject* GenerateRacer(
+			const std::string& p_strKartDefinitionFile, 
+			const std::string& p_strDriverDefinitionFile, 
+			const std::string& p_strCameraDefinitionFile, 
+			const std::string& p_strGuid = ""
+		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
+		void FinishRace(const HeatStroke::Event* p_pEvent);
 	};
 } // namespace Kartaclysm
 

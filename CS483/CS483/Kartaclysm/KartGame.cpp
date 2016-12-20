@@ -29,29 +29,39 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
+	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
+	{
+		assert(false && "Failed to set number of players.");
+	}
 
 	// TEMP: get kart and driver files
 	// this will eventually happen in a separate state before StateRacing
 	std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml";
 	std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml";
+	std::string strCameraTopFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml";
+	std::string strCameraBottomFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml";
 
 	std::map<std::string, std::string> mContextParams;
 	mContextParams.insert(std::pair<std::string, std::string>("PlayerCount", "2"));
 	mContextParams.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
 	mContextParams.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
+	mContextParams.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
+	
+
 	mContextParams.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
 	mContextParams.insert(std::pair<std::string, std::string>("Player1_DriverDefinitionFile", strDriverFile));
+	mContextParams.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", strCameraBottomFile));
 
-	mContextParams.insert(std::pair<std::string, std::string>("Camera", "CS483/CS483/Kartaclysm/Data/Camera/camera_full.xml"));
 	mContextParams.insert(std::pair<std::string, std::string>("Light", "CS483/CS483/Kartaclysm/Data/Lights/light.xml"));
-	mContextParams.insert(std::pair<std::string, std::string>("Track", "CS483/CS483/Kartaclysm/Data/Tracks/up_and_over.xml"));
 
 	// Setup State Machine and push first state
+	//TODO we need to get rid of the use of hardcoded int ids for states. It's ugly and error prone
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	m_pGameStates->RegisterState(0, new StateRacing());
 	m_pGameStates->RegisterState(1, new StatePaused());
 	m_pGameStates->RegisterState(2, new StateMainMenu());
+	m_pGameStates->RegisterState(3, new StateTrackSelect());
 	m_pGameStates->Push(2, mContextParams);
 
 	return true;

@@ -154,6 +154,7 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Common\Common.h" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml" />
