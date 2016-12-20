@@ -39,6 +39,9 @@ namespace HeatStroke
 
 		//virtual void PreRender() override { ComponentRenderable::PreRender(); }
 
+		glm::vec3 GetPosition() { return m_pPosition; }
+		glm::vec3 GetPreviousPosition() { return m_pPreviousPosition; }
+
 	protected:
 		// Prevent public construction.
 		ComponentCollider(GameObject* p_pGameObject) : Component(p_pGameObject) {}
@@ -46,6 +49,9 @@ namespace HeatStroke
 		//Component3DModel(GameObject* p_pGameObject, const std::string& p_strOBJFileName);
 
 		//virtual void SyncTransform();
+
+		glm::vec3 m_pPosition;
+		glm::vec3 m_pPreviousPosition;
 
 	private:
 		// Prevent copying

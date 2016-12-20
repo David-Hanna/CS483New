@@ -79,6 +79,8 @@ void HeatStroke::ComponentWallCollider::Init()
 
 void HeatStroke::ComponentWallCollider::Update(const float p_fDelta)
 {
+	m_pPreviousPosition = m_pPosition;
+	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
 }
 
 void HeatStroke::ComponentWallCollider::SyncTransform()

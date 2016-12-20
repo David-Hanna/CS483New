@@ -164,6 +164,7 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\Component3DModel.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentAmbientLight.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentOrthographicCamera.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h" />
