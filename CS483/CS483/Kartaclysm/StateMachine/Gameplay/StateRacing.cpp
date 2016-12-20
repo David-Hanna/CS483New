@@ -71,7 +71,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
-
+	
 	// Handle passed context parameters
 	m_mContextParams = p_mContextParameters;
 	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
@@ -103,6 +103,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 		pTrackComponent->RegisterRacer(vRacers.at(i));
 		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
 	}
+
+	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
+	m_pGameObjectManager->Print();
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
