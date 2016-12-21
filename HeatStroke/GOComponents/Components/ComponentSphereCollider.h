@@ -42,7 +42,8 @@ namespace HeatStroke
 		ComponentSphereCollider(
 			GameObject* p_pGameObject,
 			glm::vec3 p_pOffset,
-			float p_fRadius
+			float p_fRadius,
+			bool p_bAppliesPhysics
 		);
 
 		virtual void SyncTransform();
@@ -55,7 +56,8 @@ namespace HeatStroke
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			glm::vec3& p_pOffset,
-			float& p_fRadius
+			float& p_fRadius,
+			bool& p_bAppliesPhysics
 		);
 
 		glm::vec3 m_pOffset;

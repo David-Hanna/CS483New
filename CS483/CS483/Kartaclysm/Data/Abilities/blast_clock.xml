@@ -1,0 +1,36 @@
+<!-- Blast for Clockmaker's Clock Bomb Ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+
+  <Transform>
+    <Scale x="0.5" y="0.5" z="0.5" />
+  </Transform>
+
+  <Components>
+
+    <!--<GOC_3DModel>
+      <OBJFileName path="Assets/box/box.obj"/>
+    </GOC_3DModel>-->
+
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="2.0" />
+      <Physics applies="false" />
+    </GOC_SphereCollider>
+
+    <GOC_Projectile>
+      <FriendlyFire value="true" />
+      <BlastXML path="" />
+    </GOC_Projectile>
+
+    <GOC_SelfDestruct>
+      <Timer value="0.0" />
+    </GOC_SelfDestruct>
+
+  </Components>
+
+  <Tags>
+    <Tag value="Harmful"/>
+  </Tags>
+</GameObject>

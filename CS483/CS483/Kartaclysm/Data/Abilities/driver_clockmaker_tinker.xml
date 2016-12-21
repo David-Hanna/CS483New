@@ -1,0 +1,33 @@
+<!-- Tinker ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+
+    <GOC_AbilityIcon>
+      <Ability value="DriverAbility2" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
+      <ActiveMaterialName name="boost" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
+      <InactiveMaterialName name="boost_inactive" />
+    </GOC_AbilityIcon>
+  
+    <GOC_AbilityConditions>
+      <Ability value="DriverAbility2" />
+      <Cooldown value="1.0" />
+      <MaxCharges value="-1" />
+      <StartCharges value="-1" />
+    </GOC_AbilityConditions>
+
+    <GOC_TinkerAbility>
+      <MaxCharges value="4" />
+      <StartCharges value="0" />
+    </GOC_TinkerAbility>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Ability"/>
+  </Tags>
+</GameObject>

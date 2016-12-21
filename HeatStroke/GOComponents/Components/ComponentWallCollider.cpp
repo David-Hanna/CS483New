@@ -16,7 +16,7 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	float p_fHeight,
 	float p_fWidth)
 	:
-	ComponentCollider(p_pGameObject),
+	ComponentCollider(p_pGameObject, true),
 	m_pOffset(p_pOffset),
 	m_pSurfaceNormal(p_pSurfaceNormal),
 	m_fHeight(p_fHeight),
@@ -79,6 +79,8 @@ void HeatStroke::ComponentWallCollider::Init()
 
 void HeatStroke::ComponentWallCollider::Update(const float p_fDelta)
 {
+	m_pPreviousPosition = m_pPosition;
+	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
 }
 
 void HeatStroke::ComponentWallCollider::SyncTransform()

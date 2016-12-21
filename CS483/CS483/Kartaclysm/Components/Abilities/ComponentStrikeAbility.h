@@ -50,7 +50,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentStrikeAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			std::string p_strProjectileXML
+			const std::string& p_strProjectileXML
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }

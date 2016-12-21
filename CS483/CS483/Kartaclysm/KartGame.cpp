@@ -42,7 +42,7 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(STATE_PAUSED, new StatePaused());
 	m_pGameStates->RegisterState(STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
 
-	m_pGameStates->Push(STATE_RACE_COMPLETE_MENU, std::map<std::string, std::string>());
+	m_pGameStates->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());
 
 	return true;
 }
