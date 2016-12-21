@@ -1,34 +1,30 @@
 //----------------------------------------------------------------------------
-// ComponentStrikeAbility.h
+// ComponentRainAbility.h
 // Author: Bradley Cooper
 //
-// King Pin's ability to fire a linear projectile.
+// Cleopapa's ability to slow passing racers.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_STRIKE_ABILITY_H
-#define COMPONENT_STRIKE_ABILITY_H
+#ifndef COMPONENT_RAIN_ABILITY_H
+#define COMPONENT_RAIN_ABILITY_H
 
 #include <tinyxml2.h>
 #include <string>
 
-#include "Common.h"
 #include "ComponentAbility.h"
-#include "ComponentProjectile.h"
-#include "ComponentKartController.h"
-#include "ComponentSimplePhysics.h"
 
 namespace Kartaclysm
 {
-	class ComponentStrikeAbility : public ComponentAbility
+	class ComponentRainAbility : public ComponentAbility
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_StrikeAbility"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_RainAbility"; }
 
 		// Destruction.
-		virtual ~ComponentStrikeAbility();
+		virtual ~ComponentRainAbility();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -42,23 +38,20 @@ namespace Kartaclysm
 		virtual void Update(const float p_fDelta) override {}
 
 		// Required ability override
-		virtual void Activate() override;
+		virtual void Activate() override {}
 
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentStrikeAbility(
-			HeatStroke::GameObject* p_pGameObject,
-			const std::string& p_strProjectileXML
+		ComponentRainAbility(
+			HeatStroke::GameObject* p_pGameObject
 			);
 
-		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
-		void OnHitCallback(const HeatStroke::Event* p_pEvent);
+		void PassedCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strProjectileXML
+			tinyxml2::XMLNode* p_pNode
 			);
 
 		//--------------------------------------------------------------------------
@@ -66,17 +59,14 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		std::string m_strProjectileXML;
+		int m_iPreviousPosition;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
 
-		// Delegate function to register with EventManager for ability activation
-		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
-
-		// Delegate function to register with EventManager for strike ability hit event
-		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
+		// Delegate function to register with EventManager for player passing
+		std::function<void(const HeatStroke::Event*)>* m_pPassedDelegate;
 	};
 }
 
-#endif // COMPONENT_STRIKE_ABILITY_H
+#endif // COMPONENT_RAIN_ABILITY_H

@@ -66,7 +66,9 @@ namespace Kartaclysm
 		m_fSwerve(0.0f),
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
-		m_fSpinout(0.0f)
+		m_fSpinout(0.0f),
+		m_fSlowDuration(0.0f),
+		m_fSlowPower(1.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -143,6 +145,22 @@ namespace Kartaclysm
 			if (m_fSpinout < 0.0f) m_fSpinout = 0.0f;
 		}
 
+		// Slow just reduces speed
+		if (m_fSlowDuration > 0.0f)
+		{
+			m_fSlowDuration -= p_fDelta;
+			if (m_fSlowDuration < 0.0f)
+			{
+				m_fSlowDuration = 0.0f;
+				m_fSlowPower = 1.0f;
+
+				// Remove the HUD element
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_pGameObject->GetGUID() + "_HUD_Slow");
+				pEvent->SetIntParameter("Display", 0);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			}
+		}
+
 		// Speeding up & slowing down
 		UpdateSpeed(iAccelerate, iBrake, p_fDelta);
 
@@ -177,6 +195,12 @@ namespace Kartaclysm
 		if (m_bWheelie)
 		{
 			fSpeedModifer *= m_fWheelieSpeedModStat;
+		}
+
+		// And from slow debuffs
+		if (m_fSlowDuration > 0.0f)
+		{
+			fSpeedModifer *= m_fSlowPower;
 		}
 
 		// Adjust speed based on input
@@ -427,6 +451,12 @@ namespace Kartaclysm
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
+	void ComponentKartController::Slow(float p_fPower, float p_fDuration)
+	{
+		m_fSlowDuration = fmaxf(p_fDuration * m_fDurabilityStat, m_fSlowDuration);
+		m_fSlowPower = p_fPower;
+	}
+
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
@@ -504,6 +534,8 @@ namespace Kartaclysm
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
+				printf("->Negated\n");
+
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
@@ -520,6 +552,22 @@ namespace Kartaclysm
 			{
 				printf("Strike!\n");
 				Spinout(1.5f);
+			}
+			else if (ability.compare("Rain") == 0)
+			{
+				printf("Make it rain!\n");
+
+				// Send event for HUD
+				HeatStroke::Event* pEvent = new HeatStroke::Event(target + "_HUD_Slow");
+				pEvent->SetIntParameter("Display", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				Slow(0.7f, 2.0f);
+			}
+			else if (ability.compare("Bedazzle") == 0)
+			{
+				printf("Bedazzle!\n"); // Entangle!
+				Spinout(1.0f);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
