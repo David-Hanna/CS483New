@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------
 
 #include "ComponentPerspectiveCamera.h"
+#include "ComponentKartController.h"
 
 HeatStroke::ComponentPerspectiveCamera::ComponentPerspectiveCamera(
 	GameObject* p_pGameObject,
@@ -82,17 +83,32 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 
 void HeatStroke::ComponentPerspectiveCamera::Update(const float p_fDelta)
 {
-	glm::vec3 vPosition = m_pGameObject->GetTransform().GetTranslation();
-	m_mScenePerspectiveCamera.SetPosition(vPosition);
+	GameObject* pParent = m_pGameObject->GetParent();
 
-	// If this is not nullptr, then we have a target we're following.
-	if (m_pTargetGameObject != nullptr)
+	if (pParent != nullptr && pParent->HasTag("Racer"))
 	{
+		Kartaclysm::ComponentKartController* pKartController = dynamic_cast<Kartaclysm::ComponentKartController*>(pParent->GetComponent("GOC_KartController"));
+		float fSwerve = pKartController->GetSwerve();
+
+		pParent->GetTransform().RotateXYZ(0.0f, -fSwerve, 0.0f);
+
+		m_mScenePerspectiveCamera.SetPosition(m_pGameObject->GetTransform().GetTranslation());
+		m_mScenePerspectiveCamera.SetTarget(m_pTargetGameObject->GetTransform().GetTranslation());
+
+		pParent->GetTransform().RotateXYZ(0.0f, fSwerve, 0.0f);
+	}
+	// If this is not nullptr, then we have a target we're following.
+	else if (m_pTargetGameObject != nullptr)
+	{
+		glm::vec3 vPosition = m_pGameObject->GetTransform().GetTranslation();
+		m_mScenePerspectiveCamera.SetPosition(vPosition);
 		m_mScenePerspectiveCamera.SetTarget(m_pTargetGameObject->GetTransform().GetTranslation());
 	}
 	// Otherwise, just face in the same direction as the GameObject.
 	else
 	{
+		glm::vec3 vPosition = m_pGameObject->GetTransform().GetTranslation();
+		m_mScenePerspectiveCamera.SetPosition(vPosition);
 		glm::vec3 vForward = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
 		m_mScenePerspectiveCamera.SetTarget(vPosition + vForward);
 	}

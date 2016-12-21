@@ -17,12 +17,12 @@ namespace Kartaclysm
 		m_strPositionFilePrefix(p_strPositionFilePrefix),
 		m_mSprite(m_strPositionFilePrefix + "position_1.mtl", "position_1")
 	{
-		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
 	}
 
 	ComponentHudPosition::~ComponentHudPosition()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
@@ -83,9 +83,9 @@ namespace Kartaclysm
 		std::string strPosition = "position_" + std::to_string(iPosition);
 
 		// TO DO, not very efficient I imagine. Should have them memo-ized or stored for quick switching
-		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
-		m_mSprite = HeatStroke::Sprite(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
-		HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
+		m_mSprite = HeatStroke::SpriteInstance(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
+		HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
 	}
 
 	void ComponentHudPosition::ParseNode(

@@ -61,21 +61,21 @@ HeatStroke::SceneManager* HeatStroke::SceneManager::Instance()
 	return s_pSceneManagerInstance;
 }
 
-void HeatStroke::SceneManager::AddModel(HeatStroke::Model* p_pModel)
+void HeatStroke::SceneManager::AddModelInstance(HeatStroke::ModelInstance* p_pModelInstance)
 {
-	m_lModelList.push_back(p_pModel);
+	m_lModelList.push_back(p_pModelInstance);
 }
 
-void HeatStroke::SceneManager::RemoveModel(HeatStroke::Model* p_pModel)
+void HeatStroke::SceneManager::RemoveModelInstance(HeatStroke::ModelInstance* p_pModelInstance)
 {
-	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
+	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModelInstance);
 	if (it != m_lModelList.end())
 	{
 		m_lModelList.erase(it);
 	}
 }
 
-void HeatStroke::SceneManager::ClearModels()
+void HeatStroke::SceneManager::ClearModelInstances()
 {
 	m_lModelList.clear();
 }
@@ -98,21 +98,21 @@ void HeatStroke::SceneManager::ClearPerspectiveCameras()
 	}
 }
 
-void HeatStroke::SceneManager::AddSprite(HeatStroke::Sprite* p_pSprite)
+void HeatStroke::SceneManager::AddSpriteInstance(HeatStroke::SpriteInstance* p_pSpriteInstance)
 {
-	m_lSpriteList.push_back(p_pSprite);
+	m_lSpriteList.push_back(p_pSpriteInstance);
 }
 
-void HeatStroke::SceneManager::RemoveSprite(HeatStroke::Sprite* p_pSprite)
+void HeatStroke::SceneManager::RemoveSpriteInstance(HeatStroke::SpriteInstance* p_pSpriteInstance)
 {
-	SpriteList::iterator it = std::find(m_lSpriteList.begin(), m_lSpriteList.end(), p_pSprite);
+	SpriteList::iterator it = std::find(m_lSpriteList.begin(), m_lSpriteList.end(), p_pSpriteInstance);
 	if (it != m_lSpriteList.end())
 	{
 		m_lSpriteList.erase(it);
 	}
 }
 
-void HeatStroke::SceneManager::ClearSprites()
+void HeatStroke::SceneManager::ClearSpriteInstances()
 {
 	m_lSpriteList.clear();
 }
@@ -213,8 +213,6 @@ void HeatStroke::SceneManager::ClearPointLights()
 
 void HeatStroke::SceneManager::Render()
 {
-	SetModelsLights();
-
 	int width, height;
 	glfwGetWindowSize(m_pWindow, &width, &height);
 	int halfWidth = width / 2;
@@ -319,30 +317,36 @@ void HeatStroke::SceneManager::Render()
 	}
 }
 
-void HeatStroke::SceneManager::SetModelsLights()
+void HeatStroke::SceneManager::RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		SetModelLights(*it);
+		RenderModel(*it, p_pPerspectiveCamera);
 	}
 }
 
-void HeatStroke::SceneManager::SetModelLights(Model* p_pModel)
+void HeatStroke::SceneManager::RenderModel(ModelInstance* p_pModelInstance, const ScenePerspectiveCamera* p_pPerspectiveCamera)
 {
-	std::vector<Mesh>& vMeshes = p_pModel->GetMeshes();
+	SetModelLights(p_pModelInstance);
+	p_pModelInstance->Render(p_pPerspectiveCamera);
+}
+
+void HeatStroke::SceneManager::SetModelLights(ModelInstance* p_pModelInstance)
+{
+	std::vector<Mesh>& vMeshes = p_pModelInstance->GetModel()->GetMeshes();
 	std::vector<Mesh>::iterator meshIt = vMeshes.begin(), meshEnd = vMeshes.end();
 	for (; meshIt != meshEnd; meshIt++)
 	{
-		SetMeshLights(p_pModel, &(*meshIt));
+		SetMeshLights(p_pModelInstance, &(*meshIt));
 	}
 }
 
-void HeatStroke::SceneManager::SetMeshLights(Model* p_pModel, Mesh* p_pMesh)
+void HeatStroke::SceneManager::SetMeshLights(ModelInstance* p_pModelInstance, Mesh* p_pMesh)
 {
 	SetMeshAmbientLight(p_pMesh);
 	SetMeshDirectionalLight(p_pMesh);
-	SetMeshPointLight(p_pModel, p_pMesh);
+	SetMeshPointLight(p_pModelInstance, p_pMesh);
 }
 
 void HeatStroke::SceneManager::SetMeshAmbientLight(Mesh* p_pMesh)
@@ -371,9 +375,9 @@ void HeatStroke::SceneManager::SetMeshDirectionalLight(Mesh* p_pMesh)
 	}
 }
 
-void HeatStroke::SceneManager::SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh)
+void HeatStroke::SceneManager::SetMeshPointLight(ModelInstance* p_pModelInstance, Mesh* p_pMesh)
 {
-	ScenePointLight* pPointLight = DetermineClosestPointLight(p_pModel);
+	ScenePointLight* pPointLight = DetermineClosestPointLight(p_pModelInstance);
 	if (pPointLight != nullptr)
 	{
 		p_pMesh->m_pMaterial->SetUniform("PointLightPosition", pPointLight->GetPosition());
@@ -390,14 +394,14 @@ void HeatStroke::SceneManager::SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh)
 	}
 }
 
-HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLight(Model* p_pModel)
+HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLight(ModelInstance* p_pModelInstance)
 {
 	if (m_lPointLightList.size() == 0)
 	{
 		return nullptr;
 	}
 
-	const glm::vec3& vTranslation = glm::vec3(p_pModel->GetTransform()[3]);
+	const glm::vec3& vTranslation = glm::vec3(p_pModelInstance->GetTransform()[3]);
 
 	ScenePointLight* pClosestPointLight = m_lPointLightList[0];
 	float fClosestPointLightDistance = glm::distance(vTranslation, pClosestPointLight->GetPosition());
@@ -416,20 +420,6 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 	return pClosestPointLight;
 }
 
-void HeatStroke::SceneManager::RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera)
-{
-	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
-	for (; it != end; ++it)
-	{
-		RenderModel(*it, p_pPerspectiveCamera);
-	}
-}
-
-void HeatStroke::SceneManager::RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera)
-{
-	p_pModel->Render(p_pPerspectiveCamera);
-}
-
 void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera)
 {
 	SpriteList::iterator it = m_lSpriteList.begin(), end = m_lSpriteList.end();
@@ -439,9 +429,9 @@ void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pO
 	}
 }
 
-void HeatStroke::SceneManager::RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera)
+void HeatStroke::SceneManager::RenderSprite(SpriteInstance* p_pSpriteInstance, const SceneOrthographicCamera* p_pOrthographicCamera)
 {
-	p_pSprite->Render(p_pOrthographicCamera);
+	p_pSpriteInstance->Render(p_pOrthographicCamera);
 }
 
 void HeatStroke::SceneManager::RenderTextBoxes(const SceneOrthographicCamera* p_pOrthographicCamera)

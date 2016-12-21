@@ -15,34 +15,25 @@ namespace Kartaclysm
 		const std::string& p_strAbility
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
-		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, ""),
+		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
+		m_mTextBox(m_pFont, ""),
 		m_pActiveSprite(nullptr),
-		m_pInactiveSprite(new HeatStroke::Sprite("Assets/Hud/Abilities/null.mtl", "null_ability")),
+		m_pInactiveSprite(new HeatStroke::SpriteInstance("Assets/Hud/Abilities/null.mtl", "null_ability")),
 		m_strEventName(p_strAbility),
 		m_bReady(false),
 		m_bHasCharges(false)
 	{
-		HeatStroke::SceneManager::Instance()->AddSprite(m_pInactiveSprite);
+		HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pInactiveSprite);
 	}
 
 	ComponentHudAbility::~ComponentHudAbility()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveSprite(m_pActiveSprite);
-		HeatStroke::SceneManager::Instance()->RemoveSprite(m_pInactiveSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pActiveSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pInactiveSprite);
 		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
 
-		if (m_pInactiveSprite != nullptr)
-		{
-			delete m_pInactiveSprite;
-			m_pInactiveSprite = nullptr;
-		}
-
-		if (m_pActiveSprite != nullptr)
-		{
-			delete m_pActiveSprite;
-			m_pActiveSprite = nullptr;
-		}
+		DELETE_IF(m_pInactiveSprite);
+		DELETE_IF(m_pActiveSprite);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
@@ -130,15 +121,15 @@ namespace Kartaclysm
 			if (!m_bReady)
 			{
 				m_bReady = true;
-				HeatStroke::SceneManager::Instance()->RemoveSprite(m_pInactiveSprite);
-				HeatStroke::SceneManager::Instance()->AddSprite(m_pActiveSprite);
+				HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pInactiveSprite);
+				HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pActiveSprite);
 			}
 		}
 		else if (m_bReady)
 		{
 			m_bReady = false;
-			HeatStroke::SceneManager::Instance()->RemoveSprite(m_pActiveSprite);
-			HeatStroke::SceneManager::Instance()->AddSprite(m_pInactiveSprite);
+			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pActiveSprite);
+			HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pInactiveSprite);
 		}
 
 		// Charge textbox
@@ -182,20 +173,20 @@ namespace Kartaclysm
 
 		if (m_pActiveSprite != nullptr)
 		{
-			HeatStroke::SceneManager::Instance()->RemoveSprite(m_pActiveSprite);
+			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pActiveSprite);
 			delete m_pActiveSprite;
 			m_pActiveSprite = nullptr;
 		}
 		if (m_pInactiveSprite != nullptr)
 		{
-			HeatStroke::SceneManager::Instance()->RemoveSprite(m_pInactiveSprite);
+			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pInactiveSprite);
 			delete m_pInactiveSprite;
 			m_pInactiveSprite = nullptr;
 		}
 
-		m_pActiveSprite = new HeatStroke::Sprite(strActiveMTLFileName, strActiveMaterialName);
-		m_pInactiveSprite = new HeatStroke::Sprite(strInactiveMTLFileName, strInactiveMaterialName);
-		HeatStroke::SceneManager::Instance()->AddSprite(m_pInactiveSprite);
+		m_pActiveSprite = new HeatStroke::SpriteInstance(strActiveMTLFileName, strActiveMaterialName);
+		m_pInactiveSprite = new HeatStroke::SpriteInstance(strInactiveMTLFileName, strInactiveMaterialName);
+		HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pInactiveSprite);
 	}
 
 	void ComponentHudAbility::ParseNode(

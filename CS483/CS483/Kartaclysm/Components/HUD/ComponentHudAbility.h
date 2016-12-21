@@ -11,9 +11,10 @@
 #include <tinyxml2.h>
 
 #include "ComponentRenderable.h"
+#include "FontManager.h"
 #include "SceneManager.h"
 #include "EventManager.h"
-#include "Sprite.h"
+#include "SpriteInstance.h"
 
 namespace Kartaclysm
 {
@@ -66,10 +67,10 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 
-		HeatStroke::Font m_mFont;
+		HeatStroke::Font* m_pFont;
 		HeatStroke::TextBox m_mTextBox;
-		HeatStroke::Sprite* m_pActiveSprite;
-		HeatStroke::Sprite* m_pInactiveSprite;
+		HeatStroke::SpriteInstance* m_pActiveSprite;
+		HeatStroke::SpriteInstance* m_pInactiveSprite;
 
 		bool m_bReady;
 		bool m_bHasCharges;

@@ -23,6 +23,12 @@
 #include "StateRacing.h"
 #include "StatePaused.h"
 #include "StateRaceCompleteMenu.h"
+#include "StateMainMenu.h"
+#include "StateTrackSelect.h"
+#include "SceneManager.h"
+#include "ModelManager.h"
+#include "SpriteManager.h"
+#include "FontManager.h"
 
 namespace Kartaclysm
 {

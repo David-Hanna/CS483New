@@ -25,8 +25,8 @@ namespace HeatStroke
 		virtual void				SetTranslationXYZ	(float x, float y, float z)				{ this->SetTranslation(glm::vec3(x, y, z)); }
 		virtual const glm::vec3&	GetTranslation		() const;
 
-		virtual void				Rotate				(const float p_fAngle, const glm::vec3& p_vRotation);
-		virtual void				RotateXYZ			(const float p_fAngle, const float x, const float y, const float z)	{ this->Rotate(p_fAngle, glm::vec3(x, y, z)); }
+		virtual void				Rotate				(const glm::vec3& p_vRotation);
+		virtual void				RotateXYZ			(const float x, const float y, const float z)	{ this->Rotate(glm::vec3(x, y, z)); }
 		virtual void				SetRotation			(const float p_fAngle, const glm::vec3& p_vRotation);
 		virtual void				SetRotation			(const glm::quat& p_qRotation)										{ m_qRotation = p_qRotation; }
 		virtual void				SetRotationXYZ		(const float p_fAngle, float x, float y, float z)					{ this->SetRotation(p_fAngle, glm::vec3(x, y, z)); }

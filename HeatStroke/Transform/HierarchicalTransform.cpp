@@ -39,9 +39,9 @@ namespace HeatStroke
 	}
 
 
-	void HierarchicalTransform::Rotate(const float p_fAngle, const glm::vec3& p_vRotation)
+	void HierarchicalTransform::Rotate(const glm::vec3& p_vRotation)
 	{
-		Transform::Rotate(p_fAngle, p_vRotation);
+		Transform::Rotate(p_vRotation);
 		UpdateChildrensParentRotation();
 	}
 

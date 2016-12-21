@@ -14,8 +14,8 @@ namespace Kartaclysm
 		const std::string& p_strFontFilePath
 		) :
 		ComponentRenderable(p_pGameObject),
-		m_mFont(p_strFontFilePath),
-		m_mTextBox(&m_mFont, "0"),
+		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
+		m_mTextBox(m_pFont, "0"),
 		m_fFPS(0.0f),
 		m_iFrameCounter(0),
 		m_lFrameSpeeds(std::vector<float>(90))

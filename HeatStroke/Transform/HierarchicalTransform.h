@@ -33,7 +33,7 @@ namespace HeatStroke
 		virtual void Scale(const glm::vec3& p_vScale) override;
 		virtual void SetScale(const glm::vec3& p_vScale) override;
 
-		virtual void Rotate(const float p_fAngle, const glm::vec3& p_vRotation) override;
+		virtual void Rotate(const glm::vec3& p_vRotation) override;
 		virtual void SetRotation(const float p_fAngle, const glm::vec3& p_vRotation) override;
 		virtual void SetRotation(const glm::quat& p_qRotation) override;
 		virtual void SetRotationXYZ(const float p_fAngle, float x, float y, float z) override;
