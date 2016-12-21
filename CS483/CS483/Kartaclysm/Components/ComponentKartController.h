@@ -48,6 +48,7 @@ namespace Kartaclysm
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
 		float GetDirection() const { return m_fDirection; }
+		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
 	protected:
 		//--------------------------------------------------------------------------
@@ -61,7 +62,7 @@ namespace Kartaclysm
 		void UpdateTurn(float p_fTurnInput, float p_fDelta);
 		float UpdateHop(int p_iSlideInput, float p_fDelta);
 		void UpdateSlide(int p_iSlideInput, float p_fDelta);
-		void UpdateTransform(float p_fHeightMod);
+		void UpdateTransform(float p_fHeightMod, float p_fDelta);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
