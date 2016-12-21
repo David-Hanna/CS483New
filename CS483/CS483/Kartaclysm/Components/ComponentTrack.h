@@ -59,12 +59,14 @@ namespace Kartaclysm
 			int GetRacerIndex(const std::string& p_strRacerId);
 
 			void UpdateRacerPositions();
+			void ResetRacerPosition(ComponentRacer* p_pRacer);
 			void CheckRacerFacingForward();
 			bool IsAhead(ComponentRacer* p_RacerA, ComponentRacer* p_RacerB);
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
 			void TriggerRacerCompletedLapEvent(const std::string& p_strRacerId);
 			void TriggerRacerFinishedRaceEvent(const std::string& p_strRacerId);
+			void TriggerRaceStandingsUpdateEvent();
 
 			glm::vec3 DetermineTrackForwardDirection(int p_iTrackPieceIndex);
 			glm::vec3 DetermineRacerForwardDirection(const std::string& p_strRacerId);

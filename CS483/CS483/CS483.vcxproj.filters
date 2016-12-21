@@ -360,6 +360,18 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentRainAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentClockAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.cpp">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -641,6 +653,21 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentRainAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentClockAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.h">
+      <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -688,9 +715,6 @@
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\wall_eastwest.xml">
-      <Filter>Kartaclysm\Data</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_juggernaut_armor.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
@@ -716,6 +740,15 @@
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_bedazzle.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_rain.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_jump.xml">
@@ -771,6 +804,33 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml">
       <Filter>Kartaclysm\Data\Lights</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpstart.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpend.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_straight_underjump.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_tinker.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
   </ItemGroup>
 </Project>
