@@ -73,6 +73,7 @@ namespace Kartaclysm
 				std::string strTarget;
 				p_pEvent->GetRequiredStringParameter(std::to_string(iPosition + 1), strTarget);
 
+				// TODO: Triggering event is not sent if passing by a player who is not on the same lap
 				// TODO: Check distance for 'nearby' criteria?
 
 				HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");

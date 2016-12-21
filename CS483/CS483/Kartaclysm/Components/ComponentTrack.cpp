@@ -95,7 +95,7 @@ namespace Kartaclysm
 			}
 		}
 
-		for (int i = 0; i < racersOnTrackPieces.size(); ++i)
+		for (unsigned int i = 0; i < racersOnTrackPieces.size(); ++i)
 		{
 			if (!racersOnTrackPieces[i])
 			{
