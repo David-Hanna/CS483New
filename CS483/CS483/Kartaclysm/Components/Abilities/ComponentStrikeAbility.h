@@ -16,6 +16,7 @@
 #include "ComponentProjectile.h"
 #include "ComponentKartController.h"
 #include "ComponentSimplePhysics.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {

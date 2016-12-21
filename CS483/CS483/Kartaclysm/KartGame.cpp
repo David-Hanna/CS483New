@@ -27,6 +27,7 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::CollisionManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
+	HeatStroke::AudioPlayer::CreateInstance();
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
@@ -47,6 +48,9 @@ bool Kartaclysm::KartGame::Init()
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+
 	return true;
 }
 
@@ -56,6 +60,7 @@ void Kartaclysm::KartGame::Update(const float p_fDelta)
 	HeatStroke::CollisionManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
+	HeatStroke::AudioPlayer::Instance()->Update();
 	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom
@@ -82,8 +87,11 @@ void Kartaclysm::KartGame::Shutdown()
 	delete m_pGameStates;
 	m_pGameStates = nullptr;
 
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+
 	PlayerInputMapping::DestroyInstance();
 	InputActionMapping::DestroyInstance();
+	HeatStroke::AudioPlayer::DestroyInstance();
 	HeatStroke::JoystickInputBuffer::DestroyInstance();
 	HeatStroke::KeyboardInputBuffer::DestroyInstance();
 	HeatStroke::SceneManager::DestroyInstance();
