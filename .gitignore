@@ -258,3 +258,4 @@ paket-files/
 .idea/
 *.sln.iml
 .vscode/
+*.blend1
