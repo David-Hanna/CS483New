@@ -124,6 +124,9 @@
     <Filter Include="Kartaclysm\Data\Lights">
       <UniqueIdentifier>{52073a6f-9e4c-413b-9c66-41c2e571f01a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\AudioPlayer">
+      <UniqueIdentifier>{509651bf-ea9d-4015-b6b5-218c4caa0a29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -371,6 +374,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.cpp">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp">
+      <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -667,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.h">
       <Filter>Kartaclysm\Components\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h">
+      <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

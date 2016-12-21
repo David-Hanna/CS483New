@@ -91,6 +91,8 @@ namespace Kartaclysm
 			pEvent->SetIntParameter("ArmorChange", 1);
 			pEvent->SetIntParameter("Negated", 0);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_maintain.flac");
 		}
 	}
 

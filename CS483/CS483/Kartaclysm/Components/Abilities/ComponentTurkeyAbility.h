@@ -8,10 +8,12 @@
 #ifndef COMPONENT_TURKEY_H
 #define COMPONENT_TURKEY_H
 
+#include "AudioPlayer.h"
+#include "ComponentAbility.h"
+
 #include <tinyxml2.h>
 #include <string>
 
-#include "ComponentAbility.h"
 
 namespace Kartaclysm
 {

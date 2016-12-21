@@ -21,37 +21,25 @@
 #include "StateMainMenu.h"
 #include "StateTrackSelect.h"
 #include "SceneManager.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
 	class KartGame : public HeatStroke::Game
 	{
 	public:
-		//--------------------------------------------------------------------------
-		// Public methods
-		//--------------------------------------------------------------------------
-
 		KartGame() {}
 		~KartGame() {}
 		
 	private:
-		//--------------------------------------------------------------------------
-		// Private methods
-		//--------------------------------------------------------------------------
-		
+		HeatStroke::StateMachine* m_pGameStates;
+
 		bool Init();
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Render();
 		void Shutdown();
-
-		//--------------------------------------------------------------------------
-		// Private variables
-		//--------------------------------------------------------------------------
-
-		// State machine to hold game states
-		HeatStroke::StateMachine* m_pGameStates;
 	};
-} // namespace Kartaclysm
+}
 
-#endif // KART_GAME_H
+#endif

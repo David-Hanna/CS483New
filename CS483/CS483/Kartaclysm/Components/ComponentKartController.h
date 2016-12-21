@@ -17,6 +17,7 @@
 #include "PlayerInputMapping.h"
 #include "KeyboardInputBuffer.h"
 #include "ComponentSphereCollider.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {

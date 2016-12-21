@@ -8,10 +8,11 @@
 #ifndef COMPONENT_MAINTAIN_ABILITY_H
 #define COMPONENT_MAINTAIN_ABILITY_H
 
+#include "AudioPlayer.h"
+#include "ComponentAbility.h"
+
 #include <tinyxml2.h>
 #include <string>
-
-#include "ComponentAbility.h"
 
 namespace Kartaclysm
 {
