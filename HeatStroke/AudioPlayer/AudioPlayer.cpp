@@ -31,6 +31,8 @@ HeatStroke::AudioPlayer* HeatStroke::AudioPlayer::Instance()
 
 void HeatStroke::AudioPlayer::Update()
 {
+	// Sound will be handled better after next sprint. Need to keep them preloaded and just
+	// delete them all when this object gets deleted.
 	/*
 	std::vector<std::pair<sf::SoundBuffer*, sf::Sound*>>::iterator it = m_vSoundEffects.begin(), end = m_vSoundEffects.end();
 	for (; it != end; it++)
