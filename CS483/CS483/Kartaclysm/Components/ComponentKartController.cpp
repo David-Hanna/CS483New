@@ -67,6 +67,7 @@ namespace Kartaclysm
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
 		m_fSpinout(0.0f),
+		m_fTurnLock(0.0f),
 		m_fSlowDuration(0.0f),
 		m_fSlowPower(1.0f)
 	{
@@ -143,6 +144,15 @@ namespace Kartaclysm
 
 			m_fSpinout -= p_fDelta;
 			if (m_fSpinout < 0.0f) m_fSpinout = 0.0f;
+		}
+
+		// Turnlock causes turn inputs to be ignored
+		if (m_fTurnLock > 0.0f)
+		{
+			fTurn = 0.0f;
+
+			m_fTurnLock -= p_fDelta;
+			if (m_fTurnLock < 0.0f) m_fTurnLock = 0.0f;
 		}
 
 		// Slow just reduces speed
@@ -457,6 +467,11 @@ namespace Kartaclysm
 		m_fSlowPower = p_fPower;
 	}
 
+	void ComponentKartController::TurnLock(float p_fDuration)
+	{
+		m_fTurnLock = fmaxf(p_fDuration * m_fDurabilityStat, m_fTurnLock);
+	}
+
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
@@ -539,6 +554,7 @@ namespace Kartaclysm
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+				printf("->Negated");
 
 				m_strHitCallback = "";
 				return;
@@ -551,6 +567,11 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
+				Spinout(1.5f);
+			}
+			else if (ability.compare("Clock") == 0)
+			{
+				printf("Clocked!\n");
 				Spinout(1.5f);
 			}
 			else if (ability.compare("Rain") == 0)
@@ -588,6 +609,11 @@ namespace Kartaclysm
 			{
 				printf("Wheelie!\n");
 				WheelieToggle();
+			}
+			else if (ability.compare("Tinker") == 0)
+			{
+				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
+				TurnLock(1.0f);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{
