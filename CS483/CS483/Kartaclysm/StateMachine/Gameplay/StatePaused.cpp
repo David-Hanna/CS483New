@@ -18,7 +18,6 @@ Kartaclysm::StatePaused::StatePaused()
 
 Kartaclysm::StatePaused::~StatePaused()
 {
-	Exit();
 }
 
 void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_mContextParameters)

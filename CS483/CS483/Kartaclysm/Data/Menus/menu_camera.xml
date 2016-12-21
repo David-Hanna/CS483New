@@ -1,0 +1,6 @@
+<GameObject>
+  <Components>
+    <GOC_PerspectiveCamera viewport="full"/>
+    <GOC_OrthographicCamera viewport="full"/>
+  </Components>
+</GameObject>

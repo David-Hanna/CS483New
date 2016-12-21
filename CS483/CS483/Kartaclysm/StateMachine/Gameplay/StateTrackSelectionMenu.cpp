@@ -17,14 +17,15 @@ Kartaclysm::StateTrackSelectionMenu::StateTrackSelectionMenu()
 
 Kartaclysm::StateTrackSelectionMenu::~StateTrackSelectionMenu()
 {
-	Exit();
 }
 
 void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
-	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 	m_mContextParameters = p_mContextParameters;
+
+	m_pGameObjectManager = new HeatStroke::GameObjectManager();
+
 	printf("Entering Track Selection Menu State.\n");
 }
 

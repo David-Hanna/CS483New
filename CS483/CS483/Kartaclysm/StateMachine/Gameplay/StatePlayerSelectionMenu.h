@@ -10,6 +10,12 @@
 #ifndef STATE_PLAYER_SELECTION_MENU_H
 #define STATE_PLAYER_SELECTION_MENU_H
 
+#include "ComponentOrthographicCamera.h"
+#include "ComponentSprite.h"
+#include "ComponentTextbox.h"
+#include "ComponentPerspectiveCamera.h"
+#include "Component3DModel.h"
+
 #include "GameplayState.h"
 #include "GameplayStatesEnum.h"
 #include "EventManager.h"

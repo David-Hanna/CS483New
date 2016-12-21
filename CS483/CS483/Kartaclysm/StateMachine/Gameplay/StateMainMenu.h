@@ -8,6 +8,10 @@
 #ifndef STATE_MAIN_MENU_H
 #define STATE_MAIN_MENU_H
 
+#include "ComponentOrthographicCamera.h"
+#include "ComponentSprite.h"
+#include "ComponentPerspectiveCamera.h"
+
 #include "GameplayState.h"
 #include "GameplayStatesEnum.h"
 #include "EventManager.h"

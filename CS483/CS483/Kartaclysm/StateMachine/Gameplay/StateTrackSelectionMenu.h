@@ -9,6 +9,9 @@
 #ifndef STATE_TRACK_SELECTION_MENU_H
 #define STATE_TRACK_SELECTION_MENU_H
 
+#include "ComponentOrthographicCamera.h"
+#include "ComponentSprite.h"
+
 #include "GameplayState.h"
 #include "GameplayStatesEnum.h"
 #include "EventManager.h"

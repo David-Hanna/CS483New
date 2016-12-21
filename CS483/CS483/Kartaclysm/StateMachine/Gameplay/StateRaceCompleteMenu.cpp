@@ -16,7 +16,6 @@ Kartaclysm::StateRaceCompleteMenu::StateRaceCompleteMenu()
 
 Kartaclysm::StateRaceCompleteMenu::~StateRaceCompleteMenu()
 {
-	Exit();
 }
 
 void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)

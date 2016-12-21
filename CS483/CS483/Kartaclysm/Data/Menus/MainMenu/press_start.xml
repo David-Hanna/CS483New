@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+		<Scale x="80.0" y="50.0" z="1.0" />
+		<Translation x="0.0" y="-25.0" z="0.0" />
+	</Transform>
+	<Components>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/Menus/MainMenu/press_start.mtl"/>
+			<MaterialName name="press_start"/>
+		</GOC_Sprite>
+	</Components>
+</GameObject>

@@ -17,7 +17,6 @@ Kartaclysm::StateRacing::StateRacing()
 
 Kartaclysm::StateRacing::~StateRacing()
 {
-	Exit();
 }
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
