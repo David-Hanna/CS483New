@@ -1,0 +1,31 @@
+<!-- Projectile for Cleopapa's Bedazzle Ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+
+    <!--<GOC_3DModel>
+      <OBJFileName path="Assets/box/box.obj"/>
+    </GOC_3DModel>-->
+
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="2.5" />
+      <Physics applies="false" />
+    </GOC_SphereCollider>
+
+    <GOC_Projectile>
+      <FriendlyFire value="false" />
+    </GOC_Projectile>
+
+    <GOC_SelfDestruct>
+      <Timer value="0.0" />
+    </GOC_SelfDestruct>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Harmful"/>
+  </Tags>
+</GameObject>

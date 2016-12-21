@@ -24,8 +24,8 @@ namespace Kartaclysm
 
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
-		m_fSpeedScale(0.024f),
-		m_fVerticalSpeedScale(0.02f),
+		m_fSpeedScale(0.45f),
+		m_fVerticalSpeedScale(1.2f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(1.2f),
@@ -36,17 +36,17 @@ namespace Kartaclysm
 		m_fSpeedWhileSlidingMaxStat(0.9f),
 		m_fMaxTurnStat(0.8f),
 		m_fTurnAccelerationStat(120.0f),
-		m_fHopInitialSpeedStat(2.5f),
-		m_fGravityAccelerationStat(-12.0f),
+		m_fHopInitialSpeedStat(1.05f),
+		m_fGravityAccelerationStat(-5.0f),
 		m_fSlideModifierStat(0.006f),
 		m_fSlideMaxTurnModifierStat(1.5f),
 		m_fTurnAtMaxSpeedStat(0.8f),
 		m_fPeakTurnRatio(0.2f),
 		m_fSwerveTurnModifier(0.35f),
 		m_fSwerveAccelerationStat(2.0f),
-		m_fWallBumpStat(0.15f),
+		m_fWallBumpStat(8.0f),
 		m_fWallSlowdownStat(0.3f),
-		m_fOutsideForceAccelerationStat(0.92f),
+		m_fOutsideForceAccelerationStat(-3.0f),
 		m_fSlideChargeAccelerationStat(0.5f),
 		m_fSlideChargeMaxStat(1.0f),
 		m_fSlideChargeThreshold(0.2f),
@@ -67,7 +67,9 @@ namespace Kartaclysm
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
 		m_fSpinout(0.0f),
-		m_fTurnLock(0.0f)
+		m_fTurnLock(0.0f),
+		m_fSlowDuration(0.0f),
+		m_fSlowPower(1.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -153,6 +155,22 @@ namespace Kartaclysm
 			if (m_fTurnLock < 0.0f) m_fTurnLock = 0.0f;
 		}
 
+		// Slow just reduces speed
+		if (m_fSlowDuration > 0.0f)
+		{
+			m_fSlowDuration -= p_fDelta;
+			if (m_fSlowDuration < 0.0f)
+			{
+				m_fSlowDuration = 0.0f;
+				m_fSlowPower = 1.0f;
+
+				// Remove the HUD element
+				HeatStroke::Event* pEvent = new HeatStroke::Event(m_pGameObject->GetGUID() + "_HUD_Slow");
+				pEvent->SetIntParameter("Display", 0);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			}
+		}
+
 		// Speeding up & slowing down
 		UpdateSpeed(iAccelerate, iBrake, p_fDelta);
 
@@ -167,7 +185,7 @@ namespace Kartaclysm
 		UpdateSlide(iSlide, p_fDelta);
 
 		// Transform
-		UpdateTransform(fHeightMod);
+		UpdateTransform(fHeightMod, p_fDelta);
 	}
 
 	void ComponentKartController::UpdateSpeed(int p_iAccelerateInput, int p_iBrakeInput, float p_fDelta)
@@ -187,6 +205,12 @@ namespace Kartaclysm
 		if (m_bWheelie)
 		{
 			fSpeedModifer *= m_fWheelieSpeedModStat;
+		}
+
+		// And from slow debuffs
+		if (m_fSlowDuration > 0.0f)
+		{
+			fSpeedModifer *= m_fSlowPower;
 		}
 
 		// Adjust speed based on input
@@ -308,25 +332,27 @@ namespace Kartaclysm
 		float fTrackHeight = m_fGroundHeight + m_fHeightAboveGroundStat;
 
 		// Handle changes in ground height
-		if (!m_bAirborne && m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight + m_fStickyHeightStat)
+		if (!m_bAirborne)
 		{
-			fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
-			m_bAirborne = false;
-		}
-		else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight + m_fStickyHeightStat)
-		{
-			// TODO: Make this (and a lot of other stuff) use delta time properly
-			float heightDifference = m_pGameObject->GetTransform().GetTranslation().y - m_fPreviousHeight;
+			if (m_pGameObject->GetTransform().GetTranslation().y < fTrackHeight + m_fStickyHeightStat)
+			{
+				fHeightMod = fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y;
+				m_bAirborne = false;
+			}
+			else if (m_pGameObject->GetTransform().GetTranslation().y > fTrackHeight + m_fStickyHeightStat)
+			{
+				float heightDifference = (m_pGameObject->GetTransform().GetTranslation().y - m_fPreviousHeight) * (1.0f / p_fDelta);
 
-			m_fVerticalSpeed = heightDifference;
-			m_bAirborne = true;
+				m_fVerticalSpeed = heightDifference * m_fVerticalSpeedScale;
+				m_bAirborne = true;
+			}
 		}
 		
 		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
 		{
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
-			fHeightMod = m_fVerticalSpeed;
+			fHeightMod = m_fVerticalSpeed * p_fDelta;
 
 			if (fTrackHeight - m_pGameObject->GetTransform().GetTranslation().y >= fHeightMod)
 			{
@@ -383,19 +409,20 @@ namespace Kartaclysm
 		}
 	}
 
-	void ComponentKartController::UpdateTransform(float p_fHeightMod)
+	void ComponentKartController::UpdateTransform(float p_fHeightMod, float p_fDelta)
 	{
-		m_pGameObject->GetTransform().Translate(m_pOutsideForce);
-		m_pOutsideForce *= m_fOutsideForceAccelerationStat;
+		m_pGameObject->GetTransform().Translate(m_pOutsideForce * p_fDelta);
+		m_pOutsideForce *= powf(2.718281828f, p_fDelta * m_fOutsideForceAccelerationStat);
 		
-		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection), p_fHeightMod, m_fSpeed * cosf(m_fDirection));
+		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection) * p_fDelta, p_fHeightMod, m_fSpeed * cosf(m_fDirection) * p_fDelta);
+		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection/* + m_fSwerve*/, 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection/* + m_fSwerve*/, 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
@@ -434,6 +461,12 @@ namespace Kartaclysm
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
+	void ComponentKartController::Slow(float p_fPower, float p_fDuration)
+	{
+		m_fSlowDuration = fmaxf(p_fDuration * m_fDurabilityStat, m_fSlowDuration);
+		m_fSlowPower = p_fPower;
+	}
+
 	void ComponentKartController::TurnLock(float p_fDuration)
 	{
 		m_fTurnLock = fmaxf(p_fDuration * m_fDurabilityStat, m_fTurnLock);
@@ -470,6 +503,9 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
 				p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
 				p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+				int passedThroughInt;
+				p_pEvent->GetOptionalIntParameter("PassedThrough", passedThroughInt, 0);
+				bool passedThrough = (passedThroughInt != 0); // I know
 
 				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
 
@@ -484,6 +520,19 @@ namespace Kartaclysm
 
 				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
 				m_fSpeed *= m_fWallSlowdownStat;
+
+				if (passedThrough)
+				{
+					// Again, not sure which is the right one, will depend on what order Update()s happen
+					if (m_pGameObject->GetTransform().GetTranslation() == collider->GetPosition())
+					{
+						m_pGameObject->GetTransform().SetTranslation(collider->GetPreviousPosition());
+					}
+					else
+					{
+						m_pGameObject->GetTransform().SetTranslation(collider->GetPosition());
+					}
+				}
 			}
 		}
 	}
@@ -500,6 +549,8 @@ namespace Kartaclysm
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
+				printf("->Negated\n");
+
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
@@ -522,6 +573,22 @@ namespace Kartaclysm
 			{
 				printf("Clocked!\n");
 				Spinout(1.5f);
+			}
+			else if (ability.compare("Rain") == 0)
+			{
+				printf("Make it rain!\n");
+
+				// Send event for HUD
+				HeatStroke::Event* pEvent = new HeatStroke::Event(target + "_HUD_Slow");
+				pEvent->SetIntParameter("Display", 1);
+				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+				Slow(0.7f, 2.0f);
+			}
+			else if (ability.compare("Bedazzle") == 0)
+			{
+				printf("Bedazzle!\n"); // Entangle!
+				Spinout(1.0f);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)

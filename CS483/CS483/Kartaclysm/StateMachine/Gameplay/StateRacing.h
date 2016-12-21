@@ -32,6 +32,8 @@
 #include "ComponentTurkeyAbility.h"
 #include "ComponentClockAbility.h"
 #include "ComponentTinkerAbility.h"
+#include "ComponentBedazzleAbility.h"
+#include "ComponentRainAbility.h"
 #include "ComponentProjectile.h"
 #include "ComponentSelfDestruct.h"
 #include "ComponentSimplePhysics.h"

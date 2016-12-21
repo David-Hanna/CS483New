@@ -122,8 +122,10 @@
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentClockAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\Abilities\ComponentRainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
@@ -218,8 +220,10 @@
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBoostAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentClockAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\Abilities\ComponentRainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
@@ -246,7 +250,10 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_bedazzle.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_rain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_tinker.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\kart_showoff_wheelie.xml" />
@@ -273,6 +280,7 @@
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml" />
     <Xml Include="Kartaclysm\Data\Racer\hud.xml" />
