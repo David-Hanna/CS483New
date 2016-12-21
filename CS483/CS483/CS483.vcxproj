@@ -156,9 +156,11 @@
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp" />
-    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Common\Common.h" />
@@ -257,7 +259,9 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
-    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />

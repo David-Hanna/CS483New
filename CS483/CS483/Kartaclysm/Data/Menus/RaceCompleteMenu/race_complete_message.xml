@@ -1,0 +1,33 @@
+<GameObject>
+	<Children>
+		<GameObject>
+			<Transform>
+				<Translation x="-56.0" y="50.0" z="0.0"/>
+				<Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Race Complete!"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Translation x="-62.0" y="-20.0" z="0.0"/>
+				<Scale x="0.5" y="0.7" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Press Enter to Continue"/>
+					<Width value="500.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+	</Children>
+</GameObject>

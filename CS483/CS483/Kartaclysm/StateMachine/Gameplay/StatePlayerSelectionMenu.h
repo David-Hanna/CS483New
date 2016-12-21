@@ -1,16 +1,20 @@
 //------------------------------------------------------------------------
-// StateMainMenu
+// StatePlayerSelectionMenu
 // Author:	David Hanna
 //	
-// Main menu state shows title screen and continues with enter key.
+// Allows player to select their character and kart.
+// Allows new players to join the game.
+// Continues to the track selection state.
 //------------------------------------------------------------------------
 
-#ifndef STATE_MAIN_MENU_H
-#define STATE_MAIN_MENU_H
+#ifndef STATE_PLAYER_SELECTION_MENU_H
+#define STATE_PLAYER_SELECTION_MENU_H
 
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
+#include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
+#include "Component3DModel.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
@@ -18,11 +22,11 @@
 
 namespace Kartaclysm
 {
-	class StateMainMenu : public Kartaclysm::GameplayState
+	class StatePlayerSelectionMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateMainMenu();
-		virtual ~StateMainMenu();
+		StatePlayerSelectionMenu();
+		virtual ~StatePlayerSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
 		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
