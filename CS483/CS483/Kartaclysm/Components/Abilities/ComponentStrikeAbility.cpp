@@ -11,7 +11,7 @@ namespace Kartaclysm
 {
 	ComponentStrikeAbility::ComponentStrikeAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		std::string p_strProjectileXML)
+		const std::string& p_strProjectileXML)
 		:
 		ComponentAbility(p_pGameObject),
 		m_strProjectileXML(p_strProjectileXML)
@@ -31,7 +31,7 @@ namespace Kartaclysm
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
 		delete m_pOnHitDelegate;
 		m_pOnHitDelegate = nullptr;
 	}

@@ -105,15 +105,18 @@ namespace Kartaclysm
 		if (iChange == 1)
 		{
 			m_iCurrentCharges++;
+			assert(m_iCurrentCharges <= m_iMaxCharges);
 		}
 		else if (iChange == -1)
 		{
 			m_iCurrentCharges--;
+			assert(m_iCurrentCharges <= m_iMaxCharges);
 		}
 
 		if (iNegated == 1)
 		{
 			m_iCurrentCharges--;
+			assert(m_iCurrentCharges >= 0);
 		}
 
 		m_pConditions->SetSpecialCondition(m_iCurrentCharges != m_iMaxCharges);
