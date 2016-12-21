@@ -48,6 +48,7 @@ namespace Kartaclysm
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
 		float GetDirection() const { return m_fDirection; }
+		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
 	protected:
 		//--------------------------------------------------------------------------
@@ -61,12 +62,19 @@ namespace Kartaclysm
 		void UpdateTurn(float p_fTurnInput, float p_fDelta);
 		float UpdateHop(int p_iSlideInput, float p_fDelta);
 		void UpdateSlide(int p_iSlideInput, float p_fDelta);
-		void UpdateTransform(float p_fHeightMod);
+		void UpdateTransform(float p_fHeightMod, float p_fDelta);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
 
+		void UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
+
 		void Boost(float p_fPower);
+		void WheelieToggle();
+		void Spinout(float p_fDuration);
+		void ArmorPlate(int p_iArmorStack);
+		void TurnLock(float p_fDuration);
+		void Slow(float p_fPower, float p_fDuration);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -79,6 +87,20 @@ namespace Kartaclysm
 
 		const float m_fSpeedScale;
 		const float m_fVerticalSpeedScale;
+
+		// Core stats all range from 0 (worst) to 6 (best)
+		// 6 - S
+		// 5 - A
+		// 4 - B
+		// 3 - C
+		// 2 - D
+		// 1 - E
+		// 0 - F
+
+		int m_iMaxSpeedCoreStat;
+		int m_iAccelerationCoreStat;
+		int m_iHandlingCoreStat;
+		int m_iDurabilityCoreStat;
 
 		float m_fHeightAboveGroundStat;
 		float m_fStickyHeightStat;
@@ -106,6 +128,9 @@ namespace Kartaclysm
 		float m_fSlideChargeAccelerationStat;
 		float m_fSlideChargeMaxStat;
 		float m_fSlideChargeThreshold;
+		float m_fWheelieTurnModStat;
+		float m_fWheelieSpeedModStat;
+		float m_fDurabilityStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -118,6 +143,11 @@ namespace Kartaclysm
 		int m_iSlideDirection;
 		float m_fSwerve;
 		float m_fSlideCharge;
+		bool m_bWheelie;
+		float m_fSpinout;
+		float m_fTurnLock;
+		float m_fSlowDuration;
+		float m_fSlowPower;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

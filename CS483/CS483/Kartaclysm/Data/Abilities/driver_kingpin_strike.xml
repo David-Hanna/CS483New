@@ -7,10 +7,10 @@
 
     <GOC_AbilityIcon>
       <Ability value="DriverAbility1" />
-      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
-      <ActiveMaterialName name="boost" />
-      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
-      <InactiveMaterialName name="boost_inactive" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/strike.mtl" />
+      <ActiveMaterialName name="strike" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/strike_inactive.mtl" />
+      <InactiveMaterialName name="strike_inactive" />
     </GOC_AbilityIcon>
   
     <GOC_AbilityConditions>

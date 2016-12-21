@@ -11,11 +11,15 @@ namespace Kartaclysm
 {
 	ComponentStrikeAbility::ComponentStrikeAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		std::string p_strProjectileXML)
+		const std::string& p_strProjectileXML)
 		:
 		ComponentAbility(p_pGameObject),
 		m_strProjectileXML(p_strProjectileXML)
 	{
+		// Listen to activation event ("Player0_KartAbility1" as example)
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentStrikeAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_DriverAbility1", m_pAbilityDelegate);
+
 		// Listen to on hit event
 		m_pOnHitDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentStrikeAbility::OnHitCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
@@ -23,11 +27,11 @@ namespace Kartaclysm
 
 	ComponentStrikeAbility::~ComponentStrikeAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_DriverAbility1", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_StrikeHit", m_pOnHitDelegate);
 		delete m_pOnHitDelegate;
 		m_pOnHitDelegate = nullptr;
 	}
@@ -65,10 +69,6 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-
-		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentStrikeAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(GetGameObject()->GetGUID(), m_pAbilityDelegate);
 	}
 
 	void ComponentStrikeAbility::Activate()

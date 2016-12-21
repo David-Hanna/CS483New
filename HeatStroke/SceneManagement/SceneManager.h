@@ -111,14 +111,16 @@ namespace HeatStroke
 
 		virtual ~SceneManager() {}
 
-		void RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera);
-		void RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void SetModelsLights();
 		void SetModelLights(Model* p_pModel);
 		void SetMeshLights(Model* p_pModel, Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);
 		void SetMeshDirectionalLight(Mesh* p_pMesh);
 		void SetMeshPointLight(Model* p_pModel, Mesh* p_pMesh);
 		ScenePointLight* DetermineClosestPointLight(Model* p_pModel);
+
+		void RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void RenderModel(Model* p_pModel, const ScenePerspectiveCamera* p_pPerspectiveCamera);
 
 		void RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera);
 		void RenderSprite(Sprite* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);

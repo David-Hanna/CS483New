@@ -1,0 +1,16 @@
+<GameObject>
+  <Components>
+    <GOC_WallCollider>
+      <Offset x="0" y="0" z="0" />
+      <SurfaceNormal x="0" y="0" z="1" />
+      <Wall height="5.5" width="5" />
+    </GOC_WallCollider>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Wall/wall_north_south.obj"/>
+    </GOC_3DModel>
+  </Components>
+
+  <Tags>
+    <Tag value="Wall"/>
+  </Tags>
+</GameObject>

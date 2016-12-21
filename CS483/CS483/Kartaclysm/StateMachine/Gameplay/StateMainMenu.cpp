@@ -42,7 +42,7 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	m_bSuspended = false;
 
 	m_pStateMachine->Pop();
-	m_pStateMachine->Push(0, p_mContextParameters);
+	m_pStateMachine->Push(3, p_mContextParameters);
 }
 
 //------------------------------------------------------------------------------

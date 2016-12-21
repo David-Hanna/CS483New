@@ -7,15 +7,15 @@
 
     <GOC_AbilityIcon>
       <Ability value="KartAbility2" />
-      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
-      <ActiveMaterialName name="boost" />
-      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
-      <InactiveMaterialName name="boost_inactive" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/maintain.mtl" />
+      <ActiveMaterialName name="maintain" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/maintain_inactive.mtl" />
+      <InactiveMaterialName name="maintain_inactive" />
     </GOC_AbilityIcon>
   
     <GOC_AbilityConditions>
       <Ability value="KartAbility2" />
-      <Cooldown value="30.0" />
+      <Cooldown value="3.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>

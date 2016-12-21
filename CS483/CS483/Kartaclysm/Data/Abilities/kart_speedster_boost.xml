@@ -21,7 +21,7 @@
     </GOC_AbilityConditions>
 
     <GOC_BoostAbility>
-      <Strength value="2" />
+      <Strength value="2.0" />
     </GOC_BoostAbility>
 
   </Components>
