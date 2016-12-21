@@ -34,11 +34,12 @@ const glm::vec3& HeatStroke::Transform::GetScale() const
 	return m_vScale;
 }
 
-void HeatStroke::Transform::Rotate(const float p_fAngle, const glm::vec3& p_vRotation)
+void HeatStroke::Transform::Rotate(const glm::vec3& p_vRotation)
 {
 	m_bTransformDirty = true;
-	glm::quat rot = glm::angleAxis(glm::radians(p_fAngle), p_vRotation);
-	m_qRotation = rot * m_qRotation;
+	m_qRotation *= glm::quat(glm::vec3(1.0f, 0.0f, 0.0f) * p_vRotation.x);
+	m_qRotation *= glm::quat(glm::vec3(0.0f, 1.0f, 0.0f) * p_vRotation.y);
+	m_qRotation *= glm::quat(glm::vec3(0.0f, 0.0f, 1.0f) * p_vRotation.z);
 }
 
 void HeatStroke::Transform::SetRotation(const float p_fAngle, const glm::vec3& p_vRotation)

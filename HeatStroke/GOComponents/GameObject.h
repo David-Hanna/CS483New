@@ -58,7 +58,7 @@ namespace HeatStroke
 		GameObject* GetChild(const std::string& p_strChildGuid);
 		std::vector<GameObject*> GetChildren();
 		void DeleteAllChildren();
-		const GameObject* GetParent() const				{ return m_pParent; }
+		GameObject* GetParent() const				{ return m_pParent; }
 
 		// Tag management
 		void AddTag(const std::string& p_strTag)		{ m_mTagList.insert(p_strTag); }
