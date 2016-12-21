@@ -58,6 +58,7 @@ namespace Kartaclysm
 		m_fRaceTime += p_fDelta;
 
 		// Iterate through track pieces to find which karts are located on them
+		std::vector<bool> racersOnTrackPieces(m_vRacers.size(), false);
 		for (unsigned int i = 0; i < m_vTrackPieces.size(); ++i)
 		{
 			ComponentTrackPiece* trackComponent = (ComponentTrackPiece*)m_vTrackPieces[i]->GetComponent("GOC_TrackPiece");
@@ -75,6 +76,7 @@ namespace Kartaclysm
 						pEvent->SetStringParameter("racerId", pRacerObject->GetGUID());
 						pEvent->SetStringParameter("TrackPieceId", m_vTrackPieces[i]->GetGUID());
 						HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+						racersOnTrackPieces[j] = true;
 					}
 				}
 
@@ -90,6 +92,14 @@ namespace Kartaclysm
 						it->second->UpdateTrackHeight(trackPiece->HeightAtPosition(pPhysicsObject->GetTransform().GetTranslation()));
 					}
 				}
+			}
+		}
+
+		for (int i = 0; i < racersOnTrackPieces.size(); ++i)
+		{
+			if (!racersOnTrackPieces[i])
+			{
+				ResetRacerPosition(m_vRacers[i]);
 			}
 		}
 
@@ -228,6 +238,14 @@ namespace Kartaclysm
 				TriggerRacerPositionUpdateEvent(racerA->GetGameObject()->GetGUID());
 			}
 		}
+	}
+
+	void ComponentTrack::ResetRacerPosition(ComponentRacer* p_pRacer)
+	{
+		HeatStroke::GameObject* pRacerGameObject = p_pRacer->GetGameObject();
+		glm::vec3 vResetPosition = m_vTrackPieces[p_pRacer->GetFurthestTrackPiece()]->GetTransform().GetTranslation();
+		p_pRacer->GetGameObject()->GetTransform().SetTranslation(vResetPosition);
+		static_cast<ComponentKartController*>(pRacerGameObject->GetComponent("GOC_KartController"))->SetSpeed(0.0f);
 	}
 
 	// TODO: move to component of racer object once that is created
