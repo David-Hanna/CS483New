@@ -54,7 +54,7 @@ namespace Kartaclysm
 
 		void UpdateSpeed(float p_fDelta);
 		float UpdateHeight(float p_fDelta);
-		void UpdateTransform(float p_fHeightMod);
+		void UpdateTransform(float p_fHeightMod, float p_fDelta);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 
@@ -89,6 +89,8 @@ namespace Kartaclysm
 		float m_fDirection;
 		bool m_bAirborne;
 		float m_fVerticalSpeed;
+
+		std::string m_sPreviousWallCollision;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
