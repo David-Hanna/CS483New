@@ -11,6 +11,8 @@
 
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
+#include "ComponentPerspectiveCamera.h"
+#include "ComponentTextbox.h"
 
 #include "GameplayState.h"
 #include "GameplayStatesEnum.h"
@@ -35,6 +37,8 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+		int m_iTrackSelection;
+		HeatStroke::GameObject* m_pCurrentHighlight;
 
 		// saved from player selection state to add to and pass on to racing state.
 		std::map<std::string, std::string> m_mContextParameters; 

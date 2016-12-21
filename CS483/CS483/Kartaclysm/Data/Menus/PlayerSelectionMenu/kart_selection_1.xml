@@ -17,13 +17,13 @@
 		<!-- Text box -->
 		<GameObject>
 			<Transform>
-				<Translation x="-63.5" y="12.8" z="0.0"/>
+				<Translation x="-54.0" y="12.8" z="0.0"/>
 				<Scale x="0.15" y="0.3" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
 					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-					<Message value="Kart Name Here"/>
+					<Message value="Kart"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
 				</GOC_TextBox>
