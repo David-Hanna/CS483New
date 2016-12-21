@@ -439,40 +439,54 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredGameObjectParameter("Object1GUID", guid1);
 		p_pEvent->GetRequiredGameObjectParameter("Object2GUID", guid2);
 
-		if (guid1.compare(m_pGameObject->GetGUID()) == 0 || guid2.compare(m_pGameObject->GetGUID()) == 0)
+		HeatStroke::GameObject* pOther = nullptr;
+		if (guid1.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			glm::vec3 contactPoint = glm::vec3();
-			p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
-			p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
-			p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
-			int passedThroughInt;
-			p_pEvent->GetOptionalIntParameter("PassedThrough", passedThroughInt, 0);
-			bool passedThrough = (bool)passedThroughInt; // I know
+			pOther = m_pGameObject->GetManager()->GetGameObject(guid2);
+		}
+		else if (guid2.compare(m_pGameObject->GetGUID()) == 0)
+		{
+			pOther = m_pGameObject->GetManager()->GetGameObject(guid1);
+		}
 
-			HeatStroke::ComponentSphereCollider* collider = (HeatStroke::ComponentSphereCollider*) m_pGameObject->GetComponent("GOC_Collider");
-
-			glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-			float distance = collider->GetRadius() - glm::length(difference);
-
-			difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-			m_pGameObject->GetTransform().Translate(difference);
-
-			glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
-			float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
-
-			m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-			m_fSpeed *= m_fWallSlowdownStat;
-
-			if (passedThrough)
+		if (pOther != nullptr)
+		{
+			HeatStroke::ComponentCollider* pOtherCollider = static_cast<HeatStroke::ComponentCollider*>(pOther->GetComponent("GOC_Collider"));
+			if (pOtherCollider->HasPhysics())
 			{
-				// Again, not sure which is the right one, will depend on what order Update()s happen
-				if (m_pGameObject->GetTransform().GetTranslation() == collider->GetPosition())
+				glm::vec3 contactPoint = glm::vec3();
+				p_pEvent->GetRequiredFloatParameter("ContactPointX", contactPoint.x);
+				p_pEvent->GetRequiredFloatParameter("ContactPointY", contactPoint.y);
+				p_pEvent->GetRequiredFloatParameter("ContactPointZ", contactPoint.z);
+				int passedThroughInt;
+				p_pEvent->GetOptionalIntParameter("PassedThrough", passedThroughInt, 0);
+				bool passedThrough = (passedThroughInt != 0); // I know
+
+				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
+
+				glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+				float distance = collider->GetRadius() - glm::length(difference);
+
+				difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+				m_pGameObject->GetTransform().Translate(difference);
+
+				glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+				float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+
+				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+				m_fSpeed *= m_fWallSlowdownStat;
+
+				if (passedThrough)
 				{
-					m_pGameObject->GetTransform().SetTranslation(collider->GetPreviousPosition());
-				}
-				else
-				{
-					m_pGameObject->GetTransform().SetTranslation(collider->GetPosition());
+					// Again, not sure which is the right one, will depend on what order Update()s happen
+					if (m_pGameObject->GetTransform().GetTranslation() == collider->GetPosition())
+					{
+						m_pGameObject->GetTransform().SetTranslation(collider->GetPreviousPosition());
+					}
+					else
+					{
+						m_pGameObject->GetTransform().SetTranslation(collider->GetPosition());
+					}
 				}
 			}
 		}
