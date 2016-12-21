@@ -19,9 +19,7 @@ namespace HeatStroke
 	{
 	public:
 		virtual const std::string FamilyID() const override { return std::string("GOC_Collider"); }
-		virtual const std::string ComponentID() const override { return std::string("GOC_Collider"); }
-
-		//~Component3DModel();
+		//virtual const std::string ComponentID() const override { return std::string("GOC_Collider"); }
 
 		/*static HeatStroke::Component* CreateComponent(
 			HeatStroke::GameObject* p_pGameObject,
@@ -29,23 +27,27 @@ namespace HeatStroke
 			tinyxml2::XMLNode* p_pOverrideNode
 			);*/
 
-		//ComponentCollider(GameObject* p_pGameObject) : m_pGameObject(p_pGameObject) {}
-		//virtual ~ComponentCollider() {}
-
 		/*virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;*/
 		virtual void Init() = 0;
 		virtual void Update(const float p_fDelta) = 0;
-
 		//virtual void PreRender() override { ComponentRenderable::PreRender(); }
+
+		bool HasPhysics() const { return m_bAppliesPhysics; }
+
+		glm::vec3 GetPosition() { return m_pPosition; }
+		glm::vec3 GetPreviousPosition() { return m_pPreviousPosition; }
 
 	protected:
 		// Prevent public construction.
-		ComponentCollider(GameObject* p_pGameObject) : Component(p_pGameObject) {}
+		ComponentCollider(GameObject* p_pGameObject, bool p_bAppliesPhysics) : Component(p_pGameObject), m_bAppliesPhysics(p_bAppliesPhysics) {}
 
 		//Component3DModel(GameObject* p_pGameObject, const std::string& p_strOBJFileName);
 
 		//virtual void SyncTransform();
+
+		glm::vec3 m_pPosition;
+		glm::vec3 m_pPreviousPosition;
 
 	private:
 		// Prevent copying
@@ -56,6 +58,8 @@ namespace HeatStroke
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strOBJFileName
 			);*/
+
+		bool m_bAppliesPhysics;
 	};
 }
 

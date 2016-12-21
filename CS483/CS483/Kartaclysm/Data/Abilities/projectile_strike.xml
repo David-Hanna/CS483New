@@ -17,17 +17,21 @@
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
       <Sphere radius="1.0" />
+      <Physics applies="false" />
     </GOC_SphereCollider>
-    
-    <GOC_Projectile />
+
+    <GOC_Projectile>
+      <FriendlyFire value="false" />
+    </GOC_Projectile>
 
     <GOC_SimplePhysics>
-      <Speed value="2.0" />
+      <Speed value="0.5" />
       <Friction value="0.0" />
     </GOC_SimplePhysics>
 
     <GOC_SelfDestruct>
       <Timer value="5.0" />
+      <Collision tags="Wall,Projectile" />
     </GOC_SelfDestruct>
 
   </Components>

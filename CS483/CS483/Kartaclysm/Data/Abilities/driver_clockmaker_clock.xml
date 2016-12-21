@@ -1,0 +1,32 @@
+<!-- Clock Bomb ability -->
+<!-- Author: Bradley Cooper -->
+
+<GameObject>
+  
+  <Components>
+
+    <GOC_AbilityIcon>
+      <Ability value="DriverAbility1" />
+      <ActiveMTLFile path="Assets/Hud/Abilities/boost.mtl" />
+      <ActiveMaterialName name="boost" />
+      <InactiveMTLFile path="Assets/Hud/Abilities/boost_inactive.mtl" />
+      <InactiveMaterialName name="boost_inactive" />
+    </GOC_AbilityIcon>
+
+    <GOC_AbilityConditions>
+      <Ability value="DriverAbility1" />
+      <Cooldown value="1.0" />
+      <MaxCharges value="4" />
+      <StartCharges value="0" />
+    </GOC_AbilityConditions>
+
+    <GOC_ClockAbility>
+      <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_clock.xml" />
+    </GOC_ClockAbility>
+
+  </Components>
+
+  <Tags>
+  	<Tag value="Ability"/>
+  </Tags>
+</GameObject>

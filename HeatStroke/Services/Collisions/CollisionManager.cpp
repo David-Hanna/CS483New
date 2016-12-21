@@ -145,6 +145,15 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		return;
 	}
 
+	// Previous sphere position
+	// (the collider's position may be a frame behind, due to the order of Update()
+	//		so we'll check and use the one that is most appropriate)
+	glm::vec3 pos1prev = p_pCollider1->GetPosition();
+	if (pos1prev == pos1)
+	{
+		pos1prev = p_pCollider1->GetPreviousPosition();
+	}
+
 	float heightDifference = abs(pos1.y - pos2.y);
 	float radius;
 
@@ -169,13 +178,27 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	normal = normal * rotation;
 	glm::vec3 contactPoint;
 
+	bool passedThrough = false;
+
 	// Find the contact point
 	if ((normal.x > 0.9f || normal.x < -0.9f) && abs(normal.z) < 0.1f)
 	{
 		glm::vec3 l1 = pos2 + glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
 		glm::vec3 l2 = pos2 - glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
 
-		if (pos1.z >= l1.z)
+		// pass through
+		if (pos1.x > pos2.x && pos1prev.x < pos2.x)
+		{
+			contactPoint = pos1 + glm::vec3(0.001f, 0.0f, 0.0f);
+			passedThrough = true;
+		}
+		else if (pos1.x < pos2.x && pos1prev.x > pos2.x)
+		{
+			contactPoint = pos1 + glm::vec3(-0.001f, 0.0f, 0.0f);
+			passedThrough = true;
+		}
+		// contact at the edges of the wall
+		else if (pos1.z >= l1.z)
 		{
 			contactPoint = glm::vec3(l1.x, pos1.y, l1.z);
 		}
@@ -183,6 +206,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		{
 			contactPoint = glm::vec3(l2.x, pos1.y, l2.z);;
 		}
+		// contact in the middle of the wall
 		else
 		{
 			contactPoint = glm::vec3(pos2.x, pos1.y, pos1.z);
@@ -193,7 +217,19 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		glm::vec3 l1 = pos2 + glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);
 		glm::vec3 l2 = pos2 - glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);
 
-		if (pos1.x >= l1.x)
+		// pass through
+		if (pos1.z > pos2.z && pos1prev.z < pos2.z)
+		{
+			contactPoint = pos1 + glm::vec3(0.0f, 0.0f, 0.001f);
+			passedThrough = true;
+		}
+		else if (pos1.z < pos2.z && pos1prev.z > pos2.z)
+		{
+			contactPoint = pos1 + glm::vec3(0.0f, 0.0f, -0.001f);
+			passedThrough = true;
+		}
+		// contact at the edges of the wall
+		else if (pos1.x >= l1.x)
 		{
 			contactPoint = glm::vec3(l1.x, pos1.y, l1.z);
 		}
@@ -201,6 +237,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		{
 			contactPoint = glm::vec3(l2.x, pos1.y, l2.z);;
 		}
+		// contact in the middle of the wall
 		else
 		{
 			contactPoint = glm::vec3(pos1.x, pos1.y, pos2.z);
@@ -223,6 +260,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointX", contactPoint.x);
 		collisionEvent->SetFloatParameter("ContactPointY", contactPoint.y);
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
+		collisionEvent->SetIntParameter("PassedThrough", (int)passedThrough);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
 	}
 }

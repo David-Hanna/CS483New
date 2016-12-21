@@ -11,7 +11,7 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-map_Kd Assets/Track/grass.tga
+map_Kd Assets/Track/grass_high_res.tga
 illum 2
 
 newmtl road
