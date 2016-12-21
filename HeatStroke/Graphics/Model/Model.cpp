@@ -114,40 +114,6 @@ HeatStroke::Model::~Model()
 	{
 		HeatStroke::BufferManager::DestroyBuffer(meshIt->m_pVertexBuffer);
 		DELETE_IF(meshIt->m_pVertexDeclaration);
-
 		HeatStroke::MaterialManager::DestroyMaterial(meshIt->m_pMaterial);
-	}
-}
-
-
-void HeatStroke::Model::Update(float p_fDelta)
-{
-}
-
-
-void HeatStroke::Model::Render(const SceneCamera* p_pCamera)
-{
-	// Can't render without a camera.
-	assert(p_pCamera != nullptr);
-
-	const glm::mat4& mWorldTransform = m_mWorldTransform;
-
-	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorldTransform;
-	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetProjectionMatrix() * mWorldViewTransform;
-	glm::mat3 mWorldInverseTransposeTransform = glm::transpose(glm::inverse(glm::mat3(mWorldTransform)));
-
-	std::vector<Mesh>::iterator meshIt = m_vMeshes.begin(), meshEnd = m_vMeshes.end();
-	for (; meshIt != meshEnd; meshIt++)
-	{
-		meshIt->m_pVertexDeclaration->Bind();
-
-		meshIt->m_pMaterial->SetUniform("WorldTransform", mWorldTransform);
-		meshIt->m_pMaterial->SetUniform("WorldViewTransform", mWorldViewTransform);
-		meshIt->m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
-		meshIt->m_pMaterial->SetUniform("WorldInverseTransposeTransform", mWorldInverseTransposeTransform);
-
-		meshIt->m_pMaterial->Apply();
-
-		glDrawArrays(GL_TRIANGLES, 0, meshIt->m_pVertexBuffer->GetLength());
 	}
 }

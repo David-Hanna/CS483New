@@ -18,13 +18,9 @@ namespace Kartaclysm
 	class StatePaused : public Kartaclysm::GameplayState
 	{
 	public:
-		//------------------------------------------------------------------------------
-		// Public methods.
-		//------------------------------------------------------------------------------
 		StatePaused();
 		virtual ~StatePaused();
 
-		// Inherited
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
 		void Suspend(const int p_iNewState);
 		void Unsuspend(const int p_iPrevState);
@@ -33,7 +29,6 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
-		// Inherited
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 
@@ -43,7 +38,7 @@ namespace Kartaclysm
 
 		void UnpauseGame(const HeatStroke::Event* p_pEvent);
 	};
-} // namespace Kartaclysm
+}
 
 #endif
 

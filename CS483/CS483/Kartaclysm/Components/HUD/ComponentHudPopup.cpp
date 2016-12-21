@@ -27,7 +27,7 @@ namespace Kartaclysm
 
 	ComponentHudPopup::~ComponentHudPopup()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
+		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
 
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
 		delete m_pDelegate;
@@ -96,7 +96,7 @@ namespace Kartaclysm
 
 			if (m_fWaitingToRender >= m_fDelay)
 			{
-				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+				HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
 			}
 		}
 	}
@@ -115,7 +115,7 @@ namespace Kartaclysm
 		{
 			m_bDisplaying = false;
 			m_fWaitingToRender = 0.0f;
-			HeatStroke::SceneManager::Instance()->RemoveSprite(&m_mSprite);
+			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
 		}
 		else
 		{
@@ -123,7 +123,7 @@ namespace Kartaclysm
 
 			if (m_fDelay == 0.0f)
 			{
-				HeatStroke::SceneManager::Instance()->AddSprite(&m_mSprite);
+				HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
 			}
 		}
 	}

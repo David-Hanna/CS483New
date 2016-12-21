@@ -1,0 +1,33 @@
+<GameObject>
+	<Children>
+		<!-- Text Box -->
+		<GameObject>
+			<Transform>
+				<Translation x="-90.0" y="-60.0" z="0.0"/>
+				<Scale x="0.5" y="0.7" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Up and Over"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+
+		<!-- Icon -->
+		<GameObject>
+			<Transform>
+				<Translation x="55.0" y="-60.0" z="0.0" />
+				<Scale x="40.0" y="25.0" z="1.0" />
+			</Transform>
+			<Components>
+				<GOC_Sprite>
+					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
+					<MaterialName name="null_icon"/>
+				</GOC_Sprite>
+			</Components>
+		</GameObject>
+	</Children>
+</GameObject>

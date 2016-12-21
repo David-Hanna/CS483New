@@ -100,7 +100,7 @@ int Game::Run(const char* p_strAppName, int p_iWindowWidth, int p_iWindowHeight)
 		t = static_cast<float>(glfwGetTime());
 
 		// Clear color buffer to black
-		glClearColor( 0.7f, 0.7f, 1.0f, 0.0f );
+		glClearColor( 0.5f, 0.5f, 0.5f, 0.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		float fDelta = (float)t - m_fFrameTime;

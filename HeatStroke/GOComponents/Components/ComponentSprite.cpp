@@ -9,14 +9,14 @@
 
 HeatStroke::ComponentSprite::ComponentSprite(HeatStroke::GameObject* p_pGameObject, const std::string& p_strMTLFileName, const std::string& p_strMaterialName) :
 ComponentRenderable(p_pGameObject),
-m_mSprite(p_strMTLFileName, p_strMaterialName)
+m_mSpriteInstance(p_strMTLFileName, p_strMaterialName)
 {
-	SceneManager::Instance()->AddSprite(&m_mSprite);
+	SceneManager::Instance()->AddSpriteInstance(&m_mSpriteInstance);
 }
 
 HeatStroke::ComponentSprite::~ComponentSprite()
 {
-	SceneManager::Instance()->RemoveSprite(&m_mSprite);
+	SceneManager::Instance()->RemoveSpriteInstance(&m_mSpriteInstance);
 }
 
 HeatStroke::Component* HeatStroke::ComponentSprite::CreateComponent(
@@ -56,7 +56,7 @@ HeatStroke::Component* HeatStroke::ComponentSprite::CreateComponent(
 
 void HeatStroke::ComponentSprite::SyncTransform()
 {
-	m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+	m_mSpriteInstance.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 }
 
 void HeatStroke::ComponentSprite::ParseNode(
