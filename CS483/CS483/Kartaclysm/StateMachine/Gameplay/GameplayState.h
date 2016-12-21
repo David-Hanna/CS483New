@@ -17,6 +17,17 @@ namespace Kartaclysm
 	class GameplayState : public HeatStroke::State
 	{
 	public:
+		enum GameplayStates
+		{
+			STATE_MAIN_MENU = 0,
+			STATE_PLAYER_SELECTION_MENU,
+			STATE_TRACK_SELECTION_MENU,
+			STATE_RACING,
+			STATE_PAUSED,
+			STATE_RACE_COMPLETE_MENU
+		};
+
+	public:
 		GameplayState() : m_pGameObjectManager(nullptr) {}
 		virtual ~GameplayState() {}
 

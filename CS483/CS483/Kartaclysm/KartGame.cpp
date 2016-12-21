@@ -31,18 +31,17 @@ bool Kartaclysm::KartGame::Init()
 	}
 
 	// Setup State Machine and push first state
-	//TODO we need to get rid of the use of hardcoded int ids for states. It's ugly and error prone
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
 	
-	m_pGameStates->RegisterState(STATE_MAIN_MENU, new StateMainMenu());
-	m_pGameStates->RegisterState(STATE_PLAYER_SELECTION_MENU, new StatePlayerSelectionMenu());
-	m_pGameStates->RegisterState(STATE_TRACK_SELECTION_MENU, new StateTrackSelectionMenu());
-	m_pGameStates->RegisterState(STATE_RACING, new StateRacing());
-	m_pGameStates->RegisterState(STATE_PAUSED, new StatePaused());
-	m_pGameStates->RegisterState(STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_MAIN_MENU, new StateMainMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_PLAYER_SELECTION_MENU, new StatePlayerSelectionMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_TRACK_SELECTION_MENU, new StateTrackSelectionMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_RACING, new StateRacing());
+	m_pGameStates->RegisterState(GameplayState::STATE_PAUSED, new StatePaused());
+	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
 
-	m_pGameStates->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());
+	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 
 	return true;
 }

@@ -48,7 +48,6 @@
 
 #include "Common.h"
 #include "GameplayState.h"
-#include "GameplayStatesEnum.h"
 #include "EventManager.h"
 
 #include "ComponentRacer.h"

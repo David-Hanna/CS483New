@@ -665,9 +665,6 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayStatesEnum.h">
-      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentCollider.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>

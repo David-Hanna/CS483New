@@ -17,7 +17,6 @@
 #include "SceneManager.h"
 #include "StateMachine.h"
 #include "GameplayState.h"
-#include "GameplayStatesEnum.h"
 #include "StateMainMenu.h"
 #include "StatePlayerSelectionMenu.h"
 #include "StateTrackSelectionMenu.h"

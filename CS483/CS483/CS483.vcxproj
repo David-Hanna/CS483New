@@ -248,7 +248,6 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
-    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayStatesEnum.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
