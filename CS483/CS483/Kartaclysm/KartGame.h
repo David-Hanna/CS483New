@@ -24,7 +24,6 @@
 #include "StatePaused.h"
 #include "StateRaceCompleteMenu.h"
 #include "StateMainMenu.h"
-#include "StateTrackSelect.h"
 #include "SceneManager.h"
 #include "ModelManager.h"
 #include "SpriteManager.h"
