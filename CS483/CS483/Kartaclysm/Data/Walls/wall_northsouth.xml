@@ -3,7 +3,7 @@
     <GOC_WallCollider>
       <Offset x="0" y="0" z="0" />
       <SurfaceNormal x="0" y="0" z="1" />
-      <Wall height="1" width="5" />
+      <Wall height="10" width="5" />
     </GOC_WallCollider>
     <GOC_3DModel>
       <OBJFileName path="Assets/box/box.obj"/>

@@ -1,0 +1,30 @@
+<GameObject>
+  <Components>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Track/track_straight.obj"/>
+    </GOC_3DModel>
+    <GOC_TrackPiece>
+      <Bounds widthX="10" widthZ="10"/>
+      <Height function="flat"/>
+    </GOC_TrackPiece>
+  </Components>
+
+  <Children>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth_jumpstart.xml">
+      <Transform>
+        <Translation x="0.0" y="1" z="-5.0" />
+        <Scale x="5" y="1" z="0.01" />
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth_jumpend.xml">
+      <Transform>
+        <Translation x="0.0" y="1" z="5.0" />
+        <Scale x="5" y="1" z="0.01" />
+      </Transform>
+    </GameObject>
+  </Children>
+
+  <Tags>
+    <Tag value="Trackpiece"/>
+  </Tags>
+</GameObject>
