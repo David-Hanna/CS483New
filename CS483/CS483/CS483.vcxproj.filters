@@ -805,6 +805,15 @@
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml">
       <Filter>Kartaclysm\Data\Lights</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpstart.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpend.xml">
+      <Filter>Kartaclysm\Data\Walls</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_straight_underjump.xml">
+      <Filter>Kartaclysm\Data\Tracks</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>

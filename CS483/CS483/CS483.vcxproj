@@ -302,6 +302,7 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_straight.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Tracks\track_straight_underjump.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_left_large.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_left_small.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_large.xml" />
@@ -311,6 +312,8 @@
     <Xml Include="Kartaclysm\Data\Walls\wall.xml" />
     <Xml Include="Kartaclysm\Data\Walls\wall_eastwest.xml" />
     <Xml Include="Kartaclysm\Data\Walls\wall_northsouth.xml" />
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpend.xml" />
+    <Xml Include="Kartaclysm\Data\Walls\wall_northsouth_jumpstart.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
