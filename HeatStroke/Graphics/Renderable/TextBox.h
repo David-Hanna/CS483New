@@ -10,7 +10,7 @@
 
 #include "Types.h"
 #include "Renderable.h"
-#include "Font.h"
+#include "FontManager.h"
 #include "TextureManager.h"
 #include "BufferManager.h"
 #include "VertexDeclaration.h"

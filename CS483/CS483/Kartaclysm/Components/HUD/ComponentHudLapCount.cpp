@@ -15,9 +15,9 @@ namespace Kartaclysm
 		float p_fLabelOffset
 		) :
 		ComponentRenderable(p_pGameObject),
-		m_mFont(p_strFontFilePath),
-		m_mLabelTextBox(&m_mFont, "LAP"),
-		m_mLapTextBox(&m_mFont, "GO!"),
+		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
+		m_mLabelTextBox(m_pFont, "LAP"),
+		m_mLapTextBox(m_pFont, "GO!"),
 		m_fLabelOffset(p_fLabelOffset)
 	{
 		m_mLabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange

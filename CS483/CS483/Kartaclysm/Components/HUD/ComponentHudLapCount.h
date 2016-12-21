@@ -13,6 +13,7 @@
 #include "ComponentRenderable.h"
 #include "SceneManager.h"
 #include "EventManager.h"
+#include "FontManager.h"
 #include "TextBox.h"
 
 namespace Kartaclysm
@@ -65,7 +66,7 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 
-		HeatStroke::Font m_mFont;
+		HeatStroke::Font* m_pFont;
 		HeatStroke::TextBox m_mLabelTextBox;
 		HeatStroke::TextBox m_mLapTextBox;
 
