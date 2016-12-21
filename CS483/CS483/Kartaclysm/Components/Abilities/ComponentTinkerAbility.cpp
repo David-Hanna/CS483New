@@ -1,15 +1,15 @@
 //----------------------------------------------------------------------------
-// ComponentMaintainAbility.cpp
+// ComponentTinkerAbility.cpp
 // Author: Bradley Cooper
 //
-// Juggernaut's ability to use charges to negate attacks and affect stats.
+// Clockmaker's ability to add charges to his clock bomb.
 //----------------------------------------------------------------------------
 
-#include "ComponentMaintainAbility.h"
+#include "ComponentTinkerAbility.h"
 
 namespace Kartaclysm
 {
-	ComponentMaintainAbility::ComponentMaintainAbility(
+	ComponentTinkerAbility::ComponentTinkerAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		int p_iStartCharges,
 		int p_iMaxCharges)
@@ -19,20 +19,20 @@ namespace Kartaclysm
 		m_iMaxCharges(p_iMaxCharges),
 		m_pAbilityDelegate(nullptr),
 		m_pChargeDelegate(nullptr),
-		m_strChargeEventName(m_strPlayerX + "_ArmorPlate")
+		m_strChargeEventName(m_strPlayerX + "_ClockCharges")
 	{
 		// Listen to activation event ("Player0_KartAbility1" as example)
-		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::AbilityCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_KartAbility2", m_pAbilityDelegate);
+		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTinkerAbility::AbilityCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strPlayerX + "_DriverAbility2", m_pAbilityDelegate);
 
 		// Listen to any events that change the charge count for armor plates
-		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentMaintainAbility::ChargeCallback, this, std::placeholders::_1));
+		m_pChargeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTinkerAbility::ChargeCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener(m_strChargeEventName, m_pChargeDelegate);
 	}
 
-	ComponentMaintainAbility::~ComponentMaintainAbility()
+	ComponentTinkerAbility::~ComponentTinkerAbility()
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_KartAbility2", m_pAbilityDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strPlayerX + "_DriverAbility2", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
 
@@ -41,7 +41,7 @@ namespace Kartaclysm
 		m_pChargeDelegate = nullptr;
 	}
 
-	HeatStroke::Component* ComponentMaintainAbility::CreateComponent(
+	HeatStroke::Component* ComponentTinkerAbility::CreateComponent(
 		HeatStroke::GameObject* p_pGameObject,
 		tinyxml2::XMLNode* p_pBaseNode,
 		tinyxml2::XMLNode* p_pOverrideNode)
@@ -65,70 +65,68 @@ namespace Kartaclysm
 		assert(iStartCharges != -1);
 		assert(iMaxCharges != 0);
 
-		return new ComponentMaintainAbility(
+		return new ComponentTinkerAbility(
 			p_pGameObject,
 			iStartCharges,
 			iMaxCharges
 			);
 	}
 
-	void ComponentMaintainAbility::Init()
+	void ComponentTinkerAbility::Init()
 	{
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
 	}
 
-	void ComponentMaintainAbility::Activate()
+	void ComponentTinkerAbility::Activate()
 	{
 		if (m_pConditions->CanActivate())
 		{
 			m_pConditions->ResetCooldown();
 
-			// Yes, this sends an event that it listens to. When an event is negated,
-			// this event is also sent from that source too. Hence, it needs to listen to itself
-			HeatStroke::Event* pEvent = new HeatStroke::Event(m_strChargeEventName);
-			pEvent->SetIntParameter("ArmorChange", 1);
-			pEvent->SetIntParameter("Negated", 0);
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+			HeatStroke::Event* pActivateEvent = new HeatStroke::Event("AbilityUse");
+			pActivateEvent->SetStringParameter("Originator", m_strPlayerX);
+			pActivateEvent->SetStringParameter("Ability", "Tinker");
+			HeatStroke::EventManager::Instance()->TriggerEvent(pActivateEvent);
+
+			// Yes, this sends an event that it also listens to.
+			HeatStroke::Event* pChargeEvent = new HeatStroke::Event(m_strChargeEventName);
+			pChargeEvent->SetIntParameter("Increase", 1);
+			pChargeEvent->SetIntParameter("Reset", 0);
+			HeatStroke::EventManager::Instance()->TriggerEvent(pChargeEvent);
 		}
 	}
 
-	void ComponentMaintainAbility::ChargeCallback(const HeatStroke::Event* p_pEvent)
+	void ComponentTinkerAbility::ChargeCallback(const HeatStroke::Event* p_pEvent)
 	{
-		int iChange = 0;
-		int iNegated = 0;
+		int iIncrease = 0;
+		int iReset = 0;
 
-		p_pEvent->GetOptionalIntParameter("ArmorChange", iChange, 0);
-		p_pEvent->GetOptionalIntParameter("Negated", iNegated, 0);
+		p_pEvent->GetOptionalIntParameter("Increase", iIncrease, 0);
+		p_pEvent->GetOptionalIntParameter("Reset", iReset, 0);
 
-		if (iChange == 1)
+		if (iIncrease == 1)
 		{
 			m_iCurrentCharges++;
 			assert(m_iCurrentCharges <= m_iMaxCharges);
 		}
-		else if (iChange == -1)
-		{
-			m_iCurrentCharges--;
-			assert(m_iCurrentCharges <= m_iMaxCharges);
-		}
 
-		if (iNegated == 1)
+		if (iReset == 1)
 		{
-			m_iCurrentCharges--;
-			assert(m_iCurrentCharges >= 0);
+			m_iCurrentCharges = 0;
 		}
 
 		m_pConditions->SetSpecialCondition(m_iCurrentCharges != m_iMaxCharges);
 	}
 
-	void ComponentMaintainAbility::ParseNode(
+	void ComponentTinkerAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		int& p_iStartCharges,
 		int& p_iMaxCharges)
 	{
 		assert(p_pNode != nullptr);
-		assert(strcmp(p_pNode->Value(), "GOC_MaintainAbility") == 0);
+		assert(strcmp(p_pNode->Value(), "GOC_TinkerAbility") == 0);
 
 		for (tinyxml2::XMLElement* pChildElement = p_pNode->FirstChildElement();
 			pChildElement != nullptr;

@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------------
-// ComponentStrikeAbility.h
+// ComponentClockAbility.h
 // Author: Bradley Cooper
 //
-// King Pin's ability to fire a linear projectile.
+// Clockmaker's ability to throw an AoE lobbed bomb forward.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_STRIKE_ABILITY_H
-#define COMPONENT_STRIKE_ABILITY_H
+#ifndef COMPONENT_CLOCK_ABILITY_H
+#define COMPONENT_CLOCK_ABILITY_H
 
 #include <tinyxml2.h>
 #include <string>
@@ -19,16 +19,16 @@
 
 namespace Kartaclysm
 {
-	class ComponentStrikeAbility : public ComponentAbility
+	class ComponentClockAbility : public ComponentAbility
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string ComponentID() const override	{ return "GOC_StrikeAbility"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_ClockAbility"; }
 
 		// Destruction.
-		virtual ~ComponentStrikeAbility();
+		virtual ~ComponentClockAbility();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -48,13 +48,14 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentStrikeAbility(
+		ComponentClockAbility(
 			HeatStroke::GameObject* p_pGameObject,
 			const std::string& p_strProjectileXML
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 		void OnHitCallback(const HeatStroke::Event* p_pEvent);
+		void ChargeCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -67,6 +68,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		std::string m_strProjectileXML;
+		std::string m_strChargeEventName;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
@@ -74,9 +76,12 @@ namespace Kartaclysm
 		// Delegate function to register with EventManager for ability activation
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
 
-		// Delegate function to register with EventManager for strike ability hit event
+		// Delegate function to register with EventManager for clock blast ability hit event
 		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
+
+		// Delegate function to register with EventManager for managing charges
+		std::function<void(const HeatStroke::Event*)>* m_pChargeDelegate;
 	};
 }
 
-#endif // COMPONENT_STRIKE_ABILITY_H
+#endif // COMPONENT_CLOCK_ABILITY_H

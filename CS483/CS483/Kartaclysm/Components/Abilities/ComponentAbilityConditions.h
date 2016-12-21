@@ -57,7 +57,7 @@ namespace Kartaclysm
 		void ResetCharges();
 
 		// Manual control of a special condition
-		void SetSpecialCondition(bool p_bSpecial) { m_bSpecial = p_bSpecial; }
+		void SetSpecialCondition(bool p_bSpecial) { m_bSpecial = p_bSpecial; m_bSendEvent = true; }
 
 	protected:
 		//--------------------------------------------------------------------------

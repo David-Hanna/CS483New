@@ -1,4 +1,4 @@
-<!-- Projectile for King Pin's Strike Ability -->
+<!-- Projectile for Clockmaker's Clock Bomb Ability -->
 <!-- Author: Bradley Cooper -->
 
 <GameObject>
@@ -22,6 +22,7 @@
 
     <GOC_Projectile>
       <FriendlyFire value="false" />
+      <BlastXML path="CS483/CS483/Kartaclysm/Data/Abilities/blast_clock.xml" />
     </GOC_Projectile>
 
     <GOC_SimplePhysics>

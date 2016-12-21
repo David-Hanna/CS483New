@@ -16,7 +16,7 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	float p_fHeight,
 	float p_fWidth)
 	:
-	ComponentCollider(p_pGameObject),
+	ComponentCollider(p_pGameObject, true),
 	m_pOffset(p_pOffset),
 	m_pSurfaceNormal(p_pSurfaceNormal),
 	m_fHeight(p_fHeight),

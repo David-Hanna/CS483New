@@ -12,9 +12,10 @@
 HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	HeatStroke::GameObject* p_pGameObject,
 	glm::vec3 p_pOffset,
-	float p_fRadius)
+	float p_fRadius,
+	bool p_bAppliesPhysics)
 	:
-	ComponentCollider(p_pGameObject),
+	ComponentCollider(p_pGameObject, p_bAppliesPhysics),
 	m_pOffset(p_pOffset),
 	m_fRadius(p_fRadius)
 {
@@ -35,8 +36,9 @@ HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
 	assert(p_pGameObject != nullptr);
 
 	// The values we need to fill by the end of parsing.
-	glm::vec3 offset;
-	float radius;
+	glm::vec3 offset = glm::vec3();
+	float radius = 0.0f;
+	bool physics = true;
 
 	// Neither base nor override node are mandatory, but it is mandatory
 	// that all strings are given values between the two of them.
@@ -45,23 +47,24 @@ HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
 	if (p_pBaseNode != nullptr)
 	{
 		//ParseNode(p_pBaseNode, strOBJFileName);
-		ParseNode(p_pBaseNode, offset, radius);
+		ParseNode(p_pBaseNode, offset, radius, physics);
 	}
 	// Then override with the Override node.
 	if (p_pOverrideNode != nullptr)
 	{
 		//ParseNode(p_pOverrideNode, strOBJFileName);
-		ParseNode(p_pOverrideNode, offset, radius);
+		ParseNode(p_pOverrideNode, offset, radius, physics);
 	}
 
 	// Check that we got everything we needed.
-	//assert(strOBJFileName != "");
+	//assert(radius > 0.0f);
 
 	// Now we can create and return the Component.
 	return new ComponentSphereCollider(
 		p_pGameObject,
 		offset,
-		radius
+		radius,
+		physics
 		);
 }
 
@@ -82,7 +85,8 @@ void HeatStroke::ComponentSphereCollider::SyncTransform()
 void HeatStroke::ComponentSphereCollider::ParseNode(
 	tinyxml2::XMLNode* p_pNode,
 	glm::vec3& p_pOffset,
-	float& p_fRadius)
+	float& p_fRadius,
+	bool& p_bAppliesPhysics)
 {
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_SphereCollider") == 0);
@@ -104,10 +108,13 @@ void HeatStroke::ComponentSphereCollider::ParseNode(
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "y", p_pOffset.y);
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "z", p_pOffset.z);
 		}
-
-		if (strcmp(szNodeName, "Sphere") == 0)
+		else if (strcmp(szNodeName, "Sphere") == 0)
 		{
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "radius", p_fRadius);
+		}
+		else if (strcmp(szNodeName, "Physics") == 0)
+		{
+			HeatStroke::EasyXML::GetRequiredBoolAttribute(pElement, "applies", p_bAppliesPhysics);
 		}
 	}
 }

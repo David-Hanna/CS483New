@@ -1,32 +1,31 @@
 //----------------------------------------------------------------------------
-// ComponentProjectile.h
+// ComponentBedazzleAbility.h
 // Author: Bradley Cooper
 //
-// Component that handles projectile collisions and events.
+// Cleopapa's ability to spin out nearby racers.
 //----------------------------------------------------------------------------
 
-#ifndef COMPONENT_PROJECTILE_H
-#define COMPONENT_PROJECTILE_H
+#ifndef COMPONENT_BEDAZZLE_ABILITY_H
+#define COMPONENT_BEDAZZLE_ABILITY_H
 
 #include <tinyxml2.h>
+#include <string>
 
-#include "Component.h"
-#include "GameObject.h"
-#include "EventManager.h"
+#include "ComponentAbility.h"
+#include "ComponentProjectile.h"
 
 namespace Kartaclysm
 {
-	class ComponentProjectile : public HeatStroke::Component
+	class ComponentBedazzleAbility : public ComponentAbility
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string FamilyID() const override		{ return "GOC_Projectile"; }
-		virtual const std::string ComponentID() const override	{ return "GOC_Projectile"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_BedazzleAbility"; }
 
 		// Destruction.
-		virtual ~ComponentProjectile();
+		virtual ~ComponentBedazzleAbility();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -36,29 +35,26 @@ namespace Kartaclysm
 			);
 
 		// Game Loop methods.
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override {}
 
-		// Set projectile information
-		void SetOriginator(const std::string& p_strOriginator) { m_strOriginator = p_strOriginator; }
-		void SetOnHitEvent(const std::string& p_strOnHitEvent) { m_strOnHitEvent = p_strOnHitEvent; }
+		// Required ability override
+		virtual void Activate() override;
 
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentProjectile(
+		ComponentBedazzleAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			bool p_bFriendlyFire,
 			const std::string& p_strBlastXML
 			);
 
-		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
-		void HandleSelfDestructEvent(const HeatStroke::Event* p_pEvent);
+		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
+		void OnHitCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			bool& p_bFriendlyFire,
 			std::string& p_strBlastXML
 			);
 
@@ -67,16 +63,17 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		std::string m_strOriginator;
-		std::string m_strOnHitEvent;
 		std::string m_strBlastXML;
-		
-		bool m_bFriendlyFire;
 
-	private:
-		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
-		std::function<void(const HeatStroke::Event*)>* m_pSelfDestructDelegate;
+		// Prevent querying the GameObject for the ComponentAbilityConditions
+		ComponentAbilityConditions* m_pConditions;
+
+		// Delegate function to register with EventManager for ability activation
+		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+
+		// Delegate function to register with EventManager for bedazzle ability hit event
+		std::function<void(const HeatStroke::Event*)>* m_pOnHitDelegate;
 	};
 }
 
-#endif // COMPONENT_PROJECTILE_H
+#endif // COMPONENT_BEDAZZLE_ABILITY_H

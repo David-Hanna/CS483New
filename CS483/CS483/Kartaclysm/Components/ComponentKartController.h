@@ -73,6 +73,8 @@ namespace Kartaclysm
 		void WheelieToggle();
 		void Spinout(float p_fDuration);
 		void ArmorPlate(int p_iArmorStack);
+		void TurnLock(float p_fDuration);
+		void Slow(float p_fPower, float p_fDuration);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
@@ -143,6 +145,9 @@ namespace Kartaclysm
 		float m_fSlideCharge;
 		bool m_bWheelie;
 		float m_fSpinout;
+		float m_fTurnLock;
+		float m_fSlowDuration;
+		float m_fSlowPower;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

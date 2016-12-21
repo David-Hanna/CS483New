@@ -144,6 +144,21 @@
         </GOC_HUD_Popup>
       </Components>
     </GameObject>
+
+    <!-- Slow Effect -->
+    <GameObject>
+      <Transform>
+        <Translation x="0.0" y="-80.0" z="0.0" />
+        <Scale x="16.0" y="16.0" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Popup>
+          <MTLFileName path="Assets/Hud/Popups/slow.mtl"/>
+          <MaterialName name="slow"/>
+          <Event value="PlayerX_HUD_Slow"/>
+        </GOC_HUD_Popup>
+      </Components>
+    </GameObject>
     
   </Children>
   
