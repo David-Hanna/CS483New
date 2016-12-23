@@ -74,11 +74,13 @@ namespace Kartaclysm
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		//TEMP used to reset race state
 		//		can be removed once we return to menus after race
 		std::map<std::string, std::string> m_mContextParams;
 
+		void BeginRace();
 		HeatStroke::GameObject* GenerateRacer(
 			const std::string& p_strKartDefinitionFile, 
 			const std::string& p_strDriverDefinitionFile, 
@@ -86,8 +88,10 @@ namespace Kartaclysm
 			const std::string& p_strGuid = ""
 		);
 
+
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
+		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 	};
 }
 
