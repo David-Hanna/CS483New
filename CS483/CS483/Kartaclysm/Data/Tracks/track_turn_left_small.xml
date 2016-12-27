@@ -6,6 +6,7 @@
     <GOC_TrackPiece>
       <Bounds widthX="10" widthZ="10"/>
       <Height function="flat"/>
+      <Position function="turn" pivotX="5.0" pivotY="0.0" pivotZ="5.0" pivotAxisX="0.0" pivotAxisY="0.0" pivotAxisZ="-1.0"/>
     </GOC_TrackPiece>
 	</Components>
 
