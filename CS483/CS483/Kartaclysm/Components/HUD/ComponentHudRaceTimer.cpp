@@ -15,9 +15,9 @@ namespace Kartaclysm
 		float p_fLabelOffset
 		) :
 		ComponentRenderable(p_pGameObject),
-		m_mFont(p_strFontFilePath),
-		m_mLabelTextBox(&m_mFont, "TIME"),
-		m_mTimerTextBox(&m_mFont, "00:00.000"),
+		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
+		m_mLabelTextBox(m_pFont, "TIME"),
+		m_mTimerTextBox(m_pFont, "00:00.000"),
 		m_fLabelOffset(p_fLabelOffset),
 		m_fTime(0.0f)
 	{

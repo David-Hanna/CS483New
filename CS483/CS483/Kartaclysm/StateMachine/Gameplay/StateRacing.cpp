@@ -7,12 +7,6 @@
 
 #include "StateRacing.h"
 
-//------------------------------------------------------------------------------
-// Method:    StateRacing
-// Returns:   
-// 
-// Constructor.
-//------------------------------------------------------------------------------
 Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
@@ -21,26 +15,14 @@ Kartaclysm::StateRacing::StateRacing()
 {
 }
 
-//------------------------------------------------------------------------------
-// Method:    ~StateRacing
-// Returns:   
-// 
-// Destructor.
-//------------------------------------------------------------------------------
 Kartaclysm::StateRacing::~StateRacing()
 {
-	Exit();
 }
 
-//------------------------------------------------------------------------------
-// Method:		Enter
-// Parameter:	std::map<std::string, std::string> p_mContextParameters - parameters for state
-// 
-// Called when this state is pushed onto the stack.
-// TODO: change context params from std::map<std::string, std::string> to be more like Event params
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
+	printf("Entering Racing State.\n");
+
 	m_bSuspended = false;
 
 	// Register listening for pause
@@ -92,7 +74,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
-
+	
 	// Handle passed context parameters
 	m_mContextParams = p_mContextParameters;
 	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
@@ -111,7 +93,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	}
 
 	// Load Lights, and Tracks
-	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("Light"), "AmbientAndDirectionalLight");
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Lights/light.xml", "AmbientAndDirectionalLight");
 	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("TrackDefinitionFile"), "Track");
 
 	// add racers to track
@@ -124,6 +106,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 		pTrackComponent->RegisterRacer(vRacers.at(i));
 		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
 	}
+
+	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
+	m_pGameObjectManager->Print();
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
@@ -156,12 +141,6 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	return pRacer;
 }
 
-//------------------------------------------------------------------------------
-// Method:		Suspend
-// Parameter:	const int p_iNewState - index of new state being pushed
-// 
-// Called when this state is pushed down in the stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = true;
@@ -174,12 +153,6 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:		Unsuspend
-// Parameter:	const int p_iPrevState - index of previous state popped
-// 
-// Called when this state is popped back to top of stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
@@ -191,12 +164,6 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:    Update
-// Parameter: const float p_fDelta
-// 
-// Called each from when this state is active.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
 	// Do not update when suspended
@@ -254,11 +221,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	*/
 }
 
-//------------------------------------------------------------------------------
-// Method:    PreRender
-// 
-// Called before rendering occurs.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::PreRender()
 {
 	// Render even when suspended
@@ -266,13 +228,10 @@ void Kartaclysm::StateRacing::PreRender()
 	m_pGameObjectManager->PreRender();
 }
 
-//------------------------------------------------------------------------------
-// Method:    Exit
-// 
-// Called when this state is popped off the stack.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::Exit()
 {
+	printf("Exiting Racing State.\n");
+
 	m_bSuspended = false;
 
 	if (m_pPauseDelegate != nullptr)
@@ -294,12 +253,6 @@ void Kartaclysm::StateRacing::Exit()
 	}
 }
 
-//------------------------------------------------------------------------------
-// Method:    PauseGame
-// Parameter: const HeatStroke::Event* p_pEvent - Event that triggers when a player pauses
-// 
-// Pause the game by pushing the Pause State.
-//------------------------------------------------------------------------------
 void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 {
 	// Get the player who paused the game
@@ -311,13 +264,12 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	mContext["Player"] = std::to_string(iPlayer);
 
 	// Push pause state
-	m_pStateMachine->Push(1, mContext);
+	m_pStateMachine->Push(STATE_PAUSED, mContext);
 }
 
 void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
 {
 	printf("restarting race\n");
 	m_pStateMachine->Pop();
-	m_pStateMachine->Push(0, m_mContextParams);
-	return;
+	m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 }

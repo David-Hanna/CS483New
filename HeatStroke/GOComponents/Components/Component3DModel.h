@@ -37,7 +37,7 @@ namespace HeatStroke
 		virtual void SyncTransform();
 
 	private:
-		Model m_mModel;
+		ModelInstance m_mModelInstance;
 
 		// Prevent copying
 		Component3DModel(const Component3DModel&) = delete;

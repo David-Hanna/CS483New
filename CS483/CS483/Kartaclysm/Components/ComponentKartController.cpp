@@ -418,11 +418,11 @@ namespace Kartaclysm
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection/* + m_fSwerve*/, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection/* + m_fSwerve*/, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
@@ -567,6 +567,7 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_strike_hit.wav");
 				Spinout(1.5f);
 			}
 			else if (ability.compare("Clock") == 0)
@@ -583,11 +584,16 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_make_it_rain.wav");
+
 				Slow(0.7f, 2.0f);
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
 				printf("Bedazzle!\n"); // Entangle!
+
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_bedazzle.wav");
+
 				Spinout(1.0f);
 			}
 		}
@@ -603,16 +609,19 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredFloatParameter("Power", fPower);
 
 				printf("Boost!\n");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/speedster_boost.flac");
 				Boost(fPower);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
 				printf("Wheelie!\n");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/showoff_wheelie.wav");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
 				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_tinker.wav");
 				TurnLock(1.0f);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
@@ -622,6 +631,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
 				printf("ArmorPlate!\n");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_armor.wav");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)

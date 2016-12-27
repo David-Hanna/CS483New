@@ -8,14 +8,15 @@
 #ifndef COMPONENT_CLOCK_ABILITY_H
 #define COMPONENT_CLOCK_ABILITY_H
 
-#include <tinyxml2.h>
-#include <string>
-
 #include "Common.h"
 #include "ComponentAbility.h"
 #include "ComponentProjectile.h"
 #include "ComponentKartController.h"
 #include "ComponentSimplePhysics.h"
+#include "AudioPlayer.h"
+
+#include <tinyxml2.h>
+#include <string>
 
 namespace Kartaclysm
 {

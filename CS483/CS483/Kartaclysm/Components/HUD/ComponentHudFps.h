@@ -13,6 +13,7 @@
 #include "ComponentRenderable.h"
 #include "SceneManager.h"
 #include "EventManager.h"
+#include "FontManager.h"
 #include "TextBox.h"
 #include <vector>
 
@@ -60,7 +61,7 @@ namespace Kartaclysm
 		int m_iFrameCounter;
 		std::vector<float> m_lFrameSpeeds;
 
-		HeatStroke::Font m_mFont;
+		HeatStroke::Font* m_pFont;
 		HeatStroke::TextBox m_mTextBox;
 	};
 }

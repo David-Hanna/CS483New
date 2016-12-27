@@ -44,13 +44,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\boost_1_60_0;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;GLEW_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Debug-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>FreeImaged.lib;glew32sd.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Debug-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FreeImaged.lib;glew32sd.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -60,18 +60,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\boost_1_60_0;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Release-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>FreeImage.lib;glew32s.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Release-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FreeImage.lib;glew32s.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Common\Common.cpp" />
     <ClCompile Include="..\..\HeatStroke\Common\Game.cpp" />
     <ClCompile Include="..\..\HeatStroke\Geometry\AABB.cpp" />
@@ -87,20 +88,26 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\GameObject.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\GameObjectManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Font\Font.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Font\FontManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\MaterialManager.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Model\Model.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Model\ModelManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Program\Program.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Program\ProgramManager.cpp" />
-    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\Model.cpp" />
-    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\Sprite.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\ModelInstance.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\SpriteInstance.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Sprite\Sprite.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Sprite\SpriteManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Texture\TextureManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\SceneManagement\SceneCamera.cpp" />
@@ -110,7 +117,6 @@
     <ClCompile Include="..\..\HeatStroke\Services\Collisions\CollisionManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\Event.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\Events\EventManager.cpp" />
-    <ClCompile Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\IO\MouseInputBuffer.cpp" />
@@ -151,11 +157,14 @@
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp" />
-    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h" />
     <ClInclude Include="..\..\HeatStroke\Common\Common.h" />
     <ClInclude Include="..\..\HeatStroke\Common\Game.h" />
     <ClInclude Include="..\..\HeatStroke\Common\Types.h" />
@@ -179,22 +188,28 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\GameObject.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\GameObjectManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\BufferManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\IndexBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Font\Font.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Font\FontManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\Material.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\MaterialManager.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Mesh\Mesh.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Model\Model.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Model\ModelManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\Program.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\ProgramManager.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Mesh.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Model.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\ModelInstance.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Renderable.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Sprite.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\SpriteInstance.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\TextBox.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Sprite\Sprite.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Sprite\SpriteManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Texture\Texture.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="..\..\HeatStroke\SceneManagement\SceneAmbientLight.h" />
@@ -207,7 +222,6 @@
     <ClInclude Include="..\..\HeatStroke\Services\Collisions\CollisionManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\Event.h" />
     <ClInclude Include="..\..\HeatStroke\Services\Events\EventManager.h" />
-    <ClInclude Include="..\..\HeatStroke\Services\GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="..\..\HeatStroke\Services\IO\JoystickInputBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Services\IO\MouseInputBuffer.h" />
@@ -247,7 +261,9 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
-    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelect.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />
@@ -277,6 +293,7 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
+    <Xml Include="Kartaclysm\Data\DevConfig\Preload.xml" />
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml" />
