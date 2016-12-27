@@ -48,6 +48,7 @@ namespace Kartaclysm
 
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
 		float GetDirection() const { return m_fDirection; }
+		float GetGroundHeight() const { return m_fGroundHeight; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
 	protected:
