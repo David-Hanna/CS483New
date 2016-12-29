@@ -106,6 +106,7 @@ namespace Kartaclysm
 			ComponentKartController* pKart = static_cast<ComponentKartController*>(GetGameObject()->GetParent()->GetParent()->GetComponent("GOC_KartController"));
 			ComponentSimplePhysics* pPhysics = static_cast<ComponentSimplePhysics*>(pStrike->GetComponent("GOC_SimplePhysics"));
 			pPhysics->SetDirection(pKart->GetDirection());
+			pPhysics->SetTrackHeight(pKart->GetGroundHeight());
 
 			HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_clock_bomb.ogg");
 		}

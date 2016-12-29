@@ -180,9 +180,14 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 
 	bool passedThrough = false;
 
+	int xAligned = 0;
+	int zAligned = 0;
+
 	// Find the contact point
 	if ((normal.x > 0.9f || normal.x < -0.9f) && abs(normal.z) < 0.1f)
 	{
+		xAligned = 1;
+		
 		glm::vec3 l1 = pos2 + glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
 		glm::vec3 l2 = pos2 - glm::vec3(0.0f, 0.0f, p_pCollider2->GetWidth());
 
@@ -214,6 +219,8 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	}
 	else if ((normal.z > 0.9f || normal.z < -0.9f) && abs(normal.x) < 0.1f)
 	{
+		zAligned = 1;
+		
 		glm::vec3 l1 = pos2 + glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);
 		glm::vec3 l2 = pos2 - glm::vec3(p_pCollider2->GetWidth(), 0.0f, 0.0f);
 
@@ -261,6 +268,8 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointY", contactPoint.y);
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
 		collisionEvent->SetIntParameter("PassedThrough", (int)passedThrough);
+		collisionEvent->SetIntParameter("XAligned", xAligned);
+		collisionEvent->SetIntParameter("ZAligned", zAligned);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
 	}
 }

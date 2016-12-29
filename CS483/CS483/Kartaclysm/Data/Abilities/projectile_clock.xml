@@ -26,13 +26,14 @@
     </GOC_Projectile>
 
     <GOC_SimplePhysics>
-      <Speed value="0.5" />
-      <Friction value="0.0" />
+      <Speed value="18.0" />
+      <Friction value="10.0" />
+      <VerticalSpeed value="4.0" />
     </GOC_SimplePhysics>
 
     <GOC_SelfDestruct>
-      <Timer value="5.0" />
-      <Collision tags="Wall,Projectile" />
+      <Timer value="1.8" />
+      <Collision tags="Projectile" />
     </GOC_SelfDestruct>
 
   </Components>

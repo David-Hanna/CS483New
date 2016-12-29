@@ -39,6 +39,7 @@ namespace Kartaclysm
 		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;
 
+		void SetTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; /*m_fPreviousHeight = p_fTrackHeight;*/}
 		void UpdateTrackHeight(float p_fTrackHeight) { m_fGroundHeight = p_fTrackHeight; }
 		void SetDirection(float p_fDirection) { m_fDirection = p_fDirection; }
 
@@ -49,19 +50,21 @@ namespace Kartaclysm
 		ComponentSimplePhysics(
 			HeatStroke::GameObject* p_pGameObject,
 			float p_fSpeed,
-			float p_fFriction
+			float p_fFriction,
+			float p_fVerticalSpeed
 			);
 
 		void UpdateSpeed(float p_fDelta);
 		float UpdateHeight(float p_fDelta);
-		void UpdateTransform(float p_fHeightMod);
+		void UpdateTransform(float p_fHeightMod, float p_fDelta);
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			float& p_fSpeed,
-			float& p_fFriction
+			float& p_fFriction,
+			float& p_fVerticalSpeed
 			);
 
 		//--------------------------------------------------------------------------
@@ -89,6 +92,8 @@ namespace Kartaclysm
 		float m_fDirection;
 		bool m_bAirborne;
 		float m_fVerticalSpeed;
+
+		std::string m_sPreviousWallCollision;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
