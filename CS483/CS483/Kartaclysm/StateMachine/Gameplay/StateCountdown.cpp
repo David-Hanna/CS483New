@@ -38,12 +38,12 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 	if (!m_bSuspended)
 	{
 		// Tell the HUD to update the countdown
+		m_fTimer -= p_fDelta;
 		HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
 		pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
 		HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
 
-		// Reduce timer until race starts
-		m_fTimer -= p_fDelta;
+		// Check conditions for race start and boosts
 		if (m_fTimer <= 0.0f)
 		{
 			// Enable kart movement and provide boosts

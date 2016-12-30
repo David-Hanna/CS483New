@@ -43,6 +43,7 @@
 #include "ComponentHudRaceTimer.h"
 #include "ComponentHudPosition.h"
 #include "ComponentHudLapCount.h"
+#include "ComponentHudCountdown.h"
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
 
