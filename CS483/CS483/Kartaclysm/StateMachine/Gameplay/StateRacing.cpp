@@ -12,7 +12,8 @@ Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_pPauseDelegate(nullptr)
+	m_pPauseDelegate(nullptr),
+	m_bCountdown(false)
 {
 }
 
@@ -89,9 +90,13 @@ void Kartaclysm::StateRacing::BeginRace()
 	// Destroy game objects in case we are restarting the race
 	m_pGameObjectManager->DestroyAllGameObjects();
 
-	// Handle context parameters
+	// Load Lights, and Tracks
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Lights/light.xml", "AmbientAndDirectionalLight");
+	HeatStroke::GameObject* pTrack = m_pGameObjectManager->CreateGameObject(m_mContextParams.at("TrackDefinitionFile"), "Track");
+	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
+
+	// Load racers
 	int iCount = atoi(m_mContextParams.at("PlayerCount").c_str());
-	std::vector<HeatStroke::GameObject*> vRacers;
 	for (int i = 0; i < iCount; i++)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
@@ -102,29 +107,18 @@ void Kartaclysm::StateRacing::BeginRace()
 
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
-		vRacers.push_back(pRacer);
-	}
-
-	// Load Lights, and Tracks
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Lights/light.xml", "AmbientAndDirectionalLight");
-	m_pGameObjectManager->CreateGameObject(m_mContextParams.at("TrackDefinitionFile"), "Track");
-
-	// add racers to track
-	// Note: Needs to be done after LoadLevel so the track is loaded
-	// LoadLevel also needs to be done after "Player0" GameObject is created for the camera
-	HeatStroke::GameObject* pTrack = m_pGameObjectManager->GetGameObject("Track");
-	ComponentTrack* pTrackComponent = dynamic_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
-	for (int i = 0; i < iCount; i++)
-	{
-		pTrackComponent->RegisterRacer(vRacers.at(i));
-		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
+		pTrackComponent->RegisterRacer(pRacer);
+		pRacer->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
 	}
 
 	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
 	m_pGameObjectManager->Print();
 
-	// Begin race countdown
-	m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
+	// Set conditions for beginning countdown
+	m_bCountdown = true;
+	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
+	pDisableEvent->SetIntParameter("Disable", 1);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pDisableEvent);
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
@@ -175,6 +169,13 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 	{
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
+
+		// TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models for some reason
+		if (m_bCountdown)
+		{
+			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
+			m_bCountdown = false;
+		}
 
 		// DEBUG: Should be removed at some point
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))

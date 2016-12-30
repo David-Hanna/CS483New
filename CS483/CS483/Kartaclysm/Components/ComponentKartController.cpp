@@ -15,6 +15,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
+		m_bDisabled(false),
 		m_strHitCallback(""),
 
 		m_iMaxSpeedCoreStat(3),
@@ -77,6 +78,9 @@ namespace Kartaclysm
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleAbilityEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("AbilityUse", m_pAbilityDelegate);
 
+		m_pCountdownDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCountdownEvent, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("KartCountdown", m_pCountdownDelegate);
+
 		m_pOutsideForce = glm::vec3();
 
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
@@ -91,6 +95,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener("AbilityUse", m_pAbilityDelegate);
 		delete m_pAbilityDelegate;
 		m_pAbilityDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("KartCountdown", m_pCountdownDelegate);
+		delete m_pCountdownDelegate;
+		m_pCountdownDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentKartController::CreateComponent(
@@ -128,6 +136,8 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
+		if (m_bDisabled) return;
+
 		// Manually query for user input
 		int iAccelerate, iBrake, iSlide;
 		float fTurn;
@@ -638,6 +648,19 @@ namespace Kartaclysm
 			{
 				p_pEvent->GetRequiredStringParameter("ListenEvent", m_strHitCallback);
 			}
+		}
+	}
+
+	void ComponentKartController::HandleCountdownEvent(const HeatStroke::Event* p_pEvent)
+	{
+		int iDisable, iBoost;
+		p_pEvent->GetOptionalIntParameter("Disable", iDisable, 0);
+		p_pEvent->GetOptionalIntParameter(m_pGameObject->GetGUID(), iBoost, 0);
+
+		m_bDisabled = (iDisable != 0);
+		if (iBoost != 0)
+		{
+			Boost(1.3f);
 		}
 	}
 }

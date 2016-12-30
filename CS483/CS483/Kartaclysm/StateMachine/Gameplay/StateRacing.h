@@ -88,10 +88,11 @@ namespace Kartaclysm
 			const std::string& p_strGuid = ""
 		);
 
-
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
+
+		bool m_bCountdown;
 	};
 }
 

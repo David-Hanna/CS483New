@@ -21,7 +21,6 @@ Kartaclysm::StateCountdown::~StateCountdown()
 void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	printf("Entering State Countdown.\n");
-
 	m_bSuspended = false;
 	m_fTimer = 3.0f;
 
@@ -38,8 +37,6 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
-		printf("%i", static_cast<int>(ceilf(m_fTimer)));
-
 		// Tell the HUD to update the countdown
 		HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
 		pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
@@ -49,15 +46,16 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 		m_fTimer -= p_fDelta;
 		if (m_fTimer <= 0.0f)
 		{
-			m_pStateMachine->Pop();
-
-			// Send the event for speed boosts
-			HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_Boost");
+			// Enable kart movement and provide boosts
+			HeatStroke::Event* pCountdownEvent = new HeatStroke::Event("KartCountdown");
+			pCountdownEvent->SetIntParameter("Disable", 0);
 			for (int i = 0; i < m_iPlayerCount; i++)
 			{
 				pHudEvent->SetIntParameter("Player" + std::to_string(i), static_cast<int>(m_vGainsBoost[i]));
 			}
-			HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
+			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
+
+			m_pStateMachine->Pop();
 		}
 		else
 		{
@@ -99,6 +97,5 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 void Kartaclysm::StateCountdown::Exit()
 {
 	printf("Exiting State Countdown.\n");
-
 	m_bSuspended = false;
 }
