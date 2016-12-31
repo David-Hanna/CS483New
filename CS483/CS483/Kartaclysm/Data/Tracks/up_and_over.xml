@@ -30,7 +30,6 @@
 		</GameObject>
 		<GameObject guid="04" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight_underjump.xml">
 			<Transform>
-				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="-40.0" y="-2.0" z="30.0" />
 			</Transform>
 		</GameObject>
@@ -69,6 +68,7 @@
 		</GameObject>
 		<GameObject guid="11" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
 			<Transform>
+				<Rotation angle="180" x="0.0" y="1.0" z="0.0" />
 				<Translation x="-60.0" y="2.0" z="80.0" />
 			</Transform>
 		</GameObject>
@@ -122,6 +122,7 @@
 		</GameObject>
 		<GameObject guid="20" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
 			<Transform>
+				<Rotation angle="180" x="0.0" y="1.0" z="0.0" />
 				<Translation x="-20.0" y="0.0" z="-20.0" />
 			</Transform>
 		</GameObject>

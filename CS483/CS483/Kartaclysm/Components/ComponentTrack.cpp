@@ -301,36 +301,37 @@ namespace Kartaclysm
 	bool ComponentTrack::IsAhead(ComponentRacer* p_pRacerA, ComponentRacer* p_pRacerB)
 	{
 		// ahead by lap
-		if (p_pRacerA->GetCurrentLap() > p_pRacerB->GetCurrentLap())
+		int iCurrentLapA = p_pRacerA->GetCurrentLap();
+		int iCurrentLapB = p_pRacerB->GetCurrentLap();
+		if (iCurrentLapA > iCurrentLapB)
 		{
 			return true;
 		}
-		else if (p_pRacerA->GetCurrentLap() < p_pRacerB->GetCurrentLap())
+		else if (iCurrentLapA < iCurrentLapB)
 		{
 			return false;
 		}
 		else
 		{
 			// ahead by track piece
-			if (p_pRacerA->GetCurrentTrackPiece() > p_pRacerB->GetCurrentTrackPiece())
+			int iCurrentTrackPieceA = p_pRacerA->GetCurrentTrackPiece();
+			int iCurrentTrackPieceB = p_pRacerB->GetCurrentTrackPiece();
+			if (iCurrentTrackPieceA > iCurrentTrackPieceB)
 			{
 				return true;
 			}
-			else if (p_pRacerA->GetCurrentTrackPiece() < p_pRacerB->GetCurrentTrackPiece())
+			else if (iCurrentTrackPieceA < iCurrentTrackPieceB)
 			{
 				return false;
 			}
 			else
 			{
 				// ahead by distance
-				//TODO: this mathod for determining ahead by distance is not accurate in all cases.
-				int iNextPieceIndex = GetNextTrackPieceIndex(p_pRacerA->GetCurrentTrackPiece());
+				glm::vec3 vRacerPositionA = p_pRacerA->GetGameObject()->GetTransform().GetTranslation();
+				glm::vec3 vRacerPositionB = p_pRacerB->GetGameObject()->GetTransform().GetTranslation();
 
-				glm::vec3 vNextTrackPiecePosition = m_vTrackPieces[iNextPieceIndex]->GetTransform().GetTranslation();
-				glm::vec3 vRacerPosition = p_pRacerA->GetGameObject()->GetTransform().GetTranslation();
-				glm::vec3 vOpponentPosition = p_pRacerB->GetGameObject()->GetTransform().GetTranslation();
-
-				return glm::distance(vNextTrackPiecePosition, vRacerPosition) < glm::distance(vNextTrackPiecePosition, vOpponentPosition);
+				ComponentTrackPiece* pTrackComponent = static_cast<ComponentTrackPiece*>(m_vTrackPieces[iCurrentTrackPieceA]->GetComponent("GOC_TrackPiece"));
+				return pTrackComponent->IsAhead(vRacerPositionA, vRacerPositionB);
 			}
 		}
 	}
