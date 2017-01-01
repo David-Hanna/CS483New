@@ -93,7 +93,14 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredIntParameter("Current", iCurrent);
 		p_pEvent->GetRequiredIntParameter("Total", iTotal);
 
-		m_mLapTextBox.SetText(std::to_string(iCurrent) + "/" + std::to_string(iTotal));
+		if (iCurrent <= iTotal)
+		{
+			m_mLapTextBox.SetText(std::to_string(iCurrent) + "/" + std::to_string(iTotal));
+		}
+		else
+		{
+			m_mLapTextBox.SetText("FIN");
+		}
 	}
 
 	void ComponentHudLapCount::ParseNode(

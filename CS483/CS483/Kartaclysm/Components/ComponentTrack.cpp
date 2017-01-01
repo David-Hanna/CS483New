@@ -140,7 +140,7 @@ namespace Kartaclysm
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
 			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
 			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3)
+			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3 && !m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
 				TriggerRacerFinishedRaceEvent(strRacerId);
 			}
@@ -220,8 +220,13 @@ namespace Kartaclysm
 		bool bRaceStandingsUpdate = false;
 		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
 		{
-			bool bRacerPositionUpdated = false;
 			ComponentRacer* racerA = m_vRacers[i];
+			if (racerA->HasFinishedRace())
+			{
+				continue;
+			}
+
+			bool bRacerPositionUpdated = false;
 			for (int j = i - 1; j >= 0; --j)
 			{
 				ComponentRacer* racerB = m_vRacers[j];
@@ -354,7 +359,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerFinishedRace");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
-		pEvent->SetFloatParameter("raceTime", m_fRaceTime);
+		pEvent->SetFloatParameter("racerTime", m_fRaceTime);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 

@@ -31,6 +31,8 @@ namespace HeatStroke
 		virtual void Init() override						{}
 		virtual void Update(const float p_fDelta) override	{}
 
+		void SetMessage(const std::string& p_strMessage);
+
 	protected:
 		ComponentTextBox(GameObject* p_pGameObject,
 			const std::string& p_strFontFilePath,

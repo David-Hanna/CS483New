@@ -2,7 +2,7 @@
 	<Children>
 		<GameObject>
 			<Transform>
-				<Translation x="-56.0" y="50.0" z="0.0"/>
+				<Translation x="-56.0" y="100.0" z="0.0"/>
 				<Scale x="0.7" y="0.9" z="1.0"/>
 			</Transform>
 			<Components>
@@ -14,10 +14,70 @@
 				</GOC_TextBox>
 			</Components>
 		</GameObject>
+		
+		<GameObject guid="results0">
+			<Transform>
+				<Translation x="-50.0" y="50.0" z="0.0"/>
+				<Scale x="0.5" y="0.5" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value=" "/>
+					<Width value="300.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+		
+		<GameObject guid="results1">
+			<Transform>
+				<Translation x="-50.0" y="25.0" z="0.0"/>
+				<Scale x="0.5" y="0.5" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value=" "/>
+					<Width value="300.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+		
+		<GameObject guid="results2">
+			<Transform>
+				<Translation x="-50.0" y="0.0" z="0.0"/>
+				<Scale x="0.5" y="0.5" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value=" "/>
+					<Width value="300.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+		
+		<GameObject guid="results3">
+			<Transform>
+				<Translation x="-50.0" y="-25.0" z="0.0"/>
+				<Scale x="0.5" y="0.5" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value=" "/>
+					<Width value="300.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
 
 		<GameObject>
 			<Transform>
-				<Translation x="-62.0" y="-20.0" z="0.0"/>
+				<Translation x="-62.0" y="-80.0" z="0.0"/>
 				<Scale x="0.5" y="0.7" z="1.0"/>
 			</Transform>
 			<Components>
