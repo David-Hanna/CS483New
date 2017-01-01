@@ -11,7 +11,8 @@ Kartaclysm::StateRacing::StateRacing()
 	:
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_pPauseDelegate(nullptr)
+	m_pPauseDelegate(nullptr),
+	m_uiNumRacers(0)
 {
 }
 
@@ -25,12 +26,15 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 	m_bSuspended = false;
 
-	// Register listening for pause
+	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
+	m_pRacerFinishedRaceDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedRace, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
+
 	m_pRaceFinishedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::FinishRace, this, std::placeholders::_1));
-	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
+	HeatStroke::EventManager::Instance()->AddListener("RaceFinished", m_pRaceFinishedDelegate);
 
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
@@ -76,10 +80,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 	
 	// Handle passed context parameters
-	m_mContextParams = p_mContextParameters;
-	int iCount = atoi(p_mContextParameters.at("PlayerCount").c_str());
+	m_uiNumRacers = atoi(p_mContextParameters.at("PlayerCount").c_str());
 	std::vector<HeatStroke::GameObject*> vRacers;
-	for (int i = 0; i < iCount; i++)
+	for (unsigned int i = 0; i < m_uiNumRacers; i++)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
@@ -101,7 +104,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	// LoadLevel also needs to be done after "Player0" GameObject is created for the camera
 	HeatStroke::GameObject* pTrack = m_pGameObjectManager->GetGameObject("Track");
 	ComponentTrack* pTrackComponent = dynamic_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
-	for (int i = 0; i < iCount; i++)
+	for (unsigned int i = 0; i < m_uiNumRacers; i++)
 	{
 		pTrackComponent->RegisterRacer(vRacers.at(i));
 		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
@@ -241,9 +244,19 @@ void Kartaclysm::StateRacing::Exit()
 		m_pPauseDelegate = nullptr;
 	}
 
-	HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace2", m_pRaceFinishedDelegate);
-	delete m_pRaceFinishedDelegate;
-	m_pRaceFinishedDelegate = nullptr;
+	if (m_pRacerFinishedRaceDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
+		delete m_pRacerFinishedRaceDelegate;
+		m_pRacerFinishedRaceDelegate = nullptr;
+	}
+
+	if (m_pRaceFinishedDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("RaceFinished", m_pRaceFinishedDelegate);
+		delete m_pRaceFinishedDelegate;
+		m_pRaceFinishedDelegate = nullptr;
+	}
 
 	if (m_pGameObjectManager != nullptr)
 	{
@@ -267,9 +280,43 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	m_pStateMachine->Push(STATE_PAUSED, mContext);
 }
 
+void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEvent)
+{
+	std::string strRacerId = "";
+	p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
+
+	float fRacerTime = 0.0f;
+	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
+
+	m_vRaceResults.push_back({strRacerId, fRacerTime});
+
+	if (m_vRaceResults.size() >= m_uiNumRacers)
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
+		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
+	}
+}
+
 void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
 {
 	printf("restarting race\n");
+	std::map<std::string, std::string> mRaceResults = GenerateRaceResults();
 	m_pStateMachine->Pop();
-	m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+	m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, mRaceResults);
+}
+
+std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults() const
+{
+	std::map<std::string, std::string> mRaceResults;
+
+	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
+
+	for (unsigned int i = 0; i < m_uiNumRacers; ++i)
+	{
+		std::string strIndex = std::to_string(i);
+		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, m_vRaceResults[i].m_strRacerId));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(m_vRaceResults[i].m_fRaceTime)));
+	}
+
+	return mRaceResults;
 }
