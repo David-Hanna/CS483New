@@ -24,6 +24,12 @@ namespace Kartaclysm
 		Sin3,
 		Sin4
 	};
+
+	enum PositionFunction
+	{
+		Straight,
+		Turn
+	};
 	
 	class ComponentTrackPiece : public HeatStroke::Component
 	{
@@ -44,6 +50,8 @@ namespace Kartaclysm
 			bool CheckInBounds(glm::vec3 p_pPosition);
 			float HeightAtPosition(glm::vec3 p_pPosition);
 
+			bool IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
+
 		protected:
 			ComponentTrackPiece(
 				HeatStroke::GameObject* p_pGameObject,
@@ -51,7 +59,10 @@ namespace Kartaclysm
 				float p_fWidthZ,
 				HeightFunction p_eHeightFunction,
 				float p_fHeight1,
-				float p_fHeight2);
+				float p_fHeight2,
+				PositionFunction p_ePositionFunction,
+				glm::vec3 p_vPivotPosition,
+				glm::vec3 p_vPivotAxis);
 
 		private:
 			float m_fWidthX;
@@ -60,6 +71,22 @@ namespace Kartaclysm
 			HeightFunction m_eHeightFunction;
 			float m_fHeight1;
 			float m_fHeight2;
+
+			PositionFunction m_ePositionFunction;
+			glm::vec3 m_vPivotPosition;
+			glm::vec3 m_vPivotAxis;
+
+			bool IsAheadOnStraight(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
+			bool IsAheadOnTurn(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
+
+			glm::vec4 CalculatePlane() const;
+			float GetDistanceToPlane(const glm::vec4& p_vPlane, const glm::vec3& p_vPoint) const;
+			glm::vec3 CalculatePivot() const;
+			glm::vec3 CalculatePivotAxis() const;
+
+			static PositionFunction ParsePositionFunction(const tinyxml2::XMLNode* p_pNode);
+			static glm::vec3 ParsePivotPosition(const tinyxml2::XMLNode* p_pNode);
+			static glm::vec3 ParsePivotAxis(const tinyxml2::XMLNode* p_pNode);
 	};
 }
 

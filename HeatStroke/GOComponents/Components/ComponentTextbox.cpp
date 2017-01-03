@@ -66,6 +66,11 @@ HeatStroke::Component* HeatStroke::ComponentTextBox::CreateComponent(
 		);
 }
 
+void HeatStroke::ComponentTextBox::SetMessage(const std::string& p_strMessage)
+{
+	m_mTextBox.SetText(p_strMessage);
+}
+
 void HeatStroke::ComponentTextBox::SyncTransform()
 {
 	m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());

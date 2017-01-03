@@ -35,6 +35,10 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+	private:
+		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults); 
+		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};
 }
 

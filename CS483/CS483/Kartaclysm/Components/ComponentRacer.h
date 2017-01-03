@@ -47,6 +47,7 @@ namespace Kartaclysm
 		void SetCurrentLap(int p_iNewLap) {m_iCurrentLap = p_iNewLap;}
 		int GetCurrentPosition() const {return m_iCurrentPosition;}
 		void SetCurrentPosition(int p_iNewPosition) {m_iCurrentPosition = p_iNewPosition;}
+		bool HasFinishedRace() const {return m_bHasFinishedRace;}
 
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
@@ -61,6 +62,7 @@ namespace Kartaclysm
 		int m_iFurthestTrackPiece;
 		int m_iCurrentLap;
 		int m_iCurrentPosition;
+		bool m_bHasFinishedRace;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);

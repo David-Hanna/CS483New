@@ -146,7 +146,7 @@ namespace Kartaclysm
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
 			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
 			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3)
+			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3 && !m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
 				TriggerRacerFinishedRaceEvent(strRacerId);
 			}
@@ -226,8 +226,13 @@ namespace Kartaclysm
 		bool bRaceStandingsUpdate = false;
 		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
 		{
-			bool bRacerPositionUpdated = false;
 			ComponentRacer* racerA = m_vRacers[i];
+			if (racerA->HasFinishedRace())
+			{
+				continue;
+			}
+
+			bool bRacerPositionUpdated = false;
 			for (int j = i - 1; j >= 0; --j)
 			{
 				ComponentRacer* racerB = m_vRacers[j];
@@ -307,36 +312,37 @@ namespace Kartaclysm
 	bool ComponentTrack::IsAhead(ComponentRacer* p_pRacerA, ComponentRacer* p_pRacerB)
 	{
 		// ahead by lap
-		if (p_pRacerA->GetCurrentLap() > p_pRacerB->GetCurrentLap())
+		int iCurrentLapA = p_pRacerA->GetCurrentLap();
+		int iCurrentLapB = p_pRacerB->GetCurrentLap();
+		if (iCurrentLapA > iCurrentLapB)
 		{
 			return true;
 		}
-		else if (p_pRacerA->GetCurrentLap() < p_pRacerB->GetCurrentLap())
+		else if (iCurrentLapA < iCurrentLapB)
 		{
 			return false;
 		}
 		else
 		{
 			// ahead by track piece
-			if (p_pRacerA->GetCurrentTrackPiece() > p_pRacerB->GetCurrentTrackPiece())
+			int iCurrentTrackPieceA = p_pRacerA->GetCurrentTrackPiece();
+			int iCurrentTrackPieceB = p_pRacerB->GetCurrentTrackPiece();
+			if (iCurrentTrackPieceA > iCurrentTrackPieceB)
 			{
 				return true;
 			}
-			else if (p_pRacerA->GetCurrentTrackPiece() < p_pRacerB->GetCurrentTrackPiece())
+			else if (iCurrentTrackPieceA < iCurrentTrackPieceB)
 			{
 				return false;
 			}
 			else
 			{
 				// ahead by distance
-				//TODO: this mathod for determining ahead by distance is not accurate in all cases.
-				int iNextPieceIndex = GetNextTrackPieceIndex(p_pRacerA->GetCurrentTrackPiece());
+				glm::vec3 vRacerPositionA = p_pRacerA->GetGameObject()->GetTransform().GetTranslation();
+				glm::vec3 vRacerPositionB = p_pRacerB->GetGameObject()->GetTransform().GetTranslation();
 
-				glm::vec3 vNextTrackPiecePosition = m_vTrackPieces[iNextPieceIndex]->GetTransform().GetTranslation();
-				glm::vec3 vRacerPosition = p_pRacerA->GetGameObject()->GetTransform().GetTranslation();
-				glm::vec3 vOpponentPosition = p_pRacerB->GetGameObject()->GetTransform().GetTranslation();
-
-				return glm::distance(vNextTrackPiecePosition, vRacerPosition) < glm::distance(vNextTrackPiecePosition, vOpponentPosition);
+				ComponentTrackPiece* pTrackComponent = static_cast<ComponentTrackPiece*>(m_vTrackPieces[iCurrentTrackPieceA]->GetComponent("GOC_TrackPiece"));
+				return pTrackComponent->IsAhead(vRacerPositionA, vRacerPositionB);
 			}
 		}
 	}
@@ -359,7 +365,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerFinishedRace");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
-		pEvent->SetFloatParameter("raceTime", m_fRaceTime);
+		pEvent->SetFloatParameter("racerTime", m_fRaceTime);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 

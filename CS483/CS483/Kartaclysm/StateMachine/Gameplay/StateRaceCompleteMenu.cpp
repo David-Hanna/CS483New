@@ -32,6 +32,8 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/race_complete_message.xml");
 
+	PopulateRaceResultsList(p_mContextParameters);
+
 	printf("Entering Race Complete Menu State.\n");
 }
 
@@ -70,4 +72,39 @@ void Kartaclysm::StateRaceCompleteMenu::Exit()
 	}
 
 	printf("Exiting Race Complete Menu state.\n");
+}
+
+void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults)
+{
+	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	for (int i = 0; i < iNumRacers; ++i)
+	{
+		std::string strIndex = std::to_string(i);
+		std::string strPosition = std::to_string(i + 1);
+		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
+		std::string strRacerTime = FormatTime(p_mRaceResults.at("racerTime" + strIndex));
+		std::string strRacerResults = strPosition + " " + strRacerId + " " + strRacerTime;
+		dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("results" + strIndex)->GetComponent("GOC_Renderable"))->SetMessage(strRacerResults);
+	}
+}
+
+std::string Kartaclysm::StateRaceCompleteMenu::FormatTime(const std::string& p_strUnformattedTime) const
+{
+	float fUnformattedTime = std::stof(p_strUnformattedTime);
+	int iMinutes = (int)fUnformattedTime / 60;
+	float fSeconds = fmod(fUnformattedTime, 60.0f);
+
+	std::string strMinutes = std::to_string(iMinutes);
+	std::string strSeconds = std::to_string(fSeconds);
+	if (iMinutes < 10)
+	{
+		strMinutes = "0" + strMinutes;
+	}
+	if (fSeconds < 10.0f)
+	{
+		strSeconds = "0" + strSeconds;
+	}
+	strSeconds = strSeconds.substr(0, 5);
+
+	return strMinutes + ":" + strSeconds;
 }

@@ -73,13 +73,21 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		struct RacerResults
+		{
+			std::string m_strRacerId;
+			float m_fRaceTime;
+		};
+		std::vector<RacerResults> m_vRaceResults;
+
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
-		//TEMP used to reset race state
-		//		can be removed once we return to menus after race
 		std::map<std::string, std::string> m_mContextParams;
+		unsigned int m_uiNumRacers;
+		bool m_bCountdown;
 
 		void BeginRace();
 		HeatStroke::GameObject* GenerateRacer(
@@ -90,10 +98,12 @@ namespace Kartaclysm
 		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
+		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
-		bool m_bCountdown;
+		std::map<std::string, std::string> GenerateRaceResults() const;
+
 	};
 }
 
