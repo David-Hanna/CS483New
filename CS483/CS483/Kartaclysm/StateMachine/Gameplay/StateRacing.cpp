@@ -176,6 +176,18 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		m_pGameObjectManager->Update(p_fDelta);
 	}
 
+	// DEBUG: Testing purposes only. Press 'X' until Lap reads '3/3' and cross finish line with both drivers.
+	if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_X))
+	{
+		HeatStroke::Event* pEvent1 = new HeatStroke::Event("RacerCompletedLap");
+		pEvent1->SetStringParameter("racerId", "Player0");
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent1);
+
+		HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
+		pEvent2->SetStringParameter("racerId", "Player1");
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
+	}
+
 	// TODO: add camera as child object of kart
 	//			there's a weird bug with children of moving parents at the moment, so once that's sorted out, we can fix this
 	/*
@@ -317,6 +329,9 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, m_vRaceResults[i].m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(m_vRaceResults[i].m_fRaceTime)));
 	}
+
+	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
+	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
 
 	return mRaceResults;
 }
