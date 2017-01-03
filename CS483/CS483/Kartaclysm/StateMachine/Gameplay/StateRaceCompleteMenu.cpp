@@ -80,9 +80,10 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 	for (int i = 0; i < iNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
+		std::string strPosition = std::to_string(i + 1);
 		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
 		std::string strRacerTime = FormatTime(p_mRaceResults.at("racerTime" + strIndex));
-		std::string strRacerResults = strIndex + " " + strRacerId + " " + strRacerTime;
+		std::string strRacerResults = strPosition + " " + strRacerId + " " + strRacerTime;
 		dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("results" + strIndex)->GetComponent("GOC_Renderable"))->SetMessage(strRacerResults);
 	}
 }
