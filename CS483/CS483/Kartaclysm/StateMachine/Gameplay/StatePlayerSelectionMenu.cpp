@@ -60,7 +60,10 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml";
 			std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml";
