@@ -107,7 +107,7 @@ namespace Kartaclysm
 
 	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::QueryPlayerMovement
-	// Parameter:	const int p_iPlayerNum - number of players in race
+	// Parameter:	const int p_iPlayerNum - number of player
 	//				int& p_iAccelerate - Gets value of accelerate bool
 	//				int& p_iBrake - Gets value of brake bool
 	//				int& p_iSlide - Gets value of slide bool
@@ -128,6 +128,41 @@ namespace Kartaclysm
 		p_iBrake = static_cast<int>(InputActionMapping::Instance()->GetButton(iJoystick, Racer::eBrake));
 		p_iSlide = static_cast<int>(InputActionMapping::Instance()->GetButton(iJoystick, Racer::eSlide));
 		p_fTurn = InputActionMapping::Instance()->GetTurning(iJoystick);
+	}
+
+	// TODO: Data drive this method or streamline it better in the future
+	void PlayerInputMapping::QueryPlayerMenuActions(
+		const int p_iPlayerNum,
+		bool& p_bUp,
+		bool& p_bDown,
+		bool& p_bLeft,
+		bool& p_bRight,
+		bool& p_bConfirm,
+		bool& p_bCancel) const
+	{
+		int iJoystick = m_pPlayers->at(p_iPlayerNum);
+		if (iJoystick > GLFW_JOYSTICK_LAST)
+		{
+			// Keyboard
+			HeatStroke::KeyboardInputBuffer* pKeyboard = HeatStroke::KeyboardInputBuffer::Instance();
+			p_bUp = (pKeyboard->IsKeyDownOnce(GLFW_KEY_UP) || pKeyboard->IsKeyDownOnce(GLFW_KEY_W));
+			p_bDown = (pKeyboard->IsKeyDownOnce(GLFW_KEY_DOWN) || pKeyboard->IsKeyDownOnce(GLFW_KEY_S));
+			p_bLeft = (pKeyboard->IsKeyDownOnce(GLFW_KEY_LEFT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_A));
+			p_bRight = (pKeyboard->IsKeyDownOnce(GLFW_KEY_RIGHT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_D));
+			p_bConfirm = pKeyboard->IsKeyDownOnce(GLFW_KEY_ENTER);
+			p_bCancel = pKeyboard->IsKeyDownOnce(GLFW_KEY_SPACE);
+		}
+		else
+		{
+			// Joystick
+			HeatStroke::JoystickInputBuffer* pJoystick = HeatStroke::JoystickInputBuffer::Instance();
+			p_bUp = pJoystick->IsButtonDownOnce(iJoystick, XBOX_UP);
+			p_bDown = pJoystick->IsButtonDownOnce(iJoystick, XBOX_DOWN);
+			p_bLeft = pJoystick->IsButtonDownOnce(iJoystick, XBOX_LEFT);
+			p_bRight = pJoystick->IsButtonDownOnce(iJoystick, XBOX_RIGHT);
+			p_bConfirm = pJoystick->IsButtonDownOnce(iJoystick, XBOX_A);
+			p_bCancel = pJoystick->IsButtonDownOnce(iJoystick, XBOX_B);
+		}
 	}
 
 	//--------------------------------------------------------------------------------

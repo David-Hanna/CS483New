@@ -15,7 +15,7 @@
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
+#include "PlayerInputMapping.h"
 
 namespace Kartaclysm
 {
