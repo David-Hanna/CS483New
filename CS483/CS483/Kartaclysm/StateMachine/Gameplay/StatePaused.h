@@ -9,9 +9,14 @@
 #define STATE_PAUSED_H
 
 #include <functional>
+#include "ComponentOrthographicCamera.h"
+#include "ComponentSprite.h"
+#include "ComponentPerspectiveCamera.h"
+#include "ComponentTextbox.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
 
 namespace Kartaclysm
 {
@@ -34,6 +39,9 @@ namespace Kartaclysm
 
 	private:
 		int m_iPausedPlayer;
+		int m_iOptionSelection;
+		HeatStroke::GameObject* m_pCurrentHighlight;
+
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 
 		void UnpauseGame(const HeatStroke::Event* p_pEvent);
