@@ -27,8 +27,8 @@ namespace Kartaclysm
 		virtual ~StatePaused();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState);
-		void Unsuspend(const int p_iPrevState);
+		void Suspend(const int p_iNewState) { m_bSuspended = true; }
+		void Unsuspend(const int p_iPrevState) { m_bSuspended = false; }
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
@@ -41,10 +41,7 @@ namespace Kartaclysm
 		int m_iPausedPlayer;
 		int m_iOptionSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
-
-		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
-
-		void UnpauseGame(const HeatStroke::Event* p_pEvent);
+		bool m_bSkipFirstFrame;
 	};
 }
 
