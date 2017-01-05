@@ -15,7 +15,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Drivers/KingPin/king-pin.obj"/>
+      <OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
     </GOC_3DModel>
 
   </Components>
