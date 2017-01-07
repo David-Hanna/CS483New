@@ -6,6 +6,7 @@
     <GOC_TrackPiece>
       <Bounds widthX="10" widthZ="10"/>
       <Height function="flat"/>
+      <Position function="straight"/>
     </GOC_TrackPiece>
   </Components>
 
