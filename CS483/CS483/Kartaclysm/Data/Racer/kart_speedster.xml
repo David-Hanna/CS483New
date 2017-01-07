@@ -14,7 +14,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Kart.obj"/>
+      <OBJFileName path="Assets/Kart/Speedster/speedster.obj"/>
     </GOC_3DModel>
 
   </Components>
