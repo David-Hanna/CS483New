@@ -89,6 +89,10 @@ namespace Kartaclysm
 
 		void Init();
 
+		// Send event for HUD and other listeners
+		void SendInputAssignmentEvent(const int p_iPlayer);
+		std::string GetButtonString(Input::Type eType, const int p_iButton) const;
+
 		// Joystick connect/disconnect callback
 		void JoystickCallback(const HeatStroke::Event* p_pEvent);
 	};

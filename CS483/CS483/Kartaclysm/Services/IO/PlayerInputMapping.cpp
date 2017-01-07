@@ -106,6 +106,92 @@ namespace Kartaclysm
 	}
 
 	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::SendInputAssignmentEvent
+	//
+	// Queue event listing button mappings for player
+	//--------------------------------------------------------------------------------
+	void PlayerInputMapping::SendInputAssignmentEvent(const int p_iPlayer)
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerInputMap");
+		pEvent->SetIntParameter("Player", p_iPlayer);
+
+		int iJoystick = m_pPlayers->at(p_iPlayer);
+		Input::Type eType;
+		switch (iJoystick)
+		{
+			case GLFW_JOYSTICK_LAST + 1: eType = Input::eKeyboard1; break;
+			case GLFW_JOYSTICK_LAST + 2: eType = Input::eKeyboard2; break;
+			case GLFW_JOYSTICK_LAST + 3: eType = Input::eKeyboard3; break;
+			case GLFW_JOYSTICK_LAST + 4: eType = Input::eKeyboard4; break;
+			default: eType = Input::eJoystick; break;
+		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			Racer::Action eAction;
+			std::string strAction;
+			switch (i)
+			{
+				case 0:  strAction = "accelerate";			eAction = Racer::eAccelerate; break;
+				case 1:  strAction = "brake";				eAction = Racer::eBrake; break;
+				case 2:  strAction = "left";				eAction = Racer::eLeft; break;
+				case 3:  strAction = "right";				eAction = Racer::eRight; break;
+				case 4:  strAction = "slide";				eAction = Racer::eSlide; break;
+				case 5:  strAction = "driverAbility1";		eAction = Racer::eDriverAbility1; break;
+				case 6:  strAction = "driverAbility2";		eAction = Racer::eDriverAbility2; break;
+				case 7:  strAction = "kartAbility1";		eAction = Racer::eKartAbility1; break;
+				case 8:  strAction = "kartAbility2";		eAction = Racer::eKartAbility2; break;
+				case 9:  strAction = "pause";				eAction = Racer::ePause; break;
+			}
+
+			int iButton = InputActionMapping::Instance()->GetButtonMapping(eType, eAction);
+			std::string strMapping = GetButtonString(eType, iButton);
+			pEvent->SetStringParameter(strAction, strMapping);
+		}
+
+		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
+	}
+
+	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::GetButtonString
+	//
+	// Get string representation for a button, or "" if unavailable
+	//--------------------------------------------------------------------------------
+	std::string PlayerInputMapping::GetButtonString(Input::Type eType, const int p_iButton) const
+	{
+		// TODO: Store these in a map to data drive
+		if (eType == Input::eJoystick)
+		{
+			switch (p_iButton)
+			{
+				case XBOX_A: return "A";
+				case XBOX_B: return "B";
+				case XBOX_X: return "X";
+				case XBOX_Y: return "Y";
+				case XBOX_LB: return "LB";
+				case XBOX_RB: return "RB";
+				case XBOX_BACK: return "Back";
+				case XBOX_START: return "Start";
+				case XBOX_L3: return "L3";
+				case XBOX_R3: return "R3";
+				case XBOX_UP: return "Up";
+				case XBOX_RIGHT: return "Right";
+				case XBOX_DOWN: return "Down";
+				case XBOX_LEFT: return "Left";
+				default: return "";
+			}
+		}
+		else
+		{
+			if (p_iButton <= 127) // converts to ASCII
+			{
+				return std::to_string(static_cast<char>(p_iButton));
+			}
+		}
+		return "";
+	}
+
+	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::QueryPlayerMovement
 	// Parameter:	const int p_iPlayerNum - number of players in race
 	//				int& p_iAccelerate - Gets value of accelerate bool
