@@ -239,6 +239,7 @@ namespace Kartaclysm
 		}
 		else
 		{
+			assert(false && "Unknown track position function.");
 			return Straight;
 		}
 	}
