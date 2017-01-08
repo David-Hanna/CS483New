@@ -30,10 +30,6 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::AudioPlayer::CreateInstance();
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
-	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
-	{
-		assert(false && "Failed to set number of players.");
-	}
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();

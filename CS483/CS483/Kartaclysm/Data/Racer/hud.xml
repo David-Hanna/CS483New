@@ -8,7 +8,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="40" y="-80.0" z="1.0" />
+        <Translation x="40" y="-75.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -22,7 +22,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="55" y="-80.0" z="1.0" />
+        <Translation x="55" y="-75.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -36,7 +36,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="70" y="-80.0" z="1.0" />
+        <Translation x="70" y="-75.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>
@@ -50,7 +50,7 @@
     <GameObject>
       <Transform>
         <Scale x="8.0" y="12.0" z="1.0" />
-        <Translation x="85" y="-80.0" z="1.0" />
+        <Translation x="85" y="-75.0" z="1.0" />
       </Transform>
       <Components>
         <GOC_HUD_Ability>

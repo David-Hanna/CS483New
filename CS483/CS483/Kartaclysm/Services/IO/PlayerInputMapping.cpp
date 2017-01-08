@@ -197,16 +197,16 @@ namespace Kartaclysm
 			std::string strAction;
 			switch (i)
 			{
-				case 0:  strAction = "accelerate";			eAction = Racer::eAccelerate; break;
-				case 1:  strAction = "brake";				eAction = Racer::eBrake; break;
-				case 2:  strAction = "left";				eAction = Racer::eLeft; break;
-				case 3:  strAction = "right";				eAction = Racer::eRight; break;
-				case 4:  strAction = "slide";				eAction = Racer::eSlide; break;
-				case 5:  strAction = "driverAbility1";		eAction = Racer::eDriverAbility1; break;
-				case 6:  strAction = "driverAbility2";		eAction = Racer::eDriverAbility2; break;
-				case 7:  strAction = "kartAbility1";		eAction = Racer::eKartAbility1; break;
-				case 8:  strAction = "kartAbility2";		eAction = Racer::eKartAbility2; break;
-				case 9:  strAction = "pause";				eAction = Racer::ePause; break;
+				case 0:  strAction = "Accelerate";			eAction = Racer::eAccelerate; break;
+				case 1:  strAction = "Brake";				eAction = Racer::eBrake; break;
+				case 2:  strAction = "Left";				eAction = Racer::eLeft; break;
+				case 3:  strAction = "Right";				eAction = Racer::eRight; break;
+				case 4:  strAction = "Slide";				eAction = Racer::eSlide; break;
+				case 5:  strAction = "DriverAbility1";		eAction = Racer::eDriverAbility1; break;
+				case 6:  strAction = "DriverAbility2";		eAction = Racer::eDriverAbility2; break;
+				case 7:  strAction = "KartAbility1";		eAction = Racer::eKartAbility1; break;
+				case 8:  strAction = "KartAbility2";		eAction = Racer::eKartAbility2; break;
+				case 9:  strAction = "Pause";				eAction = Racer::ePause; break;
 			}
 
 			int iButton = InputActionMapping::Instance()->GetButtonMapping(eType, eAction);
@@ -251,7 +251,7 @@ namespace Kartaclysm
 			// TODO: More support for keyboard strings
 			if (p_iButton <= 127) // converts to ASCII
 			{
-				return std::to_string(static_cast<char>(p_iButton));
+				return std::string(1, static_cast<char>(p_iButton));
 			}
 		}
 		return "";
@@ -293,18 +293,23 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	bool PlayerInputMapping::SetSplitscreenPlayers(const int p_iNumPlayers)
 	{
-		if (p_iNumPlayers > m_iPlayersRacing)
+		m_iPlayersRacing = p_iNumPlayers;
+		int iAssigned = m_iPlayersConnected;
+
+		int iLimit = (p_iNumPlayers > m_iPlayersConnected ? p_iNumPlayers : m_iPlayersConnected);
+		for (unsigned int i = 0; i < iLimit; i++)
 		{
-			for (; m_iPlayersRacing < p_iNumPlayers; m_iPlayersRacing++)
+			if (i < iAssigned)
 			{
-				AssignInput(m_iPlayersRacing, GetFirstAvailableInput());
+				SendInputAssignmentEvent(i);
 			}
-		}
-		else if (p_iNumPlayers < m_iPlayersRacing)
-		{
-			for (; m_iPlayersRacing > p_iNumPlayers; m_iPlayersRacing--)
+			else if (i > p_iNumPlayers)
 			{
-				AssignInput(m_iPlayersRacing, -1);
+				AssignInput(i, -1);
+			}
+			else if (!AssignInput(i, GetFirstAvailableInput()))
+			{
+				m_iPlayersRacing--;
 			}
 		}
 

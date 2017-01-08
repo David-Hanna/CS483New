@@ -49,6 +49,7 @@
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
 
 #include "ComponentRacer.h"
 

@@ -95,6 +95,16 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 		vRacers.push_back(pRacer);
 	}
 
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	{
+		// TODO: Properly handle race mode
+		//PlayerInputMapping::Instance()->EnableRaceMode();
+	}
+	else
+	{
+		assert(false && "Failed to set number of players.");
+	}
+
 	// Load Lights, and Tracks
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Lights/light.xml", "AmbientAndDirectionalLight");
 	m_pGameObjectManager->CreateGameObject(p_mContextParameters.at("TrackDefinitionFile"), "Track");
@@ -236,6 +246,8 @@ void Kartaclysm::StateRacing::Exit()
 	printf("Exiting Racing State.\n");
 
 	m_bSuspended = false;
+
+	PlayerInputMapping::Instance()->DisableRaceMode();
 
 	if (m_pPauseDelegate != nullptr)
 	{
