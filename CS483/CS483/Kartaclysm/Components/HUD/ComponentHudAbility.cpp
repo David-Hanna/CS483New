@@ -204,8 +204,7 @@ namespace Kartaclysm
 		std::string strControls = "";
 
 		p_pEvent->GetRequiredIntParameter("Player", iPlayer);
-		std::string strBlah = m_strEventName.substr(m_strEventName.find_last_of('_') + 1);
-		p_pEvent->GetOptionalStringParameter(strBlah, strControls, strControls);
+		p_pEvent->GetOptionalStringParameter(m_strEventName.substr(m_strEventName.find_last_of('_') + 1), strControls, strControls);
 
 		m_mControlsTextBox.SetText(strControls);
 		m_mControlsTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
