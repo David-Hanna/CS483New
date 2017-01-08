@@ -297,7 +297,7 @@ namespace Kartaclysm
 		int iAssigned = m_iPlayersConnected;
 
 		int iLimit = (p_iNumPlayers > m_iPlayersConnected ? p_iNumPlayers : m_iPlayersConnected);
-		for (unsigned int i = 0; i < iLimit; i++)
+		for (int i = 0; i < iLimit; i++)
 		{
 			if (i < iAssigned)
 			{
