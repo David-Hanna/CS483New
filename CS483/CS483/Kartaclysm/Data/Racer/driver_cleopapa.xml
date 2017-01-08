@@ -3,8 +3,8 @@
 
 <GameObject>
   <Transform>
-    <Translation x="0.0" y="0.04" z="0.0" />
-    <Scale x="0.2" y="0.2" z="0.2" />
+    <Translation x="0.0" y="0.04" z="-0.07" />
+    <Scale x="0.23" y="0.23" z="0.23" />
   </Transform>
 
   <Children>
@@ -15,7 +15,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Kart.obj"/>
+      <OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
     </GOC_3DModel>
 
   </Components>

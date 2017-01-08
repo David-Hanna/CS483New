@@ -1,0 +1,125 @@
+# Blender MTL File: 'driving-pose-cleopapa.blend'
+# Material Count: 9
+
+newmtl cleopapa_1
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 3.921569
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.760000 0.680000
+Ks 0.013725 0.013725 0.013725
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Drivers/Cleopapa/middleage_lightskinned_male_diffuse.tga
+
+newmtl eyebrow012
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 3.921569
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/eyebrow012.tga
+map_d Assets/Drivers/Cleopapa/eyebrow012.tga
+
+newmtl eyelashes01.002
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 3.921569
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/eyelashes01.tga
+map_d Assets/Drivers/Cleopapa/eyelashes01.tga
+
+newmtl low-poly.002
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 9.803922
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/brown_eye.tga
+map_d Assets/Drivers/Cleopapa/brown_eye.tga
+
+newmtl male_elegantsuit01
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.017647 0.017647 0.017647
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/male_elegantsuit01_diffuse.tga
+map_d Assets/Drivers/Cleopapa/male_elegantsuit01_diffuse.tga
+
+newmtl shoes03
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.017647 0.015686 0.015686
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Drivers/Cleopapa/shoes03_diffuse.tga
+
+newmtl short04
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.023529 0.023529 0.023529
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/short04_diffuse.tga
+map_d Assets/Drivers/Cleopapa/short04_diffuse.tga
+
+newmtl teeth_base.002
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.427451 0.427451 0.427451
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Drivers/Cleopapa/teeth.tga
+map_d Assets/Drivers/Cleopapa/teeth.tga
+
+newmtl tongue01.002
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 1.960784
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.015686 0.015686 0.015686
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Drivers/Cleopapa/tongue01_diffuse.tga

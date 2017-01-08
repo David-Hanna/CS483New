@@ -1,0 +1,115 @@
+# Blender MTL File: 'driving-pose2.blend'
+# Material Count: 8
+
+newmtl fedora_cocked
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Bump -bm 0.350042 Assets/Drivers/KingPin/fedora_normal.tga
+map_Kd Assets/Drivers/KingPin/fedora_texture_black.tga
+map_d Assets/Drivers/KingPin/fedora_texture_black.tga
+
+newmtl fedora_cocked.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Bump -bm 0.350042 Assets/Drivers/KingPin/fedora_normal.tga
+map_Kd Assets/Drivers/KingPin/fedora_texture_black.tga
+map_d Assets/Drivers/KingPin/fedora_texture_black.tga
+
+newmtl kingpin_1.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 3.921569
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.760000 0.680000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd Assets/Drivers/KingPin/middleage_lightskinned_male_diffuse2.tga
+
+newmtl low-poly.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 9.803922
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Kd Assets/Drivers/KingPin/brownlight_eye.tga
+map_d Assets/Drivers/KingPin/brownlight_eye.tga
+
+newmtl male_casualsuit01.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 1.960784
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Bump -bm 0.350042 Assets/Drivers/KingPin/male_casualsuit01_normal.tga
+map_Kd Assets/Drivers/KingPin/male_casualsuit01_diffuse.tga
+map_d Assets/Drivers/KingPin/male_casualsuit01_diffuse.tga
+
+newmtl shoes05.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Kd Assets/Drivers/KingPin/shoes05_diffuse.tga
+map_d Assets/Drivers/KingPin/shoes05_diffuse.tga
+
+newmtl teeth_base.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 7.843137
+Ka 1.000000 1.000000 1.000000
+Kd 0.512000 0.512000 0.512000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Kd Assets/Drivers/KingPin/teeth.tga
+map_d Assets/Drivers/KingPin/teeth.tga
+
+newmtl tongue01.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 1.960784
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd Assets/Drivers/KingPin/tongue01_diffuse.tga
