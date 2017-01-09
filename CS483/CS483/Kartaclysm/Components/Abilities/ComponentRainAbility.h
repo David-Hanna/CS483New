@@ -45,13 +45,17 @@ namespace Kartaclysm
 		// Protected methods
 		//--------------------------------------------------------------------------
 		ComponentRainAbility(
-			HeatStroke::GameObject* p_pGameObject
+			HeatStroke::GameObject* p_pGameObject,
+			float p_fPower,
+			float p_fDuration
 			);
 
 		void PassedCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode
+			tinyxml2::XMLNode* p_pNode,
+			float& p_fPower,
+			float& p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -60,6 +64,8 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		int m_iPreviousPosition;
+		float m_fPower;
+		float m_fDuration;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;

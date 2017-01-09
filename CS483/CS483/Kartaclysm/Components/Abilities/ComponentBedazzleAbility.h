@@ -47,7 +47,8 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentBedazzleAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			const std::string& p_strBlastXML
+			const std::string& p_strBlastXML,
+			float p_fDuration
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
@@ -55,7 +56,8 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strBlastXML
+			std::string& p_strBlastXML,
+			float& p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -64,6 +66,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 		std::string m_strBlastXML;
+		float m_fDuration;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;

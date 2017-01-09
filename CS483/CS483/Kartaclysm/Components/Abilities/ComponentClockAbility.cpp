@@ -11,11 +11,13 @@ namespace Kartaclysm
 {
 	ComponentClockAbility::ComponentClockAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		const std::string& p_strProjectileXML)
+		const std::string& p_strProjectileXML,
+		float p_fDuration)
 		:
 		ComponentAbility(p_pGameObject),
 		m_strProjectileXML(p_strProjectileXML),
-		m_strChargeEventName(m_strPlayerX + "_ClockCharges")
+		m_strChargeEventName(m_strPlayerX + "_ClockCharges"),
+		m_fDuration(p_fDuration)
 	{
 		// Listen to activation event ("Player0_KartAbility1" as example)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentClockAbility::AbilityCallback, this, std::placeholders::_1));
@@ -54,22 +56,25 @@ namespace Kartaclysm
 
 		// Defaults
 		std::string strProjectileXML = "";
+		float fDuration;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, strProjectileXML);
+			ParseNode(p_pBaseNode, strProjectileXML, fDuration);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, strProjectileXML);
+			ParseNode(p_pOverrideNode, strProjectileXML, fDuration);
 		}
 
 		// Check that we got everything we needed.
 		assert(strProjectileXML != "");
+		assert(fDuration > 0.0f);
 
 		return new ComponentClockAbility(
 			p_pGameObject,
-			strProjectileXML
+			strProjectileXML,
+			fDuration
 			);
 	}
 
@@ -122,6 +127,7 @@ namespace Kartaclysm
 		pEvent->SetStringParameter("Target", strTargetGUID);
 		pEvent->SetStringParameter("Ability", "Clock");
 		pEvent->SetStringParameter("Effect", "SpinOut");
+		pEvent->SetFloatParameter("Duration", m_fDuration);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 
@@ -148,7 +154,8 @@ namespace Kartaclysm
 
 	void ComponentClockAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		std::string& p_strProjectileXML)
+		std::string& p_strProjectileXML,
+		float& p_fDuration)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_ClockAbility") == 0);
@@ -162,6 +169,10 @@ namespace Kartaclysm
 			if (strcmp(szNodeName, "ProjectileXML") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredStringAttribute(pChildElement, "path", p_strProjectileXML);
+			}
+			else if (strcmp(szNodeName, "Duration") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDuration);
 			}
 		}
 	}

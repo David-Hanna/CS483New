@@ -11,10 +11,10 @@ namespace Kartaclysm
 {
 	ComponentTurkeyAbility::ComponentTurkeyAbility(
 		HeatStroke::GameObject* p_pGameObject,
-		float p_fStrength)
+		float p_fPower)
 		:
 		ComponentAbility(p_pGameObject),
-		m_fStrength(p_fStrength)
+		m_fPower(p_fPower)
 	{
 		// Listen to on hit event
 		m_pOnHitDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTurkeyAbility::OnHitCallback, this, std::placeholders::_1));
@@ -36,23 +36,23 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		float fStrength = 0.0f;
+		float fPower = 0.0f;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, fStrength);
+			ParseNode(p_pBaseNode, fPower);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, fStrength);
+			ParseNode(p_pOverrideNode, fPower);
 		}
 
 		// Check that we got everything we needed.
-		assert(fStrength != 0.0f);
+		assert(fPower != 0.0f);
 
 		return new ComponentTurkeyAbility(
 			p_pGameObject,
-			fStrength
+			fPower
 			);
 	}
 
@@ -69,7 +69,7 @@ namespace Kartaclysm
 		HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
 		pEvent->SetStringParameter("Originator", m_strPlayerX);
 		pEvent->SetStringParameter("Ability", "Boost");
-		pEvent->SetFloatParameter("Power", m_fStrength);
+		pEvent->SetFloatParameter("Power", m_fPower);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
 		HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_turkey.wav");
@@ -90,7 +90,7 @@ namespace Kartaclysm
 
 	void ComponentTurkeyAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
-		float& p_fStrength)
+		float& p_fPower)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_TurkeyAbility") == 0);
@@ -101,9 +101,9 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			if (strcmp(szNodeName, "Strength") == 0)
+			if (strcmp(szNodeName, "Power") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fPower);
 			}
 		}
 	}

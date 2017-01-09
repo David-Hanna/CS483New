@@ -23,6 +23,7 @@
     <GOC_TinkerAbility>
       <MaxCharges value="4" />
       <StartCharges value="0" />
+      <Duration value="1.0" />
     </GOC_TinkerAbility>
 
   </Components>

@@ -21,7 +21,7 @@
     </GOC_AbilityConditions>
 
     <GOC_TurkeyAbility>
-      <Strength value="2" />
+      <Power value="2.0" />
     </GOC_TurkeyAbility>
 
   </Components>

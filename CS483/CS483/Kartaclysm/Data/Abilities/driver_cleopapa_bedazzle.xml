@@ -22,6 +22,7 @@
 
     <GOC_BedazzleAbility>
       <BlastXML path="CS483/CS483/Kartaclysm/Data/Abilities/blast_bedazzle.xml" />
+      <Duration value="1.0" />
     </GOC_BedazzleAbility>
 
   </Components>

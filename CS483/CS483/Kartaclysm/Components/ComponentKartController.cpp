@@ -255,7 +255,7 @@ namespace Kartaclysm
 			}
 
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
-			fModifier = m_fSlideModifierStat;
+			fModifier *= m_fSlideModifierStat;
 
 			if ((m_iSlideDirection > 0 && fTurnTarget < 0) || (m_iSlideDirection < 0 && fTurnTarget > 0))
 			{
@@ -450,13 +450,13 @@ namespace Kartaclysm
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
 	}
 
-	void ComponentKartController::ArmorPlate(int p_iArmorStack)
+	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack, int p_iMaxArmorStacks)
 	{
 		// TODO: I think maybe there should only actually be 4 stacks *shrug*
-		m_iMaxSpeedCoreStat = 1 + p_iArmorStack;
-		m_iAccelerationCoreStat = 5 - p_iArmorStack;
-		m_iHandlingCoreStat = 5 - p_iArmorStack;
-		m_iDurabilityCoreStat = 1 + p_iArmorStack;
+		m_iMaxSpeedCoreStat = 1 + p_iCurrentArmorStack;
+		m_iAccelerationCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
+		m_iHandlingCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
+		m_iDurabilityCoreStat = 1 + p_iCurrentArmorStack;
 
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
@@ -541,16 +541,17 @@ namespace Kartaclysm
 	{
 		// TODO: make this use game objects (brad, ya dingus)
 		std::string originator, target = "";
+		float power = 0.0f, duration = 0.0f;
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
 		p_pEvent->GetOptionalStringParameter("Target", target, target);
+		p_pEvent->GetOptionalFloatParameter("Power", power, power);
+		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
 
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
-				printf("->Negated\n");
-
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
@@ -568,12 +569,12 @@ namespace Kartaclysm
 			{
 				printf("Strike!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_strike_hit.wav");
-				Spinout(1.5f);
+				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
 			{
 				printf("Clocked!\n");
-				Spinout(1.5f);
+				Spinout(duration);
 			}
 			else if (ability.compare("Rain") == 0)
 			{
@@ -586,7 +587,7 @@ namespace Kartaclysm
 
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_make_it_rain.wav");
 
-				Slow(0.7f, 2.0f);
+				Slow(power, duration);
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
@@ -594,23 +595,19 @@ namespace Kartaclysm
 
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_bedazzle.wav");
 
-				Spinout(1.0f);
+				Spinout(duration);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			// TODO: make this use enums or something
 			std::string ability;
 			p_pEvent->GetRequiredStringParameter("Ability", ability);
 
 			if (ability.compare("Boost") == 0)
 			{
-				float fPower;
-				p_pEvent->GetRequiredFloatParameter("Power", fPower);
-
 				printf("Boost!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/speedster_boost.flac");
-				Boost(fPower);
+				Boost(power);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
@@ -622,7 +619,7 @@ namespace Kartaclysm
 			{
 				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_tinker.wav");
-				TurnLock(1.0f);
+				TurnLock(duration);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{
@@ -632,7 +629,7 @@ namespace Kartaclysm
 
 				printf("ArmorPlate!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_armor.wav");
-				ArmorPlate(iLayers);
+				ArmorPlate(iLayers, iMax);
 			}
 			else if (ability.compare("Immune") == 0)
 			{

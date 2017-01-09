@@ -20,7 +20,11 @@
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
-    <GOC_RainAbility />
+    <GOC_RainAbility>
+      <Power value="0.7" />
+      <Duration value="2.0" />
+    </GOC_RainAbility>
+      
 
   </Components>
 

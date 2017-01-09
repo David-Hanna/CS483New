@@ -51,7 +51,8 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentClockAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			const std::string& p_strProjectileXML
+			const std::string& p_strProjectileXML,
+			float p_fDuration
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
@@ -60,7 +61,8 @@ namespace Kartaclysm
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strProjectileXML
+			std::string& p_strProjectileXML,
+			float& p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -70,6 +72,7 @@ namespace Kartaclysm
 
 		std::string m_strProjectileXML;
 		std::string m_strChargeEventName;
+		float m_fDuration;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;
