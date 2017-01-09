@@ -49,9 +49,6 @@ bool Kartaclysm::KartGame::Init()
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 
-	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
-	HeatStroke::AudioPlayer::Instance()->PlayMusic();
-
 	return true;
 }
 

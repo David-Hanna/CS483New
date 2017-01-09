@@ -110,6 +110,10 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 		vRacers.at(i)->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
 	}
 
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+
 	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
 	m_pGameObjectManager->Print();
 }
