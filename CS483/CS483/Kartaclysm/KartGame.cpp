@@ -28,6 +28,7 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::AudioPlayer::CreateInstance();
+	HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
@@ -60,7 +61,6 @@ void Kartaclysm::KartGame::Update(const float p_fDelta)
 	HeatStroke::CollisionManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
-	HeatStroke::AudioPlayer::Instance()->Update();
 	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom

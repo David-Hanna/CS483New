@@ -72,7 +72,7 @@ namespace Kartaclysm
 		pEvent->SetFloatParameter("Power", m_fStrength);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-		HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_turkey.wav");
+		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_turkey.wav");
 
 		m_pConditions->ResetCharges();
 	}

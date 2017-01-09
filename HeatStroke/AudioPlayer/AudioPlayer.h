@@ -10,8 +10,9 @@
 #define AUDIO_PLAYER_H
 
 #include "Common.h"
+#include "EasyXML.h"
 
-#include <vector>
+#include <map>
 #include <SFML/Audio.hpp>
 
 namespace HeatStroke
@@ -23,24 +24,27 @@ namespace HeatStroke
 		static void DestroyInstance();
 		static AudioPlayer* Instance();
 
-		void Update();
-
 		bool OpenMusicFromFile(const std::string& p_strFile);
 		void PlayMusic();
 		void PauseMusic();
 		void StopMusic();
 
-		void PlaySoundEffectFromFile(const std::string& p_strFile);
+		void PreloadSoundEffects(const std::string& p_strPreloadFileName);
+		void PlaySoundEffect(const std::string& p_strFile);
+		void FlushSoundEffects();
 
 	private:
 		static AudioPlayer* s_pAudioPlayerInstance;
 
-		AudioPlayer() : m_pCurrentMusic(nullptr), m_vSoundEffects() {}
-		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); }
+		AudioPlayer() : m_pCurrentMusic(nullptr), m_mLoadedSoundEffects() {}
+		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); FlushSoundEffects(); }
 
 	private:
+		typedef std::pair<sf::SoundBuffer*, sf::Sound*> SoundEffect;
+		typedef std::map<std::string, SoundEffect> LoadedSoundEffects;
+
 		sf::Music* m_pCurrentMusic;
-		std::vector<std::pair<sf::SoundBuffer*, sf::Sound*>> m_vSoundEffects;
+		LoadedSoundEffects m_mLoadedSoundEffects;
 	};
 }
 

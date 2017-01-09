@@ -29,24 +29,6 @@ HeatStroke::AudioPlayer* HeatStroke::AudioPlayer::Instance()
 	return s_pAudioPlayerInstance;
 }
 
-void HeatStroke::AudioPlayer::Update()
-{
-	// Sound will be handled better after next sprint. Need to keep them preloaded and just
-	// delete them all when this object gets deleted.
-	/*
-	std::vector<std::pair<sf::SoundBuffer*, sf::Sound*>>::iterator it = m_vSoundEffects.begin(), end = m_vSoundEffects.end();
-	for (; it != end; it++)
-	{
-		if ((*it).second->getStatus() == sf::Sound::Status::Stopped)
-		{
-			delete (*it).first;
-			delete (*it).second;
-			it = m_vSoundEffects.erase(it);
-		}
-	}
-	*/
-}
-
 bool HeatStroke::AudioPlayer::OpenMusicFromFile(const std::string& p_strFile)
 {
 	if (m_pCurrentMusic != nullptr)
@@ -83,19 +65,66 @@ void HeatStroke::AudioPlayer::StopMusic()
 	}
 }
 
-void HeatStroke::AudioPlayer::PlaySoundEffectFromFile(const std::string& p_strFile)
+void HeatStroke::AudioPlayer::PreloadSoundEffects(const std::string& p_strPreloadFileName)
 {
-	sf::SoundBuffer* pSoundBuffer = new sf::SoundBuffer;
-	if (!(pSoundBuffer->loadFromFile(p_strFile)))
+	tinyxml2::XMLDocument mPreloadDoc;
+	assert(mPreloadDoc.LoadFile(p_strPreloadFileName.c_str()) == tinyxml2::XML_NO_ERROR);
+
+	tinyxml2::XMLElement* pRootElement = mPreloadDoc.RootElement();
+	assert(pRootElement != nullptr);
+
+	tinyxml2::XMLElement* pSoundEffectsElement = pRootElement->FirstChildElement("SoundEffects");
+	assert(pSoundEffectsElement != nullptr);
+
+	for (tinyxml2::XMLElement* pSoundEffectElement = pSoundEffectsElement->FirstChildElement("SoundEffect");
+		pSoundEffectElement != nullptr;
+		pSoundEffectElement = pSoundEffectElement->NextSiblingElement("SoundEffect"))
 	{
-		delete pSoundBuffer;
-		printf("Failed to play sound: %s\n", p_strFile.c_str());
+		std::string strSoundEffectFileName;
+		EasyXML::GetRequiredStringAttribute(pSoundEffectElement, "path", strSoundEffectFileName);
+
+		LoadedSoundEffects::const_iterator it = m_mLoadedSoundEffects.find(strSoundEffectFileName);
+		if (it == m_mLoadedSoundEffects.end())
+		{
+			sf::SoundBuffer* pSoundBuffer = new sf::SoundBuffer;
+			if (!(pSoundBuffer->loadFromFile(strSoundEffectFileName)))
+			{
+				delete pSoundBuffer;
+				printf("Failed to find sound: %s\n", strSoundEffectFileName.c_str());
+				return;
+			}
+
+			sf::Sound* pSound = new sf::Sound;
+			pSound->setBuffer(*pSoundBuffer);
+
+			m_mLoadedSoundEffects[strSoundEffectFileName] = std::pair<sf::SoundBuffer*, sf::Sound*>(pSoundBuffer, pSound);
+		}
+	}
+}
+
+void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile)
+{
+	LoadedSoundEffects::const_iterator it = m_mLoadedSoundEffects.find(p_strFile);
+	
+	if (it == m_mLoadedSoundEffects.end())
+	{
+#ifdef _DEBUG
+		std::cout << "Sound file could not be played because it was not preloaded: " << p_strFile << "\n";
+#endif
 		return;
 	}
 
-	sf::Sound* pSound = new sf::Sound;
-	pSound->setBuffer(*pSoundBuffer);
+	it->second.second->play();
+}
 
-	m_vSoundEffects.push_back(std::pair<sf::SoundBuffer*, sf::Sound*>(pSoundBuffer, pSound));
-	pSound->play();
+void HeatStroke::AudioPlayer::FlushSoundEffects()
+{
+	LoadedSoundEffects::iterator it = m_mLoadedSoundEffects.begin(), end = m_mLoadedSoundEffects.end();
+	for (; it != end; it++)
+	{
+		DELETE_IF(it->second.first);
+		DELETE_IF(it->second.second);
+	}
+
+	m_mLoadedSoundEffects.clear();
 }

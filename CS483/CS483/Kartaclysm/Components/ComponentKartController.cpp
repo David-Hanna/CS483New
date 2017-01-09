@@ -567,7 +567,7 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_strike_hit.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
 				Spinout(1.5f);
 			}
 			else if (ability.compare("Clock") == 0)
@@ -584,7 +584,7 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_make_it_rain.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
 
 				Slow(0.7f, 2.0f);
 			}
@@ -592,7 +592,7 @@ namespace Kartaclysm
 			{
 				printf("Bedazzle!\n"); // Entangle!
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_bedazzle.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
 
 				Spinout(1.0f);
 			}
@@ -609,19 +609,19 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredFloatParameter("Power", fPower);
 
 				printf("Boost!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/speedster_boost.flac");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
 				Boost(fPower);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
 				printf("Wheelie!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/showoff_wheelie.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
 				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_tinker.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
 				TurnLock(1.0f);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
@@ -631,7 +631,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
 				printf("ArmorPlate!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_armor.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
