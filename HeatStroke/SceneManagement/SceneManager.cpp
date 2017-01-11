@@ -136,6 +136,25 @@ void HeatStroke::SceneManager::ClearTextBoxes()
 	m_lTextBoxList.clear();
 }
 
+void HeatStroke::SceneManager::AddLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer)
+{
+	m_lLineDrawerList.push_back(p_pLineDrawer);
+}
+
+void HeatStroke::SceneManager::RemoveLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer)
+{
+	LineDrawerList::iterator it = std::find(m_lLineDrawerList.begin(), m_lLineDrawerList.end(), p_pLineDrawer);
+	if (it != m_lLineDrawerList.end())
+	{
+		m_lLineDrawerList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearLineDrawers()
+{
+	m_lLineDrawerList.clear();
+}
+
 void HeatStroke::SceneManager::AddOrthographicCamera(SceneOrthographicCamera* p_pOrthographicCamera, SceneViewportSelection p_eViewportSelection)
 {
 	m_lOrthographicCameras[p_eViewportSelection] = p_pOrthographicCamera;
@@ -224,6 +243,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_FULL] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_FULL]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_FULL]);
 		}
 		if (m_lOrthographicCameras[SVS_FULL] != nullptr)
 		{
@@ -238,6 +258,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_TOP] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP] != nullptr)
 		{
@@ -252,6 +273,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_BOTTOM] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM] != nullptr)
 		{
@@ -266,6 +288,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_TOP_LEFT] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP_LEFT]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP_LEFT]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP_LEFT] != nullptr)
 		{
@@ -280,6 +303,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_TOP_RIGHT] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP_RIGHT] != nullptr)
 		{
@@ -294,6 +318,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_BOTTOM_LEFT] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM_LEFT] != nullptr)
 		{
@@ -308,6 +333,7 @@ void HeatStroke::SceneManager::Render()
 		if (m_lPerspectiveCameras[SVS_BOTTOM_RIGHT] != nullptr)
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
+			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM_RIGHT] != nullptr)
 		{
@@ -418,6 +444,20 @@ HeatStroke::ScenePointLight* HeatStroke::SceneManager::DetermineClosestPointLigh
 	}
 
 	return pClosestPointLight;
+}
+
+void HeatStroke::SceneManager::RenderLineDrawers(const ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	LineDrawerList::iterator it = m_lLineDrawerList.begin(), end = m_lLineDrawerList.end();
+	for (; it != end; ++it)
+	{
+		RenderLineDrawer(*it, p_pPerspectiveCamera);
+	}
+}
+
+void HeatStroke::SceneManager::RenderLineDrawer(LineDrawer* p_pLineDrawer, const ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	p_pLineDrawer->Render(p_pPerspectiveCamera);
 }
 
 void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera)

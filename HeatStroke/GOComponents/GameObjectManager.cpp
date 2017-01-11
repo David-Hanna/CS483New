@@ -268,6 +268,14 @@ void GameObjectManager::PreRender()
 			ComponentRenderable* pRenderable = static_cast<ComponentRenderable*>(pComponent);
 			pRenderable->PreRender();
 		}
+
+		// TODO: Work around where GO's might have both a Collider and Renderable
+		pComponent = it->second->GetComponent("GOC_Collider");
+		if (pComponent)
+		{
+			ComponentRenderable* pRenderable = static_cast<ComponentRenderable*>(pComponent);
+			pRenderable->PreRender();
+		}
 	}
 }
 

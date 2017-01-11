@@ -20,7 +20,8 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	m_pOffset(p_pOffset),
 	m_pSurfaceNormal(p_pSurfaceNormal),
 	m_fHeight(p_fHeight),
-	m_fWidth(p_fWidth)
+	m_fWidth(p_fWidth),
+	m_pDebugLineDrawer(nullptr)
 {
 	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, GetGameObject()->GetGUID());
 }
@@ -28,6 +29,13 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 HeatStroke::ComponentWallCollider::~ComponentWallCollider()
 {
 	HeatStroke::CollisionManager::Instance()->UnregisterCollider(GetGameObject()->GetGUID());
+
+	if (m_pDebugLineDrawer != nullptr)
+	{
+		SceneManager::Instance()->RemoveLineDrawer(m_pDebugLineDrawer);
+		delete m_pDebugLineDrawer;
+		m_pDebugLineDrawer = nullptr;
+	}
 }
 
 HeatStroke::Component* HeatStroke::ComponentWallCollider::CreateComponent(
@@ -81,10 +89,43 @@ void HeatStroke::ComponentWallCollider::Update(const float p_fDelta)
 {
 	m_pPreviousPosition = m_pPosition;
 	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
+	// PreRender(); // TODO: Isn't called naturally because FamilyID is not "GOC_Renderable"
+}
+
+void HeatStroke::ComponentWallCollider::PreRender()
+{
+	SyncTransform();
+	if (m_bDebugRender)
+	{
+		if (m_pDebugLineDrawer == nullptr)
+		{
+			m_pDebugLineDrawer = new LineDrawer("Assets/Kart/kart.vsh", "Assets/Kart/kart.fsh");
+			SceneManager::Instance()->AddLineDrawer(m_pDebugLineDrawer);
+
+			glm::vec3 top = m_pOffset + glm::vec3(0.0f, m_fHeight, 0.0f);
+			glm::vec3 bottom = m_pOffset + glm::vec3(0.0f, -m_fHeight, 0.0f);
+			glm::vec3 left = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), m_pSurfaceNormal) * m_fWidth;
+			glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), m_pSurfaceNormal) * -m_fWidth;
+
+			// Border
+			m_pDebugLineDrawer->AddLine(top + left, top + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(top + right, bottom + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(bottom + right, bottom + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(bottom + left, top + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+
+			// Inside
+			m_pDebugLineDrawer->AddLine(top + left, bottom + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(top + right, bottom + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
+		}
+	}
 }
 
 void HeatStroke::ComponentWallCollider::SyncTransform()
 {
+	if (m_pDebugLineDrawer != nullptr)
+	{
+		m_pDebugLineDrawer->SetTransform(GetGameObject()->GetTransform().GetTransform());
+	}
 }
 
 void HeatStroke::ComponentWallCollider::ParseNode(
@@ -128,24 +169,4 @@ void HeatStroke::ComponentWallCollider::ParseNode(
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pElement, "width", p_fWidth);
 		}
 	}
-}
-
-void HeatStroke::ComponentWallCollider::DebugRender(LineDrawer* p_pLineDrawer)
-{
-	glm::vec3 center = m_pGameObject->GetTransform().GetTranslation() + m_pOffset;
-
-	glm::vec3 top = center + glm::vec3(0.0f, m_fHeight, 0.0f);
-	glm::vec3 bottom = center + glm::vec3(0.0f, -m_fHeight, 0.0f);
-	glm::vec3 left = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), m_pSurfaceNormal) * m_fWidth;
-	glm::vec3 right = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), m_pSurfaceNormal) * -m_fWidth;
-
-	// Border
-	p_pLineDrawer->AddLine(top + left, top + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(top + right, bottom + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(bottom + right, bottom + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(bottom + left, top + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
-
-	// Inside
-	p_pLineDrawer->AddLine(top + left, bottom + right, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(top + right, bottom + left, HeatStroke::Color4(1.0f, 1.0f, 0.0f, 1.0f));
 }
