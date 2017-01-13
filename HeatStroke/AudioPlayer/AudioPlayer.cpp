@@ -55,6 +55,7 @@ bool HeatStroke::AudioPlayer::OpenMusicFromFile(const std::string& p_strFile)
 	}
 
 	m_pCurrentMusic = new sf::Music;
+	m_pCurrentMusic->setVolume(m_fMusicVolume);
 	return m_pCurrentMusic->openFromFile(p_strFile);
 }
 
@@ -94,6 +95,7 @@ void HeatStroke::AudioPlayer::PlaySoundEffectFromFile(const std::string& p_strFi
 	}
 
 	sf::Sound* pSound = new sf::Sound;
+	pSound->setVolume(m_fSoundEffectsVolume);
 	pSound->setBuffer(*pSoundBuffer);
 
 	m_vSoundEffects.push_back(std::pair<sf::SoundBuffer*, sf::Sound*>(pSoundBuffer, pSound));

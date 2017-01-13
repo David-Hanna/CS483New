@@ -408,6 +408,9 @@
     <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -728,6 +731,9 @@
     <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -894,6 +900,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
   </ItemGroup>
 </Project>

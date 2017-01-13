@@ -1,28 +1,32 @@
 //------------------------------------------------------------------------
-// StateMainMenu
-// Author:	David Hanna
+// StateOptionsMenu
+// Author:	Bradley Cooper
 //	
-// Main menu state shows title screen and continues with enter key.
+// Allows player to change and save game options.
+// Accessed by and returns to main menu or pause menu.
+// Passing OptionsXML parameter loads options from XML and calls Pop().
 //------------------------------------------------------------------------
 
-#ifndef STATE_MAIN_MENU_H
-#define STATE_MAIN_MENU_H
+#ifndef STATE_OPTIONS_MENU_H
+#define STATE_OPTIONS_MENU_H
 
+#include "EasyXML.h"
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
+#include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
-	class StateMainMenu : public Kartaclysm::GameplayState
+	class StateOptionsMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateMainMenu();
-		virtual ~StateMainMenu();
+		StateOptionsMenu();
+		virtual ~StateOptionsMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
 		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
@@ -34,7 +38,11 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
-		bool m_bPreloaded;
+
+	private:
+		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
+
+		std::string m_strXmlFilePath;
 	};
 }
 

@@ -10,7 +10,8 @@
 Kartaclysm::StateMainMenu::StateMainMenu()
 	:
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true)
+	m_bSuspended(true),
+	m_bPreloaded(false)
 {
 }
 
@@ -30,6 +31,15 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/title_image.xml", "TitleImage");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+
+	if (!m_bPreloaded)
+	{
+		// Push Options state to load from XML, which calls Pop() when done
+		m_bPreloaded = true;
+		std::map<std::string, std::string> mOptionsParams;
+		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
+		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
+	}
 
 	printf("Entering Main Menu State.\n");
 }
