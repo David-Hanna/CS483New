@@ -10,7 +10,9 @@
 Kartaclysm::StateMainMenu::StateMainMenu()
 	:
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true)
+	m_bSuspended(true),
+	m_bPreloadCalled(false),
+	m_bRenderedOnce(false)
 {
 }
 
@@ -29,7 +31,7 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/title_image.xml", "TitleImage");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
 
 	printf("Entering Main Menu State.\n");
 }
@@ -42,7 +44,18 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		if (!m_bPreloadCalled)
+		{
+			if (m_bRenderedOnce)
+			{
+				m_bPreloadCalled = true;
+				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+
+				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
+				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+			}
+		}
+		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
 		{
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
@@ -55,6 +68,7 @@ void Kartaclysm::StateMainMenu::PreRender()
 	// Render even when suspended
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
+	m_bRenderedOnce = true;
 }
 
 void Kartaclysm::StateMainMenu::Exit()

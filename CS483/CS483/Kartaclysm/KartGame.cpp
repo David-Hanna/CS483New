@@ -22,7 +22,6 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::ModelManager::CreateInstance();
 	HeatStroke::SpriteManager::CreateInstance();
 	HeatStroke::FontManager::CreateInstance();
-	HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	HeatStroke::SceneManager::CreateInstance(m_pWindow);
 	HeatStroke::CollisionManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
