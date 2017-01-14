@@ -24,8 +24,6 @@ Kartaclysm::StateRacing::~StateRacing()
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	printf("Entering Racing State.\n");
-
 	m_bSuspended = false;
 
 	// Register listeners
@@ -205,8 +203,6 @@ void Kartaclysm::StateRacing::PreRender()
 
 void Kartaclysm::StateRacing::Exit()
 {
-	printf("Exiting Racing State.\n");
-
 	m_bSuspended = false;
 
 	if (m_pPauseDelegate != nullptr)
@@ -278,7 +274,6 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 
 void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
 {
-	printf("ending race\n");
 	std::map<std::string, std::string> mRaceResults = GenerateRaceResults();
 	m_pStateMachine->Pop();
 	m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, mRaceResults);

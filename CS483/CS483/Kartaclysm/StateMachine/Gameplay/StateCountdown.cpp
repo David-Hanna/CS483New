@@ -20,7 +20,6 @@ Kartaclysm::StateCountdown::~StateCountdown()
 
 void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	printf("Entering State Countdown.\n");
 	m_bSuspended = false;
 	m_fTimer = 3.0f;
 
@@ -96,6 +95,12 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 
 void Kartaclysm::StateCountdown::Exit()
 {
-	printf("Exiting State Countdown.\n");
+	if (m_pGameObjectManager != nullptr)
+	{
+		m_pGameObjectManager->DestroyAllGameObjects();
+		delete m_pGameObjectManager;
+		m_pGameObjectManager = nullptr;
+	}
+
 	m_bSuspended = false;
 }
