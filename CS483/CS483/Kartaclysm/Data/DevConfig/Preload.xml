@@ -5,6 +5,10 @@
     <Model path="Assets/Drivers/KingPin/king-pin.obj"/>
     <Model path="Assets/Drivers/Clockmaker/clockmaker.obj"/>
     <Model path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
+
+    <Model path="Assets/Kart/Speedster/speedster.obj"/>
+    <Model path="Assets/Kart/Juggernaut/juggernaut.obj"/>
+    <Model path="Assets/Kart/Showoff/showoff.obj"/>
     
     <Model path="Assets/Track/track_finish.obj"/>
     <Model path="Assets/Track/track_jump.obj"/>
@@ -19,5 +23,6 @@
     <Model path="Assets/Track/track_turn_right_small.obj"/>
   
     <Model path="Assets/Abilities/bowling_ball.obj"/>
+    <Model path="Assets/Abilities/bomb.obj"/>
   </Models>
 </Preload>

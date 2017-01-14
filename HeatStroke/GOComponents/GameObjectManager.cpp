@@ -228,6 +228,7 @@ void GameObjectManager::DestroyAllGameObjects()
 		delete pGameObject;
 	}
 	m_mGameObjectMap.clear();
+	m_vToDelete.clear(); // Parents register children for destruction
 }
 
 void GameObjectManager::Update(const float p_fDelta)

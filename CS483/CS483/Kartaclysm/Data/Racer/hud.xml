@@ -101,6 +101,19 @@
       </Components>
     </GameObject>
 
+    <!-- Countdown -->
+    <GameObject>
+      <Transform>
+        <Translation x="-2.0" y="48.0" z="1.0" />
+        <Scale x="0.5" y="0.5" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_Countdown>
+          <FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
+        </GOC_HUD_Countdown>
+      </Components>
+    </GameObject>
+
     <!-- FPS -->
     <GameObject>
       <Transform>

@@ -43,6 +43,7 @@
 #include "ComponentHudRaceTimer.h"
 #include "ComponentHudPosition.h"
 #include "ComponentHudLapCount.h"
+#include "ComponentHudCountdown.h"
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
 
@@ -83,9 +84,13 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
+		std::map<std::string, std::string> m_mContextParams;
 		unsigned int m_uiNumRacers;
+		bool m_bCountdown;
 
+		void BeginRace();
 		HeatStroke::GameObject* GenerateRacer(
 			const std::string& p_strKartDefinitionFile, 
 			const std::string& p_strDriverDefinitionFile, 
@@ -96,8 +101,10 @@ namespace Kartaclysm
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
+		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
 		std::map<std::string, std::string> GenerateRaceResults() const;
+
 	};
 }
 

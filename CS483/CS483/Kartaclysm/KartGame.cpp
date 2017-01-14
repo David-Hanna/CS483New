@@ -41,6 +41,8 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(GameplayState::STATE_RACING, new StateRacing());
 	m_pGameStates->RegisterState(GameplayState::STATE_PAUSED, new StatePaused());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
+	
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 
