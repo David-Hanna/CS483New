@@ -9,6 +9,7 @@
 
 Kartaclysm::StateCountdown::StateCountdown()
 	:
+	GameplayState("Countdown"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {

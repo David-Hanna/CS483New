@@ -309,6 +309,14 @@ namespace HeatStroke
 	}
 
 
+	void HierarchicalTransform::ManuallyUpdateParent()
+	{
+		UpdateChildrensParentScale();
+		UpdateChildrensParentRotation();
+		UpdateChildrensParentTranslation();
+	}
+
+
 	void HierarchicalTransform::UpdateChildrensParentScale()
 	{
 		std::vector<HierarchicalTransform*>::iterator it = m_vChildren.begin(), end = m_vChildren.end();

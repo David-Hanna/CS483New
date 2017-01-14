@@ -92,6 +92,9 @@ void HeatStroke::StateMachine::Push(int p_iState, const ContextParameters& p_mCo
 	// Call Suspend() on current state if it exists
 	if (m_mCurrentState.second != nullptr)
 	{
+#ifdef _DEBUG
+		printf("Suspending %s\n", m_mCurrentState.second->m_strStateName.c_str());
+#endif
 		m_mCurrentState.second->Suspend(it2->first);
 	}
 
@@ -101,6 +104,9 @@ void HeatStroke::StateMachine::Push(int p_iState, const ContextParameters& p_mCo
 	m_fCurrentStateTime = 0.0f;
 
 	// Push and enter new state
+#ifdef _DEBUG
+	printf("Entering %s\n", pState->m_strStateName.c_str());
+#endif
 	m_mStateStack.push_back(std::pair<int, State*>(p_iState, pState));
 	pState->Enter(p_mContextParameters);
 }
@@ -118,6 +124,9 @@ HeatStroke::StateMachine::StatePair HeatStroke::StateMachine::Pop()
 	{
 		// Exit and pop current state
 		assert(m_mCurrentState.second != nullptr);
+#ifdef _DEBUG
+		printf("Exiting %s\n", m_mCurrentState.second->m_strStateName.c_str());
+#endif
 		m_mCurrentState.second->Exit();
 		m_mStateStack.pop_back();
 
@@ -132,6 +141,9 @@ HeatStroke::StateMachine::StatePair HeatStroke::StateMachine::Pop()
 		{
 			m_mCurrentState.first = m_mStateStack.back().first;
 			m_mCurrentState.second = static_cast<State*>(m_mStateStack.back().second);
+#ifdef _DEBUG
+			printf("Unsuspending %s\n", m_mCurrentState.second->m_strStateName.c_str());
+#endif
 			m_mCurrentState.second->Unsuspend(mReturn.first);
 		}
 	}

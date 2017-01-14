@@ -17,7 +17,7 @@ namespace HeatStroke
 		friend class StateMachine;
 
 	public:
-		State() : m_pStateMachine(nullptr) {}
+		State(const std::string& p_strStateName = "State") : m_pStateMachine(nullptr), m_strStateName(p_strStateName) {}
 		virtual ~State() {}
 			
 		// Required interface for all subclasses.
@@ -33,6 +33,9 @@ namespace HeatStroke
 	protected:
 		// State machine that this state is registered with
 		StateMachine* m_pStateMachine;
+
+		// Debug state name for printing
+		std::string m_strStateName;
 	};
 } // namespace HeatStroke
 

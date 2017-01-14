@@ -11,6 +11,7 @@
 
 Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 	:
+	GameplayState("Player Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {

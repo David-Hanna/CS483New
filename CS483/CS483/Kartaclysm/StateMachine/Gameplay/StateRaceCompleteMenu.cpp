@@ -9,6 +9,7 @@
 
 Kartaclysm::StateRaceCompleteMenu::StateRaceCompleteMenu()
 	:
+	GameplayState("Race Complete"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {

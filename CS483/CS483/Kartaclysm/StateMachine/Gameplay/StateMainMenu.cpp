@@ -9,6 +9,7 @@
 
 Kartaclysm::StateMainMenu::StateMainMenu()
 	:
+	GameplayState("Main Menu"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {

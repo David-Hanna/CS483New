@@ -10,6 +10,7 @@
 
 Kartaclysm::StateTrackSelectionMenu::StateTrackSelectionMenu()
 	:
+	GameplayState("Track Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iTrackSelection(0),

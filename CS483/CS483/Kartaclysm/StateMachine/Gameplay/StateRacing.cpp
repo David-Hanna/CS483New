@@ -10,6 +10,7 @@
 
 Kartaclysm::StateRacing::StateRacing()
 	:
+	GameplayState("Racing"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_pPauseDelegate(nullptr),

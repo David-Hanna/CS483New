@@ -9,6 +9,7 @@
 
 Kartaclysm::StatePaused::StatePaused()
 	:
+	GameplayState("Pause State"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iPausedPlayer(-1),
