@@ -77,6 +77,11 @@ namespace HeatStroke
 		virtual std::vector<HierarchicalTransform*>::const_iterator begin() const	{ return m_vChildren.begin(); }
 		virtual std::vector<HierarchicalTransform*>::const_iterator end() const		{ return m_vChildren.end(); }
 
+		void ManuallyUpdateParent() { 
+			UpdateChildrensParentScale();
+			UpdateChildrensParentRotation();
+			UpdateChildrensParentTranslation(); }
+
 		//TODO: delete this (once all bugs are worked out)
 		//Matt: just using this to check that values of transform are correct
 		void Print() const;

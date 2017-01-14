@@ -100,6 +100,13 @@ void Kartaclysm::StateRacing::BeginRace()
 	HeatStroke::GameObject* pTrack = m_pGameObjectManager->CreateGameObject(m_mContextParams.at("TrackDefinitionFile"), "Track");
 	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
+	// TODO: weird issue with Racer transforms unless m_vWorldTranslation is changed on walls
+	auto vWalls = m_pGameObjectManager->GetGameObjectsByTag("Wall");
+	for (HeatStroke::GameObject* pWall : vWalls)
+	{
+		pWall->GetTransform().GetTranslation();
+	}
+
 	// Load racers
 	m_uiNumRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
 	for (unsigned int i = 0; i < m_uiNumRacers; i++)
@@ -113,11 +120,8 @@ void Kartaclysm::StateRacing::BeginRace()
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
+		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
 	}
-
-	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
-	m_pGameObjectManager->Print();
 
 	// Set conditions for beginning countdown
 	m_bCountdown = true;
