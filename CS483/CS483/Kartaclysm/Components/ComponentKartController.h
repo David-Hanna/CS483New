@@ -69,6 +69,7 @@ namespace Kartaclysm
 
 		void HandleCollisionEvent(const HeatStroke::Event* p_pEvent);
 		void HandleAbilityEvent(const HeatStroke::Event* p_pEvent);
+		void HandleCountdownEvent(const HeatStroke::Event* p_pEvent);
 
 		void UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 
@@ -84,6 +85,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 		int m_iPlayerNum;
+		bool m_bDisabled;
 		std::string m_strHitCallback;
 
 		glm::vec3 m_pOutsideForce;
@@ -155,6 +157,7 @@ namespace Kartaclysm
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pCountdownDelegate;
 	};
 }
 
