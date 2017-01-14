@@ -116,6 +116,18 @@ void Kartaclysm::StateRacing::BeginRace()
 		pRacer->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
 	}
 
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	{
+		// TODO: Properly handle race mode
+		//PlayerInputMapping::Instance()->EnableRaceMode();
+	}
+	else
+	{
+#ifdef _DEBUG
+		assert(false && "Failed to set number of players.");
+#endif
+	}
+
 	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
 	m_pGameObjectManager->Print();
 

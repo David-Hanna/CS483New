@@ -206,11 +206,14 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredIntParameter("Player", iPlayer);
 		p_pEvent->GetOptionalStringParameter(m_strEventName.substr(m_strEventName.find_last_of('_') + 1), strControls, strControls);
 
-		m_mControlsTextBox.SetText(strControls);
-		m_mControlsTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
-		m_mControlsTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
-			glm::scale(glm::vec3(0.035f, 0.035f, 1.0f)) *
-			glm::translate(glm::vec3(-20.0f, -30.0f, 0.0f)));
+		if (iPlayer == atoi(m_strEventName.substr(6, m_strEventName.find('_')).c_str()))
+		{
+			m_mControlsTextBox.SetText(strControls);
+			m_mControlsTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
+			m_mControlsTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::scale(glm::vec3(0.035f, 0.035f, 1.0f)) *
+				glm::translate(glm::vec3(-20.0f, -30.0f, 0.0f)));
+		}
 
 		// Make sure textbox is added to scene only once
 		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mControlsTextBox);
