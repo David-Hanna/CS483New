@@ -182,11 +182,13 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			m_bCountdown = false;
 		}
 
-		// DEBUG: Should be removed at some point
+#ifdef _DEBUG
+		// DEBUG: Should be removed at some point. Restart race when 'Z' is pressed
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))
 		{
 			BeginRace();
 		}
+#endif
 	}
 }
 

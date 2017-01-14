@@ -51,7 +51,7 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 			pCountdownEvent->SetIntParameter("Disable", 0);
 			for (int i = 0; i < m_iPlayerCount; i++)
 			{
-				pHudEvent->SetIntParameter("Player" + std::to_string(i), static_cast<int>(m_vGainsBoost[i]));
+				pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
 			}
 			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
 

@@ -653,14 +653,15 @@ namespace Kartaclysm
 
 	void ComponentKartController::HandleCountdownEvent(const HeatStroke::Event* p_pEvent)
 	{
-		int iDisable, iBoost;
+		int iDisable;
+		float fBoost;
 		p_pEvent->GetOptionalIntParameter("Disable", iDisable, 0);
-		p_pEvent->GetOptionalIntParameter(m_pGameObject->GetGUID(), iBoost, 0);
+		p_pEvent->GetOptionalFloatParameter(m_pGameObject->GetGUID(), fBoost, 0.0f);
 
 		m_bDisabled = (iDisable != 0);
-		if (iBoost != 0)
+		if (fBoost > 0.0f)
 		{
-			Boost(1.3f);
+			Boost(fBoost);
 		}
 	}
 }
