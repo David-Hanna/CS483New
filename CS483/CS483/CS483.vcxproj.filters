@@ -408,6 +408,12 @@
     <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudCountdown.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -727,6 +733,12 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudCountdown.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

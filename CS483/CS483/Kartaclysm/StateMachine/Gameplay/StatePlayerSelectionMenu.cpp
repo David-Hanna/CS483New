@@ -67,8 +67,15 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			std::string strCameraTopFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml";
 			std::string strCameraBottomFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml";
 
+			// TODO: Maybe at some point we decouple and set this value by Event instead?
+			int iPlayerCount = 2;
+			if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(iPlayerCount))
+			{
+				assert(false && "Failed to set number of players.");
+			}
+
 			std::map<std::string, std::string> mContextParameters;
-			mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", "2"));
+			mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(iPlayerCount)));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
