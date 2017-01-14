@@ -98,13 +98,6 @@ void Kartaclysm::StateRacing::BeginRace()
 	HeatStroke::GameObject* pTrack = m_pGameObjectManager->CreateGameObject(m_mContextParams.at("TrackDefinitionFile"), "Track");
 	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
-	// TODO: weird issue with Racer transforms unless m_vWorldTranslation is changed on walls
-	auto vWalls = m_pGameObjectManager->GetGameObjectsByTag("Wall");
-	for (HeatStroke::GameObject* pWall : vWalls)
-	{
-		pWall->GetTransform().GetTranslation();
-	}
-
 	// Load racers
 	m_uiNumRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
 	for (unsigned int i = 0; i < m_uiNumRacers; i++)

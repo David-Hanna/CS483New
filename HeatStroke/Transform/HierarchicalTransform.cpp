@@ -130,8 +130,7 @@ namespace HeatStroke
 		// position can depend on applying a rotation around the parent.
 		if (m_bTransformDirty)
 		{
-			GetTransform();
-			m_vWorldTranslation = glm::vec3(m_mTransform[3]);
+			GetTransform(); // Updates m_vWorldTranslation
 		}
 
 		return m_vWorldTranslation;
@@ -174,6 +173,9 @@ namespace HeatStroke
 			// First: apply the scales of the parent and this.
 			m_mTransform = glm::scale(m_mTransform, m_vScale);
 			m_mTransform = glm::scale(m_mTransform, m_vParentScale);
+
+			// Update World Translation at the same time as the Transform
+			m_vWorldTranslation = glm::vec3(m_mTransform[3]);
 		}
 
 		return m_mTransform;
