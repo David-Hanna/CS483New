@@ -244,13 +244,29 @@ void GameObjectManager::Update(const float p_fDelta)
 	std::set<GameObject*>::iterator delete_it = m_vToDelete.begin(), delete_end = m_vToDelete.end();
 	for (; delete_it != delete_end;)
 	{
+		if ((*delete_it) == nullptr)
+		{
+#ifdef _DEBUG
+			assert(false && "Attempting to delete nullptr");
+#endif
+			delete_it = m_vToDelete.erase(delete_it);
+			continue;
+		}
+
 		GameObjectMap::iterator it = m_mGameObjectMap.find((*delete_it)->GetGUID());
 		
 		if (it != m_mGameObjectMap.end())
 		{
 			delete it->second;
+			it->second = nullptr;
 			m_mGameObjectMap.erase(it);
 		}
+#ifdef _DEBUG
+		else
+		{
+			assert(false && "Could not find GameObject to delete.");
+		}
+#endif
 
 		delete_it = m_vToDelete.erase(delete_it);
 	}
