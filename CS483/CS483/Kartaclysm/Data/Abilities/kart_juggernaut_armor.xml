@@ -15,9 +15,9 @@
 
     <GOC_AbilityConditions>
       <Ability value="KartAbility1" />
-      <Cooldown value="5.0" />
-      <MaxCharges value="5" />
-      <StartCharges value="3" />
+      <Cooldown value="6.0" />
+      <MaxCharges value="4" />
+      <StartCharges value="1" />
     </GOC_AbilityConditions>
 
     <GOC_ArmorPlateAbility />

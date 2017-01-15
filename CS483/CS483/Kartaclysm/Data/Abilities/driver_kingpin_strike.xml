@@ -15,14 +15,14 @@
   
     <GOC_AbilityConditions>
       <Ability value="DriverAbility1" />
-      <Cooldown value="1.0" />
+      <Cooldown value="5.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
     <GOC_StrikeAbility>
       <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_strike.xml" />
-      <Duration value="1.5" />
+      <Duration value="0.7" />
     </GOC_StrikeAbility>
 
   </Components>

@@ -462,7 +462,6 @@ namespace Kartaclysm
 
 	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack, int p_iMaxArmorStacks)
 	{
-		// TODO: I think maybe there should only actually be 4 stacks *shrug*
 		m_iMaxSpeedCoreStat = 1 + p_iCurrentArmorStack;
 		m_iAccelerationCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
 		m_iHandlingCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
