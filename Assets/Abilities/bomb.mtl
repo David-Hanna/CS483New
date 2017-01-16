@@ -1,0 +1,132 @@
+# Blender MTL File: 'bomb.blend'
+# Material Count: 10
+
+newmtl lambert1
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/red.tga
+
+newmtl lambert2
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/grey.tga
+
+newmtl lambert3
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.546400 0.294692 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/grey.tga
+
+newmtl lambert4
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.465836 0.733600 0.465836
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/grey.tga
+
+newmtl lambert5
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.000000 0.316660
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/grey.tga
+
+newmtl phong1
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.566400 0.784251 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Abilities/grey.tga
+
+newmtl phong2
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 200.000000
+Ka 0.286328 0.286328 0.286328
+Kd 0.000000 0.000000 0.800000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Kd Assets/Abilities/red.tga
+
+newmtl phong3
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 200.000000
+Ka 0.500000 0.500000 0.500000
+Kd 0.000000 0.000000 0.440000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.897429
+illum 6
+map_Kd Assets/Abilities/grey.tga
+
+newmtl phong4
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 200.000000
+Ka 0.500000 0.500000 0.500000
+Kd 0.800000 0.260800 0.751535
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Kd Assets/Abilities/grey.tga
+
+newmtl phongE1
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 200.000000
+Ka 0.500000 0.500000 0.500000
+Kd 0.175200 0.800000 0.175200
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Kd Assets/Abilities/grey.tga

@@ -44,11 +44,9 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager, const std::strin
 //------------------------------------------------------------------------------
 GameObject::~GameObject()
 {
-	// TODO - I don't know what's happening, but it's started throwing errors again when trying to remove itself as a child from its parent.
-	//			I'm removing this for now so it doesn't throw errors, but I'll need to figure this out soon.
-
 	DeleteAllComponents();
 	DeleteAllChildren();
+	SetParent(nullptr);
 }
 
 //------------------------------------------------------------------------------
@@ -207,6 +205,7 @@ void GameObject::DeleteAllChildren()
 {
 	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)
 	{
+		it->second->m_pParent = nullptr;
 		m_pGameObjectManager->DestroyGameObject(it->second);
 	}
 	m_mChildMap.clear();
