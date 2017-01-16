@@ -202,8 +202,10 @@ namespace HeatStroke
 		//empty map
 		std::vector<std::string>().swap(p_mLines);
 		std::vector<glm::vec2>().swap(p_mLineSizes);
+		if (m_strMessage == "") return true;
 
 		std::stringstream ssText(m_strMessage);
+		size_t index = 0;
 		std::string strWord, strLine;
 		GLfloat fCurrentLineWidth = 0.0f, fCurrentLineHeight = 0.0f;
 
@@ -212,7 +214,17 @@ namespace HeatStroke
 		while (!ssText.eof())
 		{
 			GLfloat fWordWidth = 0.0f, fLineHeight = 0.0f;
-			std::getline(ssText, strWord, ' ');
+
+			bool bNewLine = (m_strMessage.at(index) == '\n');
+			index = m_strMessage.find_first_of(" \n", index);
+			if (index != std::string::npos)
+			{
+				std::getline(ssText, strWord, m_strMessage.at(index));
+			}
+			else
+			{
+				std::getline(ssText, strWord);
+			}
 
 			//get info on each char from the font file
 			for (unsigned int i = 0; i < strWord.length(); ++i)
@@ -237,7 +249,7 @@ namespace HeatStroke
 			else //line isn't empty: see if we can append text or leave it to next line
 			{
 				GLfloat fTempWidth = fCurrentLineWidth + fSpaceSize + fWordWidth; //line + " " + word
-				if (fTempWidth > m_fWidth)
+				if (fTempWidth > m_fWidth || bNewLine)
 				{
 					//line too big: push current line and set up next line
 					p_mLines.push_back(strLine);
@@ -275,6 +287,8 @@ namespace HeatStroke
 	//----------------------------------------------------------
 	void TextBox::FillSourceInfo(std::vector<Texture_Page_Source>& p_mSources, std::vector<std::string>& p_mLines, std::vector<glm::vec2>& p_mLineSizes, const GLfloat& p_fTextScaling)
 	{
+		if (p_mLines.empty()) return;
+
 		std::string strLine;
 		GLfloat fCurrentHeight = 0.0f, fMaxWidth = 0.0f, fMaxHeight = 0.0f;
 		GLfloat fSpaceSize = m_pFont->GetCharWidth(' ') * p_fTextScaling;

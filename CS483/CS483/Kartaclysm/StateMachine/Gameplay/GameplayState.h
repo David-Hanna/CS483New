@@ -24,11 +24,12 @@ namespace Kartaclysm
 			STATE_TRACK_SELECTION_MENU,
 			STATE_RACING,
 			STATE_PAUSED,
-			STATE_RACE_COMPLETE_MENU
+			STATE_RACE_COMPLETE_MENU,
+			STATE_COUNTDOWN
 		};
 
 	public:
-		GameplayState() : m_pGameObjectManager(nullptr) {}
+		GameplayState(const std::string& p_strStateName = "Gameplay State") : State(p_strStateName) {}
 		virtual ~GameplayState() {}
 
 		// Inherited

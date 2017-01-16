@@ -478,4 +478,23 @@ namespace Kartaclysm
 			}
 		}
 	}
+
+	//--------------------------------------------------------------------------------
+	// InputActionMapping::GetButtonMapping
+	//
+	// Return mapped GLFW_KEY or XBOX constant, or -1 if not found.
+	//--------------------------------------------------------------------------------
+	int InputActionMapping::GetButtonMapping(Input::Type eType, Racer::Action eAction)
+	{
+		auto find = m_pInputMap->find(eType);
+		if (find != m_pInputMap->end())
+		{
+			auto find2 = find->second.find(eAction);
+			if (find2 != find->second.end())
+			{
+				return find2->second;
+			}
+		}
+		return -1;
+	}
 }

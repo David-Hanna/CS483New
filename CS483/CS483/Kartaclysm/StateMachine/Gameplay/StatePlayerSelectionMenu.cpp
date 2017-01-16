@@ -11,6 +11,7 @@
 
 Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 	:
+	GameplayState("Player Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {
@@ -48,8 +49,6 @@ void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_2.xml", "Press_Start_2");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_3.xml", "Press_Start_3");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_4.xml", "Press_Start_4");
-
-	printf("Entering Player Selection Menu State.\n");
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
@@ -60,15 +59,25 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml";
 			std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml";
 			std::string strCameraTopFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml";
 			std::string strCameraBottomFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml";
 
+			// TODO: Maybe at some point we decouple and set this value by Event instead?
+			int iPlayerCount = 2;
+			if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(iPlayerCount))
+			{
+				assert(false && "Failed to set number of players.");
+			}
+
 			std::map<std::string, std::string> mContextParameters;
-			mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", "2"));
+			mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(iPlayerCount)));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
 			mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
@@ -100,6 +109,4 @@ void Kartaclysm::StatePlayerSelectionMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Player Selection Menu state.\n");
 }

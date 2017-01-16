@@ -10,6 +10,7 @@
 
 Kartaclysm::StateTrackSelectionMenu::StateTrackSelectionMenu()
 	:
+	GameplayState("Track Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iTrackSelection(0),
@@ -40,8 +41,6 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml");
 
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
-
-	printf("Entering Track Selection Menu State.\n");
 }
 
 void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
@@ -52,7 +51,10 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			switch (m_iTrackSelection)
 			{
@@ -70,7 +72,7 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_UP))
+		else if (bUp)
 		{
 			switch (m_iTrackSelection)
 			{
@@ -86,7 +88,7 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 				break;
 			}
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_DOWN))
+		else if (bDown)
 		{
 			switch (m_iTrackSelection)
 			{
@@ -122,6 +124,4 @@ void Kartaclysm::StateTrackSelectionMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Track Selection Menu state.\n");
 }

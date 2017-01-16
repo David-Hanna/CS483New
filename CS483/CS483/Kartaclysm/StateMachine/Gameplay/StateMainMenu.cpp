@@ -9,6 +9,7 @@
 
 Kartaclysm::StateMainMenu::StateMainMenu()
 	:
+	GameplayState("Main Menu"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_bPreloadCalled(false),
@@ -32,8 +33,6 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/title_image.xml", "TitleImage");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
-
-	printf("Entering Main Menu State.\n");
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
@@ -43,6 +42,9 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 	{
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
+
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
 
 		if (!m_bPreloadCalled)
 		{
@@ -55,7 +57,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
 			}
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
@@ -81,6 +83,4 @@ void Kartaclysm::StateMainMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Main Menu state.\n");
 }

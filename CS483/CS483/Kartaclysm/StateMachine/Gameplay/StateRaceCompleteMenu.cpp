@@ -9,6 +9,7 @@
 
 Kartaclysm::StateRaceCompleteMenu::StateRaceCompleteMenu()
 	:
+	GameplayState("Race Complete"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {
@@ -33,8 +34,6 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/race_complete_message.xml");
 
 	PopulateRaceResultsList(p_mContextParameters);
-
-	printf("Entering Race Complete Menu State.\n");
 }
 
 void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
@@ -45,7 +44,10 @@ void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());
@@ -70,8 +72,6 @@ void Kartaclysm::StateRaceCompleteMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Race Complete Menu state.\n");
 }
 
 void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults)
