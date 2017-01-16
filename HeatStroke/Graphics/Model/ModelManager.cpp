@@ -59,7 +59,7 @@ void HeatStroke::ModelManager::Preload(const std::string& p_strPreloadFileName)
 		EasyXML::GetRequiredStringAttribute(pModelElement, "path", strOBJFileName);
 
 		LoadedModels::const_iterator it = m_mLoadedModels.find(strOBJFileName);
-		if (it != m_mLoadedModels.end())
+		if (it == m_mLoadedModels.end())
 		{
 			Model* pModel = new Model(strOBJFileName);
 			m_mLoadedModels[strOBJFileName] = pModel;
