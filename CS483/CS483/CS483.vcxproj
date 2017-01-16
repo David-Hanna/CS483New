@@ -331,7 +331,13 @@
     <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml" />
-    <Xml Include="Kartaclysm\Data\Racer\hud.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom_left.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom_right.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_full.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_top.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_top_left.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\hud_top_right.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />

@@ -145,11 +145,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
 
-	if (p_strGuid == "Player0")
-	{
-		HeatStroke::GameObject* pHUD = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud.xml", p_strGuid + "_HUD");
-	}
-	// TODO: make the HUD work for multiple players.
+	CreateHUDForRacer(p_strGuid);
 
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
@@ -161,6 +157,61 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	pRacerComponent->SetDriver(pDriver);
 
 	return pRacer;
+}
+
+void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
+{
+	switch (m_uiNumRacers)
+	{
+	case 1:
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_full.xml", p_strGuid + "_HUD");
+		break;
+	case 2:
+		if (p_strGuid == "Player0")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player1")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom.xml", p_strGuid + "_HUD");
+		}
+		break;
+	case 3:
+		if (p_strGuid == "Player0")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player1")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player2")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", p_strGuid + "_HUD");
+		}
+		break;
+	case 4:
+		if (p_strGuid == "Player0")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player1")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player2")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", p_strGuid + "_HUD");
+		}
+		else if (p_strGuid == "Player3")
+		{
+			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_right.xml", p_strGuid + "_HUD");
+		}
+		break;
+	default:
+		assert(false && "Unknown number of players.");
+		break;
+	}
 }
 
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
