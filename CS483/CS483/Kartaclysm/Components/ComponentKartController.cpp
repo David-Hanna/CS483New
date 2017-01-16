@@ -114,6 +114,14 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentKartController::SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		m_iMaxSpeedCoreStat = p_iMaxSpeed;
+		m_iAccelerationCoreStat = p_iAcceleration;
+		m_iHandlingCoreStat = p_iHandling;
+		m_iDurabilityCoreStat = p_iDurability;
+	}
+
 	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
 	{
 		// Max Speed

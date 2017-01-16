@@ -17,6 +17,13 @@
       <OBJFileName path="Assets/Kart/Showoff/showoff.obj"/>
     </GOC_3DModel>
 
+    <GOC_KartStats>
+      <MaxSpeed value="2"/>
+      <Acceleration value="5"/>
+      <Handling value="3"/>
+      <Durability value="2"/>
+    </GOC_KartStats>
+
   </Components>
 
   <Tags>

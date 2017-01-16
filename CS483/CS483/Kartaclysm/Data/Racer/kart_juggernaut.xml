@@ -18,6 +18,13 @@
       <OBJFileName path="Assets/Kart/Juggernaut/juggernaut.obj"/>
     </GOC_3DModel>
 
+    <GOC_KartStats>
+      <MaxSpeed value="5"/>
+      <Acceleration value="1"/>
+      <Handling value="1"/>
+      <Durability value="5"/>
+    </GOC_KartStats>
+
   </Components>
 
   <Tags>

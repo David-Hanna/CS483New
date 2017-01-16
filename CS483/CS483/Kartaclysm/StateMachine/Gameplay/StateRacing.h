@@ -22,6 +22,7 @@
 #include "ComponentSprite.h"
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
+#include "ComponentKartStats.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentAbilityIcon.h"
 #include "ComponentBoostAbility.h"

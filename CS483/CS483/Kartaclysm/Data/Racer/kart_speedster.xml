@@ -17,6 +17,13 @@
       <OBJFileName path="Assets/Kart/Speedster/speedster.obj"/>
     </GOC_3DModel>
 
+    <GOC_KartStats>
+      <MaxSpeed value="3"/>
+      <Acceleration value="3"/>
+      <Handling value="3"/>
+      <Durability value="3"/>
+    </GOC_KartStats>
+
   </Components>
 
   <Tags>
