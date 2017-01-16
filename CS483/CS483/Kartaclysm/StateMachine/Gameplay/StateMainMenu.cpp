@@ -33,6 +33,10 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/title_image.xml", "TitleImage");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
+
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)

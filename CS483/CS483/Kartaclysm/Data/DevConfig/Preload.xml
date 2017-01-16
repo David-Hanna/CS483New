@@ -25,4 +25,23 @@
     <Model path="Assets/Abilities/bowling_ball.obj"/>
     <Model path="Assets/Abilities/bomb.obj"/>
   </Models>
+
+  <SoundEffects>
+    <SoundEffect path="Assets/Sounds/cleopapa_bedazzle.wav"/>
+    <SoundEffect path="Assets/Sounds/cleopapa_make_it_rain.wav"/>
+    
+    <SoundEffect path="Assets/Sounds/clockmaker_clock_bomb.ogg"/>
+    <SoundEffect path="Assets/Sounds/clockmaker_tinker.wav"/>
+    
+    <SoundEffect path="Assets/Sounds/juggernaut_armor.wav"/>
+    <SoundEffect path="Assets/Sounds/juggernaut_maintain.flac"/>
+    
+    <SoundEffect path="Assets/Sounds/kingpin_strike_hit.wav"/>
+    <SoundEffect path="Assets/Sounds/kingpin_strike_throw.wav"/>
+    <SoundEffect path="Assets/Sounds/kingpin_turkey.wav"/>
+    
+    <SoundEffect path="Assets/Sounds/showoff_wheelie.wav"/>
+  
+    <SoundEffect path="Assets/Sounds/speedster_boost.flac"/>
+  </SoundEffects>
 </Preload>

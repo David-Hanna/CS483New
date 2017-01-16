@@ -127,6 +127,10 @@ void Kartaclysm::StateRacing::BeginRace()
 #endif
 	}
 
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+
 	// Set conditions for beginning countdown
 	m_bCountdown = true;
 	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
