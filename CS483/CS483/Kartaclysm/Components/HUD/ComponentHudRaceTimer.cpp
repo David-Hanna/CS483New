@@ -17,7 +17,7 @@ namespace Kartaclysm
 		ComponentRenderable(p_pGameObject),
 		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
 		m_mLabelTextBox(m_pFont, "TIME"),
-		m_mTimerTextBox(m_pFont, "00:00.000"),
+		m_mTimerTextBox(m_pFont, "00:00"),
 		m_fLabelOffset(p_fLabelOffset),
 		m_fTime(0.0f)
 	{

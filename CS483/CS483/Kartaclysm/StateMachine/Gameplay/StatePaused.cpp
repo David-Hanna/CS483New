@@ -9,6 +9,7 @@
 
 Kartaclysm::StatePaused::StatePaused()
 	:
+	GameplayState("Pause State"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iPausedPlayer(-1),
@@ -22,8 +23,6 @@ Kartaclysm::StatePaused::~StatePaused()
 
 void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	printf("Entering State Paused.\n");
-
 	m_bSuspended = false;
 
 	// Tell the HUD to render a pause message
@@ -93,8 +92,6 @@ void Kartaclysm::StatePaused::PreRender()
 
 void Kartaclysm::StatePaused::Exit()
 {
-	printf("Exiting State Paused.\n");
-
 	m_bSuspended = false;
 
 	if (m_pPauseDelegate != nullptr)

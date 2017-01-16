@@ -16,7 +16,7 @@
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
+#include "PlayerInputMapping.h"
 
 namespace Kartaclysm
 {
@@ -41,6 +41,9 @@ namespace Kartaclysm
 
 		// saved from player selection state to add to and pass on to racing state.
 		std::map<std::string, std::string> m_mContextParameters; 
+
+	private:
+		void LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers);
 	};
 }
 

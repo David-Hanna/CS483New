@@ -1,0 +1,41 @@
+# Blender MTL File: 'speedster.blend'
+# Material Count: 3
+
+newmtl Grey
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.060720 0.060720 0.060720
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Speedster/grey.tga
+
+newmtl Main-Body-Mat.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 358.823529
+Ka 1.000000 1.000000 1.000000
+Kd 0.596078 0.000000 0.000000
+Ks 0.664000 0.664000 0.664000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Speedster/speedster.tga
+
+newmtl SpeedsterBlue
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.119200 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd Assets/Kart/Speedster/speedster-blue.tga

@@ -97,17 +97,169 @@ namespace Kartaclysm
 		for (int i = 0; i < m_iPlayersRacing; i++)
 		{
 			// Not the most efficient, but good enough
-			(*m_pPlayers)[i] = GetFirstAvailableInput();
-			if ((*m_pPlayers)[i] != -1)
-			{
-				m_iPlayersConnected++;
-			}
+			AssignInput(i, GetFirstAvailableInput());
 		}
 	}
 
 	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::AssignInput
+	//
+	// Assign input to player. Returns if mapping was successful.
+	//--------------------------------------------------------------------------------
+	bool PlayerInputMapping::AssignInput(const int p_iPlayer, const int p_iGLFWJoystick)
+	{
+		if (p_iPlayer < 0 || p_iPlayer > m_iPlayersConnected)
+		{
+			assert(false && "Invalid player number");
+			return false;
+		}
+
+		int iPlayerUsingInput = PlayerUsingInput(p_iGLFWJoystick);
+		if (iPlayerUsingInput == -2)
+		{
+			assert(false && "Invalid input");
+			return false;
+		}
+		else if (p_iGLFWJoystick != -1 && iPlayerUsingInput != -1 && iPlayerUsingInput != p_iPlayer)
+		{
+			return false; // input in use by another player
+		}
+
+		auto find = m_pPlayers->find(p_iPlayer);
+		if (p_iGLFWJoystick != -1 && (find == m_pPlayers->end() || find->second == -1))
+		{
+			m_iPlayersConnected++;
+		}
+		else if (p_iGLFWJoystick == -1 && find->second != -1)
+		{
+			m_iPlayersConnected--;
+		}
+
+		(*m_pPlayers)[p_iPlayer] = p_iGLFWJoystick;
+		SendInputAssignmentEvent(p_iPlayer);
+		return true;
+	}
+
+	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::PlayerUsingInput
+	//
+	// Returns number of player using input, -1 if not in use, or -2 if invalid.
+	// If -1 is passed, returns first player without an input.
+	//--------------------------------------------------------------------------------
+	int PlayerInputMapping::PlayerUsingInput(const int p_iGLFWJoystick)
+	{
+		if (p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 1 &&
+			p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 2 &&
+			p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 3 &&
+			p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 4 &&
+			!glfwJoystickPresent(p_iGLFWJoystick))
+		{
+			return -2;
+		}
+
+		PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
+		for (; it != end; it++)
+		{
+			if (it->second == p_iGLFWJoystick)
+			{
+				return it->first;
+			}
+		}
+
+		return -1;
+	}
+
+	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::SendInputAssignmentEvent
+	//
+	// Queue event listing button mappings for player
+	//--------------------------------------------------------------------------------
+	void PlayerInputMapping::SendInputAssignmentEvent(const int p_iPlayer)
+	{
+		int iJoystick = m_pPlayers->at(p_iPlayer);
+		Input::Type eType;
+		switch (iJoystick)
+		{
+			case -1: return;
+			case GLFW_JOYSTICK_LAST + 1: eType = Input::eKeyboard1; break;
+			case GLFW_JOYSTICK_LAST + 2: eType = Input::eKeyboard2; break;
+			case GLFW_JOYSTICK_LAST + 3: eType = Input::eKeyboard3; break;
+			case GLFW_JOYSTICK_LAST + 4: eType = Input::eKeyboard4; break;
+			default: eType = Input::eJoystick; break;
+		}
+
+		HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerInputMap");
+		pEvent->SetIntParameter("Player", p_iPlayer);
+
+		for (int i = 0; i < 10; i++)
+		{
+			Racer::Action eAction;
+			std::string strAction;
+			switch (i)
+			{
+				case 0:  strAction = "Accelerate";			eAction = Racer::eAccelerate; break;
+				case 1:  strAction = "Brake";				eAction = Racer::eBrake; break;
+				case 2:  strAction = "Left";				eAction = Racer::eLeft; break;
+				case 3:  strAction = "Right";				eAction = Racer::eRight; break;
+				case 4:  strAction = "Slide";				eAction = Racer::eSlide; break;
+				case 5:  strAction = "DriverAbility1";		eAction = Racer::eDriverAbility1; break;
+				case 6:  strAction = "DriverAbility2";		eAction = Racer::eDriverAbility2; break;
+				case 7:  strAction = "KartAbility1";		eAction = Racer::eKartAbility1; break;
+				case 8:  strAction = "KartAbility2";		eAction = Racer::eKartAbility2; break;
+				case 9:  strAction = "Pause";				eAction = Racer::ePause; break;
+			}
+
+			int iButton = InputActionMapping::Instance()->GetButtonMapping(eType, eAction);
+			std::string strMapping = GetButtonString(eType, iButton);
+			pEvent->SetStringParameter(strAction, strMapping);
+		}
+
+		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
+	}
+
+	//--------------------------------------------------------------------------------
+	// PlayerInputMapping::GetButtonString
+	//
+	// Get string representation for a button, or "" if unavailable
+	//--------------------------------------------------------------------------------
+	std::string PlayerInputMapping::GetButtonString(Input::Type eType, const int p_iButton) const
+	{
+		// TODO: Data drive these strings using a map
+		if (eType == Input::eJoystick)
+		{
+			switch (p_iButton)
+			{
+				case XBOX_A: return "A";
+				case XBOX_B: return "B";
+				case XBOX_X: return "X";
+				case XBOX_Y: return "Y";
+				case XBOX_LB: return "LB";
+				case XBOX_RB: return "RB";
+				case XBOX_BACK: return "Back";
+				case XBOX_START: return "Start";
+				case XBOX_L3: return "L3";
+				case XBOX_R3: return "R3";
+				case XBOX_UP: return "Up";
+				case XBOX_RIGHT: return "Right";
+				case XBOX_DOWN: return "Down";
+				case XBOX_LEFT: return "Left";
+				default: return "";
+			}
+		}
+		else
+		{
+			// TODO: More support for keyboard strings
+			if (p_iButton <= 127) // converts to ASCII
+			{
+				return std::string(1, static_cast<char>(p_iButton));
+			}
+		}
+		return "";
+	}
+
+	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::QueryPlayerMovement
-	// Parameter:	const int p_iPlayerNum - number of players in race
+	// Parameter:	const int p_iPlayerNum - number of player
 	//				int& p_iAccelerate - Gets value of accelerate bool
 	//				int& p_iBrake - Gets value of brake bool
 	//				int& p_iSlide - Gets value of slide bool
@@ -130,6 +282,41 @@ namespace Kartaclysm
 		p_fTurn = InputActionMapping::Instance()->GetTurning(iJoystick);
 	}
 
+	// TODO: Data drive this method or streamline it better in the future
+	void PlayerInputMapping::QueryPlayerMenuActions(
+		const int p_iPlayerNum,
+		bool& p_bUp,
+		bool& p_bDown,
+		bool& p_bLeft,
+		bool& p_bRight,
+		bool& p_bConfirm,
+		bool& p_bCancel) const
+	{
+		int iJoystick = m_pPlayers->at(p_iPlayerNum);
+		if (iJoystick > GLFW_JOYSTICK_LAST)
+		{
+			// Keyboard
+			HeatStroke::KeyboardInputBuffer* pKeyboard = HeatStroke::KeyboardInputBuffer::Instance();
+			p_bUp = (pKeyboard->IsKeyDownOnce(GLFW_KEY_UP) || pKeyboard->IsKeyDownOnce(GLFW_KEY_W));
+			p_bDown = (pKeyboard->IsKeyDownOnce(GLFW_KEY_DOWN) || pKeyboard->IsKeyDownOnce(GLFW_KEY_S));
+			p_bLeft = (pKeyboard->IsKeyDownOnce(GLFW_KEY_LEFT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_A));
+			p_bRight = (pKeyboard->IsKeyDownOnce(GLFW_KEY_RIGHT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_D));
+			p_bConfirm = pKeyboard->IsKeyDownOnce(GLFW_KEY_ENTER);
+			p_bCancel = pKeyboard->IsKeyDownOnce(GLFW_KEY_SPACE);
+		}
+		else
+		{
+			// Joystick
+			HeatStroke::JoystickInputBuffer* pJoystick = HeatStroke::JoystickInputBuffer::Instance();
+			p_bUp = pJoystick->IsButtonDownOnce(iJoystick, XBOX_UP);
+			p_bDown = pJoystick->IsButtonDownOnce(iJoystick, XBOX_DOWN);
+			p_bLeft = pJoystick->IsButtonDownOnce(iJoystick, XBOX_LEFT);
+			p_bRight = pJoystick->IsButtonDownOnce(iJoystick, XBOX_RIGHT);
+			p_bConfirm = pJoystick->IsButtonDownOnce(iJoystick, XBOX_A);
+			p_bCancel = pJoystick->IsButtonDownOnce(iJoystick, XBOX_B);
+		}
+	}
+
 	//--------------------------------------------------------------------------------
 	// PlayerInputMapping::SetSplitscreenPlayers
 	// Parameter:	const int p_iNumPlayers - number of players in race
@@ -141,74 +328,27 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	bool PlayerInputMapping::SetSplitscreenPlayers(const int p_iNumPlayers)
 	{
-		if (p_iNumPlayers > m_iPlayersRacing)
+		m_iPlayersRacing = p_iNumPlayers;
+		int iAssigned = m_iPlayersConnected;
+
+		int iLimit = (p_iNumPlayers > m_iPlayersConnected ? p_iNumPlayers : m_iPlayersConnected);
+		for (int i = 0; i < iLimit; i++)
 		{
-			// Map additional players to first available inputs
-			for (; m_iPlayersRacing < p_iNumPlayers; m_iPlayersRacing++)
+			if (i < iAssigned)
 			{
-				// Not the most efficient, but good enough
-				(*m_pPlayers)[m_iPlayersRacing] = GetFirstAvailableInput();
-				if ((*m_pPlayers)[m_iPlayersRacing] != -1)
-				{
-					m_iPlayersConnected++;
-				}
+				SendInputAssignmentEvent(i);
 			}
-		}
-		else if (p_iNumPlayers < m_iPlayersRacing)
-		{
-			// Delete the additional mappings that are no longer needed
-			for (; m_iPlayersRacing > p_iNumPlayers; m_iPlayersRacing--)
+			else if (i > p_iNumPlayers)
 			{
-				if ((*m_pPlayers)[m_iPlayersRacing] != -1)
-				{
-					m_iPlayersConnected--;
-				}
-				m_pPlayers->erase(m_pPlayers->at(m_iPlayersRacing));
+				AssignInput(i, -1);
+			}
+			else if (!AssignInput(i, GetFirstAvailableInput()))
+			{
+				m_iPlayersRacing--;
 			}
 		}
 
 		return m_iPlayersConnected == m_iPlayersRacing;
-	}
-
-	//--------------------------------------------------------------------------------
-	// PlayerInputMapping::ManuallyMapPlayer
-	// Parameter:	const int p_iPlayer - player to map
-	//				const int p_iGLFWJoystick - Joystick number, GLFW_JOYSTICK_LAST + 1 for keyboard, or -1 to disable
-	// Returns: bool
-	//
-	// Manually map player to input. Returns if successful (input not in use by anyone else).
-	// Not that it matters, but returns true if p_iGLFWJoystick == -1.
-	// Note: Make sure you pass a player number less than what is set by SetSplitscreenPlayers().
-	//--------------------------------------------------------------------------------
-	bool PlayerInputMapping::ManuallyMapPlayer(const int p_iPlayer, const int p_iGLFWJoystick)
-	{
-		assert(p_iPlayer <= m_iPlayersRacing);
-
-		if (p_iGLFWJoystick == -1) // disable
-		{
-			(*m_pPlayers)[p_iPlayer] = -1;
-			return true;
-		}
-
-		// Check if desired input is in use
-		PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
-		bool bFound = false;
-		for (; it != end; it++)
-		{
-			if (it->second == p_iGLFWJoystick)
-			{
-				bFound = true;
-				break;
-			}
-		}
-
-		if (!bFound) // input not in use: assign it
-		{
-			(*m_pPlayers)[p_iPlayer] = it->second;
-			return true;
-		}
-
-		return false;
 	}
 
 	//--------------------------------------------------------------------------------
@@ -221,33 +361,12 @@ namespace Kartaclysm
 	{
 		for (int i = 0; i <= GLFW_JOYSTICK_LAST + 4; i++)
 		{
-			if (i == GLFW_JOYSTICK_LAST + 1 ||
-				i == GLFW_JOYSTICK_LAST + 2 || 
-				i == GLFW_JOYSTICK_LAST + 3 || 
-				i == GLFW_JOYSTICK_LAST + 4 ||
-				glfwJoystickPresent(i))
+			if (PlayerUsingInput(i) == -1)
 			{
-				// See if input is in use
-				bool bFound = false;
-				PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
-				for (; it != end; it++)
-				{
-					if (it->second == i)
-					{
-						bFound = true;
-						break;
-					}
-				}
-
-				// If not in use, return it
-				if (!bFound)
-				{
-					return i;
-				}
+				return i;
 			}
 		}
 
-		// No available inputs
 		return -1;
 	}
 
@@ -290,74 +409,49 @@ namespace Kartaclysm
 		if (iJoystickEvent == GLFW_CONNECTED)
 		{
 			// Add to first player without an input
-			bool bFound = false;
-			int iKeyboardInUseBy = -1;
-			PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
-			for (; it != end; it++)
+			int iPlayerWithoutInput = PlayerUsingInput(-1);
+			if (iPlayerWithoutInput != -1)
 			{
-				if (it->second == -1)
+				if (!m_bRaceMode)
 				{
-					it->second = iGLFWJoystick;
-					m_iPlayersConnected++;
-					bFound = true;
-					break;
+					AssignInput(iPlayerWithoutInput, iGLFWJoystick);
 				}
-				else if (it->second == GLFW_JOYSTICK_LAST + 1)
+				else
 				{
-					iKeyboardInUseBy = it->first;
+					HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerReconnect");
+					pEvent->SetIntParameter("Player", iPlayerWithoutInput);
+					pEvent->SetIntParameter("LeftToConnect", m_iPlayersRacing - m_iPlayersConnected);
+					HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 				}
 			}
-
-			// If race mode is enabled, send out player reconnect event
-			if (bFound && m_bRaceMode)
+			else if (!m_bRaceMode)
 			{
-				HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerReconnect");
-				pEvent->SetIntParameter("Player", it->first);
-				pEvent->SetIntParameter("LeftToConnect", m_iPlayersRacing - m_iPlayersConnected);
-				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-			}
-
-			// If not in race mode, push a player off keyboard and onto joystick
-			if (iKeyboardInUseBy != -1 && !m_bRaceMode)
-			{
-				(*m_pPlayers)[iKeyboardInUseBy] = iGLFWJoystick;
+				// If not in race mode, push a player off keyboard and onto joystick
+				int iKeyboardPlayer = PlayerUsingInput(GLFW_JOYSTICK_LAST + 1);
+				if (iKeyboardPlayer >= 0 && !m_bRaceMode)
+				{
+					AssignInput(iKeyboardPlayer, iGLFWJoystick);
+				}
 			}
 		}
 		else if (iJoystickEvent == GLFW_DISCONNECTED)
 		{
 			// Remove from player who was mapped to this joystick
-			bool bFound = false, bKeyboardInUse = false;
-			PlayerMap::iterator it = m_pPlayers->begin(), end = m_pPlayers->end();
-			for (; it != end; it++)
+			int iPlayerUsingInput = PlayerUsingInput(iGLFWJoystick);
+			if (iPlayerUsingInput != -1)
 			{
-				if (it->second == iGLFWJoystick)
+				if (!m_bRaceMode)
 				{
-					// TO DO, for now, hardcoded that you get assigned another input automatically
-					// When implemented in game, this should be handled through the event below
-					int iTemp = it->first;
-					it->second = GetFirstAvailableInput();
-					if ((*m_pPlayers)[iTemp] == -1)
-					{
-						m_iPlayersConnected--;
-					}
-					bFound = true;
+					AssignInput(iPlayerUsingInput, GetFirstAvailableInput());
 				}
-				else if (it->second == GLFW_JOYSTICK_LAST + 1)
+				else
 				{
-					bKeyboardInUse = true;
+					HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerDisconnect");
+					pEvent->SetIntParameter("Player", iPlayerUsingInput);
+					pEvent->SetIntParameter("KeyboardInUse", (PlayerUsingInput(GLFW_JOYSTICK_LAST + 1) == -1 ? 0 : 1)); // can they map to keyboard?
+					HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 				}
 			}
-
-			// If race mode is enabled, send out player disconnect event
-			if (bFound && m_bRaceMode)
-			{
-				HeatStroke::Event* pEvent = new HeatStroke::Event("PlayerDisconnect");
-				pEvent->SetIntParameter("Player", it->first);
-				pEvent->SetIntParameter("KeyboardInUse", (int)bKeyboardInUse); // can they map to keyboard?
-				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-			}
-
-
 		}
 	}
 }
