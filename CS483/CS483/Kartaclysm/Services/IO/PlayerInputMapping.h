@@ -35,6 +35,16 @@ namespace Kartaclysm
 			int& p_iSlide,
 			float& p_fTurn) const;
 
+		// Manually query a player's menu actions
+		void QueryPlayerMenuActions(
+			const int p_iPlayerNum,
+			bool& p_bUp,
+			bool& p_bDown,
+			bool& p_bLeft,
+			bool& p_bRight,
+			bool& p_bConfirm,
+			bool& p_bCancel) const;
+
 		// Sets number of players to track when race mode is enabled
 		bool SetSplitscreenPlayers(const int p_iNumPlayers);
 
