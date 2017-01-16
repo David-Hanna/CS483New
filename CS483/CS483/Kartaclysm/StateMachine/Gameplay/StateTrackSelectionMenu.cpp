@@ -36,11 +36,54 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml");
 
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_noob_zone.xml");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_shift_rift.xml");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml");
+	std::vector<HeatStroke::GameObject*> vTracks;
+	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_noob_zone.xml", "Noob_Zone"));
+	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_shift_rift.xml", "Shift_Rift"));
+	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml", "Up_and_Over"));
+
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* pTrackElement = nullptr;
+	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
+	{
+		pTrackElement = doc.FirstChildElement("BestTimes");
+		auto it = vTracks.begin(), end = vTracks.end();
+		for (; it != end; it++)
+		{
+			LoadBestTrackTime(pTrackElement, (*it)->GetGUID(), (*it)->GetChildrenWithTag("TimeText"));
+		}
+	}
+	else
+	{
+		printf("StateTrackSelectionMenu: Error loading best times XML file");
+	}
 
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
+}
+
+void Kartaclysm::StateTrackSelectionMenu::LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers)
+{
+	// TODO: Expand to include best lap time
+	std::string strBestRaceTime = "--:--.--";
+
+	if (p_pBestTimesElement != nullptr)
+	{
+		tinyxml2::XMLElement* pTrackElement = p_pBestTimesElement->FirstChildElement(p_strTrack.c_str());
+		if (pTrackElement != nullptr)
+		{
+			HeatStroke::EasyXML::GetOptionalStringAttribute(pTrackElement, "RaceTime", strBestRaceTime, strBestRaceTime);
+		}
+	}
+
+	auto it = p_vTrackTimers.begin(), end = p_vTrackTimers.end();
+	for (; it != end; it++)
+	{
+		HeatStroke::ComponentTextBox* pTimer = dynamic_cast<HeatStroke::ComponentTextBox*>((*it)->GetComponent("GOC_Renderable"));
+
+		if ((*it)->HasTag("RaceTime"))
+		{
+			pTimer->SetMessage(strBestRaceTime);
+		}
+	}
 }
 
 void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
