@@ -29,7 +29,7 @@ namespace Kartaclysm
 		};
 
 	public:
-		GameplayState() : m_pGameObjectManager(nullptr) {}
+		GameplayState(const std::string& p_strStateName = "Gameplay State") : State(p_strStateName) {}
 		virtual ~GameplayState() {}
 
 		// Inherited
