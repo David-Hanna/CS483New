@@ -90,10 +90,7 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 		m_mGameObjectMap.insert(std::pair<std::string, GameObject*>(strGuid, pObj));
 		pObj->Init();
 
-		// TODO: These are here to call the UpdateChildrensParent_______() methods in the Transform setters
-		pObj->m_Transform.SetTranslation(pObj->m_Transform.GetTranslation());
-		pObj->m_Transform.SetRotation(pObj->m_Transform.GetRotation());
-		pObj->m_Transform.SetScale(pObj->m_Transform.GetScale());
+		pObj->m_Transform.ManuallyUpdateParent();
 
 		return pObj;
 	}

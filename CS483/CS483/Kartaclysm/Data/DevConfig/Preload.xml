@@ -1,6 +1,6 @@
 <Preload>
   <Models>
-    <Model path="Assets/Kart/Kart.obj"/>
+    <!--<Model path="Assets/Kart/Kart.obj"/>-->
 
     <Model path="Assets/Drivers/KingPin/king-pin.obj"/>
     <Model path="Assets/Drivers/Clockmaker/clockmaker.obj"/>
