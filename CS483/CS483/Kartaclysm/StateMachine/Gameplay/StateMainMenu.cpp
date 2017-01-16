@@ -42,6 +42,10 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
 		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
 	}
+
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
