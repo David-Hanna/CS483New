@@ -33,6 +33,7 @@ namespace Kartaclysm
 		// Manage user control bindings
 		void ResetUserControlBindings(const bool p_bResetKeyboard = true, const bool p_bResetJoystick = true);
 		void LoadUserControlBindings();
+		int GetButtonMapping(Input::Type eType, Racer::Action eAction);
 
 		// TO DO, the below methods
 		// bool SaveUserControlBindings();

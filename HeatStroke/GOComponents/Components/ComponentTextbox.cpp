@@ -52,7 +52,6 @@ HeatStroke::Component* HeatStroke::ComponentTextBox::CreateComponent(
 
 	// Check that we got everything we needed.
 	assert(strFontFilePath != "");
-	assert(strMessage != "");
 	assert(fWidth != 0.0f);
 	assert(fHeight != 0.0f);
 
