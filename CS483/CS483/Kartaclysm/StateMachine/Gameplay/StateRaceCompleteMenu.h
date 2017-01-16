@@ -15,7 +15,8 @@
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
+#include "PlayerInputMapping.h"
+#include "EasyXML.h"
 
 namespace Kartaclysm
 {
@@ -37,6 +38,7 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath);
 		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults); 
 		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};

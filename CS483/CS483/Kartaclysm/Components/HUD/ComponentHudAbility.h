@@ -56,6 +56,7 @@ namespace Kartaclysm
 
 		virtual void AbilityCallback(const HeatStroke::Event* p_pEvent);
 		virtual void IconCallback(const HeatStroke::Event* p_pEvent);
+		virtual void ControlsCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -68,7 +69,8 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		HeatStroke::Font* m_pFont;
-		HeatStroke::TextBox m_mTextBox;
+		HeatStroke::TextBox m_mChargesTextBox;
+		HeatStroke::TextBox m_mControlsTextBox;
 		HeatStroke::SpriteInstance* m_pActiveSprite;
 		HeatStroke::SpriteInstance* m_pInactiveSprite;
 
@@ -78,6 +80,7 @@ namespace Kartaclysm
 		
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pIconDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pControlsDelegate;
 	};
 }
 

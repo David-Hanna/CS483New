@@ -11,6 +11,7 @@
 
 Kartaclysm::StateOptionsMenu::StateOptionsMenu()
 	:
+	GameplayState("Options State"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_strXmlFilePath("")
@@ -42,8 +43,6 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml");
-
-	printf("Entering Options Menu State.\n");
 }
 
 void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
@@ -78,8 +77,6 @@ void Kartaclysm::StateOptionsMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Player Selection Menu state.\n");
 }
 
 void Kartaclysm::StateOptionsMenu::LoadOptionsFromXml(const std::string& p_strXmlFilePath)

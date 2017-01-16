@@ -14,7 +14,8 @@
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
+#include "PlayerInputMapping.h"
+#include "ModelManager.h"
 
 namespace Kartaclysm
 {
@@ -34,7 +35,8 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
-		bool m_bPreloaded;
+		bool m_bPreloadCalled;
+		bool m_bRenderedOnce;
 	};
 }
 
