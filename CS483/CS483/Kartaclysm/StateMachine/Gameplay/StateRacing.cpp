@@ -10,6 +10,7 @@
 
 Kartaclysm::StateRacing::StateRacing()
 	:
+	GameplayState("Racing"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_pPauseDelegate(nullptr),
@@ -24,8 +25,6 @@ Kartaclysm::StateRacing::~StateRacing()
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	printf("Entering Racing State.\n");
-
 	m_bSuspended = false;
 
 	// Register listeners
@@ -113,11 +112,8 @@ void Kartaclysm::StateRacing::BeginRace()
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().TranslateXYZ(1.0f * i, 0.0f, 0.0f); // TODO: Better positioning
+		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
 	}
-
-	// TODO: WHY IS PRINTING THE GAME OBJECT MANAGER FIXING A BUG????
-	m_pGameObjectManager->Print();
 
 	// Set conditions for beginning countdown
 	m_bCountdown = true;
@@ -182,11 +178,13 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			m_bCountdown = false;
 		}
 
-		// DEBUG: Should be removed at some point
+#ifdef _DEBUG
+		// DEBUG: Should be removed at some point. Restart race when 'Z' is pressed
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))
 		{
 			BeginRace();
 		}
+#endif
 	}
 }
 
@@ -199,8 +197,6 @@ void Kartaclysm::StateRacing::PreRender()
 
 void Kartaclysm::StateRacing::Exit()
 {
-	printf("Exiting Racing State.\n");
-
 	m_bSuspended = false;
 
 	if (m_pPauseDelegate != nullptr)
@@ -272,7 +268,6 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 
 void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
 {
-	printf("ending race\n");
 	std::map<std::string, std::string> mRaceResults = GenerateRaceResults();
 	m_pStateMachine->Pop();
 	m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, mRaceResults);

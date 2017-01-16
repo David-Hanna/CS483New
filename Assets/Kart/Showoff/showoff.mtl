@@ -1,0 +1,54 @@
+# Blender MTL File: 'showoff.blend'
+# Material Count: 4
+
+newmtl Grey
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Showoff/grey.tga
+
+newmtl Grey.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Showoff/grey.tga
+
+newmtl Main-Body-Mat
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 358.823529
+Ka 1.000000 1.000000 1.000000
+Kd 0.596078 0.000000 0.000000
+Ks 0.664000 0.664000 0.664000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Showoff/showoff.tga
+
+newmtl Purple
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Kart/Showoff/showoff-purple.tga

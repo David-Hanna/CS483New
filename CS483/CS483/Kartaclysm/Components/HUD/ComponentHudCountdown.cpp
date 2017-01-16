@@ -71,10 +71,6 @@ namespace Kartaclysm
 
 	void ComponentHudCountdown::CountdownCallback(const HeatStroke::Event* p_pEvent)
 	{
-		/*HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
-		pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
-		HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);*/
-
 		int iCountdown;
 		p_pEvent->GetRequiredIntParameter("Countdown", iCountdown);
 

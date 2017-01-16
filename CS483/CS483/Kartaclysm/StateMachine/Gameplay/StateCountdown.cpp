@@ -9,6 +9,7 @@
 
 Kartaclysm::StateCountdown::StateCountdown()
 	:
+	GameplayState("Countdown"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true)
 {
@@ -20,7 +21,6 @@ Kartaclysm::StateCountdown::~StateCountdown()
 
 void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	printf("Entering State Countdown.\n");
 	m_bSuspended = false;
 	m_fTimer = 3.0f;
 
@@ -51,7 +51,7 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 			pCountdownEvent->SetIntParameter("Disable", 0);
 			for (int i = 0; i < m_iPlayerCount; i++)
 			{
-				pHudEvent->SetIntParameter("Player" + std::to_string(i), static_cast<int>(m_vGainsBoost[i]));
+				pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
 			}
 			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
 
@@ -96,6 +96,12 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 
 void Kartaclysm::StateCountdown::Exit()
 {
-	printf("Exiting State Countdown.\n");
+	if (m_pGameObjectManager != nullptr)
+	{
+		m_pGameObjectManager->DestroyAllGameObjects();
+		delete m_pGameObjectManager;
+		m_pGameObjectManager = nullptr;
+	}
+
 	m_bSuspended = false;
 }
