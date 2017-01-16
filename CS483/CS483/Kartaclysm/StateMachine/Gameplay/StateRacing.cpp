@@ -115,6 +115,18 @@ void Kartaclysm::StateRacing::BeginRace()
 		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
 	}
 
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	{
+		// TODO: Properly handle race mode
+		//PlayerInputMapping::Instance()->EnableRaceMode();
+	}
+	else
+	{
+#ifdef _DEBUG
+		assert(false && "Failed to set number of players.");
+#endif
+	}
+
 	// Set conditions for beginning countdown
 	m_bCountdown = true;
 	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
@@ -198,6 +210,8 @@ void Kartaclysm::StateRacing::PreRender()
 void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
+
+	PlayerInputMapping::Instance()->DisableRaceMode();
 
 	if (m_pPauseDelegate != nullptr)
 	{

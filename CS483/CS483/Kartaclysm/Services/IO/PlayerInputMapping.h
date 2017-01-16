@@ -39,7 +39,7 @@ namespace Kartaclysm
 		bool SetSplitscreenPlayers(const int p_iNumPlayers);
 
 		// Provide external control for mapping
-		bool ManuallyMapPlayer(const int p_iPlayer, const int p_iGLFWJoystick);
+		bool AssignInput(const int p_iPlayer, const int p_iGLFWJoystick);
 		int GetFirstAvailableInput();
 
 		int GetSplitscreenPlayers() const	{ return m_iPlayersRacing; }
@@ -88,6 +88,11 @@ namespace Kartaclysm
 		~PlayerInputMapping();
 
 		void Init();
+
+		// Helper methods for assigning buttons
+		int PlayerUsingInput(const int p_iGLFWJoystick);
+		void SendInputAssignmentEvent(const int p_iPlayer);
+		std::string GetButtonString(Input::Type eType, const int p_iButton) const;
 
 		// Joystick connect/disconnect callback
 		void JoystickCallback(const HeatStroke::Event* p_pEvent);

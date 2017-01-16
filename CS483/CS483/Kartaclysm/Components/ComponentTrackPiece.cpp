@@ -164,6 +164,7 @@ namespace Kartaclysm
 				return IsAheadOnTurn(p_vFirstRacerPosition, p_vSecondRacerPosition);
 			default:
 				printf("Unknown position function\n");
+				return false;
 				break;
 		}
 	}
@@ -235,6 +236,11 @@ namespace Kartaclysm
 		else if (strHeightFunction.compare("turn") == 0)
 		{
 			return Turn;
+		}
+		else
+		{
+			assert(false && "Unknown track position function.");
+			return Straight;
 		}
 	}
 

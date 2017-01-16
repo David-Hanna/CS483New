@@ -16,7 +16,8 @@ namespace Kartaclysm
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
 		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
-		m_mTextBox(m_pFont, ""),
+		m_mChargesTextBox(m_pFont, ""),
+		m_mControlsTextBox(m_pFont, ""),
 		m_pActiveSprite(nullptr),
 		m_pInactiveSprite(new HeatStroke::SpriteInstance("Assets/Hud/Abilities/null.mtl", "null_ability")),
 		m_strEventName(p_strAbility),
@@ -24,13 +25,17 @@ namespace Kartaclysm
 		m_bHasCharges(false)
 	{
 		HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pInactiveSprite);
+
+		m_pControlsDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudAbility::ControlsCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("PlayerInputMap", m_pControlsDelegate);
 	}
 
 	ComponentHudAbility::~ComponentHudAbility()
 	{
 		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pActiveSprite);
 		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(m_pInactiveSprite);
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mChargesTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mControlsTextBox);
 
 		DELETE_IF(m_pInactiveSprite);
 		DELETE_IF(m_pActiveSprite);
@@ -42,6 +47,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName + "_Icon", m_pIconDelegate);
 		delete m_pIconDelegate;
 		m_pIconDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("PlayerInputMap", m_pControlsDelegate);
+		delete m_pControlsDelegate;
+		m_pIconDelegate = m_pControlsDelegate;
 	}
 
 	HeatStroke::Component* ComponentHudAbility::CreateComponent(
@@ -138,27 +147,27 @@ namespace Kartaclysm
 			if (!m_bHasCharges)
 			{
 				m_bHasCharges = true;
-				HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
+				HeatStroke::SceneManager::Instance()->AddTextBox(&m_mChargesTextBox);
 			}
 
 			if (iCharges == iMaxCharges)
 			{
-				m_mTextBox.SetColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+				m_mChargesTextBox.SetColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 			}
 			else
 			{
-				m_mTextBox.SetColour(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+				m_mChargesTextBox.SetColour(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
 			}
 
-			m_mTextBox.SetText(std::to_string(iCharges));
-			m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
-				glm::scale(glm::vec3(0.05f, 0.05f, 0.0f)) *
+			m_mChargesTextBox.SetText(std::to_string(iCharges));
+			m_mChargesTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::scale(glm::vec3(0.05f, 0.05f, 1.0f)) *
 				glm::translate(glm::vec3(10.0f, 32.0f, 0.0f)));
 		}
 		else if (m_bHasCharges)
 		{
 			m_bHasCharges = false;
-			HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+			HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mChargesTextBox);
 		}
 	}
 
@@ -187,6 +196,28 @@ namespace Kartaclysm
 		m_pActiveSprite = new HeatStroke::SpriteInstance(strActiveMTLFileName, strActiveMaterialName);
 		m_pInactiveSprite = new HeatStroke::SpriteInstance(strInactiveMTLFileName, strInactiveMaterialName);
 		HeatStroke::SceneManager::Instance()->AddSpriteInstance(m_pInactiveSprite);
+	}
+
+	void ComponentHudAbility::ControlsCallback(const HeatStroke::Event* p_pEvent)
+	{
+		int iPlayer;
+		std::string strControls = "";
+
+		p_pEvent->GetRequiredIntParameter("Player", iPlayer);
+		p_pEvent->GetOptionalStringParameter(m_strEventName.substr(m_strEventName.find_last_of('_') + 1), strControls, strControls);
+
+		if (iPlayer == atoi(m_strEventName.substr(6, m_strEventName.find('_')).c_str()))
+		{
+			m_mControlsTextBox.SetText(strControls);
+			m_mControlsTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
+			m_mControlsTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::scale(glm::vec3(0.035f, 0.035f, 1.0f)) *
+				glm::translate(glm::vec3(-20.0f, -30.0f, 0.0f)));
+		}
+
+		// Make sure textbox is added to scene only once
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mControlsTextBox);
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mControlsTextBox);
 	}
 
 	void ComponentHudAbility::ParseNode(
