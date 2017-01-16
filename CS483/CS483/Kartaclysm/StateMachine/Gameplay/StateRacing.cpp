@@ -203,12 +203,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			pEvent2->SetStringParameter("racerId", "Player1");
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
 		}
-
-		// DEBUG: Restart race when 'Z' is pressed
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))
-		{
-			BeginRace();
-		}
 #endif
 	}
 }
