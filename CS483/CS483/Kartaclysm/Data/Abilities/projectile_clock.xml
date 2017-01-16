@@ -4,14 +4,13 @@
 <GameObject>
 
   <Transform>
-    <Scale x="0.5" y="0.5" z="0.5" />
+    <Scale x="2" y="2" z="2" />
   </Transform>
   
   <Components>
 
     <GOC_3DModel>
-      <!--<OBJFileName path="Assets/Abilities/bowling_ball.obj"/>-->
-      <OBJFileName path="Assets/box/box.obj"/>
+      <OBJFileName path="Assets/Abilities/bomb.obj"/>
     </GOC_3DModel>
 
     <GOC_SphereCollider>

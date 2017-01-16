@@ -147,6 +147,7 @@
     <ClCompile Include="Kartaclysm\Components\ComponentKartController.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentTrackPiece.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudCountdown.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudFps.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudLapCount.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPopup.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.cpp" />
@@ -254,12 +256,14 @@
     <ClInclude Include="Kartaclysm\Components\ComponentKartController.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentTrackPiece.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudCountdown.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudFps.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudLapCount.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPopup.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
