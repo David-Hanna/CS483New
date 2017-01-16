@@ -45,7 +45,10 @@ void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());

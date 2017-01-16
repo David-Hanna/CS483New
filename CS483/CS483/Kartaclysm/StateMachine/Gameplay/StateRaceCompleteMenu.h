@@ -15,8 +15,8 @@
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "KeyboardInputBuffer.h"
-#include "EasyXML.h" // TODO: Delete once moved to Track Selection Menu
+#include "PlayerInputMapping.h"
+#include "EasyXML.h"
 
 namespace Kartaclysm
 {

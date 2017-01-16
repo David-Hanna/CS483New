@@ -94,7 +94,10 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_ENTER))
+		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+		if (bConfirm)
 		{
 			switch (m_iTrackSelection)
 			{
@@ -112,7 +115,7 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_UP))
+		else if (bUp)
 		{
 			switch (m_iTrackSelection)
 			{
@@ -128,7 +131,7 @@ void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 				break;
 			}
 		}
-		else if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_DOWN))
+		else if (bDown)
 		{
 			switch (m_iTrackSelection)
 			{
