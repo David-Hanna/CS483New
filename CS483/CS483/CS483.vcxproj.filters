@@ -865,9 +865,6 @@
     <Xml Include="Kartaclysm\Data\Racer\racer.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Racer\hud.xml">
-      <Filter>Kartaclysm\Data\Racer</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml">
       <Filter>Kartaclysm\Data\Lights</Filter>
     </Xml>
@@ -906,6 +903,27 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom_left.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_bottom_right.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_full.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_top.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_top_left.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\hud_top_right.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
   </ItemGroup>
 </Project>
