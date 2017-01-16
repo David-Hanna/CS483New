@@ -10,6 +10,7 @@
 
 Kartaclysm::StateTrackSelectionMenu::StateTrackSelectionMenu()
 	:
+	GameplayState("Track Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iTrackSelection(0),
@@ -40,8 +41,6 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml");
 
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
-
-	printf("Entering Track Selection Menu State.\n");
 }
 
 void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
@@ -122,6 +121,4 @@ void Kartaclysm::StateTrackSelectionMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Track Selection Menu state.\n");
 }

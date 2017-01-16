@@ -114,6 +114,12 @@ namespace Kartaclysm
 		p_pRacer->SetFurthestTrackPiece(m_vTrackPieces.size() - 1);
 
 		m_vRacers.push_back(p_pRacer);
+
+		// Queue HUD event for beginning lap count
+		HeatStroke::Event* pEvent = new HeatStroke::Event(p_pRacer->GetGameObject()->GetGUID() + "_HUD_Lap");
+		pEvent->SetIntParameter("Current", 1);
+		pEvent->SetIntParameter("Total", 3);
+		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 
 	void ComponentTrack::OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent)

@@ -23,6 +23,7 @@
 #include "StateRacing.h"
 #include "StatePaused.h"
 #include "StateRaceCompleteMenu.h"
+#include "StateCountdown.h"
 #include "StateMainMenu.h"
 #include "StateOptionsMenu.h"
 #include "SceneManager.h"

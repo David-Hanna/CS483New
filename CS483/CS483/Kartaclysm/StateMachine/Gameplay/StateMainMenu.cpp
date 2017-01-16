@@ -9,6 +9,7 @@
 
 Kartaclysm::StateMainMenu::StateMainMenu()
 	:
+	GameplayState("Main Menu"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_bPreloaded(false)
@@ -40,8 +41,6 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
 		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
 	}
-
-	printf("Entering Main Menu State.\n");
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
@@ -77,6 +76,4 @@ void Kartaclysm::StateMainMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
-
-	printf("Exiting Main Menu state.\n");
 }

@@ -30,10 +30,6 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::AudioPlayer::CreateInstance();
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
-	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(2))
-	{
-		assert(false && "Failed to set number of players.");
-	}
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -46,6 +42,7 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(GameplayState::STATE_PAUSED, new StatePaused());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_OPTIONS_MENU, new StateOptionsMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 
