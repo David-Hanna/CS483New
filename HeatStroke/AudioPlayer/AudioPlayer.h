@@ -33,11 +33,21 @@ namespace HeatStroke
 		void PlaySoundEffect(const std::string& p_strFile);
 		void FlushSoundEffects();
 
+		void SetMusicVolume(float p_fMusicVolume)				{ m_fMusicVolume = p_fMusicVolume; }
+		void SetSoundEffectsVolume(float p_fSoundEffectsVolume) { m_fSoundEffectsVolume = p_fSoundEffectsVolume; }
+
+		float GetMusicVolume() const			{ return m_fMusicVolume; }
+		float GetSoundEffectsVolume() const		{ return m_fSoundEffectsVolume; }
+
 	private:
 		static AudioPlayer* s_pAudioPlayerInstance;
 
-		AudioPlayer() : m_pCurrentMusic(nullptr), m_mLoadedSoundEffects() {}
-		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); FlushSoundEffects(); }
+		AudioPlayer() :
+			m_pCurrentMusic(nullptr), 
+			m_mLoadedSoundEffects(),
+			m_fMusicVolume(100.0f), 
+			m_fSoundEffectsVolume(100.0f) {}
+		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); }
 
 	private:
 		typedef std::pair<sf::SoundBuffer*, sf::Sound*> SoundEffect;
@@ -45,6 +55,9 @@ namespace HeatStroke
 
 		sf::Music* m_pCurrentMusic;
 		LoadedSoundEffects m_mLoadedSoundEffects;
+
+		float m_fMusicVolume;
+		float m_fSoundEffectsVolume;
 	};
 }
 

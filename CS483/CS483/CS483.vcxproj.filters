@@ -423,6 +423,9 @@
     <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
@@ -749,6 +752,9 @@
     <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
@@ -990,6 +996,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
   </ItemGroup>
 </Project>

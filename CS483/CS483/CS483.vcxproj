@@ -157,6 +157,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
@@ -353,6 +355,7 @@
     <Xml Include="Kartaclysm\Data\Tracks\track_turn_right_small.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\up_and_over.xml" />
     <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml" />
+    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml" />
     <Xml Include="Kartaclysm\Data\Walls\wall.xml" />
     <Xml Include="Kartaclysm\Data\Walls\wall_eastwest.xml" />
     <Xml Include="Kartaclysm\Data\Walls\wall_northsouth.xml" />
