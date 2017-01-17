@@ -32,7 +32,7 @@ namespace Kartaclysm
 			);
 
 		// Game Loop methods.
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override {};
 
 		int GetMaxSpeed() { return m_iMaxSpeedStat; }

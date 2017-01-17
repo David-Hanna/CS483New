@@ -24,13 +24,18 @@ namespace Kartaclysm
 		m_iHandlingStat(p_iHandling),
 		m_iDurabilityStat(p_iDurability)
 	{
-		ComponentKartController* kartController = (ComponentKartController*)m_pGameObject->GetParent()->GetComponent("GOC_KartController");
-
-		kartController->SetDriverStatMods(m_iMaxSpeedStat, m_iAccelerationStat, m_iHandlingStat, m_iDurabilityStat);
 	}
 
 	ComponentDriverStatMods::~ComponentDriverStatMods()
 	{
+	}
+
+	void ComponentDriverStatMods::Init()
+	{
+		ComponentKartController* kartController = (ComponentKartController*)m_pGameObject->GetParent()->GetComponent("GOC_KartController");
+		assert(kartController != nullptr);
+
+		kartController->SetDriverStatMods(m_iMaxSpeedStat, m_iAccelerationStat, m_iHandlingStat, m_iDurabilityStat);
 	}
 
 	HeatStroke::Component* ComponentDriverStatMods::CreateComponent(
