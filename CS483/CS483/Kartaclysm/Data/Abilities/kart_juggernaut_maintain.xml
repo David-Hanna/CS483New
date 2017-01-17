@@ -22,7 +22,7 @@
 
     <GOC_MaintainAbility>
       <MaxCharges value="4" />
-      <StartCharges value="1" />
+      <StartCharges value="2" />
     </GOC_MaintainAbility>
 
   </Components>

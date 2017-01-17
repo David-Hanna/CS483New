@@ -113,7 +113,7 @@ namespace Kartaclysm
 			pPhysics->SetDirection(pKart->GetDirection());
 			pPhysics->SetTrackHeight(pKart->GetGroundHeight());
 
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_clock_bomb.ogg");
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_clock_bomb.ogg");
 		}
 	}
 

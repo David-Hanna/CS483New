@@ -49,9 +49,12 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 			std::vector<OBJFile::OBJVertex>::const_iterator vertexIt = triangleIt->begin(), vertexEnd = triangleIt->end();
 			for (; vertexIt != vertexEnd; vertexIt++)
 			{
+				int uvIndex = vertexIt->GetUVIndex(); // Temporary fix for crash while loading kart models in debug mode
+				if (uvIndex >= vUVs.size()) uvIndex = vUVs.size() - 1;
+				
 				const glm::vec3 vertexPosition = vPositions[vertexIt->GetPositionIndex()];
 				const glm::vec3 vertexNormal = vNormals[vertexIt->GetNormalIndex()];
-				const glm::vec2 vertexUVs = vUVs[vertexIt->GetUVIndex()];
+				const glm::vec2 vertexUVs = vUVs[uvIndex];
 
 				vVertexData.push_back(vertexPosition.x);
 				vVertexData.push_back(vertexPosition.y);

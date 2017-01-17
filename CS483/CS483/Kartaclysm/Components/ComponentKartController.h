@@ -53,6 +53,9 @@ namespace Kartaclysm
 		float GetSwerve() const { return m_fSwerve; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
+		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
+		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
+
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
@@ -106,6 +109,11 @@ namespace Kartaclysm
 		int m_iAccelerationCoreStat;
 		int m_iHandlingCoreStat;
 		int m_iDurabilityCoreStat;
+
+		int m_iMaxSpeedCoreStatMod;
+		int m_iAccelerationCoreStatMod;
+		int m_iHandlingCoreStatMod;
+		int m_iDurabilityCoreStatMod;
 
 		float m_fHeightAboveGroundStat;
 		float m_fStickyHeightStat;

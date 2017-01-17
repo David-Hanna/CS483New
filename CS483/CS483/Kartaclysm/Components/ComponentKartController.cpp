@@ -22,6 +22,10 @@ namespace Kartaclysm
 		m_iAccelerationCoreStat(3),
 		m_iHandlingCoreStat(3),
 		m_iDurabilityCoreStat(3),
+		m_iMaxSpeedCoreStatMod(0),
+		m_iAccelerationCoreStatMod(0),
+		m_iHandlingCoreStatMod(0),
+		m_iDurabilityCoreStatMod(0),
 
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
@@ -111,6 +115,36 @@ namespace Kartaclysm
 
 		return new ComponentKartController(
 			p_pGameObject
+			);
+	}
+
+	void ComponentKartController::SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		m_iMaxSpeedCoreStat = p_iMaxSpeed;
+		m_iAccelerationCoreStat = p_iAcceleration;
+		m_iHandlingCoreStat = p_iHandling;
+		m_iDurabilityCoreStat = p_iDurability;
+
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
+			);
+	}
+
+	void ComponentKartController::SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		m_iMaxSpeedCoreStatMod = p_iMaxSpeed;
+		m_iAccelerationCoreStatMod = p_iAcceleration;
+		m_iHandlingCoreStatMod = p_iHandling;
+		m_iDurabilityCoreStatMod = p_iDurability;
+
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
 			);
 	}
 
@@ -467,7 +501,12 @@ namespace Kartaclysm
 		m_iHandlingCoreStat = 5 - p_iCurrentArmorStack;
 		m_iDurabilityCoreStat = 1 + p_iCurrentArmorStack;
 
-		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
+			);
 	}
 
 	void ComponentKartController::Slow(float p_fPower, float p_fDuration)
@@ -577,7 +616,7 @@ namespace Kartaclysm
 			if (ability.compare("Strike") == 0)
 			{
 				printf("Strike!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/kingpin_strike_hit.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
 				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
@@ -594,7 +633,7 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_make_it_rain.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
 
 				Slow(power, duration);
 			}
@@ -602,7 +641,7 @@ namespace Kartaclysm
 			{
 				printf("Bedazzle!\n"); // Entangle!
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/cleopapa_bedazzle.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
 
 				Spinout(duration);
 			}
@@ -615,29 +654,29 @@ namespace Kartaclysm
 			if (ability.compare("Boost") == 0)
 			{
 				printf("Boost!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/speedster_boost.flac");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
 				Boost(power);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
 				printf("Wheelie!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/showoff_wheelie.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
 				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/clockmaker_tinker.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
 				TurnLock(duration);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
 			{
 				int iLayers, iMax;
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
-				//p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
+				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
 				printf("ArmorPlate!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_armor.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
