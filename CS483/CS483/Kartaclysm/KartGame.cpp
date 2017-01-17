@@ -22,12 +22,12 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::ModelManager::CreateInstance();
 	HeatStroke::SpriteManager::CreateInstance();
 	HeatStroke::FontManager::CreateInstance();
-	HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	HeatStroke::SceneManager::CreateInstance(m_pWindow);
 	HeatStroke::CollisionManager::CreateInstance();
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::AudioPlayer::CreateInstance();
+	HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
@@ -41,13 +41,10 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(GameplayState::STATE_RACING, new StateRacing());
 	m_pGameStates->RegisterState(GameplayState::STATE_PAUSED, new StatePaused());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_OPTIONS_MENU, new StateOptionsMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
-	
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
-
-	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
-	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 
 	return true;
 }
@@ -58,7 +55,6 @@ void Kartaclysm::KartGame::Update(const float p_fDelta)
 	HeatStroke::CollisionManager::Instance()->Update(p_fDelta);
 	HeatStroke::KeyboardInputBuffer::Instance()->Update(p_fDelta);
 	HeatStroke::JoystickInputBuffer::Instance()->Update(p_fDelta);
-	HeatStroke::AudioPlayer::Instance()->Update();
 	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom

@@ -1,30 +1,32 @@
 //------------------------------------------------------------------------
-// StateRaceCompleteMenu
-// Author:	David Hanna
+// StateOptionsMenu
+// Author:	Bradley Cooper
 //	
-// Shows the results of the race and continues to the Main Menu state.
+// Allows player to change and save game options.
+// Accessed by and returns to main menu or pause menu.
+// Passing OptionsXML parameter loads options from XML and calls Pop().
 //------------------------------------------------------------------------
 
-#ifndef STATE_RACE_COMPLETE_MENU_H
-#define STATE_RACE_COMPLETE_MENU_H
+#ifndef STATE_OPTIONS_MENU_H
+#define STATE_OPTIONS_MENU_H
 
+#include "EasyXML.h"
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
-#include "ComponentPerspectiveCamera.h"
 #include "ComponentTextbox.h"
+#include "ComponentPerspectiveCamera.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
-#include "PlayerInputMapping.h"
-#include "EasyXML.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
-	class StateRaceCompleteMenu : public Kartaclysm::GameplayState
+	class StateOptionsMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateRaceCompleteMenu();
-		virtual ~StateRaceCompleteMenu();
+		StateOptionsMenu();
+		virtual ~StateOptionsMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
 		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
@@ -38,9 +40,9 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
-		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath);
-		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults); 
-		std::string FormatTime(const std::string& p_strUnformattedTime) const;
+		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
+
+		std::string m_strXmlFilePath;
 	};
 }
 
