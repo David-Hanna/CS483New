@@ -25,6 +25,7 @@
 #include "StateRaceCompleteMenu.h"
 #include "StateCountdown.h"
 #include "StateMainMenu.h"
+#include "StateOptionsMenu.h"
 #include "SceneManager.h"
 #include "AudioPlayer.h"
 #include "ModelManager.h"

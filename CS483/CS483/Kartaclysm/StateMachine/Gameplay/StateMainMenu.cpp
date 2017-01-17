@@ -24,6 +24,7 @@ Kartaclysm::StateMainMenu::~StateMainMenu()
 void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_bRenderedOnce = false;
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
@@ -36,11 +37,20 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	if (!m_bPreloadCalled)
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
+
+		// Push Options state to load from XML, which calls Pop() when done
+		std::map<std::string, std::string> mOptionsParams;
+		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
+		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
 	}
 	else
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
 	}
+
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
