@@ -21,8 +21,8 @@
     </GOC_AbilityConditions>
 
     <GOC_MaintainAbility>
-      <MaxCharges value="5" />
-      <StartCharges value="3" />
+      <MaxCharges value="4" />
+      <StartCharges value="2" />
     </GOC_MaintainAbility>
 
   </Components>
