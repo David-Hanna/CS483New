@@ -76,7 +76,7 @@ namespace Kartaclysm
 		void Boost(float p_fPower);
 		void WheelieToggle();
 		void Spinout(float p_fDuration);
-		void ArmorPlate(int p_iCurrentArmorStack, int p_iMaxArmorStacks);
+		void ArmorPlate(int p_iCurrentArmorStack);
 		void TurnLock(float p_fDuration);
 		void Slow(float p_fPower, float p_fDuration);
 

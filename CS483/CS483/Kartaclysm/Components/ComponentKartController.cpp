@@ -460,11 +460,11 @@ namespace Kartaclysm
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
 	}
 
-	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack, int p_iMaxArmorStacks)
+	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack)
 	{
 		m_iMaxSpeedCoreStat = 1 + p_iCurrentArmorStack;
-		m_iAccelerationCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
-		m_iHandlingCoreStat = p_iMaxArmorStacks - p_iCurrentArmorStack;
+		m_iAccelerationCoreStat = 5 - p_iCurrentArmorStack;
+		m_iHandlingCoreStat = 5 - p_iCurrentArmorStack;
 		m_iDurabilityCoreStat = 1 + p_iCurrentArmorStack;
 
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
@@ -634,11 +634,11 @@ namespace Kartaclysm
 			{
 				int iLayers, iMax;
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
-				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
+				//p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
 				printf("ArmorPlate!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffectFromFile("Assets/Sounds/juggernaut_armor.wav");
-				ArmorPlate(iLayers, iMax);
+				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
 			{
