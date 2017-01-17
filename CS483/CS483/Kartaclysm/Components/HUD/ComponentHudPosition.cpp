@@ -87,6 +87,7 @@ namespace Kartaclysm
 
 			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
 			m_mSprite = HeatStroke::SpriteInstance(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
+			m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 			HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
 		}
 	}
