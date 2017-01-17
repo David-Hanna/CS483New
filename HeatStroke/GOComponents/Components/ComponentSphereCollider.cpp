@@ -17,8 +17,7 @@ HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 	:
 	ComponentCollider(p_pGameObject, p_bAppliesPhysics),
 	m_pOffset(p_pOffset),
-	m_fRadius(p_fRadius),
-	m_pDebugLineDrawer(nullptr)
+	m_fRadius(p_fRadius)
 {
 	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, GetGameObject()->GetGUID());
 }
@@ -84,7 +83,6 @@ void HeatStroke::ComponentSphereCollider::Update(const float p_fDelta)
 {
 	m_pPreviousPosition = m_pPosition;
 	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
-	// PreRender(); // TODO: Isn't called naturally because FamilyID is not "GOC_Renderable"
 }
 
 void HeatStroke::ComponentSphereCollider::PreRender()

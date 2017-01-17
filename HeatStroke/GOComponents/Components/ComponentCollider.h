@@ -32,7 +32,7 @@ namespace HeatStroke
 
 	protected:
 		// Prevent public construction.
-		ComponentCollider(GameObject* p_pGameObject, bool p_bAppliesPhysics, bool p_bDebugRender = true) :
+		ComponentCollider(GameObject* p_pGameObject, bool p_bAppliesPhysics, bool p_bDebugRender = false) :
 			ComponentRenderable(p_pGameObject),
 			m_bAppliesPhysics(p_bAppliesPhysics),
 			m_bDebugRender(p_bDebugRender),

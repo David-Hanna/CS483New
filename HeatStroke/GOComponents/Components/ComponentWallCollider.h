@@ -49,9 +49,6 @@ namespace HeatStroke
 
 		virtual void SyncTransform();
 
-		bool m_bDebugRender;
-		LineDrawer* m_pDebugLineDrawer;
-
 	private:
 		// Prevent copying
 		ComponentWallCollider(const ComponentWallCollider&) = delete;

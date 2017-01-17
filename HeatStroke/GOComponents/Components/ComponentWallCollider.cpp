@@ -20,8 +20,7 @@ HeatStroke::ComponentWallCollider::ComponentWallCollider(
 	m_pOffset(p_pOffset),
 	m_pSurfaceNormal(p_pSurfaceNormal),
 	m_fHeight(p_fHeight),
-	m_fWidth(p_fWidth),
-	m_pDebugLineDrawer(nullptr)
+	m_fWidth(p_fWidth)
 {
 	HeatStroke::CollisionManager::Instance()->RegisterCollider(this, GetGameObject()->GetGUID());
 }
@@ -89,7 +88,6 @@ void HeatStroke::ComponentWallCollider::Update(const float p_fDelta)
 {
 	m_pPreviousPosition = m_pPosition;
 	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
-	// PreRender(); // TODO: Isn't called naturally because FamilyID is not "GOC_Renderable"
 }
 
 void HeatStroke::ComponentWallCollider::PreRender()
