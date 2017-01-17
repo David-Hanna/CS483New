@@ -1,6 +1,6 @@
 <GameObject>
 	<Transform>
-    <Translation x="-6.0" y="0.0" z="1.0"/>
+    <Translation x="-200.0" y="0.0" z="1.0"/>
 		<Scale x="25.0" y="20.0" z="1.0"/>
 	</Transform>
 	<Components>

@@ -3,7 +3,7 @@
     <!-- Pause Message -->
     <GameObject>
       <Transform>
-        <Translation x="-8.0" y="75.0" z="1.0" />
+        <Translation x="-202.0" y="75.0" z="1.0" />
         <Scale x="40.0" y="25.0" z="1.0" />
       </Transform>
       <Components>
@@ -17,7 +17,7 @@
 		<!-- Continue -->
 		<GameObject>
 			<Transform>
-				<Translation x="-30.0" y="10.0" z="1.0"/>
+				<Translation x="-224.0" y="10.0" z="1.0"/>
 				<Scale x="0.5" y="0.5" z="1.0"/>
 			</Transform>
 			<Components>
@@ -33,7 +33,7 @@
     <!-- Restart -->
     <GameObject>
       <Transform>
-        <Translation x="-28.0" y="-30.0" z="1.0"/>
+        <Translation x="-222.0" y="-30.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
       </Transform>
       <Components>
@@ -49,7 +49,7 @@
     <!-- Quit -->
     <GameObject>
       <Transform>
-        <Translation x="-17.5" y="-70.0" z="1.0"/>
+        <Translation x="-211.0" y="-70.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
       </Transform>
       <Components>

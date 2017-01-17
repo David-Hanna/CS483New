@@ -14,6 +14,8 @@ HeatStroke::SceneManager::SceneViewportSelection HeatStroke::SceneManager::Parse
 {
 	if (p_strViewportSelection == "full")
 		return SVS_FULL;
+	if (p_strViewportSelection == "overlay")
+		return SVS_OVERLAY;
 	if (p_strViewportSelection == "top")
 		return SVS_TOP;
 	if (p_strViewportSelection == "bottom")
@@ -229,6 +231,20 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_FULL]);
 			RenderTextBoxes(m_lOrthographicCameras[SVS_FULL]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr || m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
+	{
+		glViewport(0, 0, width, height);
+		if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_OVERLAY]);
+		}
+		if (m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_OVERLAY]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_OVERLAY]);
 		}
 	}
 

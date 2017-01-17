@@ -1024,5 +1024,8 @@
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
