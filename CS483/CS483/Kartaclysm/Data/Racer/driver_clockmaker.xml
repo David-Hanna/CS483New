@@ -3,7 +3,7 @@
 
 <GameObject>
   <Transform>
-    <Translation x="0.0" y="0.04" z="-0.07" />
+    <Translation x="0.0" y="0.0" z="-0.07" />
     <Scale x="0.22" y="0.22" z="0.22" />
   </Transform>
 
@@ -17,6 +17,13 @@
     <GOC_3DModel>
       <OBJFileName path="Assets/Drivers/Clockmaker/clockmaker.obj"/>
     </GOC_3DModel>
+
+    <GOC_DriverStatMods>
+      <MaxSpeed value="0"/>
+      <Acceleration value="-1"/>
+      <Handling value="1"/>
+      <Durability value="0"/>
+    </GOC_DriverStatMods>
 
   </Components>
 

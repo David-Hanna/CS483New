@@ -22,6 +22,10 @@ namespace Kartaclysm
 		m_iAccelerationCoreStat(3),
 		m_iHandlingCoreStat(3),
 		m_iDurabilityCoreStat(3),
+		m_iMaxSpeedCoreStatMod(0),
+		m_iAccelerationCoreStatMod(0),
+		m_iHandlingCoreStatMod(0),
+		m_iDurabilityCoreStatMod(0),
 
 		m_fHeightAboveGroundStat(0.04f),
 		m_fStickyHeightStat(0.2f),
@@ -120,6 +124,28 @@ namespace Kartaclysm
 		m_iAccelerationCoreStat = p_iAcceleration;
 		m_iHandlingCoreStat = p_iHandling;
 		m_iDurabilityCoreStat = p_iDurability;
+
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
+			);
+	}
+
+	void ComponentKartController::SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
+	{
+		m_iMaxSpeedCoreStatMod = p_iMaxSpeed;
+		m_iAccelerationCoreStatMod = p_iAcceleration;
+		m_iHandlingCoreStatMod = p_iHandling;
+		m_iDurabilityCoreStatMod = p_iDurability;
+
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
+			);
 	}
 
 	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
@@ -470,13 +496,17 @@ namespace Kartaclysm
 
 	void ComponentKartController::ArmorPlate(int p_iArmorStack)
 	{
-		// TODO: I think maybe there should only actually be 4 stacks *shrug*
 		m_iMaxSpeedCoreStat = 1 + p_iArmorStack;
 		m_iAccelerationCoreStat = 5 - p_iArmorStack;
 		m_iHandlingCoreStat = 5 - p_iArmorStack;
 		m_iDurabilityCoreStat = 1 + p_iArmorStack;
 
-		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
+		UpdateStats(
+			m_iMaxSpeedCoreStat + m_iMaxSpeedCoreStatMod,
+			m_iAccelerationCoreStat + m_iAccelerationCoreStatMod,
+			m_iHandlingCoreStat + m_iHandlingCoreStatMod,
+			m_iDurabilityCoreStat + m_iDurabilityCoreStatMod
+			);
 	}
 
 	void ComponentKartController::Slow(float p_fPower, float p_fDuration)
