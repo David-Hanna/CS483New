@@ -115,8 +115,11 @@ void Kartaclysm::StateRacing::BeginRace()
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
+		pRacer->GetTransform().Translate(glm::vec3(( i % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * i));
 	}
+
+	// Set inital position sprites on racer HUDs
+	pTrackComponent->TriggerRaceStandingsUpdateEvent();
 
 	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
 	{

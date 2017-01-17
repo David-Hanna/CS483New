@@ -15,16 +15,22 @@ namespace Kartaclysm
 		) :
 		HeatStroke::ComponentRenderable(p_pGameObject),
 		m_strPositionFilePrefix(p_strPositionFilePrefix),
-		m_mSprite(m_strPositionFilePrefix + "position_1.mtl", "position_1")
+		m_mSprite(m_strPositionFilePrefix + "position_1.mtl", "position_1"),
+		m_strPlayerX(GetGameObject()->GetParent()->GetGUID().substr(0, GetGameObject()->GetParent()->GetGUID().find('_'))),
+		m_iCurrentPosition(0)
 	{
+		m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 		HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
+
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPosition::PositionCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("RaceStandingsUpdate", m_pDelegate);
 	}
 
 	ComponentHudPosition::~ComponentHudPosition()
 	{
 		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
 
-		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener("RaceStandingsUpdate", m_pDelegate);
 		delete m_pDelegate;
 		m_pDelegate = nullptr;
 	}
@@ -63,29 +69,26 @@ namespace Kartaclysm
 
 	void ComponentHudPosition::Init()
 	{
-		// event name follows "Player0_HUD_Lap" format
-		assert(GetGameObject()->GetParent() != nullptr && "HUD hierarchy error");
-		m_strEventName = GetGameObject()->GetParent()->GetGUID() + "_Position";
-
-		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudPosition::PositionCallback, this, std::placeholders::_1));
-		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	void ComponentHudPosition::SyncTransform()
 	{
-		m_mSprite.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 	};
 
 	void ComponentHudPosition::PositionCallback(const HeatStroke::Event* p_pEvent)
 	{
 		int iPosition;
-		p_pEvent->GetRequiredIntParameter("Position", iPosition);
-		std::string strPosition = "position_" + std::to_string(iPosition);
+		p_pEvent->GetRequiredIntParameter(m_strPlayerX, iPosition);
 
-		// TO DO, not very efficient I imagine. Should have them memo-ized or stored for quick switching
-		HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
-		m_mSprite = HeatStroke::SpriteInstance(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
-		HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
+		if (m_iCurrentPosition != ++iPosition)
+		{
+			m_iCurrentPosition = iPosition;
+			std::string strPosition = "position_" + std::to_string(iPosition);
+
+			HeatStroke::SceneManager::Instance()->RemoveSpriteInstance(&m_mSprite);
+			m_mSprite = HeatStroke::SpriteInstance(m_strPositionFilePrefix + strPosition + ".mtl", strPosition);
+			HeatStroke::SceneManager::Instance()->AddSpriteInstance(&m_mSprite);
+		}
 	}
 
 	void ComponentHudPosition::ParseNode(
