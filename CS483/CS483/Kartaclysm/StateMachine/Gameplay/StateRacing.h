@@ -92,6 +92,8 @@ namespace Kartaclysm
 		unsigned int m_uiNumRacers;
 		bool m_bCountdown;
 
+		void CreateHUDForRacer(const std::string& p_strGuid);
+
 		void BeginRace();
 		HeatStroke::GameObject* GenerateRacer(
 			const std::string& p_strKartDefinitionFile, 
