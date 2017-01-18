@@ -70,9 +70,6 @@
     <Filter Include="HeatStroke\Services\MTL">
       <UniqueIdentifier>{710270de-b3d4-4ab5-b57e-e9771cf81f9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\Graphics\GDebug">
-      <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kartaclysm\StateMachine">
       <UniqueIdentifier>{cd1c30ac-a893-447c-95a9-07196de33662}</UniqueIdentifier>
     </Filter>
@@ -236,9 +233,6 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\MTL\MTLFile.cpp">
       <Filter>HeatStroke\Services\MTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
@@ -429,6 +423,9 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.cpp">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
@@ -565,9 +562,6 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h">
       <Filter>Kartaclysm\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
@@ -763,6 +757,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>

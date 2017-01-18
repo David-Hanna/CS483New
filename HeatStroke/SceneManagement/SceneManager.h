@@ -13,6 +13,7 @@
 #include "ScenePerspectiveCamera.h"
 #include "SceneOrthographicCamera.h"
 #include "ModelInstance.h"
+#include "LineDrawer.h"
 #include "SpriteInstance.h"
 #include "TextBox.h"
 #include "SceneAmbientLight.h"
@@ -53,6 +54,10 @@ namespace HeatStroke
 		void RemoveModelInstance(HeatStroke::ModelInstance* p_pModelInstance);
 		void ClearModelInstances();
 
+		void AddLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer);
+		void RemoveLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer);
+		void ClearLineDrawers();
+
 		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection);
 		void RemovePerspectiveCamera(SceneViewportSelection p_eViewportSelection);
 		void ClearPerspectiveCameras();
@@ -85,6 +90,7 @@ namespace HeatStroke
 
 	private:
 		typedef std::vector<ModelInstance*>			ModelList;
+		typedef std::vector<LineDrawer*>			LineDrawerList;
 		typedef std::vector<SpriteInstance*>		SpriteList;
 		typedef std::vector<TextBox*>				TextBoxList;
 		
@@ -97,6 +103,7 @@ namespace HeatStroke
 		GLFWwindow*				m_pWindow;
 
 		ModelList				m_lModelList;
+		LineDrawerList			m_lLineDrawerList;
 		ScenePerspectiveCamera*	m_lPerspectiveCameras[SVS_LENGTH];
 
 		SpriteList				m_lSpriteList;
@@ -120,6 +127,9 @@ namespace HeatStroke
 		void SetMeshDirectionalLight(Mesh* p_pMesh);
 		void SetMeshPointLight(ModelInstance* p_pModelInstance, Mesh* p_pMesh);
 		ScenePointLight* DetermineClosestPointLight(ModelInstance* p_pModelInstance);
+
+		void RenderLineDrawers(const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void RenderLineDrawer(LineDrawer* p_pLineDrawer, const ScenePerspectiveCamera* p_pPerspectiveCamera);
 
 		void RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera);
 		void RenderSprite(SpriteInstance* p_pSprite, const SceneOrthographicCamera* p_pOrthographicCamera);

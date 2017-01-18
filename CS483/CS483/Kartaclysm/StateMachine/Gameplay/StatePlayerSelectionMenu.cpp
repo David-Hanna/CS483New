@@ -64,8 +64,8 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 		if (bConfirm)
 		{
-			std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml";
-			std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml";
+			std::string strKartFile = "CS483/CS483/Kartaclysm/Data/Racer/kart_showoff.xml";
+			std::string strDriverFile = "CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml";
 			std::string strCameraTopFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml";
 			std::string strCameraBottomFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml";
 

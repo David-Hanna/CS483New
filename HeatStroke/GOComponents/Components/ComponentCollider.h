@@ -8,30 +8,22 @@
 #ifndef COMPONENT_COLLIDER
 #define COMPONENT_COLLIDER
 
-#include "Component.h"
+#include "ComponentRenderable.h"
 #include "SceneManager.h"
 #include "EasyXML.h"
 #include "GameObject.h"
+#include "LineDrawer.h"
 
 namespace HeatStroke
 {
-	class ComponentCollider : public Component
+	class ComponentCollider : public ComponentRenderable
 	{
 	public:
 		virtual const std::string FamilyID() const override { return std::string("GOC_Collider"); }
-		//virtual const std::string ComponentID() const override { return std::string("GOC_Collider"); }
 
-		/*static HeatStroke::Component* CreateComponent(
-			HeatStroke::GameObject* p_pGameObject,
-			tinyxml2::XMLNode* p_pBaseNode,
-			tinyxml2::XMLNode* p_pOverrideNode
-			);*/
-
-		/*virtual void Init() override;
-		virtual void Update(const float p_fDelta) override;*/
 		virtual void Init() = 0;
 		virtual void Update(const float p_fDelta) = 0;
-		//virtual void PreRender() override { ComponentRenderable::PreRender(); }
+		virtual void PreRender() = 0;
 
 		bool HasPhysics() const { return m_bAppliesPhysics; }
 
@@ -40,24 +32,24 @@ namespace HeatStroke
 
 	protected:
 		// Prevent public construction.
-		ComponentCollider(GameObject* p_pGameObject, bool p_bAppliesPhysics) : Component(p_pGameObject), m_bAppliesPhysics(p_bAppliesPhysics) {}
+		ComponentCollider(GameObject* p_pGameObject, bool p_bAppliesPhysics, bool p_bDebugRender = false) :
+			ComponentRenderable(p_pGameObject),
+			m_bAppliesPhysics(p_bAppliesPhysics),
+			m_bDebugRender(p_bDebugRender),
+			m_pDebugLineDrawer(nullptr) {}
 
-		//Component3DModel(GameObject* p_pGameObject, const std::string& p_strOBJFileName);
-
-		//virtual void SyncTransform();
+		virtual void SyncTransform() = 0;
 
 		glm::vec3 m_pPosition;
 		glm::vec3 m_pPreviousPosition;
 
+		bool m_bDebugRender;
+		LineDrawer* m_pDebugLineDrawer;
+
 	private:
 		// Prevent copying
-		/*ComponentCollider(const ComponentCollider&) = delete;
-		ComponentCollider& operator=(const ComponentCollider&) = delete;*/
-
-		/*static void ParseNode(
-			tinyxml2::XMLNode* p_pNode,
-			std::string& p_strOBJFileName
-			);*/
+		ComponentCollider(const ComponentCollider&) = delete;
+		ComponentCollider& operator=(const ComponentCollider&) = delete;
 
 		bool m_bAppliesPhysics;
 	};

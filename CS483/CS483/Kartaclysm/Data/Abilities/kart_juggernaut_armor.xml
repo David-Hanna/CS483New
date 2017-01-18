@@ -20,8 +20,7 @@
       <StartCharges value="2" />
     </GOC_AbilityConditions>
 
-    <GOC_ArmorPlateAbility>
-    </GOC_ArmorPlateAbility>
+    <GOC_ArmorPlateAbility />
 
   </Components>
 
