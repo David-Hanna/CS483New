@@ -940,9 +940,6 @@
     <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml">
-      <Filter>Kartaclysm\Data\Menus</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Racer\hud_bottom.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
@@ -963,6 +960,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\hud_top_right.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml">
+      <Filter>Kartaclysm\Data\Menus</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml">
       <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
