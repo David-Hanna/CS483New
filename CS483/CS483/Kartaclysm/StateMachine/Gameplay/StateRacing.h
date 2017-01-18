@@ -22,6 +22,8 @@
 #include "ComponentSprite.h"
 #include "ComponentTextBox.h"
 #include "ComponentOrthographicCamera.h"
+#include "ComponentKartStats.h"
+#include "ComponentDriverStatMods.h"
 #include "ComponentAbilityConditions.h"
 #include "ComponentAbilityIcon.h"
 #include "ComponentBoostAbility.h"
@@ -50,6 +52,7 @@
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
 
 #include "ComponentRacer.h"
 

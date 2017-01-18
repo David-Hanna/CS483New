@@ -3,7 +3,7 @@
 
 <GameObject>
   <Transform>
-    <Translation x="0.0" y="0.04" z="-0.07" />
+    <Translation x="0.0" y="0.0" z="-0.07" />
     <Scale x="0.23" y="0.23" z="0.23" />
   </Transform>
 
@@ -17,6 +17,13 @@
     <GOC_3DModel>
       <OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
     </GOC_3DModel>
+
+    <GOC_DriverStatMods>
+      <MaxSpeed value="0"/>
+      <Acceleration value="0"/>
+      <Handling value="1"/>
+      <Durability value="-1"/>
+    </GOC_DriverStatMods>
 
   </Components>
 

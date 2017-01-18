@@ -3,7 +3,7 @@
 
 <GameObject>
   <Transform>
-    <Translation x="0.0" y="0.04" z="0.0" />
+    <Translation x="0.0" y="0.0" z="0.0" />
     <Scale x="0.2" y="0.2" z="0.2" />
   </Transform>
 
@@ -16,6 +16,13 @@
     <GOC_3DModel>
       <OBJFileName path="Assets/Kart/Showoff/showoff.obj"/>
     </GOC_3DModel>
+
+    <GOC_KartStats>
+      <MaxSpeed value="2"/>
+      <Acceleration value="5"/>
+      <Handling value="3"/>
+      <Durability value="2"/>
+    </GOC_KartStats>
 
   </Components>
 

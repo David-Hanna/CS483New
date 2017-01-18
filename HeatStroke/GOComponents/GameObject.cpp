@@ -187,6 +187,20 @@ std::vector<GameObject*> GameObject::GetChildren()
 	return vChildren;
 }
 
+std::vector<GameObject*> GameObject::GetChildrenWithTag(const std::string& p_strTag)
+{
+	std::vector<GameObject*> vChildren;
+	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)
+	{
+		if (it->second->HasTag(p_strTag))
+		{
+			vChildren.push_back(it->second);
+		}
+	}
+
+	return vChildren;
+}
+
 void GameObject::DeleteAllChildren()
 {
 	for (ChildMap::iterator it = m_mChildMap.begin(); it != m_mChildMap.end(); ++it)

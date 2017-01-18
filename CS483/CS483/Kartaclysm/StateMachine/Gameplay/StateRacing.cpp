@@ -55,6 +55,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 
+	m_pGameObjectManager->RegisterComponentFactory("GOC_KartStats", ComponentKartStats::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_DriverStatMods", ComponentDriverStatMods::CreateComponent);
+
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityConditions", ComponentAbilityConditions::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AbilityIcon", ComponentAbilityIcon::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_BoostAbility", ComponentBoostAbility::CreateComponent);
@@ -114,6 +117,22 @@ void Kartaclysm::StateRacing::BeginRace()
 		pTrackComponent->RegisterRacer(pRacer);
 		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
 	}
+
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	{
+		// TODO: Properly handle race mode
+		//PlayerInputMapping::Instance()->EnableRaceMode();
+	}
+	else
+	{
+#ifdef _DEBUG
+		assert(false && "Failed to set number of players.");
+#endif
+	}
+
+	HeatStroke::AudioPlayer::Instance()->StopMusic();
+	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
+	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 
 	// Set conditions for beginning countdown
 	m_bCountdown = true;
@@ -222,15 +241,28 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		// TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models for some reason
+		// TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
 		if (m_bCountdown)
 		{
-			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
 			m_bCountdown = false;
+			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
+			return;
 		}
 
 #ifdef _DEBUG
-		// DEBUG: Should be removed at some point. Restart race when 'Z' is pressed
+		// DEBUG: Press 'X' until Lap reads '3/3' and cross finish line with both drivers.
+		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_X))
+		{
+			HeatStroke::Event* pEvent1 = new HeatStroke::Event("RacerCompletedLap");
+			pEvent1->SetStringParameter("racerId", "Player0");
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent1);
+
+			HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
+			pEvent2->SetStringParameter("racerId", "Player1");
+			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
+		}
+
+		// DEBUG: Restart race when 'Z' is pressed
 		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))
 		{
 			BeginRace();
@@ -249,6 +281,8 @@ void Kartaclysm::StateRacing::PreRender()
 void Kartaclysm::StateRacing::Exit()
 {
 	m_bSuspended = false;
+
+	PlayerInputMapping::Instance()->DisableRaceMode();
 
 	if (m_pPauseDelegate != nullptr)
 	{
@@ -336,6 +370,9 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, m_vRaceResults[i].m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(m_vRaceResults[i].m_fRaceTime)));
 	}
+
+	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
+	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
 
 	return mRaceResults;
 }

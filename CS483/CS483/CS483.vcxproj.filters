@@ -136,6 +136,21 @@
     <Filter Include="Kartaclysm\Data\DevConfig">
       <UniqueIdentifier>{5fdc9ba4-8bf5-460a-8b84-41ce655e6c6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Menus">
+      <UniqueIdentifier>{7d306a52-3535-4978-befd-1fee26f914cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\MainMenu">
+      <UniqueIdentifier>{e1027a20-c295-4eeb-8475-5da90ff96fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu">
+      <UniqueIdentifier>{c5e7ee90-c0b9-487c-aca7-d07781e8ff28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu">
+      <UniqueIdentifier>{de430838-ef2f-494e-86fc-5026cde4a29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\TrackSelectionMenu">
+      <UniqueIdentifier>{e14b0a96-a2b8-47d1-9c7b-4179a563ef4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -408,11 +423,20 @@
     <ClCompile Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.cpp">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudCountdown.cpp">
       <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
+      <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,11 +758,20 @@
     <ClInclude Include="..\..\HeatStroke\AudioPlayer\AudioPlayer.h">
       <Filter>HeatStroke\Services\AudioPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudCountdown.h">
       <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -924,6 +957,78 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\hud_top_right.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml">
+      <Filter>Kartaclysm\Data\Menus</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml">
+      <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml">
+      <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\description_boxes_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\driver_abilities_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\driver_selection_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\kart_abilities_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\kart_display_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\kart_selection_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\press_start_to_join_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\press_start_to_join_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\press_start_to_join_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\ready_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\stats_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_highlight_noob_zone.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_highlight_shift_rift.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_highlight_up_and_over.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_noob_zone.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_shift_rift.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml">
+      <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\race_complete_message.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
+      <Filter>Kartaclysm\Data\DevConfig</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
+      <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
   </ItemGroup>
 </Project>
