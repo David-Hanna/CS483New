@@ -29,6 +29,7 @@ namespace HeatStroke
 		enum SceneViewportSelection
 		{
 			SVS_FULL = 0,
+			SVS_OVERLAY,
 			SVS_TOP,
 			SVS_BOTTOM,
 			SVS_TOP_LEFT,

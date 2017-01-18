@@ -290,12 +290,19 @@
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\projectile_strike.xml" />
-    <Xml Include="Kartaclysm\Data\Camera\camera_bottom.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_bottom.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_bottom_left.xml" />
     <Xml Include="Kartaclysm\Data\Camera\camera_bottom_right.xml" />
     <Xml Include="Kartaclysm\Data\Camera\camera_full.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_top.xml" />
-    <Xml Include="Kartaclysm\Data\Camera\camera_top_left.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_top_left.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_top_right.xml" />
     <ClInclude Include="Kartaclysm\Services\IO\InputActionMapping.h" />
     <ClInclude Include="Kartaclysm\Services\IO\InputActions.h" />
@@ -311,6 +318,10 @@
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\description_boxes_1.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\driver_abilities_1.xml" />

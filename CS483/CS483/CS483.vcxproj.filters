@@ -137,19 +137,22 @@
       <UniqueIdentifier>{5fdc9ba4-8bf5-460a-8b84-41ce655e6c6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus">
-      <UniqueIdentifier>{7d306a52-3535-4978-befd-1fee26f914cf}</UniqueIdentifier>
+      <UniqueIdentifier>{911b464b-bfff-4756-82f4-3bd6fe3c37b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\MainMenu">
-      <UniqueIdentifier>{e1027a20-c295-4eeb-8475-5da90ff96fa7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu">
-      <UniqueIdentifier>{c5e7ee90-c0b9-487c-aca7-d07781e8ff28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu">
-      <UniqueIdentifier>{de430838-ef2f-494e-86fc-5026cde4a29d}</UniqueIdentifier>
+      <UniqueIdentifier>{2e441e4a-0e06-4776-b967-00b392eeed4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\TrackSelectionMenu">
-      <UniqueIdentifier>{e14b0a96-a2b8-47d1-9c7b-4179a563ef4f}</UniqueIdentifier>
+      <UniqueIdentifier>{08aa1b1a-6faf-403f-b3ae-614f3e6e70a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu">
+      <UniqueIdentifier>{0bac5e9a-1da9-438b-bb30-dbe529c9f8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu">
+      <UniqueIdentifier>{75d3cd94-594d-4c49-ae48-dd4cdf4d797d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
+      <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1003,6 +1006,9 @@
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\stats_1.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\race_complete_message.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_highlight_noob_zone.xml">
       <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
     </Xml>
@@ -1021,14 +1027,26 @@
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml">
       <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\race_complete_message.xml">
-      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu</Filter>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
       <Filter>Kartaclysm\Data\UserConfig</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
     </Xml>
   </ItemGroup>
 </Project>
