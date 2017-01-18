@@ -6,7 +6,7 @@
 	</Transform>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Kart/Kart.obj"/>
+			<OBJFileName path="Assets/Kart/Juggernaut/juggernaut.obj"/>
 		</GOC_3DModel>
 	</Components>
 </GameObject>

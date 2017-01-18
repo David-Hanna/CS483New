@@ -38,6 +38,48 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+	private:
+		enum DRIVER_SELECTION
+		{
+			DRIVER_CLEOPAPA,
+			DRIVER_CLOCKMAKER,
+			DRIVER_KINGPIN
+		};
+
+		enum KART_SELECTION
+		{
+			KART_JUGGERNAUT,
+			KART_SHOWOFF,
+			KART_SPEEDSTER
+		};
+
+		typedef struct PerPlayerMenuState
+		{
+			bool					bJoined;
+			bool					bReady;
+			bool					bDriverHighlighted;
+
+			DRIVER_SELECTION		eSelectedDriver;
+			KART_SELECTION			eSelectedKart;
+
+			HeatStroke::GameObject* pDriverSelection;
+			HeatStroke::GameObject* pKartSelection;
+			HeatStroke::GameObject* pReadyButton;
+			HeatStroke::GameObject* pDescriptionBoxes;
+			HeatStroke::GameObject* pDriverAbilities;
+			HeatStroke::GameObject* pKartAbilities;
+			HeatStroke::GameObject* pStats;
+			HeatStroke::GameObject* pDriverDisplay;
+			HeatStroke::GameObject* pKartDisplay;
+			HeatStroke::GameObject* pHighlight;
+		};
+
+		unsigned int m_uiNumPlayers;
+		PerPlayerMenuState m_mPerPlayerMenuState[4];
+
+		void AddPlayer(const unsigned int m_uiPlayerNum);
+		void GoToTrackSelectionState();
 	};
 }
 
