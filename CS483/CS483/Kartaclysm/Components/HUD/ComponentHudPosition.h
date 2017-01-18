@@ -63,9 +63,11 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 
+		int m_iCurrentPosition;
 		std::string m_strPositionFilePrefix;
+		std::string m_strPlayerX;
+
 		HeatStroke::SpriteInstance m_mSprite;
-		std::string m_strEventName;
 
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 	};
