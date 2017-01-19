@@ -42,8 +42,14 @@ namespace Kartaclysm
 		// generate list of track pieces
 		for (HeatStroke::GameObject* pChildGameObject : m_pGameObject->GetChildren())
 		{
-			std::vector<HeatStroke::GameObject*> vTrackChildren = m_pGameObject->GetChildrenWithTag("Trackpiece");
-			m_vTrackPieces.insert(m_vTrackPieces.end(), vTrackChildren.begin(), vTrackChildren.end());
+			for (const std::string& strTag : pChildGameObject->GetTagList())
+			{
+				if (strcmp(strTag.c_str(), "Trackpiece") == 0)
+				{
+					m_vTrackPieces.push_back(pChildGameObject);
+					break;
+				}
+			}
 		}
 	}
 
