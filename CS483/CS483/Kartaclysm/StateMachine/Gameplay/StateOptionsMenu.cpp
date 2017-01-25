@@ -102,12 +102,7 @@ void Kartaclysm::StateOptionsMenu::LoadOptionsFromXml(const std::string& p_strXm
 		float fSFXVolume = pAudioPlayer->GetSoundEffectsVolume();
 
 		HeatStroke::EasyXML::GetOptionalFloatAttribute(pAudioElement->FirstChildElement("Music"), "volume", fMusicVolume, fMusicVolume);
-		if		(fMusicVolume > 100.0f) fMusicVolume = 100.0f;
-		else if (fMusicVolume < 0.0f)	fMusicVolume = 0.0f;
-
 		HeatStroke::EasyXML::GetOptionalFloatAttribute(pAudioElement->FirstChildElement("SFX"), "volume", fSFXVolume, fSFXVolume);
-		if		(fSFXVolume > 100.0f)	fSFXVolume = 100.0f;
-		else if (fSFXVolume < 0.0f)		fSFXVolume = 0.0f;
 
 		pAudioPlayer->SetMusicVolume(fMusicVolume);
 		pAudioPlayer->SetSoundEffectsVolume(fSFXVolume);
