@@ -137,6 +137,7 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h" />
@@ -318,10 +320,18 @@
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_return.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
-    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\description_boxes_1.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\driver_abilities_1.xml" />

@@ -15,9 +15,11 @@
 #include "ComponentSprite.h"
 #include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
+#include "ComponentMenuSlider.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
 
 namespace Kartaclysm
@@ -43,6 +45,11 @@ namespace Kartaclysm
 		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
 
 		std::string m_strXmlFilePath;
+		int m_iPlayer;
+		int m_iOptionSelection;
+		HeatStroke::GameObject* m_pCurrentHighlight;
+
+		ComponentMenuSlider* m_pCurrentSlider;
 	};
 }
 

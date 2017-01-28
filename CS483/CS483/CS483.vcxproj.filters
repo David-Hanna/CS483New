@@ -151,6 +151,9 @@
     <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
       <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\OptionsMenu">
+      <UniqueIdentifier>{84bba7d2-d487-47de-b650-e341d5f81a2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -436,6 +439,9 @@
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -773,6 +779,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -1044,6 +1053,18 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
       <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_return.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
   </ItemGroup>
 </Project>
