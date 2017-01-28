@@ -58,6 +58,7 @@ namespace Kartaclysm
 		m_fWheelieTurnModStat(0.3f),
 		m_fWheelieSpeedModStat(1.2f),
 		m_fDurabilityStat(1.0f),
+		m_fSpinSpeedStat(10.0f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -74,7 +75,8 @@ namespace Kartaclysm
 		m_fSpinout(0.0f),
 		m_fTurnLock(0.0f),
 		m_fSlowDuration(0.0f),
-		m_fSlowPower(1.0f)
+		m_fSlowPower(1.0f),
+		m_fSpinFactor(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -457,16 +459,18 @@ namespace Kartaclysm
 	{
 		m_pGameObject->GetTransform().Translate(m_pOutsideForce * p_fDelta);
 		m_pOutsideForce *= powf(2.718281828f, p_fDelta * m_fOutsideForceAccelerationStat);
+
+		float m_fSpin = m_fSpinout * m_fSpinFactor;
 		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection) * p_fDelta, p_fHeightMod, m_fSpeed * cosf(m_fDirection) * p_fDelta);
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve + m_fSpin, 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve + m_fSpin, 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
@@ -492,6 +496,8 @@ namespace Kartaclysm
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
+
+		m_fSpinFactor = m_fSpinSpeedStat;
 	}
 
 	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack)
@@ -523,6 +529,12 @@ namespace Kartaclysm
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
+	}
+
+	float ComponentKartController::GetRotationMod()
+	{
+		float m_fSpin = m_fSpinout * m_fSpinFactor;
+		return m_fSwerve + m_fSpin;
 	}
 
 	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)

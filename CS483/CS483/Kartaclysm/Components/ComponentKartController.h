@@ -51,6 +51,7 @@ namespace Kartaclysm
 		float GetDirection() const { return m_fDirection; }
 		float GetGroundHeight() const { return m_fGroundHeight; }
 		float GetSwerve() const { return m_fSwerve; }
+		float GetRotationMod();
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
@@ -144,6 +145,7 @@ namespace Kartaclysm
 		float m_fWheelieTurnModStat;
 		float m_fWheelieSpeedModStat;
 		float m_fDurabilityStat;
+		float m_fSpinSpeedStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -161,6 +163,7 @@ namespace Kartaclysm
 		float m_fTurnLock;
 		float m_fSlowDuration;
 		float m_fSlowPower;
+		float m_fSpinFactor;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;
