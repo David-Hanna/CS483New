@@ -99,7 +99,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	m_pVB->Write(m_pVerts, v * sizeof(Vertex));
 	m_pIB->Write(m_pIndices, i * sizeof(GLuint));
 
-	glm::mat4 mWorld = (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
+	glm::mat4 mWorld =  glm::translate(m_Transform.GetTranslation()) * (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorld;
 	glm::mat4 mWorldViewProjectionTransform = p_pCamera->GetProjectionMatrix() * mWorldViewTransform;
 

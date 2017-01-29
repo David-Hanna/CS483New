@@ -28,6 +28,7 @@ namespace HeatStroke
 
 			void ParseEmitters(tinyxml2::XMLElement* p_pEffectElement);
 			static std::string ParseEmitterDefinitionFile(const tinyxml2::XMLElement* p_pEmitterElement);
+			static glm::vec3 ParseEmitterOffset(const tinyxml2::XMLElement* p_pOffsetElement);
 	};
 }
 

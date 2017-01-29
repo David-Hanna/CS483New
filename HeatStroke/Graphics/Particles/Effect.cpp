@@ -70,8 +70,11 @@ void HeatStroke::Effect::ParseEmitters(tinyxml2::XMLElement* p_pEffectElement)
 	while (pEmitterElement != nullptr)
 	{
 		std::string strEmitterDefinitionFile = ParseEmitterDefinitionFile(pEmitterElement);
+		glm::vec3 vOffset = ParseEmitterOffset(pEmitterElement->FirstChildElement("Offset"));
+		
 		Emitter* pEmitter = new Emitter(strEmitterDefinitionFile);
 		pEmitter->m_Transform.SetParent(&m_Transform);
+		pEmitter->m_Transform.SetTranslation(vOffset);
 		m_vEmitters.push_back(pEmitter);
 		pEmitterElement = pEmitterElement->NextSiblingElement("Emitter");
 	}
@@ -82,4 +85,17 @@ std::string HeatStroke::Effect::ParseEmitterDefinitionFile(const tinyxml2::XMLEl
 	std::string strEmitterDefinitionFile = "";
 	EasyXML::GetRequiredStringAttribute(p_pEmitterElement, "source", strEmitterDefinitionFile);
 	return strEmitterDefinitionFile;
+}
+
+glm::vec3 HeatStroke::Effect::ParseEmitterOffset(const tinyxml2::XMLElement* p_pOffsetElement)
+{
+	glm::vec3 vOffset = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	if (p_pOffsetElement != nullptr)
+	{
+		EasyXML::GetRequiredFloatAttribute(p_pOffsetElement, "x", vOffset.x);
+		EasyXML::GetRequiredFloatAttribute(p_pOffsetElement, "y", vOffset.y);
+		EasyXML::GetRequiredFloatAttribute(p_pOffsetElement, "z", vOffset.z);
+	}
+	return vOffset;
 }
