@@ -151,8 +151,8 @@
     <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
       <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kartaclysm\Data\Menus\OptionsMenu">
-      <UniqueIdentifier>{84bba7d2-d487-47de-b650-e341d5f81a2f}</UniqueIdentifier>
+    <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
+      <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -440,6 +440,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp">
       <Filter>Kartaclysm\Components</Filter>
@@ -779,6 +782,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
@@ -1053,6 +1059,18 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
       <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_options.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_options.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_time_trial.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_tournament.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>

@@ -36,6 +36,7 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->SetStateMachineOwner(this);
 	
 	m_pGameStates->RegisterState(GameplayState::STATE_MAIN_MENU, new StateMainMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_MODE_SELECTION_MENU, new StateModeSelectionMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_PLAYER_SELECTION_MENU, new StatePlayerSelectionMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_TRACK_SELECTION_MENU, new StateTrackSelectionMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACING, new StateRacing());
