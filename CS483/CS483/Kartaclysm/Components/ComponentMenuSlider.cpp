@@ -32,7 +32,8 @@ namespace Kartaclysm
 	{
 		m_mLabelTextBox.SetTransform(GetGameObject()->GetTransform().GetTransform());
 		m_mOutline.SetTransform(GetGameObject()->GetTransform().GetTransform() *
-								glm::translate(glm::vec3(p_fSliderOffset, 0.0f, 0.0f)));
+								glm::translate(glm::vec3(p_fSliderOffset, -4.0f, 0.0f)) *
+								glm::scale(glm::vec3(50.0f, 10.0f, 1.0f)));
 		UpdateSlider(); // Sets transform for Slider
 
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLabelTextBox);
@@ -130,9 +131,12 @@ namespace Kartaclysm
 
 	void ComponentMenuSlider::UpdateSlider()
 	{
+		float fScaleFactor = m_iCurrent / 2.0f;
+		float fScaleOffset = 50.0f - fScaleFactor;
+
 		m_mSlider.SetTransform(GetGameObject()->GetTransform().GetTransform()  *
-			glm::translate(glm::vec3(m_fSliderOffset, 0.0f, -0.01f)) *
-			glm::scale(glm::vec3(m_iCurrent / 100.0f, 1.0f, 1.0f)));
+			glm::translate(glm::vec3(m_fSliderOffset - fScaleOffset, -4.0f, -0.1f)) *
+			glm::scale(glm::vec3(fScaleFactor, 10.0f, 1.0f)));
 	}
 
 	void ComponentMenuSlider::ParseNode(

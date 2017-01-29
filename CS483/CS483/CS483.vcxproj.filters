@@ -154,6 +154,9 @@
     <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
       <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\OptionsMenu">
+      <UniqueIdentifier>{6548efbd-7428-4d94-874f-cd4e14b9c9a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -1072,16 +1075,16 @@
     <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_tournament.xml">
       <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml">
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_return.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml">
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
   </ItemGroup>

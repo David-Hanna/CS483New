@@ -39,7 +39,7 @@ namespace Kartaclysm
 		virtual void Update(const float p_fDelta) override {}
 		virtual void SyncTransform() override {}
 
-		void SetSliderValue(float p_fSliderOffset) { m_fSliderOffset = p_fSliderOffset; }
+		void SetSliderValue(int p_iSliderValue) { m_iCurrent = p_iSliderValue; UpdateSlider(); }
 		virtual bool IncreaseSlider();
 		virtual bool DecreaseSlider();
 		int GetSliderValue() const { return m_iCurrent; }

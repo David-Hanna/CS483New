@@ -3,7 +3,7 @@
     <!-- Options Message -->
     <GameObject>
       <Transform>
-        <Translation x="-202.0" y="80.0" z="1.0" />
+        <Translation x="-230.0" y="80.0" z="1.0" />
         <Scale x="0.75" y="0.75" z="1.0" />
       </Transform>
       <Components>
@@ -19,47 +19,49 @@
 		<!-- Music Volume -->
 		<GameObject guid="music_slider">
 			<Transform>
-				<Translation x="-224.0" y="30.0" z="1.0"/>
+				<Translation x="-280.0" y="40.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
 			</Transform>
-        <Component>
-          <GOC_MenuSlider>
-            <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-            <Label message="Music"/>
-            <OutlineMTLFileName path="Assets/Menus/OptionsMenu/slider_outline.mtl"/>
-            <OutlineMaterialName name="slider_outline"/>
-            <SliderMTLFileName path="Assets/Menus/OptionsMenu/slider_fill.mtl"/>
-            <SliderMaterialName name="slider_fill"/>
-            <SliderOffset value="20.0"/>
-            <ChangeFactor value="4"/>
-            <StartingValue value="100"/>
-          </GOC_MenuSlider>
-        </Component>
+      <Components>
+        <GOC_MenuSlider>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Label message="Music"/>
+          <OutlineMTLFileName path="Assets/Menus/OptionsMenu/slider_outline.mtl"/>
+          <OutlineMaterialName name="slider_outline"/>
+          <SliderMTLFileName path="Assets/Menus/OptionsMenu/slider_fill.mtl"/>
+          <SliderMaterialName name="slider_fill"/>
+          <SliderOffset value="200.0"/>
+          <ChangeFactor value="4"/>
+          <StartingValue value="100"/>
+        </GOC_MenuSlider>
+      </Components>
 		</GameObject>
 
     <!-- SFX Volume -->
     <GameObject guid="sfx_slider">
       <Transform>
-        <Translation x="-244.0" y="-10.0" z="1.0"/>
+        <Translation x="-280.0" y="0.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
       </Transform>
-      <Component>
+      <Components>
         <GOC_MenuSlider>
           <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-          <Label message="Sound Effects"/>
+          <Label message="Sound"/>
           <OutlineMTLFileName path="Assets/Menus/OptionsMenu/slider_outline.mtl"/>
           <OutlineMaterialName name="slider_outline"/>
           <SliderMTLFileName path="Assets/Menus/OptionsMenu/slider_fill.mtl"/>
           <SliderMaterialName name="slider_fill"/>
-          <SliderOffset value="20.0"/>
+          <SliderOffset value="200.0"/>
           <ChangeFactor value="4"/>
           <StartingValue value="100"/>
         </GOC_MenuSlider>
-      </Component>
+      </Components>
     </GameObject>
 
     <!-- Return -->
     <GameObject>
       <Transform>
-        <Translation x="-211.0" y="-80.0" z="1.0"/>
+        <Translation x="-280.0" y="-70.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
       </Transform>
       <Components>

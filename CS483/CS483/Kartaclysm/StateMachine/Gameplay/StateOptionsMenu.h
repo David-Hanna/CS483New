@@ -4,7 +4,7 @@
 //	
 // Allows player to change and save game options.
 // Accessed by and returns to main menu or pause menu.
-// Passing OptionsXML parameter loads options from XML and calls Pop().
+// Constructed with path to options XML file.
 //------------------------------------------------------------------------
 
 #ifndef STATE_OPTIONS_MENU_H
@@ -27,7 +27,7 @@ namespace Kartaclysm
 	class StateOptionsMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateOptionsMenu();
+		StateOptionsMenu(const std::string& p_strXmlFilePath);
 		virtual ~StateOptionsMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);

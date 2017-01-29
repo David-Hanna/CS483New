@@ -37,11 +37,6 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	if (!m_bPreloadCalled)
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
-
-		// Push Options state to load from XML, which calls Pop() when done
-		std::map<std::string, std::string> mOptionsParams;
-		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
-		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
 	}
 	else
 	{
