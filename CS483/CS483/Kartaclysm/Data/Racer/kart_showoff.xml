@@ -12,7 +12,6 @@
   </Children>
 
   <Components>
-
     <GOC_3DModel>
       <OBJFileName path="Assets/Kart/Showoff/showoff.obj"/>
     </GOC_3DModel>

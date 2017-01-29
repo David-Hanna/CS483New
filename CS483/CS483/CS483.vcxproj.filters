@@ -151,6 +151,9 @@
     <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
       <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Graphics\Particles">
+      <UniqueIdentifier>{19effc7c-4ec2-40cb-90e2-76d558849903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -437,6 +440,27 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Emitter.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Effect.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -772,6 +796,33 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Emitter.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Effect.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Affector.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Particle.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,14 @@
+<GameObject>
+	<Components>
+		<GOC_ParticleEffect>
+			<Effect path="CS483/CS483/Kartaclysm/Data/Effects/sample.pfx" />
+		</GOC_ParticleEffect>
+	</Components>
+
+	<Children>
+	</Children>
+
+	<Tags>
+		<Tag value="effect" />
+	</Tags>
+</GameObject>
