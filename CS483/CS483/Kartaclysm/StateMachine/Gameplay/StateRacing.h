@@ -94,6 +94,7 @@ namespace Kartaclysm
 
 		void CreateHUDForRacer(const std::string& p_strGuid);
 
+		void SendRaceInfoEvent();
 		void BeginRace();
 		HeatStroke::GameObject* GenerateRacer(
 			const std::string& p_strKartDefinitionFile, 

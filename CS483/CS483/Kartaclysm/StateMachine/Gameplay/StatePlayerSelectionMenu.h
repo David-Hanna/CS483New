@@ -38,6 +38,8 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+		std::map<std::string, std::string> m_mContextParameters;
 	};
 }
 

@@ -24,6 +24,7 @@ Kartaclysm::StatePlayerSelectionMenu::~StatePlayerSelectionMenu()
 void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_mContextParameters = p_mContextParameters;
 
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 	
@@ -69,20 +70,27 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			std::string strCameraTopFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml";
 			std::string strCameraBottomFile = "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml";
 
-			// TODO: Maybe at some point we decouple and set this value by Event instead?
 			int iPlayerCount = 2;
-			std::map<std::string, std::string> mContextParameters;
-			mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(iPlayerCount)));
-			mContextParameters.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
-			mContextParameters.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
-			mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(iPlayerCount)));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
 
-			mContextParameters.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
-			mContextParameters.insert(std::pair<std::string, std::string>("Player1_DriverDefinitionFile", strDriverFile));
-			mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", strCameraBottomFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_DriverDefinitionFile", strDriverFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", strCameraBottomFile));
+
+			// TODO: Send event for tournament to record kart/driver selection
 
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_TRACK_SELECTION_MENU, mContextParameters);
+			if (m_mContextParameters.find("TrackDefinitionFile") == m_mContextParameters.end())
+			{
+				m_pStateMachine->Push(STATE_TRACK_SELECTION_MENU, m_mContextParameters);
+			}
+			else
+			{
+				m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
+			}
 		}
 	}
 }

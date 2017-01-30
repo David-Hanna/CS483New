@@ -63,7 +63,7 @@ void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)
 				break;
 			case 1:
 				m_pStateMachine->Pop();
-				m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU); // Tournament mode stubbed
+				m_pStateMachine->Push(STATE_TOURNAMENT);
 				break;
 			case 2:
 				m_pStateMachine->Push(STATE_OPTIONS_MENU);

@@ -89,7 +89,19 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	
 	// Store passed context parameters and begin race
 	m_mContextParams = p_mContextParameters;
+	SendRaceInfoEvent();
 	BeginRace();
+}
+
+void Kartaclysm::StateRacing::SendRaceInfoEvent()
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("RaceInfo");
+	auto it = m_mContextParams.begin(), end = m_mContextParams.end();
+	for (; it != end; ++it)
+	{
+		pEvent->SetStringParameter(it->first, it->second);
+	}
+	HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 }
 
 void Kartaclysm::StateRacing::BeginRace()

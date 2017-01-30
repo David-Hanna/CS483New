@@ -444,6 +444,9 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTournament.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -780,6 +783,9 @@
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTournament.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
