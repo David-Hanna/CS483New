@@ -56,9 +56,12 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
 		if (strRacerId == GetGameObject()->GetGUID())
 		{
+			int iTotalLaps;
+			p_pEvent->GetRequiredIntParameter("totalLaps", iTotalLaps);
+
 			HeatStroke::Event* pEvent = new HeatStroke::Event(strRacerId + "_HUD_Lap");
 			pEvent->SetIntParameter("Current", ++m_iCurrentLap);
-			pEvent->SetIntParameter("Total", 3);
+			pEvent->SetIntParameter("Total", iTotalLaps);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 		}
 	}

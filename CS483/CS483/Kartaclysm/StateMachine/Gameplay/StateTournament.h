@@ -20,8 +20,8 @@ namespace Kartaclysm
 		virtual ~StateTournament();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState);
-		void Unsuspend(const int p_iPrevState);
+		void Suspend(const int p_iNewState)		{ m_bSuspended = true; }
+		void Unsuspend(const int p_iPrevState)	{ m_bSuspended = false; }
 		void Update(const float p_fDelta);
 		void PreRender() {}
 		void Exit();
@@ -32,15 +32,18 @@ namespace Kartaclysm
 
 		void RaceFinishCallback(const HeatStroke::Event* p_pEvent);
 		void RaceInfoCallback(const HeatStroke::Event* p_pEvent);
-		void AddToTime(std::string& p_strBaseTime, const std::string& p_strAddedTime) const;
+
+		// TODO: Similar functions in StateRaceComplete and HudRaceTimer could be combined somewhere
+		std::string FormatTime(float p_fUnformattedTime) const;
 
 	private:
 		struct RacerRanking {
-			int				m_iPoints;
-			std::string		m_strTime;
+			int		m_iPoints;
+			float	m_fTime;
 		};
 
-		int m_iRaceCount;
+		bool m_bReadyToPush;
+		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;
 		std::map<std::string, std::string> m_mContextParams;
 		std::map<std::string, RacerRanking> m_mRacerRankings;

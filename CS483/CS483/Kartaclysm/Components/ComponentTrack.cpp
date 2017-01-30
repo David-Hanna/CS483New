@@ -1,8 +1,6 @@
 #include "ComponentTrack.h"
 
-//#include "KeyboardInputBuffer.h"
 #include "ComponentTrackPiece.h"
-//#include <iostream>
 
 namespace Kartaclysm
 {
@@ -11,7 +9,8 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
-		m_fRaceTime(0.0f)
+		m_fRaceTime(0.0f),
+		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -118,7 +117,7 @@ namespace Kartaclysm
 		// Queue HUD event for beginning lap count
 		HeatStroke::Event* pEvent = new HeatStroke::Event(p_pRacer->GetGameObject()->GetGUID() + "_HUD_Lap");
 		pEvent->SetIntParameter("Current", 1);
-		pEvent->SetIntParameter("Total", 3);
+		pEvent->SetIntParameter("Total", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 
@@ -146,7 +145,7 @@ namespace Kartaclysm
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
 			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
 			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3 && !m_vRacers[iRacerIndex]->HasFinishedRace())
+			if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack && !m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
 				TriggerRacerFinishedRaceEvent(strRacerId);
 			}
@@ -358,6 +357,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerCompletedLap");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
+		pEvent->SetIntParameter("totalLaps", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 

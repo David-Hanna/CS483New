@@ -75,10 +75,12 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_KartDefinitionFile", strKartFile));
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_DriverDefinitionFile", strDriverFile));
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", strCameraTopFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_StartPosition", "0"));
 
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_KartDefinitionFile", strKartFile));
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_DriverDefinitionFile", strDriverFile));
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", strCameraBottomFile));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_StartPosition", "1"));
 
 			// TODO: Send event for tournament to record kart/driver selection
 

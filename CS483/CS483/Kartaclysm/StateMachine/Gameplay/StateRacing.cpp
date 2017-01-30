@@ -26,6 +26,7 @@ Kartaclysm::StateRacing::~StateRacing()
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_vRaceResults.clear();
 
 	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
@@ -123,11 +124,12 @@ void Kartaclysm::StateRacing::BeginRace()
 		std::string kartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
 		std::string driverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
 		std::string cameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
+		int startPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
 
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3(( i % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * i));
+		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
 	}
 
 	// Set inital position sprites on racer HUDs

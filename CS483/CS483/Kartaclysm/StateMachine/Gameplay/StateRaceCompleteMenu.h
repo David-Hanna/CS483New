@@ -38,6 +38,7 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		void SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults);
 		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath);
 		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults); 
 		std::string FormatTime(const std::string& p_strUnformattedTime) const;

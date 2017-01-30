@@ -24,6 +24,7 @@ Kartaclysm::StateModeSelectionMenu::~StateModeSelectionMenu()
 void Kartaclysm::StateModeSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_iModeSelection = 0;
 
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
