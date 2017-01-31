@@ -13,6 +13,7 @@ Kartaclysm::StateTournament::StateTournament()
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_bReadyToPush(false),
+	m_bFinished(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -32,6 +33,7 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 {
 	m_bSuspended = false;
 	m_bReadyToPush = false;
+	m_bFinished = false;
 	m_uiRaceCount = 0;
 	m_mRacerRankings.clear();
 	m_mContextParams.clear();
@@ -59,14 +61,17 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 			m_bReadyToPush = false;
 			m_pStateMachine->Push(STATE_RACING, m_mContextParams);
 		}
-		else if (m_uiRaceCount == m_vTracks.size())
+		else if (m_bFinished)
 		{
+			m_bFinished = false;
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 		}
 		else
 		{
-			assert(false && "StateTournament updated in unknown mode");
+			// Quit tournament early or some other problem
+			m_pStateMachine->Pop();
+			m_pStateMachine->Push(STATE_MAIN_MENU);
 		}
 	}
 }
@@ -137,6 +142,7 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	}
 	else
 	{
+		m_bFinished = true;
 		m_mContextParams.clear();
 		m_mContextParams["numRacers"] = std::to_string(m_mRacerRankings.size());
 		m_mContextParams["tournament"] = std::to_string(m_vTracks.size());

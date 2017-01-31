@@ -43,6 +43,7 @@ namespace Kartaclysm
 		};
 
 		bool m_bReadyToPush;
+		bool m_bFinished;
 		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;
 		std::map<std::string, std::string> m_mContextParams;
