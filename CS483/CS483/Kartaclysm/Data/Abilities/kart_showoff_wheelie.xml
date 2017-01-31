@@ -15,15 +15,12 @@
     
     <GOC_AbilityConditions>
       <Ability value="KartAbility1" />
-      <Cooldown value="1.5" />
+      <Cooldown value="2.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
-    <GOC_WheelieAbility>
-      <Strength value="1.0" />
-	    <Duration value="1.0" />
-    </GOC_WheelieAbility>
+    <GOC_WheelieAbility />
 
   </Components>
 

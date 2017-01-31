@@ -65,9 +65,6 @@ namespace Kartaclysm
 		{
 			ParseNode(p_pOverrideNode, bFriendlyFire, strBlastXML);
 		}
-
-		// Check that we got everything we needed.
-		//assert(fStrength != 0.0f);
 		
 		return new ComponentProjectile(
 			p_pGameObject,

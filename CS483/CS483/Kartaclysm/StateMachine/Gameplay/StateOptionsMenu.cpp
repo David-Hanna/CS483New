@@ -42,7 +42,7 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml");
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_overlay.xml");
 }
 
 void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)

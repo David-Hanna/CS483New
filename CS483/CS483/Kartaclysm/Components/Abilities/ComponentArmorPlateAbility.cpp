@@ -134,9 +134,9 @@ namespace Kartaclysm
 			const char* szNodeName = pChildElement->Value();
 
 			/*
-			if (strcmp(szNodeName, "Strength") == 0)
+			if (strcmp(szNodeName, "Power") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fPower);
 			}
 			*/
 		}

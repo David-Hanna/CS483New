@@ -115,8 +115,11 @@ void Kartaclysm::StateRacing::BeginRace()
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3(1.0f * i, 0.0f, 0.0f)); // TODO: Better positioning
+		pRacer->GetTransform().Translate(glm::vec3(( i % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * i));
 	}
+
+	// Set inital position sprites on racer HUDs
+	pTrackComponent->TriggerRaceStandingsUpdateEvent();
 
 	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
 	{
@@ -260,12 +263,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
 			pEvent2->SetStringParameter("racerId", "Player1");
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
-		}
-
-		// DEBUG: Restart race when 'Z' is pressed
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_Z))
-		{
-			BeginRace();
 		}
 #endif
 	}

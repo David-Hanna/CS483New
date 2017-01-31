@@ -48,14 +48,14 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentTurkeyAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			float p_fPower
 			);
 
 		void OnHitCallback(const HeatStroke::Event* p_pEvent);
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& m_fStrength
+			float& m_fPower
 			);
 
 		//--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
+		float m_fPower;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;

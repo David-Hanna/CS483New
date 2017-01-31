@@ -45,26 +45,19 @@ namespace Kartaclysm
 		// Protected methods
 		//--------------------------------------------------------------------------
 		ComponentWheelieAbility(
-			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength,
-			float p_fDuration
+			HeatStroke::GameObject* p_pGameObject
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 
 		static void ParseNode(
-			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength,
-			float& p_fDuration
+			tinyxml2::XMLNode* p_pNode
 			);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
-
-		float	m_fStrength;
-		float	m_fDuration;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;

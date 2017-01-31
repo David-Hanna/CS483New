@@ -31,9 +31,7 @@ namespace HeatStroke
 
 		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;
-
-		//virtual void PreRender() override { ComponentRenderable::PreRender(); }
-		void DebugRender(LineDrawer* p_pLineDrawer);
+		virtual void PreRender() override;
 
 		glm::vec3 GetOffset() { return m_pOffset; }
 		glm::vec3 GetSurfaceNormal() { return m_pSurfaceNormal; }

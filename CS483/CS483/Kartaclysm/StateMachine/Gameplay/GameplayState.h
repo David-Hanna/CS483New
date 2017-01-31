@@ -20,6 +20,7 @@ namespace Kartaclysm
 		enum GameplayStates
 		{
 			STATE_MAIN_MENU = 0,
+			STATE_MODE_SELECTION_MENU,
 			STATE_PLAYER_SELECTION_MENU,
 			STATE_TRACK_SELECTION_MENU,
 			STATE_RACING,

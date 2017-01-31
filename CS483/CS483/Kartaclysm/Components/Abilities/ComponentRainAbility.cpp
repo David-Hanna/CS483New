@@ -10,10 +10,14 @@
 namespace Kartaclysm
 {
 	ComponentRainAbility::ComponentRainAbility(
-		HeatStroke::GameObject* p_pGameObject)
+		HeatStroke::GameObject* p_pGameObject,
+		float p_fPower,
+		float p_fDuration)
 		:
 		ComponentAbility(p_pGameObject),
-		m_iPreviousPosition(-1)
+		m_iPreviousPosition(-1),
+		m_fPower(p_fPower),
+		m_fDuration(p_fDuration)
 	{
 		// Listen to other players passing
 		m_pPassedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRainAbility::PassedCallback, this, std::placeholders::_1));
@@ -35,22 +39,26 @@ namespace Kartaclysm
 		assert(p_pGameObject != nullptr);
 
 		// Defaults
-		//float fStrength = 0.0f;
+		float fPower = 0.0f;
+		float fDuration = 0.0f;
 
-		//if (p_pBaseNode != nullptr)
-		//{
-		//	ParseNode(p_pBaseNode, fStrength);
-		//}
-		//if (p_pOverrideNode != nullptr)
-		//{
-		//	ParseNode(p_pOverrideNode, fStrength);
-		//}
+		if (p_pBaseNode != nullptr)
+		{
+			ParseNode(p_pBaseNode, fPower, fDuration);
+		}
+		if (p_pOverrideNode != nullptr)
+		{
+			ParseNode(p_pOverrideNode, fPower, fDuration);
+		}
 
-		//// Check that we got everything we needed.
-		//assert(fStrength != 0.0f);
+		// Check that we got everything we needed.
+		assert(fPower > 0.0f);
+		assert(fDuration > 0.0f);
 
 		return new ComponentRainAbility(
-			p_pGameObject
+			p_pGameObject,
+			fPower,
+			fDuration
 			);
 	}
 
@@ -81,6 +89,8 @@ namespace Kartaclysm
 				pEvent->SetStringParameter("Target", strTarget);
 				pEvent->SetStringParameter("Ability", "Rain");
 				pEvent->SetStringParameter("Effect", "Slow");
+				pEvent->SetFloatParameter("Power", m_fPower);
+				pEvent->SetFloatParameter("Duration", m_fDuration);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 			}
 
@@ -89,7 +99,9 @@ namespace Kartaclysm
 	}
 
 	void ComponentRainAbility::ParseNode(
-		tinyxml2::XMLNode* p_pNode)
+		tinyxml2::XMLNode* p_pNode,
+		float& p_fPower,
+		float& p_fDuration)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_RainAbility") == 0);
@@ -100,10 +112,14 @@ namespace Kartaclysm
 		{
 			const char* szNodeName = pChildElement->Value();
 
-			/*if (strcmp(szNodeName, "Strength") == 0)
+			if (strcmp(szNodeName, "Power") == 0)
 			{
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fStrength);
-			}*/
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fPower);
+			}
+			else if (strcmp(szNodeName, "Duration") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDuration);
+			}
 		}
 	}
 }

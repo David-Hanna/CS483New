@@ -11,6 +11,7 @@
 #ifndef LINEDRAWER_H
 #define LINEDRAWER_H
 
+#include "Renderable.h"
 #include "Program.h"
 #include "VertexBuffer.h"
 #include "VertexDeclaration.h"
@@ -18,24 +19,26 @@
 
 namespace HeatStroke
 {
-class LineDrawer
+class LineDrawer : Renderable
 {
 private:
 	//-------------------------------------------------------------------------
 	// Private types
 	//-------------------------------------------------------------------------
-	struct LineData
+	struct LineVertex
 	{
 		GLfloat x,y,z;
 		GLfloat r, g, b, a;
-		LineData(float _x, float _y, float _z, float _r, float _g, float _b, float _a)
+		LineVertex(float _x, float _y, float _z, float _r, float _g, float _b, float _a)
 			: x(_x), y(_y), z(_z), r(_r), g(_g), b(_b), a(_a) { }
+
+		LineVertex() : x(0), y(0), z(0), r(0), g(0), b(0), a(0) { }
 	};
-	typedef std::vector<LineData*> LineVector;
+	typedef std::vector<LineVertex> LineVertexList;
 
 	struct Vertex
 	{
-		GLfloat x,y,z;
+		GLfloat x, y, z;
 		GLfloat r, g, b, a;
 	};
 
@@ -43,17 +46,25 @@ public:
 	//-------------------------------------------------------------------------
 	// Public methods.
 	//-------------------------------------------------------------------------
-	LineDrawer();
+	LineDrawer(const std::string &p_strVertexProgramPath, const std::string &p_strFragmentProgramPath);
 	~LineDrawer();
 
-	void Init(const std::string &p_strVertexProgramPath, const std::string &p_strFragmentProgramPath);
-	void Render(const glm::mat4& p_mProjectionMatrix, const glm::mat4& p_mViewMatrix);
+	void Render(const SceneCamera* p_pCamera);
 	void AddLine(const glm::vec3& p_vStart, const glm::vec3& p_vTo, const HeatStroke::Color4& p_cColor = HeatStroke::Color4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	void		SetTransform(const glm::mat4& p_mWorldTransform)	{ m_mWorldTransform = p_mWorldTransform; }
+	glm::mat4&	GetTransform()										{ return m_mWorldTransform; }
 
 private:
 	//-------------------------------------------------------------------------
 	// Private members.
 	//-------------------------------------------------------------------------
+
+	// Dirty boolean for added lines
+	mutable bool m_bDirty;
+
+	// World transform
+	glm::mat4 m_mWorldTransform;
 
 	// Shader
 	HeatStroke::Program* m_pProgram;
@@ -62,8 +73,8 @@ private:
 	HeatStroke::VertexBuffer* m_pVB;
 	HeatStroke::VertexDeclaration* m_pDecl;
 
-	// List of lines to draw; cleared each frame after being rendered
-	LineVector m_lVertexVector;
+	// List of lines to draw
+	LineVertexList m_lLineVertices;
 };
 }
 
