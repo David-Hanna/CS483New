@@ -331,6 +331,7 @@
     <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml" />
     <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />

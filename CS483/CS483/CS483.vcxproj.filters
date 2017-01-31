@@ -1087,5 +1087,8 @@
     <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml">
       <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

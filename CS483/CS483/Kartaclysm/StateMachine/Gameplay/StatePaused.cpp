@@ -67,10 +67,13 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			{
 			case 0: // continue
 				break;
-			case 1: // restart
+			case 1: // options
+				//m_pStateMachine->Push(STATE_OPTIONS_MENU);
+				break;
+			case 2: // restart
 				HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
 				break;
-			case 2: // quit
+			case 3: // quit
 				m_pStateMachine->Pop();
 				m_pStateMachine->Push(STATE_MAIN_MENU);
 				break;
@@ -92,6 +95,11 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 2:
 				m_iOptionSelection = 1;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
+				break;
+			case 3:
+				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
 				break;
 			}
@@ -103,10 +111,15 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 0:
 				m_iOptionSelection = 1;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
 				break;
 			case 1:
 				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				break;
+			case 2:
+				m_iOptionSelection = 3;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
 				break;
