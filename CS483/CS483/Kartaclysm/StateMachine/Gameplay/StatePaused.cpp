@@ -41,6 +41,22 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	m_iPausedPlayer = atoi(p_mContextParameters.at("Player").c_str());
 }
 
+void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
+{ 
+	m_bSuspended = true;
+
+	// TODO: Quick way to switch to OptionsMenu without having to create another camera
+	m_pGameObjectManager->DestroyAllGameObjects();
+}
+void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
+{ 
+	m_bSuspended = false;
+
+	std::map<std::string, std::string> mContextParameters;
+	mContextParameters["Player"] = std::to_string(m_iPausedPlayer);
+	Enter(mContextParameters);
+}
+
 void Kartaclysm::StatePaused::Update(const float p_fDelta)
 {
 	// Do not update when suspended
@@ -61,20 +77,21 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 
 		if (bConfirm)
 		{
-			m_pStateMachine->Pop();
-
 			switch (m_iOptionSelection)
 			{
 			case 0: // continue
+				m_pStateMachine->Pop();
 				break;
 			case 1: // options
-				//m_pStateMachine->Push(STATE_OPTIONS_MENU);
+				m_pStateMachine->Push(STATE_OPTIONS_MENU);
 				break;
-			case 2: // restart
+			case 2: // 
+				m_pStateMachine->Pop();
 				HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
 				break;
 			case 3: // quit
-				m_pStateMachine->Pop();
+				m_pStateMachine->Pop(); // pause
+				m_pStateMachine->Pop(); // race
 				m_pStateMachine->Push(STATE_MAIN_MENU);
 				break;
 			}
