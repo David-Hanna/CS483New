@@ -157,9 +157,10 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 		}
 		else if (strcmp(szNodeName, "Target") == 0)
 		{
-			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vTarget.x);
-			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vTarget.y);
-			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vTarget.z);
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "x", p_vTarget.x, p_vTarget.x);
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "y", p_vTarget.y, p_vTarget.y);
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "z", p_vTarget.z, p_vTarget.z);
+			EasyXML::GetOptionalStringAttribute(pChildElement, "guid", p_strTargetGUID, p_strTargetGUID);
 		}
 		else if (strcmp(szNodeName, "Up") == 0)
 		{
@@ -186,10 +187,6 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 		else if (strcmp(szNodeName, "FarClip") == 0)
 		{
 			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fFarClip);
-		}
-		else if (strcmp(szNodeName, "Target") == 0)
-		{
-			EasyXML::GetRequiredStringAttribute(pChildElement, "guid", p_strTargetGUID);
 		}
 	}
 }
