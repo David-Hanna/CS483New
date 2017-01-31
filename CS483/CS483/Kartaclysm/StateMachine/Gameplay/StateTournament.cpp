@@ -62,17 +62,11 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 		else if (m_uiRaceCount == m_vTracks.size())
 		{
 			m_pStateMachine->Pop();
-			assert(m_pStateMachine->empty());
-			m_pStateMachine->Push(STATE_MAIN_MENU);
+			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 		}
 		else
 		{
-			assert(false && "StateTournament updated when not ready to push next race");
-			m_pStateMachine->Pop();
-			if (m_pStateMachine->empty())
-			{
-				m_pStateMachine->Push(STATE_MAIN_MENU);
-			}
+			assert(false && "StateTournament updated in unknown mode");
 		}
 	}
 }
@@ -143,13 +137,37 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	}
 	else
 	{
-		// TODO: End tournament
-		// m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-		printf("Tournament ended\n");
-		auto it = m_mRacerRankings.begin(), end = m_mRacerRankings.end();
-		for (; it != end; ++it)
+		m_mContextParams.clear();
+		m_mContextParams["numRacers"] = std::to_string(m_mRacerRankings.size());
+		m_mContextParams["tournament"] = std::to_string(m_vTracks.size());
+
+		int iRank = 0;
+		while (!m_mRacerRankings.empty())
 		{
-			printf("%s:\t%i\t%s\n", it->first.c_str(), it->second.m_iPoints, FormatTime(it->second.m_fTime).c_str());
+			// Find player with highest overall points (TODO: currently breaks ties with race times)
+			auto it = m_mRacerRankings.begin(), end = m_mRacerRankings.end();
+			std::string strMaxPointPlayer = it->first;
+			for (++it; it != end; ++it)
+			{
+				if (m_mRacerRankings.at(strMaxPointPlayer).m_iPoints == it->second.m_iPoints)
+				{
+					if (m_mRacerRankings.at(strMaxPointPlayer).m_fTime > it->second.m_fTime)
+					{
+						strMaxPointPlayer = it->first;
+					}
+				}
+				else if (m_mRacerRankings.at(strMaxPointPlayer).m_iPoints < it->second.m_iPoints)
+				{
+					strMaxPointPlayer = it->first;
+				}
+			}
+
+			std::string strIndex = std::to_string(iRank++);
+			m_mContextParams["racerId" + strIndex] = strMaxPointPlayer;
+			m_mContextParams["racerTime" + strIndex] = std::to_string(m_mRacerRankings.at(strMaxPointPlayer).m_fTime);
+			m_mContextParams["racerPoints" + strIndex] = std::to_string(m_mRacerRankings.at(strMaxPointPlayer).m_iPoints);
+
+			m_mRacerRankings.erase(m_mRacerRankings.find(strMaxPointPlayer));
 		}
 	}
 }

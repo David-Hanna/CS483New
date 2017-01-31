@@ -265,20 +265,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
 			return;
 		}
-
-#ifdef _DEBUG
-		// DEBUG: Press 'X' until Lap reads '3/3' and cross finish line with both drivers.
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_X))
-		{
-			HeatStroke::Event* pEvent1 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent1->SetStringParameter("racerId", "Player0");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent1);
-
-			HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent2->SetStringParameter("racerId", "Player1");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
-		}
-#endif
 	}
 }
 
