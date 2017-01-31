@@ -107,7 +107,7 @@ namespace Kartaclysm
 		// The event for controller disconnect or reconnect is queued (not triggered immediately)
 		// meaning the PlayerInputMapping may be delayed some frames before updating its mapping
 		// As such, we cannot use an assert() here, and will have to handle it quietly
-		if (p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 1 && !glfwJoystickPresent(p_iGLFWJoystick))
+		if ((p_iGLFWJoystick < GLFW_JOYSTICK_LAST && !glfwJoystickPresent(p_iGLFWJoystick)) || p_iGLFWJoystick > GLFW_JOYSTICK_LAST + 4)
 		{
 			return;
 		}
@@ -116,11 +116,20 @@ namespace Kartaclysm
 		std::string strPlayerIdentifier = "Player" + std::to_string(p_iPlayer);
 		HeatStroke::EventManager* pEventManager = HeatStroke::EventManager::Instance();
 
-		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1) // Keyboard
+		if (p_iGLFWJoystick > GLFW_JOYSTICK_LAST) // Keyboard
 		{
 			// Helpful variables to avoid repetition
 			HeatStroke::KeyboardInputBuffer* pBuffer = HeatStroke::KeyboardInputBuffer::Instance();
-			ActionMap mActionMap = (*m_pInputMap)[Input::eKeyboard1];
+
+			ActionMap mActionMap;
+			switch (p_iGLFWJoystick)
+			{
+			case GLFW_JOYSTICK_LAST + 1: mActionMap = (*m_pInputMap)[Input::eKeyboard1]; break;
+			case GLFW_JOYSTICK_LAST + 2: mActionMap = (*m_pInputMap)[Input::eKeyboard2]; break;
+			case GLFW_JOYSTICK_LAST + 3: mActionMap = (*m_pInputMap)[Input::eKeyboard3]; break;
+			case GLFW_JOYSTICK_LAST + 4: mActionMap = (*m_pInputMap)[Input::eKeyboard4]; break;
+			default: assert(false && "Not enough keyboards!!!");
+			}
 
 			// Iterate ability and pause actions
 			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eDriverAbility1]))
