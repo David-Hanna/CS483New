@@ -19,7 +19,7 @@ namespace Kartaclysm
 		m_mLabelTextBox(m_pFont, "TIME"),
 		m_mTimerTextBox(m_pFont, "00:00"),
 		m_fLabelOffset(p_fLabelOffset),
-		m_fTime(0.0f)
+		m_fTime(-3.0f) // beginning countdown
 	{
 		m_mLabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLabelTextBox);
@@ -75,6 +75,10 @@ namespace Kartaclysm
 		if (m_fTime >= 3599.999f)
 		{
 			m_fTime = 3599.999f;
+		}
+		else if (m_fTime < 0.0f)
+		{
+			return;
 		}
 
 		// minutes
