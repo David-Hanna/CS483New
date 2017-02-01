@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------
 
 #include "ComponentKartController.h"
+#include "ComponentParticleEffect.h"
 
 namespace Kartaclysm
 {
@@ -482,6 +483,12 @@ namespace Kartaclysm
 
 		float extra = (m_fMaxSpeedStat * m_fSpeedScale * p_fPower) - m_fSpeed;
 		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
+
+		HeatStroke::ComponentParticleEffect* boostParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+		if (boostParticle != nullptr)
+		{
+			boostParticle->Start();
+		}
 	}
 
 	void ComponentKartController::WheelieToggle()

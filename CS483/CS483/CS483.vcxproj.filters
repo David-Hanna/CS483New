@@ -803,9 +803,6 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Emitter.h">
       <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Effect.h">
-      <Filter>HeatStroke\Graphics\Particles</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Affector.h">
       <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClInclude>
@@ -822,6 +819,9 @@
       <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Particle.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Effect.h">
       <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClInclude>
   </ItemGroup>

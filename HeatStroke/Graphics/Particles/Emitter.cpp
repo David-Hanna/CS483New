@@ -4,6 +4,7 @@
 #include "AffectorColor.h"
 #include "AffectorScale.h"
 #include "AffectorVelocity.h"
+#include <cassert>
 
 // static member setup
 std::random_device HeatStroke::Emitter::s_Rand;
@@ -11,7 +12,7 @@ std::mt19937 HeatStroke::Emitter::s_RNGesus = std::mt19937(HeatStroke::Emitter::
 
 HeatStroke::Emitter::Emitter(const std::string& p_strDefinitionFile)
 	:
-	m_bActive(true),
+	m_bActive(false),
 	m_pVB(nullptr),
 	m_pIB(nullptr),
 	m_pDecl(nullptr),
@@ -301,9 +302,9 @@ void HeatStroke::Emitter::InitSpawnPropertyLifetime(tinyxml2::XMLElement* p_pSpa
 
 void HeatStroke::Emitter::InitSpawnPropertySize(tinyxml2::XMLElement* p_pSpawnPropertySizeElement)
 {
-#if _DEBUG
-	assert(p_pSpawnPropertyVelocityElement != nullptr);
-#endif
+//#if _DEBUG
+//	assert(p_pSpawnPropertyVelocityElement != nullptr);
+//#endif
 
 	std::string strType = "";
 	EasyXML::GetRequiredStringAttribute(p_pSpawnPropertySizeElement, "type", strType);
