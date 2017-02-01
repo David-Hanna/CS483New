@@ -31,6 +31,7 @@ namespace Kartaclysm
 		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.45f),
 		m_fVerticalSpeedScale(1.2f),
+		m_fWheelieRotation(PI * -0.15f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(1.2f),
@@ -462,7 +463,7 @@ namespace Kartaclysm
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fWheelieRotation, m_fDirection + m_fSwerve, 0.0f)));
 		}
 		else
 		{
