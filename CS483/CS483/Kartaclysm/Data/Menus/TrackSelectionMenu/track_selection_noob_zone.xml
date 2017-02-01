@@ -24,8 +24,8 @@
 			</Transform>
 			<Components>
 				<GOC_Sprite>
-					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
-					<MaterialName name="null_icon"/>
+					<MTLFileName path="Assets/Menus/TrackSelectionMenu/noob_zone_overhead.mtl"/>
+					<MaterialName name="noob_zone_overhead"/>
 				</GOC_Sprite>
 			</Components>
 		</GameObject>

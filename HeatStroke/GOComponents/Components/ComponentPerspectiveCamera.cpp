@@ -11,6 +11,9 @@
 HeatStroke::ComponentPerspectiveCamera::ComponentPerspectiveCamera(
 	GameObject* p_pGameObject,
 	SceneManager::SceneViewportSelection p_eViewportSelection,
+	const glm::vec3& p_vPosition,
+	const glm::vec3& p_vTarget,
+	const glm::vec3& p_vUp,
 	const float p_fFOV,
 	const float p_fAspectRatio,
 	const float p_fNearClip,
@@ -19,9 +22,9 @@ HeatStroke::ComponentPerspectiveCamera::ComponentPerspectiveCamera(
 	:
 	Component(p_pGameObject),
 	m_mScenePerspectiveCamera(
-		glm::vec3(),
-		glm::vec3(),
-		glm::vec3(0.0f, 1.0f, 0.0f),
+		p_vPosition,
+		p_vTarget,
+		p_vUp,
 		p_fFOV,
 		p_fAspectRatio,
 		p_fNearClip,
@@ -47,6 +50,9 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 
 	// Defaults
 	std::string strViewportSelection("full");
+	glm::vec3 vPosition(0.0f, 0.0f, 0.0f);
+	glm::vec3 vTarget(0.0f, 0.0f, -5.0f);
+	glm::vec3 vUp(0.0f, 1.0f, 0.0f);
 	float fFOV = 45.0f;
 	float fAspectRatioWidth = 1280.0f;
 	float fAspectRatioHeight = 720.0f;
@@ -57,11 +63,11 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 
 	if (p_pBaseNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, strViewportSelection, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
+		ParseNode(p_pBaseNode, strViewportSelection, vPosition, vTarget, vUp, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
 	}
 	if (p_pOverrideNode != nullptr)
 	{
-		ParseNode(p_pOverrideNode, strViewportSelection, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
+		ParseNode(p_pOverrideNode, strViewportSelection, vPosition, vTarget, vUp, fFOV, fAspectRatioWidth, fAspectRatioHeight, fNearClip, fFarClip, strTargetGUID);
 	}
 
 	// Apply the target if one was set.
@@ -73,6 +79,9 @@ HeatStroke::Component* HeatStroke::ComponentPerspectiveCamera::CreateComponent(
 	return new ComponentPerspectiveCamera(
 		p_pGameObject, 
 		SceneManager::ParseViewportSelection(strViewportSelection),
+		vPosition,
+		vTarget,
+		vUp,
 		fFOV, 
 		fAspectRatioWidth / fAspectRatioHeight, 
 		fNearClip, 
@@ -118,6 +127,9 @@ void HeatStroke::ComponentPerspectiveCamera::Update(const float p_fDelta)
 void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 	tinyxml2::XMLNode* p_pNode,
 	std::string& p_strViewportSelection,
+	glm::vec3& p_vPosition,
+	glm::vec3& p_vTarget,
+	glm::vec3& p_vUp,
 	float& p_fFOV,
 	float& p_fAspectRatioWidth,
 	float& p_fAspectRatioHeight,
@@ -137,7 +149,26 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 	{
 		const char* szNodeName = pChildElement->Value();
 
-		if (strcmp(szNodeName, "FieldOfView") == 0)
+		if (strcmp(szNodeName, "Position") == 0)
+		{
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vPosition.x);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vPosition.y);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vPosition.z);
+		}
+		else if (strcmp(szNodeName, "Target") == 0)
+		{
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "x", p_vTarget.x, p_vTarget.x);
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "y", p_vTarget.y, p_vTarget.y);
+			EasyXML::GetOptionalFloatAttribute(pChildElement, "z", p_vTarget.z, p_vTarget.z);
+			EasyXML::GetOptionalStringAttribute(pChildElement, "guid", p_strTargetGUID, p_strTargetGUID);
+		}
+		else if (strcmp(szNodeName, "Up") == 0)
+		{
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "x", p_vUp.x);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "y", p_vUp.y);
+			EasyXML::GetRequiredFloatAttribute(pChildElement, "z", p_vUp.z);
+		}
+		else if (strcmp(szNodeName, "FieldOfView") == 0)
 		{
 			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fFOV);
 		}
@@ -156,10 +187,6 @@ void HeatStroke::ComponentPerspectiveCamera::ParseNode(
 		else if (strcmp(szNodeName, "FarClip") == 0)
 		{
 			EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fFarClip);
-		}
-		else if (strcmp(szNodeName, "Target") == 0)
-		{
-			EasyXML::GetRequiredStringAttribute(pChildElement, "guid", p_strTargetGUID);
 		}
 	}
 }
