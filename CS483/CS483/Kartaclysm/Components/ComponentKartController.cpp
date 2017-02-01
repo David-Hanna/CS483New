@@ -460,17 +460,17 @@ namespace Kartaclysm
 		m_pGameObject->GetTransform().Translate(m_pOutsideForce * p_fDelta);
 		m_pOutsideForce *= powf(2.718281828f, p_fDelta * m_fOutsideForceAccelerationStat);
 
-		float m_fSpin = m_fSpinout * m_fSpinFactor;
+		float spin = m_fSpinout * m_fSpinFactor;
 		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection) * p_fDelta, p_fHeightMod, m_fSpeed * cosf(m_fDirection) * p_fDelta);
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve + m_fSpin, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve + m_fSpin, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
@@ -533,8 +533,8 @@ namespace Kartaclysm
 
 	float ComponentKartController::GetRotationMod()
 	{
-		float m_fSpin = m_fSpinout * m_fSpinFactor;
-		return m_fSwerve + m_fSpin;
+		float spin = m_fSpinout * m_fSpinFactor;
+		return m_fSwerve + spin;
 	}
 
 	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
