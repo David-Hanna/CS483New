@@ -69,6 +69,7 @@ namespace Kartaclysm
 		m_fVerticalSpeed(0.0f),
 		m_bSliding(false),
 		m_iSlideDirection(0),
+		m_bSlideParticle(false),
 		m_fSwerve(0.0f),
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
@@ -452,6 +453,46 @@ namespace Kartaclysm
 				m_fSlideCharge = 0.0f;
 			}
 		}
+
+		// Particles
+		if (m_bSliding && !m_bSlideParticle)
+		{
+			if (m_iSlideDirection > 0)
+			{
+				/*HeatStroke::ComponentParticleEffect* swerveLeftParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+				if (swerveLeftParticle != nullptr)
+				{
+					swerveLeftParticle->Start();
+				}
+
+				m_bSlideParticle = true;*/
+			}
+			else if (m_iSlideDirection < 0)
+			{
+				HeatStroke::ComponentParticleEffect* swerveRightParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+				if (swerveRightParticle != nullptr)
+				{
+					swerveRightParticle->Start();
+				}
+
+				m_bSlideParticle = true;
+			}
+		}
+		else if (!m_bSliding && m_bSlideParticle)
+		{
+			/*HeatStroke::ComponentParticleEffect* swerveLeftParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			if (swerveLeftParticle != nullptr)
+			{
+				swerveLeftParticle->Stop();
+			}*/
+			HeatStroke::ComponentParticleEffect* swerveRightParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			if (swerveRightParticle != nullptr)
+			{
+				swerveRightParticle->Stop();
+			}
+
+			m_bSlideParticle = false;
+		}
 	}
 
 	void ComponentKartController::UpdateTransform(float p_fHeightMod, float p_fDelta)
@@ -487,7 +528,8 @@ namespace Kartaclysm
 		HeatStroke::ComponentParticleEffect* boostParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
 		if (boostParticle != nullptr)
 		{
-			boostParticle->Start();
+			// Re-enable this once we have multiple particles and can do the stuff real good like
+			//boostParticle->Start();
 		}
 	}
 
