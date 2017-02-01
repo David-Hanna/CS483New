@@ -63,6 +63,7 @@ namespace Kartaclysm
 			DRIVER_SELECTION		eSelectedDriver;
 			KART_SELECTION			eSelectedKart;
 
+			HeatStroke::GameObject* pPressStartToJoin;
 			HeatStroke::GameObject* pDriverSelection;
 			HeatStroke::GameObject* pKartSelection;
 			HeatStroke::GameObject* pReadyButton;

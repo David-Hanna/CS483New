@@ -14,7 +14,7 @@ Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 	GameplayState("Player Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_uiNumPlayers(1)
+	m_uiNumPlayers(0)
 {
 	m_mPerPlayerMenuState[0].bJoined = true;
 	m_mPerPlayerMenuState[1].bJoined = false;
@@ -29,6 +29,7 @@ Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 		m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
 		m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
 
+		m_mPerPlayerMenuState[i].pPressStartToJoin = nullptr;
 		m_mPerPlayerMenuState[i].pDriverSelection = nullptr;
 		m_mPerPlayerMenuState[i].pKartSelection = nullptr;
 		m_mPerPlayerMenuState[i].pReadyButton = nullptr;
@@ -64,9 +65,9 @@ void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std
 
 	AddPlayer(0);
 
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_1/press_start_to_join_1.xml");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_2/press_start_to_join_2.xml");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_3/press_start_to_join_3.xml");
+	m_mPerPlayerMenuState[1].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_1/press_start_to_join_1.xml");
+	m_mPerPlayerMenuState[2].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_2/press_start_to_join_2.xml");
+	m_mPerPlayerMenuState[3].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_3/press_start_to_join_3.xml");
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
@@ -80,7 +81,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
 
-	for (unsigned int i = 0; i < 1; i++)
+	for (unsigned int i = 0; i < 4; i++)
 	{
 		std::string strPlayerNum = std::to_string(i);
 		PlayerInputMapping::Instance()->QueryPlayerMenuActions(i, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
@@ -90,7 +91,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			if (!m_mPerPlayerMenuState[i].bJoined)
 			{
 				m_mPerPlayerMenuState[i].bJoined = true;
-				m_uiNumPlayers++;
+				AddPlayer(i);
 			}
 			else if (!m_mPerPlayerMenuState[i].bReady)
 			{
@@ -286,6 +287,11 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int m_uiPlay
 {
 	std::string strPlayerNum = std::to_string(m_uiPlayerNum);
 
+	if (m_mPerPlayerMenuState[m_uiPlayerNum].pPressStartToJoin != nullptr)
+	{
+		m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[m_uiPlayerNum].pPressStartToJoin);
+	}
+
 	m_mPerPlayerMenuState[m_uiPlayerNum].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[m_uiPlayerNum].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[m_uiPlayerNum].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/not_ready_" + strPlayerNum + ".xml");
@@ -296,14 +302,13 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int m_uiPlay
 	m_mPerPlayerMenuState[m_uiPlayerNum].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[m_uiPlayerNum].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[m_uiPlayerNum].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_driver_selection_" + strPlayerNum + ".xml");
+
+	m_uiNumPlayers++;
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 {
-	if (!PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers))
-	{
-		assert(false && "Failed to set number of players.");
-	}
+	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
 	std::map<std::string, std::string> mContextParameters;
 	mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));

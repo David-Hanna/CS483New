@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+		<Translation x="1.2" y="0.7" z="2.5"/>
+		<Rotation angle="240.0" x="0.2" y="1.0" z="-0.4"/>
+		<Scale x="0.25" y="0.25" z="0.25"/>
+	</Transform>
+	<Components>
+		<GOC_3DModel>
+			<OBJFileName path="Assets/Kart/Speedster/speedster.obj"/>
+		</GOC_3DModel>
+	</Components>
+</GameObject>

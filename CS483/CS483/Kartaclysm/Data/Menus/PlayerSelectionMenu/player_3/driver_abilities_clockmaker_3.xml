@@ -1,0 +1,61 @@
+<GameObject>
+	<Children>
+		<!-- Driver Ability 1 -->
+		<GameObject>
+			<Transform>
+				<Scale x="3.3" y="5.0" z="1.0" />
+				<Translation x="7.5" y="-20.0" z="0.0" />
+			</Transform>
+			<Components>
+				<GOC_Sprite>
+					<MTLFileName path="Assets/Hud/Abilities/clockbomb.mtl"/>
+					<MaterialName name="clockbomb"/>
+				</GOC_Sprite>
+			</Components>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Translation x="12.0" y="-16.5" z="0.0"/>
+				<Scale x="0.1" y="0.2" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Clock Bomb"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+
+		<!-- Driver Ability 2 -->
+		<GameObject>
+			<Transform>
+				<Scale x="3.3" y="5.0" z="1.0" />
+				<Translation x="7.5" y="-35.0" z="0.0" />
+			</Transform>
+			<Components>
+				<GOC_Sprite>
+					<MTLFileName path="Assets/Hud/Abilities/tinker.mtl"/>
+					<MaterialName name="tinker"/>
+				</GOC_Sprite>
+			</Components>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Translation x="12.0" y="31.5" z="0.0"/>
+				<Scale x="0.1" y="0.2" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Tinker"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+	</Children>
+</GameObject>
