@@ -33,7 +33,7 @@ void Kartaclysm::StateModeSelectionMenu::Enter(const std::map<std::string, std::
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml");
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_time_trial.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_options.xml");
@@ -44,6 +44,18 @@ void Kartaclysm::StateModeSelectionMenu::Enter(const std::map<std::string, std::
 		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
 		HeatStroke::AudioPlayer::Instance()->PlayMusic();
 	}
+}
+
+void Kartaclysm::StateModeSelectionMenu::Suspend(const int p_iNewState)
+{
+	m_bSuspended = true;
+	m_pGameObjectManager->ForceInstantDestroyGameObject(m_pGameObjectManager->GetGameObject("Camera"));
+}
+
+void Kartaclysm::StateModeSelectionMenu::Unsuspend(const int p_iPrevState)
+{
+	m_bSuspended = false;
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 }
 
 void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)

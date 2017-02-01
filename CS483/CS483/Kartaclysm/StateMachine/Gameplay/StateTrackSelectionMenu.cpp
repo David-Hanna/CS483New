@@ -26,6 +26,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 {
 	m_bSuspended = false;
 	m_mContextParameters = p_mContextParameters;
+	m_iTrackSelection = 0;
 
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 

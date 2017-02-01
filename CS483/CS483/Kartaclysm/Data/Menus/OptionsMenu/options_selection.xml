@@ -1,0 +1,80 @@
+<GameObject>
+	<Children>
+    <!-- Options Message -->
+    <GameObject>
+      <Transform>
+        <Translation x="-230.0" y="80.0" z="1.0" />
+        <Scale x="0.75" y="0.75" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_TextBox>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Message value="Options"/>
+          <Width value="200.0"/>
+          <Height value="200.0"/>
+        </GOC_TextBox>
+      </Components>
+    </GameObject>
+    
+		<!-- Music Volume -->
+		<GameObject guid="music_slider">
+			<Transform>
+				<Translation x="-280.0" y="40.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
+			</Transform>
+      <Components>
+        <GOC_MenuSlider>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Label message="Music"/>
+          <OutlineMTLFileName path="Assets/Menus/OptionsMenu/slider_outline.mtl"/>
+          <OutlineMaterialName name="slider_outline"/>
+          <SliderMTLFileName path="Assets/Menus/OptionsMenu/slider_fill.mtl"/>
+          <SliderMaterialName name="slider_fill"/>
+          <SliderOffset value="200.0"/>
+          <ChangeFactor value="4"/>
+          <StartingValue value="100"/>
+        </GOC_MenuSlider>
+      </Components>
+		</GameObject>
+
+    <!-- SFX Volume -->
+    <GameObject guid="sfx_slider">
+      <Transform>
+        <Translation x="-280.0" y="0.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
+      </Transform>
+      <Components>
+        <GOC_MenuSlider>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Label message="Sound"/>
+          <OutlineMTLFileName path="Assets/Menus/OptionsMenu/slider_outline.mtl"/>
+          <OutlineMaterialName name="slider_outline"/>
+          <SliderMTLFileName path="Assets/Menus/OptionsMenu/slider_fill.mtl"/>
+          <SliderMaterialName name="slider_fill"/>
+          <SliderOffset value="200.0"/>
+          <ChangeFactor value="4"/>
+          <StartingValue value="100"/>
+        </GOC_MenuSlider>
+      </Components>
+    </GameObject>
+
+    <!-- Return -->
+    <GameObject>
+      <Transform>
+        <Translation x="-280.0" y="-70.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
+      </Transform>
+      <Components>
+        <GOC_TextBox>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Message value="Return"/>
+          <Width value="200.0"/>
+          <Height value="200.0"/>
+        </GOC_TextBox>
+      </Components>
+    </GameObject>
+
+	</Children>
+</GameObject>
+
+		

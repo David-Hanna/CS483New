@@ -215,6 +215,23 @@ void GameObjectManager::DestroyGameObject(GameObject* p_pGameObject)
 	m_vToDelete.insert(p_pGameObject);
 }
 
+void GameObjectManager::ForceInstantDestroyGameObject(GameObject* p_pGameObject)
+{
+	GameObjectMap::iterator it = m_mGameObjectMap.find(p_pGameObject->GetGUID());
+	if (it != m_mGameObjectMap.end())
+	{
+		delete it->second;
+		it->second = nullptr;
+		m_mGameObjectMap.erase(it);
+	}
+#ifdef _DEBUG
+	else
+	{
+		assert(false && "Could not find GameObject to delete.");
+	}
+#endif
+}
+
 void GameObjectManager::DestroyAllGameObjects()
 {
 	GameObject* pGameObject = nullptr;
