@@ -143,21 +143,6 @@
       </Components>
     </GameObject>
 
-    <!-- Pause -->
-    <GameObject>
-      <Transform>
-        <Translation x="0.0" y="-10.0" z="1.0" />
-        <Scale x="16.0" y="16.0" z="1.0" />
-      </Transform>
-      <Components>
-        <GOC_HUD_Popup>
-          <MTLFileName path="Assets/Hud/Popups/paused.mtl"/>
-          <MaterialName name="paused"/>
-          <Event value="Pause_HUD"/>
-        </GOC_HUD_Popup>
-      </Components>
-    </GameObject>
-
     <!-- Slow Effect -->
     <GameObject>
       <Transform>

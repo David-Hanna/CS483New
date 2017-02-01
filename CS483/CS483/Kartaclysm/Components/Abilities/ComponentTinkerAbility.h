@@ -47,7 +47,8 @@ namespace Kartaclysm
 		ComponentTinkerAbility(
 			HeatStroke::GameObject* p_pGameObject,
 			int p_iStartCharges,
-			int p_iMaxCharges
+			int p_iMaxCharges,
+			float p_fDuration
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
@@ -56,7 +57,8 @@ namespace Kartaclysm
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			int& p_iStartCharges,
-			int& p_iMaxCharges
+			int& p_iMaxCharges,
+			float& p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -70,6 +72,7 @@ namespace Kartaclysm
 		std::string m_strChargeEventName;
 		int m_iCurrentCharges;
 		int m_iMaxCharges;
+		float m_fDuration;
 
 		// Delegate function to register with EventManager for ability activation
 		std::function<void(const HeatStroke::Event*)>* m_pAbilityDelegate;

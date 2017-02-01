@@ -15,13 +15,13 @@
   
     <GOC_AbilityConditions>
       <Ability value="KartAbility1" />
-      <Cooldown value="10.0" />
+      <Cooldown value="8.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
     <GOC_BoostAbility>
-      <Strength value="2.0" />
+      <Power value="1.8" />
     </GOC_BoostAbility>
 
   </Components>

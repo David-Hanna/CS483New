@@ -15,12 +15,16 @@
   
     <GOC_AbilityConditions>
       <Ability value="DriverAbility2" />
-      <Cooldown value="1.0" />
+      <Cooldown value="4.0" />
       <MaxCharges value="-1" />
       <StartCharges value="-1" />
     </GOC_AbilityConditions>
 
-    <GOC_RainAbility />
+    <GOC_RainAbility>
+      <Power value="0.8" />
+      <Duration value="1.5" />
+    </GOC_RainAbility>
+      
 
   </Components>
 

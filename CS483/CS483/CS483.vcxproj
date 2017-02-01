@@ -96,13 +96,13 @@
     <ClCompile Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Font\Font.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Font\FontManager.cpp" />
-    <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\Material.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Material\MaterialManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Model\Model.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Model\ModelManager.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Program\Program.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Program\ProgramManager.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\ModelInstance.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\SpriteInstance.cpp" />
     <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\TextBox.cpp" />
@@ -159,6 +159,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StatePaused.cpp" />
@@ -201,7 +202,6 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Buffer\VertexDeclaration.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Font\Font.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Font\FontManager.h" />
-    <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\Material.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Mesh\Mesh.h" />
@@ -209,6 +209,7 @@
     <ClInclude Include="..\..\HeatStroke\Graphics\Model\ModelManager.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\Program.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Program\ProgramManager.h" />
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\ModelInstance.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\Renderable.h" />
     <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\SpriteInstance.h" />
@@ -270,6 +271,7 @@
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
@@ -290,12 +292,19 @@
     <Xml Include="Kartaclysm\Data\Abilities\driver_kingpin_strike.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\projectile_clock.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\projectile_strike.xml" />
-    <Xml Include="Kartaclysm\Data\Camera\camera_bottom.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_bottom.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_bottom_left.xml" />
     <Xml Include="Kartaclysm\Data\Camera\camera_bottom_right.xml" />
     <Xml Include="Kartaclysm\Data\Camera\camera_full.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_top.xml" />
-    <Xml Include="Kartaclysm\Data\Camera\camera_top_left.xml" />
+    <Xml Include="Kartaclysm\Data\Camera\camera_top_left.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Camera\camera_top_right.xml" />
     <ClInclude Include="Kartaclysm\Services\IO\InputActionMapping.h" />
     <ClInclude Include="Kartaclysm\Services\IO\InputActions.h" />
@@ -311,6 +320,14 @@
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_time_trial.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_tournament.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\driver_abilities_cleopapa_0.xml" />

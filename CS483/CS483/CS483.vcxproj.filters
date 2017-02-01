@@ -70,9 +70,6 @@
     <Filter Include="HeatStroke\Services\MTL">
       <UniqueIdentifier>{710270de-b3d4-4ab5-b57e-e9771cf81f9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HeatStroke\Graphics\GDebug">
-      <UniqueIdentifier>{2c5b1998-510b-4154-bee1-e907c671be12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kartaclysm\StateMachine">
       <UniqueIdentifier>{cd1c30ac-a893-447c-95a9-07196de33662}</UniqueIdentifier>
     </Filter>
@@ -137,19 +134,25 @@
       <UniqueIdentifier>{5fdc9ba4-8bf5-460a-8b84-41ce655e6c6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus">
-      <UniqueIdentifier>{7d306a52-3535-4978-befd-1fee26f914cf}</UniqueIdentifier>
+      <UniqueIdentifier>{911b464b-bfff-4756-82f4-3bd6fe3c37b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\MainMenu">
-      <UniqueIdentifier>{e1027a20-c295-4eeb-8475-5da90ff96fa7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu">
-      <UniqueIdentifier>{c5e7ee90-c0b9-487c-aca7-d07781e8ff28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu">
-      <UniqueIdentifier>{de430838-ef2f-494e-86fc-5026cde4a29d}</UniqueIdentifier>
+      <UniqueIdentifier>{2e441e4a-0e06-4776-b967-00b392eeed4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\TrackSelectionMenu">
-      <UniqueIdentifier>{e14b0a96-a2b8-47d1-9c7b-4179a563ef4f}</UniqueIdentifier>
+      <UniqueIdentifier>{08aa1b1a-6faf-403f-b3ae-614f3e6e70a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu">
+      <UniqueIdentifier>{0bac5e9a-1da9-438b-bb30-dbe529c9f8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu">
+      <UniqueIdentifier>{75d3cd94-594d-4c49-ae48-dd4cdf4d797d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
+      <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
+      <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0">
       <UniqueIdentifier>{3913d13f-33d9-48ac-b616-5fc1a5f4c288}</UniqueIdentifier>
@@ -245,9 +248,6 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\MTL\MTLFile.cpp">
       <Filter>HeatStroke\Services\MTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.cpp">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
@@ -438,6 +438,9 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.cpp">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
@@ -449,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -574,9 +580,6 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentTrack.h">
       <Filter>Kartaclysm\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\HeatStroke\Graphics\GDebug\LineDrawer.h">
-      <Filter>HeatStroke\Graphics\GDebug</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
@@ -773,6 +776,9 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Renderable\LineDrawer.h">
+      <Filter>HeatStroke\Graphics\Renderable</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
@@ -784,6 +790,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -982,6 +991,9 @@
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\race_complete_message.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_highlight_noob_zone.xml">
       <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
     </Xml>
@@ -1000,8 +1012,17 @@
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml">
       <Filter>Kartaclysm\Data\Menus\TrackSelectionMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\race_complete_message.xml">
-      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu</Filter>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_continue.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
@@ -1089,6 +1110,21 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\press_start_to_join_3.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Camera\camera_overlay.xml">
+      <Filter>Kartaclysm\Data\Camera</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_options.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_options.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_time_trial.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_tournament.xml">
+      <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
     </Xml>
   </ItemGroup>
 </Project>

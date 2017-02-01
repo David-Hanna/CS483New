@@ -39,6 +39,7 @@ namespace Kartaclysm
 
 			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
 			void RegisterForTrackHeight(const HeatStroke::Event* p_pEvent);
+			void TriggerRaceStandingsUpdateEvent();
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
@@ -66,7 +67,6 @@ namespace Kartaclysm
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
 			void TriggerRacerCompletedLapEvent(const std::string& p_strRacerId);
 			void TriggerRacerFinishedRaceEvent(const std::string& p_strRacerId);
-			void TriggerRaceStandingsUpdateEvent();
 
 			glm::vec3 DetermineTrackForwardDirection(int p_iTrackPieceIndex);
 			glm::vec3 DetermineRacerForwardDirection(const std::string& p_strRacerId);

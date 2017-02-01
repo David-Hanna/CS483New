@@ -46,14 +46,14 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		ComponentBoostAbility(
 			HeatStroke::GameObject* p_pGameObject,
-			float p_fStrength
+			float p_fPower
 			);
 
 		void AbilityCallback(const HeatStroke::Event* p_pEvent) { Activate(); }
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
-			float& p_fStrength
+			float& p_fPower
 			);
 
 		//--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 
-		float m_fStrength;
+		float m_fPower;
 
 		// Prevent querying the GameObject for the ComponentAbilityConditions
 		ComponentAbilityConditions* m_pConditions;

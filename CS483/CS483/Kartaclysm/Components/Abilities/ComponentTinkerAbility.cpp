@@ -12,14 +12,16 @@ namespace Kartaclysm
 	ComponentTinkerAbility::ComponentTinkerAbility(
 		HeatStroke::GameObject* p_pGameObject,
 		int p_iStartCharges,
-		int p_iMaxCharges)
+		int p_iMaxCharges,
+		float p_fDuration)
 		:
 		ComponentAbility(p_pGameObject),
 		m_iCurrentCharges(p_iStartCharges),
 		m_iMaxCharges(p_iMaxCharges),
 		m_pAbilityDelegate(nullptr),
 		m_pChargeDelegate(nullptr),
-		m_strChargeEventName(m_strPlayerX + "_ClockCharges")
+		m_strChargeEventName(m_strPlayerX + "_ClockCharges"),
+		m_fDuration(p_fDuration)
 	{
 		// Listen to activation event ("Player0_KartAbility1" as example)
 		m_pAbilityDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTinkerAbility::AbilityCallback, this, std::placeholders::_1));
@@ -51,24 +53,27 @@ namespace Kartaclysm
 		// Defaults
 		int iStartCharges = -1;
 		int iMaxCharges = 0;
+		float fDuration = 0.0f;
 
 		if (p_pBaseNode != nullptr)
 		{
-			ParseNode(p_pBaseNode, iStartCharges, iMaxCharges);
+			ParseNode(p_pBaseNode, iStartCharges, iMaxCharges, fDuration);
 		}
 		if (p_pOverrideNode != nullptr)
 		{
-			ParseNode(p_pOverrideNode, iStartCharges, iMaxCharges);
+			ParseNode(p_pOverrideNode, iStartCharges, iMaxCharges, fDuration);
 		}
 
 		// Check that we got everything we needed.
-		assert(iStartCharges != -1);
-		assert(iMaxCharges != 0);
+		assert(iMaxCharges > 0);
+		assert(iStartCharges > -1 && iStartCharges < iMaxCharges);
+		assert(fDuration > 0.0f);
 
 		return new ComponentTinkerAbility(
 			p_pGameObject,
 			iStartCharges,
-			iMaxCharges
+			iMaxCharges,
+			fDuration
 			);
 	}
 
@@ -88,6 +93,7 @@ namespace Kartaclysm
 			HeatStroke::Event* pActivateEvent = new HeatStroke::Event("AbilityUse");
 			pActivateEvent->SetStringParameter("Originator", m_strPlayerX);
 			pActivateEvent->SetStringParameter("Ability", "Tinker");
+			pActivateEvent->SetFloatParameter("Duration", m_fDuration);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pActivateEvent);
 
 			// Yes, this sends an event that it also listens to.
@@ -123,7 +129,8 @@ namespace Kartaclysm
 	void ComponentTinkerAbility::ParseNode(
 		tinyxml2::XMLNode* p_pNode,
 		int& p_iStartCharges,
-		int& p_iMaxCharges)
+		int& p_iMaxCharges,
+		float& p_fDuration)
 	{
 		assert(p_pNode != nullptr);
 		assert(strcmp(p_pNode->Value(), "GOC_TinkerAbility") == 0);
@@ -141,6 +148,10 @@ namespace Kartaclysm
 			else if (strcmp(szNodeName, "StartCharges") == 0)
 			{
 				HeatStroke::EasyXML::GetRequiredIntAttribute(pChildElement, "value", p_iStartCharges);
+			}
+			else if (strcmp(szNodeName, "Duration") == 0)
+			{
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fDuration);
 			}
 		}
 	}

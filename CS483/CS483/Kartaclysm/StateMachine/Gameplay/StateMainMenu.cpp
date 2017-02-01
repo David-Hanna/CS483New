@@ -33,14 +33,19 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/menu_camera.xml", "Camera");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/title_image.xml", "TitleImage");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
 
 	if (!m_bPreloadCalled)
 	{
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
+
 		// Push Options state to load from XML, which calls Pop() when done
 		std::map<std::string, std::string> mOptionsParams;
 		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
 		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
+	}
+	else
+	{
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
 	}
 
 	HeatStroke::AudioPlayer::Instance()->StopMusic();
@@ -73,7 +78,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
+			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 		}
 	}
 }

@@ -25,6 +25,13 @@ HeatStroke::ComponentSphereCollider::ComponentSphereCollider(
 HeatStroke::ComponentSphereCollider::~ComponentSphereCollider()
 {
 	HeatStroke::CollisionManager::Instance()->UnregisterCollider(GetGameObject()->GetGUID());
+
+	if (m_pDebugLineDrawer != nullptr)
+	{
+		SceneManager::Instance()->RemoveLineDrawer(m_pDebugLineDrawer);
+		delete m_pDebugLineDrawer;
+		m_pDebugLineDrawer = nullptr;
+	}
 }
 
 HeatStroke::Component* HeatStroke::ComponentSphereCollider::CreateComponent(
@@ -78,8 +85,43 @@ void HeatStroke::ComponentSphereCollider::Update(const float p_fDelta)
 	m_pPosition = m_pGameObject->GetTransform().GetTranslation();
 }
 
+void HeatStroke::ComponentSphereCollider::PreRender()
+{
+	SyncTransform();
+	if (m_bDebugRender)
+	{
+		if (m_pDebugLineDrawer == nullptr)
+		{
+			m_pDebugLineDrawer = new LineDrawer("Assets/Kart/kart.vsh", "Assets/Kart/kart.fsh");
+			SceneManager::Instance()->AddLineDrawer(m_pDebugLineDrawer);
+
+			// Top
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, m_fRadius, 0.0f), m_pOffset + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, m_fRadius, 0.0f), m_pOffset + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, m_fRadius, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, m_fRadius, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+
+			// Equator
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(m_fRadius, 0.0f, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, 0.0f, m_fRadius), m_pOffset + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(-m_fRadius, 0.0f, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, 0.0f, -m_fRadius), m_pOffset + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+
+			// Bottom
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, -m_fRadius, 0.0f), m_pOffset + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, -m_fRadius, 0.0f), m_pOffset + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, -m_fRadius, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pDebugLineDrawer->AddLine(m_pOffset + glm::vec3(0.0f, -m_fRadius, 0.0f), m_pOffset + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+	}
+}
+
 void HeatStroke::ComponentSphereCollider::SyncTransform()
 {
+	if (m_pDebugLineDrawer != nullptr)
+	{
+		m_pDebugLineDrawer->SetTransform(GetGameObject()->GetTransform().GetTransform());
+	}
 }
 
 void HeatStroke::ComponentSphereCollider::ParseNode(
@@ -117,27 +159,4 @@ void HeatStroke::ComponentSphereCollider::ParseNode(
 			HeatStroke::EasyXML::GetRequiredBoolAttribute(pElement, "applies", p_bAppliesPhysics);
 		}
 	}
-}
-
-void HeatStroke::ComponentSphereCollider::DebugRender(LineDrawer* p_pLineDrawer)
-{
-	glm::vec3 center = m_pGameObject->GetTransform().GetTranslation() + m_pOffset;
-
-	// Top
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, m_fRadius, 0.0f), center + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, m_fRadius, 0.0f), center + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, m_fRadius, 0.0f), center + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, m_fRadius, 0.0f), center + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-
-	// Equator
-	p_pLineDrawer->AddLine(center + glm::vec3(m_fRadius, 0.0f, 0.0f), center + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, 0.0f, m_fRadius), center + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(-m_fRadius, 0.0f, 0.0f), center + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, 0.0f, -m_fRadius), center + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-
-	// Bottom
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, -m_fRadius, 0.0f), center + glm::vec3(m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, -m_fRadius, 0.0f), center + glm::vec3(-m_fRadius, 0.0f, 0.0f), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, -m_fRadius, 0.0f), center + glm::vec3(0.0f, 0.0f, m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
-	p_pLineDrawer->AddLine(center + glm::vec3(0.0f, -m_fRadius, 0.0f), center + glm::vec3(0.0f, 0.0f, -m_fRadius), HeatStroke::Color4(0.0f, 1.0f, 0.0f, 1.0f));
 }
