@@ -17,6 +17,7 @@
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
 #include "EasyXML.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
