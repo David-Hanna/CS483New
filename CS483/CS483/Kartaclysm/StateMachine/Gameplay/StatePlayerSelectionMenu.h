@@ -93,6 +93,8 @@ namespace Kartaclysm
 		unsigned int m_uiNumPlayers;
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 
+		void Initialize();
+
 		void AddPlayer(const unsigned int m_uiPlayerNum);
 		void GoToTrackSelectionState();
 	};

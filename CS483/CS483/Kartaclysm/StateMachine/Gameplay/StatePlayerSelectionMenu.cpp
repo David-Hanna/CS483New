@@ -9,13 +9,10 @@
 
 #include "StatePlayerSelectionMenu.h"
 
-Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
-	:
-	GameplayState("Player Selection"),
-	m_pGameObjectManager(nullptr),
-	m_bSuspended(true),
-	m_uiNumPlayers(0)
+void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 {
+	m_uiNumPlayers = 0;
+
 	m_mPerPlayerMenuState[0].bJoined = true;
 	m_mPerPlayerMenuState[1].bJoined = false;
 	m_mPerPlayerMenuState[2].bJoined = false;
@@ -57,18 +54,11 @@ Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 		m_mPerPlayerMenuState[i].pKartDisplay = nullptr;
 		m_mPerPlayerMenuState[i].pHighlight = nullptr;
 	}
-}
 
-Kartaclysm::StatePlayerSelectionMenu::~StatePlayerSelectionMenu()
-{
-}
-
-void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
-{
 	m_bSuspended = false;
 
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
-	
+
 	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Sprite", HeatStroke::ComponentSprite::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
@@ -84,6 +74,24 @@ void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std
 	m_mPerPlayerMenuState[1].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_1/press_start_to_join_1.xml");
 	m_mPerPlayerMenuState[2].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_2/press_start_to_join_2.xml");
 	m_mPerPlayerMenuState[3].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_3/press_start_to_join_3.xml");
+}
+
+Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
+	:
+	GameplayState("Player Selection"),
+	m_pGameObjectManager(nullptr),
+	m_bSuspended(true),
+	m_uiNumPlayers(0)
+{
+}
+
+Kartaclysm::StatePlayerSelectionMenu::~StatePlayerSelectionMenu()
+{
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
+{
+	Initialize();
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
