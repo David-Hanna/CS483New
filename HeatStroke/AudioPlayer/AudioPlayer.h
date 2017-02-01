@@ -31,7 +31,8 @@ namespace HeatStroke
 		void StopMusic();
 
 		void PreloadSoundEffects(const std::string& p_strPreloadFileName);
-		void PlaySoundEffect(const std::string& p_strFile);
+		void PlaySoundEffect(const std::string& p_strFile, const bool loop = false);
+		void StopSoundEffect(const std::string& p_strFile);
 		void FlushSoundEffects();
 
 		void SetMusicVolume(float p_fMusicVolume);

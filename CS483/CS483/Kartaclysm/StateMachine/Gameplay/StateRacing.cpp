@@ -92,6 +92,8 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_mContextParams = p_mContextParameters;
 	SendRaceInfoEvent();
 	BeginRace();
+
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
 }
 
 void Kartaclysm::StateRacing::SendRaceInfoEvent()
@@ -243,12 +245,14 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = (p_iNewState != STATE_COUNTDOWN);
 	HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
 }
 
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
 }
 
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
@@ -316,6 +320,8 @@ void Kartaclysm::StateRacing::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
 }
 
 void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)

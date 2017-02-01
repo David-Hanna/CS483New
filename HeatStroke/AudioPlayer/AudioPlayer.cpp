@@ -105,7 +105,7 @@ void HeatStroke::AudioPlayer::PreloadSoundEffects(const std::string& p_strPreloa
 	}
 }
 
-void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile)
+void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile, const bool loop /* = false */)
 {
 	LoadedSoundEffects::const_iterator it = m_mLoadedSoundEffects.find(p_strFile);
 	
@@ -117,7 +117,23 @@ void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile)
 		return;
 	}
 
+	it->second.second->setLoop(loop);
 	it->second.second->play();
+}
+
+void HeatStroke::AudioPlayer::StopSoundEffect(const std::string& p_strFile)
+{
+	LoadedSoundEffects::const_iterator it = m_mLoadedSoundEffects.find(p_strFile);
+
+	if (it == m_mLoadedSoundEffects.end())
+	{
+#ifdef _DEBUG
+		std::cout << "Sound file could not be stopped because it was not preloaded: " << p_strFile << "\n";
+#endif
+		return;
+	}
+
+	it->second.second->stop();
 }
 
 void HeatStroke::AudioPlayer::FlushSoundEffects()

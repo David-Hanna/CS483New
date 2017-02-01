@@ -27,6 +27,8 @@
   </Models>
 
   <SoundEffects>
+    <SoundEffect path="Assets/Sounds/engine.wav"/>
+    
     <SoundEffect path="Assets/Sounds/cleopapa_bedazzle.wav"/>
     <SoundEffect path="Assets/Sounds/cleopapa_make_it_rain.wav"/>
     
