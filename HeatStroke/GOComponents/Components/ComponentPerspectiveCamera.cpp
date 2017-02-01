@@ -97,7 +97,7 @@ void HeatStroke::ComponentPerspectiveCamera::Update(const float p_fDelta)
 	if (pParent != nullptr && pParent->HasTag("Racer"))
 	{
 		Kartaclysm::ComponentKartController* pKartController = dynamic_cast<Kartaclysm::ComponentKartController*>(pParent->GetComponent("GOC_KartController"));
-		float fSwerve = pKartController->GetSwerve();
+		float fSwerve = pKartController->GetRotationMod();
 
 		pParent->GetTransform().RotateXYZ(pKartController->IsInWheelie() ? -pKartController->GetWheelieRotation() : 0.0f, -fSwerve, 0.0f);
 
