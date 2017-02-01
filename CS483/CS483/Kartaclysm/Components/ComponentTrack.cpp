@@ -11,7 +11,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
-		m_fRaceTime(0.0f)
+		m_fRaceTime(-3.0f) // beginning countdown
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);

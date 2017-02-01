@@ -59,6 +59,13 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 	}
 
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateTrackSelectionMenu::LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers)

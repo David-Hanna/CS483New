@@ -36,6 +36,7 @@ bool HeatStroke::AudioPlayer::OpenMusicFromFile(const std::string& p_strFile)
 		delete m_pCurrentMusic;
 	}
 
+	m_strCurrentMusicFile = p_strFile;
 	m_pCurrentMusic = new sf::Music;
 	m_pCurrentMusic->setVolume(m_fMusicVolume);
 	return m_pCurrentMusic->openFromFile(p_strFile);
