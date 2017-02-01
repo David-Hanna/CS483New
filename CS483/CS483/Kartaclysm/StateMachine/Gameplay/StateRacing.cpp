@@ -227,7 +227,7 @@ void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
 
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
-	m_bSuspended = true;
+	m_bSuspended = (p_iNewState != STATE_COUNTDOWN);
 	HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
 }
 
