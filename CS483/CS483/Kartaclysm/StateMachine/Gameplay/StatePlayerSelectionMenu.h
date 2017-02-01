@@ -63,6 +63,16 @@ namespace Kartaclysm
 			DRIVER_SELECTION		eSelectedDriver;
 			KART_SELECTION			eSelectedKart;
 
+			int						iDriverSpeedStat;
+			int						iDriverAccelerationStat;
+			int						iDriverHandlingStat;
+			int						iDriverDurabilityStat;
+
+			int						iKartSpeedStat;
+			int						iKartAccelerationStat;
+			int						iKartHandlingStat;
+			int						iKartDurabilityStat;
+
 			HeatStroke::GameObject* pPressStartToJoin;
 			HeatStroke::GameObject* pDriverSelection;
 			HeatStroke::GameObject* pKartSelection;
@@ -70,7 +80,11 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pDescriptionBoxes;
 			HeatStroke::GameObject* pDriverAbilities;
 			HeatStroke::GameObject* pKartAbilities;
-			HeatStroke::GameObject* pStats;
+			HeatStroke::GameObject* pStatDescription;
+			HeatStroke::GameObject* pSpeedStatIcon;
+			HeatStroke::GameObject* pAccelerationStatIcon;
+			HeatStroke::GameObject* pHandlingStatIcon;
+			HeatStroke::GameObject* pDurabilityStatIcon;
 			HeatStroke::GameObject* pDriverDisplay;
 			HeatStroke::GameObject* pKartDisplay;
 			HeatStroke::GameObject* pHighlight;

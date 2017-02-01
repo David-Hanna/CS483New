@@ -16,19 +16,6 @@
 			</Components>
 		</GameObject>
 
-		<GameObject>
-			<Transform>
-				<Scale x="3.3" y="5.0" z="1.0" />
-				<Translation x="-7.5" y="-20.0" z="0.0" />
-			</Transform>
-			<Components>
-				<GOC_Sprite>
-					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
-					<MaterialName name="null_icon"/>
-				</GOC_Sprite>
-			</Components>
-		</GameObject>
-
 		<!-- Acceleration -->
 		<GameObject>
 			<Transform>
@@ -42,19 +29,6 @@
 					<Width value="200.0"/>
 					<Height value="200.0"/>
 				</GOC_TextBox>
-			</Components>
-		</GameObject>
-
-		<GameObject>
-			<Transform>
-				<Scale x="3.3" y="5.0" z="1.0" />
-				<Translation x="-7.5" y="-35.0" z="0.0" />
-			</Transform>
-			<Components>
-				<GOC_Sprite>
-					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
-					<MaterialName name="null_icon"/>
-				</GOC_Sprite>
 			</Components>
 		</GameObject>
 
@@ -74,19 +48,6 @@
 			</Components>
 		</GameObject>
 
-		<GameObject>
-			<Transform>
-				<Scale x="3.3" y="5.0" z="1.0" />
-				<Translation x="-7.5" y="-50.0" z="0.0" />
-			</Transform>
-			<Components>
-				<GOC_Sprite>
-					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
-					<MaterialName name="null_icon"/>
-				</GOC_Sprite>
-			</Components>
-		</GameObject>
-
 		<!-- Durability -->
 		<GameObject>
 			<Transform>
@@ -100,19 +61,6 @@
 					<Width value="200.0"/>
 					<Height value="200.0"/>
 				</GOC_TextBox>
-			</Components>
-		</GameObject>
-
-		<GameObject>
-			<Transform>
-				<Scale x="3.3" y="5.0" z="1.0" />
-				<Translation x="-7.5" y="-65.0" z="0.0" />
-			</Transform>
-			<Components>
-				<GOC_Sprite>
-					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
-					<MaterialName name="null_icon"/>
-				</GOC_Sprite>
 			</Components>
 		</GameObject>
 	</Children>

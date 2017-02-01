@@ -34,7 +34,7 @@
 		<GameObject>
 			<Transform>
 				<Scale x="5.0" y="5.0" z="1.0" />
-				<Translation x="70.0" y="-92.0" z="0.0" />
+				<Translation x="70.0" y="-82.0" z="0.0" />
 			</Transform>
 			<Components>
 				<GOC_Sprite>
