@@ -23,7 +23,7 @@
 			<Components>
 				<GOC_TextBox>
 					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-					<Message value="Time Trial"/>
+					<Message value="Single Race"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
 				</GOC_TextBox>
