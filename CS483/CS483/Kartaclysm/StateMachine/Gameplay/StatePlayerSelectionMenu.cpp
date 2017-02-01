@@ -96,6 +96,7 @@ Kartaclysm::StatePlayerSelectionMenu::~StatePlayerSelectionMenu()
 
 void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
+	m_mContextParameters = p_mContextParameters;
 	Initialize();
 }
 
@@ -132,15 +133,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			else
 			{
 				m_mPerPlayerMenuState[i].bReady = false;
-
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pReadyButton);
-				m_mPerPlayerMenuState[i].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/not_ready_" + strPlayerNum + ".xml");
 			}
-		}
-
-		if (!m_mPerPlayerMenuState[i].bJoined)
-		{
-			continue;
 		}
 
 		if (bUp && !m_mPerPlayerMenuState[i].bDriverHighlighted)
@@ -421,41 +414,42 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 {
 	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
-	std::map<std::string, std::string> mContextParameters;
-	mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
+	std::map<std::string, std::string> m_mContextParameters;
+	m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
 
 	for (unsigned int i = 0; i < m_uiNumPlayers; i++)
 	{
 		std::string strPlayerNum = std::to_string(i);
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_StartPosition", strPlayerNum));
 		//PerPlayerMenuState m_mPerPlayerMenuState[i] = m_mPerPlayerMenuState[i];
 
 		switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 		{
 		case DRIVER_CLEOPAPA:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_cleopapa.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_cleopapa.xml"));
 			break;
 
 		case DRIVER_CLOCKMAKER:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml"));
 			break;
 
 		case DRIVER_KINGPIN:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml"));
 			break;
 		}
 
 		switch (m_mPerPlayerMenuState[i].eSelectedKart)
 		{
 		case KART_JUGGERNAUT:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml"));
 			break;
 
 		case KART_SHOWOFF:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_showoff.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_showoff.xml"));
 			break;
 
 		case KART_SPEEDSTER:
-			mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml"));
+			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml"));
 			break;
 		}
 	}
@@ -463,28 +457,35 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 	switch (m_uiNumPlayers)
 	{
 	case 1:
-		mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_full.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_full.xml"));
 		break;
 
 	case 2:
-		mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom.xml"));
 		break;
 
 	case 3:
-		mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_left.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_right.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player2_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_left.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_left.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_right.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player2_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_left.xml"));
 		break;
 
 	case 4:
-		mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_left.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_right.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player2_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_left.xml"));
-		mContextParameters.insert(std::pair<std::string, std::string>("Player3_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_right.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player0_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_left.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player1_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_top_right.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player2_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_left.xml"));
+		m_mContextParameters.insert(std::pair<std::string, std::string>("Player3_CameraDefinitionFile", "CS483/CS483/Kartaclysm/Data/Camera/camera_bottom_right.xml"));
 		break;
 	}
 
 	m_pStateMachine->Pop();
-	m_pStateMachine->Push(STATE_TRACK_SELECTION_MENU, mContextParameters);
+	if (m_mContextParameters.find("TrackDefinitionFile") == m_mContextParameters.end())
+	{
+		m_pStateMachine->Push(STATE_TRACK_SELECTION_MENU, m_mContextParameters);
+	}
+	else
+	{
+		m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
+	}
 }

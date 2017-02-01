@@ -91,6 +91,8 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pHighlight;
 		};
 
+		std::map<std::string, std::string> m_mContextParameters;
+
 		unsigned int m_uiNumPlayers;
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 

@@ -99,7 +99,10 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 3: // quit
 				m_pStateMachine->Pop(); // pause
 				m_pStateMachine->Pop(); // race
-				m_pStateMachine->Push(STATE_MAIN_MENU);
+				if (m_pStateMachine->empty()) // may have tournament state
+				{
+					m_pStateMachine->Push(STATE_MAIN_MENU);
+				}
 				break;
 			}
 		}

@@ -26,6 +26,7 @@ Kartaclysm::StateRacing::~StateRacing()
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_vRaceResults.clear();
 
 	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
@@ -89,7 +90,19 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	
 	// Store passed context parameters and begin race
 	m_mContextParams = p_mContextParameters;
+	SendRaceInfoEvent();
 	BeginRace();
+}
+
+void Kartaclysm::StateRacing::SendRaceInfoEvent()
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("RaceInfo");
+	auto it = m_mContextParams.begin(), end = m_mContextParams.end();
+	for (; it != end; ++it)
+	{
+		pEvent->SetStringParameter(it->first, it->second);
+	}
+	HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 }
 
 void Kartaclysm::StateRacing::BeginRace()
@@ -111,11 +124,12 @@ void Kartaclysm::StateRacing::BeginRace()
 		std::string kartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
 		std::string driverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
 		std::string cameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
+		int startPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
 
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3(( i % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * i));
+		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
 	}
 
 	// Set inital position sprites on racer HUDs
@@ -252,20 +266,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
 			return;
 		}
-
-#ifdef _DEBUG
-		// DEBUG: Press 'X' until Lap reads '3/3' and cross finish line with both drivers.
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_X))
-		{
-			HeatStroke::Event* pEvent1 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent1->SetStringParameter("racerId", "Player0");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent1);
-
-			HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent2->SetStringParameter("racerId", "Player1");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
-		}
-#endif
 	}
 }
 

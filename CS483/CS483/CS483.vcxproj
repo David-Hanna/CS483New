@@ -168,6 +168,7 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateRacing.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTournament.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +278,7 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePlayerSelectionMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRaceCompleteMenu.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTournament.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
   </ItemGroup>
   <ItemGroup>

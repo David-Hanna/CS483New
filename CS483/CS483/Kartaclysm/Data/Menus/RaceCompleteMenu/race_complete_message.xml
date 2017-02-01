@@ -1,6 +1,6 @@
 <GameObject>
 	<Children>
-		<GameObject>
+		<GameObject guid="title">
 			<Transform>
 				<Translation x="-56.0" y="100.0" z="0.0"/>
 				<Scale x="0.7" y="0.9" z="1.0"/>

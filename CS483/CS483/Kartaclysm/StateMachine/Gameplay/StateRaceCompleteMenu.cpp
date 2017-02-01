@@ -33,7 +33,19 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/race_complete_message.xml");
 
-	RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	if (p_mContextParameters.find("tournament") != p_mContextParameters.end())
+	{
+		if (HeatStroke::ComponentTextBox* pTitle = dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("title")->GetComponent("GOC_Renderable")))
+		{
+			pTitle->SetMessage("Tournament");
+		}
+	}
+	else
+	{
+		SendRaceFinishEvent(p_mContextParameters);
+		RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	}
+
 	PopulateRaceResultsList(p_mContextParameters);
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
@@ -58,7 +70,10 @@ void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 		if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_MAIN_MENU, std::map<std::string, std::string>());
+			if (m_pStateMachine->empty()) // may be popped to StateTournament
+			{
+				m_pStateMachine->Push(STATE_MAIN_MENU);
+			}
 		}
 	}
 }
@@ -80,6 +95,22 @@ void Kartaclysm::StateRaceCompleteMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+}
+
+void Kartaclysm::StateRaceCompleteMenu::SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults)
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinish");
+
+	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	for (int i = 0; i < iNumRacers; ++i)
+	{
+		std::string strIndex = std::to_string(i);
+		pEvent->SetStringParameter("racerId" + strIndex, p_mRaceResults.at("racerId" + strIndex));
+		pEvent->SetStringParameter("racerTime" + strIndex, p_mRaceResults.at("racerTime" + strIndex));
+	}
+
+	pEvent->SetIntParameter("PlayerCount", iNumRacers);
+	HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 }
 
 void Kartaclysm::StateRaceCompleteMenu::RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath)
@@ -140,7 +171,15 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 		std::string strPosition = std::to_string(i + 1);
 		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
 		std::string strRacerTime = FormatTime(p_mRaceResults.at("racerTime" + strIndex));
-		std::string strRacerResults = strPosition + " " + strRacerId + " " + strRacerTime;
+
+		std::string strRacerPoints = "";
+		auto find = p_mRaceResults.find("racerPoints" + strIndex);
+		if (find != p_mRaceResults.end())
+		{
+			strRacerPoints = find->second;
+		}
+
+		std::string strRacerResults = strPosition + " " + strRacerId + " " + (strRacerPoints == "" ? strRacerTime : strRacerPoints);
 		dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("results" + strIndex)->GetComponent("GOC_Renderable"))->SetMessage(strRacerResults);
 	}
 }
