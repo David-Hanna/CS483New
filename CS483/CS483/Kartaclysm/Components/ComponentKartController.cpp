@@ -59,6 +59,7 @@ namespace Kartaclysm
 		m_fWheelieTurnModStat(0.3f),
 		m_fWheelieSpeedModStat(1.2f),
 		m_fDurabilityStat(1.0f),
+		m_fKartCollisionStat(2.0f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -559,17 +560,34 @@ namespace Kartaclysm
 
 				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
 
-				glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-				float distance = collider->GetRadius() - glm::length(difference);
+				std::string otherColliderID = pOtherCollider->ComponentID();
+				if (otherColliderID.compare("GOC_WallCollider") == 0)
+				{
+					// Wall Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+					float distance = abs(collider->GetRadius() - glm::length(difference));
 
-				difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-				m_pGameObject->GetTransform().Translate(difference);
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
 
-				glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
-				float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+					glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+					float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
-				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-				m_fSpeed *= m_fWallSlowdownStat;
+					m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
+				else
+				{
+					// Kart Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - pOther->GetTransform().GetTranslation();
+					float distance = abs(collider->GetRadius() - glm::length(difference));
+
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
+
+					m_pOutsideForce = glm::normalize(difference) * m_fKartCollisionStat;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
 
 				if (passedThrough)
 				{
