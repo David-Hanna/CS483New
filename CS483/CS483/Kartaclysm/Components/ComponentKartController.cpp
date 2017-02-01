@@ -171,13 +171,14 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
-		if (m_bDisabled) return;
-
 		// Manually query for user input
-		int iAccelerate, iBrake, iSlide;
-		float fTurn;
-		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		int iAccelerate = 0, iBrake = 0, iSlide = 0;
+		float fTurn = 0.0f;
+		if (!m_bDisabled)
+		{
+			PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+			fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		}
 
 		// Spinout causes all inputs to be ignored
 		if (m_fSpinout > 0.0f)

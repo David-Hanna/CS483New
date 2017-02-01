@@ -37,9 +37,12 @@ void Kartaclysm::StateModeSelectionMenu::Enter(const std::map<std::string, std::
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_time_trial.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_options.xml");
 
-	HeatStroke::AudioPlayer::Instance()->StopMusic();
-	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
-	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)

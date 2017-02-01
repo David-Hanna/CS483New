@@ -35,6 +35,13 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 	RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
 	PopulateRaceResultsList(p_mContextParameters);
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)

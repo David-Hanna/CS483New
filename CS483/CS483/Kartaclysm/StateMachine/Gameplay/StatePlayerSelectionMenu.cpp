@@ -20,8 +20,6 @@ void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 
 	for (int i = 0; i < 4; i++)
 	{
-		//PerPlayerMenuState m_mPerPlayerMenuState[i] = m_mPerPlayerMenuState[i];
-
 		m_mPerPlayerMenuState[i].bReady = false;
 		m_mPerPlayerMenuState[i].bDriverHighlighted = true;
 
@@ -74,6 +72,13 @@ void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 	m_mPerPlayerMenuState[1].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_1/press_start_to_join_1.xml");
 	m_mPerPlayerMenuState[2].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_2/press_start_to_join_2.xml");
 	m_mPerPlayerMenuState[3].pPressStartToJoin = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_3/press_start_to_join_3.xml");
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
@@ -109,7 +114,6 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 	{
 		std::string strPlayerNum = std::to_string(i);
 		PlayerInputMapping::Instance()->QueryPlayerMenuActions(i, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-		//PerPlayerMenuState m_mPerPlayerMenuState[i] = m_mPerPlayerMenuState[i];
 
 		if (bConfirm)
 		{
@@ -384,7 +388,6 @@ void Kartaclysm::StatePlayerSelectionMenu::Exit()
 void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int m_uiPlayerNum)
 {
 	std::string strPlayerNum = std::to_string(m_uiPlayerNum);
-	//PerPlayerMenuState m_mPerPlayerMenuState[i] = m_mPerPlayerMenuState[m_uiPlayerNum];
 
 	std::string strSpeed = std::to_string(m_mPerPlayerMenuState[m_uiPlayerNum].iKartSpeedStat + m_mPerPlayerMenuState[m_uiPlayerNum].iDriverSpeedStat);
 	std::string strAcceleration = std::to_string(m_mPerPlayerMenuState[m_uiPlayerNum].iKartAccelerationStat + m_mPerPlayerMenuState[m_uiPlayerNum].iDriverAccelerationStat);
