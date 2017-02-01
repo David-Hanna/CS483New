@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+		<Scale x="3.3" y="5.0" z="1.0" />
+		<Translation x="92.5" y="80.0" z="0.0" />
+	</Transform>
+	<Components>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/Menus/PlayerSelectionMenu/stat_d.mtl"/>
+			<MaterialName name="stat_d"/>
+		</GOC_Sprite>
+	</Components>
+</GameObject>

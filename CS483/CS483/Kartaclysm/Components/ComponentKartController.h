@@ -147,6 +147,7 @@ namespace Kartaclysm
 		float m_fWheelieTurnModStat;
 		float m_fWheelieSpeedModStat;
 		float m_fDurabilityStat;
+		float m_fKartCollisionStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;

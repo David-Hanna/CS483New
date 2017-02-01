@@ -57,6 +57,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 		printf("StateTrackSelectionMenu: Error loading best times XML file");
 	}
 
+	m_iTrackSelection = 0;
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
