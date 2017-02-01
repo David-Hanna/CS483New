@@ -107,7 +107,7 @@ namespace Kartaclysm
 		// The event for controller disconnect or reconnect is queued (not triggered immediately)
 		// meaning the PlayerInputMapping may be delayed some frames before updating its mapping
 		// As such, we cannot use an assert() here, and will have to handle it quietly
-		if (p_iGLFWJoystick != GLFW_JOYSTICK_LAST + 1 && !glfwJoystickPresent(p_iGLFWJoystick))
+		if ((p_iGLFWJoystick < GLFW_JOYSTICK_LAST && !glfwJoystickPresent(p_iGLFWJoystick)) || p_iGLFWJoystick > GLFW_JOYSTICK_LAST + 4)
 		{
 			return;
 		}
@@ -116,11 +116,20 @@ namespace Kartaclysm
 		std::string strPlayerIdentifier = "Player" + std::to_string(p_iPlayer);
 		HeatStroke::EventManager* pEventManager = HeatStroke::EventManager::Instance();
 
-		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1) // Keyboard
+		if (p_iGLFWJoystick > GLFW_JOYSTICK_LAST) // Keyboard
 		{
 			// Helpful variables to avoid repetition
 			HeatStroke::KeyboardInputBuffer* pBuffer = HeatStroke::KeyboardInputBuffer::Instance();
-			ActionMap mActionMap = (*m_pInputMap)[Input::eKeyboard1];
+
+			ActionMap mActionMap;
+			switch (p_iGLFWJoystick)
+			{
+			case GLFW_JOYSTICK_LAST + 1: mActionMap = (*m_pInputMap)[Input::eKeyboard1]; break;
+			case GLFW_JOYSTICK_LAST + 2: mActionMap = (*m_pInputMap)[Input::eKeyboard2]; break;
+			case GLFW_JOYSTICK_LAST + 3: mActionMap = (*m_pInputMap)[Input::eKeyboard3]; break;
+			case GLFW_JOYSTICK_LAST + 4: mActionMap = (*m_pInputMap)[Input::eKeyboard4]; break;
+			default: assert(false && "Not enough keyboards!!!");
+			}
 
 			// Iterate ability and pause actions
 			if (pBuffer->IsKeyDownOnce(mActionMap[Racer::eDriverAbility1]))
@@ -214,6 +223,46 @@ namespace Kartaclysm
 			else
 			{
 				return HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownContinuous(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][p_eAction]);
+			}
+		}
+	}
+
+	//--------------------------------------------------------------------------------
+	// InputActionMapping::GetButtonOnce
+	// Parameter:	const int p_iGLFWJoystick - Joystick number, or GLFW_JOYSTICK_LAST + 1 for keyboard
+	//				const Racer::Action p_eAction - Action to query for the input
+	//
+	// Queries for an individual button press for the related action only once.
+	//--------------------------------------------------------------------------------
+	bool InputActionMapping::GetButtonOnce(const int p_iGLFWJoystick, const Racer::Action p_eAction)
+	{
+		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard1][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 2)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard2][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 3)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard3][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 4)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard4][p_eAction]);
+		}
+		else
+		{
+			if (p_eAction == Racer::eSlide)
+			{
+				// Sliding is controlled by button or by the bumpers
+				bool bSlide = HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownOnce(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]);
+				return (bSlide == true ? true : static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, XBOX_AXIS_TRIGGERS)) != 0.0f);
+			}
+			else
+			{
+				return HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownOnce(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][p_eAction]);
 			}
 		}
 	}

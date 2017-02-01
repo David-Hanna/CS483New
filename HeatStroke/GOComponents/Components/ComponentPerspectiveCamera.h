@@ -50,6 +50,9 @@ namespace HeatStroke
 		ComponentPerspectiveCamera(
 			GameObject* p_pGameObject,
 			SceneManager::SceneViewportSelection p_eViewportSelection,
+			const glm::vec3& p_vPosition,
+			const glm::vec3& p_vTarget,
+			const glm::vec3& p_vUp,
 			const float p_fFOV,
 			const float p_fAspectRatio,
 			const float p_fNearClip,
@@ -60,6 +63,9 @@ namespace HeatStroke
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strViewportSelection,
+			glm::vec3& p_vPosition,
+			glm::vec3& p_vTarget,
+			glm::vec3& p_vUp,
 			float& p_fFOV,
 			float& p_fAspectRatioWidth,
 			float& p_fAspectRatioHeight,

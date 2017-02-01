@@ -7,8 +7,8 @@
       <Target guid="Player0"/>
     </GOC_PerspectiveCamera>
     <GOC_OrthographicCamera viewport="full">
-      <Position x="0.0" y="0.0" z="-0.5"/>
-      <Target x="0.0" y="0.0" z="0.0"/>
+      <Position x="0.0" y="0.0" z="0.0"/>
+      <Target x="0.0" y="0.0" z="-0.5"/>
       <Up x="0.0" y="1.0" z="0.0"/>
       <Left value="-100.0"/>
       <Right value="100.0"/>

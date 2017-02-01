@@ -48,9 +48,12 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
 	}
 
-	HeatStroke::AudioPlayer::Instance()->StopMusic();
-	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
-	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
@@ -78,7 +81,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
+			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 		}
 	}
 }

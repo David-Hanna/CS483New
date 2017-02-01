@@ -31,6 +31,7 @@ namespace Kartaclysm
 		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.45f),
 		m_fVerticalSpeedScale(1.2f),
+		m_fWheelieRotation(PI * -0.15f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(1.2f),
@@ -59,6 +60,7 @@ namespace Kartaclysm
 		m_fWheelieSpeedModStat(1.2f),
 		m_fDurabilityStat(1.0f),
 		m_fSpinSpeedStat(10.0f),
+		m_fKartCollisionStat(2.0f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -172,13 +174,14 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
-		if (m_bDisabled) return;
-
 		// Manually query for user input
-		int iAccelerate, iBrake, iSlide;
-		float fTurn;
-		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		int iAccelerate = 0, iBrake = 0, iSlide = 0;
+		float fTurn = 0.0f;
+		if (!m_bDisabled)
+		{
+			PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+			fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		}
 
 		// Spinout causes all inputs to be ignored
 		if (m_fSpinout > 0.0f)
@@ -466,7 +469,7 @@ namespace Kartaclysm
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + GetRotationMod(), 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fWheelieRotation, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 		else
 		{
@@ -569,17 +572,34 @@ namespace Kartaclysm
 
 				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
 
-				glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-				float distance = collider->GetRadius() - glm::length(difference);
+				std::string otherColliderID = pOtherCollider->ComponentID();
+				if (otherColliderID.compare("GOC_WallCollider") == 0)
+				{
+					// Wall Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+					float distance = abs(collider->GetRadius() - glm::length(difference));
 
-				difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-				m_pGameObject->GetTransform().Translate(difference);
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
 
-				glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
-				float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+					glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+					float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
-				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-				m_fSpeed *= m_fWallSlowdownStat;
+					m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
+				else
+				{
+					// Kart Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - pOther->GetTransform().GetTranslation();
+					float distance = abs(collider->GetRadius() - glm::length(difference));
+
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
+
+					m_pOutsideForce = glm::normalize(difference) * m_fKartCollisionStat;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
 
 				if (passedThrough)
 				{

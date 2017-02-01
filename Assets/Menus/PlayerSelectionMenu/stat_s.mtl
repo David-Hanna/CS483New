@@ -1,0 +1,11 @@
+# Material Count: 1
+
+newmtl stat_s
+vs Assets/Hud/sprite.vsh
+fs Assets/Hud/sprite.fsh
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ns 96.078431
+d 1.000000
+map_Kd Assets/Menus/PlayerSelectionMenu/stat_s.tga

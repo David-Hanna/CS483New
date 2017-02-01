@@ -67,6 +67,7 @@ namespace Kartaclysm
 
 		// Manual query for inputs by PlayerInputMapping::QueryPlayerInput
 		bool GetButton(const int p_iGLFWJoystick, const Racer::Action p_eAction);
+		bool GetButtonOnce(const int p_iGLFWJoystick, const Racer::Action p_eAction);
 		float GetTurning(const int p_iGLFWJoystick);
 
 		InputActionMapping(const std::string& p_strUserConfigFilePath);

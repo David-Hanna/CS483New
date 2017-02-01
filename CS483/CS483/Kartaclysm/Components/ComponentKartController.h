@@ -52,6 +52,8 @@ namespace Kartaclysm
 		float GetGroundHeight() const { return m_fGroundHeight; }
 		float GetSwerve() const { return m_fSwerve; }
 		float GetRotationMod();
+		bool IsInWheelie() const { return m_bWheelie; }
+		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
@@ -96,6 +98,7 @@ namespace Kartaclysm
 
 		const float m_fSpeedScale;
 		const float m_fVerticalSpeedScale;
+		const float m_fWheelieRotation;
 
 		// Core stats all range from 0 (worst) to 6 (best)
 		// 6 - S
@@ -146,6 +149,7 @@ namespace Kartaclysm
 		float m_fWheelieSpeedModStat;
 		float m_fDurabilityStat;
 		float m_fSpinSpeedStat;
+		float m_fKartCollisionStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
