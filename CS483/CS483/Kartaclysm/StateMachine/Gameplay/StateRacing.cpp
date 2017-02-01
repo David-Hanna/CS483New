@@ -133,6 +133,7 @@ void Kartaclysm::StateRacing::BeginRace()
 #endif
 	}
 
+	// Even if this song is playing, we want it to restart when the race restarts too
 	HeatStroke::AudioPlayer::Instance()->StopMusic();
 	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
 	HeatStroke::AudioPlayer::Instance()->PlayMusic();
