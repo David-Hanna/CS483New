@@ -1,0 +1,63 @@
+<GameObject>
+	<Children>
+		<!-- Kart Ability 1 -->
+		<GameObject>
+			<Transform>
+				<Scale x="3.3" y="5.0" z="1.0" />
+				<Translation x="-92.5" y="50.0" z="0.0" />
+			</Transform>
+			<Components>
+				<GOC_Sprite>
+					<MTLFileName path="Assets/Hud/Abilities/wheelie.mtl"/>
+					<MaterialName name="wheelie"/>
+				</GOC_Sprite>
+			</Components>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Translation x="-88.0" y="53.5" z="0.0"/>
+				<Scale x="0.1" y="0.2" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Wheelie"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+
+		<!-- no second ability for showoff 
+		< Kart Ability 2 >
+		<GameObject>
+			<Transform>
+				<Scale x="3.3" y="5.0" z="1.0" />
+				<Translation x="-92.5" y="35.0" z="0.0" />
+			</Transform>
+			<Components>
+				<GOC_Sprite>
+					<MTLFileName path="Assets/Menus/PlayerSelectionMenu/null_icon.mtl"/>
+					<MaterialName name="null_icon"/>
+				</GOC_Sprite>
+			</Components>
+		</GameObject>
+
+		<GameObject>
+			<Transform>
+				<Translation x="-88.0" y="38.5" z="0.0"/>
+				<Scale x="0.1" y="0.2" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<Message value="Kart Ability 2"/>
+					<Width value="200.0"/>
+					<Height value="200.0"/>
+				</GOC_TextBox>
+			</Components>
+		</GameObject>
+		-->
+	</Children>
+</GameObject>
