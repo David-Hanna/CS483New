@@ -47,6 +47,13 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	}
 
 	PopulateRaceResultsList(p_mContextParameters);
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)

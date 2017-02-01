@@ -50,6 +50,13 @@ void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_2.xml", "Press_Start_2");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_3.xml", "Press_Start_3");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/press_start_to_join_4.xml", "Press_Start_4");
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)

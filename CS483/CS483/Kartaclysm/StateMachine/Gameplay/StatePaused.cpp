@@ -39,6 +39,13 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	m_iOptionSelection = 0;
 	m_bSkipFirstFrame = true;
 	m_iPausedPlayer = atoi(p_mContextParameters.at("Player").c_str());
+
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/RocketPower.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StatePaused::Update(const float p_fDelta)

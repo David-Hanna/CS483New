@@ -60,7 +60,7 @@ void Kartaclysm::KartGame::Update(const float p_fDelta)
 	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom
-	m_pGameStates->Update(p_fDelta, false);
+	m_pGameStates->Update(p_fDelta, true);
 }
 
 void Kartaclysm::KartGame::PreRender()

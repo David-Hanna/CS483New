@@ -9,7 +9,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
-		m_fRaceTime(0.0f),
+		m_fRaceTime(-3.0f), // beginning countdown
 		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
