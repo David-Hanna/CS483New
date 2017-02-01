@@ -48,6 +48,22 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	}
 }
 
+void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
+{ 
+	m_bSuspended = true;
+
+	// TODO: Quick way to switch to OptionsMenu without having to create another camera
+	m_pGameObjectManager->DestroyAllGameObjects();
+}
+void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
+{ 
+	m_bSuspended = false;
+
+	std::map<std::string, std::string> mContextParameters;
+	mContextParameters["Player"] = std::to_string(m_iPausedPlayer);
+	Enter(mContextParameters);
+}
+
 void Kartaclysm::StatePaused::Update(const float p_fDelta)
 {
 	// Do not update when suspended
@@ -68,17 +84,21 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 
 		if (bConfirm)
 		{
-			m_pStateMachine->Pop();
-
 			switch (m_iOptionSelection)
 			{
 			case 0: // continue
+				m_pStateMachine->Pop();
 				break;
-			case 1: // restart
+			case 1: // options
+				m_pStateMachine->Push(STATE_OPTIONS_MENU);
+				break;
+			case 2: // 
+				m_pStateMachine->Pop();
 				HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
 				break;
-			case 2: // quit
-				m_pStateMachine->Pop();
+			case 3: // quit
+				m_pStateMachine->Pop(); // pause
+				m_pStateMachine->Pop(); // race
 				m_pStateMachine->Push(STATE_MAIN_MENU);
 				break;
 			}
@@ -99,6 +119,11 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 2:
 				m_iOptionSelection = 1;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
+				break;
+			case 3:
+				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
 				break;
 			}
@@ -110,10 +135,15 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 0:
 				m_iOptionSelection = 1;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
 				break;
 			case 1:
 				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				break;
+			case 2:
+				m_iOptionSelection = 3;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
 				break;

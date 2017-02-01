@@ -154,6 +154,9 @@
     <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
       <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\OptionsMenu">
+      <UniqueIdentifier>{6548efbd-7428-4d94-874f-cd4e14b9c9a8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0">
       <UniqueIdentifier>{3913d13f-33d9-48ac-b616-5fc1a5f4c288}</UniqueIdentifier>
     </Filter>
@@ -455,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp">
+      <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -794,6 +800,9 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -1125,6 +1134,21 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_selection_highlight_tournament.xml">
       <Filter>Kartaclysm\Data\Menus\ModeSelectionMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_sfx.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_selection.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_return.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\OptionsMenu\options_highlight_music.xml">
+      <Filter>Kartaclysm\Data\Menus\OptionsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
     </Xml>
   </ItemGroup>
 </Project>

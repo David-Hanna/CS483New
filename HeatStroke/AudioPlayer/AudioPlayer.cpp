@@ -96,9 +96,9 @@ void HeatStroke::AudioPlayer::PreloadSoundEffects(const std::string& p_strPreloa
 				return;
 			}
 
-	sf::Sound* pSound = new sf::Sound;
-	pSound->setVolume(m_fSoundEffectsVolume);
-	pSound->setBuffer(*pSoundBuffer);
+			sf::Sound* pSound = new sf::Sound;
+			pSound->setVolume(m_fSoundEffectsVolume);
+			pSound->setBuffer(*pSoundBuffer);
 
 			m_mLoadedSoundEffects[strSoundEffectFileName] = std::pair<sf::SoundBuffer*, sf::Sound*>(pSoundBuffer, pSound);
 		}
@@ -130,4 +130,34 @@ void HeatStroke::AudioPlayer::FlushSoundEffects()
 	}
 
 	m_mLoadedSoundEffects.clear();
+}
+
+void HeatStroke::AudioPlayer::SetMusicVolume(float p_fMusicVolume)
+{
+	if (p_fMusicVolume > 100.0f)
+		m_fMusicVolume = 100.0f;
+	else if (p_fMusicVolume < 0.0f)
+		m_fMusicVolume = 0.0f;
+	else
+		m_fMusicVolume = p_fMusicVolume;
+
+	if (m_pCurrentMusic != nullptr)
+	{
+		m_pCurrentMusic->setVolume(m_fMusicVolume);
+	}
+}
+
+void HeatStroke::AudioPlayer::SetSoundEffectsVolume(float p_fSoundEffectsVolume)
+{
+	if (p_fSoundEffectsVolume > 100.0f)
+		m_fSoundEffectsVolume = 100.0f;
+	else if (p_fSoundEffectsVolume < 0.0f)
+		m_fSoundEffectsVolume = 0.0f;
+	else
+		m_fSoundEffectsVolume = p_fSoundEffectsVolume;
+
+	for (auto mSound : m_mLoadedSoundEffects)
+	{
+		mSound.second.second->setVolume(m_fSoundEffectsVolume);
+	}
 }

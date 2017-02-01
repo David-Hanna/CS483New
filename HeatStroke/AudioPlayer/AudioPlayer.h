@@ -34,8 +34,8 @@ namespace HeatStroke
 		void PlaySoundEffect(const std::string& p_strFile);
 		void FlushSoundEffects();
 
-		void SetMusicVolume(float p_fMusicVolume)				{ m_fMusicVolume = p_fMusicVolume; }
-		void SetSoundEffectsVolume(float p_fSoundEffectsVolume) { m_fSoundEffectsVolume = p_fSoundEffectsVolume; }
+		void SetMusicVolume(float p_fMusicVolume);
+		void SetSoundEffectsVolume(float p_fSoundEffectsVolume);
 
 		float GetMusicVolume() const			{ return m_fMusicVolume; }
 		float GetSoundEffectsVolume() const		{ return m_fSoundEffectsVolume; }
