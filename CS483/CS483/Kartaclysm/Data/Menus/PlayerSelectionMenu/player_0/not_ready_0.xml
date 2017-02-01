@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+		<Scale x="12.0" y="12.0" z="1.0" />
+		<Translation x="-13.9" y="12.0" z="0.0" />
+	</Transform>
+	<Components>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/Menus/PlayerSelectionMenu/not_ready.mtl"/>
+			<MaterialName name="not_ready"/>
+		</GOC_Sprite>
+	</Components>
+</GameObject>
