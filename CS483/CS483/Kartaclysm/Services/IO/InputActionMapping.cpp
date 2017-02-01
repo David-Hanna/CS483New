@@ -228,6 +228,46 @@ namespace Kartaclysm
 	}
 
 	//--------------------------------------------------------------------------------
+	// InputActionMapping::GetButtonOnce
+	// Parameter:	const int p_iGLFWJoystick - Joystick number, or GLFW_JOYSTICK_LAST + 1 for keyboard
+	//				const Racer::Action p_eAction - Action to query for the input
+	//
+	// Queries for an individual button press for the related action only once.
+	//--------------------------------------------------------------------------------
+	bool InputActionMapping::GetButtonOnce(const int p_iGLFWJoystick, const Racer::Action p_eAction)
+	{
+		if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 1)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard1][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 2)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard2][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 3)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard3][p_eAction]);
+		}
+		else if (p_iGLFWJoystick == GLFW_JOYSTICK_LAST + 4)
+		{
+			return HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce((*m_pInputMap)[Input::eKeyboard4][p_eAction]);
+		}
+		else
+		{
+			if (p_eAction == Racer::eSlide)
+			{
+				// Sliding is controlled by button or by the bumpers
+				bool bSlide = HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownOnce(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][Racer::eSlide]);
+				return (bSlide == true ? true : static_cast<float>(HeatStroke::JoystickInputBuffer::Instance()->GetAxis(p_iGLFWJoystick, XBOX_AXIS_TRIGGERS)) != 0.0f);
+			}
+			else
+			{
+				return HeatStroke::JoystickInputBuffer::Instance()->IsButtonDownOnce(p_iGLFWJoystick, (*m_pInputMap)[Input::eJoystick][p_eAction]);
+			}
+		}
+	}
+
+	//--------------------------------------------------------------------------------
 	// InputActionMapping::GetTurning
 	// Parameter:	const int p_iGLFWJoystick - Joystick number, or GLFW_JOYSTICK_LAST + 1 for keyboard
 	//
