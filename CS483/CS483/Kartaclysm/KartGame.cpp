@@ -27,7 +27,6 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::AudioPlayer::CreateInstance();
-	HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/Local/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
