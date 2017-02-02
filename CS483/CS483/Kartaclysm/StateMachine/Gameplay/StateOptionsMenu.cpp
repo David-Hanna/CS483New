@@ -17,7 +17,8 @@ Kartaclysm::StateOptionsMenu::StateOptionsMenu(const std::string& p_strXmlFilePa
 	m_strXmlFilePath(p_strXmlFilePath),
 	m_iPlayer(0),
 	m_pCurrentHighlight(nullptr),
-	m_pCurrentSlider(nullptr)
+	m_pCurrentSlider(nullptr),
+	m_bDirty(false)
 {
 	LoadOptionsFromXml(m_strXmlFilePath);
 }
@@ -29,6 +30,7 @@ Kartaclysm::StateOptionsMenu::~StateOptionsMenu()
 void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_bDirty = false;
 	m_iOptionSelection = 0;
 
 	// Get player controlling menu (Player 0 by default, but might change if accessed from pause menu)
@@ -65,8 +67,6 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 	{
 		assert(false && "Failed to find sound effects slider");
 	}
-
-	// TODO: What music plays here? Or does it continue the previous music?
 }
 
 void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
@@ -84,13 +84,20 @@ void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
 		{
 			if (m_iOptionSelection == 2)
 			{
+				// Save settings if anything was changed
+				if (m_bDirty)
+				{
+					SaveOptionsToXml(m_strXmlFilePath);
+				}
 				m_pStateMachine->Pop();
-				// TODO: Save changes to file, and maybe add that file to the .gitignore?
 			}
 		}
 		else if (bCancel)
 		{
-			m_pStateMachine->Pop(); // TODO: Cancelling out of the menu reverts changes?
+			// Cancelling loads the default options
+			// TODO: Optimize this without having to do another read
+			LoadOptionsFromXml(m_strXmlFilePath);
+			m_pStateMachine->Pop();
 		}
 		else if (bUp)
 		{
@@ -158,6 +165,7 @@ void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
 
 			if (bUpdate)
 			{
+				m_bDirty = true;
 				switch (m_iOptionSelection)
 				{
 				case 0:
@@ -198,6 +206,7 @@ void Kartaclysm::StateOptionsMenu::LoadOptionsFromXml(const std::string& p_strXm
 	if (mPreloadDoc.LoadFile(p_strXmlFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
 	{
 		printf("StateOptionsMenu: No options XML file found. Default values assumed");
+		SaveOptionsToXml(p_strXmlFilePath);
 		return;
 	}
 
@@ -217,5 +226,24 @@ void Kartaclysm::StateOptionsMenu::LoadOptionsFromXml(const std::string& p_strXm
 
 		pAudioPlayer->SetMusicVolume(fMusicVolume);
 		pAudioPlayer->SetSoundEffectsVolume(fSFXVolume);
+	}
+	m_bDirty = false;
+}
+
+void Kartaclysm::StateOptionsMenu::SaveOptionsToXml(const std::string& p_strXmlFilePath)
+{
+	// Create doc and root element
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLNode* pOptionsNode = doc.InsertEndChild(doc.NewElement("Options"));
+
+	// Create Audio element
+	tinyxml2::XMLNode* pAudioNode = pOptionsNode->InsertEndChild(doc.NewElement("Audio"));
+	pAudioNode->InsertEndChild(doc.NewElement("Music"))->ToElement()->SetAttribute("volume", HeatStroke::AudioPlayer::Instance()->GetMusicVolume());
+	pAudioNode->InsertEndChild(doc.NewElement("SFX"))->ToElement()->SetAttribute("volume", HeatStroke::AudioPlayer::Instance()->GetSoundEffectsVolume());
+
+	// Save XML to file
+	if (doc.SaveFile(p_strXmlFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
+	{
+		printf("StateOptionsMenu: Error saving options XML file");
 	}
 }

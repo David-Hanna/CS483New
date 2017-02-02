@@ -262,4 +262,4 @@ paket-files/
 *.blend1
 
 #Game Specific
-Data/Local/*
+Data/Local/
