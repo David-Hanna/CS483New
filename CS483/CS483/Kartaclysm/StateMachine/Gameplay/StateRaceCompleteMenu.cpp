@@ -43,7 +43,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	else
 	{
 		SendRaceFinishEvent(p_mContextParameters);
-		RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+		RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	}
 
 	PopulateRaceResultsList(p_mContextParameters);

@@ -44,7 +44,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pTrackElement = nullptr;
-	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
+	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
 	{
 		pTrackElement = doc.FirstChildElement("BestTimes");
 		auto it = vTracks.begin(), end = vTracks.end();
