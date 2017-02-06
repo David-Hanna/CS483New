@@ -30,7 +30,6 @@ Kartaclysm::StateOptionsMenu::~StateOptionsMenu()
 void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
-	m_bDirty = false;
 	m_iOptionSelection = 0;
 
 	// Get player controlling menu (Player 0 by default, but might change if accessed from pause menu)
@@ -49,24 +48,7 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_selection.xml");
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_music.xml");
 
-	// Set slider initial values
-	if (ComponentMenuSlider* pSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("music_slider")->GetComponent("GOC_Renderable")))
-	{
-		pSlider->SetSliderValue(static_cast<int>(HeatStroke::AudioPlayer::Instance()->GetMusicVolume()));
-	}
-	else
-	{
-		assert(false && "Failed to find music slider");
-	}
-
-	if (ComponentMenuSlider* pSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("sfx_slider")->GetComponent("GOC_Renderable")))
-	{
-		pSlider->SetSliderValue(static_cast<int>(HeatStroke::AudioPlayer::Instance()->GetSoundEffectsVolume()));
-	}
-	else
-	{
-		assert(false && "Failed to find sound effects slider");
-	}
+	InitOptionValues();
 }
 
 void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
@@ -245,5 +227,28 @@ void Kartaclysm::StateOptionsMenu::SaveOptionsToXml(const std::string& p_strXmlF
 	if (doc.SaveFile(p_strXmlFilePath.c_str()) != tinyxml2::XML_NO_ERROR)
 	{
 		printf("StateOptionsMenu: Error saving options XML file");
+	}
+
+	m_bDirty = false;
+}
+
+void Kartaclysm::StateOptionsMenu::InitOptionValues()
+{
+	if (ComponentMenuSlider* pSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("music_slider")->GetComponent("GOC_Renderable")))
+	{
+		pSlider->SetSliderValue(static_cast<int>(HeatStroke::AudioPlayer::Instance()->GetMusicVolume()));
+	}
+	else
+	{
+		assert(false && "Failed to find music slider");
+	}
+
+	if (ComponentMenuSlider* pSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("sfx_slider")->GetComponent("GOC_Renderable")))
+	{
+		pSlider->SetSliderValue(static_cast<int>(HeatStroke::AudioPlayer::Instance()->GetSoundEffectsVolume()));
+	}
+	else
+	{
+		assert(false && "Failed to find sound effects slider");
 	}
 }

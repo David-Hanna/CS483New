@@ -574,9 +574,7 @@ namespace Kartaclysm
 			}
 			else
 			{
-#ifdef _DEBUG
 				printf("InputActionMapping: Tried to insert nullptr into Control Binding XML");
-#endif
 			}
 		}
 

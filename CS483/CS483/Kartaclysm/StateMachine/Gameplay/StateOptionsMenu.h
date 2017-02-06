@@ -44,6 +44,7 @@ namespace Kartaclysm
 	private:
 		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
 		void SaveOptionsToXml(const std::string& p_strXmlFilePath);
+		void InitOptionValues();
 
 		std::string m_strXmlFilePath;
 		int m_iPlayer;
