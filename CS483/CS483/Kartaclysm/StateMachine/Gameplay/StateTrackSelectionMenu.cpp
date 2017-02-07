@@ -168,7 +168,7 @@ void Kartaclysm::StateTrackSelectionMenu::PreRender()
 
 void Kartaclysm::StateTrackSelectionMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

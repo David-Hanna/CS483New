@@ -35,8 +35,8 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	m_bReadyToPush = false;
 	m_bFinished = false;
 	m_uiRaceCount = 0;
+	m_mContextParams = p_mContextParameters;
 	m_mRacerRankings.clear();
-	m_mContextParams.clear();
 
 	m_pRaceFinishDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTournament::RaceFinishCallback, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RaceFinish", m_pRaceFinishDelegate);
@@ -46,9 +46,8 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 
 	// Shuffle tracks for tournament and push to player selection
 	std::random_shuffle(m_vTracks.begin(), m_vTracks.end());
-	std::map<std::string, std::string> mContextParams;
-	mContextParams["TrackDefinitionFile"] = m_vTracks[0];
-	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, mContextParams);
+	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
+	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
 
 void Kartaclysm::StateTournament::Update(const float p_fDelta)
@@ -78,7 +77,7 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 
 void Kartaclysm::StateTournament::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

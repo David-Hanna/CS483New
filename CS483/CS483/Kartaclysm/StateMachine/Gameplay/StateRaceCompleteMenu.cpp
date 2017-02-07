@@ -87,7 +87,7 @@ void Kartaclysm::StateRaceCompleteMenu::PreRender()
 
 void Kartaclysm::StateRaceCompleteMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

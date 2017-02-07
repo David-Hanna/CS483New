@@ -282,7 +282,7 @@ void Kartaclysm::StateRacing::PreRender()
 
 void Kartaclysm::StateRacing::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	PlayerInputMapping::Instance()->DisableRaceMode();
 
@@ -333,6 +333,7 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	// Create context for pushing to pause state
 	HeatStroke::StateMachine::ContextParameters mContext = HeatStroke::StateMachine::ContextParameters();
 	mContext["Player"] = std::to_string(iPlayer);
+	mContext["Mode"] = m_mContextParams.at("Mode");
 
 	// Push pause state
 	m_pStateMachine->Push(STATE_PAUSED, mContext);
