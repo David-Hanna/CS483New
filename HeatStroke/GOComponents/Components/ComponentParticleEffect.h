@@ -2,6 +2,9 @@
 #define COMPONENT_PARTICLE_EFFECT_H
 
 #include "Component.h"
+
+#include <vector>
+
 #include "EasyXML.h"
 #include "Effect.h"
 #include "SceneManager.h"
@@ -24,9 +27,9 @@ namespace HeatStroke
 			void Stop();
 
 		private:
-			Effect* m_pEffect;
+			std::vector<Effect*> m_pEffects;
 
-			ComponentParticleEffect(GameObject* p_pGameObject, const std::string& p_strEffectDefinitionFile, const glm::vec3& p_vOffset = {0.0f, 0.0f, 0.0f});
+			ComponentParticleEffect(GameObject* p_pGameObject, const std::vector<std::string>& p_vEffectDefinitionFile, const glm::vec3& p_vOffset = {0.0f, 0.0f, 0.0f});
 
 			static std::string ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement);
 			static glm::vec3 ParseEffectOffset(const tinyxml2::XMLElement* p_pOffsetElement);

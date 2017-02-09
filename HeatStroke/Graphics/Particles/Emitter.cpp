@@ -302,7 +302,7 @@ void HeatStroke::Emitter::InitSpawnPropertyLifetime(tinyxml2::XMLElement* p_pSpa
 void HeatStroke::Emitter::InitSpawnPropertySize(tinyxml2::XMLElement* p_pSpawnPropertySizeElement)
 {
 #if _DEBUG
-	assert(p_pSpawnPropertyVelocityElement != nullptr);
+	assert(p_pSpawnPropertySizeElement != nullptr);
 #endif
 
 	std::string strType = "";
