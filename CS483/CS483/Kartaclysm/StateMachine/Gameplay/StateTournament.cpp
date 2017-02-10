@@ -12,7 +12,7 @@ Kartaclysm::StateTournament::StateTournament()
 	GameplayState("Tournament State"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_bReadyToPush(false),
+	m_bReadyForNextRace(false),
 	m_bFinished(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
@@ -32,7 +32,7 @@ Kartaclysm::StateTournament::~StateTournament()
 void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
-	m_bReadyToPush = false;
+	m_bReadyForNextRace = false;
 	m_bFinished = false;
 	m_uiRaceCount = 0;
 	m_mContextParams = p_mContextParameters;
@@ -55,9 +55,9 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	// Do not update when suspended
 	if (!m_bSuspended)
 	{
-		if (m_bReadyToPush)
+		if (m_bReadyForNextRace)
 		{
-			m_bReadyToPush = false;
+			m_bReadyForNextRace = false;
 			m_pStateMachine->Push(STATE_RACING, m_mContextParams);
 		}
 		else if (m_bFinished)
@@ -65,6 +65,7 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 			m_bFinished = false;
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+			// TODO: Show some kind of congratulations screen?
 		}
 		else
 		{
@@ -137,14 +138,14 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	if (++m_uiRaceCount < m_vTracks.size())
 	{
 		m_mContextParams["TrackDefinitionFile"] = m_vTracks[m_uiRaceCount];
-		m_bReadyToPush = true;
+		m_bReadyForNextRace = true;
 	}
 	else
 	{
 		m_bFinished = true;
 		m_mContextParams.clear();
+		m_mContextParams["Mode"] = "Tournament";
 		m_mContextParams["numRacers"] = std::to_string(m_mRacerRankings.size());
-		m_mContextParams["tournament"] = std::to_string(m_vTracks.size());
 
 		int iRank = 0;
 		while (!m_mRacerRankings.empty())

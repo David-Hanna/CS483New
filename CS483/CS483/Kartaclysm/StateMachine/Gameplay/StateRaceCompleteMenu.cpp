@@ -33,17 +33,19 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/race_complete_message.xml");
 
-	if (p_mContextParameters.find("tournament") != p_mContextParameters.end())
+	std::string strMode = p_mContextParameters.at("Mode");
+	if (strMode == "Tournament")
 	{
-		if (HeatStroke::ComponentTextBox* pTitle = dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("title")->GetComponent("GOC_Renderable")))
-		{
-			pTitle->SetMessage("Tournament");
-		}
+		dynamic_cast<HeatStroke::ComponentTextBox*>(m_pGameObjectManager->GetGameObject("title")->GetComponent("GOC_Renderable"))->SetMessage("Tournament");
 	}
-	else
+	else if (strMode == "Single")
 	{
 		SendRaceFinishEvent(p_mContextParameters);
 		RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	}
+	else
+	{
+		assert(false && "Unknown mode");
 	}
 
 	PopulateRaceResultsList(p_mContextParameters);

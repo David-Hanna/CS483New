@@ -41,8 +41,8 @@ namespace Kartaclysm
 			int		m_iPoints;
 			float	m_fTime;
 		};
-
-		bool m_bReadyToPush;
+		
+		bool m_bReadyForNextRace;
 		bool m_bFinished;
 		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;

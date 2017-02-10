@@ -378,6 +378,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 
 	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
 	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
+	mRaceResults.insert(std::pair<std::string, std::string>("Mode", "Single"));
 
 	return mRaceResults;
 }
