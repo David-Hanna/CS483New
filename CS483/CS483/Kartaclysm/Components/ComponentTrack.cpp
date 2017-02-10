@@ -156,12 +156,14 @@ namespace Kartaclysm
 		}
 		m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
 
-		// update track height for racer
+		// update track height for racer + offroad
 		ComponentKartController* kartController = (ComponentKartController*)m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_KartController");
 		ComponentTrackPiece* trackPiece = (ComponentTrackPiece*)m_pGameObject->GetManager()->GetGameObject(strTrackPieceId)->GetComponent("GOC_TrackPiece");
 		if (kartController != nullptr && trackPiece != nullptr)
 		{
-			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
+			glm::vec3 pos = kartController->GetGameObject()->GetTransform().GetTranslation();
+			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(pos));
+			kartController->SetOffroad(trackPiece->IsOffroadAtPosition(pos));
 		}
 	}
 

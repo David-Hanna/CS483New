@@ -55,6 +55,7 @@ namespace Kartaclysm
 		bool IsInWheelie() const { return m_bWheelie; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
+		void SetOffroad(bool p_bOffroad) { m_bOffroad = p_bOffroad; }
 
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
@@ -150,6 +151,7 @@ namespace Kartaclysm
 		float m_fDurabilityStat;
 		float m_fSpinSpeedStat;
 		float m_fKartCollisionStat;
+		float m_fOffroadFactorStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -168,6 +170,7 @@ namespace Kartaclysm
 		float m_fSlowDuration;
 		float m_fSlowPower;
 		float m_fSpinFactor;
+		bool m_bOffroad;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

@@ -85,6 +85,27 @@ namespace Kartaclysm
 			vPivotAxis = ParsePivotAxis(p_pBaseNode);
 		}
 
+		tinyxml2::XMLElement* offroad = p_pBaseNode->FirstChildElement("Offroad");
+		std::vector<OffroadSquare> offroadSquares;
+
+		for (tinyxml2::XMLElement* offroadShape = offroad->FirstChildElement(); offroadShape != nullptr; offroadShape = offroadShape->NextSiblingElement())
+		{
+			std::string type;
+			HeatStroke::EasyXML::GetRequiredStringAttribute(offroadShape, "type", type);
+
+			if (type.compare("square") == 0)
+			{
+				OffroadSquare shape;
+
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+
+				offroadSquares.push_back(shape);
+			}
+		}
+
 		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis);
 	}
 
@@ -152,6 +173,11 @@ namespace Kartaclysm
 				return baseHeight;
 				break;
 		}
+	}
+
+	bool ComponentTrackPiece::IsOffroadAtPosition(glm::vec3 p_pPosition)
+	{
+		return false;
 	}
 
 	bool ComponentTrackPiece::IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const
