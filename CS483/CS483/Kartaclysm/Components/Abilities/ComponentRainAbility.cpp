@@ -76,22 +76,29 @@ namespace Kartaclysm
 			int iPosition;
 			p_pEvent->GetRequiredIntParameter(m_strPlayerX, iPosition);
 
-			if (iPosition < m_iPreviousPosition && m_pConditions->CanActivate())
+			if (iPosition < m_iPreviousPosition)
 			{
-				std::string strTarget;
-				p_pEvent->GetRequiredStringParameter(std::to_string(iPosition + 1), strTarget);
+				std::string strTarget = "";
+				p_pEvent->GetOptionalStringParameter(std::to_string(m_iPreviousPosition), strTarget, strTarget);
 
-				// TODO: Triggering event is not sent if passing by a player who is not on the same lap
-				// TODO: Check distance for 'nearby' criteria?
-
-				HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
-				pEvent->SetStringParameter("Originator", m_strPlayerX);
-				pEvent->SetStringParameter("Target", strTarget);
-				pEvent->SetStringParameter("Ability", "Rain");
-				pEvent->SetStringParameter("Effect", "Slow");
-				pEvent->SetFloatParameter("Power", m_fPower);
-				pEvent->SetFloatParameter("Duration", m_fDuration);
-				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+				if (strTarget != "")
+				{
+					// TODO: Check distance for 'nearby' criteria?
+					HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
+					pEvent->SetStringParameter("Originator", m_strPlayerX);
+					pEvent->SetStringParameter("Target", strTarget);
+					pEvent->SetStringParameter("Ability", "Rain");
+					pEvent->SetStringParameter("Effect", "Slow");
+					pEvent->SetFloatParameter("Power", m_fPower);
+					pEvent->SetFloatParameter("Duration", m_fDuration);
+					HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+				}
+				else
+				{
+#ifdef _DEBUG
+					printf("RainAbility: Could not find GUID for passing player - current(%i) < old(%i)\n", iPosition, m_iPreviousPosition);
+#endif
+				}
 			}
 
 			m_iPreviousPosition = iPosition;
