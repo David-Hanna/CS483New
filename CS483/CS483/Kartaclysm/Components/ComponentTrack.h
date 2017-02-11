@@ -36,12 +36,17 @@ namespace Kartaclysm
 
 			void RegisterRacer(HeatStroke::GameObject* p_pRacer) { RegisterRacer(dynamic_cast<ComponentRacer*>(p_pRacer->GetComponent("GOC_Racer"))); }
 			void RegisterRacer(ComponentRacer* p_pRacer);
+			void RegisterAIRacer(HeatStroke::GameObject* p_pRacer) { RegisterAIRacer(dynamic_cast<ComponentRacer*>(p_pRacer->GetComponent("GOC_Racer"))); }
+			void RegisterAIRacer(ComponentRacer* p_pRacer);
 
 			void OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent);
 			void RegisterForTrackHeight(const HeatStroke::Event* p_pEvent);
 			void TriggerRaceStandingsUpdateEvent();
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
+
+			//TEMP
+			const HeatStroke::GameObject* GetNextTrackPiece(int p_iCurrentTrackPieceIndex) const { return m_vTrackPieces[GetNextTrackPieceIndex(p_iCurrentTrackPieceIndex)]; }
 
 		protected:
 			ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName);
@@ -56,7 +61,7 @@ namespace Kartaclysm
 			std::function<void(const HeatStroke::Event*)>* m_pRegisterDelegate;
 
 			int GetTrackPieceIndex(const std::string& p_strTrackPieceId);
-			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex);
+			int GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex) const;
 			int GetRacerIndex(const std::string& p_strRacerId);
 
 			void UpdateRacerPositions();

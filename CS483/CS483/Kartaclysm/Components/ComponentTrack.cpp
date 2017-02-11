@@ -121,6 +121,15 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 
+	void ComponentTrack::RegisterAIRacer(ComponentRacer* p_pRacer)
+	{
+		p_pRacer->SetCurrentLap(0);
+		p_pRacer->SetCurrentTrackPiece(m_vTrackPieces.size() - 1);
+		p_pRacer->SetFurthestTrackPiece(m_vTrackPieces.size() - 1);
+
+		m_vRacers.push_back(p_pRacer);
+	}
+
 	void ComponentTrack::OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent)
 	{
 		// parse event data
@@ -197,7 +206,7 @@ namespace Kartaclysm
 		return UINT_MAX;
 	}
 
-	int ComponentTrack::GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex)
+	int ComponentTrack::GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex) const
 	{
 		unsigned int iNextTrackPieceIndex = p_iCurrentTrackPieceIndex + 1;
 		return iNextTrackPieceIndex >= m_vTrackPieces.size() ? 0 : iNextTrackPieceIndex;

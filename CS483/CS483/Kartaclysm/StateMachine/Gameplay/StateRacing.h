@@ -17,6 +17,7 @@
 #include "ComponentPerspectiveCamera.h"
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
+#include "ComponentKartControllerAI.h"
 #include "ComponentTrack.h"
 #include "ComponentTrackPiece.h"
 #include "ComponentSprite.h"
@@ -103,6 +104,7 @@ namespace Kartaclysm
 			const std::string& p_strCameraDefinitionFile, 
 			const std::string& p_strGuid = ""
 		);
+		HeatStroke::GameObject* GenerateAIRacer();
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
