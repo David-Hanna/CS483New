@@ -33,15 +33,17 @@ namespace Kartaclysm
 		void RaceFinishCallback(const HeatStroke::Event* p_pEvent);
 		void RaceInfoCallback(const HeatStroke::Event* p_pEvent);
 
-		// TODO: Similar functions in StateRaceComplete and HudRaceTimer could be combined somewhere
-		std::string FormatTime(float p_fUnformattedTime) const;
-
-	private:
 		struct RacerRanking {
 			int		m_iPoints;
 			float	m_fTime;
 		};
-		
+
+		// TODO: Similar functions in StateRaceComplete and HudRaceTimer could be combined somewhere
+		std::string FormatTime(float p_fUnformattedTime) const;
+
+		std::map<std::string, std::string> GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const;
+
+	private:
 		bool m_bReadyForNextRace;
 		bool m_bFinished;
 		unsigned int m_uiRaceCount;

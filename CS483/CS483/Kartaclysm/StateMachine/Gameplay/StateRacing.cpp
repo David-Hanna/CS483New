@@ -369,16 +369,37 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 
 	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
 
+	bool bTournament = (m_mContextParams.at("Mode") == "Tournament");
 	for (unsigned int i = 0; i < m_uiNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, m_vRaceResults[i].m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(m_vRaceResults[i].m_fRaceTime)));
+
+		if (bTournament)
+		{
+			mRaceResults.insert(std::pair<std::string, std::string>("racerPoints" + strIndex, std::to_string(GetTournamentPoints(i))));
+		}
 	}
 
 	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
 	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
-	mRaceResults.insert(std::pair<std::string, std::string>("Mode", "Single"));
+	mRaceResults.insert(std::pair<std::string, std::string>("screenTitle", "Race Complete!"));
 
 	return mRaceResults;
+}
+
+int Kartaclysm::StateRacing::GetTournamentPoints(int p_iPosition) const
+{
+	switch (p_iPosition)
+	{
+	case 0: return 10;
+	case 1: return 8;
+	case 2: return 6;
+	case 3: return 4;
+	case 4: return 3;
+	case 5: return 2;
+	case 6: return 1;
+	default: return 0;
+	}
 }
