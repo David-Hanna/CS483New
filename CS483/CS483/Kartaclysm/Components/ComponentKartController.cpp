@@ -61,7 +61,7 @@ namespace Kartaclysm
 		m_fDurabilityStat(1.0f),
 		m_fSpinSpeedStat(10.0f),
 		m_fKartCollisionStat(2.0f),
-		m_fOffroadFactorStat(0.5f),
+		m_fOffroadFactorStat(0.2f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -265,7 +265,7 @@ namespace Kartaclysm
 		}
 
 		// ...And from offroading
-		if (m_bOffroad && !m_bAirborne)
+		if (m_bOffroad/* && !m_bAirborne*/)
 		{
 			fSpeedModifer *= m_fOffroadFactorStat;
 		}

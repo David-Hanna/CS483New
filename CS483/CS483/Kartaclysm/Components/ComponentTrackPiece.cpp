@@ -11,7 +11,9 @@ namespace Kartaclysm
 		float p_fHeight2,
 		PositionFunction p_ePositionFunction,
 		glm::vec3 p_vPivotPosition,
-		glm::vec3 p_vPivotAxis)
+		glm::vec3 p_vPivotAxis,
+		std::vector<OffroadSquare> p_vOffroadSquares,
+		std::vector<OffroadTriangle> p_vOffroadTriangles)
 		:
 		Component(p_pGameObject),
 		m_fWidthX(p_fWidthX),
@@ -21,7 +23,9 @@ namespace Kartaclysm
 		m_fHeight2(p_fHeight2),
 		m_ePositionFunction(p_ePositionFunction),
 		m_vPivotPosition(p_vPivotPosition),
-		m_vPivotAxis(p_vPivotAxis)
+		m_vPivotAxis(p_vPivotAxis),
+		m_vOffroadSquares(p_vOffroadSquares),
+		m_vOffroadTriangles(p_vOffroadTriangles)
 	{
 	}
 
@@ -86,27 +90,45 @@ namespace Kartaclysm
 		}
 
 		tinyxml2::XMLElement* offroad = p_pBaseNode->FirstChildElement("Offroad");
-		std::vector<OffroadSquare> offroadSquares;
+		std::vector<OffroadSquare> vOffroadSquares;
+		std::vector<OffroadTriangle> vOffroadTriangles;
 
-		for (tinyxml2::XMLElement* offroadShape = offroad->FirstChildElement(); offroadShape != nullptr; offroadShape = offroadShape->NextSiblingElement())
+		if (offroad != nullptr)
 		{
-			std::string type;
-			HeatStroke::EasyXML::GetRequiredStringAttribute(offroadShape, "type", type);
-
-			if (type.compare("square") == 0)
+			for (tinyxml2::XMLElement* offroadShape = offroad->FirstChildElement(); offroadShape != nullptr; offroadShape = offroadShape->NextSiblingElement())
 			{
-				OffroadSquare shape;
+				std::string type;
+				HeatStroke::EasyXML::GetRequiredStringAttribute(offroadShape, "type", type);
 
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
-				HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+				if (type.compare("square") == 0)
+				{
+					OffroadSquare shape;
 
-				offroadSquares.push_back(shape);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+
+					vOffroadSquares.push_back(shape);
+				}
+
+				if (type.compare("triangle") == 0)
+				{
+					OffroadTriangle shape;
+
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x3", shape.x3);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z3", shape.z3);
+
+					vOffroadTriangles.push_back(shape);
+				}
 			}
 		}
 
-		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis);
+		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis, vOffroadSquares, vOffroadTriangles);
 	}
 
 	void ComponentTrackPiece::Init()
@@ -177,7 +199,77 @@ namespace Kartaclysm
 
 	bool ComponentTrackPiece::IsOffroadAtPosition(glm::vec3 p_pPosition)
 	{
+		glm::vec3 checkPosition = p_pPosition;
+		checkPosition = checkPosition - m_pGameObject->GetTransform().GetTranslation();
+		checkPosition = checkPosition * -m_pGameObject->GetTransform().GetRotation();
+
+		float x = checkPosition.x;
+		float z = checkPosition.z;
+
+		x /= m_fWidthX;
+		z /= m_fWidthZ;
+
+		x *= 2.0f;
+		z *= 2.0f;
+
+		//printf("x: %f\nz: %f\n", x, z);
+
+		//printf("I have %i offroad sections!\n", m_vOffroadSquares.size());
+		
+		for (int i = 0; i < m_vOffroadSquares.size(); i++)
+		{
+			OffroadSquare square = m_vOffroadSquares[i];
+
+			//printf("- Checking if the x %f is between %f and %f\n", x, square.x1, square.x2);
+			//printf("- And also if the z %f is between %f and %f\n", z, square.z1, square.z2);
+
+			if (((x >= square.x1 && x <= square.x2) || (x >= square.x2 && x <= square.x1))
+				&& ((z >= square.z1 && z <= square.z2) || (z >= square.z2 && z <= square.z1)))
+			{
+				//printf("- Yup\n");
+				//printf("- - You are not on the road, ya dingus\n\n");
+				printf("x: %f\nz: %f\nOFFROAD!\n", x, z);
+				return true;
+			}
+			//else
+				//printf("- Nope\n");
+		}
+
+		for (int i = 0; i < m_vOffroadTriangles.size(); i++)
+		{
+			OffroadTriangle triangle = m_vOffroadTriangles[i];
+
+			if (PointInTriangle(glm::vec2(x, z), glm::vec2(triangle.x1, triangle.z1), glm::vec2(triangle.x2, triangle.z2), glm::vec2(triangle.x3, triangle.z3)))
+			{
+				printf("x: %f\nz: %f\nOFFROAD!\n", x, z);
+				return true;
+			}
+		}
+
+		//printf("- - You are on the road, gratz!\n\n");
+		printf("x: %f\nz: %f\nOn Road\n", x, z);
 		return false;
+	}
+
+	bool ComponentTrackPiece::PointInTriangle(glm::vec2 p, glm::vec2 p0, glm::vec2 p1, glm::vec2 p2)
+	{
+		// Shamelessly stolen from stack overflow
+		// Eat a dick, internet
+		
+		float s = p0.y * p2.x - p0.x * p2.y + (p2.y - p0.y) * p.x + (p0.x - p2.x) * p.y;
+		float t = p0.x * p1.y - p0.y * p1.x + (p0.y - p1.y) * p.x + (p1.x - p0.x) * p.y;
+
+		if ((s < 0) != (t < 0))
+			return false;
+
+		float A = -p1.y * p2.x + p0.y * (p2.x - p1.x) + p0.x * (p1.y - p2.y) + p1.x * p2.y;
+		if (A < 0.0)
+		{
+			s = -s;
+			t = -t;
+			A = -A;
+		}
+		return s > 0 && t > 0 && (s + t) <= A;
 	}
 
 	bool ComponentTrackPiece::IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const
