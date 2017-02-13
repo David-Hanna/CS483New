@@ -61,7 +61,8 @@ namespace Kartaclysm
 		m_fDurabilityStat(1.0f),
 		m_fSpinSpeedStat(10.0f),
 		m_fKartCollisionStat(2.0f),
-		m_fOffroadFactorStat(0.2f),
+		m_fOffroadFactorStat(0.5f),
+		m_fOffroadRumbleFactor(0.05f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -80,7 +81,8 @@ namespace Kartaclysm
 		m_fSlowDuration(0.0f),
 		m_fSlowPower(1.0f),
 		m_fSpinFactor(0.0f),
-		m_bOffroad(false)
+		m_bOffroad(false),
+		m_fOffroadRumble(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -264,10 +266,17 @@ namespace Kartaclysm
 			fSpeedModifer *= m_fSlowPower;
 		}
 
-		// ...And from offroading
-		if (m_bOffroad/* && !m_bAirborne*/)
+		// ...And from offroading (also rumble)
+		m_fOffroadRumble = 0.0f;
+		if (m_bOffroad)
 		{
 			fSpeedModifer *= m_fOffroadFactorStat;
+
+			if (!m_bAirborne)
+			{
+				float fRumbleLimit = fminf(m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale), 1.0f) * m_fOffroadRumbleFactor;
+				m_fOffroadRumble = -fRumbleLimit + (float)(rand()) / ((float)(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
+			}
 		}
 
 		// Adjust speed based on input
@@ -477,11 +486,11 @@ namespace Kartaclysm
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fWheelieRotation, m_fDirection + GetRotationMod(), 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fWheelieRotation + m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + GetRotationMod(), 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();

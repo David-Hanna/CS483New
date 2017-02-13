@@ -212,27 +212,15 @@ namespace Kartaclysm
 		x *= 2.0f;
 		z *= 2.0f;
 
-		//printf("x: %f\nz: %f\n", x, z);
-
-		//printf("I have %i offroad sections!\n", m_vOffroadSquares.size());
-		
 		for (int i = 0; i < m_vOffroadSquares.size(); i++)
 		{
 			OffroadSquare square = m_vOffroadSquares[i];
 
-			//printf("- Checking if the x %f is between %f and %f\n", x, square.x1, square.x2);
-			//printf("- And also if the z %f is between %f and %f\n", z, square.z1, square.z2);
-
 			if (((x >= square.x1 && x <= square.x2) || (x >= square.x2 && x <= square.x1))
 				&& ((z >= square.z1 && z <= square.z2) || (z >= square.z2 && z <= square.z1)))
 			{
-				//printf("- Yup\n");
-				//printf("- - You are not on the road, ya dingus\n\n");
-				printf("x: %f\nz: %f\nOFFROAD!\n", x, z);
 				return true;
 			}
-			//else
-				//printf("- Nope\n");
 		}
 
 		for (int i = 0; i < m_vOffroadTriangles.size(); i++)
@@ -241,13 +229,10 @@ namespace Kartaclysm
 
 			if (PointInTriangle(glm::vec2(x, z), glm::vec2(triangle.x1, triangle.z1), glm::vec2(triangle.x2, triangle.z2), glm::vec2(triangle.x3, triangle.z3)))
 			{
-				printf("x: %f\nz: %f\nOFFROAD!\n", x, z);
 				return true;
 			}
 		}
 
-		//printf("- - You are on the road, gratz!\n\n");
-		printf("x: %f\nz: %f\nOn Road\n", x, z);
 		return false;
 	}
 
