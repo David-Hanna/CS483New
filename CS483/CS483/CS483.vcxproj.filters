@@ -169,6 +169,9 @@
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3">
       <UniqueIdentifier>{94bd6f0e-5f80-4d77-b949-86059bcd0f1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\MySQL">
+      <UniqueIdentifier>{eaf668f6-e6e3-4129-88e8-504bde7a1ce6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -464,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTournament.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.cpp">
+      <Filter>HeatStroke\Services\MySQL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -808,6 +814,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTournament.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.h">
+      <Filter>HeatStroke\Services\MySQL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

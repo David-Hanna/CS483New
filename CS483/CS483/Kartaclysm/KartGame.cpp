@@ -30,6 +30,10 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
+	HeatStroke::MySQLConnector::CreateInstance();
+	HeatStroke::MySQLConnector::Instance()->SetConnection("db4free.net:3307", "kartaclysm", "upeics483", "kartaclysm");
+
+	HeatStroke::MySQLConnector::Instance()->Test(); // this does cause a small delay, but meh
 
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
@@ -96,4 +100,5 @@ void Kartaclysm::KartGame::Shutdown()
 	HeatStroke::SpriteManager::DestroyInstance();
 	HeatStroke::ModelManager::DestroyInstance();
 	HeatStroke::CollisionManager::DestroyInstance();
+	HeatStroke::MySQLConnector::DestroyInstance();
 }

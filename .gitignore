@@ -16,6 +16,8 @@ FreeImage3170/
 glew-1.13.0/
 glfw-3.1.2.bin.WIN32/
 glm-0.9.7.2/
+mysql-connector-c++-noinstall-1.1.8-win32/
+mysql-connector-c-6.1.9-win32/
 tinyxml2/
 SFML-2.4.1-windows-vc12-32-bit/
 *.dll

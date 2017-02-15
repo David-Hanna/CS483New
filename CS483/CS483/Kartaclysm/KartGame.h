@@ -33,6 +33,7 @@
 #include "ModelManager.h"
 #include "SpriteManager.h"
 #include "FontManager.h"
+#include "MySQLConnector.h"
 
 namespace Kartaclysm
 {
