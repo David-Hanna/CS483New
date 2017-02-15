@@ -1,7 +1,7 @@
 <GameObject>
 	<Children>
     <!-- Pause Message -->
-    <GameObject>
+    <GameObject guid="title">
       <Transform>
         <Translation x="-202.0" y="75.0" z="1.0" />
         <Scale x="40.0" y="25.0" z="1.0" />
@@ -15,7 +15,7 @@
     </GameObject>
     
 		<!-- Continue -->
-		<GameObject>
+		<GameObject guid="continue">
 			<Transform>
 				<Translation x="-224.0" y="20.0" z="1.0"/>
 				<Scale x="0.5" y="0.5" z="1.0"/>
@@ -31,7 +31,7 @@
 		</GameObject>
 
     <!-- Options -->
-    <GameObject>
+    <GameObject guid="options">
       <Transform>
         <Translation x="-224.0" y="-10.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
@@ -47,7 +47,7 @@
     </GameObject>
 
     <!-- Restart -->
-    <GameObject>
+    <GameObject guid="restart">
       <Transform>
         <Translation x="-222.0" y="-40.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
@@ -63,7 +63,7 @@
     </GameObject>
 
     <!-- Quit -->
-    <GameObject>
+    <GameObject guid="quit">
       <Transform>
         <Translation x="-211.0" y="-70.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>

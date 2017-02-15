@@ -36,8 +36,9 @@ namespace Kartaclysm
 		int GetButtonMapping(Input::Type eType, Racer::Action eAction);
 
 		// TO DO, the below methods
-		// bool SaveUserControlBindings();
 		// bool EditUserControlBindings(Input::Type, Racer::Action, const int p_iGLFWInputKey);
+
+		bool SaveControlBindings();
 
 	private:
 		//-------------------------------------------------------------
@@ -76,6 +77,7 @@ namespace Kartaclysm
 		~InputActionMapping();
 
 		void Init();
+		tinyxml2::XMLNode* CreateControlBindingNode(tinyxml2::XMLDocument& doc, Input::Type p_eType);
 	};
 }
 
