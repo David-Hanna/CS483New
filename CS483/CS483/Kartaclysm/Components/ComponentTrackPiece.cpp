@@ -111,8 +111,7 @@ namespace Kartaclysm
 
 					vOffroadSquares.push_back(shape);
 				}
-
-				if (type.compare("triangle") == 0)
+				else if (type.compare("triangle") == 0)
 				{
 					OffroadTriangle shape;
 
@@ -197,22 +196,16 @@ namespace Kartaclysm
 		}
 	}
 
-	bool ComponentTrackPiece::IsOffroadAtPosition(glm::vec3 p_pPosition)
+	bool ComponentTrackPiece::IsOffroadAtPosition(const glm::vec3 &p_pPosition)
 	{
 		glm::vec3 checkPosition = p_pPosition;
 		checkPosition = checkPosition - m_pGameObject->GetTransform().GetTranslation();
 		checkPosition = checkPosition * -m_pGameObject->GetTransform().GetRotation();
 
-		float x = checkPosition.x;
-		float z = checkPosition.z;
+		float x = (checkPosition.x / m_fWidthX) * 2.0f;
+		float z = (checkPosition.z / m_fWidthZ) * 2.0f;
 
-		x /= m_fWidthX;
-		z /= m_fWidthZ;
-
-		x *= 2.0f;
-		z *= 2.0f;
-
-		for (int i = 0; i < m_vOffroadSquares.size(); i++)
+		for (unsigned int i = 0; i < m_vOffroadSquares.size(); i++)
 		{
 			OffroadSquare square = m_vOffroadSquares[i];
 
@@ -223,7 +216,7 @@ namespace Kartaclysm
 			}
 		}
 
-		for (int i = 0; i < m_vOffroadTriangles.size(); i++)
+		for (unsigned int i = 0; i < m_vOffroadTriangles.size(); i++)
 		{
 			OffroadTriangle triangle = m_vOffroadTriangles[i];
 
@@ -236,7 +229,7 @@ namespace Kartaclysm
 		return false;
 	}
 
-	bool ComponentTrackPiece::PointInTriangle(glm::vec2 p, glm::vec2 p0, glm::vec2 p1, glm::vec2 p2)
+	bool ComponentTrackPiece::PointInTriangle(const glm::vec2 &p, const glm::vec2 &p0, const glm::vec2 &p1, const glm::vec2 &p2)
 	{
 		// Shamelessly stolen from stack overflow
 		// Eat a dick, internet

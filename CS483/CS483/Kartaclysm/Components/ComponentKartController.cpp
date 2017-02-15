@@ -275,7 +275,7 @@ namespace Kartaclysm
 			if (!m_bAirborne)
 			{
 				float fRumbleLimit = fminf(m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale), 1.0f) * m_fOffroadRumbleFactor;
-				m_fOffroadRumble = -fRumbleLimit + (float)(rand()) / ((float)(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
+				m_fOffroadRumble = -fRumbleLimit + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
 			}
 		}
 

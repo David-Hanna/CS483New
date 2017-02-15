@@ -67,7 +67,7 @@ namespace Kartaclysm
 
 			bool CheckInBounds(glm::vec3 p_pPosition);
 			float HeightAtPosition(glm::vec3 p_pPosition);
-			bool IsOffroadAtPosition(glm::vec3 p_pPosition);
+			bool IsOffroadAtPosition(const glm::vec3 &p_pPosition);
 
 			bool IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
 
@@ -112,7 +112,7 @@ namespace Kartaclysm
 			std::vector<OffroadSquare> m_vOffroadSquares;
 			std::vector<OffroadTriangle> m_vOffroadTriangles;
 
-			bool PointInTriangle(glm::vec2 p, glm::vec2 p0, glm::vec2 p1, glm::vec2 p2);
+			bool PointInTriangle(const glm::vec2 &p, const glm::vec2 &p0, const glm::vec2 &p1, const glm::vec2 &p2);
 	};
 }
 
