@@ -4,7 +4,7 @@
 
 HeatStroke::ComponentParticleEffect::ComponentParticleEffect(
 	HeatStroke::GameObject* p_pGameObject,
-	const std::vector<std::string>& p_vEffectDefinitionFile,
+	const std::vector<std::pair<std::string, std::string>>& p_vEffectDefinitionFile,
 	const glm::vec3& p_vOffset/* = {0.0f, 0.0f, 0.0f}*/)
 	:
 	Component(p_pGameObject)
@@ -12,17 +12,19 @@ HeatStroke::ComponentParticleEffect::ComponentParticleEffect(
 	int iSize = p_vEffectDefinitionFile.size();
 	for (int i = 0; i < iSize; ++i)
 	{
-		m_pEffects.push_back(new Effect(p_vEffectDefinitionFile[i]));
-		m_pEffects[i]->m_Transform.SetParent(&(p_pGameObject->GetTransform()));
-		m_pEffects[i]->m_Transform.SetTranslation(p_vOffset);
-		SceneManager::Instance()->AddParticleEffect(m_pEffects[i]);
+		Effect* pEffect = new Effect(p_vEffectDefinitionFile[i].first);
+		m_pEffects.insert(std::pair<std::string, Effect*>(p_vEffectDefinitionFile[i].second, pEffect));
+		pEffect->m_Transform.SetParent(&(p_pGameObject->GetTransform()));
+		pEffect->m_Transform.SetTranslation(p_vOffset);
+		SceneManager::Instance()->AddParticleEffect(pEffect);
 	}
 }
 
 HeatStroke::ComponentParticleEffect::~ComponentParticleEffect()
 {
-	for (Effect* pEffect : m_pEffects)
+	for (std::pair<std::string, Effect*> effect : m_pEffects)
 	{
+		Effect* pEffect = effect.second;
 		SceneManager::Instance()->RemoveParticleEffect(pEffect);
 		delete pEffect;
 		pEffect = nullptr;
@@ -37,10 +39,10 @@ HeatStroke::Component* HeatStroke::ComponentParticleEffect::CreateComponent(
 {
 	tinyxml2::XMLElement* pEffectsRoot = p_pBaseNode->FirstChildElement("Effects");
 	tinyxml2::XMLElement* pEffectElement = pEffectsRoot->FirstChildElement("Effect");
-	std::vector<std::string> vEffectDefinitionFiles;
+	std::vector<std::pair<std::string, std::string>> vEffectDefinitionFiles;
 	while (pEffectElement != nullptr)
 	{
-		std::string strEffectDefinition = ParseEffectDefintionFile(pEffectElement);
+		std::pair<std::string, std::string> strEffectDefinition = ParseEffectDefintionFile(pEffectElement);
 		vEffectDefinitionFiles.push_back(strEffectDefinition);
 
 		pEffectElement = pEffectElement->NextSiblingElement("Effect");
@@ -59,33 +61,40 @@ void HeatStroke::ComponentParticleEffect::Init()
 
 void HeatStroke::ComponentParticleEffect::Update(const float p_fDelta)
 {
-	for (Effect* pEffect : m_pEffects)
+	for (std::pair<std::string, Effect*> effect : m_pEffects)
 	{
-		pEffect->Update(p_fDelta);
+		effect.second->Update(p_fDelta);
 	}
 }
 
 void HeatStroke::ComponentParticleEffect::Start()
 {
-	for (Effect* pEffect : m_pEffects)
+	for (std::pair<std::string, Effect*> effect : m_pEffects)
 	{
-		pEffect->Start();
+		effect.second->Start();
 	}
 }
 
 void HeatStroke::ComponentParticleEffect::Stop()
 {
-	for (Effect* pEffect : m_pEffects)
+	for (std::pair<std::string, Effect*> effect : m_pEffects)
 	{
-		pEffect->Stop();
+		effect.second->Stop();
 	}
 }
 
-std::string HeatStroke::ComponentParticleEffect::ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement)
+HeatStroke::Effect* HeatStroke::ComponentParticleEffect::GetEffect(const std::string& p_strEffectId)
+{
+	return m_pEffects.find(p_strEffectId)->second;
+}
+
+std::pair<std::string, std::string> HeatStroke::ComponentParticleEffect::ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement)
 {
 	std::string strEffectFile = "";
+	std::string strEffectId = "";
 	EasyXML::GetRequiredStringAttribute(p_pEffectElement, "path", strEffectFile);
-	return strEffectFile;
+	EasyXML::GetRequiredStringAttribute(p_pEffectElement, "id", strEffectId);
+	return std::pair<std::string, std::string>(strEffectFile, strEffectId);
 }
 
 glm::vec3 HeatStroke::ComponentParticleEffect::ParseEffectOffset(const tinyxml2::XMLElement* p_pOffsetElement)
