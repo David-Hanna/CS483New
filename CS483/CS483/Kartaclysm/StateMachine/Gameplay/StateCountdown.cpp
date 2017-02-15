@@ -103,5 +103,5 @@ void Kartaclysm::StateCountdown::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 
-	m_bSuspended = false;
+	m_bSuspended = true;
 }

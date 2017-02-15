@@ -182,7 +182,7 @@ void Kartaclysm::StateOptionsMenu::PreRender()
 
 void Kartaclysm::StateOptionsMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

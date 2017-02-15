@@ -329,26 +329,22 @@ namespace Kartaclysm
 	bool PlayerInputMapping::SetSplitscreenPlayers(const int p_iNumPlayers)
 	{
 		m_iPlayersRacing = p_iNumPlayers;
-		int iAssigned = m_iPlayersConnected;
+		int iAlreadyConnected = m_iPlayersConnected;
 
 		int iLimit = (p_iNumPlayers > m_iPlayersConnected ? p_iNumPlayers : m_iPlayersConnected);
 		for (int i = 0; i < iLimit; i++)
 		{
-			if (i < iAssigned)
+			if (i < iAlreadyConnected)
 			{
 				SendInputAssignmentEvent(i);
 			}
-			else if (i > p_iNumPlayers)
+			else
 			{
-				AssignInput(i, -1);
-			}
-			else if (!AssignInput(i, GetFirstAvailableInput()))
-			{
-				m_iPlayersRacing--;
+				AssignInput(i, GetFirstAvailableInput());
 			}
 		}
 
-		return m_iPlayersConnected == m_iPlayersRacing;
+		return m_iPlayersConnected >= m_iPlayersRacing;
 	}
 
 	//--------------------------------------------------------------------------------
