@@ -43,11 +43,14 @@ namespace Kartaclysm
 
 	private:
 		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
+		void SaveOptionsToXml(const std::string& p_strXmlFilePath);
+		void InitOptionValues();
 
 		std::string m_strXmlFilePath;
 		int m_iPlayer;
 		int m_iOptionSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
+		bool m_bDirty;
 
 		ComponentMenuSlider* m_pCurrentSlider;
 	};

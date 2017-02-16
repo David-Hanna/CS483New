@@ -39,10 +39,13 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		std::map<std::string, std::string> m_mContextParameters;
+
 		int m_iPausedPlayer;
 		int m_iOptionSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
 		bool m_bSkipFirstFrame;
+		bool m_bTournament;
 	};
 }
 

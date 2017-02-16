@@ -12,7 +12,8 @@ Kartaclysm::StatePaused::StatePaused()
 	GameplayState("Pause State"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_iPausedPlayer(-1)
+	m_iPausedPlayer(-1),
+	m_bTournament(false)
 {
 }
 
@@ -23,6 +24,7 @@ Kartaclysm::StatePaused::~StatePaused()
 void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_mContextParameters = p_mContextParameters;
 
 	// Initialize our GameObjectManager
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
@@ -35,6 +37,14 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_overlay.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_options.xml");
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_continue.xml");
+
+	m_bTournament = (p_mContextParameters.at("Mode") == "Tournament");
+	if (m_bTournament)
+	{
+		// Cannot restart race during a tournament
+		// TODO: Another quick fix to destroy game object before it renders for one frame
+		m_pGameObjectManager->ForceInstantDestroyGameObject(m_pGameObjectManager->GetGameObject("restart"));
+	}
 
 	m_iOptionSelection = 0;
 	m_bSkipFirstFrame = true;
@@ -58,10 +68,7 @@ void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 { 
 	m_bSuspended = false;
-
-	std::map<std::string, std::string> mContextParameters;
-	mContextParameters["Player"] = std::to_string(m_iPausedPlayer);
-	Enter(mContextParameters);
+	Enter(m_mContextParameters);
 }
 
 void Kartaclysm::StatePaused::Update(const float p_fDelta)
@@ -92,7 +99,8 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 			case 1: // options
 				m_pStateMachine->Push(STATE_OPTIONS_MENU);
 				break;
-			case 2: // 
+			case 2: // restart (skipped in tournament mode)
+				assert(!m_bTournament && "Cannot restart race during tournament mode");
 				m_pStateMachine->Pop();
 				HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
 				break;
@@ -125,9 +133,18 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
 				break;
 			case 3:
-				m_iOptionSelection = 2;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				if (m_bTournament)
+				{
+					m_iOptionSelection = 1;
+					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
+				}
+				else
+				{
+					m_iOptionSelection = 2;
+					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				}
 				break;
 			}
 		}
@@ -141,9 +158,18 @@ void Kartaclysm::StatePaused::Update(const float p_fDelta)
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
 				break;
 			case 1:
-				m_iOptionSelection = 2;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				if (m_bTournament)
+				{
+					m_iOptionSelection = 3;
+					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
+				}
+				else
+				{
+					m_iOptionSelection = 2;
+					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+				}
 				break;
 			case 2:
 				m_iOptionSelection = 3;
@@ -164,7 +190,7 @@ void Kartaclysm::StatePaused::PreRender()
 
 void Kartaclysm::StatePaused::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

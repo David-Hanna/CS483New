@@ -94,9 +94,6 @@
     <Filter Include="Kartaclysm\Components\Abilities">
       <UniqueIdentifier>{1c3afe35-5875-45e5-84c1-a9e7945a7e14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kartaclysm\Data\UserConfig">
-      <UniqueIdentifier>{57abe8c2-7a1d-46b6-91de-617a0439f7d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{3aa6de3a-9cb0-421a-b5c0-d7235f3e89b2}</UniqueIdentifier>
     </Filter>
@@ -168,6 +165,9 @@
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3">
       <UniqueIdentifier>{94bd6f0e-5f80-4d77-b949-86059bcd0f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Local">
+      <UniqueIdentifier>{57abe8c2-7a1d-46b6-91de-617a0439f7d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="HeatStroke\Services\MySQL">
       <UniqueIdentifier>{eaf668f6-e6e3-4129-88e8-504bde7a1ce6}</UniqueIdentifier>
@@ -847,9 +847,6 @@
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
-      <Filter>Kartaclysm\Data\UserConfig</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_ramp_down_flat.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
     </Xml>
@@ -1051,9 +1048,6 @@
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
-      <Filter>Kartaclysm\Data\UserConfig</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
     </Xml>
@@ -1164,6 +1158,15 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\Options.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
     </Xml>
   </ItemGroup>
 </Project>
