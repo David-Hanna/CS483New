@@ -15,6 +15,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
+		m_bAI(false),
 		m_bDisabled(false),
 		m_strHitCallback(""),
 

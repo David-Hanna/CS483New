@@ -17,6 +17,7 @@
 #include "ComponentPerspectiveCamera.h"
 #include "ComponentCameraController.h"
 #include "ComponentKartController.h"
+#include "ComponentAIDriver.h"
 #include "ComponentKartControllerAI.h"
 #include "ComponentTrack.h"
 #include "ComponentTrackPiece.h"

@@ -86,6 +86,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Track", ComponentTrack::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TrackPiece", ComponentTrackPiece::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_AIDriver", ComponentAIDriver::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartControllerAI", ComponentKartControllerAI::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 	
@@ -196,7 +197,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer()
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer_ai.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, "ai_racer");
 
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/kart_ai.xml", "ai_kart", pRacer);
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml", "ai_kart", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/driver_ai.xml", "ai_driver", pRacer);
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
