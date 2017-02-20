@@ -7,6 +7,8 @@
 
 #include "ComponentKartController.h"
 
+#include "ComponentAIDriver.h"
+
 namespace Kartaclysm
 {
 	ComponentKartController::ComponentKartController(
@@ -180,8 +182,19 @@ namespace Kartaclysm
 		float fTurn = 0.0f;
 		if (!m_bDisabled)
 		{
-			PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-			fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+			if (!m_bAI)
+			{
+				PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+				fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+			}
+			else
+			{
+				ComponentAIDriver* aiDriver = static_cast<ComponentAIDriver*>(m_pGameObject->GetComponent("GOC_AIDriver"));
+				if (aiDriver != nullptr)
+				{
+					aiDriver->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+				}
+			}
 		}
 
 		// Spinout causes all inputs to be ignored
@@ -262,6 +275,11 @@ namespace Kartaclysm
 		{
 			fSpeedModifer *= m_fSlowPower;
 		}
+
+		/*if (m_bAI)
+		{
+			fSpeedModifer *= 0.05f;
+		}*/
 
 		// Adjust speed based on input
 		if (p_iAccelerateInput != 0)

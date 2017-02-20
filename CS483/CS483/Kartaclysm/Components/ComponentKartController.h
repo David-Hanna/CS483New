@@ -53,8 +53,10 @@ namespace Kartaclysm
 		float GetSwerve() const { return m_fSwerve; }
 		float GetRotationMod();
 		bool IsInWheelie() const { return m_bWheelie; }
+		bool IsAirborne() const { return m_bAirborne; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
+		void SetAI(bool p_bAI) { m_bAI = p_bAI; }
 
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);

@@ -16,12 +16,16 @@
 
 namespace Kartaclysm
 {
+	struct PathNode
+	{
+		float x;
+		float z;
+		float radius;
+	};
+
 	class ComponentAIDriver : public HeatStroke::Component
 	{
 	public:
-		//--------------------------------------------------------------------------
-		// Public methods
-		//--------------------------------------------------------------------------
 		virtual const std::string FamilyID() const override		{ return "GOC_AIDriver"; }
 		virtual const std::string ComponentID() const override	{ return "GOC_AIDriver"; }
 
@@ -47,17 +51,16 @@ namespace Kartaclysm
 			float& p_fTurn) const;
 
 	protected:
-		//--------------------------------------------------------------------------
-		// Protected methods
-		//--------------------------------------------------------------------------
 		ComponentAIDriver(
 			HeatStroke::GameObject* p_pGameObject
 			);
 
-		//--------------------------------------------------------------------------
-		// Protected variables
-		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
+
+	private:
+		PathNode m_sCurrentNode;
+
+		void NextNode();
 	};
 }
 

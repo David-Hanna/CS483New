@@ -203,6 +203,12 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer()
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
 	pRacerComponent->SetDriver(pDriver);
+	
+	ComponentKartController* kartController = static_cast<ComponentKartController*>(pRacer->GetComponent("GOC_KartController"));
+	if (kartController != nullptr)
+	{
+		kartController->SetAI(true);
+	}
 
 	return pRacer;
 }
