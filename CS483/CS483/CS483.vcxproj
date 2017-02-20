@@ -366,7 +366,6 @@
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\kart_selection_speedster_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\not_ready_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\ready_0.xml" />
-    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\press_start_to_join_1.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\press_start_to_join_2.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\press_start_to_join_3.xml" />
