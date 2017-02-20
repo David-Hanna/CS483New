@@ -165,12 +165,14 @@ namespace Kartaclysm
 		}
 		m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
 
-		// update track height for racer
+		// update track height for racer + offroad
 		ComponentKartController* kartController = (ComponentKartController*)m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_KartController");
 		ComponentTrackPiece* trackPiece = (ComponentTrackPiece*)m_pGameObject->GetManager()->GetGameObject(strTrackPieceId)->GetComponent("GOC_TrackPiece");
 		if (kartController != nullptr && trackPiece != nullptr)
 		{
-			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
+			glm::vec3 pos = kartController->GetGameObject()->GetTransform().GetTranslation();
+			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(pos));
+			kartController->SetOffroad(trackPiece->IsOffroadAtPosition(pos));
 		}
 	}
 
@@ -234,8 +236,8 @@ namespace Kartaclysm
 		bool bRaceStandingsUpdate = false;
 		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
 		{
-			ComponentRacer* racerA = m_vRacers[i];
-			if (racerA->HasFinishedRace())
+			ComponentRacer* pOriginalRacer = m_vRacers[i];
+			if (m_vRacers[i]->HasFinishedRace())
 			{
 				continue;
 			}
@@ -243,20 +245,20 @@ namespace Kartaclysm
 			bool bRacerPositionUpdated = false;
 			for (int j = i - 1; j >= 0; --j)
 			{
-				ComponentRacer* racerB = m_vRacers[j];
-				if (IsAhead(racerA, racerB))
+				if (IsAhead(m_vRacers[i], m_vRacers[j]))
 				{
-					m_vRacers[i] = racerB;
-					m_vRacers[j] = racerA;
+					ComponentRacer* pTemp = m_vRacers[j];
+					m_vRacers[j] = m_vRacers[i];
+					m_vRacers[i] = pTemp;
 					bRacerPositionUpdated = true;
 					bRaceStandingsUpdate = true;
-					TriggerRacerPositionUpdateEvent(racerB->GetGameObject()->GetGUID());
+					TriggerRacerPositionUpdateEvent(pTemp->GetGameObject()->GetGUID());
 				}
 			}
 
 			if (bRacerPositionUpdated)
 			{
-				TriggerRacerPositionUpdateEvent(racerA->GetGameObject()->GetGUID());
+				TriggerRacerPositionUpdateEvent(pOriginalRacer->GetGameObject()->GetGUID());
 			}
 		}
 
