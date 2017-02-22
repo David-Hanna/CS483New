@@ -52,7 +52,7 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 			for (int i = 0; i < m_iPlayerCount; i++)
 			{
 				// FIXME - this causes a crash when running in debug in VS 2015
-				//pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
+				pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
 			}
 			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
 
