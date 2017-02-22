@@ -13,7 +13,9 @@
 
   <Components>
 		<GOC_ParticleEffect>
-			<Effect path="CS483/CS483/Kartaclysm/Data/Effects/showoff_smoke.pfx" />
+      <Effects>
+			  <Effect path="CS483/CS483/Kartaclysm/Data/Effects/showoff_smoke.pfx" id="smoke" />
+      </Effects>
 		</GOC_ParticleEffect>
 
     <GOC_3DModel>
