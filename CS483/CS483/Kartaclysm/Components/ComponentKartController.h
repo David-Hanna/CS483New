@@ -51,7 +51,12 @@ namespace Kartaclysm
 		float GetDirection() const { return m_fDirection; }
 		float GetGroundHeight() const { return m_fGroundHeight; }
 		float GetSwerve() const { return m_fSwerve; }
+		float GetRotationMod();
+		bool IsInWheelie() const { return m_bWheelie; }
+		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
+		void SetOffroad(bool p_bOffroad) { if (!m_bAirborne) m_bOffroad = p_bOffroad; }
+		float GetOffroadRumble() const { return m_fOffroadRumble; }
 
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
@@ -95,6 +100,7 @@ namespace Kartaclysm
 
 		const float m_fSpeedScale;
 		const float m_fVerticalSpeedScale;
+		const float m_fWheelieRotation;
 
 		// Core stats all range from 0 (worst) to 6 (best)
 		// 6 - S
@@ -144,6 +150,10 @@ namespace Kartaclysm
 		float m_fWheelieTurnModStat;
 		float m_fWheelieSpeedModStat;
 		float m_fDurabilityStat;
+		float m_fSpinSpeedStat;
+		float m_fKartCollisionStat;
+		float m_fOffroadFactorStat;
+		float m_fOffroadRumbleFactor;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;
@@ -162,6 +172,9 @@ namespace Kartaclysm
 		float m_fTurnLock;
 		float m_fSlowDuration;
 		float m_fSlowPower;
+		float m_fSpinFactor;
+		bool m_bOffroad;
+		float m_fOffroadRumble;
 
 	private:
 		std::function<void(const HeatStroke::Event*)>* m_pCollisionDelegate;

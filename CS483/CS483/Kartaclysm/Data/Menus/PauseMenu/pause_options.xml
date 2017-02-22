@@ -1,7 +1,7 @@
 <GameObject>
 	<Children>
     <!-- Pause Message -->
-    <GameObject>
+    <GameObject guid="title">
       <Transform>
         <Translation x="-202.0" y="75.0" z="1.0" />
         <Scale x="40.0" y="25.0" z="1.0" />
@@ -15,9 +15,9 @@
     </GameObject>
     
 		<!-- Continue -->
-		<GameObject>
+		<GameObject guid="continue">
 			<Transform>
-				<Translation x="-224.0" y="10.0" z="1.0"/>
+				<Translation x="-224.0" y="20.0" z="1.0"/>
 				<Scale x="0.5" y="0.5" z="1.0"/>
 			</Transform>
 			<Components>
@@ -30,10 +30,26 @@
 			</Components>
 		</GameObject>
 
-    <!-- Restart -->
-    <GameObject>
+    <!-- Options -->
+    <GameObject guid="options">
       <Transform>
-        <Translation x="-222.0" y="-30.0" z="1.0"/>
+        <Translation x="-224.0" y="-10.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="1.0"/>
+      </Transform>
+      <Components>
+        <GOC_TextBox>
+          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+          <Message value="Options"/>
+          <Width value="200.0"/>
+          <Height value="200.0"/>
+        </GOC_TextBox>
+      </Components>
+    </GameObject>
+
+    <!-- Restart -->
+    <GameObject guid="restart">
+      <Transform>
+        <Translation x="-222.0" y="-40.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>
       </Transform>
       <Components>
@@ -47,7 +63,7 @@
     </GameObject>
 
     <!-- Quit -->
-    <GameObject>
+    <GameObject guid="quit">
       <Transform>
         <Translation x="-211.0" y="-70.0" z="1.0"/>
         <Scale x="0.5" y="0.5" z="1.0"/>

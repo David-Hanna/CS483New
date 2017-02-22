@@ -32,6 +32,7 @@ namespace Kartaclysm
 		m_fStickyHeightStat(0.2f),
 		m_fSpeedScale(0.45f),
 		m_fVerticalSpeedScale(1.2f),
+		m_fWheelieRotation(PI * -0.15f),
 		m_fMaxSpeedStat(20.0f),
 		m_fMaxReverseSpeedStat(6.0f),
 		m_fAccelerationStat(1.2f),
@@ -59,6 +60,10 @@ namespace Kartaclysm
 		m_fWheelieTurnModStat(0.3f),
 		m_fWheelieSpeedModStat(1.2f),
 		m_fDurabilityStat(1.0f),
+		m_fSpinSpeedStat(10.0f),
+		m_fKartCollisionStat(2.0f),
+		m_fOffroadFactorStat(0.5f),
+		m_fOffroadRumbleFactor(0.05f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -76,7 +81,10 @@ namespace Kartaclysm
 		m_fSpinout(0.0f),
 		m_fTurnLock(0.0f),
 		m_fSlowDuration(0.0f),
-		m_fSlowPower(1.0f)
+		m_fSlowPower(1.0f),
+		m_fSpinFactor(0.0f),
+		m_bOffroad(false),
+		m_fOffroadRumble(0.0f)
 	{
 		m_pCollisionDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentKartController::HandleCollisionEvent, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Collision", m_pCollisionDelegate);
@@ -172,13 +180,14 @@ namespace Kartaclysm
 
 	void ComponentKartController::Update(const float p_fDelta)
 	{
-		if (m_bDisabled) return;
-
 		// Manually query for user input
-		int iAccelerate, iBrake, iSlide;
-		float fTurn;
-		PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-		fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		int iAccelerate = 0, iBrake = 0, iSlide = 0;
+		float fTurn = 0.0f;
+		if (!m_bDisabled)
+		{
+			PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+			fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+		}
 
 		// Spinout causes all inputs to be ignored
 		if (m_fSpinout > 0.0f)
@@ -257,6 +266,19 @@ namespace Kartaclysm
 		if (m_fSlowDuration > 0.0f)
 		{
 			fSpeedModifer *= m_fSlowPower;
+		}
+
+		// ...And from offroading (also rumble)
+		m_fOffroadRumble = 0.0f;
+		if (m_bOffroad)
+		{
+			fSpeedModifer *= m_fOffroadFactorStat;
+
+			if (!m_bAirborne)
+			{
+				float fRumbleLimit = fminf(m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale), 1.0f) * m_fOffroadRumbleFactor;
+				m_fOffroadRumble = -fRumbleLimit + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
+			}
 		}
 
 		// Adjust speed based on input
@@ -457,8 +479,15 @@ namespace Kartaclysm
 		// Particles
 		if (m_bSliding && !m_bSlideParticle)
 		{
+			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
 			if (m_iSlideDirection > 0)
 			{
+				HeatStroke::Effect* pSwerveLeftEffect = pComponentParticleEffect->GetEffect("swerve_left");
+				if (pSwerveLeftEffect != nullptr)
+				{
+					pSwerveLeftEffect->Start();
+				}
+				m_bSlideParticle = true;
 				/*HeatStroke::ComponentParticleEffect* swerveLeftParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
 				if (swerveLeftParticle != nullptr)
 				{
@@ -469,26 +498,26 @@ namespace Kartaclysm
 			}
 			else if (m_iSlideDirection < 0)
 			{
-				HeatStroke::ComponentParticleEffect* swerveRightParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
-				if (swerveRightParticle != nullptr)
+				HeatStroke::Effect* pSwerveRightEffect = pComponentParticleEffect->GetEffect("swerve_right");
+				if (pSwerveRightEffect != nullptr)
 				{
-					swerveRightParticle->Start();
+					pSwerveRightEffect->Start();
 				}
-
 				m_bSlideParticle = true;
 			}
 		}
 		else if (!m_bSliding && m_bSlideParticle)
 		{
-			/*HeatStroke::ComponentParticleEffect* swerveLeftParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
-			if (swerveLeftParticle != nullptr)
+			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			HeatStroke::Effect* pSwerveLeftEffect = pComponentParticleEffect->GetEffect("swerve_left");
+			HeatStroke::Effect* pSwerveRightEffect = pComponentParticleEffect->GetEffect("swerve_right");
+			if (pSwerveLeftEffect != nullptr)
 			{
-				swerveLeftParticle->Stop();
-			}*/
-			HeatStroke::ComponentParticleEffect* swerveRightParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
-			if (swerveRightParticle != nullptr)
+				pSwerveLeftEffect->Stop();
+			}
+			if (pSwerveRightEffect != nullptr)
 			{
-				swerveRightParticle->Stop();
+				pSwerveRightEffect->Stop();
 			}
 
 			m_bSlideParticle = false;
@@ -499,16 +528,18 @@ namespace Kartaclysm
 	{
 		m_pGameObject->GetTransform().Translate(m_pOutsideForce * p_fDelta);
 		m_pOutsideForce *= powf(2.718281828f, p_fDelta * m_fOutsideForceAccelerationStat);
+
+		float spin = m_fSpinout * m_fSpinFactor;
 		
 		m_pGameObject->GetTransform().TranslateXYZ(m_fSpeed * sinf(m_fDirection) * p_fDelta, p_fHeightMod, m_fSpeed * cosf(m_fDirection) * p_fDelta);
 		// swerve temporarily disabled until the camera transform heirarchy is fixed
 		if (m_bWheelie)
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(PI * -0.15f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fWheelieRotation + m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 		else
 		{
-			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(0.0f, m_fDirection + m_fSwerve, 0.0f)));
+			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
@@ -525,11 +556,13 @@ namespace Kartaclysm
 		float extra = (m_fMaxSpeedStat * m_fSpeedScale * p_fPower) - m_fSpeed;
 		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
 
-		HeatStroke::ComponentParticleEffect* boostParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
-		if (boostParticle != nullptr)
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+		HeatStroke::Effect* pBoostParticleEffect = pComponentParticleEffect->GetEffect("boost");
+		if (pBoostParticleEffect != nullptr)
 		{
 			// Re-enable this once we have multiple particles and can do the stuff real good like
 			//boostParticle->Start();
+			pBoostParticleEffect->Start();
 		}
 	}
 
@@ -541,6 +574,8 @@ namespace Kartaclysm
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
+
+		m_fSpinFactor = m_fSpinSpeedStat;
 	}
 
 	void ComponentKartController::ArmorPlate(int p_iCurrentArmorStack)
@@ -572,6 +607,12 @@ namespace Kartaclysm
 	glm::quat ComponentKartController::GetRotationMinusSwerve()
 	{
 		return glm::quat(glm::vec3(0.0f, m_fDirection, 0.0f));
+	}
+
+	float ComponentKartController::GetRotationMod()
+	{
+		float spin = m_fSpinout * m_fSpinFactor;
+		return m_fSwerve + spin;
 	}
 
 	void ComponentKartController::HandleCollisionEvent(const HeatStroke::Event* p_pEvent)
@@ -606,17 +647,34 @@ namespace Kartaclysm
 
 				HeatStroke::ComponentSphereCollider* collider = static_cast<HeatStroke::ComponentSphereCollider*>(m_pGameObject->GetComponent("GOC_Collider"));
 
-				glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
-				float distance = collider->GetRadius() - glm::length(difference);
+				std::string otherColliderID = pOtherCollider->ComponentID();
+				if (otherColliderID.compare("GOC_WallCollider") == 0)
+				{
+					// Wall Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - contactPoint;
+					float distance = abs(collider->GetRadius() - glm::length(difference));
 
-				difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
-				m_pGameObject->GetTransform().Translate(difference);
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
 
-				glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
-				float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
+					glm::vec3 velocity = glm::vec3(sinf(m_fDirection), 0.0f, cosf(m_fDirection));
+					float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
-				m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
-				m_fSpeed *= m_fWallSlowdownStat;
+					m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
+				else
+				{
+					// Kart Collision
+					glm::vec3 difference = m_pGameObject->GetTransform().GetTranslation() - pOther->GetTransform().GetTranslation();
+					float distance = abs(collider->GetRadius() - glm::length(difference));
+
+					difference = glm::normalize(difference) * fmaxf(distance, 0.0000001f);
+					m_pGameObject->GetTransform().Translate(difference);
+
+					m_pOutsideForce = glm::normalize(difference) * m_fKartCollisionStat;
+					m_fSpeed *= m_fWallSlowdownStat;
+				}
 
 				if (passedThrough)
 				{

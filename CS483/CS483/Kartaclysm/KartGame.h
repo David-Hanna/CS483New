@@ -18,6 +18,8 @@
 #include "StateMachine.h"
 #include "GameplayState.h"
 #include "StateMainMenu.h"
+#include "StateModeSelectionMenu.h"
+#include "StateTournament.h"
 #include "StatePlayerSelectionMenu.h"
 #include "StateTrackSelectionMenu.h"
 #include "StateRacing.h"

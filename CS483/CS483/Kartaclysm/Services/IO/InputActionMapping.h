@@ -36,8 +36,9 @@ namespace Kartaclysm
 		int GetButtonMapping(Input::Type eType, Racer::Action eAction);
 
 		// TO DO, the below methods
-		// bool SaveUserControlBindings();
 		// bool EditUserControlBindings(Input::Type, Racer::Action, const int p_iGLFWInputKey);
+
+		bool SaveControlBindings();
 
 	private:
 		//-------------------------------------------------------------
@@ -67,6 +68,7 @@ namespace Kartaclysm
 
 		// Manual query for inputs by PlayerInputMapping::QueryPlayerInput
 		bool GetButton(const int p_iGLFWJoystick, const Racer::Action p_eAction);
+		bool GetButtonOnce(const int p_iGLFWJoystick, const Racer::Action p_eAction);
 		float GetTurning(const int p_iGLFWJoystick);
 
 		InputActionMapping(const std::string& p_strUserConfigFilePath);
@@ -75,6 +77,7 @@ namespace Kartaclysm
 		~InputActionMapping();
 
 		void Init();
+		tinyxml2::XMLNode* CreateControlBindingNode(tinyxml2::XMLDocument& doc, Input::Type p_eType);
 	};
 }
 

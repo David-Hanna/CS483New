@@ -24,17 +24,19 @@ namespace HeatStroke
 		static void DestroyInstance();
 		static AudioPlayer* Instance();
 
+		const std::string& GetCurrentMusicFile() const { return m_strCurrentMusicFile; }
 		bool OpenMusicFromFile(const std::string& p_strFile);
 		void PlayMusic();
 		void PauseMusic();
 		void StopMusic();
 
 		void PreloadSoundEffects(const std::string& p_strPreloadFileName);
-		void PlaySoundEffect(const std::string& p_strFile);
+		void PlaySoundEffect(const std::string& p_strFile, const bool loop = false);
+		void StopSoundEffect(const std::string& p_strFile);
 		void FlushSoundEffects();
 
-		void SetMusicVolume(float p_fMusicVolume)				{ m_fMusicVolume = p_fMusicVolume; }
-		void SetSoundEffectsVolume(float p_fSoundEffectsVolume) { m_fSoundEffectsVolume = p_fSoundEffectsVolume; }
+		void SetMusicVolume(float p_fMusicVolume);
+		void SetSoundEffectsVolume(float p_fSoundEffectsVolume);
 
 		float GetMusicVolume() const			{ return m_fMusicVolume; }
 		float GetSoundEffectsVolume() const		{ return m_fSoundEffectsVolume; }
@@ -43,7 +45,8 @@ namespace HeatStroke
 		static AudioPlayer* s_pAudioPlayerInstance;
 
 		AudioPlayer() :
-			m_pCurrentMusic(nullptr), 
+			m_pCurrentMusic(nullptr),
+			m_strCurrentMusicFile(""),
 			m_mLoadedSoundEffects(),
 			m_fMusicVolume(100.0f), 
 			m_fSoundEffectsVolume(100.0f) {}
@@ -53,6 +56,7 @@ namespace HeatStroke
 		typedef std::pair<sf::SoundBuffer*, sf::Sound*> SoundEffect;
 		typedef std::map<std::string, SoundEffect> LoadedSoundEffects;
 
+		std::string m_strCurrentMusicFile;
 		sf::Music* m_pCurrentMusic;
 		LoadedSoundEffects m_mLoadedSoundEffects;
 

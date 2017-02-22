@@ -11,7 +11,9 @@ namespace Kartaclysm
 		float p_fHeight2,
 		PositionFunction p_ePositionFunction,
 		glm::vec3 p_vPivotPosition,
-		glm::vec3 p_vPivotAxis)
+		glm::vec3 p_vPivotAxis,
+		std::vector<OffroadSquare> p_vOffroadSquares,
+		std::vector<OffroadTriangle> p_vOffroadTriangles)
 		:
 		Component(p_pGameObject),
 		m_fWidthX(p_fWidthX),
@@ -21,7 +23,9 @@ namespace Kartaclysm
 		m_fHeight2(p_fHeight2),
 		m_ePositionFunction(p_ePositionFunction),
 		m_vPivotPosition(p_vPivotPosition),
-		m_vPivotAxis(p_vPivotAxis)
+		m_vPivotAxis(p_vPivotAxis),
+		m_vOffroadSquares(p_vOffroadSquares),
+		m_vOffroadTriangles(p_vOffroadTriangles)
 	{
 	}
 
@@ -85,7 +89,45 @@ namespace Kartaclysm
 			vPivotAxis = ParsePivotAxis(p_pBaseNode);
 		}
 
-		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis);
+		tinyxml2::XMLElement* offroad = p_pBaseNode->FirstChildElement("Offroad");
+		std::vector<OffroadSquare> vOffroadSquares;
+		std::vector<OffroadTriangle> vOffroadTriangles;
+
+		if (offroad != nullptr)
+		{
+			for (tinyxml2::XMLElement* offroadShape = offroad->FirstChildElement(); offroadShape != nullptr; offroadShape = offroadShape->NextSiblingElement())
+			{
+				std::string type;
+				HeatStroke::EasyXML::GetRequiredStringAttribute(offroadShape, "type", type);
+
+				if (type.compare("square") == 0)
+				{
+					OffroadSquare shape;
+
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+
+					vOffroadSquares.push_back(shape);
+				}
+				else if (type.compare("triangle") == 0)
+				{
+					OffroadTriangle shape;
+
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x1", shape.x1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z1", shape.z1);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x2", shape.x2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z2", shape.z2);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "x3", shape.x3);
+					HeatStroke::EasyXML::GetRequiredFloatAttribute(offroadShape, "z3", shape.z3);
+
+					vOffroadTriangles.push_back(shape);
+				}
+			}
+		}
+
+		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis, vOffroadSquares, vOffroadTriangles);
 	}
 
 	void ComponentTrackPiece::Init()
@@ -152,6 +194,60 @@ namespace Kartaclysm
 				return baseHeight;
 				break;
 		}
+	}
+
+	bool ComponentTrackPiece::IsOffroadAtPosition(const glm::vec3 &p_pPosition)
+	{
+		glm::vec3 checkPosition = p_pPosition;
+		checkPosition = checkPosition - m_pGameObject->GetTransform().GetTranslation();
+		checkPosition = checkPosition * -m_pGameObject->GetTransform().GetRotation();
+
+		float x = (checkPosition.x / m_fWidthX) * 2.0f;
+		float z = (checkPosition.z / m_fWidthZ) * 2.0f;
+
+		for (unsigned int i = 0; i < m_vOffroadSquares.size(); i++)
+		{
+			OffroadSquare square = m_vOffroadSquares[i];
+
+			if (((x >= square.x1 && x <= square.x2) || (x >= square.x2 && x <= square.x1))
+				&& ((z >= square.z1 && z <= square.z2) || (z >= square.z2 && z <= square.z1)))
+			{
+				return true;
+			}
+		}
+
+		for (unsigned int i = 0; i < m_vOffroadTriangles.size(); i++)
+		{
+			OffroadTriangle triangle = m_vOffroadTriangles[i];
+
+			if (PointInTriangle(glm::vec2(x, z), glm::vec2(triangle.x1, triangle.z1), glm::vec2(triangle.x2, triangle.z2), glm::vec2(triangle.x3, triangle.z3)))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool ComponentTrackPiece::PointInTriangle(const glm::vec2 &p, const glm::vec2 &p0, const glm::vec2 &p1, const glm::vec2 &p2)
+	{
+		// Shamelessly stolen from stack overflow
+		// Eat a dick, internet
+		
+		float s = p0.y * p2.x - p0.x * p2.y + (p2.y - p0.y) * p.x + (p0.x - p2.x) * p.y;
+		float t = p0.x * p1.y - p0.y * p1.x + (p0.y - p1.y) * p.x + (p1.x - p0.x) * p.y;
+
+		if ((s < 0) != (t < 0))
+			return false;
+
+		float A = -p1.y * p2.x + p0.y * (p2.x - p1.x) + p0.x * (p1.y - p2.y) + p1.x * p2.y;
+		if (A < 0.0)
+		{
+			s = -s;
+			t = -t;
+			A = -A;
+		}
+		return s > 0 && t > 0 && (s + t) <= A;
 	}
 
 	bool ComponentTrackPiece::IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const

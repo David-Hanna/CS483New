@@ -1,8 +1,6 @@
 #include "ComponentTrack.h"
 
-//#include "KeyboardInputBuffer.h"
 #include "ComponentTrackPiece.h"
-//#include <iostream>
 
 namespace Kartaclysm
 {
@@ -11,7 +9,8 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
-		m_fRaceTime(0.0f)
+		m_fRaceTime(-3.0f), // beginning countdown
+		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -118,7 +117,7 @@ namespace Kartaclysm
 		// Queue HUD event for beginning lap count
 		HeatStroke::Event* pEvent = new HeatStroke::Event(p_pRacer->GetGameObject()->GetGUID() + "_HUD_Lap");
 		pEvent->SetIntParameter("Current", 1);
-		pEvent->SetIntParameter("Total", 3);
+		pEvent->SetIntParameter("Total", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 
@@ -146,7 +145,7 @@ namespace Kartaclysm
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
 			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
 			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > 3 && !m_vRacers[iRacerIndex]->HasFinishedRace())
+			if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack && !m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
 				TriggerRacerFinishedRaceEvent(strRacerId);
 			}
@@ -157,12 +156,14 @@ namespace Kartaclysm
 		}
 		m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
 
-		// update track height for racer
+		// update track height for racer + offroad
 		ComponentKartController* kartController = (ComponentKartController*)m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_KartController");
 		ComponentTrackPiece* trackPiece = (ComponentTrackPiece*)m_pGameObject->GetManager()->GetGameObject(strTrackPieceId)->GetComponent("GOC_TrackPiece");
 		if (kartController != nullptr && trackPiece != nullptr)
 		{
-			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
+			glm::vec3 pos = kartController->GetGameObject()->GetTransform().GetTranslation();
+			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(pos));
+			kartController->SetOffroad(trackPiece->IsOffroadAtPosition(pos));
 		}
 	}
 
@@ -226,8 +227,8 @@ namespace Kartaclysm
 		bool bRaceStandingsUpdate = false;
 		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
 		{
-			ComponentRacer* racerA = m_vRacers[i];
-			if (racerA->HasFinishedRace())
+			ComponentRacer* pOriginalRacer = m_vRacers[i];
+			if (m_vRacers[i]->HasFinishedRace())
 			{
 				continue;
 			}
@@ -235,20 +236,20 @@ namespace Kartaclysm
 			bool bRacerPositionUpdated = false;
 			for (int j = i - 1; j >= 0; --j)
 			{
-				ComponentRacer* racerB = m_vRacers[j];
-				if (IsAhead(racerA, racerB))
+				if (IsAhead(m_vRacers[i], m_vRacers[j]))
 				{
-					m_vRacers[i] = racerB;
-					m_vRacers[j] = racerA;
+					ComponentRacer* pTemp = m_vRacers[j];
+					m_vRacers[j] = m_vRacers[i];
+					m_vRacers[i] = pTemp;
 					bRacerPositionUpdated = true;
 					bRaceStandingsUpdate = true;
-					TriggerRacerPositionUpdateEvent(racerB->GetGameObject()->GetGUID());
+					TriggerRacerPositionUpdateEvent(pTemp->GetGameObject()->GetGUID());
 				}
 			}
 
 			if (bRacerPositionUpdated)
 			{
-				TriggerRacerPositionUpdateEvent(racerA->GetGameObject()->GetGUID());
+				TriggerRacerPositionUpdateEvent(pOriginalRacer->GetGameObject()->GetGUID());
 			}
 		}
 
@@ -358,6 +359,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerCompletedLap");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
+		pEvent->SetIntParameter("totalLaps", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 

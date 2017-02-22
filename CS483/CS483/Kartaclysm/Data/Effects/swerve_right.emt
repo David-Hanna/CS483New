@@ -11,7 +11,7 @@
 		<Fade type="constant" value="1.0" />
 		<Lifetime type="random" min="0.1" max="0.5" />
 		<Size type="random" min="0.1" max="0.25" />
-		<Velocity type="random" x_min="-0.4" y_min="0.0" z_min="0.0" x_max="-1.0" y_max="0.6" z_max="0.6" />
+		<Velocity type="random" x_min="-1.0" y_min="0.0" z_min="0.0" x_max="-0.4" y_max="0.6" z_max="0.6" />
 	</Spawn_Properties>
 
 	<Affectors>

@@ -60,7 +60,7 @@ namespace Kartaclysm
 	PlayerInputMapping::PlayerInputMapping()
 		:
 		m_pPlayers(new PlayerMap),
-		m_iPlayersRacing(1),
+		m_iPlayersRacing(4),
 		m_iPlayersConnected(0),
 		m_bRaceMode(false)
 	{
@@ -297,12 +297,12 @@ namespace Kartaclysm
 		{
 			// Keyboard
 			HeatStroke::KeyboardInputBuffer* pKeyboard = HeatStroke::KeyboardInputBuffer::Instance();
-			p_bUp = (pKeyboard->IsKeyDownOnce(GLFW_KEY_UP) || pKeyboard->IsKeyDownOnce(GLFW_KEY_W));
-			p_bDown = (pKeyboard->IsKeyDownOnce(GLFW_KEY_DOWN) || pKeyboard->IsKeyDownOnce(GLFW_KEY_S));
-			p_bLeft = (pKeyboard->IsKeyDownOnce(GLFW_KEY_LEFT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_A));
-			p_bRight = (pKeyboard->IsKeyDownOnce(GLFW_KEY_RIGHT) || pKeyboard->IsKeyDownOnce(GLFW_KEY_D));
-			p_bConfirm = pKeyboard->IsKeyDownOnce(GLFW_KEY_ENTER);
-			p_bCancel = pKeyboard->IsKeyDownOnce(GLFW_KEY_SPACE);
+			p_bUp = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::eAccelerate);
+			p_bDown = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::eBrake);
+			p_bLeft = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::eLeft);
+			p_bRight = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::eRight);
+			p_bConfirm = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::ePause);
+			p_bCancel = InputActionMapping::Instance()->GetButtonOnce(iJoystick, Racer::eSlide);
 		}
 		else
 		{
@@ -329,26 +329,22 @@ namespace Kartaclysm
 	bool PlayerInputMapping::SetSplitscreenPlayers(const int p_iNumPlayers)
 	{
 		m_iPlayersRacing = p_iNumPlayers;
-		int iAssigned = m_iPlayersConnected;
+		int iAlreadyConnected = m_iPlayersConnected;
 
 		int iLimit = (p_iNumPlayers > m_iPlayersConnected ? p_iNumPlayers : m_iPlayersConnected);
 		for (int i = 0; i < iLimit; i++)
 		{
-			if (i < iAssigned)
+			if (i < iAlreadyConnected)
 			{
 				SendInputAssignmentEvent(i);
 			}
-			else if (i > p_iNumPlayers)
+			else
 			{
-				AssignInput(i, -1);
-			}
-			else if (!AssignInput(i, GetFirstAvailableInput()))
-			{
-				m_iPlayersRacing--;
+				AssignInput(i, GetFirstAvailableInput());
 			}
 		}
 
-		return m_iPlayersConnected == m_iPlayersRacing;
+		return m_iPlayersConnected >= m_iPlayersRacing;
 	}
 
 	//--------------------------------------------------------------------------------
@@ -359,7 +355,7 @@ namespace Kartaclysm
 	//--------------------------------------------------------------------------------
 	int PlayerInputMapping::GetFirstAvailableInput()
 	{
-		for (int i = 0; i <= GLFW_JOYSTICK_LAST + 4; i++)
+		for (int i = 0; i <= GLFW_JOYSTICK_LAST + 8; i++)
 		{
 			if (PlayerUsingInput(i) == -1)
 			{

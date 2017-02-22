@@ -7,6 +7,15 @@
       <Bounds widthX="10" widthZ="10"/>
       <Height function="flat"/>
       <Position function="turn" pivotX="5.0" pivotY="0.0" pivotZ="-5.0" pivotAxisX="0.0" pivotAxisY="0.0" pivotAxisZ="1.0"/>
+      <Offroad>
+        <Offroad_Area type="square" x1="-1.0" z1="1.0" x2="-0.6" z2="-1.0"/>
+        <Offroad_Area type="square" x1="-1.0" z1="1.0" x2="1.0" z2="0.6"/>
+        <Offroad_Area type="triangle" x1="-0.6" z1="0.0" x2="-0.0" z2="0.6" x3="-0.6" z3="0.6"/>
+
+        <Offroad_Area type="square" x1="1.0" z1="-0.8" x2="0.6" z2="-1.0"/>
+        <Offroad_Area type="square" x1="0.8" z1="-1.0" x2="1.0" z2="-0.6"/>
+        <Offroad_Area type="triangle" x1="0.8" z1="-0.6" x2="0.6" z2="-0.8" x3="0.8" z3="-0.8"/>
+      </Offroad>
     </GOC_TrackPiece>
 	</Components>
 

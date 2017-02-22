@@ -4,7 +4,7 @@
 //	
 // Allows player to change and save game options.
 // Accessed by and returns to main menu or pause menu.
-// Passing OptionsXML parameter loads options from XML and calls Pop().
+// Constructed with path to options XML file.
 //------------------------------------------------------------------------
 
 #ifndef STATE_OPTIONS_MENU_H
@@ -15,9 +15,11 @@
 #include "ComponentSprite.h"
 #include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
+#include "ComponentMenuSlider.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
 
 namespace Kartaclysm
@@ -25,7 +27,7 @@ namespace Kartaclysm
 	class StateOptionsMenu : public Kartaclysm::GameplayState
 	{
 	public:
-		StateOptionsMenu();
+		StateOptionsMenu(const std::string& p_strXmlFilePath);
 		virtual ~StateOptionsMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
@@ -41,8 +43,16 @@ namespace Kartaclysm
 
 	private:
 		void LoadOptionsFromXml(const std::string& p_strXmlFilePath);
+		void SaveOptionsToXml(const std::string& p_strXmlFilePath);
+		void InitOptionValues();
 
 		std::string m_strXmlFilePath;
+		int m_iPlayer;
+		int m_iOptionSelection;
+		HeatStroke::GameObject* m_pCurrentHighlight;
+		bool m_bDirty;
+
+		ComponentMenuSlider* m_pCurrentSlider;
 	};
 }
 

@@ -1,6 +1,6 @@
 <GameObject>
 	<Children>
-		<GameObject>
+		<GameObject guid="title">
 			<Transform>
 				<Translation x="-56.0" y="100.0" z="0.0"/>
 				<Scale x="0.7" y="0.9" z="1.0"/>
@@ -83,7 +83,7 @@
 			<Components>
 				<GOC_TextBox>
 					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
-					<Message value="Press Enter to Continue"/>
+					<Message value="Press Start to Continue"/>
 					<Width value="500.0"/>
 					<Height value="200.0"/>
 				</GOC_TextBox>

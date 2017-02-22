@@ -72,7 +72,7 @@ namespace Kartaclysm
 			glm::vec3 DetermineRacerForwardDirection(const std::string& p_strRacerId);
 
 			float m_fRaceTime;
-
+			int m_iLapsToFinishTrack;
 	};
 }
 

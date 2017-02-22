@@ -19,6 +19,7 @@
 #include "GameplayState.h"
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
@@ -38,6 +39,67 @@ namespace Kartaclysm
 	protected:
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
+
+	private:
+		enum DRIVER_SELECTION
+		{
+			DRIVER_CLEOPAPA,
+			DRIVER_CLOCKMAKER,
+			DRIVER_KINGPIN
+		};
+
+		enum KART_SELECTION
+		{
+			KART_JUGGERNAUT,
+			KART_SHOWOFF,
+			KART_SPEEDSTER
+		};
+
+		typedef struct PerPlayerMenuState
+		{
+			bool					bJoined;
+			bool					bReady;
+			bool					bDriverHighlighted;
+
+			DRIVER_SELECTION		eSelectedDriver;
+			KART_SELECTION			eSelectedKart;
+
+			int						iDriverSpeedStat;
+			int						iDriverAccelerationStat;
+			int						iDriverHandlingStat;
+			int						iDriverDurabilityStat;
+
+			int						iKartSpeedStat;
+			int						iKartAccelerationStat;
+			int						iKartHandlingStat;
+			int						iKartDurabilityStat;
+
+			HeatStroke::GameObject* pPressStartToJoin;
+			HeatStroke::GameObject* pDriverSelection;
+			HeatStroke::GameObject* pKartSelection;
+			HeatStroke::GameObject* pReadyButton;
+			HeatStroke::GameObject* pDescriptionBoxes;
+			HeatStroke::GameObject* pDriverAbilities;
+			HeatStroke::GameObject* pKartAbilities;
+			HeatStroke::GameObject* pStatDescription;
+			HeatStroke::GameObject* pSpeedStatIcon;
+			HeatStroke::GameObject* pAccelerationStatIcon;
+			HeatStroke::GameObject* pHandlingStatIcon;
+			HeatStroke::GameObject* pDurabilityStatIcon;
+			HeatStroke::GameObject* pDriverDisplay;
+			HeatStroke::GameObject* pKartDisplay;
+			HeatStroke::GameObject* pHighlight;
+		};
+
+		std::map<std::string, std::string> m_mContextParameters;
+
+		unsigned int m_uiNumPlayers;
+		PerPlayerMenuState m_mPerPlayerMenuState[4];
+
+		void Initialize();
+
+		void AddPlayer(const unsigned int m_uiPlayerNum);
+		void GoToTrackSelectionState();
 	};
 }
 

@@ -37,20 +37,18 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	if (!m_bPreloadCalled)
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
-
-		// Push Options state to load from XML, which calls Pop() when done
-		std::map<std::string, std::string> mOptionsParams;
-		mOptionsParams["OptionsXML"] = "CS483/CS483/Kartaclysm/Data/UserConfig/Options.xml";
-		m_pStateMachine->Push(GameplayStates::STATE_OPTIONS_MENU, mOptionsParams);
 	}
 	else
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
 	}
 
-	HeatStroke::AudioPlayer::Instance()->StopMusic();
-	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
-	HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
+	{
+		HeatStroke::AudioPlayer::Instance()->StopMusic();
+		HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/FunkyChunk.ogg");
+		HeatStroke::AudioPlayer::Instance()->PlayMusic();
+	}
 }
 
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
@@ -70,15 +68,17 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 			{
 				m_bPreloadCalled = true;
 				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+				HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
 				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
 				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
 			}
 		}
 		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, std::map<std::string, std::string>());
+			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 		}
 	}
 }
@@ -93,7 +93,7 @@ void Kartaclysm::StateMainMenu::PreRender()
 
 void Kartaclysm::StateMainMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

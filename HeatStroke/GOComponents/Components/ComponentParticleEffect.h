@@ -23,12 +23,14 @@ namespace HeatStroke
 			void Start();
 			void Stop();
 
+			Effect* GetEffect(const std::string& p_strEffectId);
+
 		private:
-			Effect* m_pEffect;
+			std::map<std::string, Effect*> m_mEffects;
 
-			ComponentParticleEffect(GameObject* p_pGameObject, const std::string& p_strEffectDefinitionFile, const glm::vec3& p_vOffset = {0.0f, 0.0f, 0.0f});
+			ComponentParticleEffect(GameObject* p_pGameObject, const std::vector<std::pair<std::string, std::string>>& p_vEffectDefinitionFiles, const glm::vec3& p_vOffset = {0.0f, 0.0f, 0.0f});
 
-			static std::string ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement);
+			static std::pair<std::string, std::string> ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement);
 			static glm::vec3 ParseEffectOffset(const tinyxml2::XMLElement* p_pOffsetElement);
 	};
 }

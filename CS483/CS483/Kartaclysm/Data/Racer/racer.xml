@@ -11,9 +11,11 @@
     <GOC_Racer/>
 
     <GOC_ParticleEffect>
-      <!--<Effect path="CS483/CS483/Kartaclysm/Data/Effects/boost.pfx" />-->
-      <!--<Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_left.pfx" />-->
-      <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_right.pfx" />
+      <Effects>
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/boost.pfx" id="boost" />
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_left.pfx" id="swerve_left" />
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_right.pfx" id="swerve_right" />
+      </Effects>
     </GOC_ParticleEffect>
   </Components>
 

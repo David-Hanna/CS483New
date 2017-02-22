@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+    <Translation x="-260.0" y="-10.0" z="1.0"/>
+		<Scale x="25.0" y="20.0" z="1.0"/>
+	</Transform>
+	<Components>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/Menus/TrackSelectionMenu/highlight.mtl"/>
+			<MaterialName name="highlight"/>
+		</GOC_Sprite>
+	</Components>
+</GameObject>

@@ -17,6 +17,7 @@
 #include "GameplayState.h"
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
+#include "AudioPlayer.h"
 
 namespace Kartaclysm
 {
@@ -27,8 +28,8 @@ namespace Kartaclysm
 		virtual ~StatePaused();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState) { m_bSuspended = true; }
-		void Unsuspend(const int p_iPrevState) { m_bSuspended = false; }
+		void Suspend(const int p_iNewState);
+		void Unsuspend(const int p_iPrevState);
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
@@ -38,10 +39,13 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		std::map<std::string, std::string> m_mContextParameters;
+
 		int m_iPausedPlayer;
 		int m_iOptionSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
 		bool m_bSkipFirstFrame;
+		bool m_bTournament;
 	};
 }
 

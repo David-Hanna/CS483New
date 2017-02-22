@@ -26,6 +26,7 @@ Kartaclysm::StateRacing::~StateRacing()
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_vRaceResults.clear();
 
 	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
@@ -90,7 +91,21 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	
 	// Store passed context parameters and begin race
 	m_mContextParams = p_mContextParameters;
+	SendRaceInfoEvent();
 	BeginRace();
+
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+}
+
+void Kartaclysm::StateRacing::SendRaceInfoEvent()
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("RaceInfo");
+	auto it = m_mContextParams.begin(), end = m_mContextParams.end();
+	for (; it != end; ++it)
+	{
+		pEvent->SetStringParameter(it->first, it->second);
+	}
+	HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 }
 
 void Kartaclysm::StateRacing::BeginRace()
@@ -112,11 +127,12 @@ void Kartaclysm::StateRacing::BeginRace()
 		std::string kartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
 		std::string driverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
 		std::string cameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
+		int startPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
 
 		// generate racers
 		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3(( i % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * i));
+		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
 	}
 
 	// Set inital position sprites on racer HUDs
@@ -134,6 +150,7 @@ void Kartaclysm::StateRacing::BeginRace()
 #endif
 	}
 
+	// Even if this song is playing, we want it to restart when the race restarts too
 	HeatStroke::AudioPlayer::Instance()->StopMusic();
 	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
 	HeatStroke::AudioPlayer::Instance()->PlayMusic();
@@ -227,14 +244,16 @@ void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
 
 void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
-	m_bSuspended = true;
+	m_bSuspended = (p_iNewState != STATE_COUNTDOWN);
 	HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
 }
 
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
 }
 
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
@@ -252,20 +271,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
 			return;
 		}
-
-#ifdef _DEBUG
-		// DEBUG: Press 'X' until Lap reads '3/3' and cross finish line with both drivers.
-		if (HeatStroke::KeyboardInputBuffer::Instance()->IsKeyDownOnce(GLFW_KEY_X))
-		{
-			HeatStroke::Event* pEvent1 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent1->SetStringParameter("racerId", "Player0");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent1);
-
-			HeatStroke::Event* pEvent2 = new HeatStroke::Event("RacerCompletedLap");
-			pEvent2->SetStringParameter("racerId", "Player1");
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent2);
-		}
-#endif
 	}
 }
 
@@ -278,7 +283,7 @@ void Kartaclysm::StateRacing::PreRender()
 
 void Kartaclysm::StateRacing::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	PlayerInputMapping::Instance()->DisableRaceMode();
 
@@ -316,6 +321,8 @@ void Kartaclysm::StateRacing::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
 }
 
 void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
@@ -327,6 +334,7 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	// Create context for pushing to pause state
 	HeatStroke::StateMachine::ContextParameters mContext = HeatStroke::StateMachine::ContextParameters();
 	mContext["Player"] = std::to_string(iPlayer);
+	mContext["Mode"] = m_mContextParams.at("Mode");
 
 	// Push pause state
 	m_pStateMachine->Push(STATE_PAUSED, mContext);
@@ -371,6 +379,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 
 	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
 	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
+	mRaceResults.insert(std::pair<std::string, std::string>("Mode", "Single"));
 
 	return mRaceResults;
 }

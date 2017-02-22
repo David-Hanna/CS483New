@@ -27,8 +27,7 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::KeyboardInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::JoystickInputBuffer::CreateInstance(m_pWindow);
 	HeatStroke::AudioPlayer::CreateInstance();
-	HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
-	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/UserConfig/ControlBindings.xml");
+	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/Local/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
 	// Setup State Machine and push first state
@@ -36,12 +35,14 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->SetStateMachineOwner(this);
 	
 	m_pGameStates->RegisterState(GameplayState::STATE_MAIN_MENU, new StateMainMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_MODE_SELECTION_MENU, new StateModeSelectionMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_TOURNAMENT, new StateTournament());
 	m_pGameStates->RegisterState(GameplayState::STATE_PLAYER_SELECTION_MENU, new StatePlayerSelectionMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_TRACK_SELECTION_MENU, new StateTrackSelectionMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACING, new StateRacing());
 	m_pGameStates->RegisterState(GameplayState::STATE_PAUSED, new StatePaused());
 	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
-	m_pGameStates->RegisterState(GameplayState::STATE_OPTIONS_MENU, new StateOptionsMenu());
+	m_pGameStates->RegisterState(GameplayState::STATE_OPTIONS_MENU, new StateOptionsMenu("CS483/CS483/Kartaclysm/Data/Local/Options.xml"));
 	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
@@ -58,7 +59,7 @@ void Kartaclysm::KartGame::Update(const float p_fDelta)
 	PlayerInputMapping::Instance()->Update(p_fDelta);
 
 	// Call Update() on each state in stack, starting from bottom
-	m_pGameStates->Update(p_fDelta, false);
+	m_pGameStates->Update(p_fDelta, true);
 }
 
 void Kartaclysm::KartGame::PreRender()

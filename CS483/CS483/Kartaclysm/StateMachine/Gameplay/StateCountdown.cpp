@@ -51,7 +51,8 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 			pCountdownEvent->SetIntParameter("Disable", 0);
 			for (int i = 0; i < m_iPlayerCount; i++)
 			{
-				pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
+				// FIXME - this causes a crash when running in debug in VS 2015
+				//pHudEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
 			}
 			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
 
@@ -103,5 +104,5 @@ void Kartaclysm::StateCountdown::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 
-	m_bSuspended = false;
+	m_bSuspended = true;
 }
