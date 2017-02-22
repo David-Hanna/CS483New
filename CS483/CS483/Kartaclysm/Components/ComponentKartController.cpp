@@ -488,13 +488,6 @@ namespace Kartaclysm
 					pSwerveLeftEffect->Start();
 				}
 				m_bSlideParticle = true;
-				/*HeatStroke::ComponentParticleEffect* swerveLeftParticle = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
-				if (swerveLeftParticle != nullptr)
-				{
-					swerveLeftParticle->Start();
-				}
-
-				m_bSlideParticle = true;*/
 			}
 			else if (m_iSlideDirection < 0)
 			{
@@ -560,8 +553,6 @@ namespace Kartaclysm
 		HeatStroke::Effect* pBoostParticleEffect = pComponentParticleEffect->GetEffect("boost");
 		if (pBoostParticleEffect != nullptr)
 		{
-			// Re-enable this once we have multiple particles and can do the stuff real good like
-			//boostParticle->Start();
 			pBoostParticleEffect->Start();
 		}
 	}
