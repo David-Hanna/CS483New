@@ -20,7 +20,11 @@ namespace Kartaclysm
 	{
 		m_sCurrentNode.x = m_pGameObject->GetTransform().GetTranslation().x;
 		m_sCurrentNode.z = m_pGameObject->GetTransform().GetTranslation().z;
+		m_sCurrentNode.variation = 0.0f;
 		m_sCurrentNode.radius = 10.f;
+
+		m_fXTarget = m_sCurrentNode.x;
+		m_fZTarget = m_sCurrentNode.z;
 	}
 
 	ComponentAIDriver::~ComponentAIDriver()
@@ -45,7 +49,8 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
-		float d = sqrtf(powf(x - m_sCurrentNode.x, 2) + powf(z - m_sCurrentNode.z, 2));
+		//float d = sqrtf(powf(x - m_sCurrentNode.x, 2) + powf(z - m_sCurrentNode.z, 2));
+		float d = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
 
 		if (d <= m_sCurrentNode.radius)
 		{
@@ -63,7 +68,7 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
-		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_sCurrentNode.x, 0.0f, m_sCurrentNode.z) - glm::vec3(x, 0.0f, z));
+		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
 		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
 		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -92,9 +97,18 @@ namespace Kartaclysm
 			PathNode nextNode;
 			nextNode.x = pTrackPiece->GetTransform().GetTranslation().x;
 			nextNode.z = pTrackPiece->GetTransform().GetTranslation().z;
+			nextNode.variation = 2.0f;
 			nextNode.radius = 8.0f;
 
 			m_sCurrentNode = nextNode;
+
+			// Randomize target position
+			float theta = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (PI * 2.0f)));
+
+			float r = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (nextNode.variation)));
+
+			m_fXTarget = m_sCurrentNode.x + (cosf(theta) * r);
+			m_fZTarget = m_sCurrentNode.z + (sinf(theta) * r);
 		}
 	}
 }

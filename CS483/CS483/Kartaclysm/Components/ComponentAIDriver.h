@@ -20,6 +20,7 @@ namespace Kartaclysm
 	{
 		float x;
 		float z;
+		float variation;
 		float radius;
 	};
 
@@ -59,6 +60,8 @@ namespace Kartaclysm
 
 	private:
 		PathNode m_sCurrentNode;
+		float m_fXTarget;
+		float m_fZTarget;
 
 		void NextNode();
 	};

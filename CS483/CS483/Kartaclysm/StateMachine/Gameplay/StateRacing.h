@@ -105,7 +105,9 @@ namespace Kartaclysm
 			const std::string& p_strCameraDefinitionFile, 
 			const std::string& p_strGuid = ""
 		);
-		HeatStroke::GameObject* GenerateAIRacer();
+		HeatStroke::GameObject* GenerateAIRacer(
+			int p_iIndex
+		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
