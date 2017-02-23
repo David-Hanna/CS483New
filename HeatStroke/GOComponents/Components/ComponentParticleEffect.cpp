@@ -85,7 +85,8 @@ void HeatStroke::ComponentParticleEffect::Stop()
 
 HeatStroke::Effect* HeatStroke::ComponentParticleEffect::GetEffect(const std::string& p_strEffectId)
 {
-	return m_mEffects.find(p_strEffectId)->second;
+	auto pEffect = m_mEffects.find(p_strEffectId);
+	return pEffect != m_mEffects.end() ? pEffect->second : nullptr;
 }
 
 std::pair<std::string, std::string> HeatStroke::ComponentParticleEffect::ParseEffectDefintionFile(const tinyxml2::XMLElement* p_pEffectElement)

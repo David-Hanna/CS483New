@@ -75,15 +75,15 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 
 		m_pVerts[v + 1].vPos = (glm::vec3(-0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
 		m_pVerts[v + 1].vUV = glm::vec2(0.0f, 1.0f);
-		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		m_pVerts[v + 1].vColor = glm::vec4(p->m_vColor, p->m_fFade);
 
 		m_pVerts[v + 2].vPos = (glm::vec3(0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
 		m_pVerts[v + 2].vUV = glm::vec2(1.0f, 1.0f);
-		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		m_pVerts[v + 2].vColor = glm::vec4(p->m_vColor, p->m_fFade);
 
 		m_pVerts[v + 3].vPos = (glm::vec3(0.05f, -0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
 		m_pVerts[v + 3].vUV = glm::vec2(1.0f, 0.0f);
-		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		m_pVerts[v + 3].vColor = glm::vec4(p->m_vColor, p->m_fFade);
 
 		m_pIndices[i] = v;
 		m_pIndices[i + 1] = v + 1;
@@ -302,9 +302,9 @@ void HeatStroke::Emitter::InitSpawnPropertyLifetime(tinyxml2::XMLElement* p_pSpa
 
 void HeatStroke::Emitter::InitSpawnPropertySize(tinyxml2::XMLElement* p_pSpawnPropertySizeElement)
 {
-//#if _DEBUG
-//	assert(p_pSpawnPropertyVelocityElement != nullptr);
-//#endif
+#if _DEBUG
+	assert(p_pSpawnPropertySizeElement != nullptr);
+#endif
 
 	std::string strType = "";
 	EasyXML::GetRequiredStringAttribute(p_pSpawnPropertySizeElement, "type", strType);
@@ -453,6 +453,10 @@ void HeatStroke::Emitter::AddParticleToPool(Particle* p_pParticle)
 {
 	p_pParticle->m_pPrev = nullptr;
 	p_pParticle->m_pNext = m_pFreeList;
+	if (m_pFreeList)
+	{
+		m_pFreeList->m_pPrev = p_pParticle;
+	}
 	m_pFreeList = p_pParticle;
 }
 
@@ -696,6 +700,7 @@ void HeatStroke::Emitter::GetTimeToNextBurst()
 	}
 }
 
+//TEMP
 void HeatStroke::Emitter::SetRandomPosition(Particle* p_pParticle)
 {
 	p_pParticle->m_vPos = glm::vec3(0.0f, 0.05f, 0.0f);
