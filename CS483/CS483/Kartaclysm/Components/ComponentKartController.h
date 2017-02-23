@@ -164,6 +164,7 @@ namespace Kartaclysm
 		float m_fVerticalSpeed;
 		bool m_bSliding;
 		int m_iSlideDirection;
+		bool m_bSlideParticle;
 		float m_fSwerve;
 		float m_fSlideCharge;
 		bool m_bWheelie;

@@ -1,0 +1,23 @@
+<Emitter name="boost" num_particles="100" continuous="false" repeat="false" random_burst_rate="false" burst_rate="0">
+    <Material
+		name="particle_boost"
+		vertex_shader="Assets/Particles/particle.vsh"
+		fragment_shader="Assets/Particles/particle.fsh"
+		texture="Assets/Particles/particle.tga"
+	/>
+
+    <Spawn_Properties>
+		<Color type="random" r_min="1.0" g_min="0.0" b_min="0.0" r_max="1.0" g_max="0.5" b_max="0.0"/>
+		<Fade type="constant" value="1.0" />
+		<Lifetime type="random" min="0.25" max="0.5" />
+		<Size type="random" min="0.2" max="1.2" />
+		<Velocity type="random" x_min="-0.2" y_min="-0.1" z_min="2.2" x_max="0.2" y_max="0.1" z_max="3.2" />
+	</Spawn_Properties>
+
+	<Affectors>
+		<Color function="lifetime" r="1.0" g="0.5" b="0.0" />
+		<Fade function="lifetime" value="0.0" />
+		<Scale function="constant" amount="0.0" />
+		<Velocity />
+	</Affectors>
+</Emitter>
