@@ -49,12 +49,45 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
-		//float d = sqrtf(powf(x - m_sCurrentNode.x, 2) + powf(z - m_sCurrentNode.z, 2));
+		// Path progress
 		float d = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
-
 		if (d <= m_sCurrentNode.radius)
 		{
 			NextNode();
+		}
+
+		// Update "inputs"
+		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
+		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
+		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
+		float fAngleAbs = fabsf(fAngle);
+
+		// Stop accelerating if you need to make a very tight turn
+		if (fAngleAbs <= 1.2f)
+		{
+			m_iAccelerate = 1;
+			m_iBrake = 0;
+		}
+		else
+		{
+			m_iAccelerate = 0;
+			m_iBrake = 1;
+		}
+		m_fTurn = fmaxf(fminf(fAngle, 1.0f), -1.0f);
+
+		// Swerve if turning
+		if (fAngleAbs <= 1.2f && fAngleAbs >= 0.5f && m_iSlide == 0)
+		{
+			m_iSlide = 1;
+			m_iSlideDir = ceilf(m_fTurn);
+		}
+		else if (fAngleAbs <= 0.1f && m_iSlide == 1)
+		{
+			m_iSlide = 0;
+		}
+		else if ((m_iSlideDir > 0 && m_fTurn < 0) || (m_iSlideDir < 0 && m_fTurn > 0))
+		{
+			m_iSlide = 0;
 		}
 	}
 
@@ -65,23 +98,10 @@ namespace Kartaclysm
 		int& p_iSlide,
 		float& p_fTurn) const
 	{
-		float x = m_pGameObject->GetTransform().GetTranslation().x;
-		float z = m_pGameObject->GetTransform().GetTranslation().z;
-
-		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
-		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
-		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		// Stop accelerating if you need to make a tight turn
-		if (fabsf(fAngle) <= 0.5f)
-		{
-			p_iAccelerate = 1;
-		}
-		else
-		{
-			p_iAccelerate = 0;
-		}
-		p_fTurn = fmaxf(fminf(fAngle, 1.0f), -1.0f);
+		p_iAccelerate = m_iAccelerate;
+		p_iBrake = m_iBrake;
+		p_fTurn = m_fTurn;
+		p_iSlide = m_iSlide;
 	}
 
 	void ComponentAIDriver::NextNode()

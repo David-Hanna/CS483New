@@ -63,6 +63,12 @@ namespace Kartaclysm
 		float m_fXTarget;
 		float m_fZTarget;
 
+		int m_iAccelerate;
+		int m_iBrake;
+		float m_fTurn;
+		int m_iSlide;
+		int m_iSlideDir;
+
 		void NextNode();
 	};
 }

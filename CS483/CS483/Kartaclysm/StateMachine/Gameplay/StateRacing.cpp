@@ -141,13 +141,14 @@ void Kartaclysm::StateRacing::BeginRace()
 	pTrackComponent->RegisterAIRacer(pAIRacer1);
 	pAIRacer1->GetTransform().Translate(glm::vec3(-1.0f, 0.0f, -1.0f));
 
-	HeatStroke::GameObject* pAIRacer2 = GenerateAIRacer(2);
-	pTrackComponent->RegisterAIRacer(pAIRacer2);
-	pAIRacer2->GetTransform().Translate(glm::vec3(0.0f, 0.0f, -2.0f));
+	// Uncomment additional AI racers at your peril!! ya dingus
+	//HeatStroke::GameObject* pAIRacer2 = GenerateAIRacer(2);
+	//pTrackComponent->RegisterAIRacer(pAIRacer2);
+	//pAIRacer2->GetTransform().Translate(glm::vec3(0.0f, 0.0f, -2.0f));
 
-	HeatStroke::GameObject* pAIRacer3 = GenerateAIRacer(3);
-	pTrackComponent->RegisterAIRacer(pAIRacer3);
-	pAIRacer3->GetTransform().Translate(glm::vec3(1.0f, 0.0f, -3.0f));
+	//HeatStroke::GameObject* pAIRacer3 = GenerateAIRacer(3);
+	//pTrackComponent->RegisterAIRacer(pAIRacer3);
+	//pAIRacer3->GetTransform().Translate(glm::vec3(1.0f, 0.0f, -3.0f));
 
 	// Set inital position sprites on racer HUDs
 	pTrackComponent->TriggerRaceStandingsUpdateEvent();
