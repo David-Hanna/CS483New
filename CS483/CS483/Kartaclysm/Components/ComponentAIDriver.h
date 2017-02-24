@@ -12,18 +12,11 @@
 
 #include "Common.h"
 #include "Component.h"
+#include "ComponentTrack.h"
 #include "GameObject.h"
 
 namespace Kartaclysm
 {
-	struct PathNode
-	{
-		float x;
-		float z;
-		float variation;
-		float radius;
-	};
-
 	class ComponentAIDriver : public HeatStroke::Component
 	{
 	public:
@@ -59,7 +52,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 	private:
-		PathNode m_sCurrentNode;
+		ComponentTrack::PathNode m_sCurrentNode;
 		float m_fXTarget;
 		float m_fZTarget;
 

@@ -4,13 +4,14 @@
 
 namespace Kartaclysm
 {
-	ComponentTrack::ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName)
+	ComponentTrack::ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName, std::vector<PathNode>& p_vNodes)
 		:
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
 		m_fRaceTime(-3.0f), // beginning countdown
-		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
+		m_iLapsToFinishTrack(3), // value of 0 can be used for testing
+		m_vPathfindingNodes(p_vNodes)
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -33,7 +34,9 @@ namespace Kartaclysm
 		std::string strTrackName = "";
 		HeatStroke::EasyXML::GetRequiredStringAttribute(p_pBaseNode->FirstChildElement("Name"), "value", strTrackName);
 
-		return new ComponentTrack(p_pGameObject, strTrackName);
+		std::vector<PathNode> vNodes = ParsePathfindingNodes(p_pBaseNode);
+
+		return new ComponentTrack(p_pGameObject, strTrackName, vNodes);
 	}
 
 	void ComponentTrack::Init()
@@ -390,5 +393,40 @@ namespace Kartaclysm
 			pEvent->SetStringParameter(std::to_string(i), strGUID);
 		}
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
+	ComponentTrack::PathNode ComponentTrack::GetNextNode(int p_iCurrentNodeIndex)
+	{
+		if (p_iCurrentNodeIndex >= m_vPathfindingNodes.size() - 1)
+		{
+			return m_vPathfindingNodes[0];
+		}
+		return m_vPathfindingNodes[p_iCurrentNodeIndex + 1];
+	}
+
+	std::vector<ComponentTrack::PathNode> ComponentTrack::ParsePathfindingNodes(tinyxml2::XMLNode* p_pRootNode)
+	{
+		std::vector<PathNode> vNodes;
+		tinyxml2::XMLElement* pPathfindingNodesElement = p_pRootNode->FirstChildElement("PathfindingNodes");
+		if (pPathfindingNodesElement)
+		{
+			tinyxml2::XMLElement* pNodeElement = pPathfindingNodesElement->FirstChildElement("Node");
+			int iIndex = 0;
+			while (pNodeElement)
+			{
+				PathNode node;
+
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "x", node.x);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "z", node.z);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "variation", node.variation);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "radius", node.radius);
+				node.index = iIndex++;
+
+				vNodes.push_back(node);
+				pNodeElement = pNodeElement->NextSiblingElement("Node");
+			}
+		}
+
+		return vNodes;
 	}
 }

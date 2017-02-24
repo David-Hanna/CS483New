@@ -7,7 +7,6 @@
 
 #include "ComponentAIDriver.h"
 
-#include "ComponentTrack.h"
 #include <gtx/vector_angle.hpp>
 
 namespace Kartaclysm
@@ -22,6 +21,7 @@ namespace Kartaclysm
 		m_sCurrentNode.z = m_pGameObject->GetTransform().GetTranslation().z;
 		m_sCurrentNode.variation = 0.0f;
 		m_sCurrentNode.radius = 10.f;
+		m_sCurrentNode.index = -1;
 
 		m_fXTarget = m_sCurrentNode.x;
 		m_fZTarget = m_sCurrentNode.z;
@@ -73,7 +73,19 @@ namespace Kartaclysm
 			m_iAccelerate = 0;
 			m_iBrake = 1;
 		}
-		m_fTurn = fmaxf(fminf(fAngle, 1.0f), -1.0f);
+
+		if (fAngle > PI / 6.0f)
+		{
+			m_fTurn = 1.0f;
+		}
+		else if (fAngle < -PI / 6.0f)
+		{
+			m_fTurn = -1.0f;
+		}
+		else
+		{
+			m_fTurn = fmaxf(fminf(fAngle, 1.0f), -1.0f);
+		}
 
 		// Swerve if turning
 		if (fAngleAbs <= 1.2f && fAngleAbs >= 0.5f && m_iSlide == 0)
@@ -111,21 +123,13 @@ namespace Kartaclysm
 		{
 			HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
 			ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
-			ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
-			const HeatStroke::GameObject* pTrackPiece = pTrackComponent->GetNextTrackPiece(pRacer->GetCurrentTrackPiece());
 
-			PathNode nextNode;
-			nextNode.x = pTrackPiece->GetTransform().GetTranslation().x;
-			nextNode.z = pTrackPiece->GetTransform().GetTranslation().z;
-			nextNode.variation = 2.0f;
-			nextNode.radius = 8.0f;
-
-			m_sCurrentNode = nextNode;
+			m_sCurrentNode = pTrackComponent->GetNextNode(m_sCurrentNode.index);
 
 			// Randomize target position
 			float theta = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (PI * 2.0f)));
 
-			float r = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (nextNode.variation)));
+			float r = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (m_sCurrentNode.variation)));
 
 			m_fXTarget = m_sCurrentNode.x + (cosf(theta) * r);
 			m_fZTarget = m_sCurrentNode.z + (sinf(theta) * r);
