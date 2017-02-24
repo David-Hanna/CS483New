@@ -49,6 +49,7 @@
 #include "ComponentHudCountdown.h"
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
+#include "ComponentParticleEffect.h"
 
 #include "Common.h"
 #include "GameplayState.h"
