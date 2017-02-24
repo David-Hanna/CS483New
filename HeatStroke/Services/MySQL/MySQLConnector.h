@@ -5,13 +5,11 @@
 // Provides interface to interact with MySQL database.
 //===========================================================================
 
-#ifndef MYSQL_SERVICE_LOCATOR_H
-#define MYSQL_SERVICE_LOCATOR_H
+#ifndef MYSQL_CONNECTOR_H
+#define MYSQL_CONNECTOR_H
 
 #include "Common.h"
 #include "EasyXML.h"
-
-#include <map>
 
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
