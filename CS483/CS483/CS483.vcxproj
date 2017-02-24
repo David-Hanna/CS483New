@@ -137,7 +137,6 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp" />
-    <ClCompile Include="Kartaclysm\Components\ComponentKartControllerAI.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
@@ -253,7 +252,6 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h" />
-    <ClInclude Include="Kartaclysm\Components\ComponentKartControllerAI.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />

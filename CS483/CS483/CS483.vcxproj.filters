@@ -465,9 +465,6 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTournament.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="Kartaclysm\Components\ComponentKartControllerAI.cpp">
-      <Filter>Kartaclysm\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
@@ -814,9 +811,6 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTournament.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="Kartaclysm\Components\ComponentKartControllerAI.h">
-      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h">
       <Filter>Kartaclysm\Components</Filter>
