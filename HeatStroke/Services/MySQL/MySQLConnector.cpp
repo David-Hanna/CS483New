@@ -159,28 +159,3 @@ void HeatStroke::MySQLConnector::CloseConnection()
 		m_pConnection->close();
 	}
 }
-
-void HeatStroke::MySQLConnector::Test()
-{
-	if (m_bValidConnection)
-	{
-		sql::SQLString quer = "SELECT Hello.Key FROM Hello";
-		printf("Testing query: %s\n", quer.c_str());
-		sql::ResultSet* res = RunQuery(quer);
-
-		if (res != nullptr)
-		{
-			for (int i = 1; res->next(); ++i)
-			{
-				printf("\tResult %i -> %s\n", i, res->getString("Key").c_str());
-			}
-			printf("End query results\n");
-		}
-		else
-		{
-			printf("Error: No results\n", quer.c_str());
-		}
-
-		DELETE_IF(res);
-	}
-}

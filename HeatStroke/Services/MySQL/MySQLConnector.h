@@ -35,8 +35,6 @@ namespace HeatStroke
 		sql::ResultSet* RunQuery(sql::PreparedStatement* p_pPrepStatement);
 		sql::PreparedStatement* CreateNewPreparedStatement(const sql::SQLString& p_strPreparedSQL);
 
-		void Test();
-
 	private:
 		static MySQLConnector* s_pMySQLConnectorInstance;
 

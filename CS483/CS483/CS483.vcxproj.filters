@@ -172,6 +172,9 @@
     <Filter Include="HeatStroke\Services\MySQL">
       <UniqueIdentifier>{eaf668f6-e6e3-4129-88e8-504bde7a1ce6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Services\MySQL">
+      <UniqueIdentifier>{a584f3d3-511e-4de1-b1a5-7d0201c5a66d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -470,6 +473,9 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.cpp">
       <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\MySQL\DatabaseManager.cpp">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +823,12 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.h">
       <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseManager.h">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseDefinitions.h">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
