@@ -94,9 +94,6 @@
     <Filter Include="Kartaclysm\Components\Abilities">
       <UniqueIdentifier>{1c3afe35-5875-45e5-84c1-a9e7945a7e14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kartaclysm\Data\UserConfig">
-      <UniqueIdentifier>{57abe8c2-7a1d-46b6-91de-617a0439f7d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kartaclysm\Data\Tracks">
       <UniqueIdentifier>{3aa6de3a-9cb0-421a-b5c0-d7235f3e89b2}</UniqueIdentifier>
     </Filter>
@@ -151,6 +148,9 @@
     <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
       <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Graphics\Particles">
+      <UniqueIdentifier>{19effc7c-4ec2-40cb-90e2-76d558849903}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
       <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
@@ -168,6 +168,9 @@
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3">
       <UniqueIdentifier>{94bd6f0e-5f80-4d77-b949-86059bcd0f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Local">
+      <UniqueIdentifier>{57abe8c2-7a1d-46b6-91de-617a0439f7d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats">
       <UniqueIdentifier>{2e43c81a-63bf-4af4-88ef-9cfb0deaaa6e}</UniqueIdentifier>
@@ -482,6 +485,27 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
       <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Emitter.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Effect.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
     </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
@@ -827,6 +851,33 @@
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Emitter.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Affector.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Particle.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Effect.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
@@ -864,9 +915,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Abilities\kart_speedster_boost.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\UserConfig\ControlBindings.xml">
-      <Filter>Kartaclysm\Data\UserConfig</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\track_ramp_down_flat.xml">
       <Filter>Kartaclysm\Data\Tracks</Filter>
@@ -1069,9 +1117,6 @@
     <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
       <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\UserConfig\Options.xml">
-      <Filter>Kartaclysm\Data\UserConfig</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
     </Xml>
@@ -1182,6 +1227,15 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Local\Options.xml">
+      <Filter>Kartaclysm\Data\Local</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>

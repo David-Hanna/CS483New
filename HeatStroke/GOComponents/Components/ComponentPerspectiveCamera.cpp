@@ -99,12 +99,12 @@ void HeatStroke::ComponentPerspectiveCamera::Update(const float p_fDelta)
 		Kartaclysm::ComponentKartController* pKartController = dynamic_cast<Kartaclysm::ComponentKartController*>(pParent->GetComponent("GOC_KartController"));
 		float fSwerve = pKartController->GetRotationMod();
 
-		pParent->GetTransform().RotateXYZ(pKartController->IsInWheelie() ? -pKartController->GetWheelieRotation() : 0.0f, -fSwerve, 0.0f);
+		pParent->GetTransform().RotateXYZ((pKartController->IsInWheelie() ? -pKartController->GetWheelieRotation() : 0.0f) - pKartController->GetOffroadRumble(), -fSwerve, 0.0f);
 
 		m_mScenePerspectiveCamera.SetPosition(m_pGameObject->GetTransform().GetTranslation());
 		m_mScenePerspectiveCamera.SetTarget(m_pTargetGameObject->GetTransform().GetTranslation());
 
-		pParent->GetTransform().RotateXYZ(pKartController->IsInWheelie() ? pKartController->GetWheelieRotation() : 0.0f, fSwerve, 0.0f);
+		pParent->GetTransform().RotateXYZ((pKartController->IsInWheelie() ? pKartController->GetWheelieRotation() : 0.0f) + pKartController->GetOffroadRumble(), fSwerve, 0.0f);
 	}
 	// If this is not nullptr, then we have a target we're following.
 	else if (m_pTargetGameObject != nullptr)
