@@ -82,6 +82,25 @@ void HeatStroke::SceneManager::ClearModelInstances()
 	m_lModelList.clear();
 }
 
+void HeatStroke::SceneManager::AddParticleEffect(Effect* p_pParticleEffect)
+{
+	m_lParticleEffectList.push_back(p_pParticleEffect);
+}
+
+void HeatStroke::SceneManager::RemoveParticleEffect(Effect* p_pParticleEffect)
+{
+	ParticleEffectList::iterator it = std::find(m_lParticleEffectList.begin(), m_lParticleEffectList.end(), p_pParticleEffect);
+	if (it != m_lParticleEffectList.end())
+	{
+		m_lParticleEffectList.erase(it);
+	}
+}
+
+void HeatStroke::SceneManager::ClearParticleEffects()
+{
+	m_lParticleEffectList.clear();
+}
+
 void HeatStroke::SceneManager::AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection)
 {
 	m_lPerspectiveCameras[p_eViewportSelection] = p_pPerspectiveCamera;
@@ -246,6 +265,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_FULL]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_FULL]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_FULL]);
 		}
 		if (m_lOrthographicCameras[SVS_FULL] != nullptr)
 		{
@@ -275,6 +295,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_TOP]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP] != nullptr)
 		{
@@ -290,6 +311,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_BOTTOM]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM] != nullptr)
 		{
@@ -305,6 +327,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP_LEFT]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP_LEFT]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_TOP_LEFT]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP_LEFT] != nullptr)
 		{
@@ -320,6 +343,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_TOP_RIGHT]);
 		}
 		if (m_lOrthographicCameras[SVS_TOP_RIGHT] != nullptr)
 		{
@@ -335,6 +359,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_BOTTOM_LEFT]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM_LEFT] != nullptr)
 		{
@@ -350,6 +375,7 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderModels(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
 			RenderLineDrawers(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
+			RenderParticleEffects(m_lPerspectiveCameras[SVS_BOTTOM_RIGHT]);
 		}
 		if (m_lOrthographicCameras[SVS_BOTTOM_RIGHT] != nullptr)
 		{
@@ -372,6 +398,20 @@ void HeatStroke::SceneManager::RenderModel(ModelInstance* p_pModelInstance, cons
 {
 	SetModelLights(p_pModelInstance);
 	p_pModelInstance->Render(p_pPerspectiveCamera);
+}
+
+void HeatStroke::SceneManager::RenderParticleEffects(const ScenePerspectiveCamera* p_pPerspectiveCamera)
+{
+	glEnable(GL_BLEND);
+	glDepthMask(GL_FALSE);
+	ParticleEffectList::iterator it = m_lParticleEffectList.begin();
+	ParticleEffectList::iterator end = m_lParticleEffectList.end();
+	for (; it != end; ++it)
+	{
+		(*it)->Render(p_pPerspectiveCamera);
+	}
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 }
 
 void HeatStroke::SceneManager::SetModelLights(ModelInstance* p_pModelInstance)

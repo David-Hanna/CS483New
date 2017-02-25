@@ -82,13 +82,21 @@ namespace HeatStroke
 		const std::string				OBJ_FILE_NAME;
 
 		bool							m_bLoaded;
-		std::string						m_strOBJFileData;
 		std::string						m_strMTLFileName;
 
 		std::vector<const glm::vec3>	m_vPositions;
 		std::vector<const glm::vec2>	m_vUVs;
 		std::vector<const glm::vec3>	m_vNormals;
 		OBJObjectList					m_vOBJObjectList;
+
+		void ParseLine(const char* p_cstrLine);
+		void ParseFace(const char* p_cstrLine);
+		void ParseVertex(const char* p_cstrLine);
+		void ParseUV(const char* p_cstrLine);
+		void ParseNormal(const char* p_cstrLine);
+		void ParseObject(const char* p_cstrLine);
+		void ParseUseMTL(const char* p_cstrLine);
+		void ParseMTLLib(const char* p_cstrLine);
 	};
 }
 

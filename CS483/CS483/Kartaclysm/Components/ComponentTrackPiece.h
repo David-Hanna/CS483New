@@ -31,6 +31,24 @@ namespace Kartaclysm
 		Turn
 	};
 	
+	struct OffroadSquare
+	{
+		float x1;
+		float z1;
+		float x2;
+		float z2;
+	};
+
+	struct OffroadTriangle
+	{
+		float x1;
+		float z1;
+		float x2;
+		float z2;
+		float x3;
+		float z3;
+	};
+
 	class ComponentTrackPiece : public HeatStroke::Component
 	{
 		public:
@@ -49,6 +67,7 @@ namespace Kartaclysm
 
 			bool CheckInBounds(glm::vec3 p_pPosition);
 			float HeightAtPosition(glm::vec3 p_pPosition);
+			bool IsOffroadAtPosition(const glm::vec3 &p_pPosition);
 
 			bool IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
 
@@ -62,7 +81,9 @@ namespace Kartaclysm
 				float p_fHeight2,
 				PositionFunction p_ePositionFunction,
 				glm::vec3 p_vPivotPosition,
-				glm::vec3 p_vPivotAxis);
+				glm::vec3 p_vPivotAxis,
+				std::vector<OffroadSquare> p_vOffroadSquares,
+				std::vector<OffroadTriangle> p_vOffroadTriangles);
 
 		private:
 			float m_fWidthX;
@@ -87,6 +108,11 @@ namespace Kartaclysm
 			static PositionFunction ParsePositionFunction(const tinyxml2::XMLNode* p_pNode);
 			static glm::vec3 ParsePivotPosition(const tinyxml2::XMLNode* p_pNode);
 			static glm::vec3 ParsePivotAxis(const tinyxml2::XMLNode* p_pNode);
+
+			std::vector<OffroadSquare> m_vOffroadSquares;
+			std::vector<OffroadTriangle> m_vOffroadTriangles;
+
+			bool PointInTriangle(const glm::vec2 &p, const glm::vec2 &p0, const glm::vec2 &p1, const glm::vec2 &p2);
 	};
 }
 

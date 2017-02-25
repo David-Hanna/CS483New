@@ -196,7 +196,6 @@ ClientBin/
 *~
 *.dbmdl
 *.dbproj.schemaview
-*.pfx
 *.publishsettings
 node_modules/
 orleans.codegen.cs
@@ -260,3 +259,6 @@ paket-files/
 *.sln.iml
 .vscode/
 *.blend1
+
+#Game Specific
+CS483/CS483/Kartaclysm/Data/Local/

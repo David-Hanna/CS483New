@@ -378,6 +378,8 @@ namespace Kartaclysm
 			(*m_pInputMap)[Input::eJoystick][Racer::ePause] =			XBOX_START;
 			(*m_pInputMap)[Input::eJoystick][Racer::eAnalogStick] =		XBOX_AXIS_LEFT_X;
 		}
+
+		SaveControlBindings();
 	}
 
 	//--------------------------------------------------------------------------------
@@ -545,5 +547,103 @@ namespace Kartaclysm
 			}
 		}
 		return -1;
+	}
+
+	//--------------------------------------------------------------------------------
+	// InputActionMapping::SaveAllControlBindings
+	//
+	// Saves all user control bindings to XML.
+	//--------------------------------------------------------------------------------
+	bool InputActionMapping::SaveControlBindings()
+	{
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLNode* pRootNode = doc.InsertFirstChild(doc.NewElement("ControlBindings"));
+		
+		std::vector<tinyxml2::XMLNode*> vNodes;
+		vNodes.push_back(CreateControlBindingNode(doc, Input::eKeyboard1));
+		vNodes.push_back(CreateControlBindingNode(doc, Input::eKeyboard2));
+		vNodes.push_back(CreateControlBindingNode(doc, Input::eKeyboard3));
+		vNodes.push_back(CreateControlBindingNode(doc, Input::eKeyboard4));
+		vNodes.push_back(CreateControlBindingNode(doc, Input::eJoystick));
+
+		for (auto it : vNodes)
+		{
+			if (it != nullptr)
+			{
+				pRootNode->InsertEndChild(it);
+			}
+			else
+			{
+				printf("InputActionMapping: Tried to insert nullptr into Control Binding XML");
+			}
+		}
+
+		return doc.SaveFile(m_strUserConfigFilePath.c_str()) == tinyxml2::XML_NO_ERROR;
+	}
+
+	//--------------------------------------------------------------------------------
+	// InputActionMapping::CreateControlBindingNode
+	//
+	// Creates control bindings for this player managed by doc.
+	// Returns nullptr if mapping not found for the input type.
+	//--------------------------------------------------------------------------------
+	tinyxml2::XMLNode* InputActionMapping::CreateControlBindingNode(tinyxml2::XMLDocument& doc, Input::Type p_eType)
+	{
+		tinyxml2::XMLNode* pNode = nullptr;
+
+		auto find = m_pInputMap->find(p_eType);
+		if (find != m_pInputMap->end())
+		{
+			ActionMap mActionMap = find->second;
+
+			switch (p_eType)
+			{
+			case Input::eKeyboard1: pNode = doc.NewElement("Keyboard1"); break;
+			case Input::eKeyboard2: pNode = doc.NewElement("Keyboard2"); break;
+			case Input::eKeyboard3: pNode = doc.NewElement("Keyboard3"); break;
+			case Input::eKeyboard4: pNode = doc.NewElement("Keyboard4"); break;
+			case Input::eJoystick:  pNode = doc.NewElement("Joystick"); break;
+			default: assert(false && "Unknown input type"); return nullptr;
+			}
+
+			std::string strValue = std::to_string(mActionMap.at(Racer::eAccelerate));
+			pNode->InsertEndChild(doc.NewElement("accelerate"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eBrake));
+			pNode->InsertEndChild(doc.NewElement("brake"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eLeft));
+			pNode->InsertEndChild(doc.NewElement("left"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eRight));
+			pNode->InsertEndChild(doc.NewElement("right"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eSlide));
+			pNode->InsertEndChild(doc.NewElement("slide"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eDriverAbility1));
+			pNode->InsertEndChild(doc.NewElement("driverAbility1"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eDriverAbility2));
+			pNode->InsertEndChild(doc.NewElement("driverAbility2"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eKartAbility1));
+			pNode->InsertEndChild(doc.NewElement("kartAbility1"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::eKartAbility2));
+			pNode->InsertEndChild(doc.NewElement("kartAbility2"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			strValue = std::to_string(mActionMap.at(Racer::ePause));
+			pNode->InsertEndChild(doc.NewElement("pause"))->ToElement()->SetAttribute("value", strValue.c_str());
+
+			// Only joystick has an analog stick
+			if (p_eType == Input::eJoystick)
+			{
+				strValue = std::to_string(mActionMap.at(Racer::eAnalogStick));
+				pNode->InsertEndChild(doc.NewElement("analogStick"))->ToElement()->SetAttribute("value", strValue.c_str());
+			}
+		}
+
+		return pNode;
 	}
 }
