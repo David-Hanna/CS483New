@@ -74,15 +74,6 @@ void HeatStroke::MySQLConnector::ClearConnection()
 	m_bValidConnection = false;
 }
 
-sql::PreparedStatement* HeatStroke::MySQLConnector::CreateNewPreparedStatement(const sql::SQLString& p_strPreparedSQL)
-{
-	if (!m_bValidConnection) return nullptr;
-
-	sql::PreparedStatement* pPrepStatement = m_pConnection->prepareStatement(p_strPreparedSQL);
-
-	return pPrepStatement;
-}
-
 sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_strSQLQuery)
 {
 	if (!m_bValidConnection) return nullptr;
@@ -107,29 +98,9 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 	return pResults;
 }
 
-sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(sql::PreparedStatement* p_pPrepStatement)
+sql::ResultSet* HeatStroke::MySQLConnector::RunQueryUsingTransaction(const sql::SQLString& p_strSQLQuery)
 {
-	if (!m_bValidConnection) return nullptr;
-
-	sql::ResultSet* pResults = nullptr;
-
-	try
-	{
-		if (Reconnect())
-		{
-			if (p_pPrepStatement->execute())
-			{
-				pResults = p_pPrepStatement->getResultSet();
-			}
-		}
-	}
-	catch (sql::SQLException e)
-	{
-		printf("%MySQLConnector: Error with prepared statement\n%s\n", e.what());
-	}
-
-	CloseConnection();
-	return pResults;
+	return RunQuery("START TRANSACTION;" + p_strSQLQuery + ";COMMIT;");
 }
 
 bool HeatStroke::MySQLConnector::Reconnect()
