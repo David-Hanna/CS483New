@@ -79,10 +79,6 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 	if (!m_bValidConnection) return nullptr;
 	sql::SQLString strCurrentQuery(p_strSQLQuery);
 
-	std::string strOutputQuery(strCurrentQuery.asStdString());
-	boost::replace_all(strOutputQuery, ";", ";\n\t");
-	printf("\t->%s\n", strCurrentQuery.c_str());
-
 	sql::Statement* pStatement = nullptr;
 	sql::ResultSet* pResults = nullptr;
 	sql::Savepoint* pSavepoint = nullptr;
@@ -101,7 +97,7 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 				strCurrentQuery = p_strSQLQuery.substr(last, next - last);
 				if (strCurrentQuery.length() > 1)
 				{
-					printf("\t->%s\n", strCurrentQuery.c_str());
+					// NOTE: Errors if another query is run after a SELECT query
 					pStatement->execute(strCurrentQuery);
 				}
 				last = next + 1;
@@ -118,8 +114,8 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 			m_pConnection->rollback(pSavepoint);
 		}
 
-		/*std::string strOutputQuery(strCurrentQuery.asStdString());
-		boost::replace_all(strOutputQuery, ";", ";\n\t");*/
+		std::string strOutputQuery(strCurrentQuery.asStdString());
+		boost::replace_all(strOutputQuery, ";", ";\n\t");
 		printf("%MySQLConnector: MySQL error #%i - %s\n\t%s\n", e.getErrorCode(), e.what(), strOutputQuery.c_str());
 	}
 	
