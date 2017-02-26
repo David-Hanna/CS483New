@@ -53,8 +53,10 @@ namespace Kartaclysm
 		float GetSwerve() const { return m_fSwerve; }
 		float GetRotationMod();
 		bool IsInWheelie() const { return m_bWheelie; }
+		bool IsAirborne() const { return m_bAirborne; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
+		void SetAI(bool p_bAI) { m_bAI = p_bAI; }
 		void SetOffroad(bool p_bOffroad) { if (!m_bAirborne) m_bOffroad = p_bOffroad; }
 		float GetOffroadRumble() const { return m_fOffroadRumble; }
 
@@ -93,6 +95,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
 		int m_iPlayerNum;
+		bool m_bAI;
 		bool m_bDisabled;
 		std::string m_strHitCallback;
 

@@ -142,6 +142,7 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTinkerAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentWheelieAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
@@ -403,10 +405,12 @@
     <Xml Include="Kartaclysm\Data\Racer\hud_top.xml" />
     <Xml Include="Kartaclysm\Data\Racer\hud_top_left.xml" />
     <Xml Include="Kartaclysm\Data\Racer\hud_top_right.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\kart_ai.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_juggernaut.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />
     <Xml Include="Kartaclysm\Data\Racer\racer.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\test_track.xml" />

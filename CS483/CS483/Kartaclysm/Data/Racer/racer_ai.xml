@@ -1,0 +1,29 @@
+<GameObject>
+  <Components>
+    <GOC_KartController />
+    <GOC_AIDriver />
+
+    <GOC_SphereCollider>
+      <Offset x="0" y="0" z="0" />
+      <Sphere radius="0.2" />
+    </GOC_SphereCollider>
+
+	  <GOC_Racer />
+
+    <GOC_ParticleEffect>
+      <Effects>
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/boost.pfx" id="boost" />
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_left.pfx" id="swerve_left" />
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_right.pfx" id="swerve_right" />
+      </Effects>
+    </GOC_ParticleEffect>
+  </Components>
+
+  <Children>
+  </Children>
+
+  <Tags>
+      <Tag value="Racer"/>
+	  <Tag value="AI"/>
+  </Tags>
+</GameObject>
