@@ -79,12 +79,15 @@ namespace Kartaclysm
 	private:
 		struct RacerResults
 		{
-			std::string m_strRacerId;
+			ComponentRacer* m_pRacerComponent;
+			std::vector<float> m_vLapTimes;
 			float m_fRaceTime;
+			unsigned int m_uiPosition;
 		};
-		std::vector<RacerResults> m_vRaceResults;
+		std::map<std::string, RacerResults> m_mRaceResults;
 
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedLapDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
@@ -105,12 +108,13 @@ namespace Kartaclysm
 		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
+		void RacerFinishedLap(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
 		std::map<std::string, std::string> GenerateRaceResults() const;
-
+		void GetDriverNameAndKartName(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const;
 	};
 }
 

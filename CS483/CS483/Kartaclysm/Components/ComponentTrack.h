@@ -42,6 +42,7 @@ namespace Kartaclysm
 			void TriggerRaceStandingsUpdateEvent();
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
+			int GetLapsToFinishTrack() const { return m_iLapsToFinishTrack; }
 
 		protected:
 			ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName);

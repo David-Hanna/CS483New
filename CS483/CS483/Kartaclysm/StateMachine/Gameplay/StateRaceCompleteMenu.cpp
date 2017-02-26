@@ -41,6 +41,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	else if (strMode == "Single")
 	{
 		SendRaceFinishEvent(p_mContextParameters);
+		AddRaceToDatabase(p_mContextParameters);
 		RecordBestTime(p_mContextParameters, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	}
 	else
@@ -97,6 +98,64 @@ void Kartaclysm::StateRaceCompleteMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+}
+
+void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::string, std::string>& p_mRaceResults)
+{
+	int iLaps = std::stoi(p_mRaceResults.at("numLaps"));
+	if (iLaps <= 1) return;
+
+	Database::InsertRace mRace;
+	
+	// TODO: Should be a ParsePkFromString() method somewhere. Doing it lazy style for now
+	std::string strTrack = p_mRaceResults.at("trackName");
+	if (strTrack == "Up and Over")
+		mRace.track_id = Database::eUpAndOver;
+	else if (strTrack == "Shift Rift")
+		mRace.track_id = Database::eShiftRift;
+	else if (strTrack == "Noob Zone")
+		mRace.track_id = Database::eNoobZone;
+	else
+		assert(false && "Unknown track name");
+
+	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	for (int i = 0; i < iNumRacers; ++i)
+	{
+		Database::InsertRacePlayer mPlayer;
+
+		std::string strIndex = std::to_string(i);
+		mPlayer.player_num = std::stoi(p_mRaceResults.at("racerId" + strIndex).substr(6));
+		mPlayer.is_human = true; // TODO: hardcoded
+
+		std::string strDriver = p_mRaceResults.at("racerDriver" + strIndex);
+		if (strDriver == "Cleopapa")
+			mPlayer.driver = Database::eCleopapa;
+		else if (strDriver == "Clockmaker")
+			mPlayer.driver = Database::eClockmaker;
+		else if (strDriver == "Kingping")
+			mPlayer.driver = Database::eKingpin;
+		else
+			assert(false && "Unknown driver name");
+
+		std::string strKart = p_mRaceResults.at("racerKart" + strIndex);
+		if (strKart == "Juggernaut")
+			mPlayer.kart = Database::eJuggernaut;
+		else if (strKart == "Showoff")
+			mPlayer.kart = Database::eShowoff;
+		else if (strKart == "Speedster")
+			mPlayer.kart = Database::eSpeedster;
+		else
+			assert(false && "Unknown kart name");
+
+		for (int i = 1; i <= iLaps; ++i)
+		{
+			mPlayer.lap_times.push_back(std::stof(p_mRaceResults.at("racer" + strIndex + "Lap" + std::to_string(i))));
+		}
+
+		mRace.race_players.push_back(mPlayer);
+	}
+
+	DatabaseManager::Instance()->InsertRaceQuery(mRace);
 }
 
 void Kartaclysm::StateRaceCompleteMenu::SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults)

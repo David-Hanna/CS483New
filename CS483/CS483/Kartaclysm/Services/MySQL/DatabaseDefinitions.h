@@ -39,7 +39,6 @@ namespace Kartaclysm
 			int			player_num;
 			KartPK		kart;
 			DriverPK	driver;
-			int			position;
 			bool		is_human;
 
 			// index matches to lap order (i.e. [0] = lap 0)
@@ -50,7 +49,7 @@ namespace Kartaclysm
 			TrackPK			track_id;
 			std::time_t		timestamp;
 
-			// index matches to player ID (i.e. [0] = Player0)
+			// index matches to position (i.e. [0] = first place)
 			std::vector<InsertRacePlayer>	race_players;
 
 			InsertRace() : timestamp(std::time(nullptr)) {}

@@ -8,12 +8,11 @@
 #ifndef DATABASE_MANAGER_H
 #define DATABASE_MANAGER_H
 
-#include "Common.h"
 #include "EasyXML.h"
 
 #include <vector>
-#include "MySQLConnector.h"
 #include "DatabaseDefinitions.h"
+#include "MySQLConnector.h"
 
 namespace Kartaclysm
 {

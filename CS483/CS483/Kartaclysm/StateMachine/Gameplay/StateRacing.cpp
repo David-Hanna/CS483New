@@ -13,6 +13,10 @@ Kartaclysm::StateRacing::StateRacing()
 	GameplayState("Racing"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
+	m_pRacerFinishedLapDelegate(nullptr),
+	m_pRacerFinishedRaceDelegate(nullptr),
+	m_pRaceFinishedDelegate(nullptr),
+	m_pRaceRestartDelegate(nullptr),
 	m_pPauseDelegate(nullptr),
 	m_uiNumRacers(0),
 	m_bCountdown(false)
@@ -26,11 +30,14 @@ Kartaclysm::StateRacing::~StateRacing()
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
-	m_vRaceResults.clear();
+	m_mRaceResults.clear();
 
 	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
+
+	m_pRacerFinishedLapDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedLap, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedLap", m_pRacerFinishedLapDelegate);
 
 	m_pRacerFinishedRaceDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedRace, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
@@ -183,6 +190,8 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	pRacerComponent->SetKart(pKart);
 	pRacerComponent->SetDriver(pDriver);
 
+	m_mRaceResults[p_strGuid].m_pRacerComponent = pRacerComponent;
+
 	return pRacer;
 }
 
@@ -293,6 +302,13 @@ void Kartaclysm::StateRacing::Exit()
 		m_pPauseDelegate = nullptr;
 	}
 
+	if (m_pRacerFinishedLapDelegate != nullptr)
+	{
+		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedLap", m_pRacerFinishedLapDelegate);
+		delete m_pRacerFinishedLapDelegate;
+		m_pRacerFinishedLapDelegate = nullptr;
+	}
+
 	if (m_pRacerFinishedRaceDelegate != nullptr)
 	{
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
@@ -339,6 +355,22 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	m_pStateMachine->Push(STATE_PAUSED, mContext);
 }
 
+void Kartaclysm::StateRacing::RacerFinishedLap(const HeatStroke::Event* p_pEvent)
+{
+	std::string strRacerId = "";
+	p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
+
+	float fRacerTime = 0.0f;
+	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
+
+	auto pLapTimes = &m_mRaceResults[strRacerId].m_vLapTimes;
+	for (auto fLapTime : *pLapTimes)
+	{
+		fRacerTime -= fLapTime;
+	}
+	pLapTimes->push_back(fRacerTime);
+}
+
 void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEvent)
 {
 	std::string strRacerId = "";
@@ -347,9 +379,19 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 	float fRacerTime = 0.0f;
 	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
 
-	m_vRaceResults.push_back({strRacerId, fRacerTime});
+	unsigned int uiHighestPosition = 0;
+	for (auto mRaceResult : m_mRaceResults)
+	{
+		if (mRaceResult.second.m_uiPosition > uiHighestPosition)
+		{
+			uiHighestPosition = mRaceResult.second.m_uiPosition;
+		}
+	}
 
-	if (m_vRaceResults.size() >= m_uiNumRacers)
+	m_mRaceResults[strRacerId].m_uiPosition = ++uiHighestPosition;
+	m_mRaceResults[strRacerId].m_fRaceTime = fRacerTime;
+
+	if (m_uiNumRacers == uiHighestPosition)
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
@@ -367,13 +409,35 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 {
 	std::map<std::string, std::string> mRaceResults;
 
-	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
+	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"));
+	int iLaps = pTrackComponent->GetLapsToFinishTrack();
 
-	for (unsigned int i = 0; i < m_uiNumRacers; ++i)
+	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
+	mRaceResults.insert(std::pair<std::string, std::string>("numLaps", std::to_string(iLaps)));
+
+	for (auto mRaceResult : m_mRaceResults)
 	{
-		std::string strIndex = std::to_string(i);
-		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, m_vRaceResults[i].m_strRacerId));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(m_vRaceResults[i].m_fRaceTime)));
+		std::string strIndex = std::to_string(mRaceResult.second.m_uiPosition);
+		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, mRaceResult.first));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(mRaceResult.second.m_fRaceTime)));
+
+		std::string strDriver = "", strKart = "";
+		GetDriverNameAndKartName(mRaceResult.second.m_pRacerComponent, strDriver, strKart);
+		mRaceResults.insert(std::pair<std::string, std::string>("racerDriver" + strIndex, strDriver));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerKart" + strIndex, strKart));
+
+		int iLapCount = 0;
+		for (auto fLapTime : mRaceResult.second.m_vLapTimes)
+		{
+			mRaceResults.insert(std::pair<std::string, std::string>("racer" + strIndex + "Lap" + std::to_string(++iLapCount), std::to_string(fLapTime)));
+		}
+
+#ifdef _DEBUG
+		if (iLaps > 0)
+		{
+			assert(iLapCount == iLaps);
+		}
+#endif
 	}
 
 	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
@@ -381,4 +445,27 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 	mRaceResults.insert(std::pair<std::string, std::string>("Mode", "Single"));
 
 	return mRaceResults;
+}
+
+void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const
+{
+	auto mDriverTags = p_pRacerComponent->GetDriver()->GetTagList();
+	if (mDriverTags.find("Cleopapa") != mDriverTags.end())
+		p_strDriver = "Cleopapa";
+	else if (mDriverTags.find("Clockmaker") != mDriverTags.end())
+		p_strDriver = "Clockmaker";
+	if (mDriverTags.find("Kingpin") != mDriverTags.end())
+		p_strDriver = "Kingpin";
+	else
+		assert(false && "Unknown driver name");
+
+	auto mKartTags = p_pRacerComponent->GetKart()->GetTagList();
+	if (mKartTags.find("Juggernaut") != mKartTags.end())
+		p_strKart = "Juggernaut";
+	else if (mKartTags.find("Showoff") != mKartTags.end())
+		p_strKart = "Showoff";
+	if (mKartTags.find("Speedster") != mKartTags.end())
+		p_strKart = "Speedster";
+	else
+		assert(false && "Unknown kart name");
 }

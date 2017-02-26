@@ -70,6 +70,7 @@ int Kartaclysm::DatabaseManager::EndTournament()
 		int iRaceNum = 0;
 		for (auto iRaceId : m_vTournamentRaceIds)
 		{
+			if (iRaceId < 0) continue;
 			AppendInsertStringForTournamentRace(&strTournamentInsertQuery, ++iRaceNum, iRaceId);
 		}
 
@@ -101,11 +102,11 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 		}
 
 		iRaceId = GetIdFromTransactionInsertQuery(strRaceInsertQuery, "@inserted_race_id");
+	}
 
-		if (m_bTournament)
-		{
-			m_vTournamentRaceIds.push_back(iRaceId);
-		}
+	if (m_bTournament)
+	{
+		m_vTournamentRaceIds.push_back(iRaceId);
 	}
 
 	return iRaceId;

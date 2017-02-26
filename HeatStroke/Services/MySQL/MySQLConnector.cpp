@@ -39,9 +39,8 @@ bool HeatStroke::MySQLConnector::SetConnection(const sql::SQLString& p_strAddres
 
 	try
 	{
-		printf("Connecting:  %s\nUsername:    %s\nPassword:    %s\nDatabase:    %s\n", p_strAddress.c_str(), p_strUsername.c_str(), p_strPassword.c_str(), p_strSchema.c_str());
 		m_pConnection = m_pDriver->connect(p_strAddress, p_strUsername, p_strPassword);
-		printf("Successfully connected\n");
+		printf("Database connection successful\n");
 
 		m_strAddress = p_strAddress;
 		m_strUsername = p_strUsername;

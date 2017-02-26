@@ -359,6 +359,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerCompletedLap");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
+		pEvent->SetFloatParameter("racerTime", m_fRaceTime);
 		pEvent->SetIntParameter("totalLaps", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
