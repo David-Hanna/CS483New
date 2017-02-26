@@ -45,7 +45,7 @@ namespace Kartaclysm
 		void AppendInsertStringForPlayerLaps(sql::SQLString* p_pQuery, const Database::InsertRacePlayer& p_mPlayer) const;
 		void AppendInsertStringForTournamentRace(sql::SQLString* p_pQuery, int p_iRaceNum, int p_iRaceId) const;
 
-		int GetIdFromTransactionInsertQuery(sql::SQLString& p_strTransactionQuery, const sql::SQLString& p_strLastInsertIdentifier) const;
+		int RunQueryAndReturnInsertId(sql::SQLString& p_strTransactionQuery, const sql::SQLString& p_strLastInsertIdentifier) const;
 	};
 }
 

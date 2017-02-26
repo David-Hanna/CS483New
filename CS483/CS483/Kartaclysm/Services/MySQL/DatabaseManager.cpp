@@ -68,13 +68,18 @@ int Kartaclysm::DatabaseManager::EndTournament()
 			"SET @inserted_tourn_id = LAST_INSERT_ID();";
 
 		int iRaceNum = 0;
+		bool bValidTournament = false;
 		for (auto iRaceId : m_vTournamentRaceIds)
 		{
 			if (iRaceId < 0) continue;
+			bValidTournament = true;
 			AppendInsertStringForTournamentRace(&strTournamentInsertQuery, ++iRaceNum, iRaceId);
 		}
 
-		iTournamentId = GetIdFromTransactionInsertQuery(strTournamentInsertQuery, "@inserted_tourn_id");
+		if (bValidTournament)
+		{
+			iTournamentId = RunQueryAndReturnInsertId(strTournamentInsertQuery, "@inserted_tourn_id");
+		}
 	}
 
 	m_bTournament = false;
@@ -88,20 +93,26 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 
 	if (m_pMySQLInstance->HasConnection())
 	{
-		sql::SQLString strRaceInsertQuery =
-			"INSERT INTO race(track_id, timestamp) "
-			"VALUES(" + std::to_string(static_cast<int>(p_mRace.track_id)) + ", "
-			"FROM_UNIXTIME(" + std::to_string(p_mRace.timestamp) + "));"
-			"SET @inserted_race_id = LAST_INSERT_ID();";
-		
-		int iPosition = 0;
-		for (auto mPlayer : p_mRace.race_players)
-		{
-			AppendInsertStringForPlayer(&strRaceInsertQuery, mPlayer, ++iPosition);
-			AppendInsertStringForPlayerLaps(&strRaceInsertQuery, mPlayer);
-		}
+		assert(p_mRace.track_id != Database::eTrackError);
 
-		iRaceId = GetIdFromTransactionInsertQuery(strRaceInsertQuery, "@inserted_race_id");
+		if (p_mRace.race_players.at(0).lap_times.size() > 1) // ignore debugging races with 0 or 1 laps
+		{
+
+			sql::SQLString strRaceInsertQuery =
+				"INSERT INTO race(track_id, timestamp) "
+				"VALUES(" + std::to_string(static_cast<int>(p_mRace.track_id)) + ", "
+				"FROM_UNIXTIME(" + std::to_string(p_mRace.timestamp) + "));"
+				"SET @inserted_race_id = LAST_INSERT_ID();";
+
+			int iPosition = 0;
+			for (auto mPlayer : p_mRace.race_players)
+			{
+				AppendInsertStringForPlayer(&strRaceInsertQuery, mPlayer, ++iPosition);
+				AppendInsertStringForPlayerLaps(&strRaceInsertQuery, mPlayer);
+			}
+
+			iRaceId = RunQueryAndReturnInsertId(strRaceInsertQuery, "@inserted_race_id");
+		}
 	}
 
 	if (m_bTournament)
@@ -145,6 +156,9 @@ std::vector<float> Kartaclysm::DatabaseManager::SelectFastestTimes(Database::Tra
 
 void Kartaclysm::DatabaseManager::AppendInsertStringForPlayer(sql::SQLString* p_pQuery, const Database::InsertRacePlayer& p_mPlayer, int p_iPosition) const
 {
+	assert(p_mPlayer.driver != Database::eDriverError);
+	assert(p_mPlayer.kart != Database::eKartError);
+
 	p_pQuery->append("INSERT INTO race_player(race_id, player_id, kart_id, driver_id, position, is_human) "
 		"VALUES (@inserted_race_id, " +
 		std::to_string(p_mPlayer.player_num + 1) + ", " +
@@ -164,7 +178,7 @@ void Kartaclysm::DatabaseManager::AppendInsertStringForPlayerLaps(sql::SQLString
 		p_pQuery->append(
 			"INSERT INTO race_lap(race_id, player_id, lap_num, lap_time) "
 			"VALUES (@inserted_race_id, " +
-			std::to_string(p_mPlayer.player_num) + ", " +
+			std::to_string(p_mPlayer.player_num + 1) + ", " +
 			std::to_string(++iLap) + ", " +
 			std::to_string(fLapTime) +
 			");"
@@ -177,22 +191,24 @@ void Kartaclysm::DatabaseManager::AppendInsertStringForTournamentRace(sql::SQLSt
 	p_pQuery->append("INSERT INTO tourn_race(tourn_id, race_num, race_id) "
 		"VALUES (@inserted_tourn_id, " +
 		std::to_string(p_iRaceNum) + ", " +
-		std::to_string(p_iRaceId) + ", " +
+		std::to_string(p_iRaceId) +
 		");"
 	);
 }
 
-int Kartaclysm::DatabaseManager::GetIdFromTransactionInsertQuery(sql::SQLString& p_strTransactionQuery, const sql::SQLString& p_strLastInsertIdentifier) const
+int Kartaclysm::DatabaseManager::RunQueryAndReturnInsertId(sql::SQLString& p_strTransactionQuery, const sql::SQLString& p_strLastInsertIdentifier) const
 {
 	p_strTransactionQuery.append("SELECT " + p_strLastInsertIdentifier + " AS insert_id;");
-	sql::ResultSet* pResults = m_pMySQLInstance->RunQueryUsingTransaction(p_strTransactionQuery);
+	sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(p_strTransactionQuery);
 
 	int iInsertId = -1;
 	if (pResults != nullptr)
 	{
+		pResults->next();
 		iInsertId = pResults->getInt("insert_id");
 	}
 
+	printf("%s: %i\n", p_strLastInsertIdentifier.c_str(), iInsertId);
 	DELETE_IF(pResults);
 	return iInsertId;
 }

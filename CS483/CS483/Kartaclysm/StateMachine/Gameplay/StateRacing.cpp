@@ -37,7 +37,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
 
 	m_pRacerFinishedLapDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedLap, this, std::placeholders::_1));
-	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedLap", m_pRacerFinishedLapDelegate);
+	HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", m_pRacerFinishedLapDelegate);
 
 	m_pRacerFinishedRaceDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedRace, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
@@ -305,7 +305,7 @@ void Kartaclysm::StateRacing::Exit()
 
 	if (m_pRacerFinishedLapDelegate != nullptr)
 	{
-		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedLap", m_pRacerFinishedLapDelegate);
+		HeatStroke::EventManager::Instance()->RemoveListener("RacerCompletedLap", m_pRacerFinishedLapDelegate);
 		delete m_pRacerFinishedLapDelegate;
 		m_pRacerFinishedLapDelegate = nullptr;
 	}
@@ -361,6 +361,12 @@ void Kartaclysm::StateRacing::RacerFinishedLap(const HeatStroke::Event* p_pEvent
 	std::string strRacerId = "";
 	p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
 
+	if (m_mRaceResults[strRacerId].m_bIgnoreFirstLap)
+	{
+		m_mRaceResults[strRacerId].m_bIgnoreFirstLap = false;
+		return;
+	}
+
 	float fRacerTime = 0.0f;
 	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
 
@@ -389,10 +395,10 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 		}
 	}
 
-	m_mRaceResults[strRacerId].m_uiPosition = ++uiHighestPosition;
+	m_mRaceResults[strRacerId].m_uiPosition = uiHighestPosition++;
 	m_mRaceResults[strRacerId].m_fRaceTime = fRacerTime;
 
-	if (m_uiNumRacers == uiHighestPosition)
+	if (uiHighestPosition == m_uiNumRacers)
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
@@ -455,7 +461,7 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 		p_strDriver = "Cleopapa";
 	else if (mDriverTags.find("Clockmaker") != mDriverTags.end())
 		p_strDriver = "Clockmaker";
-	if (mDriverTags.find("Kingpin") != mDriverTags.end())
+	else if (mDriverTags.find("Kingpin") != mDriverTags.end())
 		p_strDriver = "Kingpin";
 	else
 		assert(false && "Unknown driver name");
@@ -465,7 +471,7 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 		p_strKart = "Juggernaut";
 	else if (mKartTags.find("Showoff") != mKartTags.end())
 		p_strKart = "Showoff";
-	if (mKartTags.find("Speedster") != mKartTags.end())
+	else if (mKartTags.find("Speedster") != mKartTags.end())
 		p_strKart = "Speedster";
 	else
 		assert(false && "Unknown kart name");

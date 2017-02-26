@@ -32,7 +32,6 @@ namespace HeatStroke
 		bool HasConnection() const { return m_bValidConnection; };
 
 		sql::ResultSet* RunQuery(const sql::SQLString& p_strSQLQuery);
-		sql::ResultSet* RunQueryUsingTransaction(const sql::SQLString& p_strSQLQuery);
 
 	private:
 		static MySQLConnector* s_pMySQLConnectorInstance;

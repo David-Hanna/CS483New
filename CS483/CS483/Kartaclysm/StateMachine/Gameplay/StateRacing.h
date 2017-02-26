@@ -84,6 +84,9 @@ namespace Kartaclysm
 			std::vector<float> m_vLapTimes;
 			float m_fRaceTime;
 			unsigned int m_uiPosition;
+			bool m_bIgnoreFirstLap;
+
+			RacerResults() : m_pRacerComponent(nullptr), m_vLapTimes(), m_fRaceTime(-1.0f), m_uiPosition(0), m_bIgnoreFirstLap(true) {}
 		};
 		std::map<std::string, RacerResults> m_mRaceResults;
 

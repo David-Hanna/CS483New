@@ -102,9 +102,6 @@ void Kartaclysm::StateRaceCompleteMenu::Exit()
 
 void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::string, std::string>& p_mRaceResults)
 {
-	int iLaps = std::stoi(p_mRaceResults.at("numLaps"));
-	if (iLaps <= 1) return;
-
 	Database::InsertRace mRace;
 	
 	// TODO: Should be a ParsePkFromString() method somewhere. Doing it lazy style for now
@@ -116,9 +113,10 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 	else if (strTrack == "Noob Zone")
 		mRace.track_id = Database::eNoobZone;
 	else
-		assert(false && "Unknown track name");
+		mRace.track_id = Database::eTrackError;
 
 	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	int iLaps = std::stoi(p_mRaceResults.at("numLaps"));
 	for (int i = 0; i < iNumRacers; ++i)
 	{
 		Database::InsertRacePlayer mPlayer;
@@ -132,10 +130,10 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 			mPlayer.driver = Database::eCleopapa;
 		else if (strDriver == "Clockmaker")
 			mPlayer.driver = Database::eClockmaker;
-		else if (strDriver == "Kingping")
+		else if (strDriver == "Kingpin")
 			mPlayer.driver = Database::eKingpin;
 		else
-			assert(false && "Unknown driver name");
+			assert(false && "Unknown driver");
 
 		std::string strKart = p_mRaceResults.at("racerKart" + strIndex);
 		if (strKart == "Juggernaut")
@@ -145,7 +143,7 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 		else if (strKart == "Speedster")
 			mPlayer.kart = Database::eSpeedster;
 		else
-			assert(false && "Unknown kart name");
+			assert(false && "Unknown kart");
 
 		for (int i = 1; i <= iLaps; ++i)
 		{

@@ -12,6 +12,10 @@ namespace Kartaclysm
 		m_fRaceTime(-3.0f), // beginning countdown
 		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
 	{
+#ifdef _DEBUG
+		m_iLapsToFinishTrack = 1;
+#endif
+
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 

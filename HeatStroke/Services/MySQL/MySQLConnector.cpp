@@ -56,6 +56,7 @@ bool HeatStroke::MySQLConnector::SetConnection(const sql::SQLString& p_strAddres
 	catch (sql::SQLException e)
 	{
 		printf("%MySQLConnector: s\n", e.what());
+		ClearConnection();
 	}
 	
 	CloseConnection();
@@ -76,30 +77,56 @@ void HeatStroke::MySQLConnector::ClearConnection()
 sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_strSQLQuery)
 {
 	if (!m_bValidConnection) return nullptr;
+	sql::SQLString strCurrentQuery(p_strSQLQuery);
+
+	std::string strOutputQuery(strCurrentQuery.asStdString());
+	boost::replace_all(strOutputQuery, ";", ";\n\t");
+	printf("\t->%s\n", strCurrentQuery.c_str());
 
 	sql::Statement* pStatement = nullptr;
 	sql::ResultSet* pResults = nullptr;
+	sql::Savepoint* pSavepoint = nullptr;
 	try
 	{
 		if (Reconnect())
 		{
+			pSavepoint = m_pConnection->setSavepoint("save_me");
 			pStatement = m_pConnection->createStatement();
-			pResults = pStatement->executeQuery(p_strSQLQuery);
+
+			size_t next = 0;
+			size_t last = 0;
+			while (next != sql::SQLString::npos)
+			{
+				next = p_strSQLQuery.find(";", last);
+				strCurrentQuery = p_strSQLQuery.substr(last, next - last);
+				if (strCurrentQuery.length() > 1)
+				{
+					printf("\t->%s\n", strCurrentQuery.c_str());
+					pStatement->execute(strCurrentQuery);
+				}
+				last = next + 1;
+			}
+
+			pResults = pStatement->getResultSet();
+			m_pConnection->commit();
 		}
 	}
 	catch (sql::SQLException e)
 	{
-		printf("%MySQLConnector: Error with query - %s\n%s\n", p_strSQLQuery.c_str(), e.what());
+		if (pSavepoint != nullptr)
+		{
+			m_pConnection->rollback(pSavepoint);
+		}
+
+		/*std::string strOutputQuery(strCurrentQuery.asStdString());
+		boost::replace_all(strOutputQuery, ";", ";\n\t");*/
+		printf("%MySQLConnector: MySQL error #%i - %s\n\t%s\n", e.getErrorCode(), e.what(), strOutputQuery.c_str());
 	}
 	
 	DELETE_IF(pStatement);
+	DELETE_IF(pSavepoint);
 	CloseConnection();
 	return pResults;
-}
-
-sql::ResultSet* HeatStroke::MySQLConnector::RunQueryUsingTransaction(const sql::SQLString& p_strSQLQuery)
-{
-	return RunQuery("START TRANSACTION;" + p_strSQLQuery + ";COMMIT;");
 }
 
 bool HeatStroke::MySQLConnector::Reconnect()
@@ -117,6 +144,7 @@ bool HeatStroke::MySQLConnector::Reconnect()
 		if (m_strSchema != "")
 		{
 			m_pConnection->setSchema(m_strSchema);
+			m_pConnection->setAutoCommit(false);
 		}
 		return m_pConnection->isValid();
 	}
