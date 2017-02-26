@@ -23,7 +23,6 @@ std::string HeatStroke::OBJFile::OBJVertex::ToString() const
 HeatStroke::OBJFile::OBJFile(const std::string& p_strOBJFileName) :
 	OBJ_FILE_NAME(p_strOBJFileName),
 	m_bLoaded(false),
-	m_strOBJFileData(),
 	m_strMTLFileName(),
 	m_vOBJObjectList()
 {
@@ -36,70 +35,137 @@ bool HeatStroke::OBJFile::ParseFile()
 		return true;
 	}
 
-	m_strOBJFileData = Common::LoadWholeFile(OBJ_FILE_NAME);
-	
-	// break file down line by line and loop over each line.
-	std::vector<std::string> strLines = Common::StringSplit(m_strOBJFileData, "\n");
-	std::vector<std::string>::iterator linesIt = strLines.begin(), linesEnd = strLines.end();
-	for (; linesIt != linesEnd; linesIt++)
+	std::FILE* pFile = std::fopen(OBJ_FILE_NAME.c_str(), "r");
+	if (pFile)
 	{
-		// break the line down into space-separated tabs
-		std::vector<std::string> strTabs = Common::StringSplit(*linesIt, " ");
+		const int iLineLength = 80;
+		char cstrLine[iLineLength];
 
-		// the first tab in a line determines the format and meaning of the rest of the line
-		std::string strLineKey = strTabs[0];
-		
-		if (strLineKey == "mtllib") // name of mtl file to find the material to use for this object
+		while (std::fgets(cstrLine, iLineLength, pFile))
 		{
-			m_strMTLFileName = strTabs[1];
+			ParseLine(cstrLine);
 		}
-		else if (strLineKey == "o")
-		{
-			m_vOBJObjectList.push_back(OBJObject());
-			m_vOBJObjectList.back().m_strObjectName = strTabs[1];
-		}
-		else if (strLineKey == "v") // parse a position
-		{
-			m_vPositions.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
-		}
-		else if (strLineKey == "vt") // parse a texture coord
-		{
-			m_vUVs.push_back(glm::vec2(atof(strTabs[1].c_str()), atof(strTabs[2].c_str())));
-		}
-		else if (strLineKey == "vn") // parse a normal
-		{
-			m_vNormals.push_back(glm::vec3(atof(strTabs[1].c_str()), atof(strTabs[2].c_str()), atof(strTabs[3].c_str())));
-		}
-		else if (strLineKey == "f") // parse a face (triangle)
-		{
-			OBJFace vOBJFace;
 
-			// iterate over the tabs
-			std::vector<std::string>::iterator faceIt = strTabs.begin(), faceEnd = strTabs.end();
-			// skip the key in the iterator
-			faceIt++;
-			for (; faceIt != faceEnd; faceIt++)
-			{
-				// split the tab into the parts of the vertex separated by '/'
-				std::vector<std::string> strVertex = Common::StringSplit(*faceIt, "/");
-
-				// iterate over the parts of the vertex (v/vt/vn)
-				OBJVertex mOBJVertex;
-				mOBJVertex.m_uiPositionIndex = std::stoul(strVertex[0]) - 1;
-				mOBJVertex.m_uiUVIndex = std::stoul(strVertex[1]) - 1;
-				mOBJVertex.m_uiNormalIndex = std::stoul(strVertex[2]) - 1;
-				vOBJFace.push_back(mOBJVertex);
-			}
-
-			m_vOBJObjectList.back().m_vFaces.push_back(vOBJFace);
-		}
-		else if (strLineKey == "usemtl") // name of the material to use for this object
-		{
-			m_vOBJObjectList.back().m_strMaterialName = strTabs[1];
-		}
+		fclose(pFile);
+		m_bLoaded = true;
+		return true;
 	}
+	else
+	{
+		return false;
+	}
+}
 
-	return (m_bLoaded = true);
+void HeatStroke::OBJFile::ParseLine(const char* p_cstrLine)
+{
+	static char s_cstrLineType[10];
+
+	sscanf(p_cstrLine, "%s", s_cstrLineType);
+	if (std::strcmp(s_cstrLineType, "f") == 0)
+	{
+		ParseFace(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "v") == 0)
+	{
+		ParseVertex(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "vt") == 0)
+	{
+		ParseUV(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "vn") == 0)
+	{
+		ParseNormal(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "o") == 0)
+	{
+		ParseObject(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "usemtl") == 0)
+	{
+		ParseUseMTL(p_cstrLine);
+	}
+	else if (std::strcmp(s_cstrLineType, "mtllib") == 0)
+	{
+		ParseMTLLib(p_cstrLine);
+	}
+}
+
+void HeatStroke::OBJFile::ParseFace(const char* p_cstrLine)
+{
+	static OBJVertex s_v1;
+	static OBJVertex s_v2;
+	static OBJVertex s_v3;
+
+	sscanf(p_cstrLine, "f %u/%u/%u %u/%u/%u %u/%u/%u",
+		&s_v1.m_uiPositionIndex, &s_v1.m_uiUVIndex, &s_v1.m_uiNormalIndex,
+		&s_v2.m_uiPositionIndex, &s_v2.m_uiUVIndex, &s_v2.m_uiNormalIndex,
+		&s_v3.m_uiPositionIndex, &s_v3.m_uiUVIndex, &s_v3.m_uiNormalIndex);
+
+	--s_v1.m_uiPositionIndex;
+	--s_v1.m_uiUVIndex;
+	--s_v1.m_uiNormalIndex;
+	--s_v2.m_uiPositionIndex;
+	--s_v2.m_uiUVIndex;
+	--s_v2.m_uiNormalIndex;
+	--s_v3.m_uiPositionIndex;
+	--s_v3.m_uiUVIndex;
+	--s_v3.m_uiNormalIndex;
+
+	OBJFace face;
+	face.push_back(s_v1);
+	face.push_back(s_v2);
+	face.push_back(s_v3);
+	m_vOBJObjectList.back().m_vFaces.push_back(face);
+}
+
+void HeatStroke::OBJFile::ParseVertex(const char* p_cstrLine)
+{
+	static glm::vec3 s_vPos(0.0f, 0.0f, 0.0f);
+
+	sscanf(p_cstrLine, "v %f %f %f", &s_vPos.x, &s_vPos.y, &s_vPos.z);
+	m_vPositions.push_back(s_vPos);
+}
+
+void HeatStroke::OBJFile::ParseUV(const char* p_cstrLine)
+{
+	static glm::vec2 s_vUV(0.0f, 0.0f);
+
+	sscanf(p_cstrLine, "vt %f %f", &s_vUV.x, &s_vUV.y);
+	m_vUVs.push_back(s_vUV);
+}
+
+void HeatStroke::OBJFile::ParseNormal(const char* p_cstrLine)
+{
+	static glm::vec3 s_vNormal(0.0f, 0.0f, 0.0f);
+
+	sscanf(p_cstrLine, "vn %f %f %f", &s_vNormal.x, &s_vNormal.y, &s_vNormal.z);
+	m_vNormals.push_back(s_vNormal);
+}
+
+void HeatStroke::OBJFile::ParseObject(const char* p_cstrLine)
+{
+	static char s_cstrObjectName[80];
+
+	sscanf(p_cstrLine, "o %s", s_cstrObjectName);
+	m_vOBJObjectList.push_back(OBJObject());
+	m_vOBJObjectList.back().m_strObjectName = s_cstrObjectName;
+}
+
+void HeatStroke::OBJFile::ParseUseMTL(const char* p_cstrLine)
+{
+	static char s_cstrMaterialName[80];
+
+	sscanf(p_cstrLine, "usemtl %s", s_cstrMaterialName);
+	m_vOBJObjectList.back().m_strMaterialName = s_cstrMaterialName;
+}
+
+void HeatStroke::OBJFile::ParseMTLLib(const char* p_cstrLine)
+{
+	static char s_cstrMaterialFile[80];
+
+	sscanf(p_cstrLine, "mtllib %s", s_cstrMaterialFile);
+	m_strMTLFileName = s_cstrMaterialFile;
 }
 
 std::string HeatStroke::OBJFile::ToString() const
