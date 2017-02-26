@@ -91,9 +91,9 @@ namespace Kartaclysm
 		if (fAngleAbs <= 1.2f && fAngleAbs >= 0.5f && m_iSlide == 0)
 		{
 			m_iSlide = 1;
-			m_iSlideDir = ceilf(m_fTurn);
+			m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
 		}
-		else if (fAngleAbs <= 0.1f && m_iSlide == 1)
+		else if (fAngleAbs <= 0.2f && m_iSlide == 1)
 		{
 			m_iSlide = 0;
 		}

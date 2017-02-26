@@ -3,27 +3,39 @@
 		<GOC_Track>
 			<Name value="Shift Rift" />
 			<PathfindingNodes>
-				<Node x="0.0" z="25.0" variation="2.5" radius="5.0"/>
-				<Node x="15.0" z="40.0" variation="2.0" radius="5.0"/>
-				<Node x="30.0" z="40.0" variation="2.0" radius="5.0"/>
-				<Node x="30.0" z="30.0" variation="2.0" radius="4.0"/>
-				<Node x="45.0" z="30.0" variation="2.0" radius="5.0"/>
-				<Node x="55.0" z="30.0" variation="2.5" radius="5.0"/>
-				<Node x="70.0" z="15.0" variation="2.0" radius="5.0"/>
-				<Node x="70.0" z="5.0" variation="2.0" radius="3.5"/>
-				<Node x="65.0" z="0.0" variation="1.75" radius="3.0"/>
-				<Node x="60.0" z="-10.0" variation="1.75" radius="5.0"/>
-				<Node x="65.0" z="-20.0" variation="1.75" radius="3.0"/>
-				<Node x="70.0" z="-25.0" variation="2.0" radius="3.5"/>
-				<Node x="70.0" z="-35.0" variation="2.5" radius="4.5"/>
-				<Node x="55.0" z="-45.0" variation="2.0" radius="3.5"/>
-				<Node x="40.0" z="-35.0" variation="2.0" radius="5.0"/>
-				<Node x="40.0" z="-15.0" variation="2.0" radius="4.0"/>
-				<Node x="30.0" z="-10.0" variation="1.75" radius="5.0"/>
-				<Node x="20.0" z="-15.0" variation="2.0" radius="4.0"/>
-				<Node x="10.0" z="-20.0" variation="1.75" radius="3.0"/>
-				<Node x="0.0" z="-15.0" variation="2.0" radius="4.0"/>
-				<Node x="0.0" z="5.0" variation="2.0" radius="5.0"/>
+        <!--Left Turn-->
+        <Node x="0.0" z="20.0" variation="2.0" radius="10.0"/>
+        <Node x="2.5" z="32.5" variation="2.0" radius="10.0"/>
+        <Node x="15.0" z="37.5" variation="1.0" radius="5.0"/>
+        <!--Left Shift-->
+        <Node x="20.0" z="35.0" variation="2.0" radius="8.0"/>
+        <Node x="32.5" z="30.0" variation="1.0" radius="5.0"/>
+        <Node x="40.0" z="35.0" variation="2.0" radius="8.0"/>
+        <!--Left Turn-->
+        <Node x="62.5" z="32.5" variation="2.0" radius="10.0"/>
+        <Node x="67.5" z="15.0" variation="1.0" radius="5.0"/>
+        <!--Left Shift-->
+        <Node x="65.0" z="10.0" variation="2.0" radius="10.0"/>
+        <Node x="60.0" z="-2.5" variation="1.0" radius="5.0"/>
+        <!--Right Shift-->
+        <Node x="65.0" z="-10.0" variation="2.0" radius="8.0"/>
+        <Node x="70.0" z="-22.5" variation="1.0" radius="5.0"/>
+        <Node x="65.0" z="-30.0" variation="2.0" radius="8.0"/>
+        <!--Left Turn-->
+        <Node x="67.5" z="-42.5" variation="2.0" radius="10.0"/>
+        <Node x="55.0" z="-47.5" variation="1.0" radius="5.0"/>
+        <!--Left Turn-->
+        <Node x="47.5" z="-47.5" variation="2.0" radius="10.0"/>
+        <Node x="42.5" z="-35.0" variation="1.0" radius="5.0"/>
+        <!--Right Sharp Turn-->
+        <Node x="37.5" z="-12.5" variation="0.0" radius="5.0"/>
+        <!--Right Shift-->
+        <Node x="30.0" z="-15.0" variation="0.0" radius="8.0"/>
+        <Node x="17.5" z="-20.0" variation="0.0" radius="5.0"/>
+        <Node x="10.0" z="-15.0" variation="2.0" radius="8.0"/>
+        <!--Left Sharp Turn-->
+        <Node x="2.5" z="-17.5" variation="1.0" radius="5.0"/>
+        <Node x="5.0" z="-10.0" variation="2.0" radius="8.0"/>
 			</PathfindingNodes>
 		</GOC_Track>
 	</Components>
