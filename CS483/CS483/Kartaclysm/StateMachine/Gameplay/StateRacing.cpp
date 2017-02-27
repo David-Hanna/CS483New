@@ -388,6 +388,28 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 
 	m_vRaceResults.push_back({strRacerId, fRacerTime});
 
+	if (m_mContextParams.at("Mode") == "Tournament" && 
+		m_vRaceResults.size() == m_uiNumRacers - 1)
+	{
+		std::set<std::string> vFinishedRacerIds;
+		for (auto mRaceResult : m_vRaceResults)
+		{
+			vFinishedRacerIds.insert(mRaceResult.m_strRacerId);
+		}
+
+		std::string strRacerIdLeftToFinishRace;
+		for (unsigned int i = 0; i < m_uiNumRacers; ++i)
+		{
+			strRacerIdLeftToFinishRace = "Player" + std::to_string(i);
+			if (vFinishedRacerIds.find(strRacerIdLeftToFinishRace) == vFinishedRacerIds.end())
+			{
+				break;
+			}
+		}
+
+		m_vRaceResults.push_back({ strRacerIdLeftToFinishRace, fRacerTime += 0.01f });
+	}
+
 	if (m_vRaceResults.size() >= m_uiNumRacers)
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
