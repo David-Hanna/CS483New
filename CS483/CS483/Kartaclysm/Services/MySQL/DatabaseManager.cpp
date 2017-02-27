@@ -68,11 +68,14 @@ int Kartaclysm::DatabaseManager::EndTournament()
 			"SET @inserted_tourn_id = LAST_INSERT_ID();";
 
 		int iRaceNum = 0;
-		bool bValidTournament = false;
+		bool bValidTournament = true;
 		for (auto iRaceId : m_vTournamentRaceIds)
 		{
-			if (iRaceId < 0) continue;
-			bValidTournament = true;
+			if (iRaceId < 0)
+			{
+				bValidTournament = false;
+				break;
+			}
 			AppendInsertStringForTournamentRace(&strTournamentInsertQuery, ++iRaceNum, iRaceId);
 		}
 
@@ -94,10 +97,10 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 	if (m_pMySQLInstance->HasConnection())
 	{
 		assert(p_mRace.track_id != Database::eTrackError);
-
-		if (p_mRace.race_players.at(0).lap_times.size() > 1) // ignore debugging races with 0 or 1 laps
+		
+		unsigned int uiLapCount = p_mRace.race_players.at(0).lap_times.size();
+		if (uiLapCount > 1) // ignore debugging races with 0 or 1 laps
 		{
-
 			sql::SQLString strRaceInsertQuery =
 				"INSERT INTO race(track_id, timestamp) "
 				"VALUES(" + std::to_string(static_cast<int>(p_mRace.track_id)) + ", "
@@ -105,13 +108,28 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 				"SET @inserted_race_id = LAST_INSERT_ID();";
 
 			int iPosition = 0;
+			bool bValidRace = true;
 			for (auto mPlayer : p_mRace.race_players)
 			{
+				if (uiLapCount != mPlayer.lap_times.size())
+				{
+#ifdef _DEBUG
+					assert(false && "One player has different lap count than another");
+#endif
+					iRaceId = -1;
+					bValidRace = false;
+					break;
+				}
+				uiLapCount = mPlayer.lap_times.size();
+
 				AppendInsertStringForPlayer(&strRaceInsertQuery, mPlayer, ++iPosition);
 				AppendInsertStringForPlayerLaps(&strRaceInsertQuery, mPlayer);
 			}
 
-			iRaceId = RunQueryAndReturnInsertId(strRaceInsertQuery, "@inserted_race_id");
+			if (bValidRace)
+			{
+				iRaceId = RunQueryAndReturnInsertId(strRaceInsertQuery, "@inserted_race_id");
+			}
 		}
 	}
 
@@ -131,17 +149,17 @@ std::vector<float> Kartaclysm::DatabaseManager::SelectFastestTimes(Database::Tra
 		m_pMySQLInstance->HasConnection())
 	{
 		sql::SQLString strQuery =
-			"SELECT SUM(race_lap.lap_time) AS best_time FROM race_lap "
-			"JOIN race ON race.race_id = race_lap.race_id "
+			"SELECT race_times.race_time AS best_time "
+			"FROM race_times " // race_times is a created view, not a table FYI
+			"JOIN race ON race.race_id = race_times.race_id "
 			"WHERE race.track_id = " + std::to_string(static_cast<int>(p_eTrackID)) + " "
-			"GROUP BY CONCAT(race_lap.race_id, '-', race_lap.player_id) "
-			"ORDER BY best_time DESC "
-			"LIMIT " + std::to_string(p_iNumResults);
+			"ORDER BY best_time ASC "
+			"LIMIT " + std::to_string(p_iNumResults) + ";";
 
 		sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(strQuery);
 		if (pResults != nullptr)
 		{
-			for (int i = 1; pResults->next(); ++i)
+			while(pResults->next())
 			{
 				float fTime = static_cast<float>(pResults->getDouble("best_time"));
 				vTimes.push_back(fTime);

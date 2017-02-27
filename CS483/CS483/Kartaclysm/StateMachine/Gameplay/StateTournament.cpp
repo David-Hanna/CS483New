@@ -114,24 +114,13 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	for (int i = 0; i < iNumPlayers; ++i)
 	{
 		std::string strPlayerX, strTime;
+		int iPoints = 0;
 
 		std::string strIndex = std::to_string(i);
 		p_pEvent->GetRequiredStringParameter("racerId" + strIndex, strPlayerX);
 		p_pEvent->GetRequiredStringParameter("racerTime" + strIndex, strTime); // unformatted
-
-		int iPoints = 0;
-		switch (i)
-		{
-			case 0: iPoints = 10; break;
-			case 1: iPoints = 8; break;
-			case 2: iPoints = 6; break;
-			case 3: iPoints = 4; break;
-			case 4: iPoints = 3; break;
-			case 5: iPoints = 2; break;
-			case 6: iPoints = 1; break;
-			default: iPoints = 0; break;
-		}
-
+		p_pEvent->GetRequiredIntParameter("racerPoints" + strIndex, iPoints);
+		
 		RacerRanking* pRank = &m_mRacerRankings[strPlayerX]; // get or create map
 		pRank->m_iPoints += iPoints;
 		pRank->m_fTime += std::stof(strTime);
@@ -147,38 +136,7 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	else
 	{
 		m_bFinished = true;
-		m_mContextParams.clear();
-		m_mContextParams["Mode"] = "Tournament";
-		m_mContextParams["numRacers"] = std::to_string(m_mRacerRankings.size());
-
-		int iRank = 0;
-		while (!m_mRacerRankings.empty())
-		{
-			// Find player with highest overall points (TODO: currently breaks ties with race times)
-			auto it = m_mRacerRankings.begin(), end = m_mRacerRankings.end();
-			std::string strMaxPointPlayer = it->first;
-			for (++it; it != end; ++it)
-			{
-				if (m_mRacerRankings.at(strMaxPointPlayer).m_iPoints == it->second.m_iPoints)
-				{
-					if (m_mRacerRankings.at(strMaxPointPlayer).m_fTime > it->second.m_fTime)
-					{
-						strMaxPointPlayer = it->first;
-					}
-				}
-				else if (m_mRacerRankings.at(strMaxPointPlayer).m_iPoints < it->second.m_iPoints)
-				{
-					strMaxPointPlayer = it->first;
-				}
-			}
-
-			std::string strIndex = std::to_string(iRank++);
-			m_mContextParams["racerId" + strIndex] = strMaxPointPlayer;
-			m_mContextParams["racerTime" + strIndex] = std::to_string(m_mRacerRankings.at(strMaxPointPlayer).m_fTime);
-			m_mContextParams["racerPoints" + strIndex] = std::to_string(m_mRacerRankings.at(strMaxPointPlayer).m_iPoints);
-
-			m_mRacerRankings.erase(m_mRacerRankings.find(strMaxPointPlayer));
-		}
+		m_mContextParams = GenerateTournamentEndResults(&m_mRacerRankings);
 	}
 }
 
@@ -221,4 +179,32 @@ std::string Kartaclysm::StateTournament::FormatTime(float p_fUnformattedTime) co
 	strSeconds = strSeconds.substr(0, 5);
 
 	return strMinutes + ":" + strSeconds;
+}
+
+std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const
+{
+	std::map<std::string, std::string> mResults;
+	mResults["screenTitle"] = "Tournament";
+	mResults["numRacers"] = std::to_string(m_mRacerRankings.size());
+
+	int iRank = 0;
+	while (!p_pRankings->empty())
+	{
+		auto it = p_pRankings->begin(), end = p_pRankings->end(), max = it;
+		for (++it; it != end; ++it)
+		{
+			if (max->second.m_iPoints < it->second.m_iPoints)
+			{
+				max = it;
+			}
+		}
+
+		std::string strIndex = std::to_string(iRank++);
+		mResults["racerId" + strIndex] = max->first;
+		mResults["racerTime" + strIndex] = std::to_string(max->second.m_fTime);
+		mResults["racerPoints" + strIndex] = std::to_string(max->second.m_iPoints);
+
+		p_pRankings->erase(max);
+	}
+	return mResults;
 }
