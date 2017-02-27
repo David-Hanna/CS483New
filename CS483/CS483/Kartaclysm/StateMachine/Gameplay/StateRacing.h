@@ -115,7 +115,7 @@ namespace Kartaclysm
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
 		std::map<std::string, std::string> GenerateRaceResults() const;
-
+		int GetTournamentPoints(int p_iPosition) const;
 	};
 }
 
