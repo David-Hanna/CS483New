@@ -709,12 +709,18 @@ namespace Kartaclysm
 	void ComponentKartController::HandleAbilityEvent(const HeatStroke::Event* p_pEvent)
 	{
 		// TODO: make this use game objects (brad, ya dingus)
-		std::string originator, target = "";
+		std::string originator, ability, target = "";
 		float power = 0.0f, duration = 0.0f;
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
+		p_pEvent->GetRequiredStringParameter("Ability", ability);
 		p_pEvent->GetOptionalStringParameter("Target", target, target);
 		p_pEvent->GetOptionalFloatParameter("Power", power, power);
 		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
+
+#ifdef _DEBUG
+		printf("KartController: Ability %s from %s targetting %s\n", 
+			ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
+#endif
 
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
@@ -724,69 +730,53 @@ namespace Kartaclysm
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-				printf("->Negated");
 
 				m_strHitCallback = "";
 				return;
 			}
 
-			std::string ability, effect;
-			p_pEvent->GetRequiredStringParameter("Ability", ability);
+			std::string effect;
 			p_pEvent->GetRequiredStringParameter("Effect", effect);
 
 			if (ability.compare("Strike") == 0)
 			{
-				printf("Strike!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
 				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
 			{
-				printf("Clocked!\n");
 				Spinout(duration);
 			}
 			else if (ability.compare("Rain") == 0)
 			{
-				printf("Make it rain!\n");
-
 				// Send event for HUD
 				HeatStroke::Event* pEvent = new HeatStroke::Event(target + "_HUD_Slow");
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
-
 				Slow(power, duration);
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
-				printf("Bedazzle!\n"); // Entangle!
-
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
-
 				Spinout(duration);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			std::string ability;
-			p_pEvent->GetRequiredStringParameter("Ability", ability);
-
 			if (ability.compare("Boost") == 0)
 			{
-				printf("Boost!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
 				Boost(power);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				printf("Wheelie!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
-				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
 				TurnLock(duration);
 			}
@@ -796,7 +786,6 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
-				printf("ArmorPlate!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
 				ArmorPlate(iLayers);
 			}
