@@ -1,0 +1,5 @@
+<GameObject definition="CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/definitions/position_1.xml">
+	<Transform>
+		<Translation x="-70.0" y="0.0" z="0.0"/>
+	</Transform>
+</GameObject>

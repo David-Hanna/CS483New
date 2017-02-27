@@ -15,6 +15,7 @@
 #include "ModelInstance.h"
 #include "LineDrawer.h"
 #include "SpriteInstance.h"
+#include "Effect.h"
 #include "TextBox.h"
 #include "SceneAmbientLight.h"
 #include "SceneDirectionalLight.h"
@@ -57,6 +58,10 @@ namespace HeatStroke
 		void AddLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer);
 		void RemoveLineDrawer(HeatStroke::LineDrawer* p_pLineDrawer);
 		void ClearLineDrawers();
+		
+		void AddParticleEffect(Effect* p_pParticleEffect);
+		void RemoveParticleEffect(Effect* p_pParticleEffect);
+		void ClearParticleEffects();
 
 		void AddPerspectiveCamera(ScenePerspectiveCamera* p_pPerspectiveCamera, SceneViewportSelection p_eViewportSelection);
 		void RemovePerspectiveCamera(SceneViewportSelection p_eViewportSelection);
@@ -91,6 +96,8 @@ namespace HeatStroke
 	private:
 		typedef std::vector<ModelInstance*>			ModelList;
 		typedef std::vector<LineDrawer*>			LineDrawerList;
+		typedef std::vector<Effect*>				ParticleEffectList;
+		
 		typedef std::vector<SpriteInstance*>		SpriteList;
 		typedef std::vector<TextBox*>				TextBoxList;
 		
@@ -104,6 +111,8 @@ namespace HeatStroke
 
 		ModelList				m_lModelList;
 		LineDrawerList			m_lLineDrawerList;
+		ParticleEffectList		m_lParticleEffectList;
+		
 		ScenePerspectiveCamera*	m_lPerspectiveCameras[SVS_LENGTH];
 
 		SpriteList				m_lSpriteList;
@@ -121,6 +130,7 @@ namespace HeatStroke
 
 		void RenderModels(const ScenePerspectiveCamera* p_pPerspectiveCamera);
 		void RenderModel(ModelInstance* p_pModelInstance, const ScenePerspectiveCamera* p_pPerspectiveCamera);
+		void RenderParticleEffects(const ScenePerspectiveCamera* p_pPerspectiveCamera);
 		void SetModelLights(ModelInstance* p_pModelInstance);
 		void SetMeshLights(ModelInstance* p_pModelInstance, Mesh* p_pMesh);
 		void SetMeshAmbientLight(Mesh* p_pMesh);

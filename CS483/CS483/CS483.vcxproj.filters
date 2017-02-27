@@ -148,6 +148,9 @@
     <Filter Include="Kartaclysm\Data\Menus\PauseMenu">
       <UniqueIdentifier>{507923ee-abf6-4f83-9eb7-27dce7c70765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Graphics\Particles">
+      <UniqueIdentifier>{19effc7c-4ec2-40cb-90e2-76d558849903}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Data\Menus\ModeSelectionMenu">
       <UniqueIdentifier>{0b75ddf2-e41a-4264-b794-ccc7d7efcfcd}</UniqueIdentifier>
     </Filter>
@@ -171,6 +174,33 @@
     </Filter>
     <Filter Include="HeatStroke\Services\MySQL">
       <UniqueIdentifier>{eaf668f6-e6e3-4129-88e8-504bde7a1ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats">
+      <UniqueIdentifier>{2e43c81a-63bf-4af4-88ef-9cfb0deaaa6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats">
+      <UniqueIdentifier>{bdd96c4b-d3c0-43b8-a633-cdbe34929b67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats">
+      <UniqueIdentifier>{659c710c-8c75-4e49-9929-63a9a018296a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats">
+      <UniqueIdentifier>{1d140de5-e4e5-4112-b97f-1007a096d864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\definitions">
+      <UniqueIdentifier>{7509fd28-274d-4d56-a326-3dbee60ad2b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0">
+      <UniqueIdentifier>{3ebe5134-7e30-48fc-8e8d-52d912a7ebdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results1">
+      <UniqueIdentifier>{b2087587-8f74-4cc9-af06-ebd583c935a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results2">
+      <UniqueIdentifier>{49c8cd8d-7f38-4046-9693-6bed7777bb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3">
+      <UniqueIdentifier>{e12daac2-1ad3-4b2f-b774-369fa55906ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +489,27 @@
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Emitter.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\Effect.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.cpp">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
@@ -470,6 +521,9 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.cpp">
       <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp">
+      <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -806,6 +860,33 @@
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentParticleEffect.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Emitter.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Affector.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorVelocity.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorScale.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorColor.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\AffectorFade.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Particle.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Graphics\Particles\Effect.h">
+      <Filter>HeatStroke\Graphics\Particles</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
@@ -817,6 +898,9 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.h">
       <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1159,6 +1243,12 @@
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\kart_ai.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml">
       <Filter>Kartaclysm\Data\Local</Filter>
     </Xml>
@@ -1167,6 +1257,621 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Local\Options.xml">
       <Filter>Kartaclysm\Data\Local</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\acceleration_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\description.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\durability_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\handling_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\description_boxes_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_abilities_cleopapa_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_abilities_clockmaker_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_abilities_kingpin_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_display_cleopapa_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_display_clockmaker_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_display_kingpin_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_selection_cleopapa_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_selection_clockmaker_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_selection_kingpin_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\highlight_driver_selection_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\highlight_kart_selection_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_abilities_juggernaut_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_abilities_showoff_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_abilities_speedster_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_display_juggernaut_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_display_showoff_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_display_speedster_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_selection_juggernaut_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_selection_showoff_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\kart_selection_speedster_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\not_ready_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\ready_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\acceleration_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\description.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\durability_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\handling_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats\speed_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\acceleration_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\description.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\durability_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\handling_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats\speed_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\description_boxes_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_abilities_cleopapa_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_abilities_clockmaker_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_abilities_kingpin_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_display_cleopapa_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_display_clockmaker_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_display_kingpin_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_selection_cleopapa_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_selection_clockmaker_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\driver_selection_kingpin_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\highlight_driver_selection_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\highlight_kart_selection_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_abilities_juggernaut_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_abilities_showoff_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_abilities_speedster_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_display_juggernaut_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_display_showoff_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_display_speedster_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_selection_juggernaut_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_selection_showoff_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\kart_selection_speedster_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\not_ready_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2\ready_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\acceleration_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\description.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\durability_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\handling_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_0.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_1.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_2.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_4.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_5.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats\speed_6.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\stats</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\description_boxes_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_abilities_cleopapa_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_abilities_clockmaker_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_abilities_kingpin_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_display_cleopapa_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_display_clockmaker_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_display_kingpin_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_selection_cleopapa_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_selection_clockmaker_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\driver_selection_kingpin_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\highlight_driver_selection_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\highlight_kart_selection_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_abilities_juggernaut_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_abilities_showoff_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_abilities_speedster_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_display_juggernaut_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_display_showoff_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_display_speedster_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_selection_juggernaut_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_selection_showoff_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\kart_selection_speedster_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\not_ready_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3\ready_3.xml">
+      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3\position_1.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3\position_2.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3\position_3.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3\position_4.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results3</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\definitions\position_1.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\definitions</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\definitions\position_2.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\definitions</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\definitions\position_3.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\definitions</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\definitions\position_4.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\definitions</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results2\position_1.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results2\position_2.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results2\position_3.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results2\position_4.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results2</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results1\position_1.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results1\position_2.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results1\position_3.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results1\position_4.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results1</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_1.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_2.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_3.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_4.xml">
+      <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
     </Xml>
   </ItemGroup>
 </Project>

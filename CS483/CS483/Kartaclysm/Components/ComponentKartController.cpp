@@ -6,6 +6,9 @@
 //----------------------------------------------------------------------------
 
 #include "ComponentKartController.h"
+#include "ComponentParticleEffect.h"
+
+#include "ComponentAIDriver.h"
 
 namespace Kartaclysm
 {
@@ -15,6 +18,7 @@ namespace Kartaclysm
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
 		m_iPlayerNum(atoi(p_pGameObject->GetGUID().substr(6).c_str())), // "PlayerX"
+		m_bAI(false),
 		m_bDisabled(false),
 		m_strHitCallback(""),
 
@@ -73,6 +77,7 @@ namespace Kartaclysm
 		m_fVerticalSpeed(0.0f),
 		m_bSliding(false),
 		m_iSlideDirection(0),
+		m_bSlideParticle(false),
 		m_fSwerve(0.0f),
 		m_fSlideCharge(0.0f),
 		m_bWheelie(false),
@@ -183,8 +188,19 @@ namespace Kartaclysm
 		float fTurn = 0.0f;
 		if (!m_bDisabled)
 		{
-			PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
-			fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+			if (!m_bAI)
+			{
+				PlayerInputMapping::Instance()->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+				fTurn *= -1.0f; // Reversed because of mismatch between what the game and the controller consider to be the positive horizontal direction
+			}
+			else
+			{
+				ComponentAIDriver* aiDriver = static_cast<ComponentAIDriver*>(m_pGameObject->GetComponent("GOC_AIDriver"));
+				if (aiDriver != nullptr)
+				{
+					aiDriver->QueryPlayerMovement(m_iPlayerNum, iAccelerate, iBrake, iSlide, fTurn);
+				}
+			}
 		}
 
 		// Spinout causes all inputs to be ignored
@@ -473,6 +489,52 @@ namespace Kartaclysm
 				m_fSlideCharge = 0.0f;
 			}
 		}
+
+		// Particles
+		if (m_bSliding && !m_bSlideParticle)
+		{
+			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			if (pComponentParticleEffect)
+			{
+				if (m_iSlideDirection > 0)
+				{
+					HeatStroke::Effect* pSwerveLeftEffect = pComponentParticleEffect->GetEffect("swerve_left");
+					if (pSwerveLeftEffect != nullptr)
+					{
+						pSwerveLeftEffect->Start();
+					}
+					m_bSlideParticle = true;
+				}
+				else if (m_iSlideDirection < 0)
+				{
+					HeatStroke::Effect* pSwerveRightEffect = pComponentParticleEffect->GetEffect("swerve_right");
+					if (pSwerveRightEffect != nullptr)
+					{
+						pSwerveRightEffect->Start();
+					}
+					m_bSlideParticle = true;
+				}
+			}
+		}
+		else if (!m_bSliding && m_bSlideParticle)
+		{
+			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			if (pComponentParticleEffect)
+			{
+				HeatStroke::Effect* pSwerveLeftEffect = pComponentParticleEffect->GetEffect("swerve_left");
+				HeatStroke::Effect* pSwerveRightEffect = pComponentParticleEffect->GetEffect("swerve_right");
+				if (pSwerveLeftEffect != nullptr)
+				{
+					pSwerveLeftEffect->Stop();
+				}
+				if (pSwerveRightEffect != nullptr)
+				{
+					pSwerveRightEffect->Stop();
+				}
+
+				m_bSlideParticle = false;
+			}
+		}
 	}
 
 	void ComponentKartController::UpdateTransform(float p_fHeightMod, float p_fDelta)
@@ -506,6 +568,16 @@ namespace Kartaclysm
 
 		float extra = (m_fMaxSpeedStat * m_fSpeedScale * p_fPower) - m_fSpeed;
 		m_fSpeed = fmaxf(m_fSpeed, m_fSpeed + (extra * (m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale))));
+
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pBoostParticleEffect = pComponentParticleEffect->GetEffect("boost");
+			if (pBoostParticleEffect != nullptr)
+			{
+				pBoostParticleEffect->Start();
+			}
+		}
 	}
 
 	void ComponentKartController::WheelieToggle()

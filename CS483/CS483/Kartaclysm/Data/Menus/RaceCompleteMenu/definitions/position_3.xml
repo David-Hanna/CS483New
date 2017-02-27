@@ -1,0 +1,11 @@
+<GameObject>
+	<Transform>
+		<Scale x="16.0" y="16.0" z="1.0" />
+	</Transform>
+	<Components>
+        <GOC_Sprite>
+          <MTLFileName path="Assets/Hud/Positions/position_3.mtl"/>
+          <MaterialName name="position_3"/>
+        </GOC_Sprite>
+	</Components>
+</GameObject>
