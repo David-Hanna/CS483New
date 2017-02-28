@@ -13,10 +13,6 @@ namespace Kartaclysm
 		m_iLapsToFinishTrack(3), // value of 0 can be used for testing
 		m_vPathfindingNodes(p_vNodes)
 	{
-#ifdef _DEBUG
-		m_iLapsToFinishTrack = 1;
-#endif
-
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 
@@ -159,11 +155,14 @@ namespace Kartaclysm
 		if (iTrackPieceIndex == 0 && iRacerFurthestTrackPiece == m_vTrackPieces.size() - 1)
 		{
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
-			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
-			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack && !m_vRacers[iRacerIndex]->HasFinishedRace())
+			if (!m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
-				TriggerRacerFinishedRaceEvent(strRacerId);
+				std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
+				TriggerRacerCompletedLapEvent(strRacerId);
+				if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack)
+				{
+					TriggerRacerFinishedRaceEvent(strRacerId);
+				}
 			}
 		}
 		else if (iTrackPieceIndex == iRacerFurthestTrackPiece + 1)

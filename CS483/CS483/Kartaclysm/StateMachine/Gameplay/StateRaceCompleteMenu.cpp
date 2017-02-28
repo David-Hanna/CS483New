@@ -46,7 +46,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	AddRacerPositionToMap(&mResults);
 	AddRaceToDatabase(mResults);
 	SendRaceFinishEvent(mResults);
-	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	PopulateRaceResultsList(mResults);
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
@@ -146,15 +146,25 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 	else
 		mRace.track_id = Database::eTrackError;
 
+	bool bValid = true;
+
 	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
 	int iLaps = std::stoi(p_mRaceResults.at("numLaps"));
 	for (int i = 0; i < iNumRacers; ++i)
 	{
 		Database::InsertRacePlayer mPlayer;
+		if (mPlayer.lap_times.size() != iLaps)
+		{
+#ifdef _DEBUG
+			assert(false && "Racer does not having correct amount of laps");
+#endif
+			bValid = false;
+			break;
+		}
 
 		std::string strIndex = std::to_string(i);
 		mPlayer.player_num = std::stoi(p_mRaceResults.at("racerId" + strIndex).substr(6));
-		mPlayer.is_human = true; // TODO: hardcoded
+		mPlayer.is_human = p_mRaceResults.at("racerAI" + strIndex) != "0";
 
 		std::string strDriver = p_mRaceResults.at("racerDriver" + strIndex);
 		if (strDriver == "Cleopapa")
@@ -183,8 +193,10 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 
 		mRace.race_players.push_back(mPlayer);
 	}
-
-	DatabaseManager::Instance()->InsertRaceQuery(mRace);
+	if (bValid)
+	{
+		DatabaseManager::Instance()->InsertRaceQuery(mRace);
+	}
 }
 
 void Kartaclysm::StateRaceCompleteMenu::SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults) const
@@ -288,7 +300,9 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 std::string Kartaclysm::StateRaceCompleteMenu::FormatTime(const std::string& p_strUnformattedTime) const
 {
 	float fUnformattedTime = std::stof(p_strUnformattedTime);
-	int iMinutes = (int)fUnformattedTime / 60;
+	if (fUnformattedTime >= 3599.0f) return "59:99";
+
+	int iMinutes = static_cast<int>(fUnformattedTime / 60.0f);
 	float fSeconds = fmod(fUnformattedTime, 60.0f);
 
 	std::string strMinutes = std::to_string(iMinutes);

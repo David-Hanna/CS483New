@@ -605,6 +605,7 @@
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml" />

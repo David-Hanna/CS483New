@@ -18,7 +18,6 @@ Kartaclysm::StateRacing::StateRacing()
 	m_pRaceFinishedDelegate(nullptr),
 	m_pRaceRestartDelegate(nullptr),
 	m_pPauseDelegate(nullptr),
-	m_uiNumRacers(0),
 	m_uiLapsNeeded(0),
 	m_bCountdown(false)
 {
@@ -103,8 +102,6 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	SendRaceInfoEvent();
 	BeginRace();
 
-
-
 	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
 }
 
@@ -131,8 +128,9 @@ void Kartaclysm::StateRacing::BeginRace()
 	m_uiLapsNeeded = pTrackComponent->GetLapsToFinishTrack();
 
 	// Load racers
-	m_uiNumRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
-	for (unsigned int i = 0; i < m_uiNumRacers; i++)
+	unsigned int uiNumHumanRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
+	CreateHUDForRacers(uiNumHumanRacers);
+	for (unsigned int i = 0; i < uiNumHumanRacers; i++)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
@@ -164,7 +162,7 @@ void Kartaclysm::StateRacing::BeginRace()
 	// Set inital position sprites on racer HUDs
 	pTrackComponent->TriggerRaceStandingsUpdateEvent();
 
-	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(uiNumHumanRacers))
 	{
 		// TODO: Properly handle race mode
 		//PlayerInputMapping::Instance()->EnableRaceMode();
@@ -199,8 +197,6 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
 
-	CreateHUDForRacer(p_strGuid);
-
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
 	HeatStroke::GameObject* pCamera = m_pGameObjectManager->CreateGameObject(p_strCameraDefinitionFile, "", pRacer);
@@ -211,6 +207,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	pRacerComponent->SetDriver(pDriver);
 
 	m_mRaceResults[p_strGuid].m_pRacerComponent = pRacerComponent;
+	m_mRaceResults[p_strGuid].m_bIsAI = false;
 
 	return pRacer;
 }
@@ -220,7 +217,8 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 )
 {
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer_ai.xml";
-	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, "ai_racer" + std::to_string(p_iIndex));
+	std::string strGuid = "ai_racer" + std::to_string(p_iIndex);
+	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, strGuid);
 
 	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml", "ai_kart" + std::to_string(p_iIndex), pRacer);
 	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/driver_ai.xml", "ai_driver" + std::to_string(p_iIndex), pRacer);
@@ -235,57 +233,33 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 		kartController->SetAI(true);
 	}
 
+	m_mRaceResults[strGuid].m_pRacerComponent = pRacerComponent;
+	m_mRaceResults[strGuid].m_bIsAI = true;
+
 	return pRacer;
 }
 
-void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
+void Kartaclysm::StateRacing::CreateHUDForRacers(unsigned int p_uiNumHumanRacers)
 {
-	switch (m_uiNumRacers)
+	switch (p_uiNumHumanRacers)
 	{
 	case 1:
-		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_full.xml", p_strGuid + "_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_full.xml", "Player0_HUD");
 		break;
 	case 2:
-		if (p_strGuid == "Player0")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player1")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom.xml", p_strGuid + "_HUD");
-		}
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top.xml", "Player0_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom.xml", "Player1_HUD");
 		break;
 	case 3:
-		if (p_strGuid == "Player0")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player1")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player2")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", p_strGuid + "_HUD");
-		}
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", "Player0_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", "Player1_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", "Player2_HUD");
 		break;
 	case 4:
-		if (p_strGuid == "Player0")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player1")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player2")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", p_strGuid + "_HUD");
-		}
-		else if (p_strGuid == "Player3")
-		{
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_right.xml", p_strGuid + "_HUD");
-		}
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_left.xml", "Player0_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_top_right.xml", "Player1_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_left.xml", "Player2_HUD");
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_bottom_right.xml", "Player3_HUD");
 		break;
 	default:
 		assert(false && "Unknown number of players.");
@@ -420,7 +394,7 @@ void Kartaclysm::StateRacing::RacerFinishedLap(const HeatStroke::Event* p_pEvent
 	pLapTimes->push_back(fRacerTime);
 
 #ifdef _DEBUG
-	assert(pLapTimes->size <= m_uiLapsNeeded);
+	assert(pLapTimes->size() <= m_uiLapsNeeded);
 #endif
 }
 
@@ -441,11 +415,11 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 		}
 	}
 
-	m_mRaceResults[strRacerId].m_uiPosition = uiHighestPosition++;
+	m_mRaceResults[strRacerId].m_uiPosition = ++uiHighestPosition;
 	m_mRaceResults[strRacerId].m_fRaceTime = fRacerTime;
 
-	if (m_mContextParams.at("Mode") == "Tournament" && 
-		uiHighestPosition == m_uiNumRacers - 1)
+	if (uiHighestPosition == m_mRaceResults.size() - 1 &&
+		m_mContextParams.at("Mode") == "Tournament")
 	{
 		std::string strUnfinishedPlayerId = "";
 		for (auto mRaceResult : m_mRaceResults)
@@ -462,11 +436,11 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 		if (strUnfinishedPlayerId != "")
 		{
 			auto pUnfinishedPlayer = &m_mRaceResults[strUnfinishedPlayerId];
-			pUnfinishedPlayer->m_uiPosition = uiHighestPosition++;
+			pUnfinishedPlayer->m_uiPosition = ++uiHighestPosition;
 
 			while (pUnfinishedPlayer->m_vLapTimes.size() < m_uiLapsNeeded)
 			{
-				pUnfinishedPlayer->m_vLapTimes.push_back(0.0f);
+				pUnfinishedPlayer->m_vLapTimes.push_back(599.99f); // 10min
 			}
 		}
 #ifdef _DEBUG
@@ -477,7 +451,7 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 #endif
 	}
 
-	if (uiHighestPosition == m_uiNumRacers)
+	if (uiHighestPosition == m_mRaceResults.size())
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
@@ -495,13 +469,13 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 {
 	std::map<std::string, std::string> mRaceResults;
 
-	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
+	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_mRaceResults.size())));
 	mRaceResults.insert(std::pair<std::string, std::string>("numLaps", std::to_string(m_uiLapsNeeded)));
 
 	bool bTournament = (m_mContextParams.at("Mode") == "Tournament");
 	for (auto mRaceResult : m_mRaceResults)
 	{
-		std::string strIndex = std::to_string(mRaceResult.second.m_uiPosition);
+		std::string strIndex = std::to_string(mRaceResult.second.m_uiPosition - 1);
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, mRaceResult.first));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(mRaceResult.second.m_fRaceTime)));
 
@@ -509,10 +483,11 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 		GetDriverNameAndKartName(mRaceResult.second.m_pRacerComponent, strDriver, strKart);
 		mRaceResults.insert(std::pair<std::string, std::string>("racerDriver" + strIndex, strDriver));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerKart" + strIndex, strKart));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerAI" + strIndex, mRaceResult.second.m_bIsAI ? "1" : "0"));
 
 		if (bTournament)
 		{
-			mRaceResults.insert(std::pair<std::string, std::string>("racerPoints" + strIndex, std::to_string(GetTournamentPoints(mRaceResult.second.m_uiPosition))));
+			mRaceResults.insert(std::pair<std::string, std::string>("racerPoints" + strIndex, std::to_string(GetTournamentPoints(mRaceResult.second.m_uiPosition - 1))));
 		}
 
 		int iLapCount = 0;
@@ -543,7 +518,10 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 	else if (mDriverTags.find("Kingpin") != mDriverTags.end())
 		p_strDriver = "Kingpin";
 	else
+	{
+		printf("%s\n", p_strDriver);
 		assert(false && "Unknown driver name");
+	}
 
 	auto mKartTags = p_pRacerComponent->GetKart()->GetTagList();
 	if (mKartTags.find("Juggernaut") != mKartTags.end())
@@ -553,7 +531,10 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 	else if (mKartTags.find("Speedster") != mKartTags.end())
 		p_strKart = "Speedster";
 	else
+	{
+		printf("%s\n", p_strKart);
 		assert(false && "Unknown kart name");
+	}
 }
 
 int Kartaclysm::StateRacing::GetTournamentPoints(int p_iPosition) const

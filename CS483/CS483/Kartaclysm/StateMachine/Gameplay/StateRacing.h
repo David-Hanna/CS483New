@@ -82,12 +82,13 @@ namespace Kartaclysm
 		struct RacerResults
 		{
 			ComponentRacer* m_pRacerComponent;
+			bool m_bIsAI;
 			std::vector<float> m_vLapTimes;
 			float m_fRaceTime;
 			unsigned int m_uiPosition;
 			bool m_bIgnoreFirstLap;
 
-			RacerResults() : m_pRacerComponent(nullptr), m_vLapTimes(), m_fRaceTime(-1.0f), m_uiPosition(0), m_bIgnoreFirstLap(true) {}
+			RacerResults() : m_pRacerComponent(nullptr), m_bIsAI(false), m_vLapTimes(), m_fRaceTime(-1.0f), m_uiPosition(0), m_bIgnoreFirstLap(true) {}
 		};
 		std::map<std::string, RacerResults> m_mRaceResults;
 
@@ -98,11 +99,10 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		std::map<std::string, std::string> m_mContextParams;
-		unsigned int m_uiNumRacers;
 		unsigned int m_uiLapsNeeded;
 		bool m_bCountdown;
 
-		void CreateHUDForRacer(const std::string& p_strGuid);
+		void CreateHUDForRacers(unsigned int p_uiNumHumanRacers);
 
 		void SendRaceInfoEvent();
 		void BeginRace();

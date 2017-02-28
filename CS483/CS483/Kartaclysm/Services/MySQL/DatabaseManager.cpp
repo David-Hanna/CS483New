@@ -150,9 +150,9 @@ std::vector<float> Kartaclysm::DatabaseManager::SelectFastestTimes(Database::Tra
 	{
 		sql::SQLString strQuery =
 			"SELECT race_times.race_time AS best_time "
-			"FROM race_times " // race_times is a created view, not a table FYI
-			"JOIN race ON race.race_id = race_times.race_id "
-			"WHERE race.track_id = " + std::to_string(static_cast<int>(p_eTrackID)) + " "
+			"FROM race_times " // race_time is a created view, not a table FYI
+			"WHERE race_times.track_id = " + std::to_string(static_cast<int>(p_eTrackID)) + " "
+			"AND race_times.is_human = true "
 			"ORDER BY best_time ASC "
 			"LIMIT " + std::to_string(p_iNumResults) + ";";
 

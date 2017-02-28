@@ -1885,5 +1885,8 @@
     <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_4.xml">
       <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
