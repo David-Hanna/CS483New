@@ -4,13 +4,14 @@
 
 namespace Kartaclysm
 {
-	ComponentTrack::ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName)
+	ComponentTrack::ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName, std::vector<PathNode>& p_vNodes)
 		:
 		Component(p_pGameObject),
 		m_strTrackName(p_strTrackName),
 		m_vTrackPieces(),
 		m_fRaceTime(-3.0f), // beginning countdown
-		m_iLapsToFinishTrack(3) // value of 0 can be used for testing
+		m_iLapsToFinishTrack(3), // value of 0 can be used for testing
+		m_vPathfindingNodes(p_vNodes)
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -33,7 +34,9 @@ namespace Kartaclysm
 		std::string strTrackName = "";
 		HeatStroke::EasyXML::GetRequiredStringAttribute(p_pBaseNode->FirstChildElement("Name"), "value", strTrackName);
 
-		return new ComponentTrack(p_pGameObject, strTrackName);
+		std::vector<PathNode> vNodes = ParsePathfindingNodes(p_pBaseNode);
+
+		return new ComponentTrack(p_pGameObject, strTrackName, vNodes);
 	}
 
 	void ComponentTrack::Init()
@@ -121,6 +124,15 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 
+	void ComponentTrack::RegisterAIRacer(ComponentRacer* p_pRacer)
+	{
+		p_pRacer->SetCurrentLap(0);
+		p_pRacer->SetCurrentTrackPiece(m_vTrackPieces.size() - 1);
+		p_pRacer->SetFurthestTrackPiece(m_vTrackPieces.size() - 1);
+
+		m_vRacers.push_back(p_pRacer);
+	}
+
 	void ComponentTrack::OnRacerTrackPieceCollision(const HeatStroke::Event* p_pEvent)
 	{
 		// parse event data
@@ -156,12 +168,14 @@ namespace Kartaclysm
 		}
 		m_vRacers[iRacerIndex]->SetCurrentTrackPiece(iTrackPieceIndex);
 
-		// update track height for racer
+		// update track height for racer + offroad
 		ComponentKartController* kartController = (ComponentKartController*)m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_KartController");
 		ComponentTrackPiece* trackPiece = (ComponentTrackPiece*)m_pGameObject->GetManager()->GetGameObject(strTrackPieceId)->GetComponent("GOC_TrackPiece");
 		if (kartController != nullptr && trackPiece != nullptr)
 		{
-			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(kartController->GetGameObject()->GetTransform().GetTranslation()));
+			glm::vec3 pos = kartController->GetGameObject()->GetTransform().GetTranslation();
+			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(pos));
+			kartController->SetOffroad(trackPiece->IsOffroadAtPosition(pos));
 		}
 	}
 
@@ -197,7 +211,7 @@ namespace Kartaclysm
 		return UINT_MAX;
 	}
 
-	int ComponentTrack::GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex)
+	int ComponentTrack::GetNextTrackPieceIndex(int p_iCurrentTrackPieceIndex) const
 	{
 		unsigned int iNextTrackPieceIndex = p_iCurrentTrackPieceIndex + 1;
 		return iNextTrackPieceIndex >= m_vTrackPieces.size() ? 0 : iNextTrackPieceIndex;
@@ -225,8 +239,8 @@ namespace Kartaclysm
 		bool bRaceStandingsUpdate = false;
 		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
 		{
-			ComponentRacer* racerA = m_vRacers[i];
-			if (racerA->HasFinishedRace())
+			ComponentRacer* pOriginalRacer = m_vRacers[i];
+			if (m_vRacers[i]->HasFinishedRace())
 			{
 				continue;
 			}
@@ -234,20 +248,20 @@ namespace Kartaclysm
 			bool bRacerPositionUpdated = false;
 			for (int j = i - 1; j >= 0; --j)
 			{
-				ComponentRacer* racerB = m_vRacers[j];
-				if (IsAhead(racerA, racerB))
+				if (IsAhead(m_vRacers[i], m_vRacers[j]))
 				{
-					m_vRacers[i] = racerB;
-					m_vRacers[j] = racerA;
+					ComponentRacer* pTemp = m_vRacers[j];
+					m_vRacers[j] = m_vRacers[i];
+					m_vRacers[i] = pTemp;
 					bRacerPositionUpdated = true;
 					bRaceStandingsUpdate = true;
-					TriggerRacerPositionUpdateEvent(racerB->GetGameObject()->GetGUID());
+					TriggerRacerPositionUpdateEvent(pTemp->GetGameObject()->GetGUID());
 				}
 			}
 
 			if (bRacerPositionUpdated)
 			{
-				TriggerRacerPositionUpdateEvent(racerA->GetGameObject()->GetGUID());
+				TriggerRacerPositionUpdateEvent(pOriginalRacer->GetGameObject()->GetGUID());
 			}
 		}
 
@@ -379,5 +393,40 @@ namespace Kartaclysm
 			pEvent->SetStringParameter(std::to_string(i), strGUID);
 		}
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+	}
+
+	ComponentTrack::PathNode ComponentTrack::GetNextNode(int p_iCurrentNodeIndex)
+	{
+		if (p_iCurrentNodeIndex >= m_vPathfindingNodes.size() - 1)
+		{
+			return m_vPathfindingNodes[0];
+		}
+		return m_vPathfindingNodes[p_iCurrentNodeIndex + 1];
+	}
+
+	std::vector<ComponentTrack::PathNode> ComponentTrack::ParsePathfindingNodes(tinyxml2::XMLNode* p_pRootNode)
+	{
+		std::vector<PathNode> vNodes;
+		tinyxml2::XMLElement* pPathfindingNodesElement = p_pRootNode->FirstChildElement("PathfindingNodes");
+		if (pPathfindingNodesElement)
+		{
+			tinyxml2::XMLElement* pNodeElement = pPathfindingNodesElement->FirstChildElement("Node");
+			int iIndex = 0;
+			while (pNodeElement)
+			{
+				PathNode node;
+
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "x", node.x);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "z", node.z);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "variation", node.variation);
+				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "radius", node.radius);
+				node.index = iIndex++;
+
+				vNodes.push_back(node);
+				pNodeElement = pNodeElement->NextSiblingElement("Node");
+			}
+		}
+
+		return vNodes;
 	}
 }

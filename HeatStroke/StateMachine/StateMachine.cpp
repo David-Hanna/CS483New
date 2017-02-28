@@ -165,7 +165,8 @@ void HeatStroke::StateMachine::Update(const float p_fDelta, const bool m_bUpdate
 	if (m_bUpdateStack)
 	{
 		// Update entire stack from bottom to top
-		StateStack::iterator it = m_mStateStack.begin(), end = m_mStateStack.end();
+		StateStack mLocalCopy(m_mStateStack);
+		StateStack::iterator it = mLocalCopy.begin(), end = mLocalCopy.end();
 		for (; it != end; it++)
 		{
 			it->second->Update(p_fDelta);

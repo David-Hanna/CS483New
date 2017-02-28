@@ -72,18 +72,21 @@ void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)
 
 		if (bConfirm)
 		{
+			std::map<std::string, std::string> mContextParameters;
 			switch (m_iModeSelection)
 			{
 			case 0:
 				m_pStateMachine->Pop();
-				m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU);
+				mContextParameters["Mode"] = "Single";
+				m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, mContextParameters);
 				break;
 			case 1:
 				m_pStateMachine->Pop();
-				m_pStateMachine->Push(STATE_TOURNAMENT);
+				mContextParameters["Mode"] = "Tournament";
+				m_pStateMachine->Push(STATE_TOURNAMENT, mContextParameters);
 				break;
 			case 2:
-				m_pStateMachine->Push(STATE_OPTIONS_MENU);
+				m_pStateMachine->Push(STATE_OPTIONS_MENU, mContextParameters);
 				break;
 			}
 		}
@@ -131,7 +134,7 @@ void Kartaclysm::StateModeSelectionMenu::PreRender()
 
 void Kartaclysm::StateModeSelectionMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

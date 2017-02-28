@@ -45,7 +45,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* pTrackElement = nullptr;
-	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
+	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
 	{
 		pTrackElement = doc.FirstChildElement("BestTimes");
 		auto it = vTracks.begin(), end = vTracks.end();
@@ -77,21 +77,18 @@ void Kartaclysm::StateTrackSelectionMenu::LoadBestTrackTime(tinyxml2::XMLElement
 
 	if (p_pBestTimesElement != nullptr)
 	{
-		tinyxml2::XMLElement* pTrackElement = p_pBestTimesElement->FirstChildElement(p_strTrack.c_str());
-		if (pTrackElement != nullptr)
-		{
-			HeatStroke::EasyXML::GetOptionalStringAttribute(pTrackElement, "RaceTime", strBestRaceTime, strBestRaceTime);
-		}
+		HeatStroke::EasyXML::GetOptionalStringAttribute(p_pBestTimesElement->FirstChildElement(p_strTrack.c_str()), "RaceTime", strBestRaceTime, strBestRaceTime);
 	}
 
 	auto it = p_vTrackTimers.begin(), end = p_vTrackTimers.end();
 	for (; it != end; it++)
 	{
-		HeatStroke::ComponentTextBox* pTimer = dynamic_cast<HeatStroke::ComponentTextBox*>((*it)->GetComponent("GOC_Renderable"));
-
-		if ((*it)->HasTag("RaceTime"))
+		if (HeatStroke::ComponentTextBox* pTimer = dynamic_cast<HeatStroke::ComponentTextBox*>((*it)->GetComponent("GOC_Renderable")))
 		{
-			pTimer->SetMessage(strBestRaceTime);
+			if ((*it)->HasTag("RaceTime"))
+			{
+				pTimer->SetMessage(strBestRaceTime);
+			}
 		}
 	}
 }
@@ -169,7 +166,7 @@ void Kartaclysm::StateTrackSelectionMenu::PreRender()
 
 void Kartaclysm::StateTrackSelectionMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{

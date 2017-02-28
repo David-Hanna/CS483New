@@ -368,7 +368,7 @@ void Kartaclysm::StatePlayerSelectionMenu::PreRender()
 
 void Kartaclysm::StatePlayerSelectionMenu::Exit()
 {
-	m_bSuspended = false;
+	m_bSuspended = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{
@@ -414,7 +414,6 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 {
 	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
-	std::map<std::string, std::string> m_mContextParameters;
 	m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
 
 	for (unsigned int i = 0; i < m_uiNumPlayers; i++)
