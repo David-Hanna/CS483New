@@ -192,7 +192,7 @@ void HeatStroke::Emitter::InitMaterial(tinyxml2::XMLElement* p_pMaterialElement)
 	m_pMat->SetTexture("Texture", TextureManager::CreateTexture(strTexture));
 
 	m_pMat->SetBlend(true);
-	m_pMat->SetBlendMode(HeatStroke::BM_SrcAlpha, HeatStroke::BM_One);
+	m_pMat->SetBlendMode(HeatStroke::BM_SrcAlpha, HeatStroke::BM_OneMinusSrcAlpha);
 }
 
 void HeatStroke::Emitter::InitSpawnProperties(tinyxml2::XMLElement* p_pSpawnPropertiesElement)

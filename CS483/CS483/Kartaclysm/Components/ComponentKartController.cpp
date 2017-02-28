@@ -255,6 +255,8 @@ namespace Kartaclysm
 
 		// Transform
 		UpdateTransform(fHeightMod, p_fDelta);
+
+		UpdateOffroadParticle();
 	}
 
 	void ComponentKartController::UpdateSpeed(int p_iAccelerateInput, int p_iBrakeInput, float p_fDelta)
@@ -557,6 +559,26 @@ namespace Kartaclysm
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
+	}
+
+	void ComponentKartController::UpdateOffroadParticle()
+	{
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pBoostParticleEffect = pComponentParticleEffect->GetEffect("offroad");
+			if (pBoostParticleEffect != nullptr)
+			{
+				if (m_bOffroad && !m_bAirborne && m_fSpeed >= m_fMaxSpeedStat * m_fSpeedScale * 0.2f)
+				{
+					pBoostParticleEffect->Start();
+				}
+				else
+				{
+					pBoostParticleEffect->Stop();
+				}
+			}
+		}
 	}
 
 	void ComponentKartController::Boost(float p_fPower)
