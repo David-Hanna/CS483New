@@ -62,6 +62,8 @@ namespace HeatStroke
 
 		bool empty() const { return m_mColliderMap.empty(); }
 
+		void SetGameObjectManager(GameObjectManager* p_pGameObjectManager) { m_pGameObjectManager = p_pGameObjectManager; }
+
 	private:
 		//---------------------------------------------------------------------
 		// Private members
@@ -69,6 +71,9 @@ namespace HeatStroke
 		static CollisionManager*	s_pCollisionManagerInstance;
 
 		ColliderMap m_mColliderMap;
+
+		unsigned int m_iEffectIndex;
+		GameObjectManager* m_pGameObjectManager;
 
 		//---------------------------------------------------------------------
 		// Private functions
@@ -81,6 +86,8 @@ namespace HeatStroke
 		// Collision pairs
 		void CheckCollision(ComponentSphereCollider* p_pCollider1, ComponentSphereCollider* p_pCollider2);
 		void CheckCollision(ComponentSphereCollider* p_pCollider1, ComponentWallCollider* p_pCollider2);
+
+		void CollisionEffect(glm::vec3& p_vPosition);
 	};
 }
 
