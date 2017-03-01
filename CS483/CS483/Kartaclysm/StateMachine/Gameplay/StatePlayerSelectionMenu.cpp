@@ -133,217 +133,223 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			else
 			{
 				m_mPerPlayerMenuState[i].bReady = false;
+
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pReadyButton);
+				m_mPerPlayerMenuState[i].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/not_ready_" + strPlayerNum + ".xml");
 			}
 		}
 
-		if (bUp && !m_mPerPlayerMenuState[i].bDriverHighlighted)
+		else if (m_mPerPlayerMenuState[i].bJoined)
 		{
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHighlight);
-			m_mPerPlayerMenuState[i].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_driver_selection_" + strPlayerNum + ".xml");
-			m_mPerPlayerMenuState[i].bDriverHighlighted = true;
-		}
-
-		if (bDown && m_mPerPlayerMenuState[i].bDriverHighlighted)
-		{
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHighlight);
-			m_mPerPlayerMenuState[i].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_kart_selection_" + strPlayerNum + ".xml");
-			m_mPerPlayerMenuState[i].bDriverHighlighted = false;
-		}
-
-		if (bLeft)
-		{
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDurabilityStatIcon);
-
-			if (m_mPerPlayerMenuState[i].bDriverHighlighted)
+			if (bUp && !m_mPerPlayerMenuState[i].bDriverHighlighted)
 			{
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverSelection);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
-
-				switch (m_mPerPlayerMenuState[i].eSelectedDriver)
-				{
-				case DRIVER_CLEOPAPA:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = 1;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = -1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
-					break;
-
-				case DRIVER_CLOCKMAKER:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = 0;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = -1;
-					break;
-
-				case DRIVER_KINGPIN:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = -1;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
-					break;
-				}
-			}
-			else
-			{
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartSelection);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
-
-				switch (m_mPerPlayerMenuState[i].eSelectedKart)
-				{
-				case KART_JUGGERNAUT:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 3;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 3;
-					break;
-					
-				case KART_SHOWOFF:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 5;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 1;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 5;
-					break;
-
-				case KART_SPEEDSTER:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 5;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 2;
-					break;
-				}
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHighlight);
+				m_mPerPlayerMenuState[i].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_driver_selection_" + strPlayerNum + ".xml");
+				m_mPerPlayerMenuState[i].bDriverHighlighted = true;
 			}
 
-			m_mPerPlayerMenuState[i].pSpeedStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/speed_" + std::to_string(m_mPerPlayerMenuState[i].iKartSpeedStat + m_mPerPlayerMenuState[i].iDriverSpeedStat) + ".xml");
-			m_mPerPlayerMenuState[i].pAccelerationStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/acceleration_" + std::to_string(m_mPerPlayerMenuState[i].iKartAccelerationStat + m_mPerPlayerMenuState[i].iDriverAccelerationStat) + ".xml");
-			m_mPerPlayerMenuState[i].pHandlingStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/handling_" + std::to_string(m_mPerPlayerMenuState[i].iKartHandlingStat + m_mPerPlayerMenuState[i].iDriverHandlingStat) + ".xml");
-			m_mPerPlayerMenuState[i].pDurabilityStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/durability_" + std::to_string(m_mPerPlayerMenuState[i].iKartDurabilityStat + m_mPerPlayerMenuState[i].iDriverDurabilityStat) + ".xml");
-		}
-
-		if (bRight)
-		{
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
-			m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDurabilityStatIcon);
-
-			if (m_mPerPlayerMenuState[i].bDriverHighlighted)
+			if (bDown && m_mPerPlayerMenuState[i].bDriverHighlighted)
 			{
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverSelection);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
-
-				switch (m_mPerPlayerMenuState[i].eSelectedDriver)
-				{
-				case DRIVER_CLEOPAPA:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = -1;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
-					break;
-
-				case DRIVER_CLOCKMAKER:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = 1;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = -1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
-					break;
-
-				case DRIVER_KINGPIN:
-					m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
-					m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
-					m_mPerPlayerMenuState[i].iDriverAccelerationStat = 0;
-					m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iDriverDurabilityStat = -1;
-					break;
-				}
-			}
-			else
-			{
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartSelection);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
-
-				switch (m_mPerPlayerMenuState[i].eSelectedKart)
-				{
-				case KART_JUGGERNAUT:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 5;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 2;
-					break;
-
-				case KART_SHOWOFF:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 3;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 3;
-					break;
-
-				case KART_SPEEDSTER:
-					m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
-					m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
-					m_mPerPlayerMenuState[i].iKartSpeedStat = 5;
-					m_mPerPlayerMenuState[i].iKartAccelerationStat = 1;
-					m_mPerPlayerMenuState[i].iKartHandlingStat = 1;
-					m_mPerPlayerMenuState[i].iKartDurabilityStat = 5;
-					break;
-				}
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHighlight);
+				m_mPerPlayerMenuState[i].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_kart_selection_" + strPlayerNum + ".xml");
+				m_mPerPlayerMenuState[i].bDriverHighlighted = false;
 			}
 
-			m_mPerPlayerMenuState[i].pSpeedStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/speed_" + std::to_string(m_mPerPlayerMenuState[i].iKartSpeedStat + m_mPerPlayerMenuState[i].iDriverSpeedStat) + ".xml");
-			m_mPerPlayerMenuState[i].pAccelerationStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/acceleration_" + std::to_string(m_mPerPlayerMenuState[i].iKartAccelerationStat + m_mPerPlayerMenuState[i].iDriverAccelerationStat) + ".xml");
-			m_mPerPlayerMenuState[i].pHandlingStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/handling_" + std::to_string(m_mPerPlayerMenuState[i].iKartHandlingStat + m_mPerPlayerMenuState[i].iDriverHandlingStat) + ".xml");
-			m_mPerPlayerMenuState[i].pDurabilityStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/durability_" + std::to_string(m_mPerPlayerMenuState[i].iKartDurabilityStat + m_mPerPlayerMenuState[i].iDriverDurabilityStat) + ".xml");
+			if (bLeft)
+			{
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDurabilityStatIcon);
+
+				if (m_mPerPlayerMenuState[i].bDriverHighlighted)
+				{
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverSelection);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
+
+					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
+					{
+					case DRIVER_CLEOPAPA:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = 1;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = -1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
+						break;
+
+					case DRIVER_CLOCKMAKER:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = 0;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = -1;
+						break;
+
+					case DRIVER_KINGPIN:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = -1;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
+						break;
+					}
+				}
+				else
+				{
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartSelection);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
+
+					switch (m_mPerPlayerMenuState[i].eSelectedKart)
+					{
+					case KART_JUGGERNAUT:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 3;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 3;
+						break;
+
+					case KART_SHOWOFF:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 5;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 1;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 5;
+						break;
+
+					case KART_SPEEDSTER:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 5;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 2;
+						break;
+					}
+				}
+
+				m_mPerPlayerMenuState[i].pSpeedStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/speed_" + std::to_string(m_mPerPlayerMenuState[i].iKartSpeedStat + m_mPerPlayerMenuState[i].iDriverSpeedStat) + ".xml");
+				m_mPerPlayerMenuState[i].pAccelerationStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/acceleration_" + std::to_string(m_mPerPlayerMenuState[i].iKartAccelerationStat + m_mPerPlayerMenuState[i].iDriverAccelerationStat) + ".xml");
+				m_mPerPlayerMenuState[i].pHandlingStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/handling_" + std::to_string(m_mPerPlayerMenuState[i].iKartHandlingStat + m_mPerPlayerMenuState[i].iDriverHandlingStat) + ".xml");
+				m_mPerPlayerMenuState[i].pDurabilityStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/durability_" + std::to_string(m_mPerPlayerMenuState[i].iKartDurabilityStat + m_mPerPlayerMenuState[i].iDriverDurabilityStat) + ".xml");
+			}
+
+			if (bRight)
+			{
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
+				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDurabilityStatIcon);
+
+				if (m_mPerPlayerMenuState[i].bDriverHighlighted)
+				{
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverSelection);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
+
+					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
+					{
+					case DRIVER_CLEOPAPA:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = -1;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
+						break;
+
+					case DRIVER_CLOCKMAKER:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = 1;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = -1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = 0;
+						break;
+
+					case DRIVER_KINGPIN:
+						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
+						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
+						m_mPerPlayerMenuState[i].iDriverAccelerationStat = 0;
+						m_mPerPlayerMenuState[i].iDriverHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iDriverDurabilityStat = -1;
+						break;
+					}
+				}
+				else
+				{
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartSelection);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
+					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
+
+					switch (m_mPerPlayerMenuState[i].eSelectedKart)
+					{
+					case KART_JUGGERNAUT:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 5;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 2;
+						break;
+
+					case KART_SHOWOFF:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 3;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 3;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 3;
+						break;
+
+					case KART_SPEEDSTER:
+						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
+						m_mPerPlayerMenuState[i].iKartSpeedStat = 5;
+						m_mPerPlayerMenuState[i].iKartAccelerationStat = 1;
+						m_mPerPlayerMenuState[i].iKartHandlingStat = 1;
+						m_mPerPlayerMenuState[i].iKartDurabilityStat = 5;
+						break;
+					}
+				}
+
+				m_mPerPlayerMenuState[i].pSpeedStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/speed_" + std::to_string(m_mPerPlayerMenuState[i].iKartSpeedStat + m_mPerPlayerMenuState[i].iDriverSpeedStat) + ".xml");
+				m_mPerPlayerMenuState[i].pAccelerationStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/acceleration_" + std::to_string(m_mPerPlayerMenuState[i].iKartAccelerationStat + m_mPerPlayerMenuState[i].iDriverAccelerationStat) + ".xml");
+				m_mPerPlayerMenuState[i].pHandlingStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/handling_" + std::to_string(m_mPerPlayerMenuState[i].iKartHandlingStat + m_mPerPlayerMenuState[i].iDriverHandlingStat) + ".xml");
+				m_mPerPlayerMenuState[i].pDurabilityStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/durability_" + std::to_string(m_mPerPlayerMenuState[i].iKartDurabilityStat + m_mPerPlayerMenuState[i].iDriverDurabilityStat) + ".xml");
+			}
 		}
 	}
 
