@@ -8,6 +8,8 @@
 #include "StateRacing.h"
 #include "KeyboardInputBuffer.h"
 
+#include "CollisionManager.h"
+
 Kartaclysm::StateRacing::StateRacing()
 	:
 	GameplayState("Racing"),
@@ -89,6 +91,8 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_KartController", ComponentKartController::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AIDriver", ComponentAIDriver::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
+
+	m_pGameObjectManager->RegisterComponentFactory("GOC_Effect", ComponentEffect::CreateComponent);
 	
 	// Store passed context parameters and begin race
 	m_mContextParams = p_mContextParameters;
@@ -96,6 +100,9 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	BeginRace();
 
 	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+
+	// I have to do this horrible spaghetti crap because game object manager isn't a SINGLETON
+	HeatStroke::CollisionManager::Instance()->m_pGameObjectManager = m_pGameObjectManager;
 }
 
 void Kartaclysm::StateRacing::SendRaceInfoEvent()

@@ -571,7 +571,7 @@ namespace Kartaclysm
 			{
 				if (m_bOffroad && !m_bAirborne && m_fSpeed >= m_fMaxSpeedStat * m_fSpeedScale * 0.2f)
 				{
-					pBoostParticleEffect->Start();
+					pBoostParticleEffect->Start(); 
 				}
 				else
 				{
