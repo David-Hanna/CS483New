@@ -17,12 +17,20 @@
   <Children>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="0.0" y="1" z="-5.0" />
+        <Translation x="0.0" y="0.1" z="-5.0" />
+        <Scale x="1.0" y="0.3" z="0.2"/>
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="0.0" y="1" z="5.0" />
+        <Translation x="0.0" y="0.1" z="5.0" />
+        <Scale x="1.0" y="0.3" z="0.2"/>
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+      <Transform>
+        <Translation x="0.0" y="0.0" z="-8.0"/>
+        <Scale x="0.3" y="0.3" z="0.3"/>
       </Transform>
     </GameObject>
   </Children>
