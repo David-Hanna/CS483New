@@ -279,7 +279,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 	}
 }
 
-void CollisionManager::CollisionEffect(glm::vec3 p_vPosition)
+void CollisionManager::CollisionEffect(glm::vec3& p_vPosition)
 {
 	GameObject* pEffect = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/collision_effect.xml", "CollisionEffect" + std::to_string(m_iEffectIndex));
 	m_iEffectIndex++;

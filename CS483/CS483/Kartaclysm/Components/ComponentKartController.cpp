@@ -563,7 +563,7 @@ namespace Kartaclysm
 
 	void ComponentKartController::UpdateOffroadParticle()
 	{
-		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
 		if (pComponentParticleEffect)
 		{
 			HeatStroke::Effect* pBoostParticleEffect = pComponentParticleEffect->GetEffect("offroad");

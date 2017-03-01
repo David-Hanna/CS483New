@@ -49,7 +49,7 @@ namespace Kartaclysm
 
 		if (!m_bStarted)
 		{
-			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
 			if (pComponentParticleEffect)
 			{
 				HeatStroke::Effect* pCollisionParticleEffect = pComponentParticleEffect->GetEffect("collision");

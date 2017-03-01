@@ -102,7 +102,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
 
 	// I have to do this horrible spaghetti crap because game object manager isn't a SINGLETON
-	HeatStroke::CollisionManager::Instance()->m_pGameObjectManager = m_pGameObjectManager;
+	HeatStroke::CollisionManager::Instance()->SetGameObjectManager(m_pGameObjectManager);
 }
 
 void Kartaclysm::StateRacing::SendRaceInfoEvent()
