@@ -21,6 +21,9 @@
     <Model path="Assets/Track/track_turn_left_small.obj"/>
     <Model path="Assets/Track/track_turn_right_large.obj"/>
     <Model path="Assets/Track/track_turn_right_small.obj"/>
+    
+    <Model path="Assets/Wall/wall_north_south.obj"/>
+    <Model path="Assets/Wall/wall_east_west.obj"/>
   
     <Model path="Assets/Abilities/bowling_ball.obj"/>
     <Model path="Assets/Abilities/bomb.obj"/>
@@ -48,4 +51,59 @@
   
     <SoundEffect path="Assets/Sounds/speedster_boost.flac"/>
   </SoundEffects>
+
+  <Sprites>
+    <!-- HUD -->
+    <Sprite path="Assets/Hud/Abilities/armor.mtl" mtl="armor"/>
+    <Sprite path="Assets/Hud/Abilities/bedazzle.mtl" mtl="bedazzle"/>
+    <Sprite path="Assets/Hud/Abilities/bedazzle_inactive.mtl" mtl="bedazzle_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/boost.mtl" mtl="boost"/>
+    <Sprite path="Assets/Hud/Abilities/boost_inactive.mtl" mtl="boost_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/clockbomb.mtl" mtl="clockbomb"/>
+    <Sprite path="Assets/Hud/Abilities/clockbomb_inactive.mtl" mtl="clockbomb_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/maintain.mtl" mtl="maintain"/>
+    <Sprite path="Assets/Hud/Abilities/maintain_inactive.mtl" mtl="maintain_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/makeitrain.mtl" mtl="makeitrain"/>
+    <Sprite path="Assets/Hud/Abilities/null_ability.mtl" mtl="null_ability"/>
+    <Sprite path="Assets/Hud/Abilities/strike.mtl" mtl="strike"/>
+    <Sprite path="Assets/Hud/Abilities/strike_inactive.mtl" mtl="strike_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/tinker.mtl" mtl="tinker"/>
+    <Sprite path="Assets/Hud/Abilities/tinker_inactive.mtl" mtl="tinker_inactive"/>
+    <Sprite path="Assets/Hud/Abilities/turkey.mtl" mtl="turkey"/>
+    <Sprite path="Assets/Hud/Abilities/wheelie.mtl" mtl="wheelie"/>
+    <Sprite path="Assets/Hud/Popups/paused.mtl" mtl="paused"/>
+    <Sprite path="Assets/Hud/Popups/slow.mtl" mtl="slow"/>
+    <Sprite path="Assets/Hud/Popups/wrong_way.mtl" mtl="wrong_way"/>
+    <Sprite path="Assets/Hud/Positions/position_1.mtl" mtl="position_1"/>
+    <Sprite path="Assets/Hud/Positions/position_2.mtl" mtl="position_2"/>
+    <Sprite path="Assets/Hud/Positions/position_3.mtl" mtl="position_3"/>
+    <Sprite path="Assets/Hud/Positions/position_4.mtl" mtl="position_4"/>
+
+    <!-- Menus -->
+    <Sprite path="Assets/Menus/MainMenu/loading_message.mtl" mtl="loading_message"/>
+    <Sprite path="Assets/Menus/MainMenu/press_start.mtl" mtl="press_start"/>
+    <Sprite path="Assets/Menus/MainMenu/title_image.mtl" mtl="title_image"/>
+    <Sprite path="Assets/Menus/OptionsMenu/slider_fill.mtl" mtl="slider_fill"/>
+    <Sprite path="Assets/Menus/OptionsMenu/slider_outline.mtl" mtl="slider_outline"/>
+    <Sprite path="Assets/Menus/PauseMenu/paused.mtl" mtl="paused"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/description_box.mtl" mtl="description_box"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/divider.mtl" mtl="divider"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/highlight.mtl" mtl="highlight"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/left_arrow.mtl" mtl="left_arrow"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/not_ready.mtl" mtl="not_ready"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/press_start_to_join.mtl" mtl="press_start_to_join"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/ready.mtl" mtl="ready"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/right_arrow.mtl" mtl="right_arrow"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_a.mtl" mtl="stat_a"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_b.mtl" mtl="stat_b"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_c.mtl" mtl="stat_c"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_d.mtl" mtl="stat_d"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_e.mtl" mtl="stat_e"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_f.mtl" mtl="stat_f"/>
+    <Sprite path="Assets/Menus/PlayerSelectionMenu/stat_s.mtl" mtl="stat_s"/>
+    <Sprite path="Assets/Menus/TrackSelectionMenu/highlight.mtl" mtl="highlight"/>
+    <Sprite path="Assets/Menus/TrackSelectionMenu/noob_zone_overhead.mtl" mtl="noob_zone_overhead"/>
+    <Sprite path="Assets/Menus/TrackSelectionMenu/shift_rift_overhead.mtl" mtl="shift_rift_overhead"/>
+    <Sprite path="Assets/Menus/TrackSelectionMenu/up_and_over_overhead.mtl" mtl="up_and_over_overhead"/>
+  </Sprites>
 </Preload>

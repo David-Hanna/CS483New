@@ -1,0 +1,12 @@
+<GameObject>
+	<Transform>
+		<Scale x="400.0" y="400.0" z="1.0" />
+		<Translation x="0.0" y="0.0" z="-1.0" />
+	</Transform>
+	<Components>
+		<GOC_Sprite>
+			<MTLFileName path="Assets/Menus/Background/background.mtl"/>
+			<MaterialName name="background"/>
+		</GOC_Sprite>
+	</Components>
+</GameObject>

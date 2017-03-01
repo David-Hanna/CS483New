@@ -51,6 +51,10 @@ HeatStroke::Font* HeatStroke::FontManager::GetOrCreateFont(const std::string& p_
 		}
 	}
 
+#ifdef _DEBUG
+	printf("FontManager - Unloaded font: %s\n", p_strFontFileName.c_str());
+#endif
+
 	Font* pFont = new Font(p_strFontFileName);
 	m_mLoadedFonts[p_strFontFileName] = pFont;
 	return pFont;
