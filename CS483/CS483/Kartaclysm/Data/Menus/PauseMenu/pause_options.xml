@@ -17,12 +17,12 @@
 		<!-- Continue -->
 		<GameObject guid="continue">
 			<Transform>
-				<Translation x="-224.0" y="20.0" z="1.0"/>
-				<Scale x="0.5" y="0.5" z="1.0"/>
+				<Translation x="-223.0" y="20.0" z="1.0"/>
+				<Scale x="0.7" y="0.9" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
-					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
 					<Message value="Continue"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
@@ -33,12 +33,12 @@
     <!-- Options -->
     <GameObject guid="options">
       <Transform>
-        <Translation x="-224.0" y="-10.0" z="1.0"/>
-        <Scale x="0.5" y="0.5" z="1.0"/>
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Translation x="-220.0" y="-10.0" z="1.0"/>
+        <Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="Options"/>
           <Width value="200.0"/>
           <Height value="200.0"/>
@@ -49,12 +49,12 @@
     <!-- Restart -->
     <GameObject guid="restart">
       <Transform>
-        <Translation x="-222.0" y="-40.0" z="1.0"/>
-        <Scale x="0.5" y="0.5" z="1.0"/>
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Translation x="-220.0" y="-40.0" z="1.0"/>
+        <Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="Restart"/>
           <Width value="200.0"/>
           <Height value="200.0"/>
@@ -66,11 +66,11 @@
     <GameObject guid="quit">
       <Transform>
         <Translation x="-211.0" y="-70.0" z="1.0"/>
-        <Scale x="0.5" y="0.5" z="1.0"/>
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="Quit"/>
           <Width value="200.0"/>
           <Height value="200.0"/>

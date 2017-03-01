@@ -17,11 +17,11 @@
 		<GameObject>
 			<Transform>
 				<Translation x="-88.0" y="83.5" z="0.0"/>
-				<Scale x="0.1" y="0.2" z="1.0"/>
+				<Scale x="0.2" y="0.4" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
-					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
 					<Message value="Clock Bomb"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
@@ -46,11 +46,11 @@
 		<GameObject>
 			<Transform>
 				<Translation x="-88.0" y="68.5" z="0.0"/>
-				<Scale x="0.1" y="0.2" z="1.0"/>
+				<Scale x="0.2" y="0.4" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
-					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
 					<Message value="Tinker"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
