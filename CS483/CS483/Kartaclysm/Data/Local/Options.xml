@@ -1,0 +1,6 @@
+<Options>
+    <Audio>
+        <Music volume="0"/>
+        <SFX volume="80"/>
+    </Audio>
+</Options>

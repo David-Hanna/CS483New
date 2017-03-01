@@ -31,6 +31,7 @@
 
   <SoundEffects>
     <SoundEffect path="Assets/Sounds/engine.wav"/>
+    <SoundEffect path="Assets/Sounds/drive_on_grass.wav"/>
     <SoundEffect path="Assets/Sounds/load.wav"/>
     
     <SoundEffect path="Assets/Sounds/cleopapa_bedazzle.wav"/>
