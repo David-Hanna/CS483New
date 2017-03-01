@@ -12,6 +12,7 @@
 
 #include "Common.h"
 #include "Sprite.h"
+#include "EasyXML.h"
 
 #include <map>
 
@@ -24,6 +25,7 @@ namespace HeatStroke
 		static void DestroyInstance();
 		static SpriteManager* Instance();
 
+		void Preload(const std::string& p_strPreloadFileName);
 		Sprite* GetOrCreateSprite(const std::string& p_strMTLFileName, const std::string& p_strMaterialName);
 		void Flush();
 

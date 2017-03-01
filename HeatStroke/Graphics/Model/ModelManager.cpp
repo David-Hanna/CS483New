@@ -78,6 +78,10 @@ HeatStroke::Model* HeatStroke::ModelManager::GetOrCreateModel(const std::string&
 		}
 	}
 
+#ifdef _DEBUG
+	printf("ModelManager - Unloaded model: %s\n", p_strOBJFileName.c_str());
+#endif
+
 	Model* pModel = new Model(p_strOBJFileName);
 	m_mLoadedModels[p_strOBJFileName] = pModel;
 	return pModel;

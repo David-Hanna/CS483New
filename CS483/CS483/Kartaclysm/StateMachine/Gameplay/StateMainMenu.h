@@ -18,6 +18,7 @@
 #include "KeyboardInputBuffer.h"
 #include "PlayerInputMapping.h"
 #include "ModelManager.h"
+#include "SpriteManager.h"
 
 namespace Kartaclysm
 {

@@ -17,12 +17,12 @@
 		<!-- Text box -->
 		<GameObject>
 			<Transform>
-				<Translation x="-60.0" y="12.8" z="0.0"/>
-				<Scale x="0.15" y="0.3" z="1.0"/>
+				<Translation x="-64.0" y="12.8" z="0.0"/>
+				<Scale x="0.3" y="0.5" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
-					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
 					<Message value="The Showoff"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>

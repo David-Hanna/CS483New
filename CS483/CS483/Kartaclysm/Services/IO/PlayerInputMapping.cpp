@@ -340,7 +340,7 @@ namespace Kartaclysm
 			}
 			else
 			{
-				AssignInput(i, GetFirstAvailableInput());
+				//AssignInput(i, GetFirstAvailableInput());
 			}
 		}
 
@@ -410,7 +410,7 @@ namespace Kartaclysm
 			{
 				if (!m_bRaceMode)
 				{
-					AssignInput(iPlayerWithoutInput, iGLFWJoystick);
+					//AssignInput(iPlayerWithoutInput, iGLFWJoystick);
 				}
 				else
 				{
@@ -426,7 +426,7 @@ namespace Kartaclysm
 				int iKeyboardPlayer = PlayerUsingInput(GLFW_JOYSTICK_LAST + 1);
 				if (iKeyboardPlayer >= 0 && !m_bRaceMode)
 				{
-					AssignInput(iKeyboardPlayer, iGLFWJoystick);
+					//AssignInput(iKeyboardPlayer, iGLFWJoystick);
 				}
 			}
 		}
@@ -438,7 +438,7 @@ namespace Kartaclysm
 			{
 				if (!m_bRaceMode)
 				{
-					AssignInput(iPlayerUsingInput, GetFirstAvailableInput());
+					//AssignInput(iPlayerUsingInput, GetFirstAvailableInput());
 				}
 				else
 				{
