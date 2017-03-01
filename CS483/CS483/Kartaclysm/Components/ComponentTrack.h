@@ -89,6 +89,7 @@ namespace Kartaclysm
 
 			float m_fRaceTime;
 			int m_iLapsToFinishTrack;
+			bool m_bRacerIsOffroad;		// if at least one racer is offroad, play driving_on_grass sfx.
 
 			static std::vector<PathNode> ParsePathfindingNodes(tinyxml2::XMLNode* p_pRootNode);
 	};

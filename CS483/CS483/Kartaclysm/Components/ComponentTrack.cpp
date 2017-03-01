@@ -11,6 +11,7 @@ namespace Kartaclysm
 		m_vTrackPieces(),
 		m_fRaceTime(-3.0f), // beginning countdown
 		m_iLapsToFinishTrack(3), // value of 0 can be used for testing
+		m_bRacerIsOffroad(false),
 		m_vPathfindingNodes(p_vNodes)
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
@@ -22,6 +23,8 @@ namespace Kartaclysm
 
 	ComponentTrack::~ComponentTrack()
 	{
+		HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
+
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 		delete m_pRacerTrackPieceUpdatedDelegate;
 
@@ -58,6 +61,9 @@ namespace Kartaclysm
 	void ComponentTrack::Update(const float p_fDelta)
 	{
 		m_fRaceTime += p_fDelta;
+
+		// Assume false before this is re-flagged during this update loop by "RacerTrackPieceUpdated" events.
+		m_bRacerIsOffroad = false;
 
 		// Iterate through track pieces to find which karts are located on them
 		std::vector<bool> racersOnTrackPieces(m_vRacers.size(), false);
@@ -103,6 +109,16 @@ namespace Kartaclysm
 			{
 				ResetRacerPosition(m_vRacers[i]);
 			}
+		}
+
+		if (m_bRacerIsOffroad)
+		{
+			// AudioPlayer will not start sfx over if it's already playing.
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/drive_on_grass.wav", true);
+		}
+		else
+		{
+			HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
 		}
 
 		UpdateRacerPositions();
@@ -175,7 +191,12 @@ namespace Kartaclysm
 		{
 			glm::vec3 pos = kartController->GetGameObject()->GetTransform().GetTranslation();
 			kartController->UpdateTrackHeight(trackPiece->HeightAtPosition(pos));
-			kartController->SetOffroad(trackPiece->IsOffroadAtPosition(pos));
+			bool bOffroad = trackPiece->IsOffroadAtPosition(pos);
+			kartController->SetOffroad(bOffroad);
+			if (bOffroad)
+			{
+				m_bRacerIsOffroad = true;
+			}
 		}
 	}
 

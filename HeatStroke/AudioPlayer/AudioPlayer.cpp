@@ -117,8 +117,11 @@ void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile, cons
 		return;
 	}
 
-	it->second.second->setLoop(loop);
-	it->second.second->play();
+	if (it->second.second->getStatus() != sf::Sound::Playing)
+	{
+		it->second.second->setLoop(loop);
+		it->second.second->play();
+	}
 }
 
 void HeatStroke::AudioPlayer::StopSoundEffect(const std::string& p_strFile)
