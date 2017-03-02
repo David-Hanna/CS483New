@@ -525,6 +525,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -902,6 +905,9 @@
     <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentEffect.h">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -1199,9 +1205,6 @@
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\ready_0.xml">
-      <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\press_start_to_join_1.xml">
@@ -1872,6 +1875,9 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results0\position_4.xml">
       <Filter>Kartaclysm\Data\Menus\RaceCompleteMenu\results0</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
   </ItemGroup>
 </Project>

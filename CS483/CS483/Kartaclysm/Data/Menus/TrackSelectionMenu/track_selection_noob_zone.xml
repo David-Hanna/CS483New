@@ -4,11 +4,11 @@
 		<GameObject>
 			<Transform>
 				<Translation x="-90.0" y="60.0" z="0.0"/>
-				<Scale x="0.5" y="0.7" z="1.0"/>
+				<Scale x="0.7" y="0.9" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
-					<FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
 					<Message value="Noob Zone"/>
 					<Width value="200.0"/>
 					<Height value="200.0"/>
@@ -34,11 +34,11 @@
     <GameObject>
       <Transform>
         <Translation x="17.5" y="42.5" z="1.0" />
-        <Scale x="0.25" y="0.25" z="1.0"/>
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Scale x="0.3" y="0.5" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="--:--.--"/>
           <Width value="200.0"/>
           <Height value="200.0"/>

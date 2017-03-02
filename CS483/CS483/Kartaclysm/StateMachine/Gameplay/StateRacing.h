@@ -50,6 +50,7 @@
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
 #include "ComponentParticleEffect.h"
+#include "ComponentEffect.h"
 
 #include "Common.h"
 #include "GameplayState.h"

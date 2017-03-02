@@ -19,7 +19,7 @@ namespace Kartaclysm
 		m_mChargesTextBox(m_pFont, ""),
 		m_mControlsTextBox(m_pFont, ""),
 		m_pActiveSprite(nullptr),
-		m_pInactiveSprite(new HeatStroke::SpriteInstance("Assets/Hud/Abilities/null.mtl", "null_ability")),
+		m_pInactiveSprite(new HeatStroke::SpriteInstance("Assets/Hud/Abilities/null_ability.mtl", "null_ability")),
 		m_strEventName(p_strAbility),
 		m_bReady(false),
 		m_bHasCharges(false)

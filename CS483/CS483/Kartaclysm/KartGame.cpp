@@ -34,6 +34,9 @@ bool Kartaclysm::KartGame::Init()
 
 	HeatStroke::MySQLConnector::Instance()->Test(); // this does cause a small delay, but meh
 
+	// Preload sprites (needed for title image and loading message on main menu)
+	HeatStroke::SpriteManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
