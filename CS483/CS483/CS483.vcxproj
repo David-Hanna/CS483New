@@ -145,6 +145,7 @@
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentDriverStatMods.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentMaintainAbility.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentDriverStatMods.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentEffect.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
@@ -605,6 +607,7 @@
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml" />

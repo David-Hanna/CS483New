@@ -84,6 +84,8 @@ namespace Kartaclysm
 
 		void UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 
+		void UpdateOffroadParticle();
+
 		void Boost(float p_fPower);
 		void WheelieToggle();
 		void Spinout(float p_fDuration);

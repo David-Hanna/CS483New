@@ -8,7 +8,7 @@
 
 namespace HeatStroke
 {
-	class ComponentParticleEffect : Component
+	class ComponentParticleEffect : public Component
 	{
 		public:
 			virtual const std::string ComponentID() const override {return "GOC_ParticleEffect";}
