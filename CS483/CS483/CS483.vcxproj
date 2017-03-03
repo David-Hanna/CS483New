@@ -415,7 +415,6 @@
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_4.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_5.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats\speed_6.xml" />
-    <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\description_boxes_1.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_abilities_cleopapa_1.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_1\driver_abilities_clockmaker_1.xml" />

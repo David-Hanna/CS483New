@@ -59,29 +59,27 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+	if (bConfirm)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
-
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm)
+		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty()) // may be popped to StateTournament
 		{
-			m_pStateMachine->Pop();
-			if (m_pStateMachine->empty()) // may be popped to StateTournament
-			{
-				m_pStateMachine->Push(STATE_MAIN_MENU);
-			}
+			m_pStateMachine->Push(STATE_MAIN_MENU);
 		}
 	}
 }
 
 void Kartaclysm::StateRaceCompleteMenu::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }

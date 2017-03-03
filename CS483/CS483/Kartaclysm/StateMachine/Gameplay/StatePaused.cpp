@@ -61,9 +61,7 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 void Kartaclysm::StatePaused::Suspend(const int p_iNewState)
 { 
 	m_bSuspended = true;
-
-	// TODO: Quick way to switch to OptionsMenu without having to create another camera
-	m_pGameObjectManager->DestroyAllGameObjects();
+	Exit();
 }
 void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 { 
@@ -73,117 +71,116 @@ void Kartaclysm::StatePaused::Unsuspend(const int p_iPrevState)
 
 void Kartaclysm::StatePaused::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	if (m_bSkipFirstFrame)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
+		// Done to avoid having the Pause button be pressed on first frame, which may also be the confirm button
+		m_bSkipFirstFrame = false;
+		return;
+	}
 
-		if (m_bSkipFirstFrame)
-		{
-			// Done to avoid having the Pause button be pressed on first frame, which may also be the confirm button
-			m_bSkipFirstFrame = false;
-			return;
-		}
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(m_iPausedPlayer, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
 
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(m_iPausedPlayer, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm)
+	if (bConfirm)
+	{
+		switch (m_iOptionSelection)
 		{
-			switch (m_iOptionSelection)
-			{
-			case 0: // continue
-				m_pStateMachine->Pop();
-				break;
-			case 1: // options
-				m_pStateMachine->Push(STATE_OPTIONS_MENU);
-				break;
-			case 2: // restart (skipped in tournament mode)
-				assert(!m_bTournament && "Cannot restart race during tournament mode");
-				m_pStateMachine->Pop();
-				HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
-				break;
-			case 3: // quit
-				m_pStateMachine->Pop(); // pause
-				m_pStateMachine->Pop(); // race
-				if (m_pStateMachine->empty()) // may have tournament state
-				{
-					m_pStateMachine->Push(STATE_MAIN_MENU);
-				}
-				break;
-			}
-		}
-		else if (bCancel)
-		{
+		case 0: // continue
 			m_pStateMachine->Pop();
-		}
-		else if (bUp)
-		{
-			switch (m_iOptionSelection)
+			break;
+		case 1: // options
+			m_pStateMachine->Push(STATE_OPTIONS_MENU);
+			break;
+		case 2: // restart (skipped in tournament mode)
+			assert(!m_bTournament && "Cannot restart race during tournament mode");
+			m_pStateMachine->Pop();
+			HeatStroke::EventManager::Instance()->TriggerEvent(new HeatStroke::Event("RaceRestart"));
+			break;
+		case 3: // quit
+			m_pStateMachine->Pop(); // pause
+			m_pStateMachine->Pop(); // race
+			if (m_pStateMachine->empty()) // may have tournament state
 			{
-			case 1:
-				m_iOptionSelection = 0;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_continue.xml");
-				break;
-			case 2:
-				m_iOptionSelection = 1;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
-				break;
-			case 3:
-				if (m_bTournament)
-				{
-					m_iOptionSelection = 1;
-					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
-				}
-				else
-				{
-					m_iOptionSelection = 2;
-					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
-				}
-				break;
+				m_pStateMachine->Push(STATE_MAIN_MENU);
 			}
+			break;
 		}
-		else if (bDown)
+	}
+	else if (bCancel)
+	{
+		m_pStateMachine->Pop();
+	}
+	else if (bUp)
+	{
+		switch (m_iOptionSelection)
 		{
-			switch (m_iOptionSelection)
+		case 1:
+			m_iOptionSelection = 0;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_continue.xml");
+			break;
+		case 2:
+			m_iOptionSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
+			break;
+		case 3:
+			if (m_bTournament)
 			{
-			case 0:
 				m_iOptionSelection = 1;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
-				break;
-			case 1:
-				if (m_bTournament)
-				{
-					m_iOptionSelection = 3;
-					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
-				}
-				else
-				{
-					m_iOptionSelection = 2;
-					m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-					m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
-				}
-				break;
-			case 2:
+			}
+			else
+			{
+				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+			}
+			break;
+		}
+	}
+	else if (bDown)
+	{
+		switch (m_iOptionSelection)
+		{
+		case 0:
+			m_iOptionSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_options.xml");
+			break;
+		case 1:
+			if (m_bTournament)
+			{
 				m_iOptionSelection = 3;
 				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
 				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
-				break;
 			}
+			else
+			{
+				m_iOptionSelection = 2;
+				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_restart.xml");
+			}
+			break;
+		case 2:
+			m_iOptionSelection = 3;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_quit.xml");
+			break;
 		}
 	}
 }
 
 void Kartaclysm::StatePaused::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
+
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }
