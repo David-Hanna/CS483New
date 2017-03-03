@@ -1870,5 +1870,8 @@
     <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options_tournament.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

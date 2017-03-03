@@ -35,15 +35,17 @@ void Kartaclysm::StatePaused::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_overlay.xml");
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_options.xml");
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_highlight_continue.xml");
 
 	m_bTournament = (p_mContextParameters.at("Mode") == "Tournament");
 	if (m_bTournament)
 	{
 		// Cannot restart race during a tournament
-		// TODO: Another quick fix to destroy game object before it renders for one frame
-		m_pGameObjectManager->ForceInstantDestroyGameObject(m_pGameObjectManager->GetGameObject("restart"));
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_options_tournament.xml");
+	}
+	else
+	{
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PauseMenu/pause_options.xml");
 	}
 
 	m_iOptionSelection = 0;

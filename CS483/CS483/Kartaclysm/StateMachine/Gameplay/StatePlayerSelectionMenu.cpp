@@ -137,7 +137,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			{
 				RemovePlayer(i);
 
-				// Pop if no player is left joined. Otherwise, reset all players to not ready
+				// Pop if no player is left joined. Otherwise, reset all players to not ready.
 				bool bPlayerStillJoined = false;
 				for (auto mPlayer : m_mPerPlayerMenuState)
 				{
@@ -151,6 +151,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 				if (!bPlayerStillJoined)
 				{
 					m_pStateMachine->Pop();
+					return;
 				}
 			}
 		}
@@ -164,14 +165,14 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 				m_mPerPlayerMenuState[i].bDriverHighlighted = true;
 			}
 
-			if (bDown && m_mPerPlayerMenuState[i].bDriverHighlighted)
+			else if (bDown && m_mPerPlayerMenuState[i].bDriverHighlighted)
 			{
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHighlight);
 				m_mPerPlayerMenuState[i].pHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/highlight_kart_selection_" + strPlayerNum + ".xml");
 				m_mPerPlayerMenuState[i].bDriverHighlighted = false;
 			}
 
-			if (bLeft)
+			if (bLeft && !m_mPerPlayerMenuState[i].bReady)
 			{
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
@@ -269,7 +270,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 				m_mPerPlayerMenuState[i].pDurabilityStatIcon = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/stats/durability_" + std::to_string(m_mPerPlayerMenuState[i].iKartDurabilityStat + m_mPerPlayerMenuState[i].iDriverDurabilityStat) + ".xml");
 			}
 
-			if (bRight)
+			else if (bRight && !m_mPerPlayerMenuState[i].bReady)
 			{
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
@@ -400,6 +401,7 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int p_uiPlay
 {
 	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined == false);
 	m_mPerPlayerMenuState[p_uiPlayerNum].bJoined = true;
+	m_mPerPlayerMenuState[p_uiPlayerNum].bReady = false;
 	std::string strPlayerNum = std::to_string(p_uiPlayerNum);
 
 	std::string strSpeed = std::to_string(m_mPerPlayerMenuState[p_uiPlayerNum].iKartSpeedStat + m_mPerPlayerMenuState[p_uiPlayerNum].iDriverSpeedStat);
@@ -410,6 +412,7 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int p_uiPlay
 	if (m_mPerPlayerMenuState[p_uiPlayerNum].pPressStartToJoin != nullptr)
 	{
 		m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[p_uiPlayerNum].pPressStartToJoin);
+		m_mPerPlayerMenuState[p_uiPlayerNum].pPressStartToJoin = nullptr;
 	}
 
 	m_mPerPlayerMenuState[p_uiPlayerNum].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
@@ -434,6 +437,7 @@ void Kartaclysm::StatePlayerSelectionMenu::RemovePlayer(const unsigned int p_uiP
 {
 	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined == true);
 	m_mPerPlayerMenuState[p_uiPlayerNum].bJoined = false;
+	m_mPerPlayerMenuState[p_uiPlayerNum].bReady = false;
 	std::string strPlayerNum = std::to_string(p_uiPlayerNum);
 
 	if (m_mPerPlayerMenuState[p_uiPlayerNum].pPressStartToJoin == nullptr)
@@ -456,6 +460,21 @@ void Kartaclysm::StatePlayerSelectionMenu::RemovePlayer(const unsigned int p_uiP
 	m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[p_uiPlayerNum].pKartDisplay);
 	m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[p_uiPlayerNum].pHighlight);
 
+	m_mPerPlayerMenuState[p_uiPlayerNum].pDriverSelection = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pKartSelection = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pReadyButton = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pDescriptionBoxes = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pDriverAbilities = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pKartAbilities = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pStatDescription = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pSpeedStatIcon = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pAccelerationStatIcon = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pHandlingStatIcon = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pDurabilityStatIcon = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pDriverDisplay = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pKartDisplay = nullptr;
+	m_mPerPlayerMenuState[p_uiPlayerNum].pHighlight = nullptr;
+
 	m_uiNumPlayers--;
 }
 
@@ -464,13 +483,16 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
 	m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
+	unsigned int uiJoined = 0;
 
-	for (unsigned int i = 0; i < m_uiNumPlayers; i++)
+	for (unsigned int i = 0; i < 4; i++)
 	{
-		std::string strPlayerNum = std::to_string(i);
+		if (!m_mPerPlayerMenuState[i].bReady) continue;
+
+		std::string strPlayerNum = std::to_string(uiJoined++);
 		m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_StartPosition", strPlayerNum));
 
-		switch (m_mPerPlayerMenuState[i].eSelectedDriver)
+		switch (m_mPerPlayerMenuState[uiJoined].eSelectedDriver)
 		{
 		case DRIVER_CLEOPAPA:
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_cleopapa.xml"));
@@ -485,7 +507,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 			break;
 		}
 
-		switch (m_mPerPlayerMenuState[i].eSelectedKart)
+		switch (m_mPerPlayerMenuState[uiJoined].eSelectedKart)
 		{
 		case KART_JUGGERNAUT:
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml"));
@@ -500,6 +522,10 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 			break;
 		}
 	}
+
+#ifdef _DEBUG
+	assert(uiJoined == m_uiNumPlayers);
+#endif
 
 	switch (m_uiNumPlayers)
 	{

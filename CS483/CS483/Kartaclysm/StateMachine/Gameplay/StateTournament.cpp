@@ -70,7 +70,10 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	{
 		// Quit tournament early or some other problem
 		m_pStateMachine->Pop();
-		m_pStateMachine->Push(STATE_MAIN_MENU);
+		if (m_pStateMachine->empty())
+		{
+			m_pStateMachine->Push(STATE_MAIN_MENU);
+		}
 	}
 }
 
