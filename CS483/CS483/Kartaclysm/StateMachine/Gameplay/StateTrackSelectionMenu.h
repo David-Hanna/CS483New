@@ -35,16 +35,28 @@ namespace Kartaclysm
 		void Exit();
 
 	protected:
+		struct Times {
+			// TODO: Expand to local/global lap times
+			std::string m_strLocalRace;
+			std::string m_strGlobalRace;
+
+			Times() : m_strLocalRace("--:--:--"), m_strGlobalRace("--:--:--") {}
+		};
+		std::map<std::string, Times> m_mTrackTimes;
+
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 		int m_iTrackSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
+		std::map<std::string, std::string> m_mContextParameters;
+		std::function<void(const HeatStroke::Event*)>* m_pTrackTimeDelegate;
 
-		// saved from player selection state to add to and pass on to racing state.
-		std::map<std::string, std::string> m_mContextParameters; 
+		virtual void LoadLocalTrackTimesFromXml(const std::string& p_strFileName, const std::vector<HeatStroke::GameObject*>& p_vTracks);
+		virtual void FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks);
+		virtual void TrackTimeCallback(const HeatStroke::Event* p_pEvent);
 
-	private:
-		void LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers);
+		// Another repeat of the same function from StateRaceComplete
+		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};
 }
 

@@ -8,6 +8,9 @@
 #ifndef STATE_MAIN_MENU_H
 #define STATE_MAIN_MENU_H
 
+#include <thread>
+#include <future>
+
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
 #include "ComponentPerspectiveCamera.h"
@@ -19,6 +22,7 @@
 #include "PlayerInputMapping.h"
 #include "ModelManager.h"
 #include "SpriteManager.h"
+#include "DatabaseManager.h"
 
 namespace Kartaclysm
 {
@@ -40,6 +44,9 @@ namespace Kartaclysm
 		bool m_bSuspended;
 		bool m_bPreloadCalled;
 		bool m_bRenderedOnce;
+		std::map<std::string, std::string> m_mContectParameters;
+
+		void AddTrackTimesToParameters(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds, std::map<std::string, std::string>* p_pParameters);
 	};
 }
 

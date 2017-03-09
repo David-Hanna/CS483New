@@ -136,16 +136,8 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 {
 	Database::InsertRace mRace;
 	
-	// TODO: Should be a ParsePkFromString() method somewhere. Doing it lazy style for now
-	std::string strTrack = p_mRaceResults.at("trackName");
-	if (strTrack == "Up and Over")
-		mRace.track_id = Database::eUpAndOver;
-	else if (strTrack == "Shift Rift")
-		mRace.track_id = Database::eShiftRift;
-	else if (strTrack == "Noob Zone")
-		mRace.track_id = Database::eNoobZone;
-	else
-		mRace.track_id = Database::eTrackError;
+	mRace.track_id = Database::StringToTrackPK(p_mRaceResults.at("trackName"));
+	assert(mRace.track_id != Database::eTrackError);
 
 	bool bValid = true;
 
@@ -167,25 +159,11 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 		mPlayer.player_num = std::stoi(p_mRaceResults.at("racerId" + strIndex).substr(6));
 		mPlayer.is_human = p_mRaceResults.at("racerAI" + strIndex) != "0";
 
-		std::string strDriver = p_mRaceResults.at("racerDriver" + strIndex);
-		if (strDriver == "Cleopapa")
-			mPlayer.driver = Database::eCleopapa;
-		else if (strDriver == "Clockmaker")
-			mPlayer.driver = Database::eClockmaker;
-		else if (strDriver == "Kingpin")
-			mPlayer.driver = Database::eKingpin;
-		else
-			assert(false && "Unknown driver");
+		mPlayer.driver = Database::StringToDriverPK(p_mRaceResults.at("racerDriver" + strIndex));
+		assert(mPlayer.driver != Database::eDriverError);
 
-		std::string strKart = p_mRaceResults.at("racerKart" + strIndex);
-		if (strKart == "Juggernaut")
-			mPlayer.kart = Database::eJuggernaut;
-		else if (strKart == "Showoff")
-			mPlayer.kart = Database::eShowoff;
-		else if (strKart == "Speedster")
-			mPlayer.kart = Database::eSpeedster;
-		else
-			assert(false && "Unknown kart");
+		mPlayer.kart = Database::StringToKartPK(p_mRaceResults.at("racerKart" + strIndex));
+		assert(mPlayer.kart != Database::eKartError);
 
 		for (int i = 1; i <= iLaps; ++i)
 		{
@@ -196,7 +174,11 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 	}
 	if (bValid)
 	{
-		DatabaseManager::Instance()->InsertRaceQuery(mRace);
+		auto mInsertQueryThread = std::thread(
+			&DatabaseManager::InsertRaceQuery,
+			DatabaseManager::Instance(),
+			mRace);
+		mInsertQueryThread.detach();
 	}
 }
 
@@ -228,7 +210,7 @@ void Kartaclysm::StateRaceCompleteMenu::RecordBestTime(const std::map<std::strin
 	if (m_bTournamentResults) return;
 
 	std::string strTrack = p_mRaceResults.at("trackName");
-	std::replace(strTrack.begin(), strTrack.end(), ' ', '_');
+	boost::replace_all(strTrack, " ", "");
 
 	std::string strNewBestTime = FormatTime(p_mRaceResults.at("racerTime0"));
 	std::string strOldBestTime = "59:99.99";
@@ -301,7 +283,7 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 std::string Kartaclysm::StateRaceCompleteMenu::FormatTime(const std::string& p_strUnformattedTime) const
 {
 	float fUnformattedTime = std::stof(p_strUnformattedTime);
-	if (fUnformattedTime >= 3599.0f) return "59:99";
+	if (fUnformattedTime >= 3599.99f) return "59:99.99";
 
 	int iMinutes = static_cast<int>(fUnformattedTime / 60.0f);
 	float fSeconds = fmod(fUnformattedTime, 60.0f);

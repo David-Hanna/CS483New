@@ -25,6 +25,8 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 {
 	m_bSuspended = false;
 	m_bRenderedOnce = false;
+	m_mContectParameters.clear();
+
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
 	m_pGameObjectManager->RegisterComponentFactory("GOC_OrthographicCamera", HeatStroke::ComponentOrthographicCamera::CreateComponent);
@@ -68,8 +70,23 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 			if (m_bRenderedOnce)
 			{
 				m_bPreloadCalled = true;
+
+				std::set<Database::TrackPK> vTrackIds;
+				vTrackIds.insert(Database::eNoobZone);
+				vTrackIds.insert(Database::eShiftRift);
+				vTrackIds.insert(Database::eUpAndOver);
+
+				auto mTrackTimeQueryThread = std::async(
+					&DatabaseManager::SelectFastestTimes,
+					DatabaseManager::Instance(),
+					vTrackIds,
+					1);
+
 				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 				HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+
+				DatabaseManager::TrackTimes mTrackTimes = mTrackTimeQueryThread.get(); // blocks execution
+				AddTrackTimesToParameters(mTrackTimes, vTrackIds, &m_mContectParameters);
 
 				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
 				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
@@ -79,7 +96,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
+			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU, m_mContectParameters);
 		}
 	}
 }
@@ -103,3 +120,23 @@ void Kartaclysm::StateMainMenu::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 }
+
+void Kartaclysm::StateMainMenu::AddTrackTimesToParameters(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds, std::map<std::string, std::string>* p_pParameters)
+{
+	(*p_pParameters)["trackCount"] = std::to_string(p_vTrackIds.size());
+	unsigned int uiCount = 0;
+	for (auto eTrackId : p_vTrackIds)
+	{
+		auto vTimes = p_mTrackTimes.at(eTrackId);
+		std::string strTrack = Database::TrackPKToString(eTrackId);
+		assert(strTrack != "");
+
+		(*p_pParameters)["track" + std::to_string(uiCount++)] = strTrack;
+		(*p_pParameters)[strTrack + "Count"] = std::to_string(vTimes.size());
+		for (unsigned int i = 0; i < vTimes.size(); ++i)
+		{
+			(*p_pParameters)[strTrack + std::to_string(i)] = std::to_string(vTimes.at(i));
+		}
+	}
+}
+

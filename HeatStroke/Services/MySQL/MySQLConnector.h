@@ -31,13 +31,14 @@ namespace HeatStroke
 		void ClearConnection();
 		bool HasConnection() const { return m_bValidConnection; };
 
-		sql::ResultSet* RunQuery(const sql::SQLString& p_strSQLQuery);
+		sql::ResultSet* RunQuery(const sql::SQLString& p_strSQLQuery, bool p_bThreaded = false);
 
 	private:
 		static MySQLConnector* s_pMySQLConnectorInstance;
 
 		MySQLConnector() :
 			m_bValidConnection(false),
+			m_bRunningQueryOnThread(false),
 			m_pDriver(get_driver_instance()), // memory is auto-managed, do not delete
 			m_pConnection(nullptr),
 			m_strAddress(""),
@@ -52,6 +53,7 @@ namespace HeatStroke
 		void CloseConnection();
 
 		bool m_bValidConnection;
+		bool m_bRunningQueryOnThread;
 		sql::Driver* m_pDriver;
 		sql::Connection* m_pConnection;
 

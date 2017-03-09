@@ -8,6 +8,8 @@
 #ifndef STATE_RACE_COMPLETE_MENU_H
 #define STATE_RACE_COMPLETE_MENU_H
 
+#include <thread>
+
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
 #include "ComponentPerspectiveCamera.h"

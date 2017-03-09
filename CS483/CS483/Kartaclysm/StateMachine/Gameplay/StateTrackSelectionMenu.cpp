@@ -14,12 +14,18 @@ Kartaclysm::StateTrackSelectionMenu::StateTrackSelectionMenu()
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_iTrackSelection(0),
-	m_pCurrentHighlight(nullptr)
+	m_pCurrentHighlight(nullptr),
+	m_mTrackTimes()
 {
+	m_pTrackTimeDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTrackSelectionMenu::TrackTimeCallback, this, std::placeholders::_1));
+	HeatStroke::EventManager::Instance()->AddListener("TrackTimeScreen", m_pTrackTimeDelegate);
 }
 
 Kartaclysm::StateTrackSelectionMenu::~StateTrackSelectionMenu()
 {
+	HeatStroke::EventManager::Instance()->RemoveListener("TrackTimeScreen", m_pTrackTimeDelegate);
+	delete m_pTrackTimeDelegate;
+	m_pTrackTimeDelegate = nullptr;
 }
 
 void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
@@ -37,30 +43,15 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_menu.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/background.xml");
+	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
 
 	std::vector<HeatStroke::GameObject*> vTracks;
 	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_noob_zone.xml", "Noob_Zone"));
 	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_shift_rift.xml", "Shift_Rift"));
 	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml", "Up_and_Over"));
 
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLElement* pTrackElement = nullptr;
-	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml") == tinyxml2::XML_NO_ERROR)
-	{
-		pTrackElement = doc.FirstChildElement("BestTimes");
-		auto it = vTracks.begin(), end = vTracks.end();
-		for (; it != end; it++)
-		{
-			LoadBestTrackTime(pTrackElement, (*it)->GetGUID(), (*it)->GetChildrenWithTag("TimeText"));
-		}
-	}
-	else
-	{
-		printf("StateTrackSelectionMenu: Error loading best times XML file");
-	}
-
-	m_iTrackSelection = 0;
-	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml", "HighlightNoobZone");
+	LoadLocalTrackTimesFromXml("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml", vTracks);
+	FillRaceTimeTextboxes(vTracks);
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
 	{
@@ -70,24 +61,52 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 	}
 }
 
-void Kartaclysm::StateTrackSelectionMenu::LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers)
+void Kartaclysm::StateTrackSelectionMenu::LoadLocalTrackTimesFromXml(const std::string& p_strFileName, const std::vector<HeatStroke::GameObject*>& p_vTracks)
 {
-	// TODO: Expand to include best lap time
-	std::string strBestRaceTime = "--:--.--";
-
-	if (p_pBestTimesElement != nullptr)
+	tinyxml2::XMLDocument doc;
+	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml") != tinyxml2::XML_NO_ERROR)
 	{
-		HeatStroke::EasyXML::GetOptionalStringAttribute(p_pBestTimesElement->FirstChildElement(p_strTrack.c_str()), "RaceTime", strBestRaceTime, strBestRaceTime);
+		printf("StateTrackSelectionMenu: Error loading best times XML file - not found\n");
+		return;
 	}
 
-	auto it = p_vTrackTimers.begin(), end = p_vTrackTimers.end();
-	for (; it != end; it++)
+	tinyxml2::XMLElement* pTrackElement = doc.FirstChildElement("BestTimes");
+	if (pTrackElement == nullptr)
 	{
-		if (HeatStroke::ComponentTextBox* pTimer = dynamic_cast<HeatStroke::ComponentTextBox*>((*it)->GetComponent("GOC_Renderable")))
+		printf("StateTrackSelectionMenu: Error loading best times XML file - formatting\n");
+		return;
+	}
+
+	for (auto pTrack : p_vTracks)
+	{
+		// TODO: Database uses "Up And Over", while XML uses "Up_and_Over" etc.
+
+		// Always override current time with the local XML time
+		auto pTrackTime = &m_mTrackTimes[pTrack->GetGUID()];
+		HeatStroke::EasyXML::GetOptionalStringAttribute(pTrackElement->FirstChildElement(pTrack->GetGUID().c_str()), "RaceTime", pTrackTime->m_strLocalRace, pTrackTime->m_strLocalRace);
+	}
+}
+
+void Kartaclysm::StateTrackSelectionMenu::FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks)
+{
+	for (auto pTrack : p_vTracks)
+	{
+		auto pTrackTime = &m_mTrackTimes[pTrack->GetGUID()];
+
+		std::vector<HeatStroke::GameObject*> vTimerTextboxes = pTrack->GetChildrenWithTag("TimeText");
+		for (auto pTimerRenderable : vTimerTextboxes)
 		{
-			if ((*it)->HasTag("RaceTime"))
+			if (HeatStroke::ComponentTextBox* pTimerTextbox = dynamic_cast<HeatStroke::ComponentTextBox*>(pTimerRenderable->GetComponent("GOC_Renderable")))
 			{
-				pTimer->SetMessage(strBestRaceTime);
+				// TODO: This tag changed from "RaceTime"
+				if (pTimerRenderable->HasTag("LocalRace"))
+				{
+					pTimerTextbox->SetMessage(pTrackTime->m_strLocalRace);
+				}
+				else if (pTimerRenderable->HasTag("GlobalRace"))
+				{
+					pTimerTextbox->SetMessage(pTrackTime->m_strGlobalRace);
+				}
 			}
 		}
 	}
@@ -174,4 +193,51 @@ void Kartaclysm::StateTrackSelectionMenu::Exit()
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
 	}
+}
+
+void Kartaclysm::StateTrackSelectionMenu::TrackTimeCallback(const HeatStroke::Event* p_pEvent)
+{
+	int iTrackCount;
+	p_pEvent->GetRequiredIntParameter("trackCount", iTrackCount);
+
+	for (int i = 0; i < iTrackCount; ++i)
+	{
+		std::string strTrackName;
+		float fTime;
+		p_pEvent->GetRequiredStringParameter("track" + std::to_string(i), strTrackName);
+		p_pEvent->GetRequiredFloatParameter(strTrackName + "0", fTime);
+
+		// Note: Can have more than one time per race, but it's unneeded at this time
+		//p_pEvent->GetRequiredIntParameter(strTrack + "Count", iRaceCount);
+
+		std::string strFormattedTime = FormatTime(std::to_string(fTime));
+		auto pTrackTime = &m_mTrackTimes[strTrackName];
+		if (strFormattedTime < pTrackTime->m_strGlobalRace)
+		{
+			pTrackTime->m_strGlobalRace = strFormattedTime;
+		}
+	}
+}
+
+std::string Kartaclysm::StateTrackSelectionMenu::FormatTime(const std::string& p_strUnformattedTime) const
+{
+	float fUnformattedTime = std::stof(p_strUnformattedTime);
+	if (fUnformattedTime >= 3599.99f) return "59:99.99";
+
+	int iMinutes = static_cast<int>(fUnformattedTime / 60.0f);
+	float fSeconds = fmod(fUnformattedTime, 60.0f);
+
+	std::string strMinutes = std::to_string(iMinutes);
+	std::string strSeconds = std::to_string(fSeconds);
+	if (iMinutes < 10)
+	{
+		strMinutes = "0" + strMinutes;
+	}
+	if (fSeconds < 10.0f)
+	{
+		strSeconds = "0" + strSeconds;
+	}
+	strSeconds = strSeconds.substr(0, 5);
+
+	return strMinutes + ":" + strSeconds;
 }

@@ -8,6 +8,8 @@
 #ifndef STATE_TOURNAMENT_H
 #define STATE_TOURNAMENT_H
 
+#include <thread>
+
 #include "Common.h"
 #include "GameplayState.h"
 #include "EventManager.h"

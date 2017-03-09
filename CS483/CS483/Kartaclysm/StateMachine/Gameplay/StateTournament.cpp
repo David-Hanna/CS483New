@@ -65,7 +65,11 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 		else if (m_bFinished)
 		{
 			m_bFinished = false;
-			DatabaseManager::Instance()->EndTournament();
+			auto mInsertQueryThread = std::thread(
+				&DatabaseManager::EndTournament,
+				DatabaseManager::Instance());
+			mInsertQueryThread.detach();
+
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 			// TODO: Show some kind of congratulations screen?

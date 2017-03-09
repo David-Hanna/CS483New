@@ -74,7 +74,7 @@ void HeatStroke::MySQLConnector::ClearConnection()
 	m_bValidConnection = false;
 }
 
-sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_strSQLQuery)
+sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_strSQLQuery, bool p_bThreaded /*= false*/)
 {
 	if (!m_bValidConnection) return nullptr;
 	sql::SQLString strCurrentQuery(p_strSQLQuery);
@@ -82,6 +82,18 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 	sql::Statement* pStatement = nullptr;
 	sql::ResultSet* pResults = nullptr;
 	sql::Savepoint* pSavepoint = nullptr;
+
+	if (p_bThreaded)
+	{
+		if (m_bRunningQueryOnThread)
+		{
+			printf("Cannot run additional query: thread still in use");
+			return nullptr;
+		}
+		m_pDriver->threadInit();
+		m_bRunningQueryOnThread = true;
+	}
+
 	try
 	{
 		if (Reconnect())
@@ -117,6 +129,12 @@ sql::ResultSet* HeatStroke::MySQLConnector::RunQuery(const sql::SQLString& p_str
 		std::string strOutputQuery(strCurrentQuery.asStdString());
 		boost::replace_all(strOutputQuery, ";", ";\n\t");
 		printf("%MySQLConnector: MySQL error #%i - %s\n\t%s\n", e.getErrorCode(), e.what(), strOutputQuery.c_str());
+	}
+
+	if (p_bThreaded)
+	{
+		m_pDriver->threadEnd();
+		m_bRunningQueryOnThread = false;
 	}
 	
 	DELETE_IF(pStatement);

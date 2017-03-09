@@ -32,6 +32,7 @@ Kartaclysm::DatabaseManager::DatabaseManager()
 	:
 	m_pMySQLInstance(HeatStroke::MySQLConnector::Instance()),
 	m_bTournament(false),
+	m_bThreadedQueries(false),
 	m_vTournamentRaceIds()
 {
 	m_pMySQLInstance->SetConnection("db4free.net:3307", "kartaclysm", "upeics483", "kartaclysm");
@@ -141,35 +142,45 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 	return iRaceId;
 }
 
-std::vector<float> Kartaclysm::DatabaseManager::SelectFastestTimes(Database::TrackPK p_eTrackID, int p_iNumResults /* = 1 */)
+Kartaclysm::DatabaseManager::TrackTimes Kartaclysm::DatabaseManager::SelectFastestTimes(std::set<Database::TrackPK>& p_mTrackIDs, unsigned int p_uiNumResultsPerTrack /* = 1 */)
 {
-	std::vector<float> vTimes;
+	TrackTimes mTimes;
+	p_mTrackIDs.erase(p_mTrackIDs.find(Database::eTrackError));
 
-	if (p_iNumResults > 0 && p_iNumResults <= 100 &&
+	if (!p_mTrackIDs.empty() &&
+		p_uiNumResultsPerTrack > 0 && 
+		p_uiNumResultsPerTrack <= 50 &&
 		m_pMySQLInstance->HasConnection())
 	{
+		// SQL Reference: http://stackoverflow.com/questions/2129693/using-limit-within-group-by-to-get-n-results-per-group
 		sql::SQLString strQuery =
-			"SELECT race_times.race_time AS best_time "
-			"FROM race_times " // race_time is a created view, not a table FYI
-			"WHERE race_times.track_id = " + std::to_string(static_cast<int>(p_eTrackID)) + " "
-			"AND race_times.is_human = true "
-			"ORDER BY best_time ASC "
-			"LIMIT " + std::to_string(p_iNumResults) + ";";
+			"SELECT race_times.track_id AS track, race_times.race_time AS best_time "
+			"FROM race_times INNER JOIN ( "
+			"	SELECT race_times.track_id, GROUP_CONCAT(race_times.race_time ORDER BY race_times.race_time ASC) AS grouped_times "
+			"	FROM race_times "
+			"	WHERE race_times.track_id IN (" + CreateCommaSeparatedString(p_mTrackIDs) + ") "
+			"	GROUP BY race_times.track_id) "
+			"	AS group_max "
+			"ON race_times.track_id = group_max.track_id "
+			"AND FIND_IN_SET(race_times.race_time, grouped_times) BETWEEN 1 AND " + std::to_string(p_uiNumResultsPerTrack) + " "
+			"ORDER BY track, best_time ASC;";
 
-		sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(strQuery);
+		sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(strQuery, m_bThreadedQueries);
 		if (pResults != nullptr)
 		{
 			while(pResults->next())
 			{
+				Database::TrackPK eTrack = static_cast<Database::TrackPK>(pResults->getUInt("track"));
 				float fTime = static_cast<float>(pResults->getDouble("best_time"));
-				vTimes.push_back(fTime);
+				
+				mTimes[eTrack].push_back(fTime);
 			}
 		}
 
 		DELETE_IF(pResults);
 	}
 
-	return vTimes;
+	return mTimes;
 }
 
 void Kartaclysm::DatabaseManager::AppendInsertStringForPlayer(sql::SQLString* p_pQuery, const Database::InsertRacePlayer& p_mPlayer, int p_iPosition) const
@@ -214,10 +225,28 @@ void Kartaclysm::DatabaseManager::AppendInsertStringForTournamentRace(sql::SQLSt
 	);
 }
 
+sql::SQLString Kartaclysm::DatabaseManager::CreateCommaSeparatedString(std::set<Database::TrackPK>& p_mTrackIDs) const
+{
+	// TODO: Use C++ templates to make this more generic for any container
+	if (p_mTrackIDs.empty()) return "";
+
+	sql::SQLString strCommaSeparated = "";
+	auto it = p_mTrackIDs.begin(), end = p_mTrackIDs.end();
+	for (; it != end; ++it)
+	{
+		if (it != p_mTrackIDs.begin())
+		{
+			strCommaSeparated.append(",");
+		}
+		strCommaSeparated.append(std::to_string(static_cast<int>(*it)));
+	}
+	return strCommaSeparated;
+}
+
 int Kartaclysm::DatabaseManager::RunQueryAndReturnInsertId(sql::SQLString& p_strTransactionQuery, const sql::SQLString& p_strLastInsertIdentifier) const
 {
 	p_strTransactionQuery.append("SELECT " + p_strLastInsertIdentifier + " AS insert_id;");
-	sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(p_strTransactionQuery);
+	sql::ResultSet* pResults = m_pMySQLInstance->RunQuery(p_strTransactionQuery, m_bThreadedQueries);
 
 	int iInsertId = -1;
 	if (pResults != nullptr)

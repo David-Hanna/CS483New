@@ -32,6 +32,9 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::MySQLConnector::CreateInstance();
 	DatabaseManager::CreateInstance();
 
+	// Run all queries on threads
+	DatabaseManager::Instance()->SetThreadedQueryMode(true);
+
 	// Preload sprites (needed for title image and loading message on main menu)
 	HeatStroke::SpriteManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
