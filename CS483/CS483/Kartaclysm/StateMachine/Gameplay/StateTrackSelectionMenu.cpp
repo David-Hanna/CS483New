@@ -48,7 +48,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 	std::vector<HeatStroke::GameObject*> vTracks;
 	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_noob_zone.xml", "Noob_Zone"));
 	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_shift_rift.xml", "Shift_Rift"));
-	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml", "Up_and_Over"));
+	vTracks.push_back(m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_up_and_over.xml", "Up_And_Over"));
 
 	LoadLocalTrackTimesFromXml("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml", vTracks);
 	FillRaceTimeTextboxes(vTracks);
@@ -64,7 +64,7 @@ void Kartaclysm::StateTrackSelectionMenu::Enter(const std::map<std::string, std:
 void Kartaclysm::StateTrackSelectionMenu::LoadLocalTrackTimesFromXml(const std::string& p_strFileName, const std::vector<HeatStroke::GameObject*>& p_vTracks)
 {
 	tinyxml2::XMLDocument doc;
-	if (doc.LoadFile("CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml") != tinyxml2::XML_NO_ERROR)
+	if (doc.LoadFile(p_strFileName.c_str()) != tinyxml2::XML_NO_ERROR)
 	{
 		printf("StateTrackSelectionMenu: Error loading best times XML file - not found\n");
 		return;
@@ -79,31 +79,37 @@ void Kartaclysm::StateTrackSelectionMenu::LoadLocalTrackTimesFromXml(const std::
 
 	for (auto pTrack : p_vTracks)
 	{
-		// TODO: Database uses "Up And Over", while XML uses "Up_and_Over" etc.
-
 		// Always override current time with the local XML time
 		auto pTrackTime = &m_mTrackTimes[pTrack->GetGUID()];
-		HeatStroke::EasyXML::GetOptionalStringAttribute(pTrackElement->FirstChildElement(pTrack->GetGUID().c_str()), "RaceTime", pTrackTime->m_strLocalRace, pTrackTime->m_strLocalRace);
+
+		std::string strTrackXmlName = pTrack->GetGUID();
+		std::replace(strTrackXmlName.begin(), strTrackXmlName.end(), ' ', '_');
+		HeatStroke::EasyXML::GetOptionalStringAttribute(pTrackElement->FirstChildElement(strTrackXmlName.c_str()), "RaceTime", pTrackTime->m_strLocalRace, pTrackTime->m_strLocalRace);
 	}
 }
 
 void Kartaclysm::StateTrackSelectionMenu::FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks)
 {
+	printf("Printing times...\n");
+	for (auto mTimes : m_mTrackTimes)
+	{
+		printf("%s -> %s and %s\n", mTimes.first.c_str(), mTimes.second.m_strLocalRace.c_str(), mTimes.second.m_strGlobalRace.c_str());
+	}
+
 	for (auto pTrack : p_vTracks)
 	{
 		auto pTrackTime = &m_mTrackTimes[pTrack->GetGUID()];
 
-		std::vector<HeatStroke::GameObject*> vTimerTextboxes = pTrack->GetChildrenWithTag("TimeText");
-		for (auto pTimerRenderable : vTimerTextboxes)
+		std::vector<HeatStroke::GameObject*> vTimerGameObjects = pTrack->GetChildrenWithTag("TimeText");
+		for (auto pTimerGO : vTimerGameObjects)
 		{
-			if (HeatStroke::ComponentTextBox* pTimerTextbox = dynamic_cast<HeatStroke::ComponentTextBox*>(pTimerRenderable->GetComponent("GOC_Renderable")))
+			if (HeatStroke::ComponentTextBox* pTimerTextbox = dynamic_cast<HeatStroke::ComponentTextBox*>(pTimerGO->GetComponent("GOC_Renderable")))
 			{
-				// TODO: This tag changed from "RaceTime"
-				if (pTimerRenderable->HasTag("LocalRace"))
+				if (pTimerGO->HasTag("LocalRace"))
 				{
 					pTimerTextbox->SetMessage(pTrackTime->m_strLocalRace);
 				}
-				else if (pTimerRenderable->HasTag("GlobalRace"))
+				else if (pTimerGO->HasTag("GlobalRace"))
 				{
 					pTimerTextbox->SetMessage(pTrackTime->m_strGlobalRace);
 				}
@@ -206,13 +212,15 @@ void Kartaclysm::StateTrackSelectionMenu::TrackTimeCallback(const HeatStroke::Ev
 		float fTime;
 		p_pEvent->GetRequiredStringParameter("track" + std::to_string(i), strTrackName);
 		p_pEvent->GetRequiredFloatParameter(strTrackName + "0", fTime);
+		//p_pEvent->GetRequiredIntParameter(strTrackName + "Count", iRaceCount);
 
-		// Note: Can have more than one time per race, but it's unneeded at this time
-		//p_pEvent->GetRequiredIntParameter(strTrack + "Count", iRaceCount);
-
+		std::string strFormattedTrackName(strTrackName);
+		std::replace(strFormattedTrackName.begin(), strFormattedTrackName.end(), ' ', '_');
 		std::string strFormattedTime = FormatTime(std::to_string(fTime));
-		auto pTrackTime = &m_mTrackTimes[strTrackName];
-		if (strFormattedTime < pTrackTime->m_strGlobalRace)
+
+		auto pTrackTime = &m_mTrackTimes[strFormattedTrackName];
+		if (pTrackTime->m_strGlobalRace == "--:--.--" ||
+			strFormattedTime < pTrackTime->m_strGlobalRace)
 		{
 			pTrackTime->m_strGlobalRace = strFormattedTime;
 		}

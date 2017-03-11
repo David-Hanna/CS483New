@@ -1147,9 +1147,6 @@
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
     </Xml>
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
-      <Filter>Kartaclysm\Data\DevConfig</Filter>
-    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
     </Xml>

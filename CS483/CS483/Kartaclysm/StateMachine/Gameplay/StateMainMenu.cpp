@@ -25,7 +25,6 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 {
 	m_bSuspended = false;
 	m_bRenderedOnce = false;
-	m_mContectParameters.clear();
 
 	m_pGameObjectManager = new HeatStroke::GameObjectManager();
 
@@ -86,7 +85,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 				HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
 				DatabaseManager::TrackTimes mTrackTimes = mTrackTimeQueryThread.get(); // blocks execution
-				AddTrackTimesToParameters(mTrackTimes, vTrackIds, &m_mContectParameters);
+				SendTrackTimesEvent(mTrackTimes, vTrackIds);
 
 				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
 				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
@@ -96,7 +95,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 		else if (bConfirm)
 		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU, m_mContectParameters);
+			m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 		}
 	}
 }
@@ -121,22 +120,33 @@ void Kartaclysm::StateMainMenu::Exit()
 	}
 }
 
-void Kartaclysm::StateMainMenu::AddTrackTimesToParameters(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds, std::map<std::string, std::string>* p_pParameters)
+void Kartaclysm::StateMainMenu::SendTrackTimesEvent(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds) const
 {
-	(*p_pParameters)["trackCount"] = std::to_string(p_vTrackIds.size());
+	if (p_mTrackTimes.empty()) return;
+
+	HeatStroke::Event* pEvent = new HeatStroke::Event("TrackTimeScreen");
 	unsigned int uiCount = 0;
+
 	for (auto eTrackId : p_vTrackIds)
 	{
-		auto vTimes = p_mTrackTimes.at(eTrackId);
+		auto find = p_mTrackTimes.find(eTrackId);
+		if (find == p_mTrackTimes.end()) continue;
+
+		auto vTimes = find->second;
+		if (vTimes.empty()) continue;
+
 		std::string strTrack = Database::TrackPKToString(eTrackId);
 		assert(strTrack != "");
 
-		(*p_pParameters)["track" + std::to_string(uiCount++)] = strTrack;
-		(*p_pParameters)[strTrack + "Count"] = std::to_string(vTimes.size());
+		pEvent->SetStringParameter("track" + std::to_string(uiCount++), strTrack);
+		pEvent->SetIntParameter(strTrack + "Count", vTimes.size());
 		for (unsigned int i = 0; i < vTimes.size(); ++i)
 		{
-			(*p_pParameters)[strTrack + std::to_string(i)] = std::to_string(vTimes.at(i));
+			pEvent->SetFloatParameter(strTrack + std::to_string(i), vTimes.at(i));
 		}
 	}
+
+	pEvent->SetIntParameter("trackCount", uiCount);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 }
 

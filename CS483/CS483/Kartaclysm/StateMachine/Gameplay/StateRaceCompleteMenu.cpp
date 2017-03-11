@@ -210,7 +210,7 @@ void Kartaclysm::StateRaceCompleteMenu::RecordBestTime(const std::map<std::strin
 	if (m_bTournamentResults) return;
 
 	std::string strTrack = p_mRaceResults.at("trackName");
-	boost::replace_all(strTrack, " ", "");
+	std::replace(strTrack.begin(), strTrack.end(), ' ', '_');
 
 	std::string strNewBestTime = FormatTime(p_mRaceResults.at("racerTime0"));
 	std::string strOldBestTime = "59:99.99";

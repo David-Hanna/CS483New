@@ -36,11 +36,11 @@ namespace Kartaclysm
 
 	protected:
 		struct Times {
-			// TODO: Expand to local/global lap times
+			// TODO: Expand to include lap times
 			std::string m_strLocalRace;
 			std::string m_strGlobalRace;
 
-			Times() : m_strLocalRace("--:--:--"), m_strGlobalRace("--:--:--") {}
+			Times() : m_strLocalRace("--:--.--"), m_strGlobalRace("--:--.--") {}
 		};
 		std::map<std::string, Times> m_mTrackTimes;
 

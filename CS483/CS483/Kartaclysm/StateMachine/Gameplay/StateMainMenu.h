@@ -44,9 +44,8 @@ namespace Kartaclysm
 		bool m_bSuspended;
 		bool m_bPreloadCalled;
 		bool m_bRenderedOnce;
-		std::map<std::string, std::string> m_mContectParameters;
 
-		void AddTrackTimesToParameters(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds, std::map<std::string, std::string>* p_pParameters);
+		void SendTrackTimesEvent(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds) const;
 	};
 }
 

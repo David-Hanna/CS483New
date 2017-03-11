@@ -144,9 +144,13 @@ int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_m
 
 Kartaclysm::DatabaseManager::TrackTimes Kartaclysm::DatabaseManager::SelectFastestTimes(std::set<Database::TrackPK>& p_mTrackIDs, unsigned int p_uiNumResultsPerTrack /* = 1 */)
 {
-	TrackTimes mTimes;
-	p_mTrackIDs.erase(p_mTrackIDs.find(Database::eTrackError));
+	auto find = p_mTrackIDs.find(Database::eTrackError);
+	if (find != p_mTrackIDs.end())
+	{
+		p_mTrackIDs.erase(p_mTrackIDs.find(Database::eTrackError));
+	}
 
+	TrackTimes mTimes;
 	if (!p_mTrackIDs.empty() &&
 		p_uiNumResultsPerTrack > 0 && 
 		p_uiNumResultsPerTrack <= 50 &&
