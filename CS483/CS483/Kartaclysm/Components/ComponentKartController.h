@@ -159,6 +159,7 @@ namespace Kartaclysm
 		float m_fKartCollisionStat;
 		float m_fOffroadFactorStat;
 		float m_fOffroadRumbleFactor;
+		float m_fAIRubberBandingFactor;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;

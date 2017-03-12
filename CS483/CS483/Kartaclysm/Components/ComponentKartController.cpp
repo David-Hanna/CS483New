@@ -67,6 +67,7 @@ namespace Kartaclysm
 		m_fKartCollisionStat(2.0f),
 		m_fOffroadFactorStat(0.5f),
 		m_fOffroadRumbleFactor(0.05f),
+		m_fAIRubberBandingFactor(1.1f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -294,6 +295,17 @@ namespace Kartaclysm
 			{
 				float fRumbleLimit = fminf(m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale), 1.0f) * m_fOffroadRumbleFactor;
 				m_fOffroadRumble = -fRumbleLimit + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
+			}
+		}
+
+		// ...And from AI rubber banding
+		if (m_bAI)
+		{
+			ComponentRacer* pRacer = (ComponentRacer*)m_pGameObject->GetComponent("GOC_Racer");
+			if (pRacer != nullptr)
+			{
+				int iPosition = pRacer->GetCurrentPosition();
+				printf("My position: %i\n", iPosition);
 			}
 		}
 
