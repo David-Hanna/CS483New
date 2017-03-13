@@ -54,6 +54,8 @@ namespace Kartaclysm
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
+			int GetNumberOfRacers() { return m_vRacers.size(); }
+
 			//TEMP
 			PathNode GetNextNode(int p_iCurrentNodeIndex);
 			const HeatStroke::GameObject* GetNextTrackPiece(int p_iCurrentTrackPieceIndex) const { return m_vTrackPieces[GetNextTrackPieceIndex(p_iCurrentTrackPieceIndex)]; }

@@ -67,7 +67,8 @@ namespace Kartaclysm
 		m_fKartCollisionStat(2.0f),
 		m_fOffroadFactorStat(0.5f),
 		m_fOffroadRumbleFactor(0.05f),
-		m_fAIRubberBandingFactor(1.1f),
+		m_fAIRubberBandingFactorFirst(0.9f),
+		m_fAIRubberBandingFactorLast(1.05f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -305,7 +306,23 @@ namespace Kartaclysm
 			if (pRacer != nullptr)
 			{
 				int iPosition = pRacer->GetCurrentPosition();
-				printf("My position: %i\n", iPosition);
+				
+				if (m_iNumOfRacers == 0)
+				{
+					HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
+					ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
+
+					m_iNumOfRacers = pTrackComponent->GetNumberOfRacers();
+				}
+
+				if (iPosition == 1) // First, slow that shit down
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorFirst;
+				}
+				else if (iPosition == m_iNumOfRacers) // Last, get your shit together
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorLast;
+				}
 			}
 		}
 
