@@ -168,6 +168,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 					{
 					case DRIVER_CLEOPAPA:
@@ -212,6 +213,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 					switch (m_mPerPlayerMenuState[i].eSelectedKart)
 					{
+					// TODO - we need to change this to be more dynamic/data-driven
 					case KART_JUGGERNAUT:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
@@ -266,6 +268,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 					{
 					case DRIVER_CLEOPAPA:
@@ -308,6 +311,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedKart)
 					{
 					case KART_JUGGERNAUT:
@@ -428,6 +432,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_StartPosition", strPlayerNum));
 		//PerPlayerMenuState m_mPerPlayerMenuState[i] = m_mPerPlayerMenuState[i];
 
+		// TODO - we need to change this to be more dynamic/data-driven
 		switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 		{
 		case DRIVER_CLEOPAPA:
@@ -443,6 +448,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 			break;
 		}
 
+		// TODO - we need to change this to be more dynamic/data-driven
 		switch (m_mPerPlayerMenuState[i].eSelectedKart)
 		{
 		case KART_JUGGERNAUT:

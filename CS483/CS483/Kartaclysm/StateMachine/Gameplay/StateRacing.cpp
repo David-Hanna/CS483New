@@ -10,6 +10,10 @@
 
 #include "CollisionManager.h"
 
+// TODO - move to custom Random class once it's complete
+std::random_device Kartaclysm::StateRacing::s_Rand;
+std::mt19937 Kartaclysm::StateRacing::s_RNGesus = std::mt19937(Kartaclysm::StateRacing::s_Rand());
+
 Kartaclysm::StateRacing::StateRacing()
 	:
 	GameplayState("Racing"),
@@ -19,6 +23,8 @@ Kartaclysm::StateRacing::StateRacing()
 	m_uiNumRacers(0),
 	m_bCountdown(false)
 {
+	GenerateRandomDriverList();
+	GenerateRandomKartList();
 }
 
 Kartaclysm::StateRacing::~StateRacing()
@@ -209,6 +215,8 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	return pRacer;
 }
 
+// TODO - move selection of AI kart/drivers to StatePlayerSelectionMenu
+//			Waiting for StatePlayerSelectionMenu to be changed to allow for determining number of AI racers
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	int p_iIndex
 )
@@ -216,8 +224,10 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer_ai.xml";
 	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, "ai_racer" + std::to_string(p_iIndex));
 
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml", "ai_kart" + std::to_string(p_iIndex), pRacer);
-	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/driver_ai.xml", "ai_driver" + std::to_string(p_iIndex), pRacer);
+	std::string strDriverDefinitionFile = GetRandomDriver();
+	std::string strKartDefinitionFile = GetRandomKart();
+	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(strDriverDefinitionFile, "ai_driver" + std::to_string(p_iIndex), pRacer);
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(strKartDefinitionFile, "ai_kart" + std::to_string(p_iIndex), pRacer);
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
@@ -230,6 +240,18 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	}
 
 	return pRacer;
+}
+
+std::string Kartaclysm::StateRacing::GetRandomDriver() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vDrivers.size() - 1);
+	return m_vDrivers[range(s_RNGesus)];
+}
+
+std::string Kartaclysm::StateRacing::GetRandomKart() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vKarts.size() - 1);
+	return m_vKarts[range(s_RNGesus)];
 }
 
 void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
@@ -469,5 +491,45 @@ int Kartaclysm::StateRacing::GetTournamentPoints(int p_iPosition) const
 	case 5: return 2;
 	case 6: return 1;
 	default: return 0;
+	}
+}
+
+void Kartaclysm::StateRacing::GenerateRandomDriverList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/drivers.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pDriverElement = pRootElement->FirstChildElement("Driver");
+	while (pDriverElement != nullptr)
+	{
+		std::string strDriverDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pDriverElement, "definition", strDriverDefinitionPath);
+		m_vDrivers.push_back(strDriverDefinitionPath);
+
+		pDriverElement = pDriverElement->NextSiblingElement("Driver");
+	}
+}
+
+void Kartaclysm::StateRacing::GenerateRandomKartList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/karts.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pKartElement = pRootElement->FirstChildElement("Kart");
+	while (pKartElement != nullptr)
+	{
+		std::string strKartDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pKartElement, "definition", strKartDefinitionPath);
+		m_vKarts.push_back(strKartDefinitionPath);
+
+		pKartElement = pKartElement->NextSiblingElement("Kart");
 	}
 }

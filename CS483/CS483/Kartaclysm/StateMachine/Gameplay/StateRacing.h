@@ -9,6 +9,7 @@
 #define STATE_RACING_H
 
 #include <functional>
+#include <random>
 
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
@@ -87,6 +88,9 @@ namespace Kartaclysm
 		};
 		std::vector<RacerResults> m_vRaceResults;
 
+		std::vector<std::string> m_vDrivers;
+		std::vector<std::string> m_vKarts;
+
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
@@ -110,6 +114,9 @@ namespace Kartaclysm
 			int p_iIndex
 		);
 
+		std::string GetRandomDriver() const;
+		std::string GetRandomKart() const;
+
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
@@ -117,6 +124,14 @@ namespace Kartaclysm
 
 		std::map<std::string, std::string> GenerateRaceResults() const;
 		int GetTournamentPoints(int p_iPosition) const;
+
+		void GenerateRandomDriverList();
+		void GenerateRandomKartList();
+
+		// RNGesus
+		// TODO - move to custom Random class
+		static std::random_device s_Rand;
+		static std::mt19937 s_RNGesus;
 	};
 }
 

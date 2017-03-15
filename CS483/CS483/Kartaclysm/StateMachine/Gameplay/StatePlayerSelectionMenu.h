@@ -41,6 +41,7 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		// TODO - should be loading karts/drivers from xml
 		enum DRIVER_SELECTION
 		{
 			DRIVER_CLEOPAPA,
