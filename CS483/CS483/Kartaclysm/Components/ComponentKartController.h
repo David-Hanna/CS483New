@@ -56,10 +56,10 @@ namespace Kartaclysm
 		bool IsAirborne() const { return m_bAirborne; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
-		void SetAI(bool p_bAI) { m_bAI = p_bAI; }
 		void SetOffroad(bool p_bOffroad) { if (!m_bAirborne) m_bOffroad = p_bOffroad; }
 		float GetOffroadRumble() const { return m_fOffroadRumble; }
 
+		void SetAI(bool p_bAI);
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 
