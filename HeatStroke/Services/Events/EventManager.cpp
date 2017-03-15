@@ -152,5 +152,6 @@ namespace HeatStroke
 
 		// Everyone has seen the event at this point, so we can clean it up.
 		delete p_pEvent;
+		p_pEvent = nullptr;
 	}
 }
