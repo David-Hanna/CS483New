@@ -8,6 +8,8 @@
 #ifndef STATE_MAIN_MENU_H
 #define STATE_MAIN_MENU_H
 
+#include <thread>
+
 #include "ComponentOrthographicCamera.h"
 #include "ComponentSprite.h"
 #include "ComponentPerspectiveCamera.h"
