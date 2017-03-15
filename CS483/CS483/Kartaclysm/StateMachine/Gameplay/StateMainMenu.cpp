@@ -69,14 +69,14 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 			{
 				m_bPreloadCalled = true;
 
-				std::thread mLoadSfxThread(
+				std::thread thrLoadSoundEffects(
 					&HeatStroke::AudioPlayer::PreloadSoundEffects,
 					HeatStroke::AudioPlayer::Instance(),
 					"CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
 				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 				
-				mLoadSfxThread.join(); // blocks execution until thread ends
+				thrLoadSoundEffects.join(); // blocks execution until thread ends
 
 				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
 				m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
