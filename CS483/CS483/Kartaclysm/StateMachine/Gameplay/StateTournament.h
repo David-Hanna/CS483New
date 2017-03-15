@@ -8,6 +8,8 @@
 #ifndef STATE_TOURNAMENT_H
 #define STATE_TOURNAMENT_H
 
+#include <algorithm>
+#include <random>
 #include "GameplayState.h"
 #include "EventManager.h"
 
@@ -44,6 +46,11 @@ namespace Kartaclysm
 		std::map<std::string, std::string> GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const;
 
 	private:
+		// RNGesus
+		// TODO - move to custom Random class
+		static std::random_device s_Rand;
+		static std::mt19937 s_RNGesus;
+
 		bool m_bReadyForNextRace;
 		bool m_bFinished;
 		unsigned int m_uiRaceCount;
