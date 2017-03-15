@@ -451,7 +451,6 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 	for (unsigned int i = 0; i < m_uiNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
-		std::string strRaceTime = "";
 		RacerResults results = m_vRaceResults[i];
 		int iPosition = results.m_fRaceTime < fDNFTime ? i : -1;
 
