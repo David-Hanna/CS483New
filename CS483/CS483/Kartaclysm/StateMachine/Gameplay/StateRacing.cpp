@@ -214,7 +214,6 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	pRacerComponent->SetDriver(pDriver);
 
 	m_mRaceResults[p_strGuid].m_pRacerComponent = pRacerComponent;
-	m_mRaceResults[p_strGuid].m_bIsAI = false;
 
 	return pRacer;
 }
@@ -233,6 +232,7 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
 	pRacerComponent->SetDriver(pDriver);
+	pRacerComponent->SetHumanPlayer(false);
 	
 	ComponentKartController* kartController = static_cast<ComponentKartController*>(pRacer->GetComponent("GOC_KartController"));
 	if (kartController != nullptr)
@@ -241,7 +241,6 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	}
 
 	m_mRaceResults[strGuid].m_pRacerComponent = pRacerComponent;
-	m_mRaceResults[strGuid].m_bIsAI = true;
 
 	return pRacer;
 }
@@ -490,7 +489,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 		GetDriverNameAndKartName(mRaceResult.second.m_pRacerComponent, strDriver, strKart);
 		mRaceResults.insert(std::pair<std::string, std::string>("racerDriver" + strIndex, strDriver));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerKart" + strIndex, strKart));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerAI" + strIndex, mRaceResult.second.m_bIsAI ? "1" : "0"));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerAI" + strIndex, mRaceResult.second.m_pRacerComponent->IsHumanPlayer() ? "0" : "1"));
 
 		if (bTournament)
 		{

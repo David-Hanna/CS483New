@@ -18,7 +18,8 @@ namespace Kartaclysm
 		m_iCurrentLap(0),
 		m_iCurrentPosition(1),
 		m_iCurrentTrackPiece(0),
-		m_bHasFinishedRace(false)
+		m_bHasFinishedRace(false),
+		m_bHumanPlayer(true)
 	{
 		m_pLapCompleteDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishLap, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", m_pLapCompleteDelegate);

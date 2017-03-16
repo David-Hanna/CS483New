@@ -75,16 +75,21 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 				vTrackIds.insert(Database::eShiftRift);
 				vTrackIds.insert(Database::eUpAndOver);
 
-				auto mTrackTimeQueryThread = std::async(
+				auto thrTrackTimeQuery = std::async(
 					&DatabaseManager::SelectFastestTimes,
 					DatabaseManager::Instance(),
 					vTrackIds,
 					1);
 
-				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
-				HeatStroke::AudioPlayer::Instance()->PreloadSoundEffects("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+				std::thread thrLoadSoundEffects(
+					&HeatStroke::AudioPlayer::PreloadSoundEffects,
+					HeatStroke::AudioPlayer::Instance(),
+					"CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
-				DatabaseManager::TrackTimes mTrackTimes = mTrackTimeQueryThread.get(); // blocks execution
+				HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+				
+				thrLoadSoundEffects.join(); // blocks execution
+				DatabaseManager::TrackTimes mTrackTimes = thrTrackTimeQuery.get(); // blocks execution
 				SendTrackTimesEvent(mTrackTimes, vTrackIds);
 
 				m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));

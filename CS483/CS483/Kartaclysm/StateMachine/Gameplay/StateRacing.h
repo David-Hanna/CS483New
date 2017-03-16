@@ -83,7 +83,6 @@ namespace Kartaclysm
 		struct RacerResults
 		{
 			ComponentRacer* m_pRacerComponent;
-			bool m_bIsAI;
 			std::vector<float> m_vLapTimes;
 			float m_fRaceTime;
 			unsigned int m_uiPosition;
