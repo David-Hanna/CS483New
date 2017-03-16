@@ -336,7 +336,6 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml" />
     <Xml Include="Kartaclysm\Data\DevConfig\Preload.xml" />
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\light.xml" />
