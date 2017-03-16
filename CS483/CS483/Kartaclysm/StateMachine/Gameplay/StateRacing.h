@@ -85,8 +85,10 @@ namespace Kartaclysm
 		{
 			std::string m_strRacerId;
 			float m_fRaceTime;
+			int m_iPosition;
 		};
 		std::vector<RacerResults> m_vRaceResults;
+		std::set<std::string> m_sUnfinishedRacers;
 
 		std::vector<std::string> m_vDrivers;
 		std::vector<std::string> m_vKarts;
@@ -98,7 +100,10 @@ namespace Kartaclysm
 
 		std::map<std::string, std::string> m_mContextParams;
 		unsigned int m_uiNumRacers;
-		bool m_bCountdown;
+		bool m_bRaceStartCountdown;
+		bool m_bRaceEndCountdown;
+		float m_fTimeRemaining;
+		float m_fMaxTimeUntilDNF;
 
 		void CreateHUDForRacer(const std::string& p_strGuid);
 
@@ -122,7 +127,7 @@ namespace Kartaclysm
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
-		std::map<std::string, std::string> GenerateRaceResults() const;
+		std::map<std::string, std::string> GenerateRaceResults();
 		int GetTournamentPoints(int p_iPosition) const;
 
 		void GenerateRandomDriverList();

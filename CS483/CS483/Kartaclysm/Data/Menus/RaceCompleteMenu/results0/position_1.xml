@@ -1,3 +1,8 @@
+<!--TODO - The whole "resultsX/position_Y" thing is gross, and definitely not the best way to do this.
+			Should move to a solution which can calculate the transform programmatically based on the camera
+			then load the correct texture based on the position
+-->
+
 <GameObject definition="CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/definitions/position_1.xml">
 	<Transform>
 		<Translation x="-70.0" y="50.0" z="0.0"/>
