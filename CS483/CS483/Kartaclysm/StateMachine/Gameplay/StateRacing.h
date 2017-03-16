@@ -96,8 +96,8 @@ namespace Kartaclysm
 
 		std::map<std::string, std::string> m_mContextParams;
 		unsigned int m_uiNumRacers;
-		bool m_bCountdown;
-		bool m_bCountdownToFinish;
+		bool m_bRaceStartCountdown;
+		bool m_bRaceEndCountdown;
 		float m_fTimeRemaining;
 		float m_fMaxTimeUntilDNF;
 

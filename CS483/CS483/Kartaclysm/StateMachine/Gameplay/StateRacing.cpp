@@ -17,8 +17,8 @@ Kartaclysm::StateRacing::StateRacing()
 	m_bSuspended(true),
 	m_pPauseDelegate(nullptr),
 	m_uiNumRacers(0),
-	m_bCountdown(false),
-	m_bCountdownToFinish(false),
+	m_bRaceStartCountdown(false),
+	m_bRaceEndCountdown(false),
 	m_fTimeRemaining(-1.0f),
 	m_fMaxTimeUntilDNF(20.0f)
 {
@@ -121,7 +121,7 @@ void Kartaclysm::StateRacing::SendRaceInfoEvent()
 
 void Kartaclysm::StateRacing::BeginRace()
 {
-	m_bCountdownToFinish = false;
+	m_bRaceEndCountdown = false;
 	m_fTimeRemaining = -1.0f;
 	m_vRaceResults.clear();
 	m_sUnfinishedRacers.clear();
@@ -186,7 +186,7 @@ void Kartaclysm::StateRacing::BeginRace()
 	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 
 	// Set conditions for beginning countdown
-	m_bCountdown = true;
+	m_bRaceStartCountdown = true;
 	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
 	pDisableEvent->SetIntParameter("Disable", 1);
 	HeatStroke::EventManager::Instance()->TriggerEvent(pDisableEvent);
@@ -320,7 +320,7 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
-		if (m_bCountdownToFinish)
+		if (m_bRaceEndCountdown)
 		{
 			m_fTimeRemaining -= p_fDelta;
 			if (m_fTimeRemaining <= 0.0f)
@@ -329,9 +329,9 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 				HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 			}
 		}
-		else if (m_bCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
+		else if (m_bRaceStartCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
 		{
-			m_bCountdown = false;
+			m_bRaceStartCountdown = false;
 			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
 			return;
 		}
@@ -419,7 +419,7 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 
 	if (m_vRaceResults.size() == m_uiNumRacers - 1)
 	{
-		m_bCountdownToFinish = true;
+		m_bRaceEndCountdown = true;
 		m_fTimeRemaining = m_fMaxTimeUntilDNF;
 	}
 	else if (m_vRaceResults.size() >= m_uiNumRacers)
