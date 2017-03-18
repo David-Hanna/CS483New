@@ -40,6 +40,7 @@ namespace Kartaclysm
 		// Breaking naming convention but variable names will try to match database fields
 		struct InsertRacePlayer {
 			int			player_num;
+			int			position;
 			KartPK		kart;
 			DriverPK	driver;
 			bool		is_human;
@@ -47,17 +48,18 @@ namespace Kartaclysm
 			// index matches to lap order (i.e. [0] = lap 0)
 			std::vector<float>	lap_times;
 
-			InsertRacePlayer() : player_num(-1), kart(eKartError), driver(eDriverError), is_human(true), lap_times() {}
+			InsertRacePlayer() : player_num(-1), position(-2), kart(eKartError), driver(eDriverError), is_human(true), lap_times() {}
 		};
 
 		struct InsertRace {
+			bool			valid;
 			TrackPK			track_id;
 			std::time_t		timestamp;
 
-			// index matches to position (i.e. [0] = first place)
-			std::vector<InsertRacePlayer>	race_players;
+			// index is irrelevant
+			std::vector<InsertRacePlayer> race_players;
 
-			InsertRace() : track_id(eTrackError), timestamp(std::time(nullptr)), race_players() {}
+			InsertRace() : valid(false), track_id(eTrackError), timestamp(std::time(nullptr)), race_players() {}
 		};
 
 		struct InsertTournament {

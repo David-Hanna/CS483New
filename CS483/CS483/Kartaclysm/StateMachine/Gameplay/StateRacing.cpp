@@ -449,7 +449,9 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 {
 	std::map<std::string, std::string> mRaceResults;
 	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
-	
+	mRaceResults.insert(std::pair<std::string, std::string>("numLaps", std::to_string(m_uiLapsNeeded)));
+
+
 	float fDNFTime = m_vRaceResults.back().m_fRaceTime + m_fMaxTimeUntilDNF;
 	for (std::string strRacerId : m_sUnfinishedRacers)
 	{
@@ -457,6 +459,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 	}
 
 	bool bTournament = (m_mContextParams.at("Mode") == "Tournament");
+	int iHumanPlayers = 0;
 	for (unsigned int i = 0; i < m_uiNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
@@ -467,27 +470,36 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, results.m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(results.m_fRaceTime)));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerPosition" + strIndex, std::to_string(results.m_iPosition)));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerAI" + strIndex, pRacerComponent->IsHumanPlayer() ? "0" : "1"));
+
+		if (pRacerComponent->IsHumanPlayer())
+		{
+			mRaceResults.insert(std::pair<std::string, std::string>("racerIsHuman" + strIndex, "1"));
+			++iHumanPlayers;
+		}
+		else
+		{
+			mRaceResults.insert(std::pair<std::string, std::string>("racerIsHuman" + strIndex, "0"));
+		}
+
+		std::string strDriver = "", strKart = "";
+		GetDriverAndKartNames(pRacerComponent, strDriver, strKart);
+		mRaceResults.insert(std::pair<std::string, std::string>("racerDriver" + strIndex, strDriver));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerKart" + strIndex, strKart));
 
 		if (bTournament)
 		{
 			mRaceResults.insert(std::pair<std::string, std::string>("racerPoints" + strIndex, std::to_string(GetTournamentPoints(i))));
 		}
 
-		std::string strDriver = "", strKart = "";
-		GetDriverNameAndKartName(pRacerComponent, strDriver, strKart);
-		mRaceResults.insert(std::pair<std::string, std::string>("racerDriver" + strIndex, strDriver));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerKart" + strIndex, strKart));
-
 		auto vLapTimes = pRacerComponent->GetLapTimes();
 #ifdef _DEBUG
 		if (vLapTimes.size() < m_uiLapsNeeded)
 		{
-			assert(!pRacerComponent->HasFinishedRace());
+			assert(iPosition == -1); // must be DNF
 		}
 		else
 		{
-			assert(vLapTimes.size() == m_uiLapsNeeded);
+			assert(vLapTimes.size() == m_uiLapsNeeded); // cannot be greater
 		}
 #endif
 
@@ -505,11 +517,12 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 	std::string strTrack = static_cast<ComponentTrack*>(m_pGameObjectManager->GetGameObject("Track")->GetComponent("GOC_Track"))->GetTrackName();
 	mRaceResults.insert(std::pair<std::string, std::string>("trackName", strTrack));
 	mRaceResults.insert(std::pair<std::string, std::string>("screenTitle", "Race Complete!"));
+	mRaceResults.insert(std::pair<std::string, std::string>("numHumans", std::to_string(iHumanPlayers)));
 
 	return mRaceResults;
 }
 
-void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const
+void Kartaclysm::StateRacing::GetDriverAndKartNames(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const
 {
 	auto mDriverTags = p_pRacerComponent->GetDriver()->GetTagList();
 	if (mDriverTags.find("Cleopapa") != mDriverTags.end())
@@ -520,7 +533,7 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 		p_strDriver = "Kingpin";
 	else
 	{
-		printf("%s\n", p_strDriver);
+		printf("%s\n", p_strDriver.c_str());
 		assert(false && "Unknown driver name");
 	}
 
@@ -533,14 +546,9 @@ void Kartaclysm::StateRacing::GetDriverNameAndKartName(ComponentRacer* p_pRacerC
 		p_strKart = "Speedster";
 	else
 	{
-		printf("%s\n", p_strKart);
+		printf("%s\n", p_strKart.c_str());
 		assert(false && "Unknown kart name");
 	}
-}
-
-void Kartaclysm::StateRacing::FinishLapsForUnfinishedPlayer(ComponentRacer* p_pRacerComponent)
-{
-	// TODO: Me
 }
 
 int Kartaclysm::StateRacing::GetTournamentPoints(int p_iPosition) const

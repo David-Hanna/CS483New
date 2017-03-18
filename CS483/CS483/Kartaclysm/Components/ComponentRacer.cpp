@@ -20,7 +20,6 @@ namespace Kartaclysm
 		m_iCurrentTrackPiece(0),
 		m_bHasFinishedRace(false),
 		m_bHumanPlayer(true),
-		m_bIgnoreFirstLap(true),
 		m_vLapTimes()
 	{
 		m_pLapCompleteDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishLap, this, std::placeholders::_1));
@@ -59,32 +58,29 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
 		if (strRacerId == GetGameObject()->GetGUID())
 		{
+			if (++m_iCurrentLap == 1) return; // ignore crossing the starting line
+
 			int iTotalLaps;
+			float fRacerTime = 0.0f;
 			p_pEvent->GetRequiredIntParameter("totalLaps", iTotalLaps);
+			p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
 
 			HeatStroke::Event* pEvent = new HeatStroke::Event(strRacerId + "_HUD_Lap");
-			pEvent->SetIntParameter("Current", ++m_iCurrentLap);
+			pEvent->SetIntParameter("Current", m_iCurrentLap);
 			pEvent->SetIntParameter("Total", iTotalLaps);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
+			if (m_iCurrentLap <= iTotalLaps + 1) // starting 4th lap means ending 3rd lap
+			{
+				for (auto fLapTime : m_vLapTimes)
+				{
+					fRacerTime -= fLapTime;
+				}
+				m_vLapTimes.push_back(fRacerTime);
+			}
 #ifdef _DEBUG
-			assert(m_iCurrentLap <= iTotalLaps);
+			assert(m_vLapTimes.size() <= iTotalLaps);
 #endif
-
-			if (m_bIgnoreFirstLap)
-			{
-				m_bIgnoreFirstLap = false;
-				return;
-			}
-
-			float fRacerTime = 0.0f;
-			p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
-
-			for (auto fLapTime : m_vLapTimes)
-			{
-				fRacerTime -= fLapTime;
-			}
-			m_vLapTimes.push_back(fRacerTime);
 		}
 	}
 

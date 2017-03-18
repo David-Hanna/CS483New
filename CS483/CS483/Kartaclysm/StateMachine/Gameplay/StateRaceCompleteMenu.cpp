@@ -13,7 +13,9 @@ Kartaclysm::StateRaceCompleteMenu::StateRaceCompleteMenu()
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_bTournamentRace(false),
-	m_bTournamentResults(false)
+	m_bTournamentResults(false),
+	m_bRenderOnce(false),
+	m_bInsertedIntoDatabase(false)
 {
 }
 
@@ -24,6 +26,8 @@ Kartaclysm::StateRaceCompleteMenu::~StateRaceCompleteMenu()
 void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_bSuspended = false;
+	m_bRenderOnce = false;
+	m_bInsertedIntoDatabase = false;
 	std::map<std::string, std::string> mResults = p_mContextParameters;
 	m_bTournamentResults = (mResults.find("trackName") == mResults.end());
 	m_bTournamentRace = (mResults.find("racerPoints0") != mResults.end());
@@ -45,7 +49,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	}
 
 	AddRacerPositionToMap(&mResults);
-	AddRaceToDatabase(mResults);
+	CreateDatabaseInsertStruct(mResults);
 	SendRaceFinishEvent(mResults);
 	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	PopulateRaceResultsList(mResults);
@@ -66,6 +70,17 @@ void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 		assert(m_pGameObjectManager != nullptr);
 		m_pGameObjectManager->Update(p_fDelta);
 
+		if (!m_bRenderOnce) return;
+
+		if (!m_bInsertedIntoDatabase)
+		{
+			m_bInsertedIntoDatabase = true;
+			if (!m_bTournamentResults)
+			{
+				CreateRaceInsertThread();
+			}
+		}
+
 		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
 		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
 
@@ -85,6 +100,7 @@ void Kartaclysm::StateRaceCompleteMenu::PreRender()
 	// Render even when suspended
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
+	m_bRenderOnce = true;
 }
 
 void Kartaclysm::StateRaceCompleteMenu::Exit()
@@ -136,70 +152,94 @@ void Kartaclysm::StateRaceCompleteMenu::AddRacerPositionToMap(std::map<std::stri
 	}
 }
 
-void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::string, std::string>& p_mRaceResults)
+void Kartaclysm::StateRaceCompleteMenu::CreateDatabaseInsertStruct(const std::map<std::string, std::string>& p_mRaceResults)
 {
-	Database::InsertRace mRace;
-	
-	mRace.track_id = Database::StringToTrackPK(p_mRaceResults.at("trackName"));
-	assert(mRace.track_id != Database::eTrackError);
+	m_mRaceDatabaseInsert = Database::InsertRace();
+	if (m_bTournamentResults) return;
 
-	bool bValid = true;
+	m_mRaceDatabaseInsert.track_id = Database::StringToTrackPK(p_mRaceResults.at("trackName"));
+	assert(m_mRaceDatabaseInsert.track_id != Database::eTrackError);
 
-	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	int iNum_mRaceDatabaseInsertrs = std::stoi(p_mRaceResults.at("numRacers"));
 	int iLaps = std::stoi(p_mRaceResults.at("numLaps"));
-	for (int i = 0; i < iNumRacers; ++i)
+	int iHumanPlayers = std::stoi(p_mRaceResults.at("numHumans"));
+
+	for (int i = 0; i < iNum_mRaceDatabaseInsertrs; ++i)
 	{
 		Database::InsertRacePlayer mPlayer;
-		if (mPlayer.lap_times.size() != iLaps)
+		std::string strIndex = std::to_string(i);
+
+		std::string strPlayerId = p_mRaceResults.at("racerId" + strIndex);
+		switch (strPlayerId.at(0))
 		{
+			case 'a': mPlayer.player_num = iHumanPlayers + std::stoi(strPlayerId.substr(8)); // ai_racerX
+				break;
+			case 'P': mPlayer.player_num = std::stoi(strPlayerId.substr(6)); // PlayerX
+				break;
+			default: mPlayer.player_num = -1;
 #ifdef _DEBUG
-			assert(false && "Racer does not having correct amount of laps");
+				assert(false && "Unknown racer GUID format");
 #endif
-			bValid = false;
-			break;
+				m_mRaceDatabaseInsert.valid = false;
+				return;
 		}
 
-		std::string strIndex = std::to_string(i);
-		mPlayer.player_num = std::stoi(p_mRaceResults.at("racerId" + strIndex).substr(6));
-		mPlayer.is_human = p_mRaceResults.at("racerAI" + strIndex) != "0";
-
+		std::string strPosition = p_mRaceResults.at("racerPosition" + strIndex);
+		mPlayer.position = (strPosition == "dnf" ? -1 : std::stoi(strPosition));
+		mPlayer.is_human = p_mRaceResults.at("racerIsHuman" + strIndex) != "0";
 		mPlayer.driver = Database::StringToDriverPK(p_mRaceResults.at("racerDriver" + strIndex));
-		assert(mPlayer.driver != Database::eDriverError);
-
 		mPlayer.kart = Database::StringToKartPK(p_mRaceResults.at("racerKart" + strIndex));
+		assert(mPlayer.driver != Database::eDriverError);
 		assert(mPlayer.kart != Database::eKartError);
 
 		for (int i = 1; i <= iLaps; ++i)
 		{
-			mPlayer.lap_times.push_back(std::stof(p_mRaceResults.at("racer" + strIndex + "Lap" + std::to_string(i))));
-		}
-
-		mRace.race_players.push_back(mPlayer);
-	}
-
-	if (bValid)
-	{
-		auto thrInsertQueryThread = std::thread(
-			&DatabaseManager::InsertRaceQuery,
-			DatabaseManager::Instance(),
-			mRace);
-
-		if (m_bTournamentRace)
-		{
-			int iTournRaces = std::stoi(p_mRaceResults.at("TournamentRaceCount"));
-			int iCurrRace = std::stoi(p_mRaceResults.at("CurrentTournamentRace"));
-
-			if (iCurrRace == iTournRaces - 1)
+			auto find = p_mRaceResults.find("racer" + strIndex + "Lap" + std::to_string(i));
+			if (find == p_mRaceResults.end())
 			{
-				// TODO: Better handling for Tournament End query running before this query finishes
-				// i.e. handling two multithreaded queries on client side and
-				// making sure the test database can support multiple incoming client requests
-				thrInsertQueryThread.join();
+#ifdef _DEBUG
+				assert(false && "Racer has less laps than required");
+#endif
+				m_mRaceDatabaseInsert.valid = false;
 				return;
 			}
+			mPlayer.lap_times.push_back(std::stof(find->second));
 		}
 
-		thrInsertQueryThread.detach();
+#ifdef _DEBUG
+		if (p_mRaceResults.find("racer" + strIndex + "Lap" + std::to_string(iLaps + 1)) != p_mRaceResults.end())
+		{
+			assert(false && "Racer has more laps than required");
+		}
+#endif
+
+		m_mRaceDatabaseInsert.race_players.push_back(mPlayer);
+	}
+
+	m_mRaceDatabaseInsert.valid = true;
+}
+
+void Kartaclysm::StateRaceCompleteMenu::CreateRaceInsertThread()
+{
+	if (!m_mRaceDatabaseInsert.valid) return;
+
+	// For thread safety, must call this line before thread begins running
+	bool bLastTournRace = (DatabaseManager::Instance()->RemainingTournamentRaces() == 1);
+
+	auto thrInsertQuery = std::thread(
+		&DatabaseManager::InsertRaceQuery,
+		DatabaseManager::Instance(),
+		m_mRaceDatabaseInsert);
+
+	if (m_bTournamentRace && bLastTournRace)
+	{
+		// For thread safety, we must ensure this thread ends before the End Tournament query
+		// TODO: Maybe queued queries would be better? This is the quick solution for now
+		thrInsertQuery.join();
+	}
+	else
+	{
+		thrInsertQuery.detach();
 	}
 }
 

@@ -44,9 +44,13 @@ namespace Kartaclysm
 	private:
 		bool m_bTournamentRace;
 		bool m_bTournamentResults;
+		bool m_bRenderOnce;
+		bool m_bInsertedIntoDatabase;
+		Database::InsertRace m_mRaceDatabaseInsert;
 
 		void AddRacerPositionToMap(std::map<std::string, std::string>* p_pRaceResults) const;
-		void AddRaceToDatabase(const std::map<std::string, std::string>& p_mRaceResults);
+		void CreateDatabaseInsertStruct(const std::map<std::string, std::string>& p_mRaceResults);
+		void CreateRaceInsertThread();
 		void SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults) const;
 		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath) const;
 		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults) const;

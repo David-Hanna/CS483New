@@ -29,9 +29,10 @@ namespace Kartaclysm
 
 		void SetThreadedQueryMode(bool p_bThreaded) { m_bThreadedQueries = p_bThreaded; }
 
-		void StartTournament();
+		void StartTournament(unsigned int uiTournRaces);
 		void CancelTournament();
 		int EndTournament();
+		unsigned int RemainingTournamentRaces() { return m_uiTotalTournamentRaces - m_vTournamentRaceIds.size(); }
 
 		int InsertRaceQuery(const Database::InsertRace& p_mRace);
 
@@ -43,6 +44,7 @@ namespace Kartaclysm
 		~DatabaseManager();
 
 		HeatStroke::MySQLConnector* m_pMySQLInstance;
+		unsigned int m_uiTotalTournamentRaces;
 		bool m_bTournament;
 		bool m_bThreadedQueries;
 		std::vector<int> m_vTournamentRaceIds;

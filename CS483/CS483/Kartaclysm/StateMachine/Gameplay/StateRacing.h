@@ -122,8 +122,7 @@ namespace Kartaclysm
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
 		std::map<std::string, std::string> GenerateRaceResults();
-		void GetDriverNameAndKartName(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const;
-		void FinishLapsForUnfinishedPlayer(ComponentRacer* p_pRacerComponent);
+		void GetDriverAndKartNames(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const;
 		int GetTournamentPoints(int p_iPosition) const;
 	};
 }

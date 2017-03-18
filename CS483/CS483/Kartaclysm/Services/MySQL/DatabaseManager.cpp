@@ -33,6 +33,7 @@ Kartaclysm::DatabaseManager::DatabaseManager()
 	m_pMySQLInstance(HeatStroke::MySQLConnector::Instance()),
 	m_bTournament(false),
 	m_bThreadedQueries(false),
+	m_uiTotalTournamentRaces(0),
 	m_vTournamentRaceIds()
 {
 	m_pMySQLInstance->SetConnection("db4free.net:3307", "kartaclysm", "upeics483", "kartaclysm");
@@ -43,22 +44,25 @@ Kartaclysm::DatabaseManager::~DatabaseManager()
 	m_pMySQLInstance->ClearConnection();
 }
 
-void Kartaclysm::DatabaseManager::StartTournament()
+void Kartaclysm::DatabaseManager::StartTournament(unsigned int uiTournRaces)
 {
 	assert(!m_bTournament);
+	assert(uiTournRaces > 0);
 	m_bTournament = true;
+	m_uiTotalTournamentRaces = uiTournRaces;
 }
 
 void Kartaclysm::DatabaseManager::CancelTournament()
 {
 	m_bTournament = false;
 	m_vTournamentRaceIds.clear();
+	m_uiTotalTournamentRaces = 0;
 }
 
 int Kartaclysm::DatabaseManager::EndTournament()
 {
 	assert(m_bTournament);
-	assert(!m_vTournamentRaceIds.empty());
+	assert(m_vTournamentRaceIds.size() == m_uiTotalTournamentRaces);
 
 	int iTournamentId = -2; // no connection
 
@@ -94,6 +98,7 @@ int Kartaclysm::DatabaseManager::EndTournament()
 int Kartaclysm::DatabaseManager::InsertRaceQuery(const Database::InsertRace& p_mRace)
 {
 	int iRaceId = -2; // no connection
+	assert(p_mRace.valid);
 
 	if (m_pMySQLInstance->HasConnection())
 	{

@@ -68,7 +68,6 @@ namespace Kartaclysm
 		int m_iCurrentPosition;
 		bool m_bHasFinishedRace;
 		bool m_bHumanPlayer;
-		bool m_bIgnoreFirstLap;
 		std::vector<float> m_vLapTimes;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);

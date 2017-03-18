@@ -48,13 +48,11 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	m_pRaceInfoDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTournament::RaceInfoCallback, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
-	DatabaseManager::Instance()->StartTournament();
+	DatabaseManager::Instance()->StartTournament(m_vTracks.size());
 
 	// Shuffle tracks for tournament and push to player selection
 	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), s_RNGesus);
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
-	m_mContextParams["TournamentRaceCount"] = std::to_string(m_vTracks.size());
-	m_mContextParams["CurrentTournamentRace"] = std::to_string(m_uiRaceCount);
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
 
@@ -71,11 +69,10 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 		else if (m_bFinished)
 		{
 			m_bFinished = false;
-			auto mInsertQueryThread = std::thread(
+			auto thrInsertQuery = std::thread(
 				&DatabaseManager::EndTournament,
 				DatabaseManager::Instance());
-			mInsertQueryThread.detach();
-
+			thrInsertQuery.detach();
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 			// TODO: Show some kind of congratulations screen?
@@ -141,8 +138,6 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	if (++m_uiRaceCount < m_vTracks.size())
 	{
 		m_mContextParams["TrackDefinitionFile"] = m_vTracks[m_uiRaceCount];
-		m_mContextParams["TournamentRaceCount"] = std::to_string(m_vTracks.size());
-		m_mContextParams["CurrentTournamentRace"] = std::to_string(m_uiRaceCount);
 		m_bReadyForNextRace = true;
 	}
 	else
