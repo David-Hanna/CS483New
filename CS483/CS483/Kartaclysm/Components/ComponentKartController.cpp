@@ -131,6 +131,29 @@ namespace Kartaclysm
 			);
 	}
 
+	void ComponentKartController::SetAI(bool p_bAI)
+	{
+		m_bAI = p_bAI;
+
+		if (m_bAI)
+		{
+			// add ComponentAIDriver to game object if not already present
+			ComponentAIDriver* pAIDriverComponent = static_cast<ComponentAIDriver*>(m_pGameObject->GetComponent("GOC_AIDriver"));
+			if (pAIDriverComponent == nullptr)
+			{
+				Component* pAIDriverComponent = ComponentAIDriver::CreateComponent(m_pGameObject, nullptr, nullptr);
+				m_pGameObject->AddComponent(pAIDriverComponent);
+
+				// TODO - ensure humans can't activate abilities
+				//			not sure of the best way to do this currently
+			}
+		}
+		else
+		{
+			m_pGameObject->RemoveComponent("GOC_AIDriver");
+		}
+	}
+
 	void ComponentKartController::SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
 	{
 		m_iMaxSpeedCoreStat = p_iMaxSpeed;

@@ -106,7 +106,11 @@ void Kartaclysm::StateRaceCompleteMenu::AddRacerPositionToMap(std::map<std::stri
 	{
 		for (int i = 0; i < iNumRacers; ++i)
 		{
-			(*p_pRaceResults)["racerPosition" + std::to_string(i)] = std::to_string(i+1);
+			std::string strIndex = std::to_string(i);
+			if (p_pRaceResults->at("racerPosition" + strIndex) == "-1")
+			{
+				(*p_pRaceResults)["racerPosition" + strIndex] = "dnf";
+			}
 		}
 	}
 	else

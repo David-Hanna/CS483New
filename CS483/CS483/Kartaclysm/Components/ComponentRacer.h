@@ -11,6 +11,7 @@
 #include <tinyxml2.h>
 
 #include "Component.h"
+#include "ComponentKartController.h"
 #include "EventManager.h"
 
 namespace Kartaclysm
@@ -51,7 +52,6 @@ namespace Kartaclysm
 		void SetHumanPlayer(bool p_bHumanPlayer) { m_bHumanPlayer = p_bHumanPlayer; }
 		bool IsHumanPlayer() const { return m_bHumanPlayer; }
 		const std::vector<float> GetLapTimes() const { return m_vLapTimes; }
-		void ManuallyAddLapTime(float p_fLapTime) { m_vLapTimes.push_back(p_fLapTime); }
 
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);

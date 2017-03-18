@@ -82,18 +82,12 @@ namespace Kartaclysm
 	private:
 		struct RacerResults
 		{
-			ComponentRacer* m_pRacerComponent;
+			std::string m_strRacerId;
 			float m_fRaceTime;
-			unsigned int m_uiPosition;
-			bool m_bIgnoreFirstLap;
-
-			RacerResults() : 
-				m_pRacerComponent(nullptr),
-				m_fRaceTime(-1.0f),
-				m_uiPosition(0),
-				m_bIgnoreFirstLap(true) {}
+			int m_iPosition;
 		};
-		std::map<std::string, RacerResults> m_mRaceResults;
+		std::vector<RacerResults> m_vRaceResults;
+		std::set<std::string> m_sUnfinishedRacers;
 
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
@@ -101,10 +95,14 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		std::map<std::string, std::string> m_mContextParams;
+		unsigned int m_uiNumRacers;
 		unsigned int m_uiLapsNeeded;
-		bool m_bCountdown;
+		bool m_bRaceStartCountdown;
+		bool m_bRaceEndCountdown;
+		float m_fTimeRemaining;
+		float m_fMaxTimeUntilDNF;
 
-		void CreateHUDForRacers(unsigned int p_uiNumHumanRacers);
+		void CreateHUDForRacer(const std::string& p_strGuid);
 
 		void SendRaceInfoEvent();
 		void BeginRace();
@@ -123,9 +121,9 @@ namespace Kartaclysm
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
-		std::map<std::string, std::string> GenerateRaceResults() const;
+		std::map<std::string, std::string> GenerateRaceResults();
 		void GetDriverNameAndKartName(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const;
-		void FakeRaceFinishForPlayer(ComponentRacer* p_pRacerComponent) const;
+		void FinishLapsForUnfinishedPlayer(ComponentRacer* p_pRacerComponent);
 		int GetTournamentPoints(int p_iPosition) const;
 	};
 }
