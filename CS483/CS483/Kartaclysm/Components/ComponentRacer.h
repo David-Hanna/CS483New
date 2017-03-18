@@ -50,6 +50,8 @@ namespace Kartaclysm
 		bool HasFinishedRace() const {return m_bHasFinishedRace;}
 		void SetHumanPlayer(bool p_bHumanPlayer) { m_bHumanPlayer = p_bHumanPlayer; }
 		bool IsHumanPlayer() const { return m_bHumanPlayer; }
+		const std::vector<float> GetLapTimes() const { return m_vLapTimes; }
+		void ManuallyAddLapTime(float p_fLapTime) { m_vLapTimes.push_back(p_fLapTime); }
 
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
@@ -66,6 +68,8 @@ namespace Kartaclysm
 		int m_iCurrentPosition;
 		bool m_bHasFinishedRace;
 		bool m_bHumanPlayer;
+		bool m_bIgnoreFirstLap;
+		std::vector<float> m_vLapTimes;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);

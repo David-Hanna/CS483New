@@ -19,7 +19,9 @@ namespace Kartaclysm
 		m_iCurrentPosition(1),
 		m_iCurrentTrackPiece(0),
 		m_bHasFinishedRace(false),
-		m_bHumanPlayer(true)
+		m_bHumanPlayer(true),
+		m_bIgnoreFirstLap(true),
+		m_vLapTimes()
 	{
 		m_pLapCompleteDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishLap, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", m_pLapCompleteDelegate);
@@ -64,6 +66,25 @@ namespace Kartaclysm
 			pEvent->SetIntParameter("Current", ++m_iCurrentLap);
 			pEvent->SetIntParameter("Total", iTotalLaps);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+
+#ifdef _DEBUG
+			assert(m_iCurrentLap <= iTotalLaps);
+#endif
+
+			if (m_bIgnoreFirstLap)
+			{
+				m_bIgnoreFirstLap = false;
+				return;
+			}
+
+			float fRacerTime = 0.0f;
+			p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
+
+			for (auto fLapTime : m_vLapTimes)
+			{
+				fRacerTime -= fLapTime;
+			}
+			m_vLapTimes.push_back(fRacerTime);
 		}
 	}
 

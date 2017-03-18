@@ -15,7 +15,6 @@ Kartaclysm::StateRacing::StateRacing()
 	GameplayState("Racing"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
-	m_pRacerFinishedLapDelegate(nullptr),
 	m_pRacerFinishedRaceDelegate(nullptr),
 	m_pRaceFinishedDelegate(nullptr),
 	m_pRaceRestartDelegate(nullptr),
@@ -37,9 +36,6 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	// Register listeners
 	m_pPauseDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::PauseGame, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
-
-	m_pRacerFinishedLapDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedLap, this, std::placeholders::_1));
-	HeatStroke::EventManager::Instance()->AddListener("RacerCompletedLap", m_pRacerFinishedLapDelegate);
 
 	m_pRacerFinishedRaceDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateRacing::RacerFinishedRace, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
@@ -325,13 +321,6 @@ void Kartaclysm::StateRacing::Exit()
 		m_pPauseDelegate = nullptr;
 	}
 
-	if (m_pRacerFinishedLapDelegate != nullptr)
-	{
-		HeatStroke::EventManager::Instance()->RemoveListener("RacerCompletedLap", m_pRacerFinishedLapDelegate);
-		delete m_pRacerFinishedLapDelegate;
-		m_pRacerFinishedLapDelegate = nullptr;
-	}
-
 	if (m_pRacerFinishedRaceDelegate != nullptr)
 	{
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace", m_pRacerFinishedRaceDelegate);
@@ -378,32 +367,6 @@ void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)
 	m_pStateMachine->Push(STATE_PAUSED, mContext);
 }
 
-void Kartaclysm::StateRacing::RacerFinishedLap(const HeatStroke::Event* p_pEvent)
-{
-	std::string strRacerId = "";
-	p_pEvent->GetRequiredStringParameter("racerId", strRacerId);
-
-	if (m_mRaceResults[strRacerId].m_bIgnoreFirstLap)
-	{
-		m_mRaceResults[strRacerId].m_bIgnoreFirstLap = false;
-		return;
-	}
-
-	float fRacerTime = 0.0f;
-	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
-
-	auto pLapTimes = &m_mRaceResults[strRacerId].m_vLapTimes;
-	for (auto fLapTime : *pLapTimes)
-	{
-		fRacerTime -= fLapTime;
-	}
-	pLapTimes->push_back(fRacerTime);
-
-#ifdef _DEBUG
-	assert(pLapTimes->size() <= m_uiLapsNeeded);
-#endif
-}
-
 void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEvent)
 {
 	std::string strRacerId = "";
@@ -427,10 +390,12 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 	if (uiHighestPosition == m_mRaceResults.size() - 1 &&
 		m_mContextParams.at("Mode") == "Tournament")
 	{
+		ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(m_pGameObjectManager->GetGameObject(strRacerId)->GetComponent("GOC_Racer"));
+
 		std::string strUnfinishedPlayerId = "";
 		for (auto mRaceResult : m_mRaceResults)
 		{
-			if (mRaceResult.second.m_vLapTimes.size() != m_uiLapsNeeded)
+			if (pRacerComponent->GetLapTimes().size() != m_uiLapsNeeded)
 			{
 #ifdef _DEBUG
 				assert(strUnfinishedPlayerId == "" && "More than one player waiting to finish");
@@ -441,18 +406,19 @@ void Kartaclysm::StateRacing::RacerFinishedRace(const HeatStroke::Event* p_pEven
 
 		if (strUnfinishedPlayerId != "")
 		{
+			pRacerComponent = static_cast<ComponentRacer*>(m_pGameObjectManager->GetGameObject(strRacerId)->GetComponent("GOC_Racer"));
 			auto pUnfinishedPlayer = &m_mRaceResults[strUnfinishedPlayerId];
 			pUnfinishedPlayer->m_uiPosition = ++uiHighestPosition;
 
-			while (pUnfinishedPlayer->m_vLapTimes.size() < m_uiLapsNeeded)
+			while (pRacerComponent->GetLapTimes().size() < m_uiLapsNeeded)
 			{
-				pUnfinishedPlayer->m_vLapTimes.push_back(599.99f); // 10min
+				pRacerComponent->ManuallyAddLapTime(600.0f);  // 10min
 			}
 		}
 #ifdef _DEBUG
 		else
 		{
-			assert(strUnfinishedPlayerId != "" && "Could not find player waiting to finish");
+			assert(false && "Could not find player waiting to finish");
 		}
 #endif
 	}
@@ -496,8 +462,10 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 			mRaceResults.insert(std::pair<std::string, std::string>("racerPoints" + strIndex, std::to_string(GetTournamentPoints(mRaceResult.second.m_uiPosition - 1))));
 		}
 
+		ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(m_pGameObjectManager->GetGameObject(mRaceResult.first)->GetComponent("GOC_Racer"));
+		auto vLapTimes = pRacerComponent->GetLapTimes();
 		int iLapCount = 0;
-		for (auto fLapTime : mRaceResult.second.m_vLapTimes)
+		for (auto fLapTime : vLapTimes)
 		{
 			mRaceResults.insert(std::pair<std::string, std::string>("racer" + strIndex + "Lap" + std::to_string(++iLapCount), std::to_string(fLapTime)));
 		}

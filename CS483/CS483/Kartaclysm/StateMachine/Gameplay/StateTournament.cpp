@@ -53,6 +53,8 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	// Shuffle tracks for tournament and push to player selection
 	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), s_RNGesus);
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
+	m_mContextParams["TournamentRaceCount"] = std::to_string(m_vTracks.size());
+	m_mContextParams["CurrentTournamentRace"] = std::to_string(m_uiRaceCount);
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
 
@@ -139,6 +141,8 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 	if (++m_uiRaceCount < m_vTracks.size())
 	{
 		m_mContextParams["TrackDefinitionFile"] = m_vTracks[m_uiRaceCount];
+		m_mContextParams["TournamentRaceCount"] = std::to_string(m_vTracks.size());
+		m_mContextParams["CurrentTournamentRace"] = std::to_string(m_uiRaceCount);
 		m_bReadyForNextRace = true;
 	}
 	else

@@ -172,13 +172,30 @@ void Kartaclysm::StateRaceCompleteMenu::AddRaceToDatabase(const std::map<std::st
 
 		mRace.race_players.push_back(mPlayer);
 	}
+
 	if (bValid)
 	{
-		auto mInsertQueryThread = std::thread(
+		auto thrInsertQueryThread = std::thread(
 			&DatabaseManager::InsertRaceQuery,
 			DatabaseManager::Instance(),
 			mRace);
-		mInsertQueryThread.detach();
+
+		if (m_bTournamentRace)
+		{
+			int iTournRaces = std::stoi(p_mRaceResults.at("TournamentRaceCount"));
+			int iCurrRace = std::stoi(p_mRaceResults.at("CurrentTournamentRace"));
+
+			if (iCurrRace == iTournRaces - 1)
+			{
+				// TODO: Better handling for Tournament End query running before this query finishes
+				// i.e. handling two multithreaded queries on client side and
+				// making sure the test database can support multiple incoming client requests
+				thrInsertQueryThread.join();
+				return;
+			}
+		}
+
+		thrInsertQueryThread.detach();
 	}
 }
 
