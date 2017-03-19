@@ -78,8 +78,10 @@
     <Sprite path="Assets/Hud/Positions/position_2.mtl" mtl="position_2"/>
     <Sprite path="Assets/Hud/Positions/position_3.mtl" mtl="position_3"/>
     <Sprite path="Assets/Hud/Positions/position_4.mtl" mtl="position_4"/>
+    <Sprite path="Assets/Hud/Positions/position_dnf.mtl" mtl="position_dnf"/>
 
     <!-- Menus -->
+    <Sprite path="Assets/Menus/Background/background.mtl" mtl="background"/>
     <Sprite path="Assets/Menus/MainMenu/loading_message.mtl" mtl="loading_message"/>
     <Sprite path="Assets/Menus/MainMenu/press_start.mtl" mtl="press_start"/>
     <Sprite path="Assets/Menus/MainMenu/title_image.mtl" mtl="title_image"/>

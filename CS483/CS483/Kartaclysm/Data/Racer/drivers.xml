@@ -1,0 +1,7 @@
+<Drivers>
+    <Driver name="Cleopapa" definition="CS483/CS483/Kartaclysm/Data/Racer/driver_cleopapa.xml"/>
+
+    <Driver name="Clockmaker" definition="CS483/CS483/Kartaclysm/Data/Racer/driver_clockmaker.xml"/>
+
+    <Driver name="Kingpin" definition="CS483/CS483/Kartaclysm/Data/Racer/driver_kingpin.xml"/>
+</Drivers>

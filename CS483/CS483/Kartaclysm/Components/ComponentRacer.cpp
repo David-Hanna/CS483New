@@ -76,6 +76,8 @@ namespace Kartaclysm
 		if (strRacerId == GetGameObject()->GetGUID())
 		{
 			m_bHasFinishedRace = true;
+			ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+			pKartController->SetAI(true);
 		}
 	}
 
