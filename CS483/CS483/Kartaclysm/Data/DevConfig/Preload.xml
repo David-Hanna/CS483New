@@ -78,6 +78,7 @@
     <Sprite path="Assets/Hud/Positions/position_2.mtl" mtl="position_2"/>
     <Sprite path="Assets/Hud/Positions/position_3.mtl" mtl="position_3"/>
     <Sprite path="Assets/Hud/Positions/position_4.mtl" mtl="position_4"/>
+    <Sprite path="Assets/Hud/Positions/position_dnf.mtl" mtl="position_dnf"/>
 
     <!-- Menus -->
     <Sprite path="Assets/Menus/Background/background.mtl" mtl="background"/>

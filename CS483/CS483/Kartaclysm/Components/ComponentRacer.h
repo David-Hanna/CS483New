@@ -11,6 +11,7 @@
 #include <tinyxml2.h>
 
 #include "Component.h"
+#include "ComponentKartController.h"
 #include "EventManager.h"
 
 namespace Kartaclysm
