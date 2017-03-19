@@ -52,6 +52,9 @@ namespace Kartaclysm
 			void RegisterForTrackHeight(const HeatStroke::Event* p_pEvent);
 			void TriggerRaceStandingsUpdateEvent();
 
+			int GetLeadHumanPosition();
+			int GetRearHumanPosition();
+
 			const std::string& GetTrackName() const { return m_strTrackName; }
 
 			int GetNumberOfRacers() { return m_vRacers.size(); }
@@ -81,6 +84,11 @@ namespace Kartaclysm
 			void ResetRacerPosition(ComponentRacer* p_pRacer);
 			void CheckRacerFacingForward();
 			bool IsAhead(ComponentRacer* p_RacerA, ComponentRacer* p_RacerB);
+
+			int m_iLeadHumanPosition;
+			int m_iRearHumanPosition;
+			void UpdateHumanPositions();
+			bool m_bHumanPositionsDirty;
 
 			void TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId);
 			void TriggerRacerCompletedLapEvent(const std::string& p_strRacerId);

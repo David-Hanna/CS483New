@@ -102,6 +102,9 @@ namespace Kartaclysm
 
 		m_pOutsideForce = glm::vec3();
 
+		HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
+		m_pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
+
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
 
@@ -330,19 +333,12 @@ namespace Kartaclysm
 			{
 				int iPosition = pRacer->GetCurrentPosition();
 				
-				if (m_iNumOfRacers == 0)
-				{
-					HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
-					ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
-
-					m_iNumOfRacers = pTrackComponent->GetNumberOfRacers();
-				}
-
-				if (iPosition == 1) // First, slow that shit down
+				if (iPosition < m_pTrackComponent->GetLeadHumanPosition())
 				{
 					fSpeedModifer *= m_fAIRubberBandingFactorFirst;
 				}
-				else if (iPosition == m_iNumOfRacers) // Last, get your shit together
+
+				if (iPosition > m_pTrackComponent->GetRearHumanPosition())
 				{
 					fSpeedModifer *= m_fAIRubberBandingFactorLast;
 				}
