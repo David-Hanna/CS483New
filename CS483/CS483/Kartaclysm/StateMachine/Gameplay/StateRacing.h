@@ -90,15 +90,14 @@ namespace Kartaclysm
 		std::vector<RacerResults> m_vRaceResults;
 		std::set<std::string> m_sUnfinishedRacers;
 
-		std::vector<std::string> m_vDrivers;
-		std::vector<std::string> m_vKarts;
-
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		std::map<std::string, std::string> m_mContextParams;
+		unsigned int m_uiNumAIRacers;
+		unsigned int m_uiNumHumanRacers;
 		unsigned int m_uiNumRacers;
 		bool m_bRaceStartCountdown;
 		bool m_bRaceEndCountdown;
@@ -116,11 +115,10 @@ namespace Kartaclysm
 			const std::string& p_strGuid = ""
 		);
 		HeatStroke::GameObject* GenerateAIRacer(
-			int p_iIndex
+			const std::string& p_strKartDefinitionFile,
+			const std::string& p_strDriverDefinitionFile,
+			const std::string& p_strGuid = ""
 		);
-
-		std::string GetRandomDriver() const;
-		std::string GetRandomKart() const;
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
 		void RacerFinishedRace(const HeatStroke::Event* p_pEvent);
@@ -129,14 +127,6 @@ namespace Kartaclysm
 
 		std::map<std::string, std::string> GenerateRaceResults();
 		int GetTournamentPoints(int p_iPosition) const;
-
-		void GenerateRandomDriverList();
-		void GenerateRandomKartList();
-
-		// RNGesus
-		// TODO - move to custom Random class
-		static std::random_device s_Rand;
-		static std::mt19937 s_RNGesus;
 	};
 }
 

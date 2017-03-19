@@ -9,9 +9,16 @@
 
 #include "StatePlayerSelectionMenu.h"
 
+// TODO - move to custom Random class once it's complete
+std::random_device Kartaclysm::StatePlayerSelectionMenu::s_Rand;
+std::mt19937 Kartaclysm::StatePlayerSelectionMenu::s_RNGesus = std::mt19937(Kartaclysm::StatePlayerSelectionMenu::s_Rand());
+
 void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 {
 	m_uiNumPlayers = 0;
+
+	GenerateDriverList();
+	GenerateKartList();
 
 	m_mPerPlayerMenuState[0].bJoined = true;
 	m_mPerPlayerMenuState[1].bJoined = false;
@@ -388,6 +395,46 @@ void Kartaclysm::StatePlayerSelectionMenu::Exit()
 	}
 }
 
+void Kartaclysm::StatePlayerSelectionMenu::GenerateDriverList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/drivers.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pDriverElement = pRootElement->FirstChildElement("Driver");
+	while (pDriverElement != nullptr)
+	{
+		std::string strDriverDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pDriverElement, "definition", strDriverDefinitionPath);
+		m_vDrivers.push_back(strDriverDefinitionPath);
+
+		pDriverElement = pDriverElement->NextSiblingElement("Driver");
+	}
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::GenerateKartList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/karts.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pKartElement = pRootElement->FirstChildElement("Kart");
+	while (pKartElement != nullptr)
+	{
+		std::string strKartDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pKartElement, "definition", strKartDefinitionPath);
+		m_vKarts.push_back(strKartDefinitionPath);
+
+		pKartElement = pKartElement->NextSiblingElement("Kart");
+	}
+}
+
 void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int m_uiPlayerNum)
 {
 	std::string strPlayerNum = std::to_string(m_uiPlayerNum);
@@ -424,7 +471,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 {
 	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
-	m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
+	m_mContextParameters.insert(std::pair<std::string, std::string>("NumHumanRacers", std::to_string(m_uiNumPlayers)));
 
 	for (unsigned int i = 0; i < m_uiNumPlayers; i++)
 	{
@@ -465,6 +512,22 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		}
 	}
 
+	// TEMP - using hardcoded value of 1 for now
+	int iNumAIRacers = 1;
+	m_mContextParameters.insert(std::pair<std::string, std::string>("NumAIRacers", std::to_string(iNumAIRacers)));
+
+	for (int i = 0; i < iNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
+
+		std::string strDriverDefinitionFile = GetRandomDriver();
+		std::string strKartDefinitionFile = GetRandomKart();
+		
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_DriverDefinitionFile", strDriverDefinitionFile));
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_KartDefinitionFile", strKartDefinitionFile));
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_StartPosition", std::to_string(i + m_uiNumPlayers)));
+	}
+
 	switch (m_uiNumPlayers)
 	{
 	case 1:
@@ -499,4 +562,16 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 	{
 		m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 	}
+}
+
+std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomDriver() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vDrivers.size() - 1);
+	return m_vDrivers[range(s_RNGesus)];
+}
+
+std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomKart() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vKarts.size() - 1);
+	return m_vKarts[range(s_RNGesus)];
 }

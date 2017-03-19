@@ -92,6 +92,9 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pHighlight;
 		};
 
+		std::vector<std::string> m_vDrivers;
+		std::vector<std::string> m_vKarts;
+
 		std::map<std::string, std::string> m_mContextParameters;
 
 		unsigned int m_uiNumPlayers;
@@ -99,8 +102,19 @@ namespace Kartaclysm
 
 		void Initialize();
 
+		void GenerateDriverList();
+		void GenerateKartList();
+
 		void AddPlayer(const unsigned int m_uiPlayerNum);
 		void GoToTrackSelectionState();
+
+		std::string GetRandomDriver() const;
+		std::string GetRandomKart() const;
+
+		// RNGesus
+		// TODO - move to custom Random class
+		static std::random_device s_Rand;
+		static std::mt19937 s_RNGesus;
 	};
 }
 

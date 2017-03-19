@@ -10,24 +10,20 @@
 
 #include "CollisionManager.h"
 
-// TODO - move to custom Random class once it's complete
-std::random_device Kartaclysm::StateRacing::s_Rand;
-std::mt19937 Kartaclysm::StateRacing::s_RNGesus = std::mt19937(Kartaclysm::StateRacing::s_Rand());
-
 Kartaclysm::StateRacing::StateRacing()
 	:
 	GameplayState("Racing"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_pPauseDelegate(nullptr),
+	m_uiNumAIRacers(0),
+	m_uiNumHumanRacers(0),
 	m_uiNumRacers(0),
 	m_bRaceStartCountdown(false),
 	m_bRaceEndCountdown(false),
 	m_fTimeRemaining(-1.0f),
 	m_fMaxTimeUntilDNF(20.0f)
 {
-	GenerateRandomDriverList();
-	GenerateRandomKartList();
 }
 
 Kartaclysm::StateRacing::~StateRacing()
@@ -141,8 +137,8 @@ void Kartaclysm::StateRacing::BeginRace()
 	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
 	// Load racers
-	m_uiNumRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
-	for (unsigned int i = 0; i < m_uiNumRacers; i++)
+	m_uiNumHumanRacers = atoi(m_mContextParams.at("NumHumanRacers").c_str());
+	for (unsigned int i = 0; i < m_uiNumHumanRacers; i++)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
@@ -157,24 +153,26 @@ void Kartaclysm::StateRacing::BeginRace()
 		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
 	}
 
-	// AI racers
-	HeatStroke::GameObject* pAIRacer1 = GenerateAIRacer(1);
-	pTrackComponent->RegisterAIRacer(pAIRacer1);
-	pAIRacer1->GetTransform().Translate(glm::vec3(-1.0f, 0.0f, -1.0f));
+	m_uiNumAIRacers = atoi(m_mContextParams.at("NumAIRacers").c_str());
+	for (unsigned int i = 0; i < m_uiNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
 
-	// Uncomment additional AI racers at your peril!! ya dingus
-	//HeatStroke::GameObject* pAIRacer2 = GenerateAIRacer(2);
-	//pTrackComponent->RegisterAIRacer(pAIRacer2);
-	//pAIRacer2->GetTransform().Translate(glm::vec3(0.0f, 0.0f, -2.0f));
+		std::string strKartFile = m_mContextParams.at(strAIRacer + "_KartDefinitionFile");
+		std::string strDriverFile = m_mContextParams.at(strAIRacer + "_DriverDefinitionFile");
+		int startPosition = atoi(m_mContextParams.at(strAIRacer + "_StartPosition").c_str());
 
-	//HeatStroke::GameObject* pAIRacer3 = GenerateAIRacer(3);
-	//pTrackComponent->RegisterAIRacer(pAIRacer3);
-	//pAIRacer3->GetTransform().Translate(glm::vec3(1.0f, 0.0f, -3.0f));
+		HeatStroke::GameObject* pRacer = GenerateAIRacer(strKartFile, strDriverFile, strAIRacer);
+		pTrackComponent->RegisterRacer(pRacer);
+		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
+	}
+
+	m_uiNumRacers = m_uiNumHumanRacers + m_uiNumAIRacers;
 
 	// Set inital position sprites on racer HUDs
 	pTrackComponent->TriggerRaceStandingsUpdateEvent();
 
-	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumHumanRacers))
 	{
 		// TODO: Properly handle race mode
 		//PlayerInputMapping::Instance()->EnableRaceMode();
@@ -224,19 +222,17 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 	return pRacer;
 }
 
-// TODO - move selection of AI kart/drivers to StatePlayerSelectionMenu
-//			Waiting for StatePlayerSelectionMenu to be changed to allow for determining number of AI racers
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
-	int p_iIndex
+	const std::string& p_strKartDefinitionFile,
+	const std::string& p_strDriverDefinitionFile,
+	const std::string& p_strGuid /*= ""*/
 )
 {
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer_ai.xml";
-	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, "ai_racer" + std::to_string(p_iIndex));
+	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
 
-	std::string strDriverDefinitionFile = GetRandomDriver();
-	std::string strKartDefinitionFile = GetRandomKart();
-	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(strDriverDefinitionFile, "ai_driver" + std::to_string(p_iIndex), pRacer);
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(strKartDefinitionFile, "ai_kart" + std::to_string(p_iIndex), pRacer);
+	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
@@ -249,25 +245,12 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	}
 
 	m_sUnfinishedRacers.insert(pRacer->GetGUID());
-	++m_uiNumRacers;
 	return pRacer;
-}
-
-std::string Kartaclysm::StateRacing::GetRandomDriver() const
-{
-	auto range = std::uniform_int_distribution<int>(0, m_vDrivers.size() - 1);
-	return m_vDrivers[range(s_RNGesus)];
-}
-
-std::string Kartaclysm::StateRacing::GetRandomKart() const
-{
-	auto range = std::uniform_int_distribution<int>(0, m_vKarts.size() - 1);
-	return m_vKarts[range(s_RNGesus)];
 }
 
 void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
 {
-	switch (m_uiNumRacers)
+	switch (m_uiNumHumanRacers)
 	{
 	case 1:
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_full.xml", p_strGuid + "_HUD");
@@ -505,45 +488,5 @@ int Kartaclysm::StateRacing::GetTournamentPoints(int p_iPosition) const
 	case 5: return 2;
 	case 6: return 1;
 	default: return 0;
-	}
-}
-
-void Kartaclysm::StateRacing::GenerateRandomDriverList()
-{
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/drivers.xml");
-#if _DEBUG
-	assert(err == tinyxml2::XML_NO_ERROR);
-#endif
-
-	tinyxml2::XMLElement* pRootElement = doc.RootElement();
-	tinyxml2::XMLElement* pDriverElement = pRootElement->FirstChildElement("Driver");
-	while (pDriverElement != nullptr)
-	{
-		std::string strDriverDefinitionPath = "";
-		HeatStroke::EasyXML::GetRequiredStringAttribute(pDriverElement, "definition", strDriverDefinitionPath);
-		m_vDrivers.push_back(strDriverDefinitionPath);
-
-		pDriverElement = pDriverElement->NextSiblingElement("Driver");
-	}
-}
-
-void Kartaclysm::StateRacing::GenerateRandomKartList()
-{
-	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/karts.xml");
-#if _DEBUG
-	assert(err == tinyxml2::XML_NO_ERROR);
-#endif
-
-	tinyxml2::XMLElement* pRootElement = doc.RootElement();
-	tinyxml2::XMLElement* pKartElement = pRootElement->FirstChildElement("Kart");
-	while (pKartElement != nullptr)
-	{
-		std::string strKartDefinitionPath = "";
-		HeatStroke::EasyXML::GetRequiredStringAttribute(pKartElement, "definition", strKartDefinitionPath);
-		m_vKarts.push_back(strKartDefinitionPath);
-
-		pKartElement = pKartElement->NextSiblingElement("Kart");
 	}
 }
