@@ -1870,5 +1870,8 @@
     <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
