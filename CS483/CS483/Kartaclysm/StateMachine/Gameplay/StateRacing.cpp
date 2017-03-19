@@ -16,6 +16,8 @@ Kartaclysm::StateRacing::StateRacing()
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_pPauseDelegate(nullptr),
+	m_uiNumAIRacers(0),
+	m_uiNumHumanRacers(0),
 	m_uiNumRacers(0),
 	m_bRaceStartCountdown(false),
 	m_bRaceEndCountdown(false),
@@ -135,40 +137,42 @@ void Kartaclysm::StateRacing::BeginRace()
 	ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
 	// Load racers
-	m_uiNumRacers = atoi(m_mContextParams.at("PlayerCount").c_str());
-	for (unsigned int i = 0; i < m_uiNumRacers; i++)
+	m_uiNumHumanRacers = atoi(m_mContextParams.at("NumHumanRacers").c_str());
+	for (unsigned int i = 0; i < m_uiNumHumanRacers; i++)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
-		std::string kartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
-		std::string driverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
-		std::string cameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
-		int startPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
+		std::string strKartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
+		std::string strDriverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
+		std::string strCameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
+		int iStartPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
 
 		// generate racers
-		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
+		HeatStroke::GameObject* pRacer = GenerateRacer(strKartFile, strDriverFile, strCameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
+		pRacer->GetTransform().Translate(glm::vec3((iStartPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * iStartPosition));
 	}
 
-	// AI racers
-	HeatStroke::GameObject* pAIRacer1 = GenerateAIRacer(1);
-	pTrackComponent->RegisterAIRacer(pAIRacer1);
-	pAIRacer1->GetTransform().Translate(glm::vec3(-1.0f, 0.0f, -1.0f));
+	m_uiNumAIRacers = atoi(m_mContextParams.at("NumAIRacers").c_str());
+	for (unsigned int i = 0; i < m_uiNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
 
-	// Uncomment additional AI racers at your peril!! ya dingus
-	//HeatStroke::GameObject* pAIRacer2 = GenerateAIRacer(2);
-	//pTrackComponent->RegisterAIRacer(pAIRacer2);
-	//pAIRacer2->GetTransform().Translate(glm::vec3(0.0f, 0.0f, -2.0f));
+		std::string strKartFile = m_mContextParams.at(strAIRacer + "_KartDefinitionFile");
+		std::string strDriverFile = m_mContextParams.at(strAIRacer + "_DriverDefinitionFile");
+		int iStartPosition = atoi(m_mContextParams.at(strAIRacer + "_StartPosition").c_str());
 
-	//HeatStroke::GameObject* pAIRacer3 = GenerateAIRacer(3);
-	//pTrackComponent->RegisterAIRacer(pAIRacer3);
-	//pAIRacer3->GetTransform().Translate(glm::vec3(1.0f, 0.0f, -3.0f));
+		HeatStroke::GameObject* pRacer = GenerateAIRacer(strKartFile, strDriverFile, strAIRacer);
+		pTrackComponent->RegisterAIRacer(pRacer);
+		pRacer->GetTransform().Translate(glm::vec3((iStartPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * iStartPosition));
+	}
+
+	m_uiNumRacers = m_uiNumHumanRacers + m_uiNumAIRacers;
 
 	// Set inital position sprites on racer HUDs
 	pTrackComponent->TriggerRaceStandingsUpdateEvent();
 
-	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumRacers))
+	if (PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumHumanRacers))
 	{
 		// TODO: Properly handle race mode
 		//PlayerInputMapping::Instance()->EnableRaceMode();
@@ -219,14 +223,16 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
-	int p_iIndex
+	const std::string& p_strKartDefinitionFile,
+	const std::string& p_strDriverDefinitionFile,
+	const std::string& p_strGuid /*= ""*/
 )
 {
 	std::string strRacerDefinitionFile = "CS483/CS483/Kartaclysm/Data/Racer/racer_ai.xml";
-	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, "ai_racer" + std::to_string(p_iIndex));
+	HeatStroke::GameObject* pRacer = m_pGameObjectManager->CreateGameObject(strRacerDefinitionFile, p_strGuid);
 
-	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml", "ai_kart" + std::to_string(p_iIndex), pRacer);
-	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/driver_ai.xml", "ai_driver" + std::to_string(p_iIndex), pRacer);
+	HeatStroke::GameObject* pDriver = m_pGameObjectManager->CreateGameObject(p_strDriverDefinitionFile, "", pRacer);
+	HeatStroke::GameObject* pKart = m_pGameObjectManager->CreateGameObject(p_strKartDefinitionFile, "", pRacer);
 
 	ComponentRacer* pRacerComponent = static_cast<ComponentRacer*>(pRacer->GetComponent("GOC_Racer"));
 	pRacerComponent->SetKart(pKart);
@@ -239,13 +245,12 @@ HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateAIRacer(
 	}
 
 	m_sUnfinishedRacers.insert(pRacer->GetGUID());
-	++m_uiNumRacers;
 	return pRacer;
 }
 
 void Kartaclysm::StateRacing::CreateHUDForRacer(const std::string& p_strGuid)
 {
-	switch (m_uiNumRacers)
+	switch (m_uiNumHumanRacers)
 	{
 	case 1:
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/hud_full.xml", p_strGuid + "_HUD");

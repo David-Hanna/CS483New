@@ -9,6 +9,7 @@
 #define STATE_RACING_H
 
 #include <functional>
+#include <random>
 
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
@@ -95,6 +96,8 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		std::map<std::string, std::string> m_mContextParams;
+		unsigned int m_uiNumAIRacers;
+		unsigned int m_uiNumHumanRacers;
 		unsigned int m_uiNumRacers;
 		bool m_bRaceStartCountdown;
 		bool m_bRaceEndCountdown;
@@ -112,7 +115,9 @@ namespace Kartaclysm
 			const std::string& p_strGuid = ""
 		);
 		HeatStroke::GameObject* GenerateAIRacer(
-			int p_iIndex
+			const std::string& p_strKartDefinitionFile,
+			const std::string& p_strDriverDefinitionFile,
+			const std::string& p_strGuid = ""
 		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
