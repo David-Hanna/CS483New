@@ -142,15 +142,15 @@ void Kartaclysm::StateRacing::BeginRace()
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
-		std::string kartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
-		std::string driverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
-		std::string cameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
-		int startPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
+		std::string strKartFile = m_mContextParams.at(strPlayerX + "_KartDefinitionFile");
+		std::string strDriverFile = m_mContextParams.at(strPlayerX + "_DriverDefinitionFile");
+		std::string strCameraFile = m_mContextParams.at(strPlayerX + "_CameraDefinitionFile");
+		int iStartPosition = atoi(m_mContextParams.at(strPlayerX + "_StartPosition").c_str());
 
 		// generate racers
-		HeatStroke::GameObject* pRacer = GenerateRacer(kartFile, driverFile, cameraFile, strPlayerX);
+		HeatStroke::GameObject* pRacer = GenerateRacer(strKartFile, strDriverFile, strCameraFile, strPlayerX);
 		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
+		pRacer->GetTransform().Translate(glm::vec3((iStartPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * iStartPosition));
 	}
 
 	m_uiNumAIRacers = atoi(m_mContextParams.at("NumAIRacers").c_str());
@@ -160,11 +160,11 @@ void Kartaclysm::StateRacing::BeginRace()
 
 		std::string strKartFile = m_mContextParams.at(strAIRacer + "_KartDefinitionFile");
 		std::string strDriverFile = m_mContextParams.at(strAIRacer + "_DriverDefinitionFile");
-		int startPosition = atoi(m_mContextParams.at(strAIRacer + "_StartPosition").c_str());
+		int iStartPosition = atoi(m_mContextParams.at(strAIRacer + "_StartPosition").c_str());
 
 		HeatStroke::GameObject* pRacer = GenerateAIRacer(strKartFile, strDriverFile, strAIRacer);
-		pTrackComponent->RegisterRacer(pRacer);
-		pRacer->GetTransform().Translate(glm::vec3((startPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * startPosition));
+		pTrackComponent->RegisterAIRacer(pRacer);
+		pRacer->GetTransform().Translate(glm::vec3((iStartPosition % 2 == 0 ? -0.5f : 0.5f), 0.0f, -0.5f * iStartPosition));
 	}
 
 	m_uiNumRacers = m_uiNumHumanRacers + m_uiNumAIRacers;
