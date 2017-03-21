@@ -164,6 +164,7 @@
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudLapCount.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPopup.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPosition.cpp" />
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.cpp" />
     <ClCompile Include="Kartaclysm\KartGame.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudLapCount.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPopup.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h" />
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />

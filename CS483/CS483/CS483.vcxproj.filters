@@ -522,6 +522,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -898,6 +901,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentEffect.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
