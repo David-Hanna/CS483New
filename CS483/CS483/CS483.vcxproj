@@ -84,6 +84,7 @@
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPerspectiveCamera.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.cpp" />
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.cpp" />
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentWallCollider.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentDirectionalLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentPointLight.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRenderable.h" />
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSprite.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentSphereCollider.h" />
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentTextbox.h" />

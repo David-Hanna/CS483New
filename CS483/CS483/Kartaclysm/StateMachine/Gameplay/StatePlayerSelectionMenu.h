@@ -15,6 +15,7 @@
 #include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
 #include "Component3DModel.h"
+#include "ComponentRotateOverTime.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"

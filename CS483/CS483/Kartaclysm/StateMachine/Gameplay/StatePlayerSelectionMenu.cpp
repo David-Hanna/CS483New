@@ -69,6 +69,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_RotateOverTime", HeatStroke::ComponentRotateOverTime::CreateComponent);
 
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_menu.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/background.xml");
@@ -164,6 +165,9 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 			if (bLeft)
 			{
+				// save the y rotation to apply it to the new kart/driver
+				glm::quat qCurrentRotation = m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().GetRotation();
+
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
@@ -181,6 +185,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_CLEOPAPA:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -192,6 +197,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_CLOCKMAKER:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -203,6 +209,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_KINGPIN:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -224,6 +231,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_JUGGERNAUT:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
@@ -235,6 +243,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_SHOWOFF:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 5;
@@ -246,6 +255,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_SPEEDSTER:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
@@ -264,6 +274,9 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 			if (bRight)
 			{
+				// save the y rotation to apply it to the new kart/driver
+				glm::quat qCurrentRotation = m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().GetRotation();
+
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pSpeedStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pAccelerationStatIcon);
 				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pHandlingStatIcon);
@@ -281,6 +294,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_CLEOPAPA:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_clockmaker_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_clockmaker_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_clockmaker_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLOCKMAKER;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -292,6 +306,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_CLOCKMAKER:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_kingpin_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_kingpin_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_kingpin_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_KINGPIN;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -303,6 +318,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case DRIVER_KINGPIN:
 						m_mPerPlayerMenuState[i].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pDriverDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_display_cleopapa_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pDriverDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pDriverAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_abilities_cleopapa_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedDriver = DRIVER_CLEOPAPA;
 						m_mPerPlayerMenuState[i].iDriverSpeedStat = 0;
@@ -324,6 +340,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_JUGGERNAUT:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_showoff_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_showoff_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_showoff_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_SHOWOFF;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 2;
@@ -335,6 +352,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_SHOWOFF:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_SPEEDSTER;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 3;
@@ -346,6 +364,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					case KART_SPEEDSTER:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_juggernaut_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_juggernaut_" + strPlayerNum + ".xml");
+						m_mPerPlayerMenuState[i].pKartDisplay->GetTransform().SetRotation(qCurrentRotation);
 						m_mPerPlayerMenuState[i].pKartAbilities = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_abilities_juggernaut_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].eSelectedKart = KART_JUGGERNAUT;
 						m_mPerPlayerMenuState[i].iKartSpeedStat = 5;

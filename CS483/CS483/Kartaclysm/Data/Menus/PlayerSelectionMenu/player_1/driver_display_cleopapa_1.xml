@@ -8,5 +8,8 @@
 		<GOC_3DModel>
 			<OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
 		</GOC_3DModel>
+		<GOC_RotateOverTime>
+			<RotationPerSecond y="0.8"/>
+		</GOC_RotateOverTime>
 	</Components>
 </GameObject>
