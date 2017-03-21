@@ -39,6 +39,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace", m_pRaceFinishedDelegate);
 		delete m_pRaceFinishedDelegate;
 		m_pRaceFinishedDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("RaceStandingsUpdate", m_pStandingsUpdateDelegate);
+		delete m_pStandingsUpdateDelegate;
+		m_pStandingsUpdateDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentRacer::CreateComponent(

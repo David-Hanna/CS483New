@@ -74,6 +74,14 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
+
+		// Register with AI (if applicable)
+		HeatStroke::GameObject* pAIKartObject = GetGameObject()->GetManager()->GetGameObject(m_strPlayerX);
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(pAIKartObject->GetComponent("GOC_AIDriver"));
+		if (pAIDriver != nullptr)
+		{
+			pAIDriver->RegisterComponentAbility(this);
+		}
 	}
 
 	void ComponentBedazzleAbility::Activate()
@@ -89,6 +97,20 @@ namespace Kartaclysm
 			assert(pProjectile != nullptr);
 			pProjectile->SetOriginator(m_strPlayerX);
 			pProjectile->SetOnHitEvent(m_strPlayerX + "_BedazzleHit");
+		}
+	}
+
+	void ComponentBedazzleAbility::AICheckCondition(HeatStroke::Component* p_pAIDriver)
+	{
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(p_pAIDriver);
+		if (pAIDriver != nullptr)
+		{
+			if (m_pConditions->CanActivate() &&
+				pAIDriver->DistanceToClosestOpponent() <= 2.0f &&
+				rand() % 8 == 0)
+			{
+				Activate();
+			}
 		}
 	}
 

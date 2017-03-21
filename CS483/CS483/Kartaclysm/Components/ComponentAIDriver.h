@@ -15,6 +15,8 @@
 #include "ComponentTrack.h"
 #include "GameObject.h"
 
+#include "ComponentAbility.h"
+
 namespace Kartaclysm
 {
 	class ComponentAIDriver : public HeatStroke::Component
@@ -44,6 +46,14 @@ namespace Kartaclysm
 			int& p_iSlide,
 			float& p_fTurn) const;
 
+		// Ability use
+		void RegisterComponentAbility(ComponentAbility* p_pAbility);
+		float AngleToNextNode() { return m_fAngleToNextNode; }
+		float DistanceToNextNode() { return m_fDistanceToNextNode; }
+		int CurrentPosition();
+		bool IsInWheelie();
+		float DistanceToClosestOpponent();
+
 	protected:
 		ComponentAIDriver(
 			HeatStroke::GameObject* p_pGameObject
@@ -52,6 +62,8 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 
 	private:
+		std::vector<ComponentAbility*> m_vAbilities;
+
 		ComponentTrack::PathNode m_sCurrentNode;
 		float m_fXTarget;
 		float m_fZTarget;
@@ -63,6 +75,9 @@ namespace Kartaclysm
 		int m_iSlideDir;
 
 		void NextNode();
+
+		float m_fAngleToNextNode;
+		float m_fDistanceToNextNode;
 	};
 }
 

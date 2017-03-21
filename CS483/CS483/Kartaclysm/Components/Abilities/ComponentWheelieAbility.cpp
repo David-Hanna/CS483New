@@ -58,6 +58,14 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
+
+		// Register with AI (if applicable)
+		HeatStroke::GameObject* pAIKartObject = GetGameObject()->GetManager()->GetGameObject(m_strPlayerX);
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(pAIKartObject->GetComponent("GOC_AIDriver"));
+		if (pAIDriver != nullptr)
+		{
+			pAIDriver->RegisterComponentAbility(this);
+		}
 	}
 
 	void ComponentWheelieAbility::Activate()
@@ -70,6 +78,28 @@ namespace Kartaclysm
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
 			pEvent->SetStringParameter("Ability", "Wheelie");
 			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+		}
+	}
+
+	void ComponentWheelieAbility::AICheckCondition(HeatStroke::Component* p_pAIDriver)
+	{
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(p_pAIDriver);
+		if (pAIDriver != nullptr)
+		{
+			if (m_pConditions->CanActivate())
+			{
+				if (pAIDriver->IsInWheelie() &&
+					pAIDriver->AngleToNextNode() >= 0.3f)
+				{
+					Activate();
+				}
+				else if (!pAIDriver->IsInWheelie() &&
+					pAIDriver->AngleToNextNode() <= 0.3f &&
+					pAIDriver->DistanceToNextNode() >= 20.0f)
+				{
+					Activate();
+				}
+			}
 		}
 	}
 
