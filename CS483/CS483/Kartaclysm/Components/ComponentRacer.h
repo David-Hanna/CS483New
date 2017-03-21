@@ -55,7 +55,6 @@ namespace Kartaclysm
 
 		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
 
-
 	private:
 		HeatStroke::GameObject* m_pKart;
 		HeatStroke::GameObject* m_pDriver;
