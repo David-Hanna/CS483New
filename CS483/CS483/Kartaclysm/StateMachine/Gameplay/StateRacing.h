@@ -50,6 +50,7 @@
 #include "ComponentHudCountdown.h"
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
+#include "ComponentHudRaceResults.h"
 #include "ComponentParticleEffect.h"
 #include "ComponentEffect.h"
 
