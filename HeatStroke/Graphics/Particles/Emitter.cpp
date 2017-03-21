@@ -123,6 +123,7 @@ void HeatStroke::Emitter::Stop()
 
 void HeatStroke::Emitter::InitFrequencyProperties(tinyxml2::XMLElement* p_pFrequencyPropertiesElement)
 {
+	EasyXML::GetOptionalBoolAttribute(p_pFrequencyPropertiesElement, "start_active", m_bActive, false);
 	EasyXML::GetRequiredBoolAttribute(p_pFrequencyPropertiesElement, "continuous", m_bContinuous);
 	if (m_bContinuous)
 	{
@@ -182,17 +183,32 @@ void HeatStroke::Emitter::InitMaterial(tinyxml2::XMLElement* p_pMaterialElement)
 	std::string strVertexShader = "";
 	std::string strFragmentShader = "";
 	std::string strTexture = "";
+	std::string strBlendMode = "";
+
 	EasyXML::GetRequiredStringAttribute(p_pMaterialElement, "name", strMaterialName);
 	EasyXML::GetRequiredStringAttribute(p_pMaterialElement, "vertex_shader", strVertexShader);
 	EasyXML::GetRequiredStringAttribute(p_pMaterialElement, "fragment_shader", strFragmentShader);
 	EasyXML::GetRequiredStringAttribute(p_pMaterialElement, "texture", strTexture);
+	EasyXML::GetRequiredStringAttribute(p_pMaterialElement, "blend_mode", strBlendMode);
 
 	m_pMat = MaterialManager::CreateMaterial(strMaterialName);
 	m_pMat->SetProgram(strVertexShader, strFragmentShader);
 	m_pMat->SetTexture("Texture", TextureManager::CreateTexture(strTexture));
 
 	m_pMat->SetBlend(true);
-	m_pMat->SetBlendMode(HeatStroke::BM_SrcAlpha, HeatStroke::BM_OneMinusSrcAlpha);
+	const char* cstrBlendMode = strBlendMode.c_str();
+	if (std::strcmp(cstrBlendMode, "transparent") == 0)
+	{
+		m_pMat->SetBlendMode(HeatStroke::BM_SrcAlpha, HeatStroke::BM_OneMinusSrcAlpha);
+	}
+	else if (std::strcmp(cstrBlendMode, "additive") == 0)
+	{
+		m_pMat->SetBlendMode(HeatStroke::BM_SrcAlpha, HeatStroke::BM_One);
+	}
+	else
+	{
+		printf("Unknown blend mode: %s", cstrBlendMode);
+	}
 }
 
 void HeatStroke::Emitter::InitSpawnProperties(tinyxml2::XMLElement* p_pSpawnPropertiesElement)
