@@ -111,8 +111,6 @@ namespace Kartaclysm
 		const float m_fVerticalSpeedScale;
 		const float m_fWheelieRotation;
 
-		int m_iNumOfRacers = 0;
-
 		// Core stats all range from 0 (worst) to 6 (best)
 		// 6 - S
 		// 5 - A
