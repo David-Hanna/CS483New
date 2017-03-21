@@ -11,6 +11,8 @@
     <Model path="Assets/Kart/Showoff/showoff.obj"/>
     
     <Model path="Assets/Decorations/grand_stand.obj"/>
+    <Model path="Assets/Decorations/skybox.obj"/>
+    <Model path="Assets/Decorations/tree.obj"/>
     
     <Model path="Assets/Track/track_finish.obj"/>
     <Model path="Assets/Track/track_jump.obj"/>

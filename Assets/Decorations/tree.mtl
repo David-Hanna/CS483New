@@ -1,0 +1,41 @@
+# Blender MTL File: 'None'
+# Material Count: 4
+
+newmtl tree_bark
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 135.294118
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.098039 0.098039 0.098039
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.999000
+illum 9
+map_Kd Assets/Decorations/tree_bark.tga
+
+newmtl Default
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 135.294118
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.098039 0.098039 0.098039
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.999000
+illum 9
+
+newmtl tree_leaves
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 135.294118
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.098039 0.098039 0.098039
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd Assets/Decorations/tree_leaves.tga
+map_d Assets/Decorations/tree_leaves.tga

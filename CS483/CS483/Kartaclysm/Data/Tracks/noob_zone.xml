@@ -22,6 +22,11 @@
 	</Components>
 
 	<Children>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/skybox.xml">
+			<Transform>
+				<Scale x="200.0" y="200.0" z="200.0"/>
+			</Transform>
+		</GameObject>
 		<GameObject guid="00" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
 			<Transform>
 				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
