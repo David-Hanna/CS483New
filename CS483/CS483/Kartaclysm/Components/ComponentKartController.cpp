@@ -67,6 +67,8 @@ namespace Kartaclysm
 		m_fKartCollisionStat(2.0f),
 		m_fOffroadFactorStat(0.5f),
 		m_fOffroadRumbleFactor(0.05f),
+		m_fAIRubberBandingFactorFirst(0.9f),
+		m_fAIRubberBandingFactorLast(1.05f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -99,6 +101,9 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener("KartCountdown", m_pCountdownDelegate);
 
 		m_pOutsideForce = glm::vec3();
+
+		HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
+		m_pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
@@ -317,6 +322,26 @@ namespace Kartaclysm
 			{
 				float fRumbleLimit = fminf(m_fSpeed / (m_fMaxSpeedStat * m_fSpeedScale), 1.0f) * m_fOffroadRumbleFactor;
 				m_fOffroadRumble = -fRumbleLimit + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (fRumbleLimit * 2.0f))); // thanks internet, you da real MVP
+			}
+		}
+
+		// ...And from AI rubber banding
+		if (m_bAI)
+		{
+			ComponentRacer* pRacer = (ComponentRacer*)m_pGameObject->GetComponent("GOC_Racer");
+			if (pRacer != nullptr)
+			{
+				int iPosition = pRacer->GetCurrentPosition();
+				
+				if (iPosition < m_pTrackComponent->GetLeadHumanPosition())
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorFirst;
+				}
+
+				if (iPosition > m_pTrackComponent->GetRearHumanPosition())
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorLast;
+				}
 			}
 		}
 
