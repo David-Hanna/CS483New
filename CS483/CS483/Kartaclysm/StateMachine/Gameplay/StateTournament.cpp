@@ -149,16 +149,26 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 
 void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pEvent)
 {
-	p_pEvent->GetRequiredStringParameter("PlayerCount", m_mContextParams["PlayerCount"]);
-	int iPlayerCount = atoi(m_mContextParams.at("PlayerCount").c_str());
+	p_pEvent->GetRequiredStringParameter("NumHumanRacers", m_mContextParams["NumHumanRacers"]);
+	p_pEvent->GetRequiredStringParameter("NumAIRacers", m_mContextParams["NumAIRacers"]);
+	int iNumHumanRacers = atoi(m_mContextParams.at("NumHumanRacers").c_str());
+	int iNumAIRacers = atoi(m_mContextParams.at("NumAIRacers").c_str());
 
-	for (int i = 0; i < iPlayerCount; ++i)
+	for (int i = 0; i < iNumHumanRacers; ++i)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
 		p_pEvent->GetRequiredStringParameter(strPlayerX + "_KartDefinitionFile", m_mContextParams[strPlayerX + "_KartDefinitionFile"]);
 		p_pEvent->GetRequiredStringParameter(strPlayerX + "_DriverDefinitionFile", m_mContextParams[strPlayerX + "_DriverDefinitionFile"]);
 		p_pEvent->GetRequiredStringParameter(strPlayerX + "_CameraDefinitionFile", m_mContextParams[strPlayerX + "_CameraDefinitionFile"]);
+	}
+
+	for (int i = 0; i < iNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
+
+		p_pEvent->GetRequiredStringParameter(strAIRacer + "_KartDefinitionFile", m_mContextParams[strAIRacer + "_KartDefinitionFile"]);
+		p_pEvent->GetRequiredStringParameter(strAIRacer + "_DriverDefinitionFile", m_mContextParams[strAIRacer + "_DriverDefinitionFile"]);
 	}
 }
 

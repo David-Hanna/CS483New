@@ -56,6 +56,8 @@ namespace Kartaclysm
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
 
+		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
+
 	private:
 		HeatStroke::GameObject* m_pKart;
 		HeatStroke::GameObject* m_pDriver;
@@ -72,6 +74,8 @@ namespace Kartaclysm
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
+
+		std::function<void(const HeatStroke::Event*)>* m_pStandingsUpdateDelegate;
 	};
 }
 

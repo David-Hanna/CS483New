@@ -21,6 +21,8 @@
 
 namespace Kartaclysm
 {
+	class ComponentTrack; // forward declaration necessary for the code to compile, seems good
+	
 	class ComponentKartController : public HeatStroke::Component
 	{
 	public:
@@ -102,6 +104,8 @@ namespace Kartaclysm
 		bool m_bDisabled;
 		std::string m_strHitCallback;
 
+		ComponentTrack* m_pTrackComponent;
+
 		glm::vec3 m_pOutsideForce;
 
 		const float m_fSpeedScale;
@@ -160,6 +164,8 @@ namespace Kartaclysm
 		float m_fKartCollisionStat;
 		float m_fOffroadFactorStat;
 		float m_fOffroadRumbleFactor;
+		float m_fAIRubberBandingFactorFirst;
+		float m_fAIRubberBandingFactorLast;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;

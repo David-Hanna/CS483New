@@ -12,7 +12,10 @@ namespace Kartaclysm
 		m_fRaceTime(-3.0f), // beginning countdown
 		m_iLapsToFinishTrack(3), // value of 0 can be used for testing
 		m_bRacerIsOffroad(false),
-		m_vPathfindingNodes(p_vNodes)
+		m_vPathfindingNodes(p_vNodes),
+		m_iLeadHumanPosition(0),
+		m_iRearHumanPosition(0),
+		m_bHumanPositionsDirty(true)
 	{
 		m_pRacerTrackPieceUpdatedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentTrack::OnRacerTrackPieceCollision, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
@@ -123,6 +126,11 @@ namespace Kartaclysm
 
 		UpdateRacerPositions();
 		CheckRacerFacingForward();
+
+		if (m_bHumanPositionsDirty)
+		{
+			UpdateHumanPositions();
+		}
 	}
 
 	void ComponentTrack::RegisterRacer(ComponentRacer* p_pRacer)
@@ -292,7 +300,61 @@ namespace Kartaclysm
 		if (bRaceStandingsUpdate)
 		{
 			TriggerRaceStandingsUpdateEvent();
+			m_bHumanPositionsDirty = true;
 		}
+	}
+
+	void ComponentTrack::UpdateHumanPositions()
+	{
+		m_iLeadHumanPosition = GetNumberOfRacers();
+		m_iRearHumanPosition = 0;
+
+		for (unsigned int i = 1; i < m_vRacers.size(); ++i)
+		{
+			ComponentRacer* pRacer = m_vRacers[i];
+			if (m_vRacers[i]->HasFinishedRace())
+			{
+				continue;
+			}
+
+			HeatStroke::Component* pAIDriver = pRacer->GetGameObject()->GetComponent("GOC_AIDriver");
+			if (pAIDriver == nullptr) // only the finest way to check if a racer is human
+			{
+				int iPosition = pRacer->GetCurrentPosition();
+
+				if (iPosition < m_iLeadHumanPosition)
+				{
+					m_iLeadHumanPosition = iPosition;
+				}
+
+				if (iPosition > m_iRearHumanPosition)
+				{
+					m_iRearHumanPosition = iPosition;
+				}
+			}
+		}
+
+		m_bHumanPositionsDirty = false;
+	}
+
+	int ComponentTrack::GetLeadHumanPosition()
+	{
+		if (m_bHumanPositionsDirty)
+		{
+			UpdateHumanPositions();
+		}
+
+		return m_iLeadHumanPosition;
+	}
+
+	int ComponentTrack::GetRearHumanPosition()
+	{
+		if (m_bHumanPositionsDirty)
+		{
+			UpdateHumanPositions();
+		}
+
+		return m_iRearHumanPosition;
 	}
 
 	void ComponentTrack::ResetRacerPosition(ComponentRacer* p_pRacer)

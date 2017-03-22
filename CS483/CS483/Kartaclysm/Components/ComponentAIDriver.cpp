@@ -25,6 +25,9 @@ namespace Kartaclysm
 
 		m_fXTarget = m_sCurrentNode.x;
 		m_fZTarget = m_sCurrentNode.z;
+
+		m_fAngleToNextNode = 0.0f;
+		m_fDistanceToNextNode = 0.0f;
 	}
 
 	ComponentAIDriver::~ComponentAIDriver()
@@ -50,8 +53,8 @@ namespace Kartaclysm
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
 		// Path progress
-		float d = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
-		if (d <= m_sCurrentNode.radius)
+		m_fDistanceToNextNode = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
+		if (m_fDistanceToNextNode <= m_sCurrentNode.radius)
 		{
 			NextNode();
 		}
@@ -60,10 +63,10 @@ namespace Kartaclysm
 		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
 		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
 		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
-		float fAngleAbs = fabsf(fAngle);
+		m_fAngleToNextNode = fabsf(fAngle);
 
 		// Stop accelerating if you need to make a very tight turn
-		if (fAngleAbs <= 1.2f)
+		if (m_fAngleToNextNode <= 1.2f)
 		{
 			m_iAccelerate = 1;
 			m_iBrake = 0;
@@ -84,16 +87,16 @@ namespace Kartaclysm
 		}
 		else
 		{
-			m_fTurn = fmaxf(fminf(fAngle, 1.0f), -1.0f);
+			m_fTurn = fmaxf(fminf(fAngle * (0.5f + (fAngle * 2.0f)), 1.0f), -1.0f);
 		}
 
 		// Swerve if turning
-		if (fAngleAbs <= 1.2f && fAngleAbs >= 0.5f && m_iSlide == 0)
+		if (m_fAngleToNextNode <= 1.2f && m_fAngleToNextNode >= 0.5f && m_iSlide == 0)
 		{
 			m_iSlide = 1;
 			m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
 		}
-		else if (fAngleAbs <= 0.2f && m_iSlide == 1)
+		else if (m_fAngleToNextNode <= 0.2f && m_iSlide == 1)
 		{
 			m_iSlide = 0;
 		}
@@ -101,6 +104,70 @@ namespace Kartaclysm
 		{
 			m_iSlide = 0;
 		}
+
+		// Use abilites
+		for (unsigned int i = 0; i < m_vAbilities.size(); i++)
+		{
+			m_vAbilities.at(i)->AICheckCondition(this);
+		}
+	}
+
+	int ComponentAIDriver::CurrentPosition()
+	{
+		int iPosition = 0;
+
+		ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
+		if (pRacer != nullptr)
+		{
+			iPosition = pRacer->GetCurrentPosition();
+		}
+
+		return iPosition;
+	}
+
+	bool ComponentAIDriver::IsInWheelie()
+	{
+		bool bWheelie = false;
+
+		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+		if (pKartController != nullptr)
+		{
+			bWheelie = pKartController->IsInWheelie();
+		}
+
+		return bWheelie;
+	}
+
+	float ComponentAIDriver::DistanceToClosestOpponent()
+	{
+		float fLowestDistance = 9999.9f;
+
+		float x = GetGameObject()->GetTransform().GetTranslation().x;
+		float z = GetGameObject()->GetTransform().GetTranslation().z;
+
+		float fDistance;
+
+		float xx;
+		float zz;
+
+		std::vector<HeatStroke::GameObject*> vRacers = GetGameObject()->GetManager()->GetGameObjectsByTag("Racer");
+		for (unsigned int i = 0; i < vRacers.size(); i++)
+		{
+			if (vRacers.at(i)->GetGUID().compare(GetGameObject()->GetGUID()) != 0)
+			{
+				xx = vRacers.at(i)->GetTransform().GetTranslation().x;
+				zz = vRacers.at(i)->GetTransform().GetTranslation().z;
+
+				fDistance = sqrtf(powf(x - xx, 2) + powf(z - zz, 2));
+
+				if (fDistance < fLowestDistance)
+				{
+					fLowestDistance = fDistance;
+				}
+			}
+		}
+
+		return fLowestDistance;
 	}
 
 	void ComponentAIDriver::QueryPlayerMovement(
@@ -134,5 +201,10 @@ namespace Kartaclysm
 			m_fXTarget = m_sCurrentNode.x + (cosf(theta) * r);
 			m_fZTarget = m_sCurrentNode.z + (sinf(theta) * r);
 		}
+	}
+
+	void ComponentAIDriver::RegisterComponentAbility(ComponentAbility* p_pAbility)
+	{
+		m_vAbilities.push_back(p_pAbility);
 	}
 }

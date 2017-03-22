@@ -1,9 +1,10 @@
-<Emitter name="showoff_smoke" num_particles="100" birthrate="100.0" duration="-1.0" continuous="true">
+<Emitter name="showoff_smoke" num_particles="100" birthrate="100.0" duration="-1.0" continuous="true" start_active="true">
 	<Material
 		name="showoff_smoke"
 		vertex_shader="Assets/Particles/particle.vsh"
 		fragment_shader="Assets/Particles/particle.fsh"
 		texture="Assets/Particles/particle.tga"
+		blend_mode="transparent"
 	/>
 
 	<Spawn_Properties>

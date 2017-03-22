@@ -1,6 +1,8 @@
 <!-- Heads Up Display (HUD) -->
 <!-- Author: Bradley Cooper -->
 
+<!-- NOTE - we seriously have different XML definitions for every possible splitscreen configuration? Is that really the best solution we can come up with? -->
+
 <GameObject>
   
   <Children>    
@@ -157,6 +159,19 @@
           <MaterialName name="slow"/>
           <Event value="PlayerX_HUD_Slow"/>
         </GOC_HUD_Popup>
+      </Components>
+    </GameObject>
+
+    <!--Race results-->
+    <GameObject>
+      <Transform>
+        <Translation x="155.0" y="48.0" z="1.0" />
+        <Scale x="0.63" y="0.63" z="1.0" />
+      </Transform>
+      <Components>
+        <GOC_HUD_RaceResults>
+          <FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
+        </GOC_HUD_RaceResults>
       </Components>
     </GameObject>
     

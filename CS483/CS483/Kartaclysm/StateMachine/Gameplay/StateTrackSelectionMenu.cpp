@@ -90,12 +90,6 @@ void Kartaclysm::StateTrackSelectionMenu::LoadLocalTrackTimesFromXml(const std::
 
 void Kartaclysm::StateTrackSelectionMenu::FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks)
 {
-	printf("Printing times...\n");
-	for (auto mTimes : m_mTrackTimes)
-	{
-		printf("%s -> %s and %s\n", mTimes.first.c_str(), mTimes.second.m_strLocalRace.c_str(), mTimes.second.m_strGlobalRace.c_str());
-	}
-
 	for (auto pTrack : p_vTracks)
 	{
 		auto pTrackTime = &m_mTrackTimes[pTrack->GetGUID()];
