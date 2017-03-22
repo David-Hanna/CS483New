@@ -15,7 +15,7 @@
 
     <GOC_AbilityConditions>
       <Ability value="KartAbility1" />
-      <Cooldown value="5.0" />
+      <Cooldown value="2.0" />
       <MaxCharges value="4" />
       <StartCharges value="2" />
     </GOC_AbilityConditions>

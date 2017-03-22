@@ -67,8 +67,8 @@ namespace Kartaclysm
 		m_fKartCollisionStat(2.0f),
 		m_fOffroadFactorStat(0.5f),
 		m_fOffroadRumbleFactor(0.05f),
-		m_fAIRubberBandingFactorFirst(0.9f),
-		m_fAIRubberBandingFactorLast(1.05f),
+		m_fAIRubberBandingFactorFirst(0.85f),
+		m_fAIRubberBandingFactorLast(1.15f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -192,11 +192,11 @@ namespace Kartaclysm
 	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
 	{
 		// Max Speed
-		m_fMaxSpeedStat = 18.0f + (0.8f * p_iMaxSpeed);
+		m_fMaxSpeedStat = 19.0f + (0.2f * p_iMaxSpeed);
 		m_fMaxReverseSpeedStat = 5.6f + (0.1f * p_iMaxSpeed);
 
 		// Acceleration
-		m_fAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+		m_fAccelerationStat = 0.8f + (0.2f * p_iAcceleration);
 		m_fReverseAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
 
 		// Handling
@@ -206,7 +206,7 @@ namespace Kartaclysm
 		m_fTurnAtMaxSpeedStat = 0.65f + (0.05f * p_iHandling);
 
 		// Durability
-		m_fDurabilityStat = 1.0f - (0.08f * p_iDurability);
+		m_fDurabilityStat = 1.0f - (0.12f * p_iDurability);
 	}
 
 	void ComponentKartController::Update(const float p_fDelta)
@@ -385,13 +385,21 @@ namespace Kartaclysm
 			{
 				m_iSlideDirection = 1;
 			}
+			else if (m_iSlideDirection == 0)
+			{
+				m_bSliding = false;
+			}
 
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier *= m_fSlideModifierStat;
 
-			if ((m_iSlideDirection > 0 && fTurnTarget < 0) || (m_iSlideDirection < 0 && fTurnTarget > 0))
+			if (m_iSlideDirection > 0 && fTurnTarget < 0.4f)
 			{
-				fTurnTarget = 0.0f;
+				fTurnTarget = 0.4f;
+			}
+			else if (m_iSlideDirection < 0 && fTurnTarget > -0.4f)
+			{
+				fTurnTarget = -0.4f;
 			}
 		}
 
@@ -483,6 +491,8 @@ namespace Kartaclysm
 		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
 		{
+			m_bWheelie = false;
+			
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
 			fHeightMod = m_fVerticalSpeed * p_fDelta;
 
@@ -519,24 +529,34 @@ namespace Kartaclysm
 		// End the slide if the input is released, or if speed drops too low
 		if (m_bSliding)
 		{
-			if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
+			// End the slide if offroad, without a boost
+			if (m_bOffroad)
 			{
 				m_bSliding = false;
 				m_iSlideDirection = 0;
 				m_fSlideCharge = 0.0f;
 			}
-
-			if (p_iSlideInput == 0)
+			else
 			{
-				m_bSliding = false;
-				m_iSlideDirection = 0;
-
-				if (m_fSlideCharge >= m_fSlideChargeThreshold)
+				if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
 				{
-					Boost(1.0f + m_fSlideCharge);
+					m_bSliding = false;
+					m_iSlideDirection = 0;
+					m_fSlideCharge = 0.0f;
 				}
 
-				m_fSlideCharge = 0.0f;
+				if (p_iSlideInput == 0)
+				{
+					m_bSliding = false;
+					m_iSlideDirection = 0;
+
+					if (m_fSlideCharge >= m_fSlideChargeThreshold)
+					{
+						Boost(1.0f + m_fSlideCharge);
+					}
+
+					m_fSlideCharge = 0.0f;
+				}
 			}
 		}
 
@@ -653,6 +673,11 @@ namespace Kartaclysm
 	void ComponentKartController::WheelieToggle()
 	{
 		m_bWheelie = !m_bWheelie;
+
+		if (m_bSliding)
+		{
+			m_bWheelie = false;
+		}
 	}
 
 	void ComponentKartController::Spinout(float p_fDuration)
