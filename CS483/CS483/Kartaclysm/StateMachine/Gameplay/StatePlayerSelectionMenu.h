@@ -100,6 +100,7 @@ namespace Kartaclysm
 
 		void AddPlayer(const unsigned int p_uiPlayerNum);
 		void RemovePlayer(const unsigned int p_uiPlayerNum);
+		void SetReadyStatus(const unsigned int p_uiPlayerNum, const bool p_bReady);
 		void GoToTrackSelectionState();
 	};
 }

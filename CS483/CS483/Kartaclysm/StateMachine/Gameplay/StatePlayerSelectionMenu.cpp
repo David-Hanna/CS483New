@@ -116,19 +116,9 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 			{
 				AddPlayer(i);
 			}
-			else if (!m_mPerPlayerMenuState[i].bReady)
-			{
-				m_mPerPlayerMenuState[i].bReady = true;
-
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pReadyButton);
-				m_mPerPlayerMenuState[i].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/ready_" + strPlayerNum + ".xml");
-			}
 			else
 			{
-				m_mPerPlayerMenuState[i].bReady = false;
-
-				m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pReadyButton);
-				m_mPerPlayerMenuState[i].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/not_ready_" + strPlayerNum + ".xml");
+				SetReadyStatus(i, !m_mPerPlayerMenuState[i].bReady);
 			}
 		}
 		else if (bCancel)
@@ -139,12 +129,12 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 				// Pop if no player is left joined. Otherwise, reset all players to not ready.
 				bool bPlayerStillJoined = false;
-				for (auto mPlayer : m_mPerPlayerMenuState)
+				for (unsigned int j = 0; j < 4; ++j)
 				{
-					if (mPlayer.bJoined)
+					if (m_mPerPlayerMenuState[j].bJoined)
 					{
 						bPlayerStillJoined = true;
-						mPlayer.bReady = false;
+						SetReadyStatus(j, false);
 					}
 				}
 
@@ -476,6 +466,20 @@ void Kartaclysm::StatePlayerSelectionMenu::RemovePlayer(const unsigned int p_uiP
 	m_mPerPlayerMenuState[p_uiPlayerNum].pHighlight = nullptr;
 
 	m_uiNumPlayers--;
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::SetReadyStatus(const unsigned int p_uiPlayerNum, const bool p_bReady)
+{
+	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined);
+	assert(m_mPerPlayerMenuState[p_uiPlayerNum].pReadyButton != nullptr);
+	if (m_mPerPlayerMenuState[p_uiPlayerNum].bReady == p_bReady) return;
+
+	std::string strPlayerNum = std::to_string(p_uiPlayerNum);
+	std::string strReadyStatus = p_bReady ? "ready_" : "not_ready_";
+
+	m_mPerPlayerMenuState[p_uiPlayerNum].bReady = p_bReady;
+	m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[p_uiPlayerNum].pReadyButton);
+	m_mPerPlayerMenuState[p_uiPlayerNum].pReadyButton = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/" + strReadyStatus + strPlayerNum + ".xml");
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
