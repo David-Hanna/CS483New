@@ -22,7 +22,7 @@
 
     <GOC_ClockAbility>
       <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_clock.xml" />
-      <Duration value="1.5" />
+      <Duration value="3.0" />
     </GOC_ClockAbility>
 
   </Components>

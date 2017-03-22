@@ -87,7 +87,7 @@ namespace Kartaclysm
 		}
 		else
 		{
-			m_fTurn = fmaxf(fminf(fAngle * 2.0f, 1.0f), -1.0f);
+			m_fTurn = fmaxf(fminf(fAngle * (0.5f + (fAngle * 2.0f)), 1.0f), -1.0f);
 		}
 
 		// Swerve if turning
