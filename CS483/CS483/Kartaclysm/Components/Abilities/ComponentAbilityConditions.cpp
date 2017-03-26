@@ -20,11 +20,11 @@ namespace Kartaclysm
 		m_pGameObject(p_pGameObject),
 		m_strEventName(p_strAbility),
 		m_fMaxCooldown(p_fCooldown),
-		m_fCurrentCooldown(p_fCooldown),
+		m_fCurrentCooldown(p_fCooldown > 0.0f ? p_fCooldown : p_fCooldown + 3.0f), // beginning race countdown
 		m_iMaxCharges(p_iMaxCharges),
 		m_iCurrentCharges(p_iStartCharges),
 		m_bSpecial(true),
-		m_bSendEvent(false)
+		m_bSendEvent(true)
 	{
 	}
 
