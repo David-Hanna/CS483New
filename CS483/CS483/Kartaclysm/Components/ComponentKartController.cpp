@@ -192,7 +192,7 @@ namespace Kartaclysm
 	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
 	{
 		// Max Speed
-		m_fMaxSpeedStat = 19.0f + (0.2f * p_iMaxSpeed);
+		m_fMaxSpeedStat = 20.0f + (0.2f * p_iMaxSpeed);
 		m_fMaxReverseSpeedStat = 5.6f + (0.1f * p_iMaxSpeed);
 
 		// Acceleration
