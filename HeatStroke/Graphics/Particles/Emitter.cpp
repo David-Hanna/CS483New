@@ -94,7 +94,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	}
 
 	m_pVB->Write(m_pVerts, v * sizeof(Vertex));
-	m_pIB->Write(m_pIndices, i * sizeof(GLuint));
+	m_pIB->Write(m_pIndices, i * sizeof(GLushort));
 
 	glm::mat4 mWorld =  glm::translate(m_Transform.GetTranslation()) * (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorld;
@@ -104,7 +104,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	m_pMat->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 	m_pMat->Apply();
 
-	glDrawElements(GL_TRIANGLES, i, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, i, GL_UNSIGNED_SHORT, 0);
 }
 
 void HeatStroke::Emitter::Start()
@@ -158,7 +158,7 @@ void HeatStroke::Emitter::InitBuffers()
 	m_pIB = BufferManager::CreateIndexBuffer(0);
 
 	m_pVerts = new Vertex[m_iNumParticles * 4];
-	m_pIndices = new GLuint[m_iNumParticles * 6];
+	m_pIndices = new GLushort[m_iNumParticles * 6];
 }
 
 void HeatStroke::Emitter::InitVertexDeclaration()
