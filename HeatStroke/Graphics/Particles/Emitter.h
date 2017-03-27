@@ -56,7 +56,7 @@ namespace HeatStroke
 			Particle* m_pActiveHead;
 			Particle* m_pActiveTail;
 			Vertex* m_pVerts;
-			GLuint* m_pIndices;
+			GLushort* m_pIndices;
 			std::vector<Affector*> m_vAffectors;
 
 			// spawn properties
