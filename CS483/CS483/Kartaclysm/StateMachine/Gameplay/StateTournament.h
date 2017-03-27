@@ -12,6 +12,7 @@
 #include "RNGesus.h"
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -39,9 +40,6 @@ namespace Kartaclysm
 			int		m_iPoints;
 			float	m_fTime;
 		};
-
-		// TODO: Similar functions in StateRaceComplete and HudRaceTimer could be combined somewhere
-		std::string FormatTime(float p_fUnformattedTime) const;
 
 		std::map<std::string, std::string> GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const;
 

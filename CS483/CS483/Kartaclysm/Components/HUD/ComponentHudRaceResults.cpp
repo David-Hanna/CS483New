@@ -56,7 +56,7 @@ void Kartaclysm::ComponentHudRaceResults::RaceFinishedCallback(const HeatStroke:
 
 	float fRacerTime = -1.0f;
 	p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
-	std::string strRacerTime = FormatTime(fRacerTime);
+	std::string strRacerTime = Common::TimeStringFromFloat(fRacerTime);
 
 	m_TextBox.SetText(m_TextBox.GetText() + "\n" + strRacerId + "   " + strRacerTime);
 
@@ -64,24 +64,4 @@ void Kartaclysm::ComponentHudRaceResults::RaceFinishedCallback(const HeatStroke:
 	{
 		HeatStroke::SceneManager::Instance()->AddTextBox(&m_TextBox);
 	}
-}
-
-std::string Kartaclysm::ComponentHudRaceResults::FormatTime(const float p_fRaceTime)
-{
-	int iMinutes = (int)p_fRaceTime / 60;
-	float fSeconds = fmod(p_fRaceTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
 }

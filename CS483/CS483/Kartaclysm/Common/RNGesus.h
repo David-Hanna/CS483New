@@ -7,7 +7,6 @@
 #ifndef RNGESUS_H
 #define RNGESUS_H
 
-#include "Types.h"
 #include <random>
 
 namespace HeatStroke

@@ -161,32 +161,6 @@ void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pE
 	}
 }
 
-std::string Kartaclysm::StateTournament::FormatTime(float p_fUnformattedTime) const
-{
-	int iMinutes = static_cast<int>(p_fUnformattedTime) / 60;
-	float fSeconds = fmod(p_fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	else if (iMinutes > 60)
-	{
-		strMinutes = "59";
-		strSeconds = "99.99999";
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
-}
-
 std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const
 {
 	std::map<std::string, std::string> mResults;

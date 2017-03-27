@@ -2,9 +2,7 @@
 #define COMPONENT_HUD_RACE_RESULTS_H
 
 #include "ComponentRenderable.h"
-
-// TODO - fix compiler error that is thrown if glew.h not included here
-#include "GL\glew.h"
+#include "Common.h"
 
 #include "EasyXML.h"
 #include "EventManager.h"
@@ -12,6 +10,7 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "TextBox.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -45,7 +44,6 @@ namespace Kartaclysm
 			std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 
 			void RaceFinishedCallback(const HeatStroke::Event* p_pEvent);
-			std::string FormatTime(const float p_fRaceTime);
 	};
 }
 
