@@ -7,10 +7,6 @@
 
 #include "StateTournament.h"
 
-// static member setup
-std::random_device Kartaclysm::StateTournament::s_Rand;
-std::mt19937 Kartaclysm::StateTournament::s_RNGesus = std::mt19937(Kartaclysm::StateTournament::s_Rand());
-
 Kartaclysm::StateTournament::StateTournament()
 	:
 	GameplayState("Tournament State"),
@@ -49,7 +45,7 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
 	// Shuffle tracks for tournament and push to player selection
-	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), s_RNGesus);
+	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
@@ -163,32 +159,6 @@ void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pE
 		p_pEvent->GetRequiredStringParameter(strAIRacer + "_KartDefinitionFile", m_mContextParams[strAIRacer + "_KartDefinitionFile"]);
 		p_pEvent->GetRequiredStringParameter(strAIRacer + "_DriverDefinitionFile", m_mContextParams[strAIRacer + "_DriverDefinitionFile"]);
 	}
-}
-
-std::string Kartaclysm::StateTournament::FormatTime(float p_fUnformattedTime) const
-{
-	int iMinutes = static_cast<int>(p_fUnformattedTime) / 60;
-	float fSeconds = fmod(p_fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	else if (iMinutes > 60)
-	{
-		strMinutes = "59";
-		strSeconds = "99.99999";
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
 }
 
 std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const

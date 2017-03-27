@@ -20,6 +20,7 @@
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
+#include "RNGesus.h"
 
 namespace Kartaclysm
 {
@@ -110,11 +111,6 @@ namespace Kartaclysm
 
 		std::string GetRandomDriver() const;
 		std::string GetRandomKart() const;
-
-		// RNGesus
-		// TODO - move to custom Random class
-		static std::random_device s_Rand;
-		static std::mt19937 s_RNGesus;
 	};
 }
 

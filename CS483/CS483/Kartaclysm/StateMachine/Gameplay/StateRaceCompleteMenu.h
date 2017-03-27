@@ -18,6 +18,7 @@
 #include "PlayerInputMapping.h"
 #include "EasyXML.h"
 #include "AudioPlayer.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -46,7 +47,6 @@ namespace Kartaclysm
 		void SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults) const;
 		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath) const;
 		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults) const;
-		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};
 }
 

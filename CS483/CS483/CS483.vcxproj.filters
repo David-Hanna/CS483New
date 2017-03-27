@@ -199,6 +199,9 @@
     <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3">
       <UniqueIdentifier>{e12daac2-1ad3-4b2f-b774-369fa55906ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kartaclysm\Common">
+      <UniqueIdentifier>{5eb7b572-1b11-453a-9f3e-f6bb9fa986cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp">
@@ -524,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp">
       <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Common\TimeFormat.cpp">
+      <Filter>Kartaclysm\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -904,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h">
       <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Common\TimeFormat.h">
+      <Filter>Kartaclysm\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
