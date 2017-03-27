@@ -133,6 +133,7 @@
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Common\RNGesus.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Common\RNGesus.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.h" />

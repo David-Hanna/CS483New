@@ -7,10 +7,6 @@
 
 #include "StateTournament.h"
 
-// static member setup
-std::random_device Kartaclysm::StateTournament::s_Rand;
-std::mt19937 Kartaclysm::StateTournament::s_RNGesus = std::mt19937(Kartaclysm::StateTournament::s_Rand());
-
 Kartaclysm::StateTournament::StateTournament()
 	:
 	GameplayState("Tournament State"),
@@ -49,7 +45,7 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
 	// Shuffle tracks for tournament and push to player selection
-	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), s_RNGesus);
+	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }

@@ -9,10 +9,6 @@
 
 #include "StatePlayerSelectionMenu.h"
 
-// TODO - move to custom Random class once it's complete
-std::random_device Kartaclysm::StatePlayerSelectionMenu::s_Rand;
-std::mt19937 Kartaclysm::StatePlayerSelectionMenu::s_RNGesus = std::mt19937(Kartaclysm::StatePlayerSelectionMenu::s_Rand());
-
 void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 {
 	m_uiNumPlayers = 0;
@@ -567,11 +563,11 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomDriver() const
 {
 	auto range = std::uniform_int_distribution<int>(0, m_vDrivers.size() - 1);
-	return m_vDrivers[range(s_RNGesus)];
+	return m_vDrivers[range(HeatStroke::Common::GetRNGesus())];
 }
 
 std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomKart() const
 {
 	auto range = std::uniform_int_distribution<int>(0, m_vKarts.size() - 1);
-	return m_vKarts[range(s_RNGesus)];
+	return m_vKarts[range(HeatStroke::Common::GetRNGesus())];
 }
