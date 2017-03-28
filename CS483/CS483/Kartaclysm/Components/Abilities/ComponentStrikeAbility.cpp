@@ -115,7 +115,7 @@ namespace Kartaclysm
 		{
 			if (m_pConditions->CanActivate() &&
 				pAIDriver->CurrentPosition() > 1 &&
-				rand() % 16 == 0)
+				rand() % 40 == 0)
 			{
 				Activate();
 			}

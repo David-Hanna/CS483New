@@ -68,6 +68,8 @@ namespace Kartaclysm
 		float m_fXTarget;
 		float m_fZTarget;
 
+		glm::vec3 m_vInitialNodeDir;
+
 		int m_iAccelerate;
 		int m_iBrake;
 		float m_fTurn;

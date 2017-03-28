@@ -107,7 +107,7 @@ namespace Kartaclysm
 		{
 			if (m_pConditions->CanActivate() &&
 				pAIDriver->DistanceToClosestOpponent() <= 2.0f &&
-				rand() % 8 == 0)
+				rand() % 30 == 0)
 			{
 				Activate();
 			}
