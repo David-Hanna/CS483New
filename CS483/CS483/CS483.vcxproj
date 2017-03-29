@@ -172,6 +172,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h" />

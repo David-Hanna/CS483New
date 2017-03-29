@@ -531,6 +531,10 @@
     <ClCompile Include="Kartaclysm\Common\TimeFormat.cpp">
       <Filter>Kartaclysm\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Common\RNGesus.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -913,6 +917,10 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Common\TimeFormat.h">
       <Filter>Kartaclysm\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Common\RNGesus.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
