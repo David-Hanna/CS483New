@@ -103,7 +103,11 @@ void Kartaclysm::StateRaceCompleteMenu::AddRacerPositionToMap(std::map<std::stri
 	{
 		for (int i = 0; i < iNumRacers; ++i)
 		{
-			(*p_pRaceResults)["racerPosition" + std::to_string(i)] = std::to_string(i+1);
+			std::string strIndex = std::to_string(i);
+			if (p_pRaceResults->at("racerPosition" + strIndex) == "-1")
+			{
+				(*p_pRaceResults)["racerPosition" + strIndex] = "dnf";
+			}
 		}
 	}
 	else
@@ -159,7 +163,7 @@ void Kartaclysm::StateRaceCompleteMenu::RecordBestTime(const std::map<std::strin
 	std::string strTrack = p_mRaceResults.at("trackName");
 	std::replace(strTrack.begin(), strTrack.end(), ' ', '_');
 
-	std::string strNewBestTime = FormatTime(p_mRaceResults.at("racerTime0"));
+	std::string strNewBestTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime0")));
 	std::string strOldBestTime = "59:99.99";
 
 	// read current fastest time
@@ -210,7 +214,7 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 	{
 		std::string strIndex = std::to_string(i);
 		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
-		std::string strRacerTime = FormatTime(p_mRaceResults.at("racerTime" + strIndex));
+		std::string strRacerTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime" + strIndex)));
 
 		std::string strRacerPoints = "";
 		auto find = p_mRaceResults.find("racerPoints" + strIndex);
@@ -225,25 +229,4 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 		std::string strPositionSpriteFile = "results" + strIndex + "/position_" + p_mRaceResults.at("racerPosition" + strIndex) + ".xml";
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/RaceCompleteMenu/" + strPositionSpriteFile);
 	}
-}
-
-std::string Kartaclysm::StateRaceCompleteMenu::FormatTime(const std::string& p_strUnformattedTime) const
-{
-	float fUnformattedTime = std::stof(p_strUnformattedTime);
-	int iMinutes = (int)fUnformattedTime / 60;
-	float fSeconds = fmod(fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
 }

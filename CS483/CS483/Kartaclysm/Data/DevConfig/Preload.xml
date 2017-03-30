@@ -24,6 +24,25 @@
     
     <Model path="Assets/Wall/wall_north_south.obj"/>
     <Model path="Assets/Wall/wall_east_west.obj"/>
+    <Model path="Assets/Wall/wall_flat_up.obj"/>
+    <Model path="Assets/Wall/wall_flat_down.obj"/>
+    <Model path="Assets/Wall/wall_down_flat.obj"/>
+    <Model path="Assets/Wall/wall_up_flat.obj"/>
+    <Model path="Assets/Wall/fence.obj"/>
+    <Model path="Assets/Wall/fence_wall.obj"/>
+
+    
+    <Model path="Assets/Track/grass_flat_large.obj"/>
+    <Model path="Assets/Track/grass_flat_small.obj"/>
+    <Model path="Assets/Track/grass_bottom_to_top_bottom.obj"/>
+    <Model path="Assets/Track/grass_up_full.obj"/>
+    <Model path="Assets/Track/grass_bottom_to_top_mid.obj"/>
+    <Model path="Assets/Track/grass_top_mid_to_top.obj"/>
+    <Model path="Assets/Track/grass_flat_up.obj"/>
+    <Model path="Assets/Track/grass_up_flat.obj"/>
+    <Model path="Assets/Track/grass_bottom_to_mid_bottom.obj"/>
+    <Model path="Assets/Track/grass_bottom_to_mid_top.obj"/>
+    <Model path="Assets/Track/grass_mid_bottom_to_top.obj"/>
   
     <Model path="Assets/Abilities/bowling_ball.obj"/>
     <Model path="Assets/Abilities/bomb.obj"/>
@@ -78,6 +97,7 @@
     <Sprite path="Assets/Hud/Positions/position_2.mtl" mtl="position_2"/>
     <Sprite path="Assets/Hud/Positions/position_3.mtl" mtl="position_3"/>
     <Sprite path="Assets/Hud/Positions/position_4.mtl" mtl="position_4"/>
+    <Sprite path="Assets/Hud/Positions/position_dnf.mtl" mtl="position_dnf"/>
 
     <!-- Menus -->
     <Sprite path="Assets/Menus/Background/background.mtl" mtl="background"/>

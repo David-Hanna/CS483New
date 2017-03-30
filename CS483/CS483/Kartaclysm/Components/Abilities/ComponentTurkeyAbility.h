@@ -8,6 +8,8 @@
 #ifndef COMPONENT_TURKEY_H
 #define COMPONENT_TURKEY_H
 
+#include "ComponentAIDriver.h"
+
 #include "AudioPlayer.h"
 #include "ComponentAbility.h"
 
@@ -41,6 +43,7 @@ namespace Kartaclysm
 
 		// Required ability override
 		virtual void Activate() override;
+		virtual void AICheckCondition(HeatStroke::Component* p_pAIDriver) override {}
 
 	protected:
 		//--------------------------------------------------------------------------

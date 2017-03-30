@@ -15,14 +15,14 @@
 	</Components>
 
   <Children>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_flat_up.xml">
       <Transform>
-        <Translation x="0.0" y="1" z="-5.0" />
+        <Translation x="0.0" y="0.0" z="-5.0" />
       </Transform>
     </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_flat_up.xml">
       <Transform>
-        <Translation x="0.0" y="1" z="5.0" />
+        <Translation x="0.0" y="0.0" z="5.0" />
       </Transform>
     </GameObject>
   </Children>

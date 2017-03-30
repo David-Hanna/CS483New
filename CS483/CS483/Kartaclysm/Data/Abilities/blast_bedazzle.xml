@@ -7,7 +7,7 @@
 
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
-      <Sphere radius="2.0" />
+      <Sphere radius="4.0" />
       <Physics applies="false" />
     </GOC_SphereCollider>
 

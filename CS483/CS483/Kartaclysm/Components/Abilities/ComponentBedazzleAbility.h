@@ -8,6 +8,8 @@
 #ifndef COMPONENT_BEDAZZLE_ABILITY_H
 #define COMPONENT_BEDAZZLE_ABILITY_H
 
+#include "ComponentAIDriver.h"
+
 #include <tinyxml2.h>
 #include <string>
 
@@ -40,6 +42,7 @@ namespace Kartaclysm
 
 		// Required ability override
 		virtual void Activate() override;
+		virtual void AICheckCondition(HeatStroke::Component* p_pAIDriver) override;
 
 	protected:
 		//--------------------------------------------------------------------------

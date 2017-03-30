@@ -20,6 +20,7 @@
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
+#include "RNGesus.h"
 
 namespace Kartaclysm
 {
@@ -41,6 +42,7 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		// TODO - should be loading karts/drivers from xml
 		enum DRIVER_SELECTION
 		{
 			DRIVER_CLEOPAPA,
@@ -91,17 +93,25 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pHighlight;
 		};
 
+		std::vector<std::string> m_vDrivers;
+		std::vector<std::string> m_vKarts;
+
 		std::map<std::string, std::string> m_mContextParameters;
 
 		unsigned int m_uiNumPlayers;
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 
 		void Initialize();
+		void GenerateDriverList();
+		void GenerateKartList();
 
 		void AddPlayer(const unsigned int p_uiPlayerNum);
 		void RemovePlayer(const unsigned int p_uiPlayerNum);
 		void SetReadyStatus(const unsigned int p_uiPlayerNum, const bool p_bReady);
 		void GoToTrackSelectionState();
+
+		std::string GetRandomDriver() const;
+		std::string GetRandomKart() const;
 	};
 }
 

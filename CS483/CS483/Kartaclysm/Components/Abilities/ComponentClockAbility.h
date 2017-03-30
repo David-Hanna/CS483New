@@ -8,6 +8,8 @@
 #ifndef COMPONENT_CLOCK_ABILITY_H
 #define COMPONENT_CLOCK_ABILITY_H
 
+#include "ComponentAIDriver.h"
+
 #include "Common.h"
 #include "ComponentAbility.h"
 #include "ComponentProjectile.h"
@@ -44,6 +46,7 @@ namespace Kartaclysm
 
 		// Required ability override
 		virtual void Activate() override;
+		virtual void AICheckCondition(HeatStroke::Component* p_pAIDriver) override;
 
 	protected:
 		//--------------------------------------------------------------------------

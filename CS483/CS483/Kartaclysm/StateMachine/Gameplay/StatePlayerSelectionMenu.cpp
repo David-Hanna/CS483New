@@ -13,6 +13,9 @@ void Kartaclysm::StatePlayerSelectionMenu::Initialize()
 {
 	m_uiNumPlayers = 0;
 
+	GenerateDriverList();
+	GenerateKartList();
+
 	for (int i = 0; i < 4; i++)
 	{
 		m_mPerPlayerMenuState[i].bJoined = false;
@@ -175,6 +178,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 					{
 					case DRIVER_CLEOPAPA:
@@ -219,6 +223,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 
 					switch (m_mPerPlayerMenuState[i].eSelectedKart)
 					{
+					// TODO - we need to change this to be more dynamic/data-driven
 					case KART_JUGGERNAUT:
 						m_mPerPlayerMenuState[i].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
 						m_mPerPlayerMenuState[i].pKartDisplay = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_display_speedster_" + strPlayerNum + ".xml");
@@ -273,6 +278,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pDriverAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 					{
 					case DRIVER_CLEOPAPA:
@@ -315,6 +321,7 @@ void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartDisplay);
 					m_pGameObjectManager->DestroyGameObject(m_mPerPlayerMenuState[i].pKartAbilities);
 
+					// TODO - we need to change this to be more dynamic/data-driven
 					switch (m_mPerPlayerMenuState[i].eSelectedKart)
 					{
 					case KART_JUGGERNAUT:
@@ -387,9 +394,49 @@ void Kartaclysm::StatePlayerSelectionMenu::Exit()
 	}
 }
 
+void Kartaclysm::StatePlayerSelectionMenu::GenerateDriverList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/drivers.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pDriverElement = pRootElement->FirstChildElement("Driver");
+	while (pDriverElement != nullptr)
+	{
+		std::string strDriverDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pDriverElement, "definition", strDriverDefinitionPath);
+		m_vDrivers.push_back(strDriverDefinitionPath);
+
+		pDriverElement = pDriverElement->NextSiblingElement("Driver");
+	}
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::GenerateKartList()
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError err = doc.LoadFile("CS483/CS483/Kartaclysm/Data/Racer/karts.xml");
+#if _DEBUG
+	assert(err == tinyxml2::XML_NO_ERROR);
+#endif
+
+	tinyxml2::XMLElement* pRootElement = doc.RootElement();
+	tinyxml2::XMLElement* pKartElement = pRootElement->FirstChildElement("Kart");
+	while (pKartElement != nullptr)
+	{
+		std::string strKartDefinitionPath = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(pKartElement, "definition", strKartDefinitionPath);
+		m_vKarts.push_back(strKartDefinitionPath);
+
+		pKartElement = pKartElement->NextSiblingElement("Kart");
+	}
+}
+
 void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int p_uiPlayerNum)
 {
-	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined == false);
+	assert(!m_mPerPlayerMenuState[p_uiPlayerNum].bJoined);
 	m_mPerPlayerMenuState[p_uiPlayerNum].bJoined = true;
 	m_mPerPlayerMenuState[p_uiPlayerNum].bReady = false;
 	std::string strPlayerNum = std::to_string(p_uiPlayerNum);
@@ -425,7 +472,7 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int p_uiPlay
 
 void Kartaclysm::StatePlayerSelectionMenu::RemovePlayer(const unsigned int p_uiPlayerNum)
 {
-	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined == true);
+	assert(m_mPerPlayerMenuState[p_uiPlayerNum].bJoined);
 	m_mPerPlayerMenuState[p_uiPlayerNum].bJoined = false;
 	m_mPerPlayerMenuState[p_uiPlayerNum].bReady = false;
 	std::string strPlayerNum = std::to_string(p_uiPlayerNum);
@@ -486,16 +533,17 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 {
 	PlayerInputMapping::Instance()->SetSplitscreenPlayers(m_uiNumPlayers);
 
-	m_mContextParameters.insert(std::pair<std::string, std::string>("PlayerCount", std::to_string(m_uiNumPlayers)));
+	m_mContextParameters.insert(std::pair<std::string, std::string>("NumHumanRacers", std::to_string(m_uiNumPlayers)));
 	unsigned int uiJoined = 0;
 
-	for (unsigned int i = 0; i < 4; i++)
+	for (unsigned int i = 0; i < 4; ++i)
 	{
 		if (!m_mPerPlayerMenuState[i].bReady) continue;
 
 		std::string strPlayerNum = std::to_string(uiJoined++);
 		m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_StartPosition", strPlayerNum));
 
+		// TODO - we need to change this to be more dynamic/data-driven
 		switch (m_mPerPlayerMenuState[uiJoined].eSelectedDriver)
 		{
 		case DRIVER_CLEOPAPA:
@@ -511,6 +559,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 			break;
 		}
 
+		// TODO - we need to change this to be more dynamic/data-driven
 		switch (m_mPerPlayerMenuState[uiJoined].eSelectedKart)
 		{
 		case KART_JUGGERNAUT:
@@ -530,6 +579,22 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 #ifdef _DEBUG
 	assert(uiJoined == m_uiNumPlayers);
 #endif
+
+	// TEMP - using hardcoded value of 1 for now
+	int iNumAIRacers = 1;
+	m_mContextParameters.insert(std::pair<std::string, std::string>("NumAIRacers", std::to_string(iNumAIRacers)));
+
+	for (int i = 0; i < iNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
+
+		std::string strDriverDefinitionFile = GetRandomDriver();
+		std::string strKartDefinitionFile = GetRandomKart();
+		
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_DriverDefinitionFile", strDriverDefinitionFile));
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_KartDefinitionFile", strKartDefinitionFile));
+		m_mContextParameters.insert(std::pair<std::string, std::string>(strAIRacer + "_StartPosition", std::to_string(i + m_uiNumPlayers)));
+	}
 
 	switch (m_uiNumPlayers)
 	{
@@ -570,4 +635,16 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		}
 		m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 	}
+}
+
+std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomDriver() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vDrivers.size() - 1);
+	return m_vDrivers[range(HeatStroke::Common::GetRNGesus())];
+}
+
+std::string Kartaclysm::StatePlayerSelectionMenu::GetRandomKart() const
+{
+	auto range = std::uniform_int_distribution<int>(0, m_vKarts.size() - 1);
+	return m_vKarts[range(HeatStroke::Common::GetRNGesus())];
 }

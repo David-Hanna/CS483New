@@ -60,7 +60,6 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
-		m_pConditions->ResetCooldown(); // quick-fix to send HUD event to display charges
 		
 	}
 
@@ -68,15 +67,17 @@ namespace Kartaclysm
 	{
 		if (!m_bSentImmuneEvent && m_pConditions->CanActivate())
 		{
-			m_bSentImmuneEvent = true;
 			Activate();
 		}
 	}
 
 	void ComponentArmorPlateAbility::Activate()
 	{
+		m_bSentImmuneEvent = true;
+		m_pConditions->ResetCooldown();
+
 		// Send immunity event for kart controller
-		HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
+		HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse");
 		pEvent->SetStringParameter("Originator", m_strPlayerX);
 		pEvent->SetStringParameter("Ability", "Immune");
 		pEvent->SetStringParameter("ListenEvent", m_strChargeEventName);
@@ -105,12 +106,12 @@ namespace Kartaclysm
 			iChange--;
 			m_pConditions->RemoveCharge();
 			m_pConditions->ResetCooldown();
+			m_bSentImmuneEvent = false;
 		}
 
 		if (iChange != 0)
 		{
 			// Charge count changed: send armor plate event for kart controller (changes stats)
-			//HeatStroke::Event* pEvent = new HeatStroke::Event("Ability");
 			HeatStroke::Event* pEvent = new HeatStroke::Event("AbilityUse"); // I don't think this is right, but it works (Brad, ya dingus)
 			pEvent->SetStringParameter("Originator", m_strPlayerX);
 			pEvent->SetStringParameter("Ability", "ArmorPlate");
