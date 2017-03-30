@@ -531,6 +531,9 @@
     <ClCompile Include="Kartaclysm\Common\TimeFormat.cpp">
       <Filter>Kartaclysm\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Common\RNGesus.cpp">
+      <Filter>HeatStroke\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -914,6 +917,9 @@
     <ClInclude Include="Kartaclysm\Common\TimeFormat.h">
       <Filter>Kartaclysm\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Kartaclysm\Common\RNGesus.h">
+      <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml">
@@ -1140,9 +1146,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
-      <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>

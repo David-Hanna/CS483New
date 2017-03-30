@@ -46,7 +46,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 	AddRacerPositionToMap(&mResults);
 	SendRaceFinishEvent(mResults);
-	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	PopulateRaceResultsList(mResults);
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
