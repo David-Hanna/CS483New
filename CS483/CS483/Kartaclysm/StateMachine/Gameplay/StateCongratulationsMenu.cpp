@@ -12,9 +12,7 @@ Kartaclysm::StateCongratulationsMenu::StateCongratulationsMenu()
 	:
 	GameplayState("Congratulations"),
 	m_pGameObjectManager(nullptr),
-	m_bSuspended(true),
-	m_bSkipToMainMenu(false),
-	m_vMedals()
+	m_bSuspended(true)
 {
 }
 
@@ -33,11 +31,22 @@ void Kartaclysm::StateCongratulationsMenu::Enter(const std::map<std::string, std
 	m_pGameObjectManager->RegisterComponentFactory("GOC_TextBox", HeatStroke::ComponentTextBox::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 
+	std::vector<Medalist> vHumanMedalists;
+	DetermineHumanRacersEarningMedals(mResults, &vHumanMedalists);
+	unsigned int uiMedalCount = CreateMedalsForWinners(vHumanMedalists);
+
+	if (uiMedalCount == 0)
+	{
+		// TODO: Maybe a "Better luck next time!" kinda message
+		m_pStateMachine->Pop();
+		return;
+	}
+	
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_menu.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/background.xml");
 
-
-
+	// TODO: More fanfare (better music, cool sound effect, fireworks, etc.)
+	
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
 	{
 		HeatStroke::AudioPlayer::Instance()->StopMusic();
@@ -60,7 +69,7 @@ void Kartaclysm::StateCongratulationsMenu::Update(const float p_fDelta)
 		if (bConfirm || bCancel)
 		{
 			m_pStateMachine->Pop();
-			if (m_pStateMachine->empty()) // may be popped to StateTournament
+			if (m_pStateMachine->empty())
 			{
 				m_pStateMachine->Push(STATE_MAIN_MENU);
 			}
@@ -84,5 +93,91 @@ void Kartaclysm::StateCongratulationsMenu::Exit()
 		m_pGameObjectManager->DestroyAllGameObjects();
 		delete m_pGameObjectManager;
 		m_pGameObjectManager = nullptr;
+	}
+}
+
+void Kartaclysm::StateCongratulationsMenu::DetermineHumanRacersEarningMedals(
+	const std::map<std::string, std::string>& p_mRaceResults,
+	std::vector<Kartaclysm::StateCongratulationsMenu::Medalist>* p_pHumanMedalists) const
+{
+	int iNumRacers = std::stoi(p_mRaceResults.at("numRacers"));
+	std::string strCutoff = std::to_string((iNumRacers > 4 ? 4 : iNumRacers) - 1);
+
+	for (int i = 0; i < iNumRacers; ++i)
+	{
+		std::string strIndex = std::to_string(i);
+		std::string strRacerPosition = p_mRaceResults.at("racerPosition" + strIndex);
+
+		if (strRacerPosition == "dnf" || strRacerPosition > strCutoff)
+		{
+			continue;
+		}
+
+		int iPosition = std::stoi(strRacerPosition);
+		std::string strRacerGuid = p_mRaceResults.at("racerId" + strIndex);
+
+		// TODO: Better way to make sure they are human
+		if (strRacerGuid.at(0) != 'P')
+		{
+			continue;
+		}
+
+		p_pHumanMedalists->push_back(Medalist(iPosition, strRacerGuid));
+	}
+}
+
+unsigned int Kartaclysm::StateCongratulationsMenu::CreateMedalsForWinners(const std::vector<Kartaclysm::StateCongratulationsMenu::Medalist>& p_vHumanMedalists)
+{
+	if (p_vHumanMedalists.empty()) return 0;
+
+	std::vector<HeatStroke::GameObject*> vMedalGOs;
+	for (auto medalist : p_vHumanMedalists)
+	{
+		std::string strMedal = "";
+		switch (medalist.m_iPosition)
+		{
+			case 1: strMedal = "gold_medal";	break;
+			case 2: strMedal = "silver_medal";	break;
+			case 3: strMedal = "bronze_medal";	break;
+			default: continue;
+		}
+
+		HeatStroke::GameObject* pMedal = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/CongratulationsMenu/" + strMedal + ".xml");
+		vMedalGOs.push_back(pMedal);
+
+		auto vTextRenderables = pMedal->GetChildrenWithTag("Text");
+		if (vTextRenderables.empty())
+		{
+#ifdef _DEBUG
+			assert(false && "Missing child with \"Text\" tag");
+#endif
+			continue;
+		}
+
+		if (HeatStroke::ComponentTextBox* pText = dynamic_cast<HeatStroke::ComponentTextBox*>(vTextRenderables.at(0)->GetComponent("GOC_Renderable")))
+		{
+			pText->SetMessage(medalist.m_strRacerId);
+		}
+#ifdef _DEBUG
+		else
+		{
+			assert(false && "Missing textbox renderable");
+		}
+#endif
+	}
+
+	PositionMedalRenderables(vMedalGOs);
+	return vMedalGOs.size();
+}
+
+void Kartaclysm::StateCongratulationsMenu::PositionMedalRenderables(const std::vector<HeatStroke::GameObject*>& p_vMedalGOs)
+{
+	if (p_vMedalGOs.empty()) return;
+
+	float fHorizontalSpace = 150.0f / (p_vMedalGOs.size() + 1);
+	for (unsigned int i = 0; i < p_vMedalGOs.size(); ++i)
+	{
+		auto pTransform = &p_vMedalGOs.at(i)->GetTransform();
+		pTransform->TranslateXYZ((i * fHorizontalSpace) - 75.0f, 0.0f, 0.0f);
 	}
 }

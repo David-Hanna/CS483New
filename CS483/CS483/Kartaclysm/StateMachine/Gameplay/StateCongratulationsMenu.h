@@ -41,15 +41,17 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
-		bool m_bSkipToMainMenu;
+		struct Medalist {
+			int m_iPosition;
+			std::string m_strRacerId;
 
-		struct Medal {
-			HeatStroke::ComponentSprite*	m_pSprite;
-			HeatStroke::TextBox*			m_pText;
-
-			Medal() : m_pSprite(nullptr), m_pText(nullptr) {}
+			Medalist(int p_iPosition, const std::string& p_strRacerId) :
+				m_iPosition(p_iPosition), m_strRacerId(p_strRacerId) {}
 		};
-		std::vector<Medal> m_vMedals;
+
+		void DetermineHumanRacersEarningMedals(const std::map<std::string, std::string>& p_mRaceResults, std::vector<Medalist>* p_pHumanMedalists) const;
+		unsigned int CreateMedalsForWinners(const std::vector<Medalist>& p_vHumanMedalists);
+		void PositionMedalRenderables(const std::vector<HeatStroke::GameObject*>& p_vMedalGOs);
 	};
 }
 
