@@ -544,7 +544,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_StartPosition", strPlayerNum));
 
 		// TODO - we need to change this to be more dynamic/data-driven
-		switch (m_mPerPlayerMenuState[uiJoined].eSelectedDriver)
+		switch (m_mPerPlayerMenuState[i].eSelectedDriver)
 		{
 		case DRIVER_CLEOPAPA:
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_DriverDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/driver_cleopapa.xml"));
@@ -560,7 +560,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		}
 
 		// TODO - we need to change this to be more dynamic/data-driven
-		switch (m_mPerPlayerMenuState[uiJoined].eSelectedKart)
+		switch (m_mPerPlayerMenuState[i].eSelectedKart)
 		{
 		case KART_JUGGERNAUT:
 			m_mContextParameters.insert(std::pair<std::string, std::string>("Player" + strPlayerNum + "_KartDefinitionFile", "CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml"));
