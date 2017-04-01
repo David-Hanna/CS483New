@@ -78,6 +78,8 @@ namespace Kartaclysm
 		//GUID follows format of "Player0": needs to be "Player0_HUD_KartAbility1"
 		std::string strPlayerX = GetGameObject()->GetParent()->GetParent()->GetGUID();
 		m_strEventName = strPlayerX + "_HUD_" + m_strEventName;
+
+		m_pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetParent()->GetParent()->GetComponent("GOC_Racer"));
 	}
 
 	void ComponentAbilityConditions::Update(const float p_fDelta)
@@ -113,6 +115,10 @@ namespace Kartaclysm
 			return false;
 		}
 		if (!m_bSpecial)
+		{
+			return false;
+		}
+		if (m_pRacer != nullptr && m_pRacer->HasFinishedRace())
 		{
 			return false;
 		}
