@@ -117,7 +117,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 
 	if (glm::length(pos1 - pos2) <= p_pCollider1->GetRadius() + p_pCollider2->GetRadius())
 	{
-		glm::vec3 contactPoint = pos1 - (pos2 * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
+		glm::vec3 contactPoint = pos1 + ((pos1 - pos2) * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
 
 		//printf("Sphere-Sphere Collision!");
 		Event* collisionEvent = new Event("Collision");
