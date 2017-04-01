@@ -51,6 +51,7 @@ namespace Kartaclysm
 
 		void DetermineHumanRacersEarningMedals(const std::map<std::string, std::string>& p_mRaceResults, std::vector<Medalist>* p_pHumanMedalists) const;
 		unsigned int CreateMedalsForWinners(const std::vector<Medalist>& p_vHumanMedalists);
+		void SetTextBeneathMedal(HeatStroke::GameObject* p_pMedal, const std::string& p_strText) const;
 		void PositionMedalRenderables(const std::vector<HeatStroke::GameObject*>& p_vMedalGOs);
 	};
 }

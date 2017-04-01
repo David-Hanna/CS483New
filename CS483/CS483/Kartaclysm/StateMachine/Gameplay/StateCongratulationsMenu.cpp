@@ -39,13 +39,18 @@ void Kartaclysm::StateCongratulationsMenu::Enter(const std::map<std::string, std
 	{
 		// TODO: Maybe a "Better luck next time!" kinda message
 		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty())
+		{
+			m_pStateMachine->Push(STATE_MAIN_MENU);
+		}
 		return;
 	}
 	
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_menu.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/background.xml");
+	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/CongratulationsMenu/congratulations.xml");
 
-	// TODO: More fanfare (better music, cool sound effect, fireworks, etc.)
+	// TODO: More fanfare (cool title message, better music, fireworks, etc.)
 	
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
 	{
@@ -139,45 +144,53 @@ unsigned int Kartaclysm::StateCongratulationsMenu::CreateMedalsForWinners(const 
 			case 1: strMedal = "gold_medal";	break;
 			case 2: strMedal = "silver_medal";	break;
 			case 3: strMedal = "bronze_medal";	break;
-			default: continue;
+			default:
+#ifdef _DEBUG
+				assert(false && "No medal for other positions");
+#endif
+				continue;
 		}
 
 		HeatStroke::GameObject* pMedal = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/CongratulationsMenu/" + strMedal + ".xml");
+		SetTextBeneathMedal(pMedal, medalist.m_strRacerId);
 		vMedalGOs.push_back(pMedal);
-
-		auto vTextRenderables = pMedal->GetChildrenWithTag("Text");
-		if (vTextRenderables.empty())
-		{
-#ifdef _DEBUG
-			assert(false && "Missing child with \"Text\" tag");
-#endif
-			continue;
-		}
-
-		if (HeatStroke::ComponentTextBox* pText = dynamic_cast<HeatStroke::ComponentTextBox*>(vTextRenderables.at(0)->GetComponent("GOC_Renderable")))
-		{
-			pText->SetMessage(medalist.m_strRacerId);
-		}
-#ifdef _DEBUG
-		else
-		{
-			assert(false && "Missing textbox renderable");
-		}
-#endif
 	}
 
 	PositionMedalRenderables(vMedalGOs);
 	return vMedalGOs.size();
 }
 
+void Kartaclysm::StateCongratulationsMenu::SetTextBeneathMedal(HeatStroke::GameObject* p_pMedal, const std::string& p_strText) const
+{
+	auto vTextRenderables = p_pMedal->GetChildrenWithTag("Text");
+	if (vTextRenderables.empty())
+	{
+#ifdef _DEBUG
+		assert(false && "Missing child with \"Text\" tag");
+#endif
+		return;
+	}
+
+	if (HeatStroke::ComponentTextBox* pText = dynamic_cast<HeatStroke::ComponentTextBox*>(vTextRenderables.at(0)->GetComponent("GOC_Renderable")))
+	{
+		pText->SetMessage(p_strText);
+	}
+#ifdef _DEBUG
+	else
+	{
+		assert(false && "Missing textbox renderable");
+	}
+#endif
+}
+
 void Kartaclysm::StateCongratulationsMenu::PositionMedalRenderables(const std::vector<HeatStroke::GameObject*>& p_vMedalGOs)
 {
 	if (p_vMedalGOs.empty()) return;
 
-	float fHorizontalSpace = 150.0f / (p_vMedalGOs.size() + 1);
-	for (unsigned int i = 0; i < p_vMedalGOs.size(); ++i)
+	float fHorizontalSpace = 200.0f / (p_vMedalGOs.size() + 1);
+	for (unsigned int i = 1; i <= p_vMedalGOs.size(); ++i)
 	{
-		auto pTransform = &p_vMedalGOs.at(i)->GetTransform();
-		pTransform->TranslateXYZ((i * fHorizontalSpace) - 75.0f, 0.0f, 0.0f);
+		auto pTransform = &p_vMedalGOs.at(i-1)->GetTransform();
+		pTransform->TranslateXYZ(-100.0f + (i * fHorizontalSpace), 0.0f, 0.0f);
 	}
 }

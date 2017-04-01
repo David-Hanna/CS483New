@@ -14,6 +14,7 @@ Kartaclysm::StateTournament::StateTournament()
 	m_bSuspended(true),
 	m_bReadyForNextRace(false),
 	m_bFinished(false),
+	m_bCongrats(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -63,10 +64,14 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 		else if (m_bFinished)
 		{
 			m_bFinished = false;
+			m_bCongrats = true;
+			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+		}
+		else if (m_bCongrats)
+		{
+			m_bCongrats = false;
 			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
-			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-			// TODO: Show some kind of congratulations screen?
 		}
 		else
 		{

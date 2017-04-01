@@ -107,5 +107,8 @@
     <Sprite path="Assets/Menus/TrackSelectionMenu/noob_zone_overhead.mtl" mtl="noob_zone_overhead"/>
     <Sprite path="Assets/Menus/TrackSelectionMenu/shift_rift_overhead.mtl" mtl="shift_rift_overhead"/>
     <Sprite path="Assets/Menus/TrackSelectionMenu/up_and_over_overhead.mtl" mtl="up_and_over_overhead"/>
+    <Sprite path="Assets/Menus/CongratulationsMenu/gold.mtl" mtl="gold"/>
+    <Sprite path="Assets/Menus/CongratulationsMenu/silver.mtl" mtl="silver"/>
+    <Sprite path="Assets/Menus/CongratulationsMenu/bronze.mtl" mtl="bronze"/>
   </Sprites>
 </Preload>

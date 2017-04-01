@@ -352,6 +352,10 @@
     <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml" />
     <Xml Include="Kartaclysm\Data\Local\Options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\bronze_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\silver_medal.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />

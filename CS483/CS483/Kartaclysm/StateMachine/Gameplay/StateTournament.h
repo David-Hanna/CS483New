@@ -46,6 +46,7 @@ namespace Kartaclysm
 	private:
 		bool m_bReadyForNextRace;
 		bool m_bFinished;
+		bool m_bCongrats;
 		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;
 		std::map<std::string, std::string> m_mContextParams;

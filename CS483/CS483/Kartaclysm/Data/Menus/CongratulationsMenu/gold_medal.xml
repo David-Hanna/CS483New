@@ -7,7 +7,7 @@
 		<GameObject>
 			<Transform>
 				<Scale x="16.0" y="16.0" z="1.0" />
-				<Translation x="0.0" y="10.0" z="0.5" />
+				<Translation x="0.0" y="0.0" z="0.5" />
 			</Transform>
 			<Components>
 				<GOC_Sprite>
@@ -24,7 +24,7 @@
 		<GameObject>
 			<Transform>
 				<Scale x="0.7" y="0.9" z="1.0"/>
-				<Translation x="0.0" y="-30.0" z="1.0"/>
+				<Translation x="-20.0" y="-15.0" z="1.0"/>
 			</Transform>
 			<Components>
 				<GOC_TextBox>
