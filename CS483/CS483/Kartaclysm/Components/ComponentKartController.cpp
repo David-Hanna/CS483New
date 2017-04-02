@@ -521,7 +521,7 @@ namespace Kartaclysm
 
 		m_fPreviousHeight = m_pGameObject->GetTransform().GetTranslation().y;
 
-		if (fHeightMod >= 1.0f)
+		if (fHeightMod >= 0.5f)
 		{
 			fHeightMod = 0.0f;
 		}
