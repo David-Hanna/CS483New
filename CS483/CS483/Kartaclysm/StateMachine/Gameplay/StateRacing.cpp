@@ -461,7 +461,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, results.m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(results.m_fRaceTime)));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerPosition" + strIndex, std::to_string(results.m_iPosition)));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerPosition" + strIndex, results.m_iPosition == -1 ? "dnf" : std::to_string(results.m_iPosition)));
 
 		if (bTournament)
 		{

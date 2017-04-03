@@ -172,6 +172,7 @@
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h" />
@@ -348,7 +350,13 @@
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml" />
-    <Xml Include="Kartaclysm\Data\Local\Options.xml" />
+    <Xml Include="Kartaclysm\Data\Local\Options.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\bronze_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\silver_medal.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />

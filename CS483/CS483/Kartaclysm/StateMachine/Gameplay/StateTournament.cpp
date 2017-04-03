@@ -14,6 +14,7 @@ Kartaclysm::StateTournament::StateTournament()
 	m_bSuspended(true),
 	m_bReadyForNextRace(false),
 	m_bFinished(false),
+	m_bCongrats(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -62,9 +63,15 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	else if (m_bFinished)
 	{
 		m_bFinished = false;
-		m_pStateMachine->Pop();
+		m_bCongrats = true;
 		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-		// TODO: Show some kind of congratulations screen?
+	}
+
+	else if (m_bCongrats)
+	{
+		m_bCongrats = false;
+		m_pStateMachine->Pop();
+		m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
 	}
 	else
 	{
@@ -169,6 +176,8 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 	mResults["numRacers"] = std::to_string(m_mRacerRankings.size());
 
 	int iRank = 0;
+	int iPrevPoints = -1;
+	int iPrevPosition = 0;
 	while (!p_pRankings->empty())
 	{
 		auto it = p_pRankings->begin(), end = p_pRankings->end(), max = it;
@@ -185,6 +194,17 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 		mResults["racerTime" + strIndex] = std::to_string(max->second.m_fTime);
 		mResults["racerPoints" + strIndex] = std::to_string(max->second.m_iPoints);
 
+		if (max->second.m_iPoints != iPrevPoints)
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iRank);
+			iPrevPosition = iRank;
+		}
+		else // tied position
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iPrevPosition);
+		}
+
+		iPrevPoints = max->second.m_iPoints;
 		p_pRankings->erase(max);
 	}
 	return mResults;
