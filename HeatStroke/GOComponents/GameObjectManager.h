@@ -60,7 +60,6 @@ namespace HeatStroke
 		std::vector<GameObject*> GetGameObjectsByTag(const std::string& p_strGameObjectTag);
 
 		void DestroyGameObject(GameObject* p_pGameObject);
-		void ForceInstantDestroyGameObject(GameObject* p_pGameObject);
 		void DestroyAllGameObjects();
 
 		void Update(const float p_fDelta);

@@ -31,8 +31,8 @@ namespace Kartaclysm
 		virtual ~StatePlayerSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
-		void Unsuspend(const int p_iPrevState)		{ m_bSuspended = false; }
+		void Suspend(const int p_iNewState)			{ Exit(); }
+		void Unsuspend(const int p_iPrevState)		{ Enter(m_mContextParameters); }
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
@@ -102,11 +102,12 @@ namespace Kartaclysm
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 
 		void Initialize();
-
 		void GenerateDriverList();
 		void GenerateKartList();
 
-		void AddPlayer(const unsigned int m_uiPlayerNum);
+		void AddPlayer(const unsigned int p_uiPlayerNum);
+		void RemovePlayer(const unsigned int p_uiPlayerNum);
+		void SetReadyStatus(const unsigned int p_uiPlayerNum, const bool p_bReady);
 		void GoToTrackSelectionState();
 
 		std::string GetRandomDriver() const;
