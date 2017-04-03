@@ -213,8 +213,11 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 	for (int i = 0; i < iNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
+
 		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
-		std::string strRacerTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime" + strIndex)));
+		for (unsigned int uiPadding = (strRacerId.at(0) == 'P' ? 7 : 2); uiPadding > 0; --uiPadding) strRacerId += " ";
+
+		std::string strRacerTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime" + strIndex))) + "  ";
 
 		std::string strRacerPoints = "";
 		auto find = p_mRaceResults.find("racerPoints" + strIndex);
