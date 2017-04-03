@@ -818,13 +818,13 @@ namespace Kartaclysm
 		p_pEvent->GetOptionalFloatParameter("Power", power, power);
 		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
 
-#ifdef _DEBUG
-		printf("KartController: Ability %s from %s targetting %s\n", 
-			ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
-#endif
-
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			printf("KartController: Ability %s from %s targetting %s\n",
+				ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
+#endif
+
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
@@ -866,6 +866,11 @@ namespace Kartaclysm
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			printf("KartController: Ability %s from %s targetting %s\n",
+				ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
+#endif
+
 			if (ability.compare("Boost") == 0)
 			{
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
