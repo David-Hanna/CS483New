@@ -524,13 +524,12 @@ namespace Kartaclysm
 				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "variation", node.variation);
 				HeatStroke::EasyXML::GetRequiredFloatAttribute(pNodeElement, "radius", node.radius);
 
-				std::string sTriggerIndex;
-				std::string sDefault = ""; // yup
-				HeatStroke::EasyXML::GetOptionalStringAttribute(pNodeElement, "trigger", sTriggerIndex, sDefault);
+				std::string sTriggerIndex = "";
+				HeatStroke::EasyXML::GetOptionalStringAttribute(pNodeElement, "trigger", sTriggerIndex, sTriggerIndex);
 
 				node.index = iIndex++;
 
-				if (sTriggerIndex.compare(sDefault) != 0)
+				if (sTriggerIndex.compare("") != 0)
 				{
 					NodeTrigger trigger;
 
