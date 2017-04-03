@@ -45,7 +45,7 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 	}
 
 	SendRaceFinishEvent(mResults);
-	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/DevConfig/FastestTimes.xml");
+	RecordBestTime(mResults, "CS483/CS483/Kartaclysm/Data/Local/FastestTimes.xml");
 	PopulateRaceResultsList(mResults);
 
 	if (HeatStroke::AudioPlayer::Instance()->GetCurrentMusicFile() != "Assets/Music/FunkyChunk.ogg")
@@ -58,29 +58,27 @@ void Kartaclysm::StateRaceCompleteMenu::Enter(const std::map<std::string, std::s
 
 void Kartaclysm::StateRaceCompleteMenu::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+	if (bConfirm || bCancel)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
-
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm || bCancel)
+		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty()) // may be popped to StateTournament
 		{
-			m_pStateMachine->Pop();
-			if (m_pStateMachine->empty()) // may be popped to StateTournament
-			{
-				m_pStateMachine->Push(STATE_MAIN_MENU);
-			}
+			m_pStateMachine->Push(STATE_MAIN_MENU);
 		}
 	}
 }
 
 void Kartaclysm::StateRaceCompleteMenu::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }
@@ -177,8 +175,11 @@ void Kartaclysm::StateRaceCompleteMenu::PopulateRaceResultsList(const std::map<s
 	for (int i = 0; i < iNumRacers; ++i)
 	{
 		std::string strIndex = std::to_string(i);
+
 		std::string strRacerId = p_mRaceResults.at("racerId" + strIndex);
-		std::string strRacerTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime" + strIndex)));
+		for (unsigned int uiPadding = (strRacerId.at(0) == 'P' ? 7 : 2); uiPadding > 0; --uiPadding) strRacerId += " ";
+
+		std::string strRacerTime = Common::TimeStringFromFloat(std::stof(p_mRaceResults.at("racerTime" + strIndex))) + "  ";
 
 		std::string strRacerPoints = "";
 		auto find = p_mRaceResults.find("racerPoints" + strIndex);

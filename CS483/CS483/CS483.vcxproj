@@ -344,14 +344,15 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml" />
     <Xml Include="Kartaclysm\Data\DevConfig\Preload.xml" />
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml" />
-    <Xml Include="Kartaclysm\Data\Local\Options.xml" />
+    <Xml Include="Kartaclysm\Data\Local\Options.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\bronze_medal.xml" />
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml" />
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml" />
@@ -374,6 +375,7 @@
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options_tournament.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\driver_abilities_cleopapa_0.xml" />

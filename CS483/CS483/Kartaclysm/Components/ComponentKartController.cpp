@@ -521,6 +521,11 @@ namespace Kartaclysm
 
 		m_fPreviousHeight = m_pGameObject->GetTransform().GetTranslation().y;
 
+		if (fHeightMod >= 0.5f)
+		{
+			fHeightMod = 0.0f;
+		}
+
 		return fHeightMod;
 	}
 
@@ -770,6 +775,7 @@ namespace Kartaclysm
 					float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
 					m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+					m_pOutsideForce = m_pOutsideForce * glm::vec3(1.0f, 0.0f, 1.0f); // Extra check to make sure there's no vertical speed
 					m_fSpeed *= m_fWallSlowdownStat;
 				}
 				else

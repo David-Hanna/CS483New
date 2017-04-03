@@ -106,13 +106,13 @@ namespace Kartaclysm
 			}
 		}
 
-		for (unsigned int i = 0; i < racersOnTrackPieces.size(); ++i)
+		/*for (unsigned int i = 0; i < racersOnTrackPieces.size(); ++i)
 		{
 			if (!racersOnTrackPieces[i])
 			{
 				ResetRacerPosition(m_vRacers[i]);
 			}
-		}
+		}*/
 
 		if (m_bRacerIsOffroad)
 		{

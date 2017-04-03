@@ -95,71 +95,76 @@ void Kartaclysm::StateTrackSelectionMenu::LoadBestTrackTime(tinyxml2::XMLElement
 
 void Kartaclysm::StateTrackSelectionMenu::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+	if (bConfirm)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
-
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm)
+		switch (m_iTrackSelection)
 		{
-			switch (m_iTrackSelection)
-			{
-			case 0:
-				m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/noob_zone.xml"));
-				break;
-			case 1:
-				m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/shift_rift.xml"));
-				break;
-			case 2:
-				m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/up_and_over.xml"));
-				break;
-			}
+		case 0:
+			m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/noob_zone.xml"));
+			break;
+		case 1:
+			m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/shift_rift.xml"));
+			break;
+		case 2:
+			m_mContextParameters.insert(std::pair<std::string, std::string>("TrackDefinitionFile", "CS483/CS483/Kartaclysm/Data/Tracks/up_and_over.xml"));
+			break;
+		}
 
+		while (!m_pStateMachine->empty())
+		{
 			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 		}
-		else if (bUp)
+		m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
+	}
+	else if (bCancel)
+	{
+		m_pStateMachine->Pop();
+	}
+	else if (bUp)
+	{
+		switch (m_iTrackSelection)
 		{
-			switch (m_iTrackSelection)
-			{
-			case 1:
-				m_iTrackSelection = 0;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml");
-				break;
-			case 2:
-				m_iTrackSelection = 1;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_shift_rift.xml");
-				break;
-			}
+		case 1:
+			m_iTrackSelection = 0;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_noob_zone.xml");
+			break;
+		case 2:
+			m_iTrackSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_shift_rift.xml");
+			break;
 		}
-		else if (bDown)
+	}
+	else if (bDown)
+	{
+		switch (m_iTrackSelection)
 		{
-			switch (m_iTrackSelection)
-			{
-			case 0:
-				m_iTrackSelection = 1;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_shift_rift.xml");
-				break;
-			case 1:
-				m_iTrackSelection = 2;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_up_and_over.xml");
-				break;
-			}
+		case 0:
+			m_iTrackSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_shift_rift.xml");
+			break;
+		case 1:
+			m_iTrackSelection = 2;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/TrackSelectionMenu/track_selection_highlight_up_and_over.xml");
+			break;
 		}
 	}
 }
 
 void Kartaclysm::StateTrackSelectionMenu::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }

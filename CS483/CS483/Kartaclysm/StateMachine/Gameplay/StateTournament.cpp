@@ -53,30 +53,32 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 
 void Kartaclysm::StateTournament::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	if (m_bReadyForNextRace)
 	{
-		if (m_bReadyForNextRace)
+		m_bReadyForNextRace = false;
+		m_pStateMachine->Push(STATE_RACING, m_mContextParams);
+	}
+	else if (m_bFinished)
+	{
+		m_bFinished = false;
+		m_bCongrats = true;
+		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+	}
+
+	else if (m_bCongrats)
+	{
+		m_bCongrats = false;
+		m_pStateMachine->Pop();
+		m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
+	}
+	else
+	{
+		// Quit tournament early or some other problem
+		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty())
 		{
-			m_bReadyForNextRace = false;
-			m_pStateMachine->Push(STATE_RACING, m_mContextParams);
-		}
-		else if (m_bFinished)
-		{
-			m_bFinished = false;
-			m_bCongrats = true;
-			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-		}
-		else if (m_bCongrats)
-		{
-			m_bCongrats = false;
-			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
-		}
-		else
-		{
-			// Quit tournament early or some other problem
-			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_MAIN_MENU);
 		}
 	}
