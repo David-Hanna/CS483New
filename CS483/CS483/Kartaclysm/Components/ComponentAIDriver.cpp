@@ -211,7 +211,15 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
 			ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
-			m_sCurrentNode = pTrackComponent->GetNextNode(m_sCurrentNode.index);
+			SetNode(pTrackComponent->GetNextNode(m_sCurrentNode.index));
+		}
+	}
+
+	void ComponentAIDriver::SetNode(ComponentTrack::PathNode p_sNode)
+	{
+		if (p_sNode.index != m_sCurrentNode.index)
+		{
+			m_sCurrentNode = p_sNode;
 
 			// Randomize target position
 			float theta = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (PI * 2.0f)));

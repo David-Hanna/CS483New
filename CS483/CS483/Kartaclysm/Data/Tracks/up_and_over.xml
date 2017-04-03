@@ -9,7 +9,7 @@
         <!--Straight-->
         <Node x="-30.0" z="30.0" variation="1.0" radius="5.0"/>
         <!--Left Turn-->
-        <Node x="-70.0" z="32.5" variation="1.0" radius="2.0"/>
+        <Node x="-70.0" z="32.5" variation="1.0" radius="2.0" trigger="04"/>
         <Node x="-77.5" z="40.0" variation="0.0" radius="3.0"/>
         <!--Left Turn-->
         <Node x="-77.5" z="70.0" variation="1.0" radius="2.0"/>

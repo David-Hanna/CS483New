@@ -46,6 +46,8 @@ namespace Kartaclysm
 			int& p_iSlide,
 			float& p_fTurn) const;
 
+		void SetNode(ComponentTrack::PathNode p_sNode);
+
 		// Ability use
 		void RegisterComponentAbility(ComponentAbility* p_pAbility);
 		float AngleToNextNode() { return m_fAngleToNextNode; }
