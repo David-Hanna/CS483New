@@ -213,7 +213,7 @@ namespace Kartaclysm
 			ComponentAIDriver* aiDriver = static_cast<ComponentAIDriver*>(m_vRacers[iRacerIndex]->GetGameObject()->GetComponent("GOC_AIDriver"));
 			if (aiDriver != nullptr)
 			{
-				//if (!kartController->IsAirborne())
+				//if (!kartController->IsAirborne()) // This doesn't work because IsAirborne won't have updated yet
 				if (kartController->GetGameObject()->GetTransform().GetTranslation().y - kartController->GetGroundHeight() <= 1.0f)
 				{
 					for (unsigned int i = 0; i < m_vNodeTriggers.size(); i++)
