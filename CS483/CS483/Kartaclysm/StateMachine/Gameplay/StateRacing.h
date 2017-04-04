@@ -52,6 +52,7 @@
 #include "ComponentHudPopup.h"
 #include "ComponentParticleEffect.h"
 #include "ComponentEffect.h"
+#include "ComponentRotateOverTime.h"
 
 #include "Common.h"
 #include "GameplayState.h"
