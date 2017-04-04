@@ -36,12 +36,20 @@ Kartaclysm::DatabaseManager::DatabaseManager()
 	m_uiTotalTournamentRaces(0),
 	m_vTournamentRaceIds()
 {
-	m_pMySQLInstance->SetConnection("db4free.net:3307", "kartaclysm", "upeics483", "kartaclysm");
+	TryToConnect();
 }
 
 Kartaclysm::DatabaseManager::~DatabaseManager()
 {
 	m_pMySQLInstance->ClearConnection();
+}
+
+bool Kartaclysm::DatabaseManager::TryToConnect()
+{
+	if (m_pMySQLInstance->HasConnection()) return true;
+
+	m_pMySQLInstance->SetConnection("db4free.net:3307", "kartaclysm", "upeics483", "kartaclysm");
+	return m_pMySQLInstance->HasConnection();
 }
 
 void Kartaclysm::DatabaseManager::StartTournament(unsigned int uiTournRaces)

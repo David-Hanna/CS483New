@@ -13,8 +13,13 @@ Kartaclysm::StateMainMenu::StateMainMenu()
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
 	m_bPreloadCalled(false),
-	m_bRenderedOnce(false)
+	m_bRenderedOnce(false),
+	m_bRunTrackTimeQuery(true),
+	m_vTrackIds()
 {
+	m_vTrackIds.insert(Database::eNoobZone);
+	m_vTrackIds.insert(Database::eShiftRift);
+	m_vTrackIds.insert(Database::eUpAndOver);
 }
 
 Kartaclysm::StateMainMenu::~StateMainMenu()
@@ -40,6 +45,10 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/loading_message.xml", "LoadingMessage");
 	}
+	else if (m_bRunTrackTimeQuery)
+	{
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/checking_internet.xml", "CheckingInternet");
+	}
 	else
 	{
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
@@ -53,6 +62,17 @@ void Kartaclysm::StateMainMenu::Enter(const std::map<std::string, std::string>& 
 	}
 }
 
+void Kartaclysm::StateMainMenu::Suspend(const int p_iNewState)
+{
+	Exit();
+	m_bRunTrackTimeQuery = false;
+}
+
+void Kartaclysm::StateMainMenu::Unsuspend(const int p_iPrevState)
+{
+	Enter(std::map<std::string, std::string>());
+}
+
 void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 {
 	if (m_bSuspended) return;
@@ -63,38 +83,39 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
 	PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
 
+	if (!m_bRenderedOnce) return;
+
 	if (!m_bPreloadCalled)
 	{
-		if (m_bRenderedOnce)
-		{
-			m_bPreloadCalled = true;
+		m_bPreloadCalled = true;
+		m_bRunTrackTimeQuery = false;
 
-			std::set<Database::TrackPK> vTrackIds;
-			vTrackIds.insert(Database::eNoobZone);
-			vTrackIds.insert(Database::eShiftRift);
-			vTrackIds.insert(Database::eUpAndOver);
+		std::future<DatabaseManager::TrackTimes> thrTrackTimeQuery = CreateTrackTimesThread();
 
-			auto thrTrackTimeQuery = std::async(
-				&DatabaseManager::SelectFastestTimes,
-				DatabaseManager::Instance(),
-				vTrackIds,
-				1);
+		std::thread thrLoadSoundEffects(
+			&HeatStroke::AudioPlayer::PreloadSoundEffects,
+			HeatStroke::AudioPlayer::Instance(),
+			"CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
 
-			std::thread thrLoadSoundEffects(
-				&HeatStroke::AudioPlayer::PreloadSoundEffects,
-				HeatStroke::AudioPlayer::Instance(),
-				"CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+		HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+		
+		thrLoadSoundEffects.join(); // blocks execution until thread ends
+		EndTrackTimesThread(thrTrackTimeQuery); // blocks execution
 
-			HeatStroke::ModelManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
-				
-			thrLoadSoundEffects.join(); // blocks execution until thread ends
-			DatabaseManager::TrackTimes mTrackTimes = thrTrackTimeQuery.get(); // blocks execution
-			SendTrackTimesEvent(mTrackTimes, vTrackIds);
+		m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
+	}
+	else if (m_bRunTrackTimeQuery)
+	{
+		m_bRunTrackTimeQuery = false;
 
-			m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
-			m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
-		}
+		// Because database is in threaded mode, we must (redundantly) put the query into a thread
+		EndTrackTimesThread(CreateTrackTimesThread());
+
+		m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("CheckingInternet"));
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
+		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
 	}
 	else if (bConfirm)
 	{
@@ -113,6 +134,7 @@ void Kartaclysm::StateMainMenu::PreRender()
 void Kartaclysm::StateMainMenu::Exit()
 {
 	m_bSuspended = true;
+	m_bRunTrackTimeQuery = true;
 
 	if (m_pGameObjectManager != nullptr)
 	{
@@ -122,14 +144,14 @@ void Kartaclysm::StateMainMenu::Exit()
 	}
 }
 
-void Kartaclysm::StateMainMenu::SendTrackTimesEvent(const DatabaseManager::TrackTimes& p_mTrackTimes, const std::set<Database::TrackPK>& p_vTrackIds) const
+void Kartaclysm::StateMainMenu::SendTrackTimesEvent(const DatabaseManager::TrackTimes& p_mTrackTimes) const
 {
 	if (p_mTrackTimes.empty()) return;
 
 	HeatStroke::Event* pEvent = new HeatStroke::Event("TrackTimeScreen");
 	unsigned int uiCount = 0;
 
-	for (auto eTrackId : p_vTrackIds)
+	for (auto eTrackId : m_vTrackIds)
 	{
 		auto find = p_mTrackTimes.find(eTrackId);
 		if (find == p_mTrackTimes.end()) continue;
@@ -152,3 +174,24 @@ void Kartaclysm::StateMainMenu::SendTrackTimesEvent(const DatabaseManager::Track
 	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 }
 
+std::future<Kartaclysm::DatabaseManager::TrackTimes> Kartaclysm::StateMainMenu::CreateTrackTimesThread() const
+{
+	DatabaseManager::Instance()->TryToConnect();
+
+	return std::async(
+		&DatabaseManager::SelectFastestTimes,
+		DatabaseManager::Instance(),
+		m_vTrackIds,
+		1);
+}
+
+void Kartaclysm::StateMainMenu::EndTrackTimesThread(std::future<Kartaclysm::DatabaseManager::TrackTimes>& p_thrTrackTimeQuery) const
+{
+	DatabaseManager::TrackTimes mTrackTimes = p_thrTrackTimeQuery.get(); // blocks execution
+	SendTrackTimesEvent(mTrackTimes);
+
+	if (mTrackTimes.empty())
+	{
+		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/no_internet.xml", "NoInternet");
+	}
+}

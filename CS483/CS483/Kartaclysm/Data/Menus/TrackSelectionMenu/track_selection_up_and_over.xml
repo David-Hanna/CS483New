@@ -54,7 +54,7 @@
     <!-- Global RaceTime -->
     <GameObject>
       <Transform>
-        <Translation x="77.5" y="-77.5" z="1.0" />
+        <Translation x="73.5" y="-77.5" z="1.0" />
         <Scale x="0.3" y="0.5" z="1.0"/>
       </Transform>
       <Components>

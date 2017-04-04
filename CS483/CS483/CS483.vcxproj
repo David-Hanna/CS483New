@@ -362,7 +362,12 @@
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml" />
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml" />
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\silver_medal.xml" />
-    <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\checking_internet.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\loading_message.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\no_internet.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />
     <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_options.xml">

@@ -27,6 +27,7 @@ namespace Kartaclysm
 		static void DestroyInstance();
 		static DatabaseManager* Instance();
 
+		bool TryToConnect();
 		void SetThreadedQueryMode(bool p_bThreaded) { m_bThreadedQueries = p_bThreaded; }
 
 		void StartTournament(unsigned int uiTournRaces);
