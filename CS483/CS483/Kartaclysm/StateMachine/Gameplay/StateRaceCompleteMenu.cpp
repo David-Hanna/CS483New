@@ -128,25 +128,14 @@ void Kartaclysm::StateRaceCompleteMenu::CreateDatabaseInsertStruct(const std::ma
 	{
 		Database::InsertRacePlayer mPlayer;
 		std::string strIndex = std::to_string(i);
+		mPlayer.is_human = p_mRaceResults.at("racerIsHuman" + strIndex) != "0";
 
 		std::string strPlayerId = p_mRaceResults.at("racerId" + strIndex);
-		switch (strPlayerId.at(0))
-		{
-			case 'a': mPlayer.player_num = iHumanPlayers + std::stoi(strPlayerId.substr(8)); // ai_racerX
-				break;
-			case 'P': mPlayer.player_num = std::stoi(strPlayerId.substr(6)); // PlayerX
-				break;
-			default: mPlayer.player_num = -1;
-#ifdef _DEBUG
-				assert(false && "Unknown racer GUID format");
-#endif
-				m_mRaceDatabaseInsert.valid = false;
-				return;
-		}
+		mPlayer.player_num = (mPlayer.is_human ? std::stoi(strPlayerId.substr(6)) : iHumanPlayers + std::stoi(strPlayerId.substr(8)));
 
 		std::string strPosition = p_mRaceResults.at("racerPosition" + strIndex);
 		mPlayer.position = (strPosition == "dnf" ? -1 : std::stoi(strPosition));
-		mPlayer.is_human = p_mRaceResults.at("racerIsHuman" + strIndex) != "0";
+
 		mPlayer.driver = Database::StringToDriverPK(p_mRaceResults.at("racerDriver" + strIndex));
 		mPlayer.kart = Database::StringToKartPK(p_mRaceResults.at("racerKart" + strIndex));
 		assert(mPlayer.driver != Database::eDriverError);

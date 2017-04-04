@@ -452,6 +452,7 @@ void Kartaclysm::StateRacing::FinishRace(const HeatStroke::Event* p_pEvent)
 std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults()
 {
 	std::map<std::string, std::string> mRaceResults;
+	mRaceResults.insert(std::pair<std::string, std::string>("numLaps", std::to_string(m_uiLapsNeeded)));
 	mRaceResults.insert(std::pair<std::string, std::string>("numRacers", std::to_string(m_uiNumRacers)));
 	mRaceResults.insert(std::pair<std::string, std::string>("numHumans", std::to_string(m_uiNumHumanRacers)));
 	mRaceResults.insert(std::pair<std::string, std::string>("numAI", std::to_string(m_uiNumAIRacers)));
