@@ -822,7 +822,7 @@ namespace Kartaclysm
 		{
 #ifdef _DEBUG
 			printf("KartController: Ability %s from %s targetting %s\n",
-				ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
+				ability.c_str(), originator.c_str(), target.c_str());
 #endif
 
 			// See if an ability is waiting to negate an attack
@@ -867,8 +867,11 @@ namespace Kartaclysm
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
 #ifdef _DEBUG
-			printf("KartController: Ability %s from %s targetting %s\n",
-				ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
+			if (target == "")
+			{
+				printf("KartController: Ability %s from %s targetting %s\n",
+					ability.c_str(), originator.c_str(), "self");
+			}
 #endif
 
 			if (ability.compare("Boost") == 0)
