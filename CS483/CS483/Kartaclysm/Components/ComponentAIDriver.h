@@ -46,6 +46,8 @@ namespace Kartaclysm
 			int& p_iSlide,
 			float& p_fTurn) const;
 
+		void SetNode(ComponentTrack::PathNode p_sNode);
+
 		// Ability use
 		void RegisterComponentAbility(ComponentAbility* p_pAbility);
 		float AngleToNextNode() { return m_fAngleToNextNode; }
@@ -67,6 +69,8 @@ namespace Kartaclysm
 		ComponentTrack::PathNode m_sCurrentNode;
 		float m_fXTarget;
 		float m_fZTarget;
+
+		glm::vec3 m_vInitialNodeDir;
 
 		int m_iAccelerate;
 		int m_iBrake;

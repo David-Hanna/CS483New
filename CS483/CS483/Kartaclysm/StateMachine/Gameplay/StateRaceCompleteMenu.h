@@ -20,6 +20,7 @@
 #include "PlayerInputMapping.h"
 #include "EasyXML.h"
 #include "AudioPlayer.h"
+#include "TimeFormat.h"
 #include "DatabaseManager.h"
 
 namespace Kartaclysm
@@ -48,13 +49,11 @@ namespace Kartaclysm
 		bool m_bInsertedIntoDatabase;
 		Database::InsertRace m_mRaceDatabaseInsert;
 
-		void AddRacerPositionToMap(std::map<std::string, std::string>* p_pRaceResults) const;
 		void CreateDatabaseInsertStruct(const std::map<std::string, std::string>& p_mRaceResults);
 		void CreateRaceInsertThread();
 		void SendRaceFinishEvent(const std::map<std::string, std::string>& p_mRaceResults) const;
 		void RecordBestTime(const std::map<std::string, std::string>& p_mRaceResults, const std::string& p_strXmlFilePath) const;
 		void PopulateRaceResultsList(const std::map<std::string, std::string>& p_mRaceResults) const;
-		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};
 }
 

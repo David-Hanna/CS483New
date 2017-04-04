@@ -6,10 +6,6 @@
 #include "AffectorVelocity.h"
 #include <cassert>
 
-// static member setup
-std::random_device HeatStroke::Emitter::s_Rand;
-std::mt19937 HeatStroke::Emitter::s_RNGesus = std::mt19937(HeatStroke::Emitter::s_Rand());
-
 HeatStroke::Emitter::Emitter(const std::string& p_strDefinitionFile)
 	:
 	m_bActive(false),
@@ -98,7 +94,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	}
 
 	m_pVB->Write(m_pVerts, v * sizeof(Vertex));
-	m_pIB->Write(m_pIndices, i * sizeof(GLuint));
+	m_pIB->Write(m_pIndices, i * sizeof(GLushort));
 
 	glm::mat4 mWorld =  glm::translate(m_Transform.GetTranslation()) * (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorld;
@@ -108,7 +104,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	m_pMat->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 	m_pMat->Apply();
 
-	glDrawElements(GL_TRIANGLES, i, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, i, GL_UNSIGNED_SHORT, 0);
 }
 
 void HeatStroke::Emitter::Start()
@@ -162,7 +158,7 @@ void HeatStroke::Emitter::InitBuffers()
 	m_pIB = BufferManager::CreateIndexBuffer(0);
 
 	m_pVerts = new Vertex[m_iNumParticles * 4];
-	m_pIndices = new GLuint[m_iNumParticles * 6];
+	m_pIndices = new GLushort[m_iNumParticles * 6];
 }
 
 void HeatStroke::Emitter::InitVertexDeclaration()
@@ -633,9 +629,11 @@ void HeatStroke::Emitter::ApplySpawnPropertyColor(Particle* p_pParticle)
 		auto rangeR = std::uniform_real_distribution<float>(m_vColorMin.r, m_vColorMax.r);
 		auto rangeG = std::uniform_real_distribution<float>(m_vColorMin.g, m_vColorMax.g);
 		auto rangeB = std::uniform_real_distribution<float>(m_vColorMin.b, m_vColorMax.b);
-		p_pParticle->m_vColor.r = rangeR(s_RNGesus);
-		p_pParticle->m_vColor.g = rangeG(s_RNGesus);
-		p_pParticle->m_vColor.b = rangeB(s_RNGesus);
+		auto RNGesus = Common::GetRNGesus();
+
+		p_pParticle->m_vColor.r = rangeR(RNGesus);
+		p_pParticle->m_vColor.g = rangeG(RNGesus);
+		p_pParticle->m_vColor.b = rangeB(RNGesus);
 	}
 	else
 	{
@@ -649,7 +647,7 @@ void HeatStroke::Emitter::ApplySpawnPropertyFade(Particle* p_pParticle)
 	if (m_bRandomFade)
 	{
 		auto range = std::uniform_real_distribution<float>(m_fFadeMin, m_fFadeMax);
-		p_pParticle->m_fFade = range(s_RNGesus);
+		p_pParticle->m_fFade = range(Common::GetRNGesus());
 	}
 	else
 	{
@@ -663,7 +661,7 @@ void HeatStroke::Emitter::ApplySpawnPropertyLifetime(Particle* p_pParticle)
 	if (m_bRandomLifetime)
 	{
 		auto range = std::uniform_real_distribution<float>(m_fLifetimeMin, m_fLifetimeMax);
-		p_pParticle->m_fAgeFactor = 1.0f / range(s_RNGesus);
+		p_pParticle->m_fAgeFactor = 1.0f / range(Common::GetRNGesus());
 	}
 	else
 	{
@@ -677,7 +675,7 @@ void HeatStroke::Emitter::ApplySpawnPropertySize(Particle* p_pParticle)
 	if (m_bRandomSize)
 	{
 		auto range = std::uniform_real_distribution<float>(m_fSizeMin, m_fSizeMax);
-		p_pParticle->m_fSize = range(s_RNGesus);
+		p_pParticle->m_fSize = range(Common::GetRNGesus());
 	}
 	else
 	{
@@ -693,9 +691,11 @@ void HeatStroke::Emitter::ApplySpawnPropertyVelocity(Particle* p_pParticle)
 		auto rangeX = std::uniform_real_distribution<float>(m_vVelocityMin.x, m_vVelocityMax.x);
 		auto rangeY = std::uniform_real_distribution<float>(m_vVelocityMin.y, m_vVelocityMax.y);
 		auto rangeZ = std::uniform_real_distribution<float>(m_vVelocityMin.z, m_vVelocityMax.z);
-		p_pParticle->m_vVelocity.x = rangeX(s_RNGesus);
-		p_pParticle->m_vVelocity.y = rangeY(s_RNGesus);
-		p_pParticle->m_vVelocity.z = rangeZ(s_RNGesus);
+		auto RNGesus = Common::GetRNGesus();
+
+		p_pParticle->m_vVelocity.x = rangeX(RNGesus);
+		p_pParticle->m_vVelocity.y = rangeY(RNGesus);
+		p_pParticle->m_vVelocity.z = rangeZ(RNGesus);
 	}
 	else
 	{
@@ -708,7 +708,7 @@ void HeatStroke::Emitter::GetTimeToNextBurst()
 	if (m_bRandomBurstTimer)
 	{
 		auto range = std::uniform_real_distribution<float>(m_fBurstRateMin, m_fBurstRateMax);
-		m_fTimeToBurst = range(s_RNGesus);
+		m_fTimeToBurst = range(Common::GetRNGesus());
 	}
 	else
 	{
@@ -719,5 +719,6 @@ void HeatStroke::Emitter::GetTimeToNextBurst()
 //TEMP
 void HeatStroke::Emitter::SetRandomPosition(Particle* p_pParticle)
 {
+	// TODO: Not very random
 	p_pParticle->m_vPos = glm::vec3(0.0f, 0.05f, 0.0f);
 }

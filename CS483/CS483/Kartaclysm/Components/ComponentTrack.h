@@ -32,6 +32,12 @@ namespace Kartaclysm
 				int index;
 			};
 
+			struct NodeTrigger
+			{
+				PathNode node;
+				std::string trackPieceIndex;
+			};
+
 			virtual const std::string FamilyID() const override { return "GOC_Track"; }
 			virtual const std::string ComponentID() const override { return "GOC_Track"; }
 
@@ -65,12 +71,13 @@ namespace Kartaclysm
 			const HeatStroke::GameObject* GetNextTrackPiece(int p_iCurrentTrackPieceIndex) const { return m_vTrackPieces[GetNextTrackPieceIndex(p_iCurrentTrackPieceIndex)]; }
 
 		protected:
-			ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName, std::vector<PathNode>& p_vNodes);
+			ComponentTrack(HeatStroke::GameObject* p_pGameObject, const std::string& p_strTrackName, std::vector<PathNode>& p_vNodes, std::vector<NodeTrigger>& p_vNodeTriggers);
 
 		private:
 			std::string m_strTrackName;
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
 			std::vector<PathNode> m_vPathfindingNodes;
+			std::vector<NodeTrigger> m_vNodeTriggers;
 			//NOTE: components are stored instead of objects, as it's faster to access objects from components than components from objects
 			std::vector<ComponentRacer*> m_vRacers;
 			std::map<std::string, ComponentSimplePhysics*> m_vPhysicsObjects;
@@ -102,7 +109,7 @@ namespace Kartaclysm
 			int m_iLapsToFinishTrack;
 			bool m_bRacerIsOffroad;		// if at least one racer is offroad, play driving_on_grass sfx.
 
-			static std::vector<PathNode> ParsePathfindingNodes(tinyxml2::XMLNode* p_pRootNode);
+			static std::vector<PathNode> ParsePathfindingNodes(tinyxml2::XMLNode* p_pRootNode, std::vector<NodeTrigger>* p_vNodeTriggers);
 	};
 }
 

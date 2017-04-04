@@ -19,7 +19,7 @@ class IndexBuffer : public Buffer
 
 
 	public:
-		virtual int GetNumIndices() const { return m_uiLength / 2; }
+		virtual int GetNumIndices() const { return m_uiLength / sizeof(GLushort); }
 		virtual void Bind();
 		virtual void Write(const void* p_pData, int p_iLength = -1);
 

@@ -6,6 +6,7 @@
 #include "Affector.h"
 #include "Particle.h"
 #include "Common.h"
+#include "RNGesus.h"
 #include "EasyXML.h"
 #include "HierarchicalTransform.h"
 #include "SceneCamera.h"
@@ -56,7 +57,7 @@ namespace HeatStroke
 			Particle* m_pActiveHead;
 			Particle* m_pActiveTail;
 			Vertex* m_pVerts;
-			GLuint* m_pIndices;
+			GLushort* m_pIndices;
 			std::vector<Affector*> m_vAffectors;
 
 			// spawn properties
@@ -126,11 +127,6 @@ namespace HeatStroke
 			void ApplySpawnPropertyVelocity(Particle* p_pParticle);
 
 			void GetTimeToNextBurst();
-
-			// RNGesus
-			// TODO - move to custom Random class
-			static std::random_device s_Rand;
-			static std::mt19937 s_RNGesus;
 			void SetRandomPosition(Particle* p_pParticle);
 	};
 }

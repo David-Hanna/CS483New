@@ -26,6 +26,8 @@ namespace Kartaclysm
 		m_fXTarget = m_sCurrentNode.x;
 		m_fZTarget = m_sCurrentNode.z;
 
+		m_vInitialNodeDir = glm::vec3(1.0f, 1.0f, 1.0f);
+
 		m_fAngleToNextNode = 0.0f;
 		m_fDistanceToNextNode = 0.0f;
 	}
@@ -52,23 +54,29 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
-		// Path progress
-		m_fDistanceToNextNode = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
-		if (m_fDistanceToNextNode <= m_sCurrentNode.radius)
-		{
-			NextNode();
-		}
-
 		// Update "inputs"
 		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
 		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
 		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_fAngleToNextNode = fabsf(fAngle);
 
+		// Path progress
+		m_fDistanceToNextNode = sqrtf(powf(x - m_fXTarget, 2) + powf(z - m_fZTarget, 2));
+		float fAngleFromInitialPos = fabsf(glm::orientedAngle(vPosDelta, m_vInitialNodeDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+		if (m_fDistanceToNextNode <= m_sCurrentNode.radius || fAngleFromInitialPos >= 1.57f)
+		{
+			NextNode();
+		}
+
 		// Stop accelerating if you need to make a very tight turn
-		if (m_fAngleToNextNode <= 1.2f)
+		if (m_fAngleToNextNode <= 1.0f)
 		{
 			m_iAccelerate = 1;
+			m_iBrake = 0;
+		}
+		else if(m_fAngleToNextNode <= 1.2f)
+		{
+			m_iAccelerate = 0;
 			m_iBrake = 0;
 		}
 		else
@@ -87,22 +95,34 @@ namespace Kartaclysm
 		}
 		else
 		{
-			m_fTurn = fmaxf(fminf(fAngle * (0.5f + (fAngle * 2.0f)), 1.0f), -1.0f);
+			float fTurnMagnitude = fminf(fabsf(fAngle) * (1.0f + (fabsf(fAngle) * 2.0f)), 1.0f);
+			m_fTurn = fTurnMagnitude * (fAngle >= 0.0f ? 1.0f : -1.0f);
 		}
 
 		// Swerve if turning
-		if (m_fAngleToNextNode <= 1.2f && m_fAngleToNextNode >= 0.5f && m_iSlide == 0)
+		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+		if (pKartController != nullptr)
 		{
-			m_iSlide = 1;
-			m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
-		}
-		else if (m_fAngleToNextNode <= 0.2f && m_iSlide == 1)
-		{
-			m_iSlide = 0;
-		}
-		else if ((m_iSlideDir > 0 && m_fTurn < 0) || (m_iSlideDir < 0 && m_fTurn > 0))
-		{
-			m_iSlide = 0;
+			if (pKartController->IsOffroad())
+			{
+				m_iSlide = 0;
+			}
+			else
+			{
+				if (m_fAngleToNextNode <= 1.0f && m_fAngleToNextNode >= 0.4f && m_fDistanceToNextNode >= 4.0f && m_iSlide == 0)
+				{
+					m_iSlide = 1;
+					m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
+				}
+				else if (m_fAngleToNextNode <= 0.1f && m_iSlide == 1)
+				{
+					m_iSlide = 0;
+				}
+				else if ((m_iSlideDir > 0 && m_fTurn < 0) || (m_iSlideDir < 0 && m_fTurn > 0))
+				{
+					m_iSlide = 0;
+				}
+			}
 		}
 
 		// Use abilites
@@ -191,7 +211,15 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
 			ComponentTrack* pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
-			m_sCurrentNode = pTrackComponent->GetNextNode(m_sCurrentNode.index);
+			SetNode(pTrackComponent->GetNextNode(m_sCurrentNode.index));
+		}
+	}
+
+	void ComponentAIDriver::SetNode(ComponentTrack::PathNode p_sNode)
+	{
+		if (p_sNode.index != m_sCurrentNode.index)
+		{
+			m_sCurrentNode = p_sNode;
 
 			// Randomize target position
 			float theta = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (PI * 2.0f)));
@@ -200,6 +228,8 @@ namespace Kartaclysm
 
 			m_fXTarget = m_sCurrentNode.x + (cosf(theta) * r);
 			m_fZTarget = m_sCurrentNode.z + (sinf(theta) * r);
+
+			m_vInitialNodeDir = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(m_pGameObject->GetTransform().GetTranslation().x, 0.0f, m_pGameObject->GetTransform().GetTranslation().z));
 		}
 	}
 

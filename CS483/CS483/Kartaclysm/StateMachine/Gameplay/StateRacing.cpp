@@ -36,6 +36,7 @@ Kartaclysm::StateRacing::~StateRacing()
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
+	assert(m_pStateMachine->size() == 1); // this should be the only state on the stack
 	m_bSuspended = false;
 	m_fTimeRemaining = -1.0f;
 	m_vRaceResults.clear();
@@ -328,27 +329,25 @@ void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
-	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
+	if (m_bSuspended) return;
 
-		if (m_bRaceEndCountdown)
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	if (m_bRaceEndCountdown)
+	{
+		m_fTimeRemaining -= p_fDelta;
+		if (m_fTimeRemaining <= 0.0f)
 		{
-			m_fTimeRemaining -= p_fDelta;
-			if (m_fTimeRemaining <= 0.0f)
-			{
-				HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
-				HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
-			}
+			HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
+			HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 		}
-		else if (m_bRaceStartCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
-		{
-			m_bRaceStartCountdown = false;
-			m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
-			return;
-		}
+	}
+	else if (m_bRaceStartCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
+	{
+		m_bRaceStartCountdown = false;
+		m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
+		return;
 	}
 }
 
@@ -473,7 +472,7 @@ std::map<std::string, std::string> Kartaclysm::StateRacing::GenerateRaceResults(
 
 		mRaceResults.insert(std::pair<std::string, std::string>("racerId" + strIndex, results.m_strRacerId));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerTime" + strIndex, std::to_string(results.m_fRaceTime)));
-		mRaceResults.insert(std::pair<std::string, std::string>("racerPosition" + strIndex, std::to_string(results.m_iPosition)));
+		mRaceResults.insert(std::pair<std::string, std::string>("racerPosition" + strIndex, results.m_iPosition == -1 ? "dnf" : std::to_string(results.m_iPosition)));
 		mRaceResults.insert(std::pair<std::string, std::string>("racerIsHuman" + strIndex, pRacerComponent->IsHumanPlayer() ? "1" : "0"));
 
 		std::string strDriver = "", strKart = "";

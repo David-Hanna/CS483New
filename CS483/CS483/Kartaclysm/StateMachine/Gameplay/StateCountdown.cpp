@@ -34,62 +34,60 @@ void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>&
 
 void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	// Tell the HUD to update the countdown
+	m_fTimer -= p_fDelta;
+	HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
+	pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
+	HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
+
+	// Check conditions for race start and boosts
+	if (m_fTimer <= 0.0f)
 	{
-		// Tell the HUD to update the countdown
-		m_fTimer -= p_fDelta;
-		HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
-		pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
-		HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
-
-		// Check conditions for race start and boosts
-		if (m_fTimer <= 0.0f)
+		// Enable kart movement and provide boosts
+		HeatStroke::Event* pCountdownEvent = new HeatStroke::Event("KartCountdown");
+		pCountdownEvent->SetIntParameter("Disable", 0);
+		for (int i = 0; i < m_iPlayerCount; i++)
 		{
-			// Enable kart movement and provide boosts
-			HeatStroke::Event* pCountdownEvent = new HeatStroke::Event("KartCountdown");
-			pCountdownEvent->SetIntParameter("Disable", 0);
-			for (int i = 0; i < m_iPlayerCount; i++)
-			{
-				pCountdownEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
-			}
-			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
-
-			m_pStateMachine->Pop();
+			pCountdownEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
 		}
-		else
+		HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
+
+		m_pStateMachine->Pop();
+	}
+	else
+	{
+		// Get player accelerations to determine boost timing
+		for (int i = 0; i < m_iPlayerCount; i++)
 		{
-			// Get player accelerations to determine boost timing
-			for (int i = 0; i < m_iPlayerCount; i++)
+			int iAccelerate, iBrake, iSlide;
+			float fTurn;
+			PlayerInputMapping::Instance()->QueryPlayerMovement(i, iAccelerate, iBrake, iSlide, fTurn);
+
+			if (m_fTimer <= 0.25f)
 			{
-				int iAccelerate, iBrake, iSlide;
-				float fTurn;
-				PlayerInputMapping::Instance()->QueryPlayerMovement(i, iAccelerate, iBrake, iSlide, fTurn);
-
-				if (m_fTimer <= 0.25f)
+				// Final stretch: must continue accelerating
+				if (iAccelerate == 0)
 				{
-					// Final stretch: must continue accelerating
-					if (iAccelerate == 0)
-					{
-						m_vGainsBoost[i] = false;
-					}
+					m_vGainsBoost[i] = false;
 				}
-				else if (m_fTimer <= 0.5f)
-				{
-					// Sweet spot: Must begin acceleration in this phase
-					if (iAccelerate && (!m_vAccelerating[i] || m_vGainsBoost[i]))
-					{
-						m_vGainsBoost[i] = true;
-					}
-					else
-					{
-						m_vGainsBoost[i] = false;
-					}
-				}
-
-				// Update acceleration status for previous frame
-				m_vAccelerating[i] = (iAccelerate != 0);
 			}
+			else if (m_fTimer <= 0.5f)
+			{
+				// Sweet spot: Must begin acceleration in this phase
+				if (iAccelerate && (!m_vAccelerating[i] || m_vGainsBoost[i]))
+				{
+					m_vGainsBoost[i] = true;
+				}
+				else
+				{
+					m_vGainsBoost[i] = false;
+				}
+			}
+
+			// Update acceleration status for previous frame
+			m_vAccelerating[i] = (iAccelerate != 0);
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace HeatStroke
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-IndexBuffer::IndexBuffer(unsigned int p_uiNumIndices) : m_uiLength(p_uiNumIndices*2)
+IndexBuffer::IndexBuffer(unsigned int p_uiNumIndices) : m_uiLength(p_uiNumIndices * sizeof(GLushort))
 {
 	glGenBuffers(1, &m_uiBuffer);
 	GL_CHECK_ERROR(__FILE__, __LINE__);

@@ -56,6 +56,7 @@ namespace Kartaclysm
 		float GetRotationMod();
 		bool IsInWheelie() const { return m_bWheelie; }
 		bool IsAirborne() const { return m_bAirborne; }
+		bool IsOffroad() const { return m_bOffroad; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
 		bool GetAI() const { return m_bAI; }
