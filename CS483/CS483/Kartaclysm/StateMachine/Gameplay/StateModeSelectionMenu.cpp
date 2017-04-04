@@ -71,6 +71,7 @@ void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)
 			m_pStateMachine->Push(STATE_TOURNAMENT, mContextParameters);
 			break;
 		case 2:
+			mContextParameters["background"] = "CS483/CS483/Kartaclysm/Data/Menus/background.xml";
 			m_pStateMachine->Push(STATE_OPTIONS_MENU, mContextParameters);
 			break;
 		}
