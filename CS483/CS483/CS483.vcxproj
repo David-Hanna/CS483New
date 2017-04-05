@@ -315,6 +315,7 @@
     <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_rain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml" />

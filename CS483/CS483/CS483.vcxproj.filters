@@ -1924,5 +1924,8 @@
     <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml">
       <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
