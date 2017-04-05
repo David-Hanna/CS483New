@@ -62,6 +62,7 @@ namespace Kartaclysm
 			int GetRearHumanPosition();
 
 			const std::string& GetTrackName() const { return m_strTrackName; }
+			int GetLapsToFinishTrack() const { return m_iLapsToFinishTrack; }
 
 			int GetNumberOfRacers() { return m_vRacers.size(); }
 

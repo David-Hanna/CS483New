@@ -34,6 +34,8 @@
 #include "ModelManager.h"
 #include "SpriteManager.h"
 #include "FontManager.h"
+#include "MySQLConnector.h"
+#include "DatabaseManager.h"
 
 namespace Kartaclysm
 {

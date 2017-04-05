@@ -29,6 +29,11 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::AudioPlayer::CreateInstance();
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/Local/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
+	HeatStroke::MySQLConnector::CreateInstance();
+	DatabaseManager::CreateInstance();
+
+	// Run all queries on threads
+	DatabaseManager::Instance()->SetThreadedQueryMode(true);
 
 	// Preload sprites (needed for title image and loading message on main menu)
 	HeatStroke::SpriteManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
@@ -88,6 +93,7 @@ void Kartaclysm::KartGame::Shutdown()
 
 	HeatStroke::AudioPlayer::Instance()->StopMusic();
 
+	DatabaseManager::DestroyInstance();
 	PlayerInputMapping::DestroyInstance();
 	InputActionMapping::DestroyInstance();
 	HeatStroke::AudioPlayer::DestroyInstance();
@@ -99,4 +105,5 @@ void Kartaclysm::KartGame::Shutdown()
 	HeatStroke::SpriteManager::DestroyInstance();
 	HeatStroke::ModelManager::DestroyInstance();
 	HeatStroke::CollisionManager::DestroyInstance();
+	HeatStroke::MySQLConnector::DestroyInstance();
 }
