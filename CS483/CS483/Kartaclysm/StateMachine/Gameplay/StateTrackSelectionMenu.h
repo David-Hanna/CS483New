@@ -18,6 +18,7 @@
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -54,9 +55,6 @@ namespace Kartaclysm
 		virtual void LoadLocalTrackTimesFromXml(const std::string& p_strFileName, const std::vector<HeatStroke::GameObject*>& p_vTracks);
 		virtual void FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks);
 		virtual void TrackTimeCallback(const HeatStroke::Event* p_pEvent);
-
-		// Another repeat of the same function from StateRaceComplete
-		std::string FormatTime(const std::string& p_strUnformattedTime) const;
 	};
 }
 

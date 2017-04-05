@@ -215,7 +215,7 @@ void Kartaclysm::StateTrackSelectionMenu::TrackTimeCallback(const HeatStroke::Ev
 
 		std::string strFormattedTrackName(strTrackName);
 		std::replace(strFormattedTrackName.begin(), strFormattedTrackName.end(), ' ', '_');
-		std::string strFormattedTime = FormatTime(std::to_string(fTime));
+		std::string strFormattedTime = Common::TimeStringFromFloat(fTime);
 
 		auto pTrackTime = &m_mTrackTimes[strFormattedTrackName];
 		if (pTrackTime->m_strGlobalRace == "--:--.--" ||
@@ -224,27 +224,4 @@ void Kartaclysm::StateTrackSelectionMenu::TrackTimeCallback(const HeatStroke::Ev
 			pTrackTime->m_strGlobalRace = strFormattedTime;
 		}
 	}
-}
-
-std::string Kartaclysm::StateTrackSelectionMenu::FormatTime(const std::string& p_strUnformattedTime) const
-{
-	float fUnformattedTime = std::stof(p_strUnformattedTime);
-	if (fUnformattedTime >= 3599.99f) return "59:99.99";
-
-	int iMinutes = static_cast<int>(fUnformattedTime / 60.0f);
-	float fSeconds = fmod(fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
 }
