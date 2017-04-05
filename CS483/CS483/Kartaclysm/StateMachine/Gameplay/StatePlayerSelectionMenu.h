@@ -42,6 +42,19 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		enum CURRENT_SELECTION
+		{
+			SELECTION_CONTROL,
+			SELECTION_DRIVER,
+			SELECTION_KART
+		};
+
+		enum CONTROL_SELECTION
+		{
+			CONTROL_HUMAN,
+			CONTROL_BOT
+		};
+
 		// TODO - should be loading karts/drivers from xml
 		enum DRIVER_SELECTION
 		{
@@ -61,8 +74,10 @@ namespace Kartaclysm
 		{
 			bool					bJoined;
 			bool					bReady;
-			bool					bDriverHighlighted;
+			
+			CURRENT_SELECTION		eCurrentSelection;
 
+			CONTROL_SELECTION		eSelectedControl;
 			DRIVER_SELECTION		eSelectedDriver;
 			KART_SELECTION			eSelectedKart;
 
@@ -77,6 +92,7 @@ namespace Kartaclysm
 			int						iKartDurabilityStat;
 
 			HeatStroke::GameObject* pPressStartToJoin;
+			HeatStroke::GameObject* pControlSelection;
 			HeatStroke::GameObject* pDriverSelection;
 			HeatStroke::GameObject* pKartSelection;
 			HeatStroke::GameObject* pReadyButton;
@@ -99,6 +115,7 @@ namespace Kartaclysm
 		std::map<std::string, std::string> m_mContextParameters;
 
 		unsigned int m_uiNumPlayers;
+		unsigned int m_uiNumAIRacers;
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 
 		void Initialize();
