@@ -1,51 +1,51 @@
 <Preload>
   <Models>
-    <!--<Model path="Assets/Kart/Kart.obj"/>-->
+    <!--<Model path="Assets/Kart/Kart.hobj"/>-->
 
-    <Model path="Assets/Drivers/KingPin/king-pin.obj"/>
-    <Model path="Assets/Drivers/Clockmaker/clockmaker.obj"/>
-    <Model path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
+    <Model path="Assets/Drivers/KingPin/king-pin.hobj"/>
+    <Model path="Assets/Drivers/Clockmaker/clockmaker.hobj"/>
+    <Model path="Assets/Drivers/Cleopapa/cleopapa.hobj"/>
 
-    <Model path="Assets/Kart/Speedster/speedster.obj"/>
-    <Model path="Assets/Kart/Juggernaut/juggernaut.obj"/>
-    <Model path="Assets/Kart/Showoff/showoff.obj"/>
+    <Model path="Assets/Kart/Speedster/speedster.hobj"/>
+    <Model path="Assets/Kart/Juggernaut/juggernaut.hobj"/>
+    <Model path="Assets/Kart/Showoff/showoff.hobj"/>
     
-    <Model path="Assets/Track/track_finish.obj"/>
-    <Model path="Assets/Track/track_jump.obj"/>
-    <Model path="Assets/Track/track_ramp_down_flat.obj"/>
-    <Model path="Assets/Track/track_ramp_flat_down.obj"/>
-    <Model path="Assets/Track/track_ramp_flat_up.obj"/>
-    <Model path="Assets/Track/track_ramp_up_flat.obj"/>
-    <Model path="Assets/Track/track_straight.obj"/>
-    <Model path="Assets/Track/track_turn_left_large.obj"/>
-    <Model path="Assets/Track/track_turn_left_small.obj"/>
-    <Model path="Assets/Track/track_turn_right_large.obj"/>
-    <Model path="Assets/Track/track_turn_right_small.obj"/>
+    <Model path="Assets/Track/track_finish.hobj"/>
+    <Model path="Assets/Track/track_jump.hobj"/>
+    <Model path="Assets/Track/track_ramp_down_flat.hobj"/>
+    <Model path="Assets/Track/track_ramp_flat_down.hobj"/>
+    <Model path="Assets/Track/track_ramp_flat_up.hobj"/>
+    <Model path="Assets/Track/track_ramp_up_flat.hobj"/>
+    <Model path="Assets/Track/track_straight.hobj"/>
+    <Model path="Assets/Track/track_turn_left_large.hobj"/>
+    <Model path="Assets/Track/track_turn_left_small.hobj"/>
+    <Model path="Assets/Track/track_turn_right_large.hobj"/>
+    <Model path="Assets/Track/track_turn_right_small.hobj"/>
     
-    <Model path="Assets/Wall/wall_north_south.obj"/>
-    <Model path="Assets/Wall/wall_east_west.obj"/>
-    <Model path="Assets/Wall/wall_flat_up.obj"/>
-    <Model path="Assets/Wall/wall_flat_down.obj"/>
-    <Model path="Assets/Wall/wall_down_flat.obj"/>
-    <Model path="Assets/Wall/wall_up_flat.obj"/>
-    <Model path="Assets/Wall/fence.obj"/>
-    <Model path="Assets/Wall/fence_wall.obj"/>
+    <Model path="Assets/Wall/wall_north_south.hobj"/>
+    <Model path="Assets/Wall/wall_east_west.hobj"/>
+    <Model path="Assets/Wall/wall_flat_up.hobj"/>
+    <Model path="Assets/Wall/wall_flat_down.hobj"/>
+    <Model path="Assets/Wall/wall_down_flat.hobj"/>
+    <Model path="Assets/Wall/wall_up_flat.hobj"/>
+    <Model path="Assets/Wall/fence.hobj"/>
+    <Model path="Assets/Wall/fence_wall.hobj"/>
 
     
-    <Model path="Assets/Track/grass_flat_large.obj"/>
-    <Model path="Assets/Track/grass_flat_small.obj"/>
-    <Model path="Assets/Track/grass_bottom_to_top_bottom.obj"/>
-    <Model path="Assets/Track/grass_up_full.obj"/>
-    <Model path="Assets/Track/grass_bottom_to_top_mid.obj"/>
-    <Model path="Assets/Track/grass_top_mid_to_top.obj"/>
-    <Model path="Assets/Track/grass_flat_up.obj"/>
-    <Model path="Assets/Track/grass_up_flat.obj"/>
-    <Model path="Assets/Track/grass_bottom_to_mid_bottom.obj"/>
-    <Model path="Assets/Track/grass_bottom_to_mid_top.obj"/>
-    <Model path="Assets/Track/grass_mid_bottom_to_top.obj"/>
+    <Model path="Assets/Track/grass_flat_large.hobj"/>
+    <Model path="Assets/Track/grass_flat_small.hobj"/>
+    <Model path="Assets/Track/grass_bottom_to_top_bottom.hobj"/>
+    <Model path="Assets/Track/grass_up_full.hobj"/>
+    <Model path="Assets/Track/grass_bottom_to_top_mid.hobj"/>
+    <Model path="Assets/Track/grass_top_mid_to_top.hobj"/>
+    <Model path="Assets/Track/grass_flat_up.hobj"/>
+    <Model path="Assets/Track/grass_up_flat.hobj"/>
+    <Model path="Assets/Track/grass_bottom_to_mid_bottom.hobj"/>
+    <Model path="Assets/Track/grass_bottom_to_mid_top.hobj"/>
+    <Model path="Assets/Track/grass_mid_bottom_to_top.hobj"/>
   
-    <Model path="Assets/Abilities/bowling_ball.obj"/>
-    <Model path="Assets/Abilities/bomb.obj"/>
+    <Model path="Assets/Abilities/bowling_ball.hobj"/>
+    <Model path="Assets/Abilities/bomb.hobj"/>
   </Models>
 
   <SoundEffects>
