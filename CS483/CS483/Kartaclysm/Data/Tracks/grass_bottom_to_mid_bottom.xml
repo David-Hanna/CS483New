@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Track/grass_bottom_to_mid_bottom.obj"/>
+			<OBJFileName path="Assets/Track/grass_bottom_to_mid_bottom.hobj"/>
 		</GOC_3DModel>
 	</Components>
 

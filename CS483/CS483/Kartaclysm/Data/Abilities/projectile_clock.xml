@@ -10,7 +10,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Abilities/bomb.obj"/>
+      <OBJFileName path="Assets/Abilities/bomb.hobj"/>
     </GOC_3DModel>
 
     <GOC_SphereCollider>

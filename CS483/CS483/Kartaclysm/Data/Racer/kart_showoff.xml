@@ -19,7 +19,7 @@
 		</GOC_ParticleEffect>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Showoff/showoff.obj"/>
+      <OBJFileName path="Assets/Kart/Showoff/showoff.hobj"/>
     </GOC_3DModel>
 
     <GOC_KartStats>

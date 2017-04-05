@@ -6,7 +6,7 @@
       <Wall height="10" width="5" />
     </GOC_WallCollider>
     <GOC_3DModel>
-      <OBJFileName path="Assets/Wall/wall_east_west.obj"/>
+      <OBJFileName path="Assets/Wall/wall_east_west.hobj"/>
     </GOC_3DModel>
   </Components>
 

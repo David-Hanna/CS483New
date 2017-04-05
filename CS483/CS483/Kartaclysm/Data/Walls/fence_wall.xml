@@ -1,7 +1,7 @@
 <GameObject>
   <Components>
     <GOC_3DModel>
-      <OBJFileName path="Assets/Wall/fence_wall.obj"/>
+      <OBJFileName path="Assets/Wall/fence_wall.hobj"/>
     </GOC_3DModel>
   </Components>
 

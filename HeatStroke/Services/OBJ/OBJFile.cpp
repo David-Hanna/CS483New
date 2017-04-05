@@ -1,24 +1,12 @@
 //================================================================================
 // OBJFile.cpp
 // Author: David Hanna
+// Modified by: Matthew White
 // 
 // Loads an OBJ file into a collection of data that may be used by other objects.
 //================================================================================
 
 #include "OBJFile.h"
-
-std::string HeatStroke::OBJFile::OBJVertex::ToString() const
-{
-	std::string strResult;
-
-	strResult += std::to_string(m_uiPositionIndex);
-	strResult += "/";
-	strResult += std::to_string(m_uiUVIndex);
-	strResult += "/";
-	strResult += std::to_string(m_uiNormalIndex);
-
-	return strResult;
-}
 
 HeatStroke::OBJFile::OBJFile(const std::string& p_strOBJFileName) :
 	OBJ_FILE_NAME(p_strOBJFileName),
@@ -35,185 +23,102 @@ bool HeatStroke::OBJFile::ParseFile()
 		return true;
 	}
 
-	std::FILE* pFile = std::fopen(OBJ_FILE_NAME.c_str(), "r");
-	if (pFile)
+	if (ParseHOBJ())
 	{
-		const int iLineLength = 80;
-		char cstrLine[iLineLength];
-
-		while (std::fgets(cstrLine, iLineLength, pFile))
-		{
-			ParseLine(cstrLine);
-		}
-
-		fclose(pFile);
 		m_bLoaded = true;
 		return true;
 	}
-	else
+	return false;
+}
+
+bool HeatStroke::OBJFile::ParseHOBJ()
+{
+	std::fstream fsFile(OBJ_FILE_NAME, std::ios::in | std::ios::binary);
+	if (!fsFile)
 	{
 		return false;
 	}
+
+	fsFile.seekg(0);
+
+	ParseMaterial(fsFile);
+	ParseVertices(fsFile);
+	ParseUVs(fsFile);
+	ParseNormals(fsFile);
+	ParseObjects(fsFile);
+
+	fsFile.close();
+	return true;
 }
 
-void HeatStroke::OBJFile::ParseLine(const char* p_cstrLine)
+void HeatStroke::OBJFile::ParseMaterial(std::fstream& p_fsHOBJ)
 {
-	static char s_cstrLineType[10];
+	size_t uiMaterialFileNameLength = 0;
+	p_fsHOBJ.read(reinterpret_cast<char*>(&uiMaterialFileNameLength), sizeof(size_t));
+	char* cstrMaterialFileName = new char[uiMaterialFileNameLength + 1];
+	p_fsHOBJ.read(cstrMaterialFileName, uiMaterialFileNameLength * sizeof(char));
+	cstrMaterialFileName[uiMaterialFileNameLength] = '\0';
 
-	sscanf(p_cstrLine, "%s", s_cstrLineType);
-	if (std::strcmp(s_cstrLineType, "f") == 0)
-	{
-		ParseFace(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "v") == 0)
-	{
-		ParseVertex(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "vt") == 0)
-	{
-		ParseUV(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "vn") == 0)
-	{
-		ParseNormal(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "o") == 0)
-	{
-		ParseObject(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "usemtl") == 0)
-	{
-		ParseUseMTL(p_cstrLine);
-	}
-	else if (std::strcmp(s_cstrLineType, "mtllib") == 0)
-	{
-		ParseMTLLib(p_cstrLine);
-	}
+	m_strMTLFileName = cstrMaterialFileName;
+	delete[] cstrMaterialFileName;
+	cstrMaterialFileName = nullptr;
 }
 
-void HeatStroke::OBJFile::ParseFace(const char* p_cstrLine)
+void HeatStroke::OBJFile::ParseVertices(std::fstream& p_fsHOBJ)
 {
-	static OBJVertex s_v1;
-	static OBJVertex s_v2;
-	static OBJVertex s_v3;
-
-	sscanf(p_cstrLine, "f %u/%u/%u %u/%u/%u %u/%u/%u",
-		&s_v1.m_uiPositionIndex, &s_v1.m_uiUVIndex, &s_v1.m_uiNormalIndex,
-		&s_v2.m_uiPositionIndex, &s_v2.m_uiUVIndex, &s_v2.m_uiNormalIndex,
-		&s_v3.m_uiPositionIndex, &s_v3.m_uiUVIndex, &s_v3.m_uiNormalIndex);
-
-	--s_v1.m_uiPositionIndex;
-	--s_v1.m_uiUVIndex;
-	--s_v1.m_uiNormalIndex;
-	--s_v2.m_uiPositionIndex;
-	--s_v2.m_uiUVIndex;
-	--s_v2.m_uiNormalIndex;
-	--s_v3.m_uiPositionIndex;
-	--s_v3.m_uiUVIndex;
-	--s_v3.m_uiNormalIndex;
-
-	OBJFace face;
-	face.push_back(s_v1);
-	face.push_back(s_v2);
-	face.push_back(s_v3);
-	m_vOBJObjectList.back().m_vFaces.push_back(face);
+	size_t uiNumVertices = 0;
+	p_fsHOBJ.read(reinterpret_cast<char*>(&uiNumVertices), sizeof(size_t));
+	m_vPositions.resize(uiNumVertices / 3);
+	p_fsHOBJ.read(reinterpret_cast<char*>(&m_vPositions[0]), uiNumVertices * sizeof(float));
 }
 
-void HeatStroke::OBJFile::ParseVertex(const char* p_cstrLine)
+void HeatStroke::OBJFile::ParseUVs(std::fstream& p_fsHOBJ)
 {
-	static glm::vec3 s_vPos(0.0f, 0.0f, 0.0f);
-
-	sscanf(p_cstrLine, "v %f %f %f", &s_vPos.x, &s_vPos.y, &s_vPos.z);
-	m_vPositions.push_back(s_vPos);
+	size_t uiNumUVs = 0;
+	p_fsHOBJ.read(reinterpret_cast<char*>(&uiNumUVs), sizeof(size_t));
+	m_vUVs.resize(uiNumUVs / 2);
+	p_fsHOBJ.read(reinterpret_cast<char*>(&m_vUVs[0]), uiNumUVs * sizeof(float));
 }
 
-void HeatStroke::OBJFile::ParseUV(const char* p_cstrLine)
+void HeatStroke::OBJFile::ParseNormals(std::fstream& p_fsHOBJ)
 {
-	static glm::vec2 s_vUV(0.0f, 0.0f);
-
-	sscanf(p_cstrLine, "vt %f %f", &s_vUV.x, &s_vUV.y);
-	m_vUVs.push_back(s_vUV);
+	size_t uiNumNormals = 0;
+	p_fsHOBJ.read(reinterpret_cast<char*>(&uiNumNormals), sizeof(size_t));
+	m_vNormals.resize(uiNumNormals / 3);
+	p_fsHOBJ.read(reinterpret_cast<char*>(&m_vNormals[0]), uiNumNormals * sizeof(float));
 }
 
-void HeatStroke::OBJFile::ParseNormal(const char* p_cstrLine)
+void HeatStroke::OBJFile::ParseObjects(std::fstream& p_fsHOBJ)
 {
-	static glm::vec3 s_vNormal(0.0f, 0.0f, 0.0f);
+	size_t uiNumObjects = 0;
+	p_fsHOBJ.read(reinterpret_cast<char*>(&uiNumObjects), sizeof(size_t));
+	m_vOBJObjectList.resize(uiNumObjects);
 
-	sscanf(p_cstrLine, "vn %f %f %f", &s_vNormal.x, &s_vNormal.y, &s_vNormal.z);
-	m_vNormals.push_back(s_vNormal);
-}
-
-void HeatStroke::OBJFile::ParseObject(const char* p_cstrLine)
-{
-	static char s_cstrObjectName[80];
-
-	sscanf(p_cstrLine, "o %s", s_cstrObjectName);
-	m_vOBJObjectList.push_back(OBJObject());
-	m_vOBJObjectList.back().m_strObjectName = s_cstrObjectName;
-}
-
-void HeatStroke::OBJFile::ParseUseMTL(const char* p_cstrLine)
-{
-	static char s_cstrMaterialName[80];
-
-	sscanf(p_cstrLine, "usemtl %s", s_cstrMaterialName);
-	m_vOBJObjectList.back().m_strMaterialName = s_cstrMaterialName;
-}
-
-void HeatStroke::OBJFile::ParseMTLLib(const char* p_cstrLine)
-{
-	static char s_cstrMaterialFile[80];
-
-	sscanf(p_cstrLine, "mtllib %s", s_cstrMaterialFile);
-	m_strMTLFileName = s_cstrMaterialFile;
-}
-
-std::string HeatStroke::OBJFile::ToString() const
-{
-	std::string strResult;
-
-	strResult += "OBJ File Name: " + OBJ_FILE_NAME + "\n";
-	strResult += "mtllib " + m_strMTLFileName + "\n";
-
-	std::vector<const glm::vec3>::const_iterator positionIt = m_vPositions.begin(), positionEnd = m_vPositions.end();
-	for (; positionIt != positionEnd; positionIt++)
+	for (int i = 0; i < uiNumObjects; ++i)
 	{
-		strResult += "v " + std::to_string((*positionIt)[0]) + " " + std::to_string((*positionIt)[1]) + " " + std::to_string((*positionIt)[2]) + "\n";
+		m_vOBJObjectList[i] = OBJObject();
+
+		size_t uiObjectNameLength = 0;
+		p_fsHOBJ.read(reinterpret_cast<char*>(&uiObjectNameLength), sizeof(size_t));
+		char* cstrObjectName = new char[uiObjectNameLength + 1];
+		p_fsHOBJ.read(cstrObjectName, uiObjectNameLength * sizeof(char));
+		cstrObjectName[uiObjectNameLength] = '\0';
+		m_vOBJObjectList[i].m_strObjectName = cstrObjectName;
+		delete[] cstrObjectName;
+		cstrObjectName = nullptr;
+
+		size_t uiMaterialNameLength = 0;
+		p_fsHOBJ.read(reinterpret_cast<char*>(&uiMaterialNameLength), sizeof(size_t));
+		char* cstrMaterialName = new char[uiMaterialNameLength + 1];
+		p_fsHOBJ.read(cstrMaterialName, uiMaterialNameLength * sizeof(char));
+		cstrMaterialName[uiMaterialNameLength] = '\0';
+		m_vOBJObjectList[i].m_strMaterialName = cstrMaterialName;
+		delete[] cstrMaterialName;
+		cstrMaterialName = nullptr;
+
+		size_t uiNumFaces = 0;
+		p_fsHOBJ.read(reinterpret_cast<char*>(&uiNumFaces), sizeof(size_t));
+		m_vOBJObjectList[i].m_vFaces.resize(uiNumFaces);
+		p_fsHOBJ.read(reinterpret_cast<char*>(&(m_vOBJObjectList[i].m_vFaces[0])), uiNumFaces * sizeof(OBJFace));
 	}
-
-	std::vector<const glm::vec2>::const_iterator UVIt = m_vUVs.begin(), UVEnd = m_vUVs.end();
-	for (; UVIt != UVEnd; UVIt++)
-	{
-		strResult += "vt " + std::to_string((*UVIt)[0]) + " " + std::to_string((*UVIt)[1]) + "\n";
-	}
-
-	std::vector<const glm::vec3>::const_iterator normalIt = m_vNormals.begin(), normalEnd = m_vNormals.end();
-	for (; normalIt != normalEnd; normalIt++)
-	{
-		strResult += "vn " + std::to_string((*normalIt)[0]) + " " + std::to_string((*normalIt)[1]) + " " + std::to_string((*normalIt)[2]) + "\n";
-	}
-
-	OBJObjectList::const_iterator objIt = m_vOBJObjectList.begin(), objEnd = m_vOBJObjectList.end();
-	for (; objIt != objEnd; objIt++)
-	{
-		strResult += "o " + objIt->m_strObjectName + "\n";
-
-		std::vector<const OBJFace>::const_iterator faceIt = objIt->m_vFaces.begin(), faceEnd = objIt->m_vFaces.end();
-		for (; faceIt != faceEnd; faceIt++)
-		{
-			strResult += "f ";
-
-			OBJFace::const_iterator vertexIt = faceIt->begin(), vertexEnd = faceIt->end();
-			for (; vertexIt != vertexEnd; vertexIt++)
-			{
-				strResult += vertexIt->ToString() + " ";
-			}
-
-			strResult += "\n";
-		}
-
-		strResult += "usemtl " + objIt->m_strMaterialName + "\n";
-	}
-
-	return strResult;
 }
