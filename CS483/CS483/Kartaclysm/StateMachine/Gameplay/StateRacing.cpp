@@ -36,7 +36,7 @@ Kartaclysm::StateRacing::~StateRacing()
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	assert(m_pStateMachine->size() == 1); // this should be the only state on the stack
+	assert(m_pStateMachine->size() <= 2); // this and tournament should be the only states on the stack
 	m_bSuspended = false;
 	m_fTimeRemaining = -1.0f;
 	m_vRaceResults.clear();
