@@ -59,6 +59,7 @@ namespace Kartaclysm
 		bool IsOffroad() const { return m_bOffroad; }
 		float GetWheelieRotation() const { return m_fWheelieRotation; }
 		void SetSpeed(float p_fSpeed) {m_fSpeed = p_fSpeed;}
+		bool GetAI() const { return m_bAI; }
 		void SetOffroad(bool p_bOffroad) { if (!m_bAirborne) m_bOffroad = p_bOffroad; }
 		float GetOffroadRumble() const { return m_fOffroadRumble; }
 
