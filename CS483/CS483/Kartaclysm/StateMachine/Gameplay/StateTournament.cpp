@@ -45,6 +45,8 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	m_pRaceInfoDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTournament::RaceInfoCallback, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
+	DatabaseManager::Instance()->StartTournament(m_vTracks.size());
+
 	// Shuffle tracks for tournament and push to player selection
 	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
@@ -64,6 +66,11 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	{
 		m_bFinished = false;
 		m_bCongrats = true;
+
+		auto thrInsertQuery = std::thread(
+			&DatabaseManager::EndTournament,
+			DatabaseManager::Instance());
+		thrInsertQuery.detach();
 		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 	}
 
@@ -76,6 +83,8 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	else
 	{
 		// Quit tournament early or some other problem
+
+		DatabaseManager::Instance()->CancelTournament();
 		m_pStateMachine->Pop();
 		if (m_pStateMachine->empty())
 		{

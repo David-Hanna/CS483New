@@ -102,6 +102,8 @@
     <!-- Menus -->
     <Sprite path="Assets/Menus/Background/background.mtl" mtl="background"/>
     <Sprite path="Assets/Menus/MainMenu/loading_message.mtl" mtl="loading_message"/>
+    <Sprite path="Assets/Menus/MainMenu/checking_internet.mtl" mtl="checking_internet"/>
+    <Sprite path="Assets/Menus/MainMenu/no_internet.mtl" mtl="no_internet"/>
     <Sprite path="Assets/Menus/MainMenu/press_start.mtl" mtl="press_start"/>
     <Sprite path="Assets/Menus/MainMenu/title_image.mtl" mtl="title_image"/>
     <Sprite path="Assets/Menus/OptionsMenu/slider_fill.mtl" mtl="slider_fill"/>

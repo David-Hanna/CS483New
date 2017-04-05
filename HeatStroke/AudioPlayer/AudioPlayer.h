@@ -50,7 +50,7 @@ namespace HeatStroke
 			m_mLoadedSoundEffects(),
 			m_fMusicVolume(100.0f), 
 			m_fSoundEffectsVolume(100.0f) {}
-		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); }
+		~AudioPlayer() { DELETE_IF(m_pCurrentMusic); FlushSoundEffects(); }
 
 	private:
 		typedef std::pair<sf::SoundBuffer*, sf::Sound*> SoundEffect;
