@@ -1,7 +1,7 @@
 <GameObject>
   <Components>
     <GOC_3DModel>
-      <OBJFileName path="Assets/Decorations/skybox.obj"/>
+      <OBJFileName path="Assets/Decorations/skybox.hobj"/>
     </GOC_3DModel>
   </Components>
 </GameObject>

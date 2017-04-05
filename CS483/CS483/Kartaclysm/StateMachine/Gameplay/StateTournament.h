@@ -8,11 +8,15 @@
 #ifndef STATE_TOURNAMENT_H
 #define STATE_TOURNAMENT_H
 
+#include <thread>
 #include <algorithm>
+
+#include "Common.h"
 #include "RNGesus.h"
 #include "GameplayState.h"
 #include "EventManager.h"
 #include "TimeFormat.h"
+#include "DatabaseManager.h"
 
 namespace Kartaclysm
 {

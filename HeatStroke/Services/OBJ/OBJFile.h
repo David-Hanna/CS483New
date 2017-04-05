@@ -1,6 +1,7 @@
 //================================================================================
 // OBJFile.h
 // Author: David Hanna
+// Modified by: Matthew White
 // 
 // Loads an OBJ file into a collection of data that may be used by other objects.
 //================================================================================
@@ -21,41 +22,23 @@ namespace HeatStroke
 	class OBJFile
 	{
 	public:
-		class OBJVertex
+		struct OBJVertex
 		{
-			friend class OBJFile;
-
-		public:
-			unsigned int GetPositionIndex() const	{ return m_uiPositionIndex; }
-			unsigned int GetUVIndex()		const	{ return m_uiUVIndex; }
-			unsigned int GetNormalIndex()	const	{ return m_uiNormalIndex; }
-
-			std::string ToString() const;
-
-		private:
 			unsigned int m_uiPositionIndex;
 			unsigned int m_uiUVIndex;
 			unsigned int m_uiNormalIndex;
-
-			OBJVertex() {}
 		};
-		typedef std::vector<const OBJVertex> OBJFace;
-
-		class OBJObject
+		struct OBJFace
 		{
-			friend class OBJFile;
-
-		public:
-			const std::string&					GetObjectName()		const	{ return m_strObjectName; }
-			const std::vector<const OBJFace>&	GetFaces()			const	{ return m_vFaces; }
-			const std::string&					GetMaterialName()	const	{ return m_strMaterialName; }
-
-		private:
-			std::string						m_strObjectName;
-			std::vector<const OBJFace>		m_vFaces;
-			std::string						m_strMaterialName;
-
-			OBJObject() {}
+			OBJVertex m_Vert1;
+			OBJVertex m_Vert2;
+			OBJVertex m_Vert3;
+		};
+		struct OBJObject
+		{
+			std::vector<OBJFace> m_vFaces;
+			std::string m_strObjectName;
+			std::string m_strMaterialName;
 		};
 		typedef std::vector<const OBJObject> OBJObjectList;
 
@@ -75,8 +58,6 @@ namespace HeatStroke
 		const std::vector<const glm::vec2>&	GetUVs()			const	{ return m_vUVs; }
 		const std::vector<const glm::vec3>&	GetNormals()		const	{ return m_vNormals; }
 		const OBJObjectList&				GetOBJObjectList()  const	{ return m_vOBJObjectList; }
-		
-		std::string							ToString()			const;
 
 	private:
 		const std::string				OBJ_FILE_NAME;
@@ -89,14 +70,12 @@ namespace HeatStroke
 		std::vector<const glm::vec3>	m_vNormals;
 		OBJObjectList					m_vOBJObjectList;
 
-		void ParseLine(const char* p_cstrLine);
-		void ParseFace(const char* p_cstrLine);
-		void ParseVertex(const char* p_cstrLine);
-		void ParseUV(const char* p_cstrLine);
-		void ParseNormal(const char* p_cstrLine);
-		void ParseObject(const char* p_cstrLine);
-		void ParseUseMTL(const char* p_cstrLine);
-		void ParseMTLLib(const char* p_cstrLine);
+		bool ParseHOBJ();
+		void ParseMaterial(std::fstream& p_fsHOBJ);
+		void ParseVertices(std::fstream& p_fsHOBJ);
+		void ParseUVs(std::fstream& p_fsHOBJ);
+		void ParseNormals(std::fstream& p_fsHOBJ);
+		void ParseObjects(std::fstream& p_fsHOBJ);
 	};
 }
 

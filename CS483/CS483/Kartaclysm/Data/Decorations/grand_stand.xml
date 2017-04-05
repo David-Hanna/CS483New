@@ -1,7 +1,7 @@
 <GameObject>
   <Components>
     <GOC_3DModel>
-      <OBJFileName path="Assets/Decorations/grand_stand.obj"/>
+      <OBJFileName path="Assets/Decorations/grand_stand.hobj"/>
     </GOC_3DModel>
   </Components>
 </GameObject>

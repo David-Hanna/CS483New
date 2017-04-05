@@ -274,20 +274,6 @@ void HeatStroke::SceneManager::Render()
 		}
 	}
 
-	if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr || m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
-	{
-		glViewport(0, 0, width, height);
-		if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr)
-		{
-			RenderModels(m_lPerspectiveCameras[SVS_OVERLAY]);
-		}
-		if (m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
-		{
-			RenderSprites(m_lOrthographicCameras[SVS_OVERLAY]);
-			RenderTextBoxes(m_lOrthographicCameras[SVS_OVERLAY]);
-		}
-	}
-
 	if (m_lPerspectiveCameras[SVS_TOP] != nullptr || m_lOrthographicCameras[SVS_TOP] != nullptr)
 	{
 		glViewport(0, halfHeight, width, halfHeight);
@@ -381,6 +367,20 @@ void HeatStroke::SceneManager::Render()
 		{
 			RenderSprites(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
 			RenderTextBoxes(m_lOrthographicCameras[SVS_BOTTOM_RIGHT]);
+		}
+	}
+
+	if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr || m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
+	{
+		glViewport(0, 0, width, height);
+		if (m_lPerspectiveCameras[SVS_OVERLAY] != nullptr)
+		{
+			RenderModels(m_lPerspectiveCameras[SVS_OVERLAY]);
+		}
+		if (m_lOrthographicCameras[SVS_OVERLAY] != nullptr)
+		{
+			RenderSprites(m_lOrthographicCameras[SVS_OVERLAY]);
+			RenderTextBoxes(m_lOrthographicCameras[SVS_OVERLAY]);
 		}
 	}
 }

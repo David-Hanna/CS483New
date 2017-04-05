@@ -12,12 +12,15 @@
 namespace Kartaclysm
 {
 	ComponentEffect::ComponentEffect(
-		HeatStroke::GameObject* p_pGameObject)
+		HeatStroke::GameObject* p_pGameObject,
+		std::string p_strEffectId,
+		float p_fDuration)
 		:
 		Component(p_pGameObject),
 		m_pGameObject(p_pGameObject),
-		m_fDuration(1.0f),
-		m_bStarted(false)
+		m_fDuration(p_fDuration),
+		m_bStarted(false),
+		m_strEffectId(p_strEffectId)
 	{
 	}
 
@@ -33,8 +36,16 @@ namespace Kartaclysm
 		std::string strTargetGUID("");
 		HeatStroke::GameObject* pTargetGameObject = nullptr;
 
+		std::string strEffectId = "";
+		HeatStroke::EasyXML::GetRequiredStringAttribute(p_pBaseNode->FirstChildElement("Effect"), "id", strEffectId);
+
+		float fDuration = 0.0f;
+		HeatStroke::EasyXML::GetRequiredFloatAttribute(p_pBaseNode->FirstChildElement("Effect"), "duration", fDuration);
+
 		return new ComponentEffect(
-			p_pGameObject
+			p_pGameObject,
+			strEffectId,
+			fDuration
 			);
 	}
 
@@ -52,7 +63,7 @@ namespace Kartaclysm
 			HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
 			if (pComponentParticleEffect)
 			{
-				HeatStroke::Effect* pCollisionParticleEffect = pComponentParticleEffect->GetEffect("collision");
+				HeatStroke::Effect* pCollisionParticleEffect = pComponentParticleEffect->GetEffect(m_strEffectId);
 				if (pCollisionParticleEffect != nullptr)
 				{
 					pCollisionParticleEffect->Start();

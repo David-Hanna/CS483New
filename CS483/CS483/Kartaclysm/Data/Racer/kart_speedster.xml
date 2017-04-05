@@ -14,7 +14,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Speedster/speedster.obj"/>
+      <OBJFileName path="Assets/Kart/Speedster/speedster.hobj"/>
     </GOC_3DModel>
 
     <GOC_KartStats>
@@ -28,5 +28,6 @@
 
   <Tags>
     <Tag value="Kart"/>
+    <Tag value="Speedster"/>
   </Tags>
 </GameObject>
