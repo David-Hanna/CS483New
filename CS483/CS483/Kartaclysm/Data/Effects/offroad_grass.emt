@@ -1,0 +1,24 @@
+<Emitter name="offroad_grass" num_particles="20" birthrate="30.0" duration="-1.0" continuous="true">
+	<Material
+		name="offroad_grass"
+		vertex_shader="Assets/Particles/particle.vsh"
+		fragment_shader="Assets/Particles/particle.fsh"
+		texture="Assets/Particles/particle.tga"
+		blend_mode="transparent"
+	/>
+
+	<Spawn_Properties>
+		<Color type="random" r_min="0.0" g_min="0.9" b_min="0.0" r_max="0.1" g_max="1.0" b_max="0.1"/>
+		<Fade type="constant" value="1.0" />
+		<Lifetime type="random" min="0.1" max="0.3" />
+		<Size type="random" min="0.3" max="0.3" />
+		<Velocity type="random" x_min="-0.2" y_min="0.2" z_min="0.3" x_max="0.2" y_max="0.6" z_max="1.2" />
+	</Spawn_Properties>
+
+	<Affectors>
+		<Color function="constant" r="0.0" g="0.0" b="0.0" />
+		<Fade function="lifetime" value="0.6" />
+		<Scale function="lifetime" amount="0.15" />
+		<Velocity />
+	</Affectors>
+</Emitter>

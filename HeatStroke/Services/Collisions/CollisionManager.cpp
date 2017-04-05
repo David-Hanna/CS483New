@@ -34,7 +34,8 @@ CollisionManager* CollisionManager::Instance()
 
 CollisionManager::CollisionManager()
 	:
-	m_mColliderMap()
+	m_mColliderMap(),
+	m_iEffectIndex(0)
 {
 }
 
@@ -116,7 +117,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 
 	if (glm::length(pos1 - pos2) <= p_pCollider1->GetRadius() + p_pCollider2->GetRadius())
 	{
-		glm::vec3 contactPoint = pos1 - (pos2 * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
+		glm::vec3 contactPoint = pos1 + ((pos1 - pos2) * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
 
 		//printf("Sphere-Sphere Collision!");
 		Event* collisionEvent = new Event("Collision");
@@ -126,6 +127,8 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointY", contactPoint.y);
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
+
+		CollisionEffect(contactPoint);
 	}
 }
 
@@ -271,5 +274,15 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetIntParameter("XAligned", xAligned);
 		collisionEvent->SetIntParameter("ZAligned", zAligned);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
+
+		CollisionEffect(contactPoint);
 	}
+}
+
+void CollisionManager::CollisionEffect(glm::vec3& p_vPosition)
+{
+	GameObject* pEffect = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Racer/collision_effect.xml", "CollisionEffect" + std::to_string(m_iEffectIndex));
+	m_iEffectIndex++;
+
+	pEffect->GetTransform().SetTranslation(p_vPosition);
 }

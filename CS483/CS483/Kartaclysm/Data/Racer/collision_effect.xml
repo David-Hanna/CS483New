@@ -1,0 +1,17 @@
+<GameObject>
+  <Components>
+    <GOC_Effect/>
+    <GOC_ParticleEffect>
+      <Effects>
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/collision.pfx" id="collision" />
+      </Effects>
+    </GOC_ParticleEffect>
+  </Components>
+
+  <Children>
+  </Children>
+
+  <Tags>
+      <Tag value="Effect"/>
+  </Tags>
+</GameObject>

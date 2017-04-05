@@ -4,6 +4,7 @@
 		vertex_shader="Assets/Particles/particle.vsh"
 		fragment_shader="Assets/Particles/particle.fsh"
 		texture="Assets/Particles/particle.tga"
+		blend_mode="additive"
 	/>
 
     <Spawn_Properties>

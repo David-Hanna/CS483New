@@ -518,11 +518,15 @@ void HeatStroke::SceneManager::RenderLineDrawer(LineDrawer* p_pLineDrawer, const
 
 void HeatStroke::SceneManager::RenderSprites(const SceneOrthographicCamera* p_pOrthographicCamera)
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	SpriteList::iterator it = m_lSpriteList.begin(), end = m_lSpriteList.end();
 	for (; it != end; ++it)
 	{
 		RenderSprite(*it, p_pOrthographicCamera);
 	}
+	glDisable(GL_BLEND);
 }
 
 void HeatStroke::SceneManager::RenderSprite(SpriteInstance* p_pSpriteInstance, const SceneOrthographicCamera* p_pOrthographicCamera)

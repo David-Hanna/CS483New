@@ -4,11 +4,11 @@
     <GameObject>
       <Transform>
         <Translation x="-230.0" y="80.0" z="1.0" />
-        <Scale x="0.75" y="0.75" z="1.0" />
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="Options"/>
           <Width value="200.0"/>
           <Height value="200.0"/>
@@ -62,11 +62,11 @@
     <GameObject>
       <Transform>
         <Translation x="-280.0" y="-70.0" z="1.0"/>
-        <Scale x="0.5" y="0.5" z="1.0"/>
-      </Transform>
-      <Components>
-        <GOC_TextBox>
-          <FontFile path="Assets/Hud/Fonts/Comic_Sans.fnt"/>
+        <Scale x="0.7" y="0.9" z="1.0"/>
+			</Transform>
+			<Components>
+				<GOC_TextBox>
+					<FontFile path="Assets/Hud/Fonts/Verdana_16.fnt"/>
           <Message value="Return"/>
           <Width value="200.0"/>
           <Height value="200.0"/>

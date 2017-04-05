@@ -25,6 +25,9 @@ namespace Kartaclysm
 
 		m_pRaceFinishedDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::FinishRace, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("RacerFinishedRace", m_pRaceFinishedDelegate);
+
+		m_pStandingsUpdateDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentRacer::PositionCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener("RaceStandingsUpdate", m_pStandingsUpdateDelegate);
 	}
 
 	ComponentRacer::~ComponentRacer()
@@ -36,6 +39,10 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerFinishedRace", m_pRaceFinishedDelegate);
 		delete m_pRaceFinishedDelegate;
 		m_pRaceFinishedDelegate = nullptr;
+
+		HeatStroke::EventManager::Instance()->RemoveListener("RaceStandingsUpdate", m_pStandingsUpdateDelegate);
+		delete m_pStandingsUpdateDelegate;
+		m_pStandingsUpdateDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentRacer::CreateComponent(
@@ -73,6 +80,16 @@ namespace Kartaclysm
 		if (strRacerId == GetGameObject()->GetGUID())
 		{
 			m_bHasFinishedRace = true;
+			ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+			pKartController->SetAI(true);
 		}
+	}
+
+	void ComponentRacer::PositionCallback(const HeatStroke::Event* p_pEvent)
+	{
+		int iPosition;
+		p_pEvent->GetRequiredIntParameter(m_pGameObject->GetGUID(), iPosition);
+
+		m_iCurrentPosition = iPosition + 1;
 	}
 }

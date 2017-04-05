@@ -22,14 +22,14 @@
   <Children>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="0.0" y="0.1" z="5.0" />
-        <Scale x="1.0" y="0.3" z="0.2"/>
+        <Translation x="0.0" y="0.125" z="5.0" />
+        <Scale x="1.0" y="0.125" z="0.125" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
-        <Translation x="-5.0" y="0.1" z="0" />
-        <Scale x="0.2" y="0.3" z="1.0"/>
+        <Translation x="-5.0" y="0.125" z="0" />
+        <Scale x="0.125" y="0.125" z="1.0" />
       </Transform>
     </GameObject>
   </Children>

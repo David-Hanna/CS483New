@@ -1,0 +1,7 @@
+<Karts>
+    <Kart name="Juggernaut" definition="CS483/CS483/Kartaclysm/Data/Racer/kart_juggernaut.xml"/>
+
+    <Kart name="Showoff" definition="CS483/CS483/Kartaclysm/Data/Racer/kart_showoff.xml"/>
+
+    <Kart name="Speedster" definition="CS483/CS483/Kartaclysm/Data/Racer/kart_speedster.xml"/>
+</Karts>

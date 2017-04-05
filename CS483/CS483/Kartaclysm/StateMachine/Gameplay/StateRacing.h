@@ -9,6 +9,7 @@
 #define STATE_RACING_H
 
 #include <functional>
+#include <random>
 
 #include "Component3DModel.h"
 #include "ComponentAmbientLight.h"
@@ -49,7 +50,9 @@
 #include "ComponentHudCountdown.h"
 #include "ComponentHudFps.h"
 #include "ComponentHudPopup.h"
+#include "ComponentHudRaceResults.h"
 #include "ComponentParticleEffect.h"
+#include "ComponentEffect.h"
 
 #include "Common.h"
 #include "GameplayState.h"
@@ -83,8 +86,10 @@ namespace Kartaclysm
 		{
 			std::string m_strRacerId;
 			float m_fRaceTime;
+			int m_iPosition;
 		};
 		std::vector<RacerResults> m_vRaceResults;
+		std::set<std::string> m_sUnfinishedRacers;
 
 		std::function<void(const HeatStroke::Event*)>* m_pPauseDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRacerFinishedRaceDelegate;
@@ -92,8 +97,13 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceRestartDelegate;
 
 		std::map<std::string, std::string> m_mContextParams;
+		unsigned int m_uiNumAIRacers;
+		unsigned int m_uiNumHumanRacers;
 		unsigned int m_uiNumRacers;
-		bool m_bCountdown;
+		bool m_bRaceStartCountdown;
+		bool m_bRaceEndCountdown;
+		float m_fTimeRemaining;
+		float m_fMaxTimeUntilDNF;
 
 		void CreateHUDForRacer(const std::string& p_strGuid);
 
@@ -106,7 +116,9 @@ namespace Kartaclysm
 			const std::string& p_strGuid = ""
 		);
 		HeatStroke::GameObject* GenerateAIRacer(
-			int p_iIndex
+			const std::string& p_strKartDefinitionFile,
+			const std::string& p_strDriverDefinitionFile,
+			const std::string& p_strGuid = ""
 		);
 
 		void PauseGame(const HeatStroke::Event* p_pEvent);
@@ -114,7 +126,7 @@ namespace Kartaclysm
 		void FinishRace(const HeatStroke::Event* p_pEvent);
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
-		std::map<std::string, std::string> GenerateRaceResults() const;
+		std::map<std::string, std::string> GenerateRaceResults();
 		int GetTournamentPoints(int p_iPosition) const;
 	};
 }

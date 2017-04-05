@@ -14,6 +14,7 @@ Kartaclysm::StateTournament::StateTournament()
 	m_bSuspended(true),
 	m_bReadyForNextRace(false),
 	m_bFinished(false),
+	m_bCongrats(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -45,32 +46,39 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
 	// Shuffle tracks for tournament and push to player selection
-	std::random_shuffle(m_vTracks.begin(), m_vTracks.end());
+	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
 
 void Kartaclysm::StateTournament::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	if (m_bReadyForNextRace)
 	{
-		if (m_bReadyForNextRace)
+		m_bReadyForNextRace = false;
+		m_pStateMachine->Push(STATE_RACING, m_mContextParams);
+	}
+	else if (m_bFinished)
+	{
+		m_bFinished = false;
+		m_bCongrats = true;
+		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+	}
+
+	else if (m_bCongrats)
+	{
+		m_bCongrats = false;
+		m_pStateMachine->Pop();
+		m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
+	}
+	else
+	{
+		// Quit tournament early or some other problem
+		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty())
 		{
-			m_bReadyForNextRace = false;
-			m_pStateMachine->Push(STATE_RACING, m_mContextParams);
-		}
-		else if (m_bFinished)
-		{
-			m_bFinished = false;
-			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-			// TODO: Show some kind of congratulations screen?
-		}
-		else
-		{
-			// Quit tournament early or some other problem
-			m_pStateMachine->Pop();
 			m_pStateMachine->Push(STATE_MAIN_MENU);
 		}
 	}
@@ -138,10 +146,12 @@ void Kartaclysm::StateTournament::RaceFinishCallback(const HeatStroke::Event* p_
 
 void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pEvent)
 {
-	p_pEvent->GetRequiredStringParameter("PlayerCount", m_mContextParams["PlayerCount"]);
-	int iPlayerCount = atoi(m_mContextParams.at("PlayerCount").c_str());
+	p_pEvent->GetRequiredStringParameter("NumHumanRacers", m_mContextParams["NumHumanRacers"]);
+	p_pEvent->GetRequiredStringParameter("NumAIRacers", m_mContextParams["NumAIRacers"]);
+	int iNumHumanRacers = atoi(m_mContextParams.at("NumHumanRacers").c_str());
+	int iNumAIRacers = atoi(m_mContextParams.at("NumAIRacers").c_str());
 
-	for (int i = 0; i < iPlayerCount; ++i)
+	for (int i = 0; i < iNumHumanRacers; ++i)
 	{
 		std::string strPlayerX = "Player" + std::to_string(i);
 
@@ -149,32 +159,14 @@ void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pE
 		p_pEvent->GetRequiredStringParameter(strPlayerX + "_DriverDefinitionFile", m_mContextParams[strPlayerX + "_DriverDefinitionFile"]);
 		p_pEvent->GetRequiredStringParameter(strPlayerX + "_CameraDefinitionFile", m_mContextParams[strPlayerX + "_CameraDefinitionFile"]);
 	}
-}
 
-std::string Kartaclysm::StateTournament::FormatTime(float p_fUnformattedTime) const
-{
-	int iMinutes = static_cast<int>(p_fUnformattedTime) / 60;
-	float fSeconds = fmod(p_fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-
-	if (fSeconds < 10.0f)
+	for (int i = 0; i < iNumAIRacers; ++i)
 	{
-		strSeconds = "0" + strSeconds;
-	}
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	else if (iMinutes > 60)
-	{
-		strMinutes = "59";
-		strSeconds = "99.99999";
-	}
-	strSeconds = strSeconds.substr(0, 5);
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
 
-	return strMinutes + ":" + strSeconds;
+		p_pEvent->GetRequiredStringParameter(strAIRacer + "_KartDefinitionFile", m_mContextParams[strAIRacer + "_KartDefinitionFile"]);
+		p_pEvent->GetRequiredStringParameter(strAIRacer + "_DriverDefinitionFile", m_mContextParams[strAIRacer + "_DriverDefinitionFile"]);
+	}
 }
 
 std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const
@@ -184,6 +176,8 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 	mResults["numRacers"] = std::to_string(m_mRacerRankings.size());
 
 	int iRank = 0;
+	int iPrevPoints = -1;
+	int iPrevPosition = 0;
 	while (!p_pRankings->empty())
 	{
 		auto it = p_pRankings->begin(), end = p_pRankings->end(), max = it;
@@ -200,6 +194,17 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 		mResults["racerTime" + strIndex] = std::to_string(max->second.m_fTime);
 		mResults["racerPoints" + strIndex] = std::to_string(max->second.m_iPoints);
 
+		if (max->second.m_iPoints != iPrevPoints)
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iRank);
+			iPrevPosition = iRank;
+		}
+		else // tied position
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iPrevPosition);
+		}
+
+		iPrevPoints = max->second.m_iPoints;
 		p_pRankings->erase(max);
 	}
 	return mResults;

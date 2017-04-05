@@ -30,6 +30,9 @@ bool Kartaclysm::KartGame::Init()
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/Local/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
 
+	// Preload sprites (needed for title image and loading message on main menu)
+	HeatStroke::SpriteManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
+
 	// Setup State Machine and push first state
 	m_pGameStates = new HeatStroke::StateMachine();
 	m_pGameStates->SetStateMachineOwner(this);
@@ -44,6 +47,7 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(GameplayState::STATE_RACE_COMPLETE_MENU, new StateRaceCompleteMenu());
 	m_pGameStates->RegisterState(GameplayState::STATE_OPTIONS_MENU, new StateOptionsMenu("CS483/CS483/Kartaclysm/Data/Local/Options.xml"));
 	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
+	m_pGameStates->RegisterState(GameplayState::STATE_CONGRATULATIONS, new StateCongratulationsMenu());
 
 	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 

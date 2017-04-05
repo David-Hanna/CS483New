@@ -82,6 +82,14 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
+
+		// Register with AI (if applicable)
+		HeatStroke::GameObject* pAIKartObject = GetGameObject()->GetManager()->GetGameObject(m_strPlayerX);
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(pAIKartObject->GetComponent("GOC_AIDriver"));
+		if (pAIDriver != nullptr)
+		{
+			pAIDriver->RegisterComponentAbility(this);
+		}
 	}
 
 	void ComponentTinkerAbility::Activate()
@@ -101,6 +109,20 @@ namespace Kartaclysm
 			pChargeEvent->SetIntParameter("Increase", 1);
 			pChargeEvent->SetIntParameter("Reset", 0);
 			HeatStroke::EventManager::Instance()->TriggerEvent(pChargeEvent);
+		}
+	}
+
+	void ComponentTinkerAbility::AICheckCondition(HeatStroke::Component* p_pAIDriver)
+	{
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(p_pAIDriver);
+		if (pAIDriver != nullptr)
+		{
+			if (m_pConditions->CanActivate() &&
+				pAIDriver->AngleToNextNode() <= 0.1f &&
+				pAIDriver->DistanceToNextNode() >= 15.0f)
+			{
+				Activate();
+			}
 		}
 	}
 
