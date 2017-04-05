@@ -36,6 +36,7 @@ out vec4 FragmentColor;
 
 void main()
 {
+    /*
     vec3 normal = normalize(v_normal);
 
     //-----------------------------------------
@@ -63,4 +64,6 @@ void main()
 
     vec3 TotalLight = clamp(AmbientLightColor + DirectionalLight + PointLight, 0.0, 1.0);
     FragmentColor = vec4(TotalLight, 1.0) * texture(DiffuseTexture, v_uv1);
+    */
+    FragmentColor = texture(DiffuseTexture, v_uv1);
 }
