@@ -15,7 +15,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.obj"/>
+      <OBJFileName path="Assets/Drivers/Cleopapa/cleopapa.hobj"/>
     </GOC_3DModel>
 
     <GOC_DriverStatMods>
