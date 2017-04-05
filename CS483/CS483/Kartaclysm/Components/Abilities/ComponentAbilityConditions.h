@@ -11,6 +11,7 @@
 #include <tinyxml2.h>
 #include <string>
 
+#include "ComponentRacer.h"
 #include "Component.h"
 #include "GameObject.h"
 #include "EventManager.h"
@@ -101,6 +102,9 @@ namespace Kartaclysm
 
 		// Special condition manually controlled by ability
 		bool	m_bSpecial;
+
+		// Needed for a race completed check
+		ComponentRacer* m_pRacer;
 	};
 }
 

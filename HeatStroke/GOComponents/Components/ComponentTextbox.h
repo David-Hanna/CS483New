@@ -38,7 +38,8 @@ namespace HeatStroke
 			const std::string& p_strFontFilePath,
 			const std::string& p_strMessage,
 			float p_fWidth,
-			float p_fHeight);
+			float p_fHeight,
+			glm::vec4 p_vColor);
 
 		virtual void SyncTransform();
 
@@ -55,7 +56,8 @@ namespace HeatStroke
 			std::string& p_strFontFilePath,
 			std::string& p_strMessage,
 			float& p_fWidth,
-			float& p_fHeight
+			float& p_fHeight,
+			glm::vec4& p_vColor
 			);
 	};
 }

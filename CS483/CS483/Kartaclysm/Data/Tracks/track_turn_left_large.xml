@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Track/track_turn_left_large.obj"/>
+			<OBJFileName path="Assets/Track/track_turn_left_large.hobj"/>
 		</GOC_3DModel>
     <GOC_TrackPiece>
       <Bounds widthX="20" widthZ="20"/>
@@ -22,32 +22,38 @@
   <Children>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="-5" y="1" z="-10" />
+        <Translation x="-5.0" y="0.125" z="-10.0" />
+        <Scale x="1.0" y="0.125" z="0.125" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="5" y="1" z="-10" />
+        <Translation x="5.0" y="0.125" z="-10.0" />
+        <Scale x="1.0" y="0.125" z="0.125" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="5" y="1" z="10" />
+        <Translation x="5.0" y="0.125" z="10.0" />
+        <Scale x="1.0" y="0.125" z="0.125" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
-        <Translation x="-10" y="1" z="-5" />
+        <Translation x="-10" y="0.125" z="-5" />
+        <Scale x="0.25" y="0.125" z="1.0" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
-        <Translation x="-10" y="1" z="5" />
+        <Translation x="-10" y="0.125" z="5" />
+        <Scale x="0.25" y="0.125" z="1.0" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
-        <Translation x="10" y="1" z="5" />
+        <Translation x="10" y="0.125" z="5" />
+        <Scale x="0.25" y="0.125" z="1.0" />
       </Transform>
     </GameObject>
   </Children>

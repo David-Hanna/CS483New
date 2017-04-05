@@ -1,35 +1,36 @@
 <GameObject>
 	<Components>
 		<GOC_Track>
-			<Name value="Up and Over" />
+			<Name value="Up And Over" />
 			<PathfindingNodes>
         <!--Right Turn-->
-        <Node x="-2.5" z="22.5" variation="2.0" radius="10.0"/>
-        <Node x="-15.0" z="27.5" variation="1.0" radius="5.0"/>
+        <Node x="-2.5" z="20.0" variation="1.0" radius="2.0"/>
+        <Node x="-10.0" z="27.5" variation="0.0" radius="3.0"/>
         <!--Straight-->
-        <Node x="-40.0" z="27.5" variation="2.0" radius="10.0"/>
+        <Node x="-30.0" z="30.0" variation="1.0" radius="5.0"/>
         <!--Left Turn-->
-        <Node x="-72.5" z="32.5" variation="2.0" radius="10.0"/>
-        <Node x="-77.5" z="45.0" variation="1.0" radius="5.0"/>
+        <Node x="-70.0" z="32.5" variation="1.0" radius="2.0" trigger="04"/>
+        <Node x="-77.5" z="40.0" variation="0.0" radius="3.0"/>
         <!--Left Turn-->
-        <Node x="-77.5" z="72.5" variation="2.0" radius="10.0"/>
-        <Node x="-65.0" z="77.5" variation="1.0" radius="5.0"/>
+        <Node x="-77.5" z="70.0" variation="1.0" radius="2.0"/>
+        <Node x="-70.0" z="77.5" variation="0.0" radius="3.0"/>
         <!--Left Turn-->
-        <Node x="-47.5" z="77.5" variation="2.0" radius="10.0"/>
-        <Node x="-42.5" z="65.0" variation="1.0" radius="5.0"/>
+        <Node x="-50.0" z="77.5" variation="1.0" radius="2.0"/>
+        <Node x="-42.5" z="70.0" variation="0.0" radius="3.0"/>
         <!--Straight-->
-        <Node x="-42.5" z="30.0" variation="2.0" radius="10.0"/>
+        <Node x="-40.0" z="50.0" variation="1.0" radius="5.0"/>
         <!--Right Turn-->
-        <Node x="-37.5" z="-12.5" variation="2.0" radius="10.0"/>
-        <Node x="-25.0" z="-17.5" variation="1.0" radius="5.0"/>
+        <Node x="-37.5" z="-10.0" variation="1.0" radius="2.0"/>
+        <Node x="-30.0" z="-17.5" variation="0.0" radius="3.0"/>
         <!--Right Turn-->
-        <Node x="-7.5" z="-17.5" variation="2.0" radius="10.0"/>
-        <Node x="-2.5" z="-5.0" variation="1.0" radius="5.0"/>
+        <Node x="-10.0" z="-17.5" variation="1.0" radius="2.0"/>
+        <Node x="-2.5" z="-10.0" variation="0.0" radius="3.0"/>
 			</PathfindingNodes>
 		</GOC_Track>
 	</Components>
 
 	<Children>
+		<!--Track pieces-->
 		<GameObject guid="00" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_straight.xml">
 			<Transform>
 				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
@@ -42,12 +43,12 @@
 				<Translation x="-5.0" y="0.0" z="25.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="02" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_down.xml">
+		<GameObject guid="02" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_down_no_wall.xml">
 			<Transform>
 				<Translation x="-20.0" y="-1.0" z="30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="03" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_down_flat.xml">
+		<GameObject guid="03" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_down_flat_no_wall.xml">
 			<Transform>
 				<Translation x="-30.0" y="-2.0" z="30.0" />
 			</Transform>
@@ -57,12 +58,12 @@
 				<Translation x="-40.0" y="-2.0" z="30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="05" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
+		<GameObject guid="05" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up_no_wall.xml">
 			<Transform>
 				<Translation x="-50.0" y="-2.0" z="30.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_up_flat.xml">
+		<GameObject guid="06" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_up_flat_no_wall.xml">
 			<Transform>
 				<Translation x="-60.0" y="-1.0" z="30.0" />
 			</Transform>
@@ -108,7 +109,7 @@
 				<Translation x="-40.0" y="2.0" z="60.0" />
 			</Transform>
 		</GameObject>
-		<GameObject guid="14" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up.xml">
+		<GameObject guid="14" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_ramp_flat_up_no_wall.xml">
 			<Transform>
 				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
 				<Translation x="-40.0" y="2.0" z="50.0" />
@@ -159,6 +160,517 @@
 		<GameObject guid="finish" definition="CS483/CS483/Kartaclysm/Data/Tracks/track_finish.xml">
 			<Transform>
 				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+
+		<!--Walls-->
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-20.0" y="-0.875" z="35.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-30.0" y="-0.875" z="35.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-50.0" y="-0.875" z="35.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-60.0" y="-0.875" z="35.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-20.0" y="-0.875" z="25.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-30.0" y="-0.875" z="25.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-50.0" y="-0.875" z="25.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
+			<Transform>
+				<Translation x="-60.0" y="-0.875" z="25.0" />
+				<Scale x="1.0" y="1.125" z="0.125" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/fence.xml">
+			<Transform>
+				<Translation x="-45.0" y="0.0" z="45.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/fence.xml">
+			<Transform>
+				<Translation x="-35.0" y="0.0" z="45.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/fence_wall.xml">
+			<Transform>
+				<Translation x="-40.0" y="0.0" z="35.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+
+		<!--Grass-->
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-5.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-25.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-45.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-65.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-85.0" y="0.0" z="-35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="-30.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="-40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="-10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-55.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-75.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-95.0" y="0.0" z="-15.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="5.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-10.0" y="0.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-10.0" y="0.0" z="10.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-25.0" y="0.0" z="5.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-55.0" y="0.0" z="5.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-75.0" y="0.0" z="5.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-95.0" y="0.0" z="5.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="25.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-50.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-60.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-70.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-80.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="20.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="10.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="0.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-10.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-50.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-60.0" y="0.0" z="40.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-95.0" y="0.0" z="35.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="55.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-5.0" y="0.0" z="55.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="50.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_top_bottom.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="50.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-50.0" y="0.0" z="50.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-50.0" y="2.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_top_mid.xml">
+			<Transform>
+				<Translation x="-60.0" y="0.0" z="50.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_top_mid_to_top.xml">
+			<Transform>
+				<Translation x="-60.0" y="1.0" z="60.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_up.xml">
+			<Transform>
+				<Translation x="-70.0" y="0.0" z="50.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_flat.xml">
+			<Transform>
+				<Translation x="-70.0" y="1.0" z="60.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_mid_bottom.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="50.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_mid_top.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="60.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="50.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="60.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="75.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-5.0" y="0.0" z="75.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="70.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="80.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="70.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="80.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-60.0" y="2.0" z="70.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="70.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="80.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="70.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="80.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="15.0" y="0.0" z="95.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_large.xml">
+			<Transform>
+				<Translation x="-5.0" y="0.0" z="95.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-20.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_top_bottom.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-30.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-30.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-40.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-40.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-50.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-50.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-60.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-60.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-70.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-70.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_up_full.xml">
+			<Transform>
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-80.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-80.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_bottom_to_top_bottom.xml">
+			<Transform>
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Translation x="-90.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-90.0" y="0.0" z="100.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="90.0" />
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_small.xml">
+			<Transform>
+				<Translation x="-100.0" y="0.0" z="100.0" />
 			</Transform>
 		</GameObject>
 	</Children>

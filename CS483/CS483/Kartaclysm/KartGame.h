@@ -28,11 +28,14 @@
 #include "StateCountdown.h"
 #include "StateMainMenu.h"
 #include "StateOptionsMenu.h"
+#include "StateCongratulationsMenu.h"
 #include "SceneManager.h"
 #include "AudioPlayer.h"
 #include "ModelManager.h"
 #include "SpriteManager.h"
 #include "FontManager.h"
+#include "MySQLConnector.h"
+#include "DatabaseManager.h"
 
 namespace Kartaclysm
 {

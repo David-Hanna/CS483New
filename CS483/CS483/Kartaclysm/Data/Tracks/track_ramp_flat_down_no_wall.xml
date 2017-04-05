@@ -1,0 +1,23 @@
+<GameObject>
+	<Components>
+		<GOC_3DModel>
+			<OBJFileName path="Assets/Track/track_ramp_flat_down.hobj"/>
+		</GOC_3DModel>
+    <GOC_TrackPiece>
+      <Bounds widthX="10" widthZ="10"/>
+      <Height function="sin2" height1="1.0" height2="0.0"/>
+      <Position function="straight"/>
+      <Offroad>
+        <Offroad_Area type="square" x1="-1.0" z1="1.0" x2="1.0" z2="0.6"/>
+        <Offroad_Area type="square" x1="-1.0" z1="-1.0" x2="1.0" z2="-0.6"/>
+      </Offroad>
+    </GOC_TrackPiece>
+	</Components>
+
+  <Children>
+  </Children>
+
+	<Tags>
+		<Tag value="Trackpiece"/>
+	</Tags>
+</GameObject>

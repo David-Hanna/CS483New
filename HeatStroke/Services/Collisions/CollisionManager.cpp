@@ -117,7 +117,7 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 
 	if (glm::length(pos1 - pos2) <= p_pCollider1->GetRadius() + p_pCollider2->GetRadius())
 	{
-		glm::vec3 contactPoint = pos1 - (pos2 * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
+		glm::vec3 contactPoint = pos1 + ((pos1 - pos2) * (p_pCollider1->GetRadius()/(p_pCollider1->GetRadius() + p_pCollider2->GetRadius())));
 
 		//printf("Sphere-Sphere Collision!");
 		Event* collisionEvent = new Event("Collision");
@@ -128,7 +128,13 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetFloatParameter("ContactPointZ", contactPoint.z);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
 
-		CollisionEffect(contactPoint);
+		// Only want the collision effect to happen on kart-kart collisions
+		Component* racer1 = p_pCollider1->GetGameObject()->GetComponent("GOC_Racer");
+		Component* racer2 = p_pCollider2->GetGameObject()->GetComponent("GOC_Racer");
+		if (racer1 != nullptr && racer2 != nullptr)
+		{
+			CollisionEffect(contactPoint);
+		}
 	}
 }
 
@@ -275,7 +281,13 @@ void CollisionManager::CheckCollision(ComponentSphereCollider* p_pCollider1, Com
 		collisionEvent->SetIntParameter("ZAligned", zAligned);
 		EventManager::Instance()->TriggerEvent(collisionEvent);
 
-		CollisionEffect(contactPoint);
+		// Only want the collision effect to happen on kart-wall collisions
+		Component* racer1 = p_pCollider1->GetGameObject()->GetComponent("GOC_Racer");
+		Component* racer2 = p_pCollider2->GetGameObject()->GetComponent("GOC_Racer");
+		if (racer1 != nullptr || racer2 != nullptr)
+		{
+			CollisionEffect(contactPoint);
+		}
 	}
 }
 

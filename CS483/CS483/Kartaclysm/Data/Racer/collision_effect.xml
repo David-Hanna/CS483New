@@ -1,6 +1,8 @@
 <GameObject>
   <Components>
-    <GOC_Effect/>
+    <GOC_Effect>
+      <Effect id="collision" duration="1.0" />
+    </GOC_Effect>
     <GOC_ParticleEffect>
       <Effects>
         <Effect path="CS483/CS483/Kartaclysm/Data/Effects/collision.pfx" id="collision" />

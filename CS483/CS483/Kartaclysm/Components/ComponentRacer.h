@@ -49,9 +49,14 @@ namespace Kartaclysm
 		int GetCurrentPosition() const {return m_iCurrentPosition;}
 		void SetCurrentPosition(int p_iNewPosition) {m_iCurrentPosition = p_iNewPosition;}
 		bool HasFinishedRace() const {return m_bHasFinishedRace;}
+		void SetHumanPlayer(bool p_bHumanPlayer) { m_bHumanPlayer = p_bHumanPlayer; }
+		bool IsHumanPlayer() const { return m_bHumanPlayer; }
+		const std::vector<float> GetLapTimes() const { return m_vLapTimes; }
 
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
+
+		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
 
 	private:
 		HeatStroke::GameObject* m_pKart;
@@ -64,9 +69,13 @@ namespace Kartaclysm
 		int m_iCurrentLap;
 		int m_iCurrentPosition;
 		bool m_bHasFinishedRace;
+		bool m_bHumanPlayer;
+		std::vector<float> m_vLapTimes;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
+
+		std::function<void(const HeatStroke::Event*)>* m_pStandingsUpdateDelegate;
 	};
 }
 

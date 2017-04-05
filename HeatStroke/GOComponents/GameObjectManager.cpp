@@ -87,6 +87,10 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLElement* p_pGameObj
 		LoadChildren(p_pGameObjectRootElement->FirstChildElement("Children"), pObj);
 		ParseTags(p_pGameObjectRootElement->FirstChildElement("Tags"), pObj);
 
+#ifdef _DEBUG
+		assert(m_mGameObjectMap.find(strGuid) == m_mGameObjectMap.end() && "Not a unique Guid");
+#endif
+
 		m_mGameObjectMap.insert(std::pair<std::string, GameObject*>(strGuid, pObj));
 		pObj->Init();
 
@@ -215,23 +219,6 @@ void GameObjectManager::DestroyGameObject(GameObject* p_pGameObject)
 	m_vToDelete.insert(p_pGameObject);
 }
 
-void GameObjectManager::ForceInstantDestroyGameObject(GameObject* p_pGameObject)
-{
-	GameObjectMap::iterator it = m_mGameObjectMap.find(p_pGameObject->GetGUID());
-	if (it != m_mGameObjectMap.end())
-	{
-		delete it->second;
-		it->second = nullptr;
-		m_mGameObjectMap.erase(it);
-	}
-#ifdef _DEBUG
-	else
-	{
-		assert(false && "Could not find GameObject to delete.");
-	}
-#endif
-}
-
 void GameObjectManager::DestroyAllGameObjects()
 {
 	GameObject* pGameObject = nullptr;
@@ -255,8 +242,8 @@ void GameObjectManager::Update(const float p_fDelta)
 
 	// Delete here so we control that objects get deleted only at the end of the whole
 	// update frame.
-	std::set<GameObject*>::iterator delete_it = m_vToDelete.begin(), delete_end = m_vToDelete.end();
-	for (; delete_it != delete_end;)
+	std::set<GameObject*>::iterator delete_it = m_vToDelete.begin();
+	while (delete_it != m_vToDelete.end())
 	{
 		if ((*delete_it) == nullptr)
 		{

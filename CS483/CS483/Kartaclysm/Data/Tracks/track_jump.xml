@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Track/track_jump.obj"/>
+			<OBJFileName path="Assets/Track/track_jump.hobj"/>
 		</GOC_3DModel>
     <GOC_TrackPiece>
       <Bounds widthX="10" widthZ="10"/>
@@ -15,16 +15,6 @@
 	</Components>
 
   <Children>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
-      <Transform>
-        <Translation x="0.0" y="1" z="-5.0" />
-      </Transform>
-    </GameObject>
-    <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
-      <Transform>
-        <Translation x="0.0" y="1" z="5.0" />
-      </Transform>
-    </GameObject>
   </Children>
 
 	<Tags>

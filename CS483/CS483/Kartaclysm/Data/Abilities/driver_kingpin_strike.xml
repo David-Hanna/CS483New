@@ -22,7 +22,7 @@
 
     <GOC_StrikeAbility>
       <ProjectileXML path="CS483/CS483/Kartaclysm/Data/Abilities/projectile_strike.xml" />
-      <Duration value="0.7" />
+      <Duration value="2.0" />
     </GOC_StrikeAbility>
 
   </Components>

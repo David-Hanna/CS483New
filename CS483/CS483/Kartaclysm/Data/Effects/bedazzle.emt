@@ -1,0 +1,24 @@
+<Emitter name="bedazzle" num_particles="200" continuous="false" repeat="false" random_burst_rate="false" burst_rate="0">
+    <Material
+		name="particle_bedazzle"
+		vertex_shader="Assets/Particles/particle.vsh"
+		fragment_shader="Assets/Particles/particle.fsh"
+		texture="Assets/Particles/particle.tga"
+		blend_mode="additive"
+	/>
+
+    <Spawn_Properties>
+		<Color type="random" r_min="1.0" g_min="1.0" b_min="0.5" r_max="1.0" g_max="1.0" b_max="1.0"/>
+		<Fade type="random" min="0.1" max="0.2" />
+		<Lifetime type="random" min="0.3" max="0.8" />
+		<Size type="random" min="0.8" max="1.4" />
+		<Velocity type="random" x_min="-3.0" y_min="-1.0" z_min="-3.0" x_max="3.0" y_max="5.0" z_max="3.0" />
+	</Spawn_Properties>
+
+	<Affectors>
+		<Color function="constant" r="0.0" g="0.0" b="0.0" />
+		<Fade function="constant" value="0.0" />
+		<Scale function="lifetime" amount="0.0" />
+		<Velocity />
+	</Affectors>
+</Emitter>
