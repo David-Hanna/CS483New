@@ -552,6 +552,9 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentObjectSpawn.cpp">
+      <Filter>Kartaclysm\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h">
@@ -949,6 +952,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentObjectSpawn.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1935,6 +1941,12 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml">
       <Filter>Kartaclysm\Data\Menus\CongratulationsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\loading_message.xml">
       <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>

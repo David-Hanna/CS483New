@@ -1,32 +1,31 @@
-//------------------------------------------------------------------------
-// ComponentEffect.h
-// Author:	David MacIntosh
-//	
-// Holds a particle effect.
-//------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+// ComponentObjectSpawn.h
+// Author: David MacIntosh
+//
+// Simple component that spawns an object when initialized
+//----------------------------------------------------------------------------
 
-#ifndef COMPONENT_EFFECT_H
-#define COMPONENT_EFFECT_H
+#ifndef COMPONENT_OBJECT_SPAWN_H
+#define COMPONENT_OBJECT_SPAWN_H
 
 #include <tinyxml2.h>
 
-#include "Common.h"
 #include "Component.h"
 #include "GameObject.h"
 
 namespace Kartaclysm
 {
-	class ComponentEffect : public HeatStroke::Component
+	class ComponentObjectSpawn : public HeatStroke::Component
 	{
 	public:
 		//--------------------------------------------------------------------------
 		// Public methods
 		//--------------------------------------------------------------------------
-		virtual const std::string FamilyID() const override		{ return "GOC_Effect"; }
-		virtual const std::string ComponentID() const override	{ return "GOC_Effect"; }
+		virtual const std::string FamilyID() const override		{ return "GOC_ObjectSpawn"; }
+		virtual const std::string ComponentID() const override	{ return "GOC_ObjectSpawn"; }
 
 		// Destruction.
-		virtual ~ComponentEffect();
+		virtual ~ComponentObjectSpawn();
 
 		// Factory construction.
 		static HeatStroke::Component* CreateComponent(
@@ -39,26 +38,24 @@ namespace Kartaclysm
 		virtual void Init() override {}
 		virtual void Update(const float p_fDelta) override;
 
-		void SetDuration(float p_fDuration) { m_fDuration = p_fDuration; }
-
 	protected:
 		//--------------------------------------------------------------------------
 		// Protected methods
 		//--------------------------------------------------------------------------
-		ComponentEffect(
+		ComponentObjectSpawn(
 			HeatStroke::GameObject* p_pGameObject,
-			std::string p_strEffectId,
-			float p_fDuration
+			const std::string& p_strObjectXML
 			);
 
 		//--------------------------------------------------------------------------
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::GameObject* m_pGameObject;
-		float m_fDuration;
-		bool m_bStarted;
-		std::string m_strEffectId;
+
+		std::string m_strObjectXML;
+
+		bool m_bCreated;
 	};
 }
 
-#endif // COMPONENT_EFFECT_H
+#endif // COMPONENT_OBJECT_SPAWN_H

@@ -106,6 +106,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Racer", ComponentRacer::CreateComponent);
 
 	m_pGameObjectManager->RegisterComponentFactory("GOC_Effect", ComponentEffect::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_ObjectSpawn", ComponentObjectSpawn::CreateComponent);
 	
 	// Store passed context parameters and begin race
 	m_mContextParams = p_mContextParameters;

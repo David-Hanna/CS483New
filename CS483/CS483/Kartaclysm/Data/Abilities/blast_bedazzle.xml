@@ -19,6 +19,10 @@
       <Timer value="0.0" />
     </GOC_SelfDestruct>
 
+    <GOC_ObjectSpawn>
+      <Object xml="CS483/CS483/Kartaclysm/Data/Abilities/bedazzle_effect.xml" />
+    </GOC_ObjectSpawn>
+
   </Components>
 
   <Tags>

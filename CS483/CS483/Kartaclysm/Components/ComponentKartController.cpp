@@ -857,6 +857,16 @@ namespace Kartaclysm
 
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
 				Slow(power, duration);
+
+				HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+				if (pComponentParticleEffect)
+				{
+					HeatStroke::Effect* pMakeItRainParticleEffect = pComponentParticleEffect->GetEffect("make_it_rain");
+					if (pMakeItRainParticleEffect != nullptr)
+					{
+						pMakeItRainParticleEffect->Start();
+					}
+				}
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{

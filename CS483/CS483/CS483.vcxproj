@@ -150,6 +150,7 @@
     <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentObjectSpawn.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="Kartaclysm\Components\ComponentEffect.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentObjectSpawn.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h" />
@@ -315,8 +317,10 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_rain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml" />
@@ -642,7 +646,9 @@
     <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />
     <Xml Include="Kartaclysm\Data\Racer\racer.xml" />
-    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\test_track.xml" />
