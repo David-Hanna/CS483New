@@ -119,6 +119,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 	}
 	else if (bConfirm)
 	{
+		m_pStateMachine->Pop();
 		m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 	}
 }

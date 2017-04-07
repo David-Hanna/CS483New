@@ -67,6 +67,10 @@ void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)
 			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, mContextParameters);
 			break;
 		case 1:
+			while (!m_pStateMachine->empty())
+			{
+				m_pStateMachine->Pop();
+			}
 			mContextParameters["Mode"] = "Tournament";
 			m_pStateMachine->Push(STATE_TOURNAMENT, mContextParameters);
 			break;
