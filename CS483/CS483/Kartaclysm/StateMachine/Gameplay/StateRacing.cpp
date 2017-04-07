@@ -23,7 +23,6 @@ Kartaclysm::StateRacing::StateRacing()
 	m_uiNumHumanRacers(0),
 	m_uiNumRacers(0),
 	m_uiLapsNeeded(0),
-	m_bRaceStartCountdown(false),
 	m_bRaceEndCountdown(false),
 	m_fTimeRemaining(-1.0f),
 	m_fMaxTimeUntilDNF(20.0f)
@@ -202,11 +201,7 @@ void Kartaclysm::StateRacing::BeginRace()
 	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
 	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 
-	// Set conditions for beginning countdown
-	m_bRaceStartCountdown = true;
-	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
-	pDisableEvent->SetIntParameter("Disable", 1);
-	HeatStroke::EventManager::Instance()->TriggerEvent(pDisableEvent);
+	m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN, m_mContextParams);
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
@@ -346,12 +341,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
 			HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 		}
-	}
-	else if (m_bRaceStartCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
-	{
-		m_bRaceStartCountdown = false;
-		m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
-		return;
 	}
 }
 
