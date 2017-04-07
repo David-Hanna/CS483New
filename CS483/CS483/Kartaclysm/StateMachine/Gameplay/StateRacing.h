@@ -102,7 +102,6 @@ namespace Kartaclysm
 		unsigned int m_uiNumHumanRacers;
 		unsigned int m_uiNumRacers;
 		unsigned int m_uiLapsNeeded;
-		bool m_bRaceStartCountdown;
 		bool m_bRaceEndCountdown;
 		float m_fTimeRemaining;
 		float m_fMaxTimeUntilDNF;
