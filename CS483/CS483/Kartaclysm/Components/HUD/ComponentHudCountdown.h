@@ -15,6 +15,7 @@
 #include "EventManager.h"
 #include "FontManager.h"
 #include "TextBox.h"
+#include "AudioPlayer.h"
 #include <vector>
 
 namespace Kartaclysm
@@ -35,8 +36,8 @@ namespace Kartaclysm
 			tinyxml2::XMLNode* p_pOverrideNode
 			);
 
-		virtual void Init() override {}
-		virtual void Update(const float p_fDelta) override {}
+		virtual void Init() override;
+		virtual void Update(const float p_fDelta) override;
 		virtual void SyncTransform() override;
 
 	protected:
@@ -49,6 +50,8 @@ namespace Kartaclysm
 			);
 
 		virtual void CountdownCallback(const HeatStroke::Event* p_pEvent);
+		virtual void SetCountdownMessage(const float p_fCountdown);
+		virtual void DisplayRaceStartMessage();
 
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
@@ -59,7 +62,9 @@ namespace Kartaclysm
 		// Protected variables
 		//--------------------------------------------------------------------------
 		HeatStroke::Font* m_pFont;
-		HeatStroke::TextBox m_mTextBox;
+		HeatStroke::TextBox m_TextBox;
+		glm::mat4 m_OriginalTransform;
+		float m_fDisplayRaceStartTimer;
 
 		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 	};

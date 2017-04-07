@@ -49,6 +49,8 @@
   </Models>
 
   <SoundEffects>
+    <SoundEffect path="Assets/Sounds/countdown_go.flac"/>
+    <SoundEffect path="Assets/Sounds/countdown_wait.flac"/>
     <SoundEffect path="Assets/Sounds/engine.flac"/>
     <SoundEffect path="Assets/Sounds/drive_on_grass.flac"/>
     <SoundEffect path="Assets/Sounds/load.flac"/>

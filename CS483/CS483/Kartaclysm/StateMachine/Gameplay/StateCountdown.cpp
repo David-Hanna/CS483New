@@ -45,9 +45,17 @@ void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>&
 void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 {
 	if (m_bSuspended) return;
+
+	if (m_fTimer == 3.0f)
+	{
+		// Avoid lag caused on the first update of a race
+		m_fTimer = 2.999f;
+		return;
+	}
+
 	m_fTimer -= p_fDelta;
 
-	SendHudCountdownEvent(p_fDelta);
+	SendHudCountdownEvent(m_fTimer);
 
 	if (m_fTimer <= 0.0f)
 	{
@@ -128,10 +136,10 @@ void Kartaclysm::StateCountdown::DetermineHumanBoost(bool* p_pCurrentBoostValue,
 	}
 }
 
-void Kartaclysm::StateCountdown::SendHudCountdownEvent(const float p_fDelta) const
+void Kartaclysm::StateCountdown::SendHudCountdownEvent(const float p_fTimer) const
 {
 	HeatStroke::Event* pEvent = new HeatStroke::Event("Countdown_HUD");
-	pEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
+	pEvent->SetFloatParameter("Countdown", p_fTimer);
 	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 }
 
