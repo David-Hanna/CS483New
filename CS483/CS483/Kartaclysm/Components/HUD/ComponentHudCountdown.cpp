@@ -36,7 +36,9 @@ namespace Kartaclysm
 
 	void ComponentHudCountdown::Init()
 	{
-		m_OriginalTransform = GetGameObject()->GetTransform().GetTransform();
+		// TODO: Quick fix to values without going into XML
+		m_OriginalTransform = GetGameObject()->GetTransform().GetTransform() * 
+			glm::scale(glm::vec3(2.0f, 2.0f, 1.0f));
 	}
 
 	void ComponentHudCountdown::Update(const float p_fDelta)
@@ -118,12 +120,13 @@ namespace Kartaclysm
 		float fScale = ((1.0f - fabsf(iCountdown - p_fCountdown)) * 0.5f) + 0.5f;
 
 		m_TextBox.SetText(std::to_string(iCountdown));
-		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform * glm::scale(glm::vec3(fScale, fScale, 1.0f)));
+		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform *
+			glm::scale(glm::vec3(fScale, fScale, 1.0f)));
 
 		switch (iCountdown)
 		{
 		case 3:	 m_TextBox.SetColour(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); break;		// red
-		case 2:	 m_TextBox.SetColour(glm::vec4(0.5f, 0.25f, 0.0f, 1.0f)); break;	// orange
+		case 2:	 m_TextBox.SetColour(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)); break;		// orange
 		case 1:	 m_TextBox.SetColour(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); break;		// yellow
 		default: 
 #ifdef _DEBUG
@@ -138,7 +141,8 @@ namespace Kartaclysm
 	{
 		m_fDisplayRaceStartTimer = 1.0f;
 		m_TextBox.SetText("GO!");
-		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform * glm::translate(glm::vec3(-8.0f, 0.0f, 0.0f)));
+		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform *
+			glm::translate(glm::vec3(-8.0f, 0.0f, 0.0f)));
 		m_TextBox.SetColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));	// green
 	}
 
