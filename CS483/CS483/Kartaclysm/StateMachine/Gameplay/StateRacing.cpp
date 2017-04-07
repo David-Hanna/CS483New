@@ -115,7 +115,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	SendRaceInfoEvent();
 	BeginRace();
 
-	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.flac", true);
 
 	// I have to do this horrible spaghetti crap because game object manager isn't a SINGLETON
 	HeatStroke::CollisionManager::Instance()->SetGameObjectManager(m_pGameObjectManager);
@@ -316,14 +316,14 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = (p_iNewState != STATE_COUNTDOWN);
 	HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
-	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.flac");
 }
 
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
-	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.flac", true);
 }
 
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
@@ -392,7 +392,7 @@ void Kartaclysm::StateRacing::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 
-	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.flac");
 }
 
 void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)

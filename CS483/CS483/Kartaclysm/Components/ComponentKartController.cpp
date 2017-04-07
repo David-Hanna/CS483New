@@ -841,7 +841,7 @@ namespace Kartaclysm
 
 			if (ability.compare("Strike") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.flac");
 				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
@@ -855,7 +855,7 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.flac");
 				Slow(power, duration);
 
 				HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
@@ -870,7 +870,7 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.flac");
 				Spinout(duration);
 			}
 		}
@@ -883,12 +883,12 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.flac");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.flac");
 				TurnLock(duration);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
@@ -897,7 +897,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.flac");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
