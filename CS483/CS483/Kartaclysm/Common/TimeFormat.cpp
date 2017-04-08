@@ -69,3 +69,9 @@ float Kartaclysm::Common::FloatFromTimeString(const std::string& p_strFormattedT
 
 	return (iMinutes * 60.0f) + fSeconds;
 }
+
+std::string Kartaclysm::Common::FormatHudTime(float p_fTimeInSeconds)
+{
+	std::string strTime = TimeStringFromFloat(p_fTimeInSeconds);
+	return (strTime == "--:--.--" ? "00:00" : strTime.substr(0, 5));
+}

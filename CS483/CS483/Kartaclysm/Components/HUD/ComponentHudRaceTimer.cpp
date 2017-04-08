@@ -16,20 +16,24 @@ namespace Kartaclysm
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
-		m_mLabelTextBox(m_pFont, "TIME"),
-		m_mTimerTextBox(m_pFont, "00:00"),
+		m_LabelTextBox(m_pFont, "TIME"),
+		m_TimerTextBox(m_pFont, "00:00"),
 		m_fLabelOffset(p_fLabelOffset),
 		m_fTime(-3.0f) // beginning countdown
 	{
-		m_mLabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
-		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLabelTextBox);
-		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTimerTextBox);
+		m_LabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
+
+		m_LabelTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+			glm::translate(glm::vec3(m_fLabelOffset, 0.0f, 0.0f)));
+
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_LabelTextBox);
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_TimerTextBox);
 	}
 
 	ComponentHudRaceTimer::~ComponentHudRaceTimer()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mLabelTextBox);
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTimerTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_LabelTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_TimerTextBox);
 	}
 
 	HeatStroke::Component* ComponentHudRaceTimer::CreateComponent(
@@ -70,43 +74,15 @@ namespace Kartaclysm
 
 	void ComponentHudRaceTimer::Update(const float p_fDelta)
 	{
-		// increase time up to the maximum one hour
 		m_fTime += p_fDelta;
-		if (m_fTime >= 3599.999f)
-		{
-			m_fTime = 3599.999f;
-		}
-		else if (m_fTime < 0.0f)
-		{
-			return;
-		}
+		if (m_fTime < 0.0f) return;
 
-		// minutes
-		unsigned int uiMinutes = static_cast<unsigned int>(m_fTime) / 60;
-		std::string strMinutes = (uiMinutes < 10 ? "0" + std::to_string(uiMinutes) : std::to_string(uiMinutes));
-
-		// seconds
-		unsigned int uiSeconds = static_cast<unsigned int>(m_fTime) % 60;
-		std::string strSeconds = (uiSeconds < 10 ? "0" + std::to_string(uiSeconds) : std::to_string(uiSeconds));
-
-		m_mTimerTextBox.SetText(strMinutes + ":" + strSeconds);
-
-		/*
-		// milliseconds (decreases frame rate with many render calls)
-		unsigned int uiMilli = static_cast<unsigned int>((m_fTime - static_cast<unsigned int>(m_fTime)) * 1000);
-		std::string strMilli =	(uiMilli < 10 ? "00" + std::to_string(uiMilli) : 
-								(uiMilli < 100 ? "0" + std::to_string(uiMilli) :
-								std::to_string(uiMilli)));
-
-		m_mTimerTextBox.SetText(strMinutes + ":" + strSeconds + "." + strMilli);
-		*/
+		m_TimerTextBox.SetText(Common::FormatHudTime(m_fTime));
 	}
 
 	void ComponentHudRaceTimer::SyncTransform()
 	{
-		m_mLabelTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
-			glm::translate(glm::vec3(m_fLabelOffset, 0.0f, 0.0f)));
-		m_mTimerTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform()); 
+		m_TimerTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform()); 
 	}
 
 	void ComponentHudRaceTimer::ParseNode(

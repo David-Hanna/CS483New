@@ -15,6 +15,7 @@
 #include "EventManager.h"
 #include "FontManager.h"
 #include "TextBox.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -65,8 +66,8 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		HeatStroke::Font* m_pFont;
-		HeatStroke::TextBox m_mLabelTextBox;
-		HeatStroke::TextBox m_mTimerTextBox;
+		HeatStroke::TextBox m_LabelTextBox;
+		HeatStroke::TextBox m_TimerTextBox;
 
 		float m_fTime;
 		float m_fLabelOffset;
