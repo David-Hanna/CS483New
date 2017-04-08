@@ -148,6 +148,7 @@ namespace Kartaclysm
 		HeatStroke::Event* pEvent = new HeatStroke::Event(p_pRacer->GetGameObject()->GetGUID() + "_HUD_Lap");
 		pEvent->SetIntParameter("Current", 1);
 		pEvent->SetIntParameter("Total", m_iLapsToFinishTrack);
+		pEvent->SetFloatParameter("LapTime", 0.0f);
 		HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 	}
 

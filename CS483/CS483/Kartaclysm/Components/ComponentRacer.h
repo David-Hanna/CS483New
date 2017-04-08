@@ -57,12 +57,18 @@ namespace Kartaclysm
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
 
 		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
+		virtual void FinishLap(const HeatStroke::Event* p_pEvent);
+		virtual void FinishRace(const HeatStroke::Event* p_pEvent);
+
+		virtual void SendHudLapEvent(const int p_iTotalLaps, const float p_fLapTime);
 
 	private:
 		HeatStroke::GameObject* m_pKart;
 		HeatStroke::GameObject* m_pDriver;
+
 		std::function<void(const HeatStroke::Event*)>* m_pLapCompleteDelegate;
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
+		std::function<void(const HeatStroke::Event*)>* m_pStandingsUpdateDelegate;
 
 		int m_iCurrentTrackPiece;
 		int m_iFurthestTrackPiece;
@@ -71,11 +77,6 @@ namespace Kartaclysm
 		bool m_bHasFinishedRace;
 		bool m_bHumanPlayer;
 		std::vector<float> m_vLapTimes;
-
-		void FinishLap(const HeatStroke::Event* p_pEvent);
-		void FinishRace(const HeatStroke::Event* p_pEvent);
-
-		std::function<void(const HeatStroke::Event*)>* m_pStandingsUpdateDelegate;
 	};
 }
 
