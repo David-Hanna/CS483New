@@ -46,13 +46,6 @@ void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 {
 	if (m_bSuspended) return;
 
-	if (m_fTimer == 3.0f)
-	{
-		// Avoid lag caused on the first update of a race
-		m_fTimer = 2.999f;
-		return;
-	}
-
 	m_fTimer -= p_fDelta;
 
 	SendHudCountdownEvent(m_fTimer);
