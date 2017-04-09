@@ -654,6 +654,19 @@ namespace Kartaclysm
 		}
 	}
 
+	void ComponentKartController::RaceFinishParticles()
+	{
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pFinishParticleEffect = pComponentParticleEffect->GetEffect("race_finish");
+			if (pFinishParticleEffect != nullptr)
+			{
+				pFinishParticleEffect->Start();
+			}
+		}
+	}
+
 	void ComponentKartController::Boost(float p_fPower)
 	{
 		if (m_fSpeed < m_fMaxSpeedStat * m_fSpeedScale * 0.5f)

@@ -63,6 +63,8 @@ namespace Kartaclysm
 		void SetOffroad(bool p_bOffroad) { if (!m_bAirborne) m_bOffroad = p_bOffroad; }
 		float GetOffroadRumble() const { return m_fOffroadRumble; }
 
+		void RaceFinishParticles();
+
 		void SetAI(bool p_bAI);
 		void SetKartStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);
 		void SetDriverStatMods(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability);

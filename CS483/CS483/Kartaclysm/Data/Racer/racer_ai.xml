@@ -17,6 +17,7 @@
         <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_left.pfx" id="swerve_left" />
         <Effect path="CS483/CS483/Kartaclysm/Data/Effects/swerve_right.pfx" id="swerve_right" />
         <Effect path="CS483/CS483/Kartaclysm/Data/Effects/offroad.pfx" id="offroad" />
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/race_finish.pfx" id="race_finish" />
       </Effects>
     </GOC_ParticleEffect>
   </Components>
