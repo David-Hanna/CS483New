@@ -25,7 +25,7 @@
   <Components>
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
-      <Sphere radius="1.0" />
+      <Sphere radius="0.5" />
       <Physics applies="false" />
     </GOC_SphereCollider>
 
