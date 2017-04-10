@@ -27,6 +27,17 @@ namespace HeatStroke
 			unsigned int m_uiPositionIndex;
 			unsigned int m_uiUVIndex;
 			unsigned int m_uiNormalIndex;
+
+			// Required to store in a map
+			bool operator<(const OBJVertex& other) const
+			{
+				if (m_uiPositionIndex != other.m_uiPositionIndex)
+					return m_uiPositionIndex < other.m_uiPositionIndex;
+				else if (m_uiUVIndex != other.m_uiUVIndex)
+					return m_uiUVIndex < m_uiUVIndex;
+				else
+					return m_uiNormalIndex < other.m_uiNormalIndex;
+			}
 		};
 		struct OBJFace
 		{
