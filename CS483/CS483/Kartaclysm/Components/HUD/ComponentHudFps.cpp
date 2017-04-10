@@ -62,16 +62,6 @@ namespace Kartaclysm
 
 	void ComponentHudFps::Update(const float p_fDelta)
 	{
-		/*
-		// calculate FPS using a smoothed average
-		m_fFPS = (m_fFPS * 0.95f) + (0.05f / p_fDelta);
-		if (m_iFrameCounter++ > 10)
-		{
-			m_iFrameCounter = 0;
-			m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS)));
-		}
-		*/
-
 		// calculate FPS using a simple moving average (SMA) algorithm
 		m_fFPS -= m_lFrameSpeeds[m_iFrameCounter];
 		m_fFPS += 1.0f / p_fDelta;
@@ -83,7 +73,9 @@ namespace Kartaclysm
 
 		if (m_iFrameCounter % 10 == 0)
 		{
-			m_mTextBox.SetText(std::to_string(static_cast<int>(m_fFPS / m_lFrameSpeeds.size())));
+			std::stringstream stream;
+			stream << std::fixed << std::setprecision(2) << m_fFPS / m_lFrameSpeeds.size();
+			m_mTextBox.SetText(stream.str());
 		}
 	}
 

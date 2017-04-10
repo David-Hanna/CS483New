@@ -16,6 +16,8 @@
 #include "FontManager.h"
 #include "TextBox.h"
 #include <vector>
+#include <iomanip>
+#include <sstream>
 
 namespace Kartaclysm
 {
