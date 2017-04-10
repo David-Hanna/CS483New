@@ -60,6 +60,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		float m_fFPS;
+		float m_fTimeSinceLastShown;
 		int m_iFrameCounter;
 		std::vector<float> m_lFrameSpeeds;
 
