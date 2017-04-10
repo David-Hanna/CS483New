@@ -116,8 +116,9 @@ void HeatStroke::Model::AddToVertexData(
 	const std::vector<const glm::vec2>& p_vUVs,
 	VertexToIndexMap& p_mExistingVerticesMap)
 {
-	// TODO: Temporary fix for crash while loading kart models in debug mode
-	unsigned int uvIndex = (p_Vertex.m_uiUVIndex >= p_vUVs.size() ? p_vUVs.size() - 1 : p_Vertex.m_uiUVIndex);
+	// TODO: Added kart objects are missing texture information in .obj file
+	// i.e. Speedter's Engine_Cube (line 3663) does not have any lines beginning with "vt"
+	unsigned int uvIndex = (p_Vertex.m_uiUVIndex == -1 ? p_vUVs.size() - 1 : p_Vertex.m_uiUVIndex);
 
 	auto find = p_mExistingVerticesMap.find(p_Vertex);
 	if (find != p_mExistingVerticesMap.end())
