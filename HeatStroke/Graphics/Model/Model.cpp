@@ -61,8 +61,8 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 		mMesh.m_pVertexDeclaration->Begin();
 
 		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Position, 3, HeatStroke::CT_Float, 0);
-		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Normal, 3, HeatStroke::CT_Float, 3 * sizeof(float));
-		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 6 * sizeof(float));
+		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_TexCoord1, 2, HeatStroke::CT_Float, 3 * sizeof(float));
+		mMesh.m_pVertexDeclaration->AppendAttribute(HeatStroke::AT_Normal, 3, HeatStroke::CT_Float, 5 * sizeof(float));
 
 		mMesh.m_pVertexDeclaration->SetVertexBuffer(mMesh.m_pVertexBuffer);
 		mMesh.m_pVertexDeclaration->SetIndexBuffer(mMesh.m_pIndexBuffer);
@@ -116,8 +116,8 @@ void HeatStroke::Model::AddToVertexData(
 	const std::vector<const glm::vec2>& p_vUVs,
 	VertexToIndexMap& p_mExistingVerticesMap)
 {
-	// TODO: Added kart objects are missing texture information in .obj file
-	// i.e. Speedter's Engine_Cube (line 3663) does not have any lines beginning with "vt"
+	// TODO: Custome objects added to karts are missing texture information in .obj file
+	// i.e. Speedster's Engine_Cube (line 3663) does not have any lines beginning with "vt"
 	unsigned int uvIndex = (p_Vertex.m_uiUVIndex == -1 ? p_vUVs.size() - 1 : p_Vertex.m_uiUVIndex);
 
 	auto find = p_mExistingVerticesMap.find(p_Vertex);
@@ -135,12 +135,12 @@ void HeatStroke::Model::AddToVertexData(
 	p_vVertexData.push_back(vertexPosition.y);
 	p_vVertexData.push_back(vertexPosition.z);
 
+	p_vVertexData.push_back(vertexUVs.x);
+	p_vVertexData.push_back(vertexUVs.y);
+
 	p_vVertexData.push_back(vertexNormal.x);
 	p_vVertexData.push_back(vertexNormal.y);
 	p_vVertexData.push_back(vertexNormal.z);
-
-	p_vVertexData.push_back(vertexUVs.x);
-	p_vVertexData.push_back(vertexUVs.y);
 
 	unsigned short usIndex = static_cast<unsigned short>(p_vVertexData.size() / 8) - 1;
 	p_vIndexData.push_back(usIndex);
