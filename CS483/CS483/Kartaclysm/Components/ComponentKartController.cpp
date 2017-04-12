@@ -69,6 +69,7 @@ namespace Kartaclysm
 		m_fOffroadRumbleFactor(0.05f),
 		m_fAIRubberBandingFactorFirst(0.85f),
 		m_fAIRubberBandingFactorLast(1.15f),
+		m_fJumpBoostStat(1.8f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -485,6 +486,8 @@ namespace Kartaclysm
 
 				m_fVerticalSpeed = heightDifference * m_fVerticalSpeedScale;
 				m_bAirborne = true;
+
+				Boost(m_fJumpBoostStat);
 			}
 		}
 		
