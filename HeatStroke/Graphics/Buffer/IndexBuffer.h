@@ -21,7 +21,8 @@ class IndexBuffer : public Buffer
 	public:
 		virtual int GetNumIndices() const { return m_uiLength / sizeof(GLushort); }
 		virtual void Bind();
-		virtual void Write(const void* p_pData, int p_iLength = -1);
+		virtual void Write(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW);
+		virtual void Update(const void* p_pData, int p_iOffset, int p_iLength);
 
 	private:
 		unsigned int		m_uiLength;

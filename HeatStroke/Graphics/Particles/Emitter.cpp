@@ -9,6 +9,7 @@
 HeatStroke::Emitter::Emitter(const std::string& p_strDefinitionFile)
 	:
 	m_bActive(false),
+	m_iNumActiveParticles(0),
 	m_pVB(nullptr),
 	m_pIB(nullptr),
 	m_pDecl(nullptr),
@@ -61,40 +62,29 @@ void HeatStroke::Emitter::Update(const float p_fDelta)
 void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 {
 	int v = 0;
-	int i = 0;
 	Particle* p = m_pActiveHead;
 	while (p)
 	{
 		m_pVerts[v].vPos = (glm::vec3(-0.05f, -0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
 		m_pVerts[v].vUV = glm::vec2(0.0f, 0.0f);
 		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		++v;
+		m_pVerts[v].vPos = (glm::vec3(-0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
+		m_pVerts[v].vUV = glm::vec2(0.0f, 1.0f);
+		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		++v;
+		m_pVerts[v].vPos = (glm::vec3(0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
+		m_pVerts[v].vUV = glm::vec2(1.0f, 1.0f);
+		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		++v;
+		m_pVerts[v].vPos = (glm::vec3(0.05f, -0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
+		m_pVerts[v].vUV = glm::vec2(1.0f, 0.0f);
+		m_pVerts[v].vColor = glm::vec4(p->m_vColor, p->m_fFade);
+		++v;
 
-		m_pVerts[v + 1].vPos = (glm::vec3(-0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
-		m_pVerts[v + 1].vUV = glm::vec2(0.0f, 1.0f);
-		m_pVerts[v + 1].vColor = glm::vec4(p->m_vColor, p->m_fFade);
-
-		m_pVerts[v + 2].vPos = (glm::vec3(0.05f, 0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
-		m_pVerts[v + 2].vUV = glm::vec2(1.0f, 1.0f);
-		m_pVerts[v + 2].vColor = glm::vec4(p->m_vColor, p->m_fFade);
-
-		m_pVerts[v + 3].vPos = (glm::vec3(0.05f, -0.05f, 0.0f) * p->m_fSize) + p->m_vPos;
-		m_pVerts[v + 3].vUV = glm::vec2(1.0f, 0.0f);
-		m_pVerts[v + 3].vColor = glm::vec4(p->m_vColor, p->m_fFade);
-
-		m_pIndices[i] = v;
-		m_pIndices[i + 1] = v + 1;
-		m_pIndices[i + 2] = v + 2;
-		m_pIndices[i + 3] = v + 2;
-		m_pIndices[i + 4] = v + 3;
-		m_pIndices[i + 5] = v;
-
-		v += 4;
-		i += 6;
 		p = p->m_pNext;
 	}
-
-	m_pVB->Write(m_pVerts, v * sizeof(Vertex));
-	m_pIB->Write(m_pIndices, i * sizeof(GLushort));
+	m_pVB->Update(m_pVerts, 0, v * sizeof(Vertex));
 
 	glm::mat4 mWorld =  glm::translate(m_Transform.GetTranslation()) * (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorld;
@@ -104,7 +94,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 	m_pMat->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 	m_pMat->Apply();
 
-	glDrawElements(GL_TRIANGLES, i, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, m_iNumActiveParticles * 6, GL_UNSIGNED_SHORT, 0);
 }
 
 void HeatStroke::Emitter::Start()
@@ -155,10 +145,24 @@ void HeatStroke::Emitter::InitRenderProperties(tinyxml2::XMLElement* p_pRenderPr
 void HeatStroke::Emitter::InitBuffers()
 {
 	m_pVB = BufferManager::CreateVertexBuffer(0);
-	m_pIB = BufferManager::CreateIndexBuffer(0);
+	m_pVB->Write(nullptr, m_iNumParticles * 4 * sizeof(Vertex), GL_DYNAMIC_DRAW);
+	m_pIB = BufferManager::CreateIndexBuffer(m_iNumParticles * 6);
 
 	m_pVerts = new Vertex[m_iNumParticles * 4];
 	m_pIndices = new GLushort[m_iNumParticles * 6];
+	for (int i = 0; i < m_iNumParticles; ++i)
+	{
+		int iVertexOffset = i * 4;
+		int iIndexOffset = i * 6;
+
+		m_pIndices[iIndexOffset] = iVertexOffset;
+		m_pIndices[iIndexOffset + 1] = iVertexOffset + 1;
+		m_pIndices[iIndexOffset + 2] = iVertexOffset + 2;
+		m_pIndices[iIndexOffset + 3] = iVertexOffset + 2;
+		m_pIndices[iIndexOffset + 4] = iVertexOffset + 3;
+		m_pIndices[iIndexOffset + 5] = iVertexOffset;
+	}
+	m_pIB->Update(m_pIndices, 0, m_iNumParticles * 6 * sizeof(GLushort));
 }
 
 void HeatStroke::Emitter::InitVertexDeclaration()
