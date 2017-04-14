@@ -15,9 +15,9 @@ public:
 
 	struct Vertex
 	{
-		unsigned int m_uiPositionIndex;
-		unsigned int m_uiUVIndex;
-		unsigned int m_uiNormalIndex;
+		uint32_t m_uiPositionIndex;
+		uint32_t m_uiUVIndex;
+		uint32_t m_uiNormalIndex;
 	};
 	struct Face
 	{
