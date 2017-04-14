@@ -20,8 +20,8 @@ class VertexBuffer : public Buffer
 	public:
 		virtual unsigned int GetLength() { return m_uiLength; }
 		virtual void Bind();
-		virtual void Write(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW);
-		virtual void Update(const void* p_pData, int p_iOffset, int p_iLength);
+		virtual void WriteBufferData(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW);
+		virtual void UpdateBufferData(const void* p_pData, int p_iOffset, int p_iLength);
 
 	private:
 		unsigned int		m_uiLength;

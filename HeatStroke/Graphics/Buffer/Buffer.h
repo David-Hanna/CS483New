@@ -18,7 +18,8 @@ class Buffer
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
 		virtual void Bind() = 0;
-		virtual void Write(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW) = 0;
+		virtual void WriteBufferData(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW) = 0;
+		virtual void UpdateBufferData(const void* p_pData, int p_iOffset, int p_iLength) = 0;
 		//-------------------------------------------------------------------------
 
 	protected:

@@ -17,17 +17,17 @@ IndexBuffer::IndexBuffer(unsigned int p_uiNumIndices) : m_uiLength(p_uiNumIndice
 {
 	glGenBuffers(1, &m_uiBuffer);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-	Write(nullptr, m_uiLength);
+	WriteBufferData(nullptr, m_uiLength);
 }
 
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-IndexBuffer::IndexBuffer(const void* p_pData, unsigned int p_uiLength) : m_uiLength(p_uiLength)
+IndexBuffer::IndexBuffer(const void* p_pData, unsigned int p_uiNumIndices) : m_uiLength(p_uiNumIndices * sizeof(GLushort))
 {
 	glGenBuffers(1, &m_uiBuffer);
 	GL_CHECK_ERROR(__FILE__, __LINE__);
-	Write(p_pData);
+	WriteBufferData(p_pData);
 }
 
 //----------------------------------------------------------
@@ -42,7 +42,7 @@ IndexBuffer::~IndexBuffer()
 //----------------------------------------------------------
 // Fills this Index buffer with the given data
 //----------------------------------------------------------
-void IndexBuffer::Write(const void* p_pData, int p_iLength, GLenum p_eUsage /*= GL_STATIC_DRAW*/)
+void IndexBuffer::WriteBufferData(const void* p_pData, int p_iLength, GLenum p_eUsage /*= GL_STATIC_DRAW*/)
 {
 	Bind();
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, p_iLength == -1 ? m_uiLength : p_iLength, p_pData, p_eUsage);
@@ -52,7 +52,7 @@ void IndexBuffer::Write(const void* p_pData, int p_iLength, GLenum p_eUsage /*= 
 //----------------------------------------------------------
 // Update buffer with given data without reallocating storage
 //----------------------------------------------------------
-void IndexBuffer::Update(const void* p_pData, int p_iOffset, int p_iLength)
+void IndexBuffer::UpdateBufferData(const void* p_pData, int p_iOffset, int p_iLength)
 {
 	Bind();
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, p_iOffset, p_iLength, p_pData);

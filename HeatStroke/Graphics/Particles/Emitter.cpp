@@ -84,7 +84,7 @@ void HeatStroke::Emitter::Render(const SceneCamera* p_pCamera)
 
 		p = p->m_pNext;
 	}
-	m_pVB->Update(m_pVerts, 0, v * sizeof(Vertex));
+	m_pVB->UpdateBufferData(m_pVerts, 0, v * sizeof(Vertex));
 
 	glm::mat4 mWorld =  glm::translate(m_Transform.GetTranslation()) * (glm::mat4)glm::transpose((glm::mat3)p_pCamera->GetViewMatrix());
 	glm::mat4 mWorldViewTransform = p_pCamera->GetViewMatrix() * mWorld;
@@ -144,10 +144,6 @@ void HeatStroke::Emitter::InitRenderProperties(tinyxml2::XMLElement* p_pRenderPr
 
 void HeatStroke::Emitter::InitBuffers()
 {
-	m_pVB = BufferManager::CreateVertexBuffer(0);
-	m_pVB->Write(nullptr, m_iNumParticles * 4 * sizeof(Vertex), GL_DYNAMIC_DRAW);
-	m_pIB = BufferManager::CreateIndexBuffer(m_iNumParticles * 6);
-
 	m_pVerts = new Vertex[m_iNumParticles * 4];
 	m_pIndices = new GLushort[m_iNumParticles * 6];
 	for (int i = 0; i < m_iNumParticles; ++i)
@@ -162,7 +158,10 @@ void HeatStroke::Emitter::InitBuffers()
 		m_pIndices[iIndexOffset + 4] = iVertexOffset + 3;
 		m_pIndices[iIndexOffset + 5] = iVertexOffset;
 	}
-	m_pIB->Update(m_pIndices, 0, m_iNumParticles * 6 * sizeof(GLushort));
+
+	m_pVB = BufferManager::CreateVertexBuffer(0);
+	m_pVB->WriteBufferData(nullptr, m_iNumParticles * 4 * sizeof(Vertex), GL_DYNAMIC_DRAW);
+	m_pIB = BufferManager::CreateIndexBuffer(m_pIndices, m_iNumParticles * 6);
 }
 
 void HeatStroke::Emitter::InitVertexDeclaration()
