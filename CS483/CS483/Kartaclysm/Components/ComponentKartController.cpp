@@ -654,6 +654,19 @@ namespace Kartaclysm
 		}
 	}
 
+	void ComponentKartController::RaceFinishParticles()
+	{
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pFinishParticleEffect = pComponentParticleEffect->GetEffect("race_finish");
+			if (pFinishParticleEffect != nullptr)
+			{
+				pFinishParticleEffect->Start();
+			}
+		}
+	}
+
 	void ComponentKartController::Boost(float p_fPower)
 	{
 		if (m_fSpeed < m_fMaxSpeedStat * m_fSpeedScale * 0.5f)
@@ -818,13 +831,13 @@ namespace Kartaclysm
 		p_pEvent->GetOptionalFloatParameter("Power", power, power);
 		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
 
-#ifdef _DEBUG
-		printf("KartController: Ability %s from %s targetting %s\n", 
-			ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
-#endif
-
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			printf("KartController: Ability %s from %s targetting %s\n",
+				ability.c_str(), originator.c_str(), target.c_str());
+#endif
+
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
@@ -876,6 +889,14 @@ namespace Kartaclysm
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			if (target == "")
+			{
+				printf("KartController: Ability %s from %s targetting %s\n",
+					ability.c_str(), originator.c_str(), "self");
+			}
+#endif
+
 			if (ability.compare("Boost") == 0)
 			{
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
