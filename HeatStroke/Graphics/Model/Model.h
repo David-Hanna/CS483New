@@ -31,7 +31,7 @@ namespace HeatStroke
 		std::vector<Mesh>& GetMeshes() { return m_vMeshes; }
 
 	private:
-		typedef std::map<OBJFile::OBJVertex, unsigned short> VertexToIndexMap;
+		typedef std::map<OBJFile::OBJVertex, unsigned short, OBJFile::OBJVertexComparator> VertexToIndexMap;
 
 		std::vector<Mesh> m_vMeshes;
 
