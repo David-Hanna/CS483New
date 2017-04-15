@@ -50,7 +50,7 @@ HeatStroke::Model::Model(const std::string& p_mOBJFileName)
 		}
 
 		unsigned int uiVertexDataLength = sizeof(float) * vVertexData.size();
-		unsigned int uiIndexDataLength = sizeof(unsigned short) * vIndexData.size();
+		unsigned int uiIndexDataLength = vIndexData.size();
 
 		Mesh mMesh;
 
