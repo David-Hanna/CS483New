@@ -104,7 +104,7 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 
 		m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("LoadingMessage"));
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
-		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
+		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.flac");
 	}
 	else if (m_bRunTrackTimeQuery)
 	{
@@ -115,10 +115,11 @@ void Kartaclysm::StateMainMenu::Update(const float p_fDelta)
 
 		m_pGameObjectManager->DestroyGameObject(m_pGameObjectManager->GetGameObject("CheckingInternet"));
 		m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/MainMenu/press_start.xml", "PressStart");
-		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
+		HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.flac");
 	}
 	else if (bConfirm)
 	{
+		m_pStateMachine->Pop();
 		m_pStateMachine->Push(STATE_MODE_SELECTION_MENU);
 	}
 }

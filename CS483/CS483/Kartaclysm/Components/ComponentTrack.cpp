@@ -28,7 +28,7 @@ namespace Kartaclysm
 
 	ComponentTrack::~ComponentTrack()
 	{
-		HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
+		HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.flac");
 
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 		delete m_pRacerTrackPieceUpdatedDelegate;
@@ -120,11 +120,11 @@ namespace Kartaclysm
 		if (m_bRacerIsOffroad)
 		{
 			// AudioPlayer will not start sfx over if it's already playing.
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/drive_on_grass.wav", true);
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/drive_on_grass.flac", true);
 		}
 		else
 		{
-			HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
+			HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.flac");
 		}
 
 		UpdateRacerPositions();

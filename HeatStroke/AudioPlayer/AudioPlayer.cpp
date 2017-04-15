@@ -85,6 +85,13 @@ void HeatStroke::AudioPlayer::PreloadSoundEffects(const std::string& p_strPreloa
 		std::string strSoundEffectFileName;
 		EasyXML::GetRequiredStringAttribute(pSoundEffectElement, "path", strSoundEffectFileName);
 
+#ifdef _DEBUG
+		if (strSoundEffectFileName.substr(strSoundEffectFileName.length() - 5) != ".flac")
+		{
+			printf("AudioPlayer - %s is not in .flac format, may be inefficent\n", strSoundEffectFileName.c_str());
+		}
+#endif
+
 		LoadedSoundEffects::const_iterator it = m_mLoadedSoundEffects.find(strSoundEffectFileName);
 		if (it == m_mLoadedSoundEffects.end())
 		{
@@ -101,6 +108,10 @@ void HeatStroke::AudioPlayer::PreloadSoundEffects(const std::string& p_strPreloa
 			pSound->setBuffer(*pSoundBuffer);
 
 			m_mLoadedSoundEffects[strSoundEffectFileName] = std::pair<sf::SoundBuffer*, sf::Sound*>(pSoundBuffer, pSound);
+		}
+		else
+		{
+			printf("AudioPlayer: Sound effect %s already loaded\n", strSoundEffectFileName.c_str());
 		}
 	}
 }
@@ -121,6 +132,10 @@ void HeatStroke::AudioPlayer::PlaySoundEffect(const std::string& p_strFile, cons
 	{
 		it->second.second->setLoop(loop);
 		it->second.second->play();
+	}
+	else if (!loop)
+	{
+		it->second.second->setPlayingOffset(sf::Time());
 	}
 }
 

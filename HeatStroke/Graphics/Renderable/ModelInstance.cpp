@@ -41,6 +41,6 @@ void HeatStroke::ModelInstance::Render(const SceneCamera* p_pCamera)
 
 		meshIt->m_pMaterial->Apply();
 
-		glDrawArrays(GL_TRIANGLES, 0, meshIt->m_pVertexBuffer->GetLength());
+		glDrawElements(GL_TRIANGLES, meshIt->m_pIndexBuffer->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 	}
 }

@@ -104,7 +104,7 @@ namespace Kartaclysm
 			ComponentSimplePhysics* pPhysics = static_cast<ComponentSimplePhysics*>(pStrike->GetComponent("GOC_SimplePhysics"));
 			pPhysics->SetDirection(pKart->GetDirection());
 
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_throw.wav");
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_throw.flac");
 		}
 	}
 

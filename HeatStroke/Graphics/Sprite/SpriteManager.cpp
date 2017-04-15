@@ -66,6 +66,10 @@ void HeatStroke::SpriteManager::Preload(const std::string& p_strPreloadFileName)
 			Sprite* pSprite = new Sprite(strMTLFileName, strMaterialName);
 			m_mLoadedSprites[strKey] = pSprite;
 		}
+		else
+		{
+			printf("SpriteManager: Sprite %s already loaded\n", strKey.c_str());
+		}
 	}
 }
 

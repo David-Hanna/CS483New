@@ -23,7 +23,6 @@ Kartaclysm::StateRacing::StateRacing()
 	m_uiNumHumanRacers(0),
 	m_uiNumRacers(0),
 	m_uiLapsNeeded(0),
-	m_bRaceStartCountdown(false),
 	m_bRaceEndCountdown(false),
 	m_fTimeRemaining(-1.0f),
 	m_fMaxTimeUntilDNF(20.0f)
@@ -36,7 +35,10 @@ Kartaclysm::StateRacing::~StateRacing()
 
 void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
-	assert(m_pStateMachine->size() == 1); // this should be the only state on the stack
+#ifdef _DEBUG
+	assert(m_pStateMachine->size() == (p_mContextParameters.at("Mode") == "Tournament" ? 2 : 1));
+#endif
+
 	m_bSuspended = false;
 	m_fTimeRemaining = -1.0f;
 	m_vRaceResults.clear();
@@ -113,7 +115,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 	SendRaceInfoEvent();
 	BeginRace();
 
-	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.flac", true);
 
 	// I have to do this horrible spaghetti crap because game object manager isn't a SINGLETON
 	HeatStroke::CollisionManager::Instance()->SetGameObjectManager(m_pGameObjectManager);
@@ -199,11 +201,7 @@ void Kartaclysm::StateRacing::BeginRace()
 	HeatStroke::AudioPlayer::Instance()->OpenMusicFromFile("Assets/Music/RocketPower.ogg");
 	HeatStroke::AudioPlayer::Instance()->PlayMusic();
 
-	// Set conditions for beginning countdown
-	m_bRaceStartCountdown = true;
-	HeatStroke::Event* pDisableEvent = new HeatStroke::Event("KartCountdown");
-	pDisableEvent->SetIntParameter("Disable", 1);
-	HeatStroke::EventManager::Instance()->TriggerEvent(pDisableEvent);
+	m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN, m_mContextParams);
 }
 
 HeatStroke::GameObject* Kartaclysm::StateRacing::GenerateRacer
@@ -318,14 +316,14 @@ void Kartaclysm::StateRacing::Suspend(const int p_iNewState)
 {
 	m_bSuspended = (p_iNewState != STATE_COUNTDOWN);
 	HeatStroke::EventManager::Instance()->RemoveListener("Pause", m_pPauseDelegate);
-	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.flac");
 }
 
 void Kartaclysm::StateRacing::Unsuspend(const int p_iPrevState)
 {
 	m_bSuspended = false;
 	HeatStroke::EventManager::Instance()->AddListener("Pause", m_pPauseDelegate);
-	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.wav", true);
+	HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/engine.flac", true);
 }
 
 void Kartaclysm::StateRacing::Update(const float p_fDelta)
@@ -343,12 +341,6 @@ void Kartaclysm::StateRacing::Update(const float p_fDelta)
 			HeatStroke::Event* pEvent = new HeatStroke::Event("RaceFinished");
 			HeatStroke::EventManager::Instance()->QueueEvent(pEvent);
 		}
-	}
-	else if (m_bRaceStartCountdown) // TODO: Currently needs to start countdown after it has updated once, otherwise it does not render models
-	{
-		m_bRaceStartCountdown = false;
-		m_pStateMachine->Push(GameplayState::STATE_COUNTDOWN);
-		return;
 	}
 }
 
@@ -400,7 +392,7 @@ void Kartaclysm::StateRacing::Exit()
 		m_pGameObjectManager = nullptr;
 	}
 
-	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.wav");
+	HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/engine.flac");
 }
 
 void Kartaclysm::StateRacing::PauseGame(const HeatStroke::Event* p_pEvent)

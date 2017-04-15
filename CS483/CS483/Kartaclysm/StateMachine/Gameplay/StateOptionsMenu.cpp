@@ -154,7 +154,7 @@ void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
 				break;
 			case 1:
 				HeatStroke::AudioPlayer::Instance()->SetSoundEffectsVolume(static_cast<float>(m_pCurrentSlider->GetSliderValue()));
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.flac");
 				break;
 			}
 		}

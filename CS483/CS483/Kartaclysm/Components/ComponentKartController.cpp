@@ -69,6 +69,7 @@ namespace Kartaclysm
 		m_fOffroadRumbleFactor(0.05f),
 		m_fAIRubberBandingFactorFirst(0.85f),
 		m_fAIRubberBandingFactorLast(1.15f),
+		m_fJumpBoostStat(1.8f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -485,6 +486,8 @@ namespace Kartaclysm
 
 				m_fVerticalSpeed = heightDifference * m_fVerticalSpeedScale;
 				m_bAirborne = true;
+
+				Boost(m_fJumpBoostStat);
 			}
 		}
 		
@@ -654,6 +657,19 @@ namespace Kartaclysm
 		}
 	}
 
+	void ComponentKartController::RaceFinishParticles()
+	{
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pFinishParticleEffect = pComponentParticleEffect->GetEffect("race_finish");
+			if (pFinishParticleEffect != nullptr)
+			{
+				pFinishParticleEffect->Start();
+			}
+		}
+	}
+
 	void ComponentKartController::Boost(float p_fPower)
 	{
 		if (m_fSpeed < m_fMaxSpeedStat * m_fSpeedScale * 0.5f)
@@ -818,13 +834,13 @@ namespace Kartaclysm
 		p_pEvent->GetOptionalFloatParameter("Power", power, power);
 		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
 
-#ifdef _DEBUG
-		printf("KartController: Ability %s from %s targetting %s\n", 
-			ability.c_str(), originator.c_str(), target == "" ? "self" : target.c_str());
-#endif
-
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			printf("KartController: Ability %s from %s targetting %s\n",
+				ability.c_str(), originator.c_str(), target.c_str());
+#endif
+
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
@@ -841,7 +857,7 @@ namespace Kartaclysm
 
 			if (ability.compare("Strike") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.flac");
 				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
@@ -855,7 +871,7 @@ namespace Kartaclysm
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.flac");
 				Slow(power, duration);
 
 				HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
@@ -870,12 +886,20 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.flac");
 				Spinout(duration);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			if (target == "")
+			{
+				printf("KartController: Ability %s from %s targetting %s\n",
+					ability.c_str(), originator.c_str(), "self");
+			}
+#endif
+
 			if (ability.compare("Boost") == 0)
 			{
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
@@ -883,12 +907,12 @@ namespace Kartaclysm
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.flac");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.flac");
 				TurnLock(duration);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
@@ -897,7 +921,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.flac");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)
