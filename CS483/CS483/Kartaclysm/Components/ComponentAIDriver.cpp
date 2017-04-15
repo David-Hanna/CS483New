@@ -54,10 +54,13 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
+		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+
 		// Update "inputs"
 		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
-		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::vec3 vForwardDir = glm::vec3(std::sinf(pKartController->GetDirection()), 0.0f, std::cosf(pKartController->GetDirection()));
 		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
+
 		m_fAngleToNextNode = fabsf(fAngle);
 
 		// Path progress
@@ -100,10 +103,9 @@ namespace Kartaclysm
 		}
 
 		// Swerve if turning
-		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
 		if (pKartController != nullptr)
 		{
-			if (pKartController->IsOffroad())
+			if (pKartController->IsOffroad() || pKartController->IsInWheelie())
 			{
 				m_iSlide = 0;
 			}
