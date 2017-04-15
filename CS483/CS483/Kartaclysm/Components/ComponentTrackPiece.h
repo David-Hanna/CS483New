@@ -69,6 +69,8 @@ namespace Kartaclysm
 			float HeightAtPosition(glm::vec3 p_pPosition);
 			bool IsOffroadAtPosition(const glm::vec3 &p_pPosition);
 
+			bool GetIsUnderJump() const { return m_bIsUnderJump; }
+
 			bool IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
 
 		protected:
@@ -83,7 +85,8 @@ namespace Kartaclysm
 				glm::vec3 p_vPivotPosition,
 				glm::vec3 p_vPivotAxis,
 				std::vector<OffroadSquare> p_vOffroadSquares,
-				std::vector<OffroadTriangle> p_vOffroadTriangles);
+				std::vector<OffroadTriangle> p_vOffroadTriangles,
+				bool p_bIsUnderJump);
 
 		private:
 			float m_fWidthX;
@@ -111,6 +114,8 @@ namespace Kartaclysm
 
 			std::vector<OffroadSquare> m_vOffroadSquares;
 			std::vector<OffroadTriangle> m_vOffroadTriangles;
+
+			bool m_bIsUnderJump;
 
 			bool PointInTriangle(const glm::vec2 &p, const glm::vec2 &p0, const glm::vec2 &p1, const glm::vec2 &p2);
 	};
