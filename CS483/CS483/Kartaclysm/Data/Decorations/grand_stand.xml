@@ -4,4 +4,37 @@
       <OBJFileName path="Assets/Decorations/grand_stand.hobj"/>
     </GOC_3DModel>
   </Components>
+
+  <Children>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/audience.xml">
+      <Transform>
+        <Translation x="1.25" y="1.15" z="0.1"/>
+        <Scale x="0.5" y="0.5" z="0.5"/>
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/audience.xml">
+      <Transform>
+        <Translation x="-2.5" y="1.0" z="1.0"/>
+        <Scale x="0.5" y="0.5" z="0.5"/>
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/audience.xml">
+      <Transform>
+        <Translation x="-.75" y="1.6" z="-1.25"/>
+        <Scale x="0.5" y="0.5" z="0.5"/>
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/audience.xml">
+      <Transform>
+        <Translation x="2.5" y="1.35" z="-0.5"/>
+        <Scale x="0.5" y="0.5" z="0.5"/>
+      </Transform>
+    </GameObject>
+    <GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+      <Transform>
+        <Translation x="4.8" y="0.0" z="2.65"/>
+        <Scale x="0.5" y="0.5" z="0.5"/>
+      </Transform>
+    </GameObject>
+  </Children>
 </GameObject>

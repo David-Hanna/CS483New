@@ -46,6 +46,7 @@
 		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/skybox.xml">
 			<Transform>
 				<Scale x="200.0" y="200.0" z="200.0"/>
+				<Rotation angle="90.0" x="1.0" y="0.0" z="0.0" />
 			</Transform>
 		</GameObject>
 		<!--track pieces-->
@@ -522,6 +523,437 @@
 		<GameObject definition="CS483/CS483/Kartaclysm/Data/Tracks/grass_flat_up.xml">
 			<Transform>
 				<Translation x="50.0" y="-2.0" z="10.0" />
+			</Transform>
+		</GameObject>
+
+		<!-- Decorations -->
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="30.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="40.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="0.0" y="0.0" z="48.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="10.0" y="0.0" z="48.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="30.0" y="0.0" z="48.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="30.0" y="0.0" z="22.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="60.0" y="-2.0" z="38.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="70.0" y="-2.0" z="38.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="30.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="20.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="0.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="-20.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="-40.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="-50.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="70.0" y="-2.0" z="-58.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="60.0" y="-2.0" z="-58.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="50.0" y="-2.0" z="-58.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="40.0" y="-2.0" z="-58.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="-28.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="0.0" y="0.0" z="-28.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="-20.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="-10.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="0.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="10.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="-8.0" y="0.0" z="20.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="8.0" y="0.0" z="-10.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="8.0" y="0.0" z="0.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="8.0" y="0.0" z="10.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="8.0" y="0.0" z="20.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="48.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="32.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="10.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="68.0" y="-2.0" z="-10.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="78.0" y="-2.0" z="-30.0" />
+				<Rotation angle="-90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="30.0" y="0.0" z="-2.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="20.0" y="0.0" z="-2.0" />
+				<Rotation angle="180.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="10.0" y="0.0" z="-28.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="62.0" y="-2.0" z="10.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/grand_stand.xml">
+			<Transform>
+				<Translation x="62.0" y="-2.0" z="-30.0" />
+				<Rotation angle="90.0" x="0.0" y="1.0" z="0.0" />
+				<Scale x="0.3" y="0.3" z="0.3"/>
+			</Transform>
+		</GameObject>
+		
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="35.3" y="0.0" z="45.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="35.3" y="0.0" z="40.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="35.3" y="0.0" z="35.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="40.3" y="-0.5" z="35.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-1.0" z="35.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="50.3" y="-1.75" z="35.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="40.3" y="-0.5" z="24.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-1.0" z="24.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="50.3" y="-1.75" z="24.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-2.0" z="-34.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-1.75" z="-30.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-1.0" z="-25.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="-0.5" z="-20.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="0.0" z="-15.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-2.0" z="-54.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-2.0" z="-50.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-2.0" z="-45.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-2.0" z="-40.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-2.0" z="-34.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-1.75" z="-30.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-1.0" z="-25.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="-0.5" z="-20.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="0.0" z="-15.3" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="0.0" z="-10.0" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="45.3" y="0.0" z="-4.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="40.0" y="0.0" z="-4.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
+			</Transform>
+		</GameObject>
+		<GameObject definition="CS483/CS483/Kartaclysm/Data/Decorations/tree.xml">
+			<Transform>
+				<Translation x="34.7" y="0.0" z="-4.7" />
+				<Scale x="0.16" y="0.16" z="0.16"/>
 			</Transform>
 		</GameObject>
 	</Children>
