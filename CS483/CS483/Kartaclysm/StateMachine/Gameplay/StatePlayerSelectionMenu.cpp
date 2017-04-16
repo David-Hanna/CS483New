@@ -91,6 +91,7 @@ Kartaclysm::StatePlayerSelectionMenu::StatePlayerSelectionMenu()
 	GameplayState("Player Selection"),
 	m_pGameObjectManager(nullptr),
 	m_bSuspended(true),
+	m_strMode(""),
 	m_uiNumPlayers(0)
 {
 }
@@ -102,7 +103,20 @@ Kartaclysm::StatePlayerSelectionMenu::~StatePlayerSelectionMenu()
 void Kartaclysm::StatePlayerSelectionMenu::Enter(const std::map<std::string, std::string>& p_mContextParameters)
 {
 	m_mContextParameters = p_mContextParameters;
+	m_strMode = p_mContextParameters.at("Mode");
 	Initialize();
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::Suspend(const int p_iNewState)
+{
+	Exit();
+}
+
+void Kartaclysm::StatePlayerSelectionMenu::Unsuspend(const int p_iPrevState)
+{
+	std::map<std::string, std::string> mContextParameters;
+	mContextParameters["Mode"] = m_strMode;
+	Enter(mContextParameters);
 }
 
 void Kartaclysm::StatePlayerSelectionMenu::Update(const float p_fDelta)

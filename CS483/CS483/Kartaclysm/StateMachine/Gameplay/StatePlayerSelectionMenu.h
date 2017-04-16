@@ -32,8 +32,8 @@ namespace Kartaclysm
 		virtual ~StatePlayerSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)			{ Exit(); }
-		void Unsuspend(const int p_iPrevState)		{ Enter(m_mContextParameters); }
+		void Suspend(const int p_iNewState);
+		void Unsuspend(const int p_iPrevState);
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
@@ -115,6 +115,7 @@ namespace Kartaclysm
 		std::vector<std::string> m_vKarts;
 
 		std::map<std::string, std::string> m_mContextParameters;
+		std::string m_strMode;
 
 		unsigned int m_uiNumPlayers;
 		unsigned int m_uiNumAIRacers;
