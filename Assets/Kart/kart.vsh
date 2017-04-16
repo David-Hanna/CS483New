@@ -28,11 +28,9 @@ out vec2 v_uv1;									// Pass along the texture coordinates to the fragment sh
 
 void main()
 {
-	/*
     v_position = WorldTransform * a_position;
 	v_normal = WorldInverseTransposeTransform * a_normal;
 	v_view = -(WorldViewTransform * a_position).xyz;
-	*/
 	v_uv1 = a_uv1;
 	gl_Position = WorldViewProjectionTransform * a_position;
 }
