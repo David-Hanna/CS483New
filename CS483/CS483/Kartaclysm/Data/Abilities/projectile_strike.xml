@@ -23,6 +23,15 @@
   </Children>
   
   <Components>
+
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Abilities/bowling_ball.obj"/>
+    </GOC_3DModel>
+
+    <GOC_RotateOverTime>
+			<RotationPerSecond x="3.5"/>
+		</GOC_RotateOverTime>
+
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
       <Sphere radius="0.5" />
