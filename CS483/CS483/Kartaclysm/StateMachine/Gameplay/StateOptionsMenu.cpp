@@ -44,6 +44,14 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PerspectiveCamera", HeatStroke::ComponentPerspectiveCamera::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_MenuSlider", ComponentMenuSlider::CreateComponent);
 
+	// Get background image if specified
+	find = p_mContextParameters.find("background");
+	if (find != p_mContextParameters.end())
+	{
+		HeatStroke::GameObject* pBackground = m_pGameObjectManager->CreateGameObject(find->second);
+		pBackground->GetTransform().TranslateXYZ(-200.0f, 0.0f, 0.0f);
+	}
+	
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_overlay.xml");
 	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_selection.xml");
 	m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_music.xml");
