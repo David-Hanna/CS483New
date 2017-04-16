@@ -46,7 +46,9 @@ namespace Kartaclysm
 		// Protected methods
 		//--------------------------------------------------------------------------
 		ComponentEffect(
-			HeatStroke::GameObject* p_pGameObject
+			HeatStroke::GameObject* p_pGameObject,
+			std::string p_strEffectId,
+			float p_fDuration
 			);
 
 		//--------------------------------------------------------------------------
@@ -55,6 +57,7 @@ namespace Kartaclysm
 		HeatStroke::GameObject* m_pGameObject;
 		float m_fDuration;
 		bool m_bStarted;
+		std::string m_strEffectId;
 	};
 }
 

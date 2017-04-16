@@ -54,10 +54,14 @@ namespace Kartaclysm
 		float x = m_pGameObject->GetTransform().GetTranslation().x;
 		float z = m_pGameObject->GetTransform().GetTranslation().z;
 
+		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
+		assert(pKartController != nullptr);
+
 		// Update "inputs"
 		glm::vec3 vPosDelta = glm::normalize(glm::vec3(m_fXTarget, 0.0f, m_fZTarget) - glm::vec3(x, 0.0f, z));
-		glm::vec3 vForwardDir = glm::normalize(m_pGameObject->GetTransform().GetRotation() * glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::vec3 vForwardDir = glm::vec3(std::sinf(pKartController->GetDirection()), 0.0f, std::cosf(pKartController->GetDirection()));
 		float fAngle = glm::orientedAngle(vForwardDir, vPosDelta, glm::vec3(0.0f, 1.0f, 0.0f));
+
 		m_fAngleToNextNode = fabsf(fAngle);
 
 		// Path progress
@@ -100,28 +104,24 @@ namespace Kartaclysm
 		}
 
 		// Swerve if turning
-		ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
-		if (pKartController != nullptr)
+		if (pKartController->IsOffroad() || pKartController->IsInWheelie())
 		{
-			if (pKartController->IsOffroad())
+			m_iSlide = 0;
+		}
+		else
+		{
+			if (m_fAngleToNextNode <= 1.0f && m_fAngleToNextNode >= 0.4f && m_fDistanceToNextNode >= 4.0f && m_iSlide == 0)
+			{
+				m_iSlide = 1;
+				m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
+			}
+			else if (m_fAngleToNextNode <= 0.1f && m_iSlide == 1)
 			{
 				m_iSlide = 0;
 			}
-			else
+			else if ((m_iSlideDir > 0 && m_fTurn < 0) || (m_iSlideDir < 0 && m_fTurn > 0))
 			{
-				if (m_fAngleToNextNode <= 1.0f && m_fAngleToNextNode >= 0.4f && m_fDistanceToNextNode >= 4.0f && m_iSlide == 0)
-				{
-					m_iSlide = 1;
-					m_iSlideDir = static_cast<int>(ceilf(m_fTurn));
-				}
-				else if (m_fAngleToNextNode <= 0.1f && m_iSlide == 1)
-				{
-					m_iSlide = 0;
-				}
-				else if ((m_iSlideDir > 0 && m_fTurn < 0) || (m_iSlideDir < 0 && m_fTurn > 0))
-				{
-					m_iSlide = 0;
-				}
+				m_iSlide = 0;
 			}
 		}
 

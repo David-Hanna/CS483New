@@ -15,6 +15,7 @@ Kartaclysm::StateTournament::StateTournament()
 	m_bReadyForNextRace(false),
 	m_bFinished(false),
 	m_bCongrats(false),
+	m_bReturnedFromPlayerSelect(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -45,10 +46,23 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	m_pRaceInfoDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTournament::RaceInfoCallback, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
+	DatabaseManager::Instance()->StartTournament(m_vTracks.size());
+
 	// Shuffle tracks for tournament and push to player selection
 	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
+}
+
+void Kartaclysm::StateTournament::Suspend(const int p_iNewState)
+{
+	m_bSuspended = true;
+}
+
+void Kartaclysm::StateTournament::Unsuspend(const int p_iPrevState)
+{
+	m_bSuspended = false;
+	m_bReturnedFromPlayerSelect = (p_iPrevState == STATE_PLAYER_SELECTION_MENU);
 }
 
 void Kartaclysm::StateTournament::Update(const float p_fDelta)
@@ -64,6 +78,11 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	{
 		m_bFinished = false;
 		m_bCongrats = true;
+
+		auto thrInsertQuery = std::thread(
+			&DatabaseManager::EndTournament,
+			DatabaseManager::Instance());
+		thrInsertQuery.detach();
 		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
 	}
 
@@ -76,11 +95,13 @@ void Kartaclysm::StateTournament::Update(const float p_fDelta)
 	else
 	{
 		// Quit tournament early or some other problem
+		DatabaseManager::Instance()->CancelTournament();
 		m_pStateMachine->Pop();
 		if (m_pStateMachine->empty())
 		{
-			m_pStateMachine->Push(STATE_MAIN_MENU);
+			m_pStateMachine->Push(m_bReturnedFromPlayerSelect ? STATE_MODE_SELECTION_MENU : STATE_MAIN_MENU);
 		}
+		m_bReturnedFromPlayerSelect = false;
 	}
 }
 

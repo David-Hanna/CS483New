@@ -53,6 +53,7 @@
 #include "ComponentHudRaceResults.h"
 #include "ComponentParticleEffect.h"
 #include "ComponentEffect.h"
+#include "ComponentObjectSpawn.h"
 
 #include "Common.h"
 #include "GameplayState.h"
@@ -100,7 +101,7 @@ namespace Kartaclysm
 		unsigned int m_uiNumAIRacers;
 		unsigned int m_uiNumHumanRacers;
 		unsigned int m_uiNumRacers;
-		bool m_bRaceStartCountdown;
+		unsigned int m_uiLapsNeeded;
 		bool m_bRaceEndCountdown;
 		float m_fTimeRemaining;
 		float m_fMaxTimeUntilDNF;
@@ -127,6 +128,7 @@ namespace Kartaclysm
 		void RestartRace(const HeatStroke::Event* p_pEvent) { BeginRace(); }
 
 		std::map<std::string, std::string> GenerateRaceResults();
+		void GetDriverAndKartNames(ComponentRacer* p_pRacerComponent, std::string& p_strDriver, std::string& p_strKart) const;
 		int GetTournamentPoints(int p_iPosition) const;
 	};
 }

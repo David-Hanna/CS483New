@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_Track>
-			<Name value="Up and Over" />
+			<Name value="Up And Over" />
 			<PathfindingNodes>
         <!--Right Turn-->
         <Node x="-2.5" z="20.0" variation="1.0" radius="2.0"/>

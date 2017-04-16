@@ -61,7 +61,10 @@ namespace Kartaclysm
 			int GetLeadHumanPosition();
 			int GetRearHumanPosition();
 
+			bool IsUnderJump(int p_iTrackPiece);
+
 			const std::string& GetTrackName() const { return m_strTrackName; }
+			int GetLapsToFinishTrack() const { return m_iLapsToFinishTrack; }
 
 			int GetNumberOfRacers() { return m_vRacers.size(); }
 
@@ -77,6 +80,7 @@ namespace Kartaclysm
 			std::vector<HeatStroke::GameObject*> m_vTrackPieces;
 			std::vector<PathNode> m_vPathfindingNodes;
 			std::vector<NodeTrigger> m_vNodeTriggers;
+			std::vector<int> m_vUnderTrackPieces;
 			//NOTE: components are stored instead of objects, as it's faster to access objects from components than components from objects
 			std::vector<ComponentRacer*> m_vRacers;
 			std::map<std::string, ComponentSimplePhysics*> m_vPhysicsObjects;

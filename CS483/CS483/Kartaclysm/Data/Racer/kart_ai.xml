@@ -10,12 +10,13 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Kart/Showoff/showoff.obj"/>
+      <OBJFileName path="Assets/Kart/Showoff/showoff.hobj"/>
     </GOC_3DModel>
 
   </Components>
 
   <Tags>
     <Tag value="Kart"/>
+    <Tag value="Showoff" />
   </Tags>
 </GameObject>

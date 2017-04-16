@@ -711,10 +711,7 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 	}
 	else
 	{
-		while (!m_pStateMachine->empty())
-		{
-			m_pStateMachine->Pop();
-		}
+		m_pStateMachine->Pop();
 		m_pStateMachine->Push(STATE_RACING, m_mContextParameters);
 	}
 }

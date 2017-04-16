@@ -28,7 +28,7 @@ namespace Kartaclysm
 
 	ComponentTrack::~ComponentTrack()
 	{
-		HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
+		HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.flac");
 
 		HeatStroke::EventManager::Instance()->RemoveListener("RacerTrackPieceUpdated", m_pRacerTrackPieceUpdatedDelegate);
 		delete m_pRacerTrackPieceUpdatedDelegate;
@@ -57,6 +57,14 @@ namespace Kartaclysm
 			{
 				if (strcmp(strTag.c_str(), "Trackpiece") == 0)
 				{
+					// Deal with underjump shenanigans
+					ComponentTrackPiece* pPiece = static_cast<ComponentTrackPiece*>(pChildGameObject->GetComponent("GOC_TrackPiece"));
+					if (pPiece != nullptr && pPiece->IsUnderJump())
+					{
+						m_vUnderTrackPieces.push_back(m_vTrackPieces.size());
+					}
+
+					// Add to the list
 					m_vTrackPieces.push_back(pChildGameObject);
 					break;
 				}
@@ -120,11 +128,11 @@ namespace Kartaclysm
 		if (m_bRacerIsOffroad)
 		{
 			// AudioPlayer will not start sfx over if it's already playing.
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/drive_on_grass.wav", true);
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/drive_on_grass.flac", true);
 		}
 		else
 		{
-			HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.wav");
+			HeatStroke::AudioPlayer::Instance()->StopSoundEffect("Assets/Sounds/drive_on_grass.flac");
 		}
 
 		UpdateRacerPositions();
@@ -182,11 +190,14 @@ namespace Kartaclysm
 		if (iTrackPieceIndex == 0 && iRacerFurthestTrackPiece == m_vTrackPieces.size() - 1)
 		{
 			m_vRacers[iRacerIndex]->SetFurthestTrackPiece(0);
-			std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
-			TriggerRacerCompletedLapEvent(strRacerId);
-			if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack && !m_vRacers[iRacerIndex]->HasFinishedRace())
+			if (!m_vRacers[iRacerIndex]->HasFinishedRace())
 			{
-				TriggerRacerFinishedRaceEvent(strRacerId);
+				std::string strRacerId = m_vRacers[iRacerIndex]->GetGameObject()->GetGUID();
+				TriggerRacerCompletedLapEvent(strRacerId);
+				if (m_vRacers[iRacerIndex]->GetCurrentLap() > m_iLapsToFinishTrack)
+				{
+					TriggerRacerFinishedRaceEvent(strRacerId);
+				}
 			}
 		}
 		else if (iTrackPieceIndex == iRacerFurthestTrackPiece + 1)
@@ -441,8 +452,8 @@ namespace Kartaclysm
 		else
 		{
 			// ahead by track piece
-			int iCurrentTrackPieceA = p_pRacerA->GetCurrentTrackPiece();
-			int iCurrentTrackPieceB = p_pRacerB->GetCurrentTrackPiece();
+			int iCurrentTrackPieceA = p_pRacerA->GetCurrentTrackPieceForDistanceCheck();
+			int iCurrentTrackPieceB = p_pRacerB->GetCurrentTrackPieceForDistanceCheck();
 			if (iCurrentTrackPieceA > iCurrentTrackPieceB)
 			{
 				return true;
@@ -463,6 +474,19 @@ namespace Kartaclysm
 		}
 	}
 
+	bool ComponentTrack::IsUnderJump(int p_iTrackPiece)
+	{
+		for (unsigned int i = 0; i < m_vUnderTrackPieces.size(); i++)
+		{
+			if (p_iTrackPiece == m_vUnderTrackPieces[i])
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void ComponentTrack::TriggerRacerPositionUpdateEvent(const std::string& p_strRacerId)
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerPositionUpdate");
@@ -474,6 +498,7 @@ namespace Kartaclysm
 	{
 		HeatStroke::Event* pEvent = new HeatStroke::Event("RacerCompletedLap");
 		pEvent->SetStringParameter("racerId", p_strRacerId);
+		pEvent->SetFloatParameter("racerTime", m_fRaceTime);
 		pEvent->SetIntParameter("totalLaps", m_iLapsToFinishTrack);
 		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}

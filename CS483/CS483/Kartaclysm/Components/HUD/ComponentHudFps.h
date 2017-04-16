@@ -16,6 +16,8 @@
 #include "FontManager.h"
 #include "TextBox.h"
 #include <vector>
+#include <iomanip>
+#include <sstream>
 
 namespace Kartaclysm
 {
@@ -58,6 +60,7 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		float m_fFPS;
+		float m_fTimeSinceLastShown;
 		int m_iFrameCounter;
 		std::vector<float> m_lFrameSpeeds;
 
