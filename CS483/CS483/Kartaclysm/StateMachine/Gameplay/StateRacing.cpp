@@ -62,6 +62,7 @@ void Kartaclysm::StateRacing::Enter(const std::map<std::string, std::string>& p_
 
 	// Register component factory methods
 	m_pGameObjectManager->RegisterComponentFactory("GOC_3DModel", HeatStroke::Component3DModel::CreateComponent);
+	m_pGameObjectManager->RegisterComponentFactory("GOC_RotateOverTime", HeatStroke::ComponentRotateOverTime::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_AmbientLight", HeatStroke::ComponentAmbientLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_DirectionalLight", HeatStroke::ComponentDirectionalLight::CreateComponent);
 	m_pGameObjectManager->RegisterComponentFactory("GOC_PointLight", HeatStroke::ComponentPointLight::CreateComponent);

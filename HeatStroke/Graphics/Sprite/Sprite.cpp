@@ -24,7 +24,7 @@ HeatStroke::Sprite::Sprite(const std::string& p_strMTLFileName, const std::strin
 	const MTLFile::MTLMaterial* mMTLMaterial = mMTLFile.GetMaterial(p_strMaterialName);
 
 	m_mMesh.m_pVertexBuffer = HeatStroke::BufferManager::CreateVertexBuffer(m_vQuadVertex, 16 * sizeof(float));
-	m_mMesh.m_pIndexBuffer = HeatStroke::BufferManager::CreateIndexBuffer(m_vQuadIndex, 6 * sizeof(unsigned short));
+	m_mMesh.m_pIndexBuffer = HeatStroke::BufferManager::CreateIndexBuffer(m_vQuadIndex, 6);
 
 	m_mMesh.m_pVertexDeclaration = new HeatStroke::VertexDeclaration;
 	m_mMesh.m_pVertexDeclaration->Begin();

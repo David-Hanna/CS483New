@@ -1,0 +1,7 @@
+<GameObject>
+  <Components>
+    <GOC_3DModel>
+      <OBJFileName path="Assets/Decorations/tree.hobj"/>
+    </GOC_3DModel>
+  </Components>
+</GameObject>

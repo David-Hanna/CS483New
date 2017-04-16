@@ -61,6 +61,6 @@ void main()
     //----------------------------------------
     // Total light computation
 
-    vec3 TotalLight = clamp(AmbientLightColor + DirectionalLight + PointLight, 0.0, 1.0);
+    vec3 TotalLight = clamp((AmbientLightColor + DirectionalLight + PointLight) * 1.5, 0.0, 1.0);
     FragmentColor = vec4(TotalLight, 1.0) * texture(DiffuseTexture, v_uv1);
 }

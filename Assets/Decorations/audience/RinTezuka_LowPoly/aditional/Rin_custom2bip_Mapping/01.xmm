@@ -1,0 +1,31 @@
+<MaxMapFile version="0.40" date="Fri Oct 23 23:28:25 2015">
+    <CustomData />
+    <Map name="Bip001 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 Pelvis \ Transform" mapName="Bip001 Pelvis \ Transform" />
+    <Map name="Bip001 Spine \ Transform" mapName="Bip001 Spine \ Transform" />
+    <Map name="Bip001 R Thigh \ Transform" mapName="Bip001 R Thigh \ Transform" />
+    <Map name="Bip001 R Calf \ Transform" mapName="Bip001 R Calf \ Transform" />
+    <Map name="Bip001 R Foot \ Transform" mapName="Bip001 R Foot \ Transform" />
+    <Map name="Bip001 R Toe0 \ Transform" mapName="Bip001 R Toe0 \ Transform" />
+    <Map name="Bip001 L Thigh \ Transform" mapName="Bip001 L Thigh \ Transform" />
+    <Map name="Bip001 L Calf \ Transform" mapName="Bip001 L Calf \ Transform" />
+    <Map name="Bip001 L Foot \ Transform" mapName="Bip001 L Foot \ Transform" />
+    <Map name="Bip001 L Toe0 \ Transform" mapName="Bip001 L Toe0 \ Transform" />
+    <Map name="Bip001 Spine1 \ Transform" mapName="Bip001 Spine1 \ Transform" />
+    <Map name="Bip001 Spine2 \ Transform" mapName="Bip001 Spine2 \ Transform" />
+    <Map name="Bip001 Xtra03 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 Xtra0302 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 Xtra0303 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 Neck \ Transform" mapName="Bip001 Neck \ Transform" />
+    <Map name="Bip001 Head \ Transform" mapName="Bip001 Head \ Transform" />
+    <Map name="Bip001 Xtra05 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 Xtra04 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 R Clavicle \ Transform" mapName="Bip001 R Clavicle \ Transform" />
+    <Map name="Bip001 R UpperArm \ Exposed World Transform" mapName="Bip001 R UpperArm \ Exposed World Transform" />
+    <Map name="Bip001 Xtra01 \ Transform" mapName="Bip001 Xtra01 \ Transform" />
+    <Map name="Bip001 Xtra02 \ Transform" mapName="Bip001 \ Transform" />
+    <Map name="Bip001 L Clavicle \ Transform" mapName="Bip001 L Clavicle \ Transform" />
+    <Map name="Bip001 L UpperArm \ Transform" mapName="Bip001 L UpperArm \ Transform" />
+    <Map name="Bip001 Xtra01Opp \ Transform" mapName="Bip001 Xtra01Opp \ Transform" />
+    <Map name="Bip001 Xtra02Opp \ Transform" mapName="Bip001 \ Transform" />
+</MaxMapFile>

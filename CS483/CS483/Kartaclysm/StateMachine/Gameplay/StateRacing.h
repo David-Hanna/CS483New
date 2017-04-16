@@ -53,6 +53,7 @@
 #include "ComponentHudRaceResults.h"
 #include "ComponentParticleEffect.h"
 #include "ComponentEffect.h"
+#include "ComponentRotateOverTime.h"
 #include "ComponentObjectSpawn.h"
 
 #include "Common.h"

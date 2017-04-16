@@ -7,6 +7,7 @@
       <Bounds widthX="10" widthZ="10"/>
       <Height function="flat"/>
       <Position function="straight"/>
+      <UnderJump/>
       <Offroad>
         <Offroad_Area type="square" x1="-1.0" z1="1.0" x2="1.0" z2="0.6"/>
         <Offroad_Area type="square" x1="-1.0" z1="-1.0" x2="1.0" z2="-0.6"/>

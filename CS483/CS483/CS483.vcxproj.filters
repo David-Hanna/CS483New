@@ -540,6 +540,9 @@
     <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.cpp">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp">
       <Filter>Kartaclysm\Components\HUD</Filter>
     </ClCompile>
@@ -940,6 +943,9 @@
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentEffect.h">
       <Filter>Kartaclysm\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.h">
+      <Filter>HeatStroke\GO/Components\Components</Filter>
     </ClInclude>
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h">
       <Filter>Kartaclysm\Components\HUD</Filter>
