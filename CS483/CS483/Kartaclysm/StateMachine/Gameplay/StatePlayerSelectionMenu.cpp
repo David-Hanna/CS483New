@@ -674,10 +674,6 @@ void Kartaclysm::StatePlayerSelectionMenu::GoToTrackSelectionState()
 		}
 	}
 
-#ifdef _DEBUG
-	assert(uiJoined == m_uiNumPlayers);
-#endif
-
 	switch (m_uiNumPlayers)
 	{
 	case 1:
