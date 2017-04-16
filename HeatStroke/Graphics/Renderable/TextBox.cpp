@@ -172,7 +172,7 @@ namespace HeatStroke
 		for (std::vector<Texture_Page_Source>::iterator iter3 = sources.begin(); iter3 != sources.end(); ++iter3)
 		{
 			VertexBuffer* pVB = BufferManager::CreateVertexBuffer(&iter3->m_mVertices[0], sizeof(Texture_Vertex) * iter3->m_uiCount * 4);
-			IndexBuffer* pIB = BufferManager::CreateIndexBuffer(&iter3->m_mIndices[0], sizeof(GLushort) * iter3->m_mIndices.size());
+			IndexBuffer* pIB = BufferManager::CreateIndexBuffer(&iter3->m_mIndices[0], iter3->m_mIndices.size());
 
 			VertexDeclaration* pDecl = new VertexDeclaration();
 			pDecl->Begin();

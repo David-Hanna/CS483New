@@ -65,50 +65,50 @@ void WriteToBinFile(const std::string& p_strFileName, const ObjectFile& p_Object
 
 void WriteMaterialFileNameToBin(std::fstream & p_fsBinFile, const std::string & p_strMaterialFileName)
 {
-	size_t uiSize = p_strMaterialFileName.length();
-	p_fsBinFile.write((char*)&uiSize, sizeof(size_t));
+	uint32_t uiSize = p_strMaterialFileName.length();
+	p_fsBinFile.write((char*)&uiSize, sizeof(uiSize));
 	p_fsBinFile.write((char*)&p_strMaterialFileName[0], uiSize * sizeof(char));
 }
 
 void WriteVertsToBin(std::fstream& p_fsBinFile, const std::vector<float>& p_vVerts)
 {
-	size_t uiSize = p_vVerts.size();
-	p_fsBinFile.write((char*)&uiSize, sizeof(size_t));
+	uint32_t uiSize = p_vVerts.size();
+	p_fsBinFile.write((char*)&uiSize, sizeof(uiSize));
 	p_fsBinFile.write((char*)&p_vVerts[0], uiSize * sizeof(float));
 }
 
 void WriteUVsToBin(std::fstream& p_fsBinFile, const std::vector<float>& p_vUVs)
 {
-	size_t uiSize = p_vUVs.size();
-	p_fsBinFile.write((char*)&uiSize, sizeof(size_t));
+	uint32_t uiSize = p_vUVs.size();
+	p_fsBinFile.write((char*)&uiSize, sizeof(uiSize));
 	p_fsBinFile.write((char*)&p_vUVs[0], uiSize * sizeof(float));
 }
 
 void WriteNormalsToBin(std::fstream& p_fsBinFile, const std::vector<float>& p_vNormals)
 {
-	size_t uiSize = p_vNormals.size();
-	p_fsBinFile.write((char*)&uiSize, sizeof(size_t));
+	uint32_t uiSize = p_vNormals.size();
+	p_fsBinFile.write((char*)&uiSize, sizeof(uiSize));
 	p_fsBinFile.write((char*)&p_vNormals[0], uiSize * sizeof(float));
 }
 
 void WriteObjectsToBin(std::fstream & p_fsBinFile, const std::vector<ObjectFile::Object>& p_vObjects)
 {
-	size_t uiNumObjects = p_vObjects.size();
+	uint32_t uiNumObjects = p_vObjects.size();
 	p_fsBinFile.write((char*)&uiNumObjects, sizeof(uiNumObjects));
 
 	for (ObjectFile::Object obj : p_vObjects)
 	{
-		size_t uiObjectNameLength = obj.m_strObjectName.size();
-		size_t uiMaterialNameLength = obj.m_strMaterialName.size();
-		size_t uiNumFaces = obj.m_vFaces.size();
+		uint32_t uiObjectNameLength = obj.m_strObjectName.size();
+		uint32_t uiMaterialNameLength = obj.m_strMaterialName.size();
+		uint32_t uiNumFaces = obj.m_vFaces.size();
 
-		p_fsBinFile.write((char*)&uiObjectNameLength, sizeof(size_t));
+		p_fsBinFile.write((char*)&uiObjectNameLength, sizeof(uiObjectNameLength));
 		p_fsBinFile.write((char*)&(obj.m_strObjectName[0]), uiObjectNameLength * sizeof(char));
 
-		p_fsBinFile.write((char*)&uiMaterialNameLength, sizeof(size_t));
+		p_fsBinFile.write((char*)&uiMaterialNameLength, sizeof(uiMaterialNameLength));
 		p_fsBinFile.write((char*)&(obj.m_strMaterialName[0]), uiMaterialNameLength * sizeof(char));
 
-		p_fsBinFile.write((char*)&uiNumFaces, sizeof(size_t));
+		p_fsBinFile.write((char*)&uiNumFaces, sizeof(uiNumFaces));
 		p_fsBinFile.write((char*)&(obj.m_vFaces[0]), uiNumFaces * sizeof(ObjectFile::Face));
 	}
 }

@@ -15,6 +15,7 @@
 #include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
 #include "Component3DModel.h"
+#include "ComponentRotateOverTime.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
@@ -31,8 +32,8 @@ namespace Kartaclysm
 		virtual ~StatePlayerSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)			{ Exit(); }
-		void Unsuspend(const int p_iPrevState)		{ Enter(m_mContextParameters); }
+		void Suspend(const int p_iNewState);
+		void Unsuspend(const int p_iPrevState);
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
@@ -42,6 +43,19 @@ namespace Kartaclysm
 		bool m_bSuspended;
 
 	private:
+		enum CURRENT_SELECTION
+		{
+			SELECTION_CONTROL,
+			SELECTION_DRIVER,
+			SELECTION_KART
+		};
+
+		enum CONTROL_SELECTION
+		{
+			CONTROL_HUMAN,
+			CONTROL_BOT
+		};
+
 		// TODO - should be loading karts/drivers from xml
 		enum DRIVER_SELECTION
 		{
@@ -61,8 +75,10 @@ namespace Kartaclysm
 		{
 			bool					bJoined;
 			bool					bReady;
-			bool					bDriverHighlighted;
+			
+			CURRENT_SELECTION		eCurrentSelection;
 
+			CONTROL_SELECTION		eSelectedControl;
 			DRIVER_SELECTION		eSelectedDriver;
 			KART_SELECTION			eSelectedKart;
 
@@ -77,6 +93,7 @@ namespace Kartaclysm
 			int						iKartDurabilityStat;
 
 			HeatStroke::GameObject* pPressStartToJoin;
+			HeatStroke::GameObject* pControlSelection;
 			HeatStroke::GameObject* pDriverSelection;
 			HeatStroke::GameObject* pKartSelection;
 			HeatStroke::GameObject* pReadyButton;
@@ -88,6 +105,7 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pAccelerationStatIcon;
 			HeatStroke::GameObject* pHandlingStatIcon;
 			HeatStroke::GameObject* pDurabilityStatIcon;
+			HeatStroke::GameObject* pDriverKartDisplayConnector;
 			HeatStroke::GameObject* pDriverDisplay;
 			HeatStroke::GameObject* pKartDisplay;
 			HeatStroke::GameObject* pHighlight;
@@ -97,8 +115,10 @@ namespace Kartaclysm
 		std::vector<std::string> m_vKarts;
 
 		std::map<std::string, std::string> m_mContextParameters;
+		std::string m_strMode;
 
 		unsigned int m_uiNumPlayers;
+		unsigned int m_uiNumAIRacers;
 		PerPlayerMenuState m_mPerPlayerMenuState[4];
 
 		void Initialize();

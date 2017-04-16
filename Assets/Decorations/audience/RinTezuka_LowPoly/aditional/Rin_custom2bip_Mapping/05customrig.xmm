@@ -1,0 +1,185 @@
+<MaxMapFile version="0.40" date="Sun Nov 01 03:13:53 2015">
+    <CustomData />
+    <Map name="R_Foot \ Transform \ Position \ X Position" mapName="R_Foot \ Transform \ Position \ X Position" />
+    <Map name="R_Foot \ Transform \ Position \ Y Position" mapName="R_Foot \ Transform \ Position \ Y Position" />
+    <Map name="R_Foot \ Transform \ Position \ Z Position" mapName="R_Foot \ Transform \ Position \ Z Position" />
+    <Map name="R_Foot \ Transform \ Rotation \ X Rotation" mapName="R_Foot \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_Foot \ Transform \ Rotation \ Y Rotation" mapName="R_Foot \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_Foot \ Transform \ Rotation \ Z Rotation" mapName="R_Foot \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_Foot \ Transform \ Scale" mapName="R_Foot \ Transform \ Scale" />
+    <Map name="R_FootTip \ Transform \ Position \ X Position" mapName="R_FootTip \ Transform \ Position \ X Position" />
+    <Map name="R_FootTip \ Transform \ Position \ Y Position" mapName="R_FootTip \ Transform \ Position \ Y Position" />
+    <Map name="R_FootTip \ Transform \ Position \ Z Position" mapName="R_FootTip \ Transform \ Position \ Z Position" />
+    <Map name="R_FootTip \ Transform \ Rotation \ X Rotation" mapName="R_FootTip \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_FootTip \ Transform \ Rotation \ Y Rotation" mapName="R_FootTip \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_FootTip \ Transform \ Rotation \ Z Rotation" mapName="R_FootTip \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_FootTip \ Transform \ Scale" mapName="R_FootTip \ Transform \ Scale" />
+    <Map name="R_heel \ Transform \ Position \ X Position" mapName="R_heel \ Transform \ Position \ X Position" />
+    <Map name="R_heel \ Transform \ Position \ Y Position" mapName="R_heel \ Transform \ Position \ Y Position" />
+    <Map name="R_heel \ Transform \ Position \ Z Position" mapName="R_heel \ Transform \ Position \ Z Position" />
+    <Map name="R_heel \ Transform \ Rotation \ X Rotation" mapName="R_heel \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_heel \ Transform \ Rotation \ Y Rotation" mapName="R_heel \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_heel \ Transform \ Rotation \ Z Rotation" mapName="R_heel \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_heel \ Transform \ Scale" mapName="R_heel \ Transform \ Scale" />
+    <Map name="L_shoulder \ Transform \ Position \ X Position" mapName="L_shoulder \ Transform \ Position \ X Position" />
+    <Map name="L_shoulder \ Transform \ Position \ Y Position" mapName="L_shoulder \ Transform \ Position \ Y Position" />
+    <Map name="L_shoulder \ Transform \ Position \ Z Position" mapName="L_shoulder \ Transform \ Position \ Z Position" />
+    <Map name="L_shoulder \ Transform \ Rotation \ X Rotation" mapName="L_shoulder \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_shoulder \ Transform \ Rotation \ Y Rotation" mapName="L_shoulder \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_shoulder \ Transform \ Rotation \ Z Rotation" mapName="L_shoulder \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_shoulder \ Transform \ Scale" mapName="L_shoulder \ Transform \ Scale" />
+    <Map name="L_stump \ Transform \ Position \ X Position" mapName="L_stump \ Transform \ Position \ X Position" />
+    <Map name="L_stump \ Transform \ Position \ Y Position" mapName="L_stump \ Transform \ Position \ Y Position" />
+    <Map name="L_stump \ Transform \ Position \ Z Position" mapName="L_stump \ Transform \ Position \ Z Position" />
+    <Map name="L_stump \ Transform \ Rotation \ X Rotation" mapName="L_stump \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_stump \ Transform \ Rotation \ Y Rotation" mapName="L_stump \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_stump \ Transform \ Rotation \ Z Rotation" mapName="L_stump \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_stump \ Transform \ Scale" mapName="L_stump \ Transform \ Scale" />
+    <Map name="L_sleeve_base \ Transform \ Position \ X Position" mapName="L_sleeve_base \ Transform \ Position \ X Position" />
+    <Map name="L_sleeve_base \ Transform \ Position \ Y Position" mapName="L_sleeve_base \ Transform \ Position \ Y Position" />
+    <Map name="L_sleeve_base \ Transform \ Position \ Z Position" mapName="L_sleeve_base \ Transform \ Position \ Z Position" />
+    <Map name="L_sleeve_base \ Transform \ Rotation \ X Rotation" mapName="L_sleeve_base \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_sleeve_base \ Transform \ Rotation \ Y Rotation" mapName="L_sleeve_base \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_sleeve_base \ Transform \ Rotation \ Z Rotation" mapName="L_sleeve_base \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_sleeve_base \ Transform \ Scale" mapName="L_sleeve_base \ Transform \ Scale" />
+    <Map name="L_sleeve_end \ Transform \ Position \ X Position" mapName="L_sleeve_end \ Transform \ Position \ X Position" />
+    <Map name="L_sleeve_end \ Transform \ Position \ Y Position" mapName="L_sleeve_end \ Transform \ Position \ Y Position" />
+    <Map name="L_sleeve_end \ Transform \ Position \ Z Position" mapName="L_sleeve_end \ Transform \ Position \ Z Position" />
+    <Map name="L_sleeve_end \ Transform \ Rotation \ X Rotation" mapName="L_sleeve_end \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_sleeve_end \ Transform \ Rotation \ Y Rotation" mapName="L_sleeve_end \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_sleeve_end \ Transform \ Rotation \ Z Rotation" mapName="L_sleeve_end \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_sleeve_end \ Transform \ Scale" mapName="L_sleeve_end \ Transform \ Scale" />
+    <Map name="R_shoulder \ Transform \ Position \ X Position" mapName="R_shoulder \ Transform \ Position \ X Position" />
+    <Map name="R_shoulder \ Transform \ Position \ Y Position" mapName="R_shoulder \ Transform \ Position \ Y Position" />
+    <Map name="R_shoulder \ Transform \ Position \ Z Position" mapName="R_shoulder \ Transform \ Position \ Z Position" />
+    <Map name="R_shoulder \ Transform \ Rotation \ X Rotation" mapName="R_shoulder \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_shoulder \ Transform \ Rotation \ Y Rotation" mapName="R_shoulder \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_shoulder \ Transform \ Rotation \ Z Rotation" mapName="R_shoulder \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_shoulder \ Transform \ Scale" mapName="R_shoulder \ Transform \ Scale" />
+    <Map name="R_stump \ Transform \ Position \ X Position" mapName="R_stump \ Transform \ Position \ X Position" />
+    <Map name="R_stump \ Transform \ Position \ Y Position" mapName="R_stump \ Transform \ Position \ Y Position" />
+    <Map name="R_stump \ Transform \ Position \ Z Position" mapName="R_stump \ Transform \ Position \ Z Position" />
+    <Map name="R_stump \ Transform \ Rotation \ X Rotation" mapName="R_stump \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_stump \ Transform \ Rotation \ Y Rotation" mapName="R_stump \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_stump \ Transform \ Rotation \ Z Rotation" mapName="R_stump \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_stump \ Transform \ Scale" mapName="R_stump \ Transform \ Scale" />
+    <Map name="R_sleeve_base \ Transform \ Position \ X Position" mapName="R_sleeve_base \ Transform \ Position \ X Position" />
+    <Map name="R_sleeve_base \ Transform \ Position \ Y Position" mapName="R_sleeve_base \ Transform \ Position \ Y Position" />
+    <Map name="R_sleeve_base \ Transform \ Position \ Z Position" mapName="R_sleeve_base \ Transform \ Position \ Z Position" />
+    <Map name="R_sleeve_base \ Transform \ Rotation \ X Rotation" mapName="R_sleeve_base \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_sleeve_base \ Transform \ Rotation \ Y Rotation" mapName="R_sleeve_base \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_sleeve_base \ Transform \ Rotation \ Z Rotation" mapName="R_sleeve_base \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_sleeve_base \ Transform \ Scale" mapName="R_sleeve_base \ Transform \ Scale" />
+    <Map name="R_sleeve_end \ Transform \ Position \ X Position" mapName="R_sleeve_end \ Transform \ Position \ X Position" />
+    <Map name="R_sleeve_end \ Transform \ Position \ Y Position" mapName="R_sleeve_end \ Transform \ Position \ Y Position" />
+    <Map name="R_sleeve_end \ Transform \ Position \ Z Position" mapName="R_sleeve_end \ Transform \ Position \ Z Position" />
+    <Map name="R_sleeve_end \ Transform \ Rotation \ X Rotation" mapName="R_sleeve_end \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_sleeve_end \ Transform \ Rotation \ Y Rotation" mapName="R_sleeve_end \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_sleeve_end \ Transform \ Rotation \ Z Rotation" mapName="R_sleeve_end \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_sleeve_end \ Transform \ Scale" mapName="R_sleeve_end \ Transform \ Scale" />
+    <Map name="Rin Hips \ Transform \ Position \ X Position" mapName="Rin Hips \ Transform \ Position \ X Position" />
+    <Map name="Rin Hips \ Transform \ Position \ Y Position" mapName="Rin Hips \ Transform \ Position \ Y Position" />
+    <Map name="Rin Hips \ Transform \ Position \ Z Position" mapName="Rin Hips \ Transform \ Position \ Z Position" />
+    <Map name="Rin Hips \ Transform \ Rotation \ X Rotation" mapName="Rin Hips \ Transform \ Rotation \ X Rotation" />
+    <Map name="Rin Hips \ Transform \ Rotation \ Y Rotation" mapName="Rin Hips \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Rin Hips \ Transform \ Rotation \ Z Rotation" mapName="Rin Hips \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Rin Hips \ Transform \ Scale" mapName="Rin Hips \ Transform \ Scale" />
+    <Map name="L_Foot \ Transform \ Position \ X Position" mapName="L_Foot \ Transform \ Position \ X Position" />
+    <Map name="L_Foot \ Transform \ Position \ Y Position" mapName="L_Foot \ Transform \ Position \ Y Position" />
+    <Map name="L_Foot \ Transform \ Position \ Z Position" mapName="L_Foot \ Transform \ Position \ Z Position" />
+    <Map name="L_Foot \ Transform \ Rotation \ X Rotation" mapName="L_Foot \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_Foot \ Transform \ Rotation \ Y Rotation" mapName="L_Foot \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_Foot \ Transform \ Rotation \ Z Rotation" mapName="L_Foot \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_Foot \ Transform \ Scale" mapName="L_Foot \ Transform \ Scale" />
+    <Map name="L_FootTip \ Transform \ Position \ X Position" mapName="L_FootTip \ Transform \ Position \ X Position" />
+    <Map name="L_FootTip \ Transform \ Position \ Y Position" mapName="L_FootTip \ Transform \ Position \ Y Position" />
+    <Map name="L_FootTip \ Transform \ Position \ Z Position" mapName="L_FootTip \ Transform \ Position \ Z Position" />
+    <Map name="L_FootTip \ Transform \ Rotation \ X Rotation" mapName="L_FootTip \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_FootTip \ Transform \ Rotation \ Y Rotation" mapName="L_FootTip \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_FootTip \ Transform \ Rotation \ Z Rotation" mapName="L_FootTip \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_FootTip \ Transform \ Scale" mapName="L_FootTip \ Transform \ Scale" />
+    <Map name="L_heel \ Transform \ Position \ X Position" mapName="L_heel \ Transform \ Position \ X Position" />
+    <Map name="L_heel \ Transform \ Position \ Y Position" mapName="L_heel \ Transform \ Position \ Y Position" />
+    <Map name="L_heel \ Transform \ Position \ Z Position" mapName="L_heel \ Transform \ Position \ Z Position" />
+    <Map name="L_heel \ Transform \ Rotation \ X Rotation" mapName="L_heel \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_heel \ Transform \ Rotation \ Y Rotation" mapName="L_heel \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_heel \ Transform \ Rotation \ Z Rotation" mapName="L_heel \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_heel \ Transform \ Scale" mapName="L_heel \ Transform \ Scale" />
+    <Map name="R_knee_direction \ Transform \ Position \ X Position" mapName="R_knee_direction \ Transform \ Position \ X Position" />
+    <Map name="R_knee_direction \ Transform \ Position \ Y Position" mapName="R_knee_direction \ Transform \ Position \ Y Position" />
+    <Map name="R_knee_direction \ Transform \ Position \ Z Position" mapName="R_knee_direction \ Transform \ Position \ Z Position" />
+    <Map name="R_knee_direction \ Transform \ Rotation \ X Rotation" mapName="R_knee_direction \ Transform \ Rotation \ X Rotation" />
+    <Map name="R_knee_direction \ Transform \ Rotation \ Y Rotation" mapName="R_knee_direction \ Transform \ Rotation \ Y Rotation" />
+    <Map name="R_knee_direction \ Transform \ Rotation \ Z Rotation" mapName="R_knee_direction \ Transform \ Rotation \ Z Rotation" />
+    <Map name="R_knee_direction \ Transform \ Scale" mapName="R_knee_direction \ Transform \ Scale" />
+    <Map name="L_knee_direction \ Transform \ Position \ X Position" mapName="L_knee_direction \ Transform \ Position \ X Position" />
+    <Map name="L_knee_direction \ Transform \ Position \ Y Position" mapName="L_knee_direction \ Transform \ Position \ Y Position" />
+    <Map name="L_knee_direction \ Transform \ Position \ Z Position" mapName="L_knee_direction \ Transform \ Position \ Z Position" />
+    <Map name="L_knee_direction \ Transform \ Rotation \ X Rotation" mapName="L_knee_direction \ Transform \ Rotation \ X Rotation" />
+    <Map name="L_knee_direction \ Transform \ Rotation \ Y Rotation" mapName="L_knee_direction \ Transform \ Rotation \ Y Rotation" />
+    <Map name="L_knee_direction \ Transform \ Rotation \ Z Rotation" mapName="L_knee_direction \ Transform \ Rotation \ Z Rotation" />
+    <Map name="L_knee_direction \ Transform \ Scale" mapName="L_knee_direction \ Transform \ Scale" />
+    <Map name="UpperBodyController \ Transform \ Position \ X Position" mapName="UpperBodyController \ Transform \ Position \ X Position" />
+    <Map name="UpperBodyController \ Transform \ Position \ Y Position" mapName="UpperBodyController \ Transform \ Position \ Y Position" />
+    <Map name="UpperBodyController \ Transform \ Position \ Z Position" mapName="UpperBodyController \ Transform \ Position \ Z Position" />
+    <Map name="UpperBodyController \ Transform \ Rotation \ X Rotation" mapName="UpperBodyController \ Transform \ Rotation \ X Rotation" />
+    <Map name="UpperBodyController \ Transform \ Rotation \ Y Rotation" mapName="UpperBodyController \ Transform \ Rotation \ Y Rotation" />
+    <Map name="UpperBodyController \ Transform \ Rotation \ Z Rotation" mapName="UpperBodyController \ Transform \ Rotation \ Z Rotation" />
+    <Map name="UpperBodyController \ Transform \ Scale" mapName="UpperBodyController \ Transform \ Scale" />
+    <Map name="Rin Head \ Transform \ Position \ Position Constraint \ Position Weight 0" mapName="Rin Head \ Transform \ Position \ Position Constraint \ Position Weight 0" />
+    <Map name="Rin Head \ Transform \ Position \ Weights \ Weight: Position XYZ" mapName="L_knee_direction \ Transform \ Position \ Y Position" />
+    <Map name="Rin Head \ Transform \ Position \ Weights \ Weight: Position Constraint" mapName="L_knee_direction \ Transform \ Position \ Z Position" />
+    <Map name="Rin Head \ Transform \ Rotation \ Euler XYZ \ X Rotation" mapName="Rin Head \ Transform \ Rotation \ Euler XYZ \ X Rotation" />
+    <Map name="Rin Head \ Transform \ Rotation \ Euler XYZ \ Y Rotation" mapName="Rin Head \ Transform \ Rotation \ Euler XYZ \ Y Rotation" />
+    <Map name="Rin Head \ Transform \ Rotation \ Euler XYZ \ Z Rotation" mapName="Rin Head \ Transform \ Rotation \ Euler XYZ \ Z Rotation" />
+    <Map name="Rin Head \ Transform \ Scale" mapName="Rin Head \ Transform \ Scale" />
+    <Map name="Rin_Left_eye \ Transform \ Position \ X Position" mapName="Rin_Left_eye \ Transform \ Position \ X Position" />
+    <Map name="Rin_Left_eye \ Transform \ Position \ Y Position" mapName="Rin_Left_eye \ Transform \ Position \ Y Position" />
+    <Map name="Rin_Left_eye \ Transform \ Position \ Z Position" mapName="Rin_Left_eye \ Transform \ Position \ Z Position" />
+    <Map name="Rin_Left_eye \ Transform \ Rotation \ X Rotation" mapName="Rin_Left_eye \ Transform \ Rotation \ X Rotation" />
+    <Map name="Rin_Left_eye \ Transform \ Rotation \ Y Rotation" mapName="Rin_Left_eye \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Rin_Left_eye \ Transform \ Rotation \ Z Rotation" mapName="Rin_Left_eye \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Rin_Left_eye \ Transform \ Scale" mapName="Rin_Left_eye \ Transform \ Scale" />
+    <Map name="Rin_Right_eye \ Transform \ Position \ X Position" mapName="Rin_Right_eye \ Transform \ Position \ X Position" />
+    <Map name="Rin_Right_eye \ Transform \ Position \ Y Position" mapName="Rin_Right_eye \ Transform \ Position \ Y Position" />
+    <Map name="Rin_Right_eye \ Transform \ Position \ Z Position" mapName="Rin_Right_eye \ Transform \ Position \ Z Position" />
+    <Map name="Rin_Right_eye \ Transform \ Rotation \ X Rotation" mapName="Rin_Right_eye \ Transform \ Rotation \ X Rotation" />
+    <Map name="Rin_Right_eye \ Transform \ Rotation \ Y Rotation" mapName="Rin_Right_eye \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Rin_Right_eye \ Transform \ Rotation \ Z Rotation" mapName="Rin_Right_eye \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Rin_Right_eye \ Transform \ Scale" mapName="Rin_Right_eye \ Transform \ Scale" />
+    <Map name="Rin Neck \ Transform \ Position \ X Position" mapName="Rin Neck \ Transform \ Position \ X Position" />
+    <Map name="Rin Neck \ Transform \ Position \ Y Position" mapName="Rin Neck \ Transform \ Position \ Y Position" />
+    <Map name="Rin Neck \ Transform \ Position \ Z Position" mapName="Rin Neck \ Transform \ Position \ Z Position" />
+    <Map name="Rin Neck \ Transform \ Rotation \ X Rotation" mapName="Rin Neck \ Transform \ Rotation \ X Rotation" />
+    <Map name="Rin Neck \ Transform \ Rotation \ Y Rotation" mapName="Rin Neck \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Rin Neck \ Transform \ Rotation \ Z Rotation" mapName="Rin Neck \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Rin Neck \ Transform \ Scale" mapName="Rin Neck \ Transform \ Scale" />
+    <Map name="Tie_base \ Transform \ Position \ X Position" mapName="Tie_base \ Transform \ Position \ X Position" />
+    <Map name="Tie_base \ Transform \ Position \ Y Position" mapName="Tie_base \ Transform \ Position \ Y Position" />
+    <Map name="Tie_base \ Transform \ Position \ Z Position" mapName="Tie_base \ Transform \ Position \ Z Position" />
+    <Map name="Tie_base \ Transform \ Rotation \ X Rotation" mapName="Tie_base \ Transform \ Rotation \ X Rotation" />
+    <Map name="Tie_base \ Transform \ Rotation \ Y Rotation" mapName="Tie_base \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Tie_base \ Transform \ Rotation \ Z Rotation" mapName="Tie_base \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Tie_base \ Transform \ Scale" mapName="Tie_base \ Transform \ Scale" />
+    <Map name="Tie_middle \ Transform \ Position \ X Position" mapName="Tie_middle \ Transform \ Position \ X Position" />
+    <Map name="Tie_middle \ Transform \ Position \ Y Position" mapName="Tie_middle \ Transform \ Position \ Y Position" />
+    <Map name="Tie_middle \ Transform \ Position \ Z Position" mapName="Tie_middle \ Transform \ Position \ Z Position" />
+    <Map name="Tie_middle \ Transform \ Rotation \ X Rotation" mapName="Tie_middle \ Transform \ Rotation \ X Rotation" />
+    <Map name="Tie_middle \ Transform \ Rotation \ Y Rotation" mapName="Tie_middle \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Tie_middle \ Transform \ Rotation \ Z Rotation" mapName="Tie_middle \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Tie_middle \ Transform \ Scale" mapName="Tie_middle \ Transform \ Scale" />
+    <Map name="Tie_end \ Transform \ Position \ X Position" mapName="Tie_end \ Transform \ Position \ X Position" />
+    <Map name="Tie_end \ Transform \ Position \ Y Position" mapName="Tie_end \ Transform \ Position \ Y Position" />
+    <Map name="Tie_end \ Transform \ Position \ Z Position" mapName="Tie_end \ Transform \ Position \ Z Position" />
+    <Map name="Tie_end \ Transform \ Rotation \ X Rotation" mapName="Tie_end \ Transform \ Rotation \ X Rotation" />
+    <Map name="Tie_end \ Transform \ Rotation \ Y Rotation" mapName="Tie_end \ Transform \ Rotation \ Y Rotation" />
+    <Map name="Tie_end \ Transform \ Rotation \ Z Rotation" mapName="Tie_end \ Transform \ Rotation \ Z Rotation" />
+    <Map name="Tie_end \ Transform \ Scale" mapName="Tie_end \ Transform \ Scale" />
+    <Map name="SpineController \ Transform \ Position \ X Position" mapName="SpineController \ Transform \ Position \ X Position" />
+    <Map name="SpineController \ Transform \ Position \ Y Position" mapName="SpineController \ Transform \ Position \ Y Position" />
+    <Map name="SpineController \ Transform \ Position \ Z Position" mapName="SpineController \ Transform \ Position \ Z Position" />
+    <Map name="SpineController \ Transform \ Rotation \ X Rotation" mapName="SpineController \ Transform \ Rotation \ X Rotation" />
+    <Map name="SpineController \ Transform \ Rotation \ Y Rotation" mapName="SpineController \ Transform \ Rotation \ Y Rotation" />
+    <Map name="SpineController \ Transform \ Rotation \ Z Rotation" mapName="SpineController \ Transform \ Rotation \ Z Rotation" />
+    <Map name="SpineController \ Transform \ Scale" mapName="SpineController \ Transform \ Scale" />
+</MaxMapFile>
