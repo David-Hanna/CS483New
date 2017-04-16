@@ -70,6 +70,7 @@ namespace Kartaclysm
 		m_fAIRubberBandingFactorFirst(0.85f),
 		m_fAIRubberBandingFactorLast(1.15f),
 		m_fJumpBoostStat(1.8f),
+		m_fWheelieOffsetStat(0.1f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -633,6 +634,21 @@ namespace Kartaclysm
 			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
+		ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
+		if (pRacer != nullptr)
+		{
+			if (m_bWheelie)
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+			}
+			else
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+			}
+		}
+
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
 	}
@@ -703,6 +719,8 @@ namespace Kartaclysm
 
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
+		m_bWheelie = false;
+		
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
 
 		m_fSpinFactor = m_fSpinSpeedStat;
