@@ -37,6 +37,7 @@ namespace HeatStroke
 		virtual ~Game();
 
 		int Run(const char* p_strAppName = "HeatStroke::Game",
+				glm::vec4 p_vDefaultColor = glm::vec4(0.5f, 0.5f, 0.5f, 0.0f),
 				int p_iWindowWidth = 1280,
 				int p_iWindowHeight = 720);
 
