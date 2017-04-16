@@ -59,7 +59,7 @@ namespace Kartaclysm
 				{
 					// Deal with underjump shenanigans
 					ComponentTrackPiece* pPiece = static_cast<ComponentTrackPiece*>(pChildGameObject->GetComponent("GOC_TrackPiece"));
-					if (pPiece != nullptr && pPiece->GetIsUnderJump())
+					if (pPiece != nullptr && pPiece->IsUnderJump())
 					{
 						m_vUnderTrackPieces.push_back(m_vTrackPieces.size());
 					}
@@ -476,7 +476,7 @@ namespace Kartaclysm
 
 	bool ComponentTrack::IsUnderJump(int p_iTrackPiece)
 	{
-		for (int i = 0; i < m_vUnderTrackPieces.size(); i++)
+		for (unsigned int i = 0; i < m_vUnderTrackPieces.size(); i++)
 		{
 			if (p_iTrackPiece == m_vUnderTrackPieces[i])
 			{

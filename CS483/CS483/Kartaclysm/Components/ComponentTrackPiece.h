@@ -69,7 +69,7 @@ namespace Kartaclysm
 			float HeightAtPosition(glm::vec3 p_pPosition);
 			bool IsOffroadAtPosition(const glm::vec3 &p_pPosition);
 
-			bool GetIsUnderJump() const { return m_bIsUnderJump; }
+			bool IsUnderJump() const { return m_bIsUnderJump; }
 
 			bool IsAhead(const glm::vec3& p_vFirstRacerPosition, const glm::vec3& p_vSecondRacerPosition) const;
 
