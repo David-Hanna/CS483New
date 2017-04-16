@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------
 
 #include "ComponentRacer.h"
+#include "ComponentTrack.h"
 
 namespace Kartaclysm
 {
@@ -18,6 +19,7 @@ namespace Kartaclysm
 		m_iCurrentLap(0),
 		m_iCurrentPosition(1),
 		m_iCurrentTrackPiece(0),
+		m_iCurrentTrackPieceForDistanceCheck(0),
 		m_bHasFinishedRace(false),
 		m_bHumanPlayer(true),
 		m_vLapTimes()
@@ -97,6 +99,7 @@ namespace Kartaclysm
 			m_bHasFinishedRace = true;
 			ComponentKartController* pKartController = static_cast<ComponentKartController*>(m_pGameObject->GetComponent("GOC_KartController"));
 			pKartController->SetAI(true);
+			pKartController->RaceFinishParticles();
 		}
 	}
 
@@ -106,5 +109,18 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredIntParameter(m_pGameObject->GetGUID(), iPosition);
 
 		m_iCurrentPosition = iPosition + 1;
+	}
+
+	void ComponentRacer::SetCurrentTrackPiece(int p_iNewTrackPiece)
+	{
+		m_iCurrentTrackPiece = p_iNewTrackPiece;
+
+		HeatStroke::GameObject* pTrackObject = m_pGameObject->GetManager()->GetGameObject("Track");
+		ComponentTrack* pTrack = static_cast<ComponentTrack*>(pTrackObject->GetComponent("GOC_Track"));
+		
+		if (pTrack == nullptr || !pTrack->IsUnderJump(p_iNewTrackPiece))
+		{
+			m_iCurrentTrackPieceForDistanceCheck = p_iNewTrackPiece;
+		}
 	}
 }

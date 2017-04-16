@@ -13,6 +13,7 @@
 #include "GameplayState.h"
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
+#include "RNGesus.h"
 
 namespace Kartaclysm
 {
@@ -33,12 +34,19 @@ namespace Kartaclysm
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 
+		void SendKartDisableEvent();
+		void DetermineAIBoost(unsigned int p_uiNumAIRacers);
+		void UpdateHumanBoostValues();
+		void DetermineHumanBoost(bool* p_pCurrentBoostValue, const bool p_bAcceleratingThisFrame, const bool p_bAcceleratingLastFrame);
+		void SendHudCountdownEvent(const float p_fDelta) const;
+		void SendCountdownBoostEvent() const;
+
 	private:
-		int m_iPlayerCount;
+		unsigned int m_uiNumHumanRacers;
 		float m_fTimer;
 
-		std::map<int, bool> m_vGainsBoost;
-		std::map<int, bool> m_vAccelerating;
+		std::map<std::string, bool> m_mRacerBoostMap;
+		std::map<int, bool> m_mPreviousFrameAccelerating;
 	};
 }
 

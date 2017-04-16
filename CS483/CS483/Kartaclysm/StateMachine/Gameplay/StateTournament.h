@@ -27,8 +27,8 @@ namespace Kartaclysm
 		virtual ~StateTournament();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)		{ m_bSuspended = true; }
-		void Unsuspend(const int p_iPrevState)	{ m_bSuspended = false; }
+		void Suspend(const int p_iNewState);
+		void Unsuspend(const int p_iPrevState);
 		void Update(const float p_fDelta);
 		void PreRender() {}
 		void Exit();
@@ -51,6 +51,7 @@ namespace Kartaclysm
 		bool m_bReadyForNextRace;
 		bool m_bFinished;
 		bool m_bCongrats;
+		bool m_bReturnedFromPlayerSelect;
 		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;
 		std::map<std::string, std::string> m_mContextParams;

@@ -58,11 +58,22 @@ void HeatStroke::ModelManager::Preload(const std::string& p_strPreloadFileName)
 		std::string strOBJFileName;
 		EasyXML::GetRequiredStringAttribute(pModelElement, "path", strOBJFileName);
 
+#ifdef _DEBUG
+		if (strOBJFileName.substr(strOBJFileName.length() - 5) != ".hobj")
+		{
+			printf("ModelManager: %s is not in .hobj format, may be inefficent\n", strOBJFileName.c_str());
+		}
+#endif
+
 		LoadedModels::const_iterator it = m_mLoadedModels.find(strOBJFileName);
 		if (it == m_mLoadedModels.end())
 		{
 			Model* pModel = new Model(strOBJFileName);
 			m_mLoadedModels[strOBJFileName] = pModel;
+		}
+		else
+		{
+			printf("ModelManager: Model %s already loaded\n", strOBJFileName.c_str());
 		}
 	}
 }
