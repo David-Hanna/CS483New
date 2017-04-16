@@ -17,6 +17,7 @@ namespace Kartaclysm
 	{
 		std::string TimeStringFromFloat(float p_fTimeInSeconds);
 		float FloatFromTimeString(const std::string& p_strFormattedTime);
+		std::string FormatHudTime(float p_fTimeInSeconds);
 	}
 }
 

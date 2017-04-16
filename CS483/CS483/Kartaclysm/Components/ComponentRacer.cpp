@@ -74,11 +74,6 @@ namespace Kartaclysm
 			p_pEvent->GetRequiredIntParameter("totalLaps", iTotalLaps);
 			p_pEvent->GetRequiredFloatParameter("racerTime", fRacerTime);
 
-			HeatStroke::Event* pEvent = new HeatStroke::Event(strRacerId + "_HUD_Lap");
-			pEvent->SetIntParameter("Current", m_iCurrentLap);
-			pEvent->SetIntParameter("Total", iTotalLaps);
-			HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-
 			if (m_iCurrentLap <= iTotalLaps + 1) // starting 4th lap means ending 3rd lap
 			{
 				for (auto fLapTime : m_vLapTimes)
@@ -87,6 +82,14 @@ namespace Kartaclysm
 				}
 				m_vLapTimes.push_back(fRacerTime);
 			}
+#ifdef _DEBUG
+			else
+			{
+				assert(false && "Received more lap finish events than expected");
+			}
+#endif
+
+			SendHudLapEvent(iTotalLaps, m_vLapTimes.back());
 		}
 	}
 
@@ -109,6 +112,15 @@ namespace Kartaclysm
 		p_pEvent->GetRequiredIntParameter(m_pGameObject->GetGUID(), iPosition);
 
 		m_iCurrentPosition = iPosition + 1;
+	}
+
+	void ComponentRacer::SendHudLapEvent(const int p_iTotalLaps, const float p_fLapTime)
+	{
+		HeatStroke::Event* pEvent = new HeatStroke::Event(GetGameObject()->GetGUID() + "_HUD_Lap");
+		pEvent->SetIntParameter("Current", m_iCurrentLap);
+		pEvent->SetIntParameter("Total", p_iTotalLaps);
+		pEvent->SetFloatParameter("LapTime", p_fLapTime);
+		HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 	}
 
 	void ComponentRacer::SetCurrentTrackPiece(int p_iNewTrackPiece)

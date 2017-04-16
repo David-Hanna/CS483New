@@ -15,6 +15,7 @@
 #include "EventManager.h"
 #include "FontManager.h"
 #include "TextBox.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -34,7 +35,7 @@ namespace Kartaclysm
 			tinyxml2::XMLNode* p_pOverrideNode
 			);
 
-		virtual void Init() override {}
+		virtual void Init() override;
 		virtual void Update(const float p_fDelta) override;
 		virtual void SyncTransform() override;
 
@@ -54,6 +55,10 @@ namespace Kartaclysm
 			float p_fLabelOffset
 			);
 
+		virtual void LapCountCallback(const HeatStroke::Event* p_pEvent);
+		virtual void FlashLapTimer(const float p_fLapDisplayTimer, const float p_fInterval);
+		virtual void DisableLapFlash();
+
 		static void ParseNode(
 			tinyxml2::XMLNode* p_pNode,
 			std::string& p_strFontFilePath,
@@ -65,11 +70,15 @@ namespace Kartaclysm
 		//--------------------------------------------------------------------------
 
 		HeatStroke::Font* m_pFont;
-		HeatStroke::TextBox m_mLabelTextBox;
-		HeatStroke::TextBox m_mTimerTextBox;
+		HeatStroke::TextBox m_LabelTextBox;
+		HeatStroke::TextBox m_TimerTextBox;
+
+		std::string m_strEventName;
 
 		float m_fTime;
-		float m_fLabelOffset;
+		float m_fLapDisplayTimer;
+
+		std::function<void(const HeatStroke::Event*)>* m_pDelegate;
 	};
 }
 

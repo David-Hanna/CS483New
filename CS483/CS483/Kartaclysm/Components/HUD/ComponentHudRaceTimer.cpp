@@ -16,20 +16,28 @@ namespace Kartaclysm
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
-		m_mLabelTextBox(m_pFont, "TIME"),
-		m_mTimerTextBox(m_pFont, "00:00"),
-		m_fLabelOffset(p_fLabelOffset),
-		m_fTime(-3.0f) // beginning countdown
+		m_LabelTextBox(m_pFont, "TIME"),
+		m_TimerTextBox(m_pFont, "00:00"),
+		m_fTime(-3.0f), // beginning countdown
+		m_fLapDisplayTimer(0.0f)
 	{
-		m_mLabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
-		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mLabelTextBox);
-		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTimerTextBox);
+		m_LabelTextBox.SetColour(glm::vec4(1.0, 0.5, 0.0, 1.0)); // orange
+
+		m_LabelTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+			glm::translate(glm::vec3(p_fLabelOffset, 0.0f, 0.0f)));
+
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_LabelTextBox);
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_TimerTextBox);
 	}
 
 	ComponentHudRaceTimer::~ComponentHudRaceTimer()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mLabelTextBox);
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTimerTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_LabelTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_TimerTextBox);
+
+		HeatStroke::EventManager::Instance()->RemoveListener(m_strEventName, m_pDelegate);
+		delete m_pDelegate;
+		m_pDelegate = nullptr;
 	}
 
 	HeatStroke::Component* ComponentHudRaceTimer::CreateComponent(
@@ -67,46 +75,85 @@ namespace Kartaclysm
 			);
 	}
 
-
 	void ComponentHudRaceTimer::Update(const float p_fDelta)
 	{
-		// increase time up to the maximum one hour
 		m_fTime += p_fDelta;
-		if (m_fTime >= 3599.999f)
+		if (m_fTime < 0.0f) return;
+
+		if (m_fLapDisplayTimer > 0.0f)
 		{
-			m_fTime = 3599.999f;
+			m_fLapDisplayTimer -= p_fDelta;
+			if (m_fLapDisplayTimer <= 0.0f)
+			{
+				DisableLapFlash();
+			}
+			else
+			{
+				FlashLapTimer(m_fLapDisplayTimer, 0.5f);
+			}
 		}
-		else if (m_fTime < 0.0f)
+		else
 		{
-			return;
+			m_TimerTextBox.SetText(Common::FormatHudTime(m_fTime));
 		}
+	}
 
-		// minutes
-		unsigned int uiMinutes = static_cast<unsigned int>(m_fTime) / 60;
-		std::string strMinutes = (uiMinutes < 10 ? "0" + std::to_string(uiMinutes) : std::to_string(uiMinutes));
+	void ComponentHudRaceTimer::Init()
+	{
+		// event name follows "Player0_HUD_Lap" format
+		assert(GetGameObject()->GetParent() != nullptr && "HUD hierarchy error");
+		m_strEventName = GetGameObject()->GetParent()->GetGUID() + "_Lap";
 
-		// seconds
-		unsigned int uiSeconds = static_cast<unsigned int>(m_fTime) % 60;
-		std::string strSeconds = (uiSeconds < 10 ? "0" + std::to_string(uiSeconds) : std::to_string(uiSeconds));
-
-		m_mTimerTextBox.SetText(strMinutes + ":" + strSeconds);
-
-		/*
-		// milliseconds (decreases frame rate with many render calls)
-		unsigned int uiMilli = static_cast<unsigned int>((m_fTime - static_cast<unsigned int>(m_fTime)) * 1000);
-		std::string strMilli =	(uiMilli < 10 ? "00" + std::to_string(uiMilli) : 
-								(uiMilli < 100 ? "0" + std::to_string(uiMilli) :
-								std::to_string(uiMilli)));
-
-		m_mTimerTextBox.SetText(strMinutes + ":" + strSeconds + "." + strMilli);
-		*/
+		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudRaceTimer::LapCountCallback, this, std::placeholders::_1));
+		HeatStroke::EventManager::Instance()->AddListener(m_strEventName, m_pDelegate);
 	}
 
 	void ComponentHudRaceTimer::SyncTransform()
 	{
-		m_mLabelTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
-			glm::translate(glm::vec3(m_fLabelOffset, 0.0f, 0.0f)));
-		m_mTimerTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform()); 
+		if (m_fLapDisplayTimer > 0.0f)
+		{
+			m_TimerTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform() *
+				glm::translate(glm::vec3(-24.0f, 0.0f, 0.0f)));
+		}
+		else
+		{
+			m_TimerTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+		}
+	}
+
+	void ComponentHudRaceTimer::LapCountCallback(const HeatStroke::Event* p_pEvent)
+	{
+		float fLapTime;
+		p_pEvent->GetRequiredFloatParameter("LapTime", fLapTime);
+		if (fLapTime <= 0.0f) return;
+
+		m_fLapDisplayTimer = 3.0f;
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_LabelTextBox);
+		m_TimerTextBox.SetText(Common::TimeStringFromFloat(fLapTime));
+	}
+
+	void ComponentHudRaceTimer::FlashLapTimer(const float p_fLapDisplayTimer, const float p_fInterval)
+	{
+		assert(p_fInterval > 0.0f && "Must be a positive interval");
+		int iDivisor = static_cast<int>(p_fLapDisplayTimer / p_fInterval);
+
+		if (iDivisor % 2 == 0)
+		{
+			m_TimerTextBox.SetColour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));	// white
+		}
+		else
+		{
+			m_TimerTextBox.SetColour(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));	// light blue
+		}
+	}
+
+	void ComponentHudRaceTimer::DisableLapFlash()
+	{
+		m_fLapDisplayTimer = 0.0f;
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_LabelTextBox);
+
+		m_TimerTextBox.SetText(Common::FormatHudTime(m_fTime));
+		m_TimerTextBox.SetColour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));	// white
 	}
 
 	void ComponentHudRaceTimer::ParseNode(
