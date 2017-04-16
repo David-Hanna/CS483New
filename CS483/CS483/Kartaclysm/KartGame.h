@@ -36,6 +36,7 @@
 #include "FontManager.h"
 #include "MySQLConnector.h"
 #include "DatabaseManager.h"
+#include <thread>
 
 namespace Kartaclysm
 {

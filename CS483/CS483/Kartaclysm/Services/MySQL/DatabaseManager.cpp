@@ -36,7 +36,6 @@ Kartaclysm::DatabaseManager::DatabaseManager()
 	m_uiTotalTournamentRaces(0),
 	m_vTournamentRaceIds()
 {
-	TryToConnect();
 }
 
 Kartaclysm::DatabaseManager::~DatabaseManager()

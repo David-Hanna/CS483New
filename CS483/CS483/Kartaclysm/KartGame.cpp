@@ -17,6 +17,12 @@
 
 bool Kartaclysm::KartGame::Init()
 {
+	// Begin connecting to database as early as possible
+	HeatStroke::MySQLConnector::CreateInstance();
+	DatabaseManager::CreateInstance();
+	DatabaseManager::Instance()->SetThreadedQueryMode(true);
+	std::thread thrConnectToDatabase(&DatabaseManager::TryToConnect, DatabaseManager::Instance());
+
 	// Initialize singletons
 	HeatStroke::EventManager::CreateInstance();
 	HeatStroke::ModelManager::CreateInstance();
@@ -29,11 +35,6 @@ bool Kartaclysm::KartGame::Init()
 	HeatStroke::AudioPlayer::CreateInstance();
 	InputActionMapping::CreateInstance("CS483/CS483/Kartaclysm/Data/Local/ControlBindings.xml");
 	PlayerInputMapping::CreateInstance();
-	HeatStroke::MySQLConnector::CreateInstance();
-	DatabaseManager::CreateInstance();
-
-	// Run all queries on threads
-	DatabaseManager::Instance()->SetThreadedQueryMode(true);
 
 	// Preload sprites (needed for title image and loading message on main menu)
 	HeatStroke::SpriteManager::Instance()->Preload("CS483/CS483/Kartaclysm/Data/DevConfig/Preload.xml");
@@ -54,8 +55,9 @@ bool Kartaclysm::KartGame::Init()
 	m_pGameStates->RegisterState(GameplayState::STATE_COUNTDOWN, new StateCountdown());
 	m_pGameStates->RegisterState(GameplayState::STATE_CONGRATULATIONS, new StateCongratulationsMenu());
 
-	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
+	thrConnectToDatabase.join(); // blocks execution until thread ends
 
+	m_pGameStates->Push(GameplayState::STATE_MAIN_MENU, std::map<std::string, std::string>());
 	return true;
 }
 
