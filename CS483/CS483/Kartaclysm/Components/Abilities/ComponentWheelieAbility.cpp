@@ -95,7 +95,7 @@ namespace Kartaclysm
 				}
 				else if (!pAIDriver->IsInWheelie() &&
 					pAIDriver->AngleToNextNode() <= 0.3f &&
-					pAIDriver->DistanceToNextNode() >= 20.0f)
+					pAIDriver->DistanceToNextNode() >= 10.0f)
 				{
 					Activate();
 				}
