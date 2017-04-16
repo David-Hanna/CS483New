@@ -634,20 +634,18 @@ namespace Kartaclysm
 			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
-		std::vector<HeatStroke::GameObject*> pModels = m_pGameObject->GetChildren();
-		for (int i = 0; i < pModels.size(); i++)
+		ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
+		if (pRacer != nullptr)
 		{
-			Component* pRenderable = pModels[i]->GetComponent("GOC_Renderable");
-			if (pRenderable != nullptr)
+			if (m_bWheelie)
 			{
-				if (m_bWheelie)
-				{
-					pModels[i]->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
-				}
-				else
-				{
-					pModels[i]->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
-				}
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+			}
+			else
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
 			}
 		}
 
