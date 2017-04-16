@@ -15,6 +15,7 @@
 #include "ComponentTextbox.h"
 #include "ComponentPerspectiveCamera.h"
 #include "Component3DModel.h"
+#include "ComponentRotateOverTime.h"
 
 #include "GameplayState.h"
 #include "EventManager.h"
@@ -88,6 +89,7 @@ namespace Kartaclysm
 			HeatStroke::GameObject* pAccelerationStatIcon;
 			HeatStroke::GameObject* pHandlingStatIcon;
 			HeatStroke::GameObject* pDurabilityStatIcon;
+			HeatStroke::GameObject* pDriverKartDisplayConnector;
 			HeatStroke::GameObject* pDriverDisplay;
 			HeatStroke::GameObject* pKartDisplay;
 			HeatStroke::GameObject* pHighlight;
