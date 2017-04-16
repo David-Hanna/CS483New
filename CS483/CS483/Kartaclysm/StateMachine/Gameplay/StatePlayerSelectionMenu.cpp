@@ -547,6 +547,8 @@ void Kartaclysm::StatePlayerSelectionMenu::AddPlayer(const unsigned int p_uiPlay
 		m_mPerPlayerMenuState[p_uiPlayerNum].pPressStartToJoin = nullptr;
 	}
 
+	m_mPerPlayerMenuState[p_uiPlayerNum].eCurrentSelection = SELECTION_DRIVER;
+	m_mPerPlayerMenuState[p_uiPlayerNum].eSelectedControl = CONTROL_HUMAN;
 	m_mPerPlayerMenuState[p_uiPlayerNum].pControlSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/control_selection_human_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[p_uiPlayerNum].pDriverSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/driver_selection_cleopapa_" + strPlayerNum + ".xml");
 	m_mPerPlayerMenuState[p_uiPlayerNum].pKartSelection = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/PlayerSelectionMenu/player_" + strPlayerNum + "/kart_selection_speedster_" + strPlayerNum + ".xml");
