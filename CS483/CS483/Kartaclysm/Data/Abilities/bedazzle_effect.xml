@@ -1,0 +1,19 @@
+<GameObject>
+  <Components>
+    <GOC_Effect>
+      <Effect id="effect" duration="1.0" />
+    </GOC_Effect>
+    <GOC_ParticleEffect>
+      <Effects>
+        <Effect path="CS483/CS483/Kartaclysm/Data/Effects/bedazzle.pfx" id="effect" />
+      </Effects>
+    </GOC_ParticleEffect>
+  </Components>
+
+  <Children>
+  </Children>
+
+  <Tags>
+    <Tag value="Effect"/>
+  </Tags>
+</GameObject>

@@ -11,6 +11,10 @@ Kartaclysm::StateCountdown::StateCountdown()
 	:
 	GameplayState("Countdown"),
 	m_pGameObjectManager(nullptr),
+	m_uiNumHumanRacers(0),
+	m_fTimer(0.0f),
+	m_mRacerBoostMap(),
+	m_mPreviousFrameAccelerating(),
 	m_bSuspended(true)
 {
 }
@@ -24,73 +28,35 @@ void Kartaclysm::StateCountdown::Enter(const std::map<std::string, std::string>&
 	m_bSuspended = false;
 	m_fTimer = 3.0f;
 
-	m_iPlayerCount = PlayerInputMapping::Instance()->GetSplitscreenPlayers();
-	for (int i = 0; i < m_iPlayerCount; i++)
+	SendKartDisableEvent();
+
+	m_uiNumHumanRacers = std::stoi(p_mContextParameters.at("NumHumanRacers"));
+	for (unsigned int i = 0; i < m_uiNumHumanRacers; ++i)
 	{
-		m_vGainsBoost[i] = false;
-		m_vAccelerating[i] = false;
+		std::string strPlayerX = "Player" + std::to_string(i);
+		m_mRacerBoostMap[strPlayerX] = false;
+		m_mPreviousFrameAccelerating[i] = false;
 	}
+
+	unsigned int uiNumAIRacers = std::stoi(p_mContextParameters.at("NumAIRacers"));
+	DetermineAIBoost(uiNumAIRacers);
 }
 
 void Kartaclysm::StateCountdown::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+	m_fTimer -= p_fDelta;
+
+	SendHudCountdownEvent(p_fDelta);
+
+	if (m_fTimer <= 0.0f)
 	{
-		// Tell the HUD to update the countdown
-		m_fTimer -= p_fDelta;
-		HeatStroke::Event* pHudEvent = new HeatStroke::Event("Countdown_HUD");
-		pHudEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
-		HeatStroke::EventManager::Instance()->TriggerEvent(pHudEvent);
-
-		// Check conditions for race start and boosts
-		if (m_fTimer <= 0.0f)
-		{
-			// Enable kart movement and provide boosts
-			HeatStroke::Event* pCountdownEvent = new HeatStroke::Event("KartCountdown");
-			pCountdownEvent->SetIntParameter("Disable", 0);
-			for (int i = 0; i < m_iPlayerCount; i++)
-			{
-				pCountdownEvent->SetFloatParameter("Player" + std::to_string(i), (m_vGainsBoost[i] ? 1.3f : 0.0f));
-			}
-			HeatStroke::EventManager::Instance()->TriggerEvent(pCountdownEvent);
-
-			m_pStateMachine->Pop();
-		}
-		else
-		{
-			// Get player accelerations to determine boost timing
-			for (int i = 0; i < m_iPlayerCount; i++)
-			{
-				int iAccelerate, iBrake, iSlide;
-				float fTurn;
-				PlayerInputMapping::Instance()->QueryPlayerMovement(i, iAccelerate, iBrake, iSlide, fTurn);
-
-				if (m_fTimer <= 0.25f)
-				{
-					// Final stretch: must continue accelerating
-					if (iAccelerate == 0)
-					{
-						m_vGainsBoost[i] = false;
-					}
-				}
-				else if (m_fTimer <= 0.5f)
-				{
-					// Sweet spot: Must begin acceleration in this phase
-					if (iAccelerate && (!m_vAccelerating[i] || m_vGainsBoost[i]))
-					{
-						m_vGainsBoost[i] = true;
-					}
-					else
-					{
-						m_vGainsBoost[i] = false;
-					}
-				}
-
-				// Update acceleration status for previous frame
-				m_vAccelerating[i] = (iAccelerate != 0);
-			}
-		}
+		SendCountdownBoostEvent();
+		m_pStateMachine->Pop();
+	}
+	else
+	{
+		UpdateHumanBoostValues();
 	}
 }
 
@@ -104,4 +70,78 @@ void Kartaclysm::StateCountdown::Exit()
 	}
 
 	m_bSuspended = true;
+}
+
+void Kartaclysm::StateCountdown::SendKartDisableEvent()
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("KartCountdown");
+	pEvent->SetIntParameter("Disable", 1);
+	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+}
+
+void Kartaclysm::StateCountdown::DetermineAIBoost(unsigned int p_uiNumAIRacers)
+{
+	std::bernoulli_distribution bool_chance(0.5f);
+	for (unsigned int i = 0; i < p_uiNumAIRacers; ++i)
+	{
+		std::string strAIRacer = "AI_racer" + std::to_string(i);
+		m_mRacerBoostMap[strAIRacer] = bool_chance(HeatStroke::Common::GetRNGesus());
+	}
+}
+
+void Kartaclysm::StateCountdown::UpdateHumanBoostValues()
+{
+	for (int i = 0; i < m_uiNumHumanRacers; i++)
+	{
+		int iAccelerate, iBrake, iSlide;
+		float fTurn;
+		PlayerInputMapping::Instance()->QueryPlayerMovement(i, iAccelerate, iBrake, iSlide, fTurn);
+
+		std::string strPlayerX = "Player" + std::to_string(i);
+		bool bAccelerating = (iAccelerate != 0);
+
+		DetermineHumanBoost(&m_mRacerBoostMap[strPlayerX], bAccelerating, m_mPreviousFrameAccelerating[i]);
+		m_mPreviousFrameAccelerating[i] = bAccelerating;
+	}
+}
+
+void Kartaclysm::StateCountdown::DetermineHumanBoost(bool* p_pCurrentBoostValue, const bool p_bAcceleratingThisFrame, const bool p_bAcceleratingLastFrame)
+{
+	if (m_fTimer <= 0.25f)
+	{
+		if (!p_bAcceleratingThisFrame)
+		{
+			*p_pCurrentBoostValue = false;
+		}
+	}
+	else if (m_fTimer <= 0.5f)
+	{
+		if (p_bAcceleratingThisFrame)
+		{
+			bool bBeganAccelerationInThisPhase = (*p_pCurrentBoostValue || !p_bAcceleratingLastFrame);
+			*p_pCurrentBoostValue = bBeganAccelerationInThisPhase;
+		}
+		else
+		{
+			*p_pCurrentBoostValue = false;
+		}
+	}
+}
+
+void Kartaclysm::StateCountdown::SendHudCountdownEvent(const float p_fDelta) const
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("Countdown_HUD");
+	pEvent->SetIntParameter("Countdown", static_cast<int>(ceilf(m_fTimer)));
+	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
+}
+
+void Kartaclysm::StateCountdown::SendCountdownBoostEvent() const
+{
+	HeatStroke::Event* pEvent = new HeatStroke::Event("KartCountdown");
+	pEvent->SetIntParameter("Disable", 0);
+	for (auto boost : m_mRacerBoostMap)
+	{
+		pEvent->SetFloatParameter(boost.first, (boost.second ? 1.3f : 0.0f));
+	}
+	HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 }

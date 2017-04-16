@@ -6,7 +6,7 @@
 	</Transform>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Kart/Speedster/speedster.obj"/>
+			<OBJFileName path="Assets/Kart/Speedster/speedster.hobj"/>
 		</GOC_3DModel>
 		<GOC_RotateOverTime>
 			<RotationPerSecond y="0.8"/>

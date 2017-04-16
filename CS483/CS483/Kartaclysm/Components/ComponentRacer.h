@@ -40,8 +40,9 @@ namespace Kartaclysm
 		void SetKart(HeatStroke::GameObject* p_pKart) { m_pKart = p_pKart; }
 		HeatStroke::GameObject* GetDriver() {return m_pDriver;}
 		void SetDriver(HeatStroke::GameObject* p_pDriver)  { m_pDriver = p_pDriver; }
-		int GetCurrentTrackPiece() const {return m_iCurrentTrackPiece;}
-		void SetCurrentTrackPiece(int p_iNewTrackPiece) {m_iCurrentTrackPiece = p_iNewTrackPiece;}
+		int GetCurrentTrackPiece() const { return m_iCurrentTrackPiece; }
+		int GetCurrentTrackPieceForDistanceCheck() const { return m_iCurrentTrackPieceForDistanceCheck; }
+		void SetCurrentTrackPiece(int p_iNewTrackPiece);
 		int GetFurthestTrackPiece() const {return m_iFurthestTrackPiece;}
 		void SetFurthestTrackPiece(int p_iNewTrackPiece) {m_iFurthestTrackPiece = p_iNewTrackPiece;}
 		int GetCurrentLap() const {return m_iCurrentLap;}
@@ -49,9 +50,14 @@ namespace Kartaclysm
 		int GetCurrentPosition() const {return m_iCurrentPosition;}
 		void SetCurrentPosition(int p_iNewPosition) {m_iCurrentPosition = p_iNewPosition;}
 		bool HasFinishedRace() const {return m_bHasFinishedRace;}
+		void SetHumanPlayer(bool p_bHumanPlayer) { m_bHumanPlayer = p_bHumanPlayer; }
+		bool IsHumanPlayer() const { return m_bHumanPlayer; }
+		const std::vector<float> GetLapTimes() const { return m_vLapTimes; }
 
 	protected:
 		ComponentRacer(HeatStroke::GameObject* p_pGameObject);
+
+		virtual void PositionCallback(const HeatStroke::Event* p_pEvent);
 
 	private:
 		HeatStroke::GameObject* m_pKart;
@@ -60,13 +66,18 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 
 		int m_iCurrentTrackPiece;
+		int m_iCurrentTrackPieceForDistanceCheck;
 		int m_iFurthestTrackPiece;
 		int m_iCurrentLap;
 		int m_iCurrentPosition;
 		bool m_bHasFinishedRace;
+		bool m_bHumanPlayer;
+		std::vector<float> m_vLapTimes;
 
 		void FinishLap(const HeatStroke::Event* p_pEvent);
 		void FinishRace(const HeatStroke::Event* p_pEvent);
+
+		std::function<void(const HeatStroke::Event*)>* m_pStandingsUpdateDelegate;
 	};
 }
 

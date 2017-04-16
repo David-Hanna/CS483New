@@ -1,0 +1,14 @@
+<GameObject>
+	<Components>
+		<GOC_3DModel>
+			<OBJFileName path="Assets/Track/grass_up_full.hobj"/>
+		</GOC_3DModel>
+	</Components>
+
+    <Children>
+    </Children>
+
+	<Tags>
+		<Tag value="grass"/>
+	</Tags>
+</GameObject>

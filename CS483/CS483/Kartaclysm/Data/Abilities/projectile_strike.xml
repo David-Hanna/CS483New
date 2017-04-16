@@ -6,6 +6,21 @@
   <Transform>
     <Scale x="0.5" y="0.5" z="0.5" />
   </Transform>
+
+  <Children>
+    <GameObject>
+      <Transform>
+        <Scale x="0.5" y="0.5" z="0.5" />
+        <Translation x="0.0" y="0.05" z="0.0" />
+      </Transform>
+
+      <Components>
+        <GOC_3DModel>
+          <OBJFileName path="Assets/Abilities/bowling_ball.hobj"/>
+        </GOC_3DModel>
+      </Components>      
+    </GameObject>
+  </Children>
   
   <Components>
 
@@ -19,7 +34,7 @@
 
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
-      <Sphere radius="1.0" />
+      <Sphere radius="0.5" />
       <Physics applies="false" />
     </GOC_SphereCollider>
 
@@ -28,16 +43,15 @@
     </GOC_Projectile>
 
     <GOC_SimplePhysics>
-      <Speed value="12.0" />
+      <Speed value="16.0" />
       <Friction value="0.0" />
-      <VerticalSpeed value="0.0" />
+      <VerticalSpeed value="0.5" />
     </GOC_SimplePhysics>
 
     <GOC_SelfDestruct>
-      <Timer value="3.0" />
+      <Timer value="5.0" />
       <Collision tags="Projectile" />
     </GOC_SelfDestruct>
-
   </Components>
 
   <Tags>

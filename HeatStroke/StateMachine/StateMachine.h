@@ -40,6 +40,7 @@ namespace HeatStroke
 		StateStack::const_iterator begin()			{ return m_mStateStack.begin(); }
 		StateStack::const_iterator end()			{ return m_mStateStack.end(); }
 		bool empty() const							{ return m_mStateStack.empty(); }
+		size_t size() const							{ return m_mStateStack.size(); }
 
 		void Update(const float p_fDelta, const bool m_bUpdateStack = false);
 

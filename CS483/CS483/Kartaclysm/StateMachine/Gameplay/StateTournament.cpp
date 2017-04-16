@@ -7,10 +7,6 @@
 
 #include "StateTournament.h"
 
-// static member setup
-std::random_device Kartaclysm::StateTournament::s_Rand;
-std::mt19937 Kartaclysm::StateTournament::s_RNGesus = std::mt19937(Kartaclysm::StateTournament::s_Rand());
-
 Kartaclysm::StateTournament::StateTournament()
 	:
 	GameplayState("Tournament State"),
@@ -18,6 +14,8 @@ Kartaclysm::StateTournament::StateTournament()
 	m_bSuspended(true),
 	m_bReadyForNextRace(false),
 	m_bFinished(false),
+	m_bCongrats(false),
+	m_bReturnedFromPlayerSelect(false),
 	m_uiRaceCount(0),
 	m_mContextParams(),
 	m_mRacerRankings()
@@ -48,35 +46,62 @@ void Kartaclysm::StateTournament::Enter(const std::map<std::string, std::string>
 	m_pRaceInfoDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&StateTournament::RaceInfoCallback, this, std::placeholders::_1));
 	HeatStroke::EventManager::Instance()->AddListener("RaceInfo", m_pRaceInfoDelegate);
 
+	DatabaseManager::Instance()->StartTournament(m_vTracks.size());
+
 	// Shuffle tracks for tournament and push to player selection
-	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), s_RNGesus);
+	std::shuffle(std::begin(m_vTracks), std::end(m_vTracks), HeatStroke::Common::GetRNGesus());
 	m_mContextParams["TrackDefinitionFile"] = m_vTracks[0];
 	m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, m_mContextParams);
 }
 
+void Kartaclysm::StateTournament::Suspend(const int p_iNewState)
+{
+	m_bSuspended = true;
+}
+
+void Kartaclysm::StateTournament::Unsuspend(const int p_iPrevState)
+{
+	m_bSuspended = false;
+	m_bReturnedFromPlayerSelect = (p_iPrevState == STATE_PLAYER_SELECTION_MENU);
+}
+
 void Kartaclysm::StateTournament::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	if (m_bReadyForNextRace)
 	{
-		if (m_bReadyForNextRace)
+		m_bReadyForNextRace = false;
+		m_pStateMachine->Push(STATE_RACING, m_mContextParams);
+	}
+	else if (m_bFinished)
+	{
+		m_bFinished = false;
+		m_bCongrats = true;
+
+		auto thrInsertQuery = std::thread(
+			&DatabaseManager::EndTournament,
+			DatabaseManager::Instance());
+		thrInsertQuery.detach();
+		m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
+	}
+
+	else if (m_bCongrats)
+	{
+		m_bCongrats = false;
+		m_pStateMachine->Pop();
+		m_pStateMachine->Push(STATE_CONGRATULATIONS, m_mContextParams);
+	}
+	else
+	{
+		// Quit tournament early or some other problem
+		DatabaseManager::Instance()->CancelTournament();
+		m_pStateMachine->Pop();
+		if (m_pStateMachine->empty())
 		{
-			m_bReadyForNextRace = false;
-			m_pStateMachine->Push(STATE_RACING, m_mContextParams);
+			m_pStateMachine->Push(m_bReturnedFromPlayerSelect ? STATE_MODE_SELECTION_MENU : STATE_MAIN_MENU);
 		}
-		else if (m_bFinished)
-		{
-			m_bFinished = false;
-			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_RACE_COMPLETE_MENU, m_mContextParams);
-			// TODO: Show some kind of congratulations screen?
-		}
-		else
-		{
-			// Quit tournament early or some other problem
-			m_pStateMachine->Pop();
-			m_pStateMachine->Push(STATE_MAIN_MENU);
-		}
+		m_bReturnedFromPlayerSelect = false;
 	}
 }
 
@@ -165,32 +190,6 @@ void Kartaclysm::StateTournament::RaceInfoCallback(const HeatStroke::Event* p_pE
 	}
 }
 
-std::string Kartaclysm::StateTournament::FormatTime(float p_fUnformattedTime) const
-{
-	int iMinutes = static_cast<int>(p_fUnformattedTime) / 60;
-	float fSeconds = fmod(p_fUnformattedTime, 60.0f);
-
-	std::string strMinutes = std::to_string(iMinutes);
-	std::string strSeconds = std::to_string(fSeconds);
-
-	if (fSeconds < 10.0f)
-	{
-		strSeconds = "0" + strSeconds;
-	}
-	if (iMinutes < 10)
-	{
-		strMinutes = "0" + strMinutes;
-	}
-	else if (iMinutes > 60)
-	{
-		strMinutes = "59";
-		strSeconds = "99.99999";
-	}
-	strSeconds = strSeconds.substr(0, 5);
-
-	return strMinutes + ":" + strSeconds;
-}
-
 std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const
 {
 	std::map<std::string, std::string> mResults;
@@ -198,6 +197,8 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 	mResults["numRacers"] = std::to_string(m_mRacerRankings.size());
 
 	int iRank = 0;
+	int iPrevPoints = -1;
+	int iPrevPosition = 0;
 	while (!p_pRankings->empty())
 	{
 		auto it = p_pRankings->begin(), end = p_pRankings->end(), max = it;
@@ -214,6 +215,17 @@ std::map<std::string, std::string> Kartaclysm::StateTournament::GenerateTourname
 		mResults["racerTime" + strIndex] = std::to_string(max->second.m_fTime);
 		mResults["racerPoints" + strIndex] = std::to_string(max->second.m_iPoints);
 
+		if (max->second.m_iPoints != iPrevPoints)
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iRank);
+			iPrevPosition = iRank;
+		}
+		else // tied position
+		{
+			mResults["racerPosition" + strIndex] = std::to_string(iPrevPosition);
+		}
+
+		iPrevPoints = max->second.m_iPoints;
 		p_pRankings->erase(max);
 	}
 	return mResults;

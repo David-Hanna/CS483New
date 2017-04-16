@@ -90,7 +90,7 @@ namespace HeatStroke
 			Texture*					m_pTexture;
 			GLuint						m_uiCount;
 			std::vector<Texture_Vertex>	m_mVertices;
-			std::vector<GLuint>			m_mIndices;
+			std::vector<GLushort>		m_mIndices;
 
 			Texture_Page_Source() : m_uiCount(0) {};
 		};

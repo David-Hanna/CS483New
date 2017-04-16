@@ -1,7 +1,7 @@
 <GameObject>
 	<Components>
 		<GOC_3DModel>
-			<OBJFileName path="Assets/Track/track_turn_right_small.obj"/>
+			<OBJFileName path="Assets/Track/track_turn_right_small.hobj"/>
 		</GOC_3DModel>
     <GOC_TrackPiece>
       <Bounds widthX="10" widthZ="10"/>
@@ -22,12 +22,14 @@
   <Children>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_northsouth.xml">
       <Transform>
-        <Translation x="0.0" y="1" z="5.0" />
+        <Translation x="0.0" y="0.125" z="5.0" />
+        <Scale x="1.0" y="0.125" z="0.125" />
       </Transform>
     </GameObject>
     <GameObject definition="CS483/CS483/Kartaclysm/Data/Walls/wall_eastwest.xml">
       <Transform>
-        <Translation x="-5.0" y="1" z="0" />
+        <Translation x="-5.0" y="0.125" z="0" />
+        <Scale x="0.125" y="0.125" z="1.0" />
       </Transform>
     </GameObject>
   </Children>

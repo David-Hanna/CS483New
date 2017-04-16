@@ -172,7 +172,7 @@ namespace HeatStroke
 		for (std::vector<Texture_Page_Source>::iterator iter3 = sources.begin(); iter3 != sources.end(); ++iter3)
 		{
 			VertexBuffer* pVB = BufferManager::CreateVertexBuffer(&iter3->m_mVertices[0], sizeof(Texture_Vertex) * iter3->m_uiCount * 4);
-			IndexBuffer* pIB = BufferManager::CreateIndexBuffer(&iter3->m_mIndices[0], sizeof(GLuint) * iter3->m_uiCount * 6);
+			IndexBuffer* pIB = BufferManager::CreateIndexBuffer(&iter3->m_mIndices[0], iter3->m_mIndices.size());
 
 			VertexDeclaration* pDecl = new VertexDeclaration();
 			pDecl->Begin();
@@ -346,7 +346,7 @@ namespace HeatStroke
 
 				//font may have multiple texture pages, so add all indices and vertices per texture page together for less draw calls
 				Texture_Page_Source texturePage;
-				GLuint uiIndex = 0;
+				GLushort uiIndex = 0;
 				std::vector<Texture_Page_Source>::iterator itSourceIter = p_mSources.begin();
 				for (; itSourceIter != p_mSources.end(); ++itSourceIter)
 				{
@@ -367,7 +367,7 @@ namespace HeatStroke
 				//calculate offsets once
 				GLfloat fXOffset = fWidthAlignOffset + fCurrentWidth;
 				GLfloat fYOffset = fHeightAlignOffset - fCurrentHeight;
-				GLuint uiIndexOffset = texturePage.m_uiCount * 4;
+				GLushort uiIndexOffset = texturePage.m_uiCount * 4;
 
 				//create and push vertices in order: top-left, bottom-left, bottom-right, and top-right
 				texturePage.m_mVertices.push_back(Texture_Vertex(fXOffset, fYOffset, 0.0f, fLeft, fTop));
@@ -409,7 +409,7 @@ namespace HeatStroke
 			itQuadIter->m_pMaterial->SetUniform("ProjViewWorld", p_pCamera->GetViewProjectionMatrix() * itQuadIter->m_mWorld);
 			itQuadIter->m_pMaterial->Apply();
 
-			glDrawElements(GL_TRIANGLES, itQuadIter->m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, itQuadIter->m_pIB->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 		}
 	}
 }

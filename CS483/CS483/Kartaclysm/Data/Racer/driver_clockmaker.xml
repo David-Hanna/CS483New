@@ -15,7 +15,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Drivers/Clockmaker/clockmaker.obj"/>
+      <OBJFileName path="Assets/Drivers/Clockmaker/clockmaker.hobj"/>
     </GOC_3DModel>
 
     <GOC_DriverStatMods>
@@ -29,5 +29,6 @@
 
   <Tags>
     <Tag value="Driver"/>
+    <Tag value="Clockmaker"/>
   </Tags>
 </GameObject>

@@ -47,87 +47,79 @@ void Kartaclysm::StateModeSelectionMenu::Enter(const std::map<std::string, std::
 	}
 }
 
-void Kartaclysm::StateModeSelectionMenu::Suspend(const int p_iNewState)
-{
-	m_bSuspended = true;
-	m_pGameObjectManager->ForceInstantDestroyGameObject(m_pGameObjectManager->GetGameObject("Camera"));
-}
-
-void Kartaclysm::StateModeSelectionMenu::Unsuspend(const int p_iPrevState)
-{
-	m_bSuspended = false;
-	m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Camera/camera_menu.xml", "Camera");
-}
-
 void Kartaclysm::StateModeSelectionMenu::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+	if (bConfirm)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
-
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(0, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm)
+		std::map<std::string, std::string> mContextParameters;
+		switch (m_iModeSelection)
 		{
-			std::map<std::string, std::string> mContextParameters;
-			switch (m_iModeSelection)
+		case 0:
+			mContextParameters["Mode"] = "Single";
+			m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, mContextParameters);
+			break;
+		case 1:
+			while (!m_pStateMachine->empty())
 			{
-			case 0:
 				m_pStateMachine->Pop();
-				mContextParameters["Mode"] = "Single";
-				m_pStateMachine->Push(STATE_PLAYER_SELECTION_MENU, mContextParameters);
-				break;
-			case 1:
-				m_pStateMachine->Pop();
-				mContextParameters["Mode"] = "Tournament";
-				m_pStateMachine->Push(STATE_TOURNAMENT, mContextParameters);
-				break;
-			case 2:
-				m_pStateMachine->Push(STATE_OPTIONS_MENU, mContextParameters);
-				break;
 			}
+			mContextParameters["Mode"] = "Tournament";
+			m_pStateMachine->Push(STATE_TOURNAMENT, mContextParameters);
+			break;
+		case 2:
+			m_pStateMachine->Push(STATE_OPTIONS_MENU, mContextParameters);
+			break;
 		}
-		else if (bUp)
+	}
+	else if (bCancel)
+	{
+		m_pStateMachine->Pop();
+	}
+	else if (bUp)
+	{
+		switch (m_iModeSelection)
 		{
-			switch (m_iModeSelection)
-			{
-			case 1:
-				m_iModeSelection = 0;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_time_trial.xml");
-				break;
-			case 2:
-				m_iModeSelection = 1;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_tournament.xml");
-				break;
-			}
+		case 1:
+			m_iModeSelection = 0;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_time_trial.xml");
+			break;
+		case 2:
+			m_iModeSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_tournament.xml");
+			break;
 		}
-		else if (bDown)
+	}
+	else if (bDown)
+	{
+		switch (m_iModeSelection)
 		{
-			switch (m_iModeSelection)
-			{
-			case 0:
-				m_iModeSelection = 1;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_tournament.xml");
-				break;
-			case 1:
-				m_iModeSelection = 2;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_options.xml");
-				break;
-			}
+		case 0:
+			m_iModeSelection = 1;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_tournament.xml");
+			break;
+		case 1:
+			m_iModeSelection = 2;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/ModeSelectionMenu/mode_selection_highlight_options.xml");
+			break;
 		}
 	}
 }
 
 void Kartaclysm::StateModeSelectionMenu::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }

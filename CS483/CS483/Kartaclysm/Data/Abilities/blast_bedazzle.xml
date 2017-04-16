@@ -7,7 +7,7 @@
 
     <GOC_SphereCollider>
       <Offset x="0" y="0" z="0" />
-      <Sphere radius="2.0" />
+      <Sphere radius="4.0" />
       <Physics applies="false" />
     </GOC_SphereCollider>
 
@@ -18,6 +18,10 @@
     <GOC_SelfDestruct>
       <Timer value="0.0" />
     </GOC_SelfDestruct>
+
+    <GOC_ObjectSpawn>
+      <Object xml="CS483/CS483/Kartaclysm/Data/Abilities/bedazzle_effect.xml" />
+    </GOC_ObjectSpawn>
 
   </Components>
 

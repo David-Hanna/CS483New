@@ -67,6 +67,10 @@ namespace Kartaclysm
 		m_fKartCollisionStat(2.0f),
 		m_fOffroadFactorStat(0.5f),
 		m_fOffroadRumbleFactor(0.05f),
+		m_fAIRubberBandingFactorFirst(0.85f),
+		m_fAIRubberBandingFactorLast(1.15f),
+		m_fJumpBoostStat(1.8f),
+		m_fWheelieOffsetStat(0.1f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -99,6 +103,9 @@ namespace Kartaclysm
 		HeatStroke::EventManager::Instance()->AddListener("KartCountdown", m_pCountdownDelegate);
 
 		m_pOutsideForce = glm::vec3();
+
+		HeatStroke::GameObject* pTrack = m_pGameObject->GetManager()->GetGameObject("Track");
+		m_pTrackComponent = static_cast<ComponentTrack*>(pTrack->GetComponent("GOC_Track"));
 
 		UpdateStats(m_iMaxSpeedCoreStat, m_iAccelerationCoreStat, m_iHandlingCoreStat, m_iDurabilityCoreStat);
 	}
@@ -187,11 +194,11 @@ namespace Kartaclysm
 	void ComponentKartController::UpdateStats(int p_iMaxSpeed, int p_iAcceleration, int p_iHandling, int p_iDurability)
 	{
 		// Max Speed
-		m_fMaxSpeedStat = 18.0f + (0.8f * p_iMaxSpeed);
+		m_fMaxSpeedStat = 20.0f + (0.2f * p_iMaxSpeed);
 		m_fMaxReverseSpeedStat = 5.6f + (0.1f * p_iMaxSpeed);
 
 		// Acceleration
-		m_fAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
+		m_fAccelerationStat = 0.8f + (0.2f * p_iAcceleration);
 		m_fReverseAccelerationStat = 0.9f + (0.1f * p_iAcceleration);
 
 		// Handling
@@ -201,7 +208,7 @@ namespace Kartaclysm
 		m_fTurnAtMaxSpeedStat = 0.65f + (0.05f * p_iHandling);
 
 		// Durability
-		m_fDurabilityStat = 1.0f - (0.08f * p_iDurability);
+		m_fDurabilityStat = 1.0f - (0.12f * p_iDurability);
 	}
 
 	void ComponentKartController::Update(const float p_fDelta)
@@ -320,6 +327,26 @@ namespace Kartaclysm
 			}
 		}
 
+		// ...And from AI rubber banding
+		if (m_bAI)
+		{
+			ComponentRacer* pRacer = (ComponentRacer*)m_pGameObject->GetComponent("GOC_Racer");
+			if (pRacer != nullptr)
+			{
+				int iPosition = pRacer->GetCurrentPosition();
+				
+				if (iPosition < m_pTrackComponent->GetLeadHumanPosition())
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorFirst;
+				}
+
+				if (iPosition > m_pTrackComponent->GetRearHumanPosition())
+				{
+					fSpeedModifer *= m_fAIRubberBandingFactorLast;
+				}
+			}
+		}
+
 		// Adjust speed based on input
 		if (p_iAccelerateInput != 0)
 		{
@@ -360,13 +387,21 @@ namespace Kartaclysm
 			{
 				m_iSlideDirection = 1;
 			}
+			else if (m_iSlideDirection == 0)
+			{
+				m_bSliding = false;
+			}
 
 			fTurnTarget *= m_fSlideMaxTurnModifierStat;
 			fModifier *= m_fSlideModifierStat;
 
-			if ((m_iSlideDirection > 0 && fTurnTarget < 0) || (m_iSlideDirection < 0 && fTurnTarget > 0))
+			if (m_iSlideDirection > 0 && fTurnTarget < 0.4f)
 			{
-				fTurnTarget = 0.0f;
+				fTurnTarget = 0.4f;
+			}
+			else if (m_iSlideDirection < 0 && fTurnTarget > -0.4f)
+			{
+				fTurnTarget = -0.4f;
 			}
 		}
 
@@ -452,12 +487,16 @@ namespace Kartaclysm
 
 				m_fVerticalSpeed = heightDifference * m_fVerticalSpeedScale;
 				m_bAirborne = true;
+
+				Boost(m_fJumpBoostStat);
 			}
 		}
 		
 		// If airborne, fall towards the ground and attempt to land
 		if (m_bAirborne)
 		{
+			m_bWheelie = false;
+			
 			m_fVerticalSpeed += m_fGravityAccelerationStat * m_fVerticalSpeedScale * p_fDelta;
 			fHeightMod = m_fVerticalSpeed * p_fDelta;
 
@@ -486,6 +525,11 @@ namespace Kartaclysm
 
 		m_fPreviousHeight = m_pGameObject->GetTransform().GetTranslation().y;
 
+		if (fHeightMod >= 0.5f)
+		{
+			fHeightMod = 0.0f;
+		}
+
 		return fHeightMod;
 	}
 
@@ -494,24 +538,34 @@ namespace Kartaclysm
 		// End the slide if the input is released, or if speed drops too low
 		if (m_bSliding)
 		{
-			if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
+			// End the slide if offroad, without a boost
+			if (m_bOffroad)
 			{
 				m_bSliding = false;
 				m_iSlideDirection = 0;
 				m_fSlideCharge = 0.0f;
 			}
-
-			if (p_iSlideInput == 0)
+			else
 			{
-				m_bSliding = false;
-				m_iSlideDirection = 0;
-
-				if (m_fSlideCharge >= m_fSlideChargeThreshold)
+				if (m_fSpeed < m_fMaxSpeedStat * 0.2f * m_fSpeedScale)
 				{
-					Boost(1.0f + m_fSlideCharge);
+					m_bSliding = false;
+					m_iSlideDirection = 0;
+					m_fSlideCharge = 0.0f;
 				}
 
-				m_fSlideCharge = 0.0f;
+				if (p_iSlideInput == 0)
+				{
+					m_bSliding = false;
+					m_iSlideDirection = 0;
+
+					if (m_fSlideCharge >= m_fSlideChargeThreshold)
+					{
+						Boost(1.0f + m_fSlideCharge);
+					}
+
+					m_fSlideCharge = 0.0f;
+				}
 			}
 		}
 
@@ -580,6 +634,21 @@ namespace Kartaclysm
 			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
 		}
 
+		ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
+		if (pRacer != nullptr)
+		{
+			if (m_bWheelie)
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+			}
+			else
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+			}
+		}
+
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
 		//printf("Position:\n  X: %f\n  Y: %f\n  Z: %f\nRotation:\n  X: %f\n  Y: %f\n  Z: %f\nSpeed:\n  %f\nTurn speed:\n  %f\nVertical Speed:\n  %f\nSliding:\n  %i\nSlide direction:\n  %i\n\n", transform.GetTranslation().x, transform.GetTranslation().y, transform.GetTranslation().z, transform.GetRotation().x, transform.GetRotation().y, transform.GetRotation().z, m_fSpeed, m_fTurnSpeed, m_fVerticalSpeed,m_bSliding, m_iSlideDirection);
 	}
@@ -600,6 +669,19 @@ namespace Kartaclysm
 				{
 					pBoostParticleEffect->Stop();
 				}
+			}
+		}
+	}
+
+	void ComponentKartController::RaceFinishParticles()
+	{
+		HeatStroke::ComponentParticleEffect* pComponentParticleEffect = static_cast<HeatStroke::ComponentParticleEffect*>(m_pGameObject->GetComponent("GOC_ParticleEffect"));
+		if (pComponentParticleEffect)
+		{
+			HeatStroke::Effect* pFinishParticleEffect = pComponentParticleEffect->GetEffect("race_finish");
+			if (pFinishParticleEffect != nullptr)
+			{
+				pFinishParticleEffect->Start();
 			}
 		}
 	}
@@ -628,10 +710,17 @@ namespace Kartaclysm
 	void ComponentKartController::WheelieToggle()
 	{
 		m_bWheelie = !m_bWheelie;
+
+		if (m_bSliding)
+		{
+			m_bWheelie = false;
+		}
 	}
 
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
+		m_bWheelie = false;
+		
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
 
 		m_fSpinFactor = m_fSpinSpeedStat;
@@ -720,6 +809,7 @@ namespace Kartaclysm
 					float dotProduct = glm::dot(velocity, glm::normalize(contactPoint - m_pGameObject->GetTransform().GetTranslation()));
 
 					m_pOutsideForce = glm::normalize(difference) * m_fWallBumpStat * ((m_fSpeed / m_fSpeedScale) / m_fMaxSpeedStat) * dotProduct;
+					m_pOutsideForce = m_pOutsideForce * glm::vec3(1.0f, 0.0f, 1.0f); // Extra check to make sure there's no vertical speed
 					m_fSpeed *= m_fWallSlowdownStat;
 				}
 				else
@@ -754,85 +844,93 @@ namespace Kartaclysm
 	void ComponentKartController::HandleAbilityEvent(const HeatStroke::Event* p_pEvent)
 	{
 		// TODO: make this use game objects (brad, ya dingus)
-		std::string originator, target = "";
+		std::string originator, ability, target = "";
 		float power = 0.0f, duration = 0.0f;
 		p_pEvent->GetRequiredStringParameter("Originator", originator);
+		p_pEvent->GetRequiredStringParameter("Ability", ability);
 		p_pEvent->GetOptionalStringParameter("Target", target, target);
 		p_pEvent->GetOptionalFloatParameter("Power", power, power);
 		p_pEvent->GetOptionalFloatParameter("Duration", duration, duration);
 
 		if (target.compare(m_pGameObject->GetGUID()) == 0)
 		{
+#ifdef _DEBUG
+			printf("KartController: Ability %s from %s targetting %s\n",
+				ability.c_str(), originator.c_str(), target.c_str());
+#endif
+
 			// See if an ability is waiting to negate an attack
 			if (m_strHitCallback != "")
 			{
 				HeatStroke::Event* pEvent = new HeatStroke::Event(m_strHitCallback);
 				pEvent->SetIntParameter("Negated", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
-				printf("->Negated");
 
 				m_strHitCallback = "";
 				return;
 			}
 
-			std::string ability, effect;
-			p_pEvent->GetRequiredStringParameter("Ability", ability);
+			std::string effect;
 			p_pEvent->GetRequiredStringParameter("Effect", effect);
 
 			if (ability.compare("Strike") == 0)
 			{
-				printf("Strike!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/kingpin_strike_hit.flac");
 				Spinout(duration);
 			}
 			else if (ability.compare("Clock") == 0)
 			{
-				printf("Clocked!\n");
 				Spinout(duration);
 			}
 			else if (ability.compare("Rain") == 0)
 			{
-				printf("Make it rain!\n");
-
 				// Send event for HUD
 				HeatStroke::Event* pEvent = new HeatStroke::Event(target + "_HUD_Slow");
 				pEvent->SetIntParameter("Display", 1);
 				HeatStroke::EventManager::Instance()->TriggerEvent(pEvent);
 
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.wav");
-
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_make_it_rain.flac");
 				Slow(power, duration);
+
+				HeatStroke::ComponentParticleEffect* pComponentParticleEffect = (HeatStroke::ComponentParticleEffect*)m_pGameObject->GetComponent("GOC_ParticleEffect");
+				if (pComponentParticleEffect)
+				{
+					HeatStroke::Effect* pMakeItRainParticleEffect = pComponentParticleEffect->GetEffect("make_it_rain");
+					if (pMakeItRainParticleEffect != nullptr)
+					{
+						pMakeItRainParticleEffect->Start();
+					}
+				}
 			}
 			else if (ability.compare("Bedazzle") == 0)
 			{
-				printf("Bedazzle!\n"); // Entangle!
-
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.wav");
-
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/cleopapa_bedazzle.flac");
 				Spinout(duration);
 			}
 		}
 		else if (originator.compare(m_pGameObject->GetGUID()) == 0)
 		{
-			std::string ability;
-			p_pEvent->GetRequiredStringParameter("Ability", ability);
+#ifdef _DEBUG
+			if (target == "")
+			{
+				printf("KartController: Ability %s from %s targetting %s\n",
+					ability.c_str(), originator.c_str(), "self");
+			}
+#endif
 
 			if (ability.compare("Boost") == 0)
 			{
-				printf("Boost!\n");
 				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/speedster_boost.flac");
 				Boost(power);
 			}
 			else if (ability.compare("Wheelie") == 0)
 			{
-				printf("Wheelie!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/showoff_wheelie.flac");
 				WheelieToggle();
 			}
 			else if (ability.compare("Tinker") == 0)
 			{
-				printf("Tinker!\n"); // "More like tinker bell" (really brad? really? ya dingus)
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_tinker.flac");
 				TurnLock(duration);
 			}
 			else if (ability.compare("ArmorPlate") == 0)
@@ -841,8 +939,7 @@ namespace Kartaclysm
 				p_pEvent->GetRequiredIntParameter("Layers", iLayers);
 				p_pEvent->GetRequiredIntParameter("MaxLayers", iMax);
 
-				printf("ArmorPlate!\n");
-				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.wav");
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/juggernaut_armor.flac");
 				ArmorPlate(iLayers);
 			}
 			else if (ability.compare("Immune") == 0)

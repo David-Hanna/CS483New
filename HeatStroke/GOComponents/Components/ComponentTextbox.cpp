@@ -11,12 +11,14 @@ HeatStroke::ComponentTextBox::ComponentTextBox(GameObject* p_pGameObject,
 	const std::string& p_strFontFilePath,
 	const std::string& p_strMessage,
 	float p_fWidth,
-	float p_fHeight)
+	float p_fHeight,
+	glm::vec4 p_vColor)
 	:
 	ComponentRenderable(p_pGameObject),
 	m_mFont(p_strFontFilePath),
 	m_mTextBox(&m_mFont, p_strMessage, p_fWidth, p_fHeight)
 {
+	m_mTextBox.SetColour(p_vColor);
 	SceneManager::Instance()->AddTextBox(&m_mTextBox);
 }
 
@@ -38,16 +40,17 @@ HeatStroke::Component* HeatStroke::ComponentTextBox::CreateComponent(
 	std::string strMessage("");
 	float fWidth(0.0f);
 	float fHeight(0.0f);
+	glm::vec4 vColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// Parse the elements of the base node.
 	if (p_pBaseNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, strFontFilePath, strMessage, fWidth, fHeight);
+		ParseNode(p_pBaseNode, strFontFilePath, strMessage, fWidth, fHeight, vColor);
 	}
 	// Then override with the Override node.
 	if (p_pOverrideNode != nullptr)
 	{
-		ParseNode(p_pBaseNode, strFontFilePath, strMessage, fWidth, fHeight);
+		ParseNode(p_pBaseNode, strFontFilePath, strMessage, fWidth, fHeight, vColor);
 	}
 
 	// Check that we got everything we needed.
@@ -61,7 +64,8 @@ HeatStroke::Component* HeatStroke::ComponentTextBox::CreateComponent(
 		strFontFilePath,
 		strMessage,
 		fWidth,
-		fHeight
+		fHeight,
+		vColor
 		);
 }
 
@@ -80,7 +84,8 @@ void HeatStroke::ComponentTextBox::ParseNode(
 	std::string& p_strFontFilePath,
 	std::string& p_strMessage,
 	float& p_fWidth,
-	float& p_fHeight)
+	float& p_fHeight,
+	glm::vec4& p_vColor)
 {
 	assert(p_pNode != nullptr);
 	assert(strcmp(p_pNode->Value(), "GOC_TextBox") == 0);
@@ -106,6 +111,13 @@ void HeatStroke::ComponentTextBox::ParseNode(
 		else if (strcmp(szNodeName, "Height") == 0)
 		{
 			HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "value", p_fHeight);
+		}
+		else if (strcmp(szNodeName, "Color") == 0)
+		{
+			HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "r", p_vColor.r);
+			HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "g", p_vColor.g);
+			HeatStroke::EasyXML::GetRequiredFloatAttribute(pChildElement, "b", p_vColor.b);
+			HeatStroke::EasyXML::GetOptionalFloatAttribute(pChildElement, "a", p_vColor.a, 1.0f);
 		}
 	}
 }

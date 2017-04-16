@@ -53,111 +53,109 @@ void Kartaclysm::StateOptionsMenu::Enter(const std::map<std::string, std::string
 
 void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
 {
-	// Do not update when suspended
-	if (!m_bSuspended)
+	if (m_bSuspended) return;
+
+	assert(m_pGameObjectManager != nullptr);
+	m_pGameObjectManager->Update(p_fDelta);
+
+	bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
+	PlayerInputMapping::Instance()->QueryPlayerMenuActions(m_iPlayer, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
+
+	if (bConfirm)
 	{
-		assert(m_pGameObjectManager != nullptr);
-		m_pGameObjectManager->Update(p_fDelta);
-
-		bool bUp, bDown, bLeft, bRight, bConfirm, bCancel;
-		PlayerInputMapping::Instance()->QueryPlayerMenuActions(m_iPlayer, bUp, bDown, bLeft, bRight, bConfirm, bCancel);
-
-		if (bConfirm)
+		if (m_iOptionSelection == 2)
 		{
-			if (m_iOptionSelection == 2)
+			// Save settings if anything was changed
+			if (m_bDirty)
 			{
-				// Save settings if anything was changed
-				if (m_bDirty)
-				{
-					SaveOptionsToXml(m_strXmlFilePath);
-				}
-				m_pStateMachine->Pop();
+				SaveOptionsToXml(m_strXmlFilePath);
 			}
-		}
-		else if (bCancel)
-		{
-			// Cancelling loads the default options
-			// TODO: Optimize this without having to do another read
-			LoadOptionsFromXml(m_strXmlFilePath);
 			m_pStateMachine->Pop();
 		}
-		else if (bUp)
+	}
+	else if (bCancel)
+	{
+		// Cancelling loads the default options
+		// TODO: Optimize this without having to do another read
+		LoadOptionsFromXml(m_strXmlFilePath);
+		m_pStateMachine->Pop();
+	}
+	else if (bUp)
+	{
+		switch (m_iOptionSelection)
 		{
-			switch (m_iOptionSelection)
-			{
-			case 1:
-				m_iOptionSelection = 0;
-				m_pCurrentSlider = nullptr;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_music.xml");
-				break;
-			case 2:
-				m_iOptionSelection = 1;
-				m_pCurrentSlider = nullptr;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_sfx.xml");
-				break;
-			}
+		case 1:
+			m_iOptionSelection = 0;
+			m_pCurrentSlider = nullptr;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_music.xml");
+			break;
+		case 2:
+			m_iOptionSelection = 1;
+			m_pCurrentSlider = nullptr;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_sfx.xml");
+			break;
 		}
-		else if (bDown)
+	}
+	else if (bDown)
+	{
+		switch (m_iOptionSelection)
+		{
+		case 0:
+			m_iOptionSelection = 1;
+			m_pCurrentSlider = nullptr;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_sfx.xml");
+			break;
+		case 1:
+			m_iOptionSelection = 2;
+			m_pCurrentSlider = nullptr;
+			m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
+			m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_return.xml");
+			break;
+		}
+	}
+	else if (bRight || bLeft)
+	{
+		if (m_iOptionSelection == 2) return;
+
+		if (m_pCurrentSlider == nullptr)
 		{
 			switch (m_iOptionSelection)
 			{
 			case 0:
-				m_iOptionSelection = 1;
-				m_pCurrentSlider = nullptr;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_sfx.xml");
+				m_pCurrentSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("music_slider")->GetComponent("GOC_Renderable"));
 				break;
 			case 1:
-				m_iOptionSelection = 2;
-				m_pCurrentSlider = nullptr;
-				m_pGameObjectManager->DestroyGameObject(m_pCurrentHighlight);
-				m_pCurrentHighlight = m_pGameObjectManager->CreateGameObject("CS483/CS483/Kartaclysm/Data/Menus/OptionsMenu/options_highlight_return.xml");
+				m_pCurrentSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("sfx_slider")->GetComponent("GOC_Renderable"));
 				break;
 			}
 		}
-		else if (bRight || bLeft)
+		assert(m_pCurrentSlider != nullptr);
+
+		bool bUpdate = false;
+		if (bRight)
 		{
-			if (m_iOptionSelection == 2) return;
+			bUpdate = m_pCurrentSlider->IncreaseSlider();
+		}
+		else
+		{
+			bUpdate = m_pCurrentSlider->DecreaseSlider();
+		}
 
-			if (m_pCurrentSlider == nullptr)
+		if (bUpdate)
+		{
+			m_bDirty = true;
+			switch (m_iOptionSelection)
 			{
-				switch (m_iOptionSelection)
-				{
-				case 0:
-					m_pCurrentSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("music_slider")->GetComponent("GOC_Renderable"));
-					break;
-				case 1:
-					m_pCurrentSlider = dynamic_cast<ComponentMenuSlider*>(m_pGameObjectManager->GetGameObject("sfx_slider")->GetComponent("GOC_Renderable"));
-					break;
-				}
-			}
-			assert(m_pCurrentSlider != nullptr);
-
-			bool bUpdate = false;
-			if (bRight)
-			{
-				bUpdate = m_pCurrentSlider->IncreaseSlider();
-			}
-			else
-			{
-				bUpdate = m_pCurrentSlider->DecreaseSlider();
-			}
-
-			if (bUpdate)
-			{
-				m_bDirty = true;
-				switch (m_iOptionSelection)
-				{
-				case 0:
-					HeatStroke::AudioPlayer::Instance()->SetMusicVolume(static_cast<float>(m_pCurrentSlider->GetSliderValue()));
-					break;
-				case 1:
-					HeatStroke::AudioPlayer::Instance()->SetSoundEffectsVolume(static_cast<float>(m_pCurrentSlider->GetSliderValue()));
-					HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.wav");
-					break;
-				}
+			case 0:
+				HeatStroke::AudioPlayer::Instance()->SetMusicVolume(static_cast<float>(m_pCurrentSlider->GetSliderValue()));
+				break;
+			case 1:
+				HeatStroke::AudioPlayer::Instance()->SetSoundEffectsVolume(static_cast<float>(m_pCurrentSlider->GetSliderValue()));
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/load.flac");
+				break;
 			}
 		}
 	}
@@ -165,7 +163,7 @@ void Kartaclysm::StateOptionsMenu::Update(const float p_fDelta)
 
 void Kartaclysm::StateOptionsMenu::PreRender()
 {
-	// Render even when suspended
+	if (m_bSuspended) return;
 	assert(m_pGameObjectManager != nullptr);
 	m_pGameObjectManager->PreRender();
 }

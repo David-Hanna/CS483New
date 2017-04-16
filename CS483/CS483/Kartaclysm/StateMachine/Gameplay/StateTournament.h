@@ -8,10 +8,15 @@
 #ifndef STATE_TOURNAMENT_H
 #define STATE_TOURNAMENT_H
 
+#include <thread>
 #include <algorithm>
-#include <random>
+
+#include "Common.h"
+#include "RNGesus.h"
 #include "GameplayState.h"
 #include "EventManager.h"
+#include "TimeFormat.h"
+#include "DatabaseManager.h"
 
 namespace Kartaclysm
 {
@@ -22,8 +27,8 @@ namespace Kartaclysm
 		virtual ~StateTournament();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)		{ m_bSuspended = true; }
-		void Unsuspend(const int p_iPrevState)	{ m_bSuspended = false; }
+		void Suspend(const int p_iNewState);
+		void Unsuspend(const int p_iPrevState);
 		void Update(const float p_fDelta);
 		void PreRender() {}
 		void Exit();
@@ -40,19 +45,13 @@ namespace Kartaclysm
 			float	m_fTime;
 		};
 
-		// TODO: Similar functions in StateRaceComplete and HudRaceTimer could be combined somewhere
-		std::string FormatTime(float p_fUnformattedTime) const;
-
 		std::map<std::string, std::string> GenerateTournamentEndResults(std::map<std::string, RacerRanking>* p_pRankings) const;
 
 	private:
-		// RNGesus
-		// TODO - move to custom Random class
-		static std::random_device s_Rand;
-		static std::mt19937 s_RNGesus;
-
 		bool m_bReadyForNextRace;
 		bool m_bFinished;
+		bool m_bCongrats;
+		bool m_bReturnedFromPlayerSelect;
 		unsigned int m_uiRaceCount;
 		std::vector<std::string> m_vTracks;
 		std::map<std::string, std::string> m_mContextParams;

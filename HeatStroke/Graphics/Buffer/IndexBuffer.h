@@ -19,9 +19,10 @@ class IndexBuffer : public Buffer
 
 
 	public:
-		virtual int GetNumIndices() const { return m_uiLength / 2; }
+		virtual int GetNumIndices() const { return m_uiLength / sizeof(GLushort); }
 		virtual void Bind();
-		virtual void Write(const void* p_pData, int p_iLength = -1);
+		virtual void WriteBufferData(const void* p_pData, int p_iLength = -1, GLenum p_eUsage = GL_STATIC_DRAW);
+		virtual void UpdateBufferData(const void* p_pData, int p_iOffset, int p_iLength);
 
 	private:
 		unsigned int		m_uiLength;
@@ -29,7 +30,7 @@ class IndexBuffer : public Buffer
 
 		// Made private to enforce creation and deletion via BufferManager
 		IndexBuffer(unsigned int p_uiNumIndices);
-		IndexBuffer(const void* p_pData, unsigned int p_uiLength);
+		IndexBuffer(const void* p_pData, unsigned int p_uiNumIndices);
 		virtual ~IndexBuffer();
 };
 

@@ -18,6 +18,7 @@
 #include "EventManager.h"
 #include "PlayerInputMapping.h"
 #include "AudioPlayer.h"
+#include "TimeFormat.h"
 
 namespace Kartaclysm
 {
@@ -28,23 +29,32 @@ namespace Kartaclysm
 		virtual ~StateTrackSelectionMenu();
 
 		void Enter(const std::map<std::string, std::string>& p_mContextParameters);
-		void Suspend(const int p_iNewState)			{ m_bSuspended = true; }
-		void Unsuspend(const int p_iPrevState)		{ m_bSuspended = false; }
+		void Suspend(const int p_iNewState)			{ Exit(); }
+		void Unsuspend(const int p_iPrevState)		{ Enter(m_mContextParameters); }
 		void Update(const float p_fDelta);
 		void PreRender();
 		void Exit();
 
 	protected:
+		struct Times {
+			// TODO: Expand to include lap times
+			std::string m_strLocalRace;
+			std::string m_strGlobalRace;
+
+			Times() : m_strLocalRace("--:--.--"), m_strGlobalRace("--:--.--") {}
+		};
+		std::map<std::string, Times> m_mTrackTimes;
+
 		HeatStroke::GameObjectManager* m_pGameObjectManager;
 		bool m_bSuspended;
 		int m_iTrackSelection;
 		HeatStroke::GameObject* m_pCurrentHighlight;
+		std::map<std::string, std::string> m_mContextParameters;
+		std::function<void(const HeatStroke::Event*)>* m_pTrackTimeDelegate;
 
-		// saved from player selection state to add to and pass on to racing state.
-		std::map<std::string, std::string> m_mContextParameters; 
-
-	private:
-		void LoadBestTrackTime(tinyxml2::XMLElement* p_pBestTimesElement, const std::string& p_strTrack, const std::vector<HeatStroke::GameObject*>& p_vTrackTimers);
+		virtual void LoadLocalTrackTimesFromXml(const std::string& p_strFileName, const std::vector<HeatStroke::GameObject*>& p_vTracks);
+		virtual void FillRaceTimeTextboxes(const std::vector<HeatStroke::GameObject*>& p_vTracks);
+		virtual void TrackTimeCallback(const HeatStroke::Event* p_pEvent);
 	};
 }
 

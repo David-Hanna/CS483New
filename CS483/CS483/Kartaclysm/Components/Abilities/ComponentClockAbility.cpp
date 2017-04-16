@@ -83,6 +83,14 @@ namespace Kartaclysm
 		// Find ability conditions component
 		m_pConditions = static_cast<ComponentAbilityConditions*>(GetGameObject()->GetComponent("GOC_AbilityConditions"));
 		assert(m_pConditions != nullptr && "Cannot find component.");
+
+		// Register with AI (if applicable)
+		HeatStroke::GameObject* pAIKartObject = GetGameObject()->GetManager()->GetGameObject(m_strPlayerX);
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(pAIKartObject->GetComponent("GOC_AIDriver"));
+		if (pAIDriver != nullptr)
+		{
+			pAIDriver->RegisterComponentAbility(this);
+		}
 	}
 
 	void ComponentClockAbility::Activate()
@@ -113,7 +121,21 @@ namespace Kartaclysm
 			pPhysics->SetDirection(pKart->GetDirection());
 			pPhysics->SetTrackHeight(pKart->GetGroundHeight());
 
-			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_clock_bomb.ogg");
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/clockmaker_clock_bomb.flac");
+		}
+	}
+
+	void ComponentClockAbility::AICheckCondition(HeatStroke::Component* p_pAIDriver)
+	{
+		ComponentAIDriver* pAIDriver = static_cast<ComponentAIDriver*>(p_pAIDriver);
+		if (pAIDriver != nullptr)
+		{
+			if (m_pConditions->CanActivate() &&
+				pAIDriver->CurrentPosition() > 1 &&
+				rand() % 8 == 0)
+			{
+				Activate();
+			}
 		}
 	}
 

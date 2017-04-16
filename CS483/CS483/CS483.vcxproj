@@ -44,13 +44,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\MySQL;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\mysql-connector-c++-noinstall-1.1.8-win32\include;$(ProjectDir)\..\..\mysql-connector-c-6.1.9-win32\include;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Common;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\Services\MySQL;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;CPPCONN_LIB_BUILD;CPPCONN_PUBLIC_FUNC=;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Debug-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>FreeImaged.lib;glew32sd.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\mysql-connector-c++-noinstall-1.1.8-win32\lib;$(ProjectDir)\..\..\mysql-connector-c-6.1.9-win32\lib;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Debug-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;FreeImaged.lib;glew32sd.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -60,15 +60,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\HeatStroke\Graphics\Mesh;$(ProjectDir)\..\..\HeatStroke\Graphics\Sprite;$(ProjectDir)\..\..\HeatStroke\Graphics\Model;$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\HeatStroke\Graphics\Particles;$(ProjectDir)\..\..\boost_1_62_0;$(ProjectDir)\..\..\HeatStroke\Services\MTL;$(ProjectDir)\..\..\HeatStroke\Services\OBJ;$(ProjectDir)\..\..\HeatStroke\Transform;$(ProjectDir)\..\..\HeatStroke\StateMachine;$(ProjectDir)\..\..\HeatStroke\AudioPlayer;$(ProjectDir)\..\..\HeatStroke\Services\XML;$(ProjectDir)\..\..\HeatStroke\Services\MySQL;$(ProjectDir)\..\..\HeatStroke\Services\IO;$(ProjectDir)\..\..\HeatStroke\Services\GameObjectManager;$(ProjectDir)\..\..\HeatStroke\Services\Events;$(ProjectDir)\..\..\HeatStroke\Services\Collisions;$(ProjectDir)\..\..\HeatStroke\Services;$(ProjectDir)\..\..\HeatStroke\SceneManagement;$(ProjectDir)\..\..\HeatStroke\Graphics\Texture;$(ProjectDir)\..\..\HeatStroke\Graphics\Shaders;$(ProjectDir)\..\..\HeatStroke\Graphics\Scene;$(ProjectDir)\..\..\HeatStroke\Graphics\Renderable;$(ProjectDir)\..\..\HeatStroke\Graphics\Program;$(ProjectDir)\..\..\HeatStroke\Graphics\Material;$(ProjectDir)\..\..\HeatStroke\Graphics\GDebug;$(ProjectDir)\..\..\HeatStroke\Graphics\Font;$(ProjectDir)\..\..\HeatStroke\Graphics\Common;$(ProjectDir)\..\..\HeatStroke\Graphics\Buffer;$(ProjectDir)\..\..\HeatStroke\GOComponents\Components;$(ProjectDir)\..\..\HeatStroke\GOComponents;$(ProjectDir)\..\..\HeatStroke\Geometry;$(ProjectDir)\..\..\HeatStroke\Common;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\mysql-connector-c++-noinstall-1.1.8-win32\include;$(ProjectDir)\..\..\mysql-connector-c-6.1.9-win32\include;$(ProjectDir)\..\..\tinyxml2;$(ProjectDir)\..\..\glm-0.9.7.2\glm;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\include;$(ProjectDir)\..\..\glew-1.13.0\include;$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\include;$(ProjectDir)\Kartaclysm;$(ProjectDir)\Kartaclysm\Common;$(ProjectDir)\Kartaclysm\Components;$(ProjectDir)\Kartaclysm\Components\Abilities;$(ProjectDir)\Kartaclysm\Components\HUD;$(ProjectDir)\Kartaclysm\Data;$(ProjectDir)\Kartaclysm\Data\UserConfig;$(ProjectDir)\Kartaclysm\Services\IO;$(ProjectDir)\Kartaclysm\Services\MySQL;$(ProjectDir)\Kartaclysm\StateMachine\Gameplay</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_CONSOLE;GLEW_STATIC;SFML_STATIC;CPPCONN_LIB_BUILD;CPPCONN_PUBLIC_FUNC=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Release-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>FreeImage.lib;glew32s.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\SFML-2.4.1-windows-vc12-32-bit\SFML-2.4.1\lib;$(ProjectDir)\..\..\FreeImage3170\FreeImage\Dist\x32;$(ProjectDir)\..\..\mysql-connector-c++-noinstall-1.1.8-win32\lib;$(ProjectDir)\..\..\mysql-connector-c-6.1.9-win32\lib;$(ProjectDir)\..\..\tinyxml2\tinyxml2\bin\Win32-Release-Lib;$(ProjectDir)\..\..\glfw-3.1.2.bin.WIN32\lib-vc2013;$(ProjectDir)\..\..\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;FreeImage.lib;glew32s.lib;glfw3.lib;tinyxml2.lib;opengl32.lib;glu32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;winmm.lib;sfml-system-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -129,11 +129,14 @@
     <ClCompile Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\IO\MouseInputBuffer.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\MTL\MTLFile.cpp" />
+    <ClCompile Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\OBJ\OBJFile.cpp" />
     <ClCompile Include="..\..\HeatStroke\Services\XML\EasyXML.cpp" />
     <ClCompile Include="..\..\HeatStroke\StateMachine\StateMachine.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\HierarchicalTransform.cpp" />
     <ClCompile Include="..\..\HeatStroke\Transform\Transform.cpp" />
+    <ClCompile Include="Kartaclysm\Common\RNGesus.cpp" />
+    <ClCompile Include="Kartaclysm\Common\TimeFormat.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.cpp" />
@@ -148,6 +151,7 @@
     <ClCompile Include="Kartaclysm\Components\ComponentEffect.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentKartStats.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentMenuSlider.cpp" />
+    <ClCompile Include="Kartaclysm\Components\ComponentObjectSpawn.cpp" />
     <ClCompile Include="Kartaclysm\Components\ComponentRacer.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.cpp" />
     <ClCompile Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.cpp" />
@@ -165,11 +169,14 @@
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudLapCount.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPopup.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudPosition.cpp" />
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp" />
     <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.cpp" />
     <ClCompile Include="Kartaclysm\KartGame.cpp" />
     <ClCompile Include="Kartaclysm\main.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\InputActionMapping.cpp" />
     <ClCompile Include="Kartaclysm\Services\IO\PlayerInputMapping.cpp" />
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp" />
+    <ClCompile Include="Kartaclysm\Services\MySQL\DatabaseManager.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateOptionsMenu.cpp" />
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.cpp" />
@@ -254,12 +261,15 @@
     <ClInclude Include="..\..\HeatStroke\Services\IO\KeyboardInputBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Services\IO\MouseInputBuffer.h" />
     <ClInclude Include="..\..\HeatStroke\Services\MTL\MTLFile.h" />
+    <ClInclude Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.h" />
     <ClInclude Include="..\..\HeatStroke\Services\OBJ\OBJFile.h" />
     <ClInclude Include="..\..\HeatStroke\Services\XML\EasyXML.h" />
     <ClInclude Include="..\..\HeatStroke\StateMachine\State.h" />
     <ClInclude Include="..\..\HeatStroke\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\HierarchicalTransform.h" />
     <ClInclude Include="..\..\HeatStroke\Transform\Transform.h" />
+    <ClInclude Include="Kartaclysm\Common\RNGesus.h" />
+    <ClInclude Include="Kartaclysm\Common\TimeFormat.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentAbilityIcon.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentArmorPlateAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentBedazzleAbility.h" />
@@ -274,6 +284,7 @@
     <ClInclude Include="Kartaclysm\Components\ComponentEffect.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentKartStats.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentMenuSlider.h" />
+    <ClInclude Include="Kartaclysm\Components\ComponentObjectSpawn.h" />
     <ClInclude Include="Kartaclysm\Components\ComponentRacer.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentStrikeAbility.h" />
     <ClInclude Include="Kartaclysm\Components\Abilities\ComponentTurkeyAbility.h" />
@@ -292,8 +303,12 @@
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudLapCount.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPopup.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudPosition.h" />
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h" />
     <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceTimer.h" />
     <ClInclude Include="Kartaclysm\KartGame.h" />
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h" />
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseDefinitions.h" />
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseManager.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCountdown.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateMainMenu.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateModeSelectionMenu.h" />
@@ -304,8 +319,10 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTrackSelectionMenu.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\blast_clock.xml" />
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_bedazzle.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_cleopapa_rain.xml" />
     <Xml Include="Kartaclysm\Data\Abilities\driver_clockmaker_clock.xml" />
@@ -338,15 +355,25 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\GameplayState.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StatePaused.h" />
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateRacing.h" />
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml" />
     <Xml Include="Kartaclysm\Data\DevConfig\Preload.xml" />
     <Xml Include="Kartaclysm\Data\Lights\blue_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\light.xml" />
     <Xml Include="Kartaclysm\Data\Lights\red_point_light.xml" />
     <Xml Include="Kartaclysm\Data\Local\ControlBindings.xml" />
     <Xml Include="Kartaclysm\Data\Local\FastestTimes.xml" />
-    <Xml Include="Kartaclysm\Data\Local\Options.xml" />
-    <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml" />
+    <Xml Include="Kartaclysm\Data\Local\Options.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\bronze_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\silver_medal.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\checking_internet.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\loading_message.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\no_internet.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\press_start.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Menus\MainMenu\title_image.xml" />
     <Xml Include="Kartaclysm\Data\Menus\menu_camera.xml" />
     <Xml Include="Kartaclysm\Data\Menus\ModeSelectionMenu\mode_options.xml">
@@ -364,6 +391,7 @@
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_quit.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_highlight_restart.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml" />
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options_tournament.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\divider.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml" />
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\driver_abilities_cleopapa_0.xml" />
@@ -604,6 +632,7 @@
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Menus\TrackSelectionMenu\track_selection_up_and_over.xml" />
     <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_cleopapa.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_clockmaker.xml" />
     <Xml Include="Kartaclysm\Data\Racer\driver_kingpin.xml" />
@@ -619,7 +648,9 @@
     <Xml Include="Kartaclysm\Data\Racer\kart_showoff.xml" />
     <Xml Include="Kartaclysm\Data\Racer\kart_speedster.xml" />
     <Xml Include="Kartaclysm\Data\Racer\racer.xml" />
-    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml" />
+    <Xml Include="Kartaclysm\Data\Racer\racer_ai.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Kartaclysm\Data\Tracks\noob_zone.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\shift_rift.xml" />
     <Xml Include="Kartaclysm\Data\Tracks\test_track.xml" />

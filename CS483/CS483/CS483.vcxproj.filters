@@ -172,6 +172,12 @@
     <Filter Include="Kartaclysm\Data\Local">
       <UniqueIdentifier>{57abe8c2-7a1d-46b6-91de-617a0439f7d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeatStroke\Services\MySQL">
+      <UniqueIdentifier>{eaf668f6-e6e3-4129-88e8-504bde7a1ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Services\MySQL">
+      <UniqueIdentifier>{a584f3d3-511e-4de1-b1a5-7d0201c5a66d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\stats">
       <UniqueIdentifier>{2e43c81a-63bf-4af4-88ef-9cfb0deaaa6e}</UniqueIdentifier>
     </Filter>
@@ -198,6 +204,12 @@
     </Filter>
     <Filter Include="Kartaclysm\Data\Menus\RaceCompleteMenu\results3">
       <UniqueIdentifier>{e12daac2-1ad3-4b2f-b774-369fa55906ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Common">
+      <UniqueIdentifier>{5eb7b572-1b11-453a-9f3e-f6bb9fa986cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kartaclysm\Data\Menus\CongratulationsMenu">
+      <UniqueIdentifier>{c803068e-3c2b-4677-931a-f2a4acac88ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -516,6 +528,12 @@
     <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateTournament.cpp">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.cpp">
+      <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Services\MySQL\DatabaseManager.cpp">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
+    </ClCompile>
     <ClCompile Include="Kartaclysm\Components\ComponentAIDriver.cpp">
       <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
@@ -524,6 +542,21 @@
     </ClCompile>
     <ClCompile Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.cpp">
       <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.cpp">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Common\TimeFormat.cpp">
+      <Filter>Kartaclysm\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Common\RNGesus.cpp">
+      <Filter>HeatStroke\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.cpp">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Kartaclysm\Components\ComponentObjectSpawn.cpp">
+      <Filter>Kartaclysm\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -896,6 +929,15 @@
     <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateTournament.h">
       <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\HeatStroke\Services\MySQL\MySQLConnector.h">
+      <Filter>HeatStroke\Services\MySQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseManager.h">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Services\MySQL\DatabaseDefinitions.h">
+      <Filter>Kartaclysm\Services\MySQL</Filter>
+    </ClInclude>
     <ClInclude Include="Kartaclysm\Components\ComponentAIDriver.h">
       <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
@@ -904,6 +946,21 @@
     </ClInclude>
     <ClInclude Include="..\..\HeatStroke\GOComponents\Components\ComponentRotateOverTime.h">
       <Filter>HeatStroke\GO/Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\HUD\ComponentHudRaceResults.h">
+      <Filter>Kartaclysm\Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Common\TimeFormat.h">
+      <Filter>Kartaclysm\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Common\RNGesus.h">
+      <Filter>HeatStroke\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\StateMachine\Gameplay\StateCongratulationsMenu.h">
+      <Filter>Kartaclysm\StateMachine\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Kartaclysm\Components\ComponentObjectSpawn.h">
+      <Filter>Kartaclysm\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1131,9 +1188,6 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options.xml">
       <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
-    </Xml>
-    <Xml Include="Kartaclysm\Data\DevConfig\FastestTimes.xml">
-      <Filter>Kartaclysm\Data\DevConfig</Filter>
     </Xml>
     <Xml Include="Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0\description_boxes_0.xml">
       <Filter>Kartaclysm\Data\Menus\PlayerSelectionMenu\player_0</Filter>
@@ -1875,6 +1929,39 @@
     </Xml>
     <Xml Include="Kartaclysm\Data\Racer\collision_effect.xml">
       <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\PauseMenu\pause_options_tournament.xml">
+      <Filter>Kartaclysm\Data\Menus\PauseMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Racer\driver_ai.xml">
+      <Filter>Kartaclysm\Data\Racer</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\bronze_medal.xml">
+      <Filter>Kartaclysm\Data\Menus\CongratulationsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\gold_medal.xml">
+      <Filter>Kartaclysm\Data\Menus\CongratulationsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\silver_medal.xml">
+      <Filter>Kartaclysm\Data\Menus\CongratulationsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\CongratulationsMenu\congratulations.xml">
+      <Filter>Kartaclysm\Data\Menus\CongratulationsMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\bedazzle_effect.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Abilities\clock_effect.xml">
+      <Filter>Kartaclysm\Data\Abilities</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\loading_message.xml">
+      <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\checking_internet.xml">
+      <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
+    </Xml>
+    <Xml Include="Kartaclysm\Data\Menus\MainMenu\no_internet.xml">
+      <Filter>Kartaclysm\Data\Menus\MainMenu</Filter>
     </Xml>
   </ItemGroup>
 </Project>

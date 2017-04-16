@@ -8,6 +8,8 @@
 #ifndef COMPONENT_MAINTAIN_ABILITY_H
 #define COMPONENT_MAINTAIN_ABILITY_H
 
+#include "ComponentAIDriver.h"
+
 #include "AudioPlayer.h"
 #include "ComponentAbility.h"
 
@@ -40,6 +42,7 @@ namespace Kartaclysm
 
 		// Required ability override
 		virtual void Activate() override;
+		virtual void AICheckCondition(HeatStroke::Component* p_pAIDriver) override;
 
 	protected:
 		//--------------------------------------------------------------------------

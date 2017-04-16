@@ -35,6 +35,7 @@ namespace Kartaclysm
 
 		// Required ability override
 		virtual void Activate() = 0;
+		virtual void AICheckCondition(HeatStroke::Component* p_pAIDriver) = 0;
 
 		// Accessor
 		const std::string& GetPlayerIdentifier() const { return m_strPlayerX; }

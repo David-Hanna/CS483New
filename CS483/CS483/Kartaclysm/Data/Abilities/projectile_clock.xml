@@ -10,7 +10,7 @@
   <Components>
 
     <GOC_3DModel>
-      <OBJFileName path="Assets/Abilities/bomb.obj"/>
+      <OBJFileName path="Assets/Abilities/bomb.hobj"/>
     </GOC_3DModel>
 
     <GOC_SphereCollider>
@@ -25,13 +25,13 @@
     </GOC_Projectile>
 
     <GOC_SimplePhysics>
-      <Speed value="18.0" />
+      <Speed value="20.0" />
       <Friction value="10.0" />
       <VerticalSpeed value="4.0" />
     </GOC_SimplePhysics>
 
     <GOC_SelfDestruct>
-      <Timer value="1.8" />
+      <Timer value="1.5" />
       <Collision tags="Projectile" />
     </GOC_SelfDestruct>
 
