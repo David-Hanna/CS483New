@@ -160,8 +160,10 @@ HeatStroke::StateMachine::StatePair HeatStroke::StateMachine::Pop()
 //------------------------------------------------------------------------------
 void HeatStroke::StateMachine::Update(const float p_fDelta, const bool m_bUpdateStack)
 {
-	// TO DO, should each state have an independent tracker for how long it has been in the stack?
-	m_fCurrentStateTime += p_fDelta;
+	// Avoid considerable lag on first frames from Enter() calls
+	float fAdjustedDelta = (m_fCurrentStateTime == 0.0f ? 0.001f : p_fDelta);
+
+	m_fCurrentStateTime += fAdjustedDelta;
 	if (m_bUpdateStack)
 	{
 		// Update entire stack from bottom to top
@@ -169,7 +171,7 @@ void HeatStroke::StateMachine::Update(const float p_fDelta, const bool m_bUpdate
 		StateStack::iterator it = mLocalCopy.begin(), end = mLocalCopy.end();
 		for (; it != end; it++)
 		{
-			it->second->Update(p_fDelta);
+			it->second->Update(fAdjustedDelta);
 		}
 	}
 	else
@@ -177,7 +179,7 @@ void HeatStroke::StateMachine::Update(const float p_fDelta, const bool m_bUpdate
 		// Update only the top state
 		if (m_mCurrentState.second != nullptr)
 		{
-			m_mCurrentState.second->Update(p_fDelta);
+			m_mCurrentState.second->Update(fAdjustedDelta);
 		}
 	}
 }

@@ -15,9 +15,11 @@ namespace Kartaclysm
 		) :
 		ComponentRenderable(p_pGameObject),
 		m_pFont(HeatStroke::FontManager::Instance()->GetOrCreateFont(p_strFontFilePath)),
-		m_mTextBox(m_pFont, "")
+		m_TextBox(m_pFont, ""),
+		m_OriginalTransform(),
+		m_fDisplayRaceStartTimer(0.0f)
 	{
-		HeatStroke::SceneManager::Instance()->AddTextBox(&m_mTextBox);
+		HeatStroke::SceneManager::Instance()->AddTextBox(&m_TextBox);
 
 		m_pDelegate = new std::function<void(const HeatStroke::Event*)>(std::bind(&ComponentHudCountdown::CountdownCallback, this, std::placeholders::_1));
 		HeatStroke::EventManager::Instance()->AddListener("Countdown_HUD", m_pDelegate);
@@ -25,11 +27,31 @@ namespace Kartaclysm
 
 	ComponentHudCountdown::~ComponentHudCountdown()
 	{
-		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+		HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_TextBox);
 
 		HeatStroke::EventManager::Instance()->RemoveListener("Countdown_HUD", m_pDelegate);
 		delete m_pDelegate;
 		m_pDelegate = nullptr;
+	}
+
+	void ComponentHudCountdown::Init()
+	{
+		// TODO: Quick fix to values without going into XML
+		m_OriginalTransform = GetGameObject()->GetTransform().GetTransform() * 
+			glm::scale(glm::vec3(2.0f, 2.0f, 1.0f));
+	}
+
+	void ComponentHudCountdown::Update(const float p_fDelta)
+	{
+		if (m_fDisplayRaceStartTimer > 0.0f)
+		{
+			m_fDisplayRaceStartTimer -= p_fDelta;
+
+			if (m_fDisplayRaceStartTimer <= 0.0f)
+			{
+				GetGameObject()->GetManager()->DestroyGameObject(GetGameObject());
+			}
+		}
 	}
 
 	HeatStroke::Component* ComponentHudCountdown::CreateComponent(
@@ -66,22 +88,62 @@ namespace Kartaclysm
 
 	void ComponentHudCountdown::SyncTransform()
 	{
-		m_mTextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
+		m_TextBox.SetTransform(this->GetGameObject()->GetTransform().GetTransform());
 	}
 
 	void ComponentHudCountdown::CountdownCallback(const HeatStroke::Event* p_pEvent)
 	{
-		int iCountdown;
-		p_pEvent->GetRequiredIntParameter("Countdown", iCountdown);
+		float fCountdown;
+		p_pEvent->GetRequiredFloatParameter("Countdown", fCountdown);
 
-		if (iCountdown > 0)
+		if (fCountdown > 0.0f)
 		{
-			m_mTextBox.SetText(std::to_string(iCountdown));
+			std::string strBefore = m_TextBox.GetText();
+			SetCountdownMessage(fCountdown);
+			std::string strAfter = m_TextBox.GetText();
+
+			if (strAfter != strBefore)
+			{
+				HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/countdown_wait.flac");
+			}
 		}
 		else
 		{
-			HeatStroke::SceneManager::Instance()->RemoveTextBox(&m_mTextBox);
+			DisplayRaceStartMessage();
+			HeatStroke::AudioPlayer::Instance()->PlaySoundEffect("Assets/Sounds/countdown_go.flac");
 		}
+	}
+
+	void ComponentHudCountdown::SetCountdownMessage(const float p_fCountdown)
+	{
+		int iCountdown = static_cast<int>(ceilf(p_fCountdown));
+		float fScale = ((1.0f - fabsf(iCountdown - p_fCountdown)) * 0.5f) + 0.5f;
+
+		m_TextBox.SetText(std::to_string(iCountdown));
+		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform *
+			glm::scale(glm::vec3(fScale, fScale, 1.0f)));
+
+		switch (iCountdown)
+		{
+		case 3:	 m_TextBox.SetColour(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); break;		// red
+		case 2:	 m_TextBox.SetColour(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)); break;		// orange
+		case 1:	 m_TextBox.SetColour(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); break;		// yellow
+		default: 
+#ifdef _DEBUG
+			printf("Countdown: %i\n", iCountdown);
+			assert(false && "Should not have a countdown value outside the range of [1,3]");
+#endif
+			break;
+		}
+	}
+
+	void ComponentHudCountdown::DisplayRaceStartMessage()
+	{
+		m_fDisplayRaceStartTimer = 1.0f;
+		m_TextBox.SetText("GO!");
+		GetGameObject()->GetTransform().SetTransform(m_OriginalTransform *
+			glm::translate(glm::vec3(-8.0f, 0.0f, 0.0f)));
+		m_TextBox.SetColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));	// green
 	}
 
 	void ComponentHudCountdown::ParseNode(
