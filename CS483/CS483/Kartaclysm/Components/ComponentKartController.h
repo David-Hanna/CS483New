@@ -170,6 +170,7 @@ namespace Kartaclysm
 		float m_fAIRubberBandingFactorFirst;
 		float m_fAIRubberBandingFactorLast;
 		float m_fJumpBoostStat;
+		float m_fWheelieOffsetStat;
 
 		float m_fGroundHeight;
 		float m_fPreviousHeight;

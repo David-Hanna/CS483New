@@ -13,7 +13,8 @@ namespace Kartaclysm
 		glm::vec3 p_vPivotPosition,
 		glm::vec3 p_vPivotAxis,
 		std::vector<OffroadSquare> p_vOffroadSquares,
-		std::vector<OffroadTriangle> p_vOffroadTriangles)
+		std::vector<OffroadTriangle> p_vOffroadTriangles,
+		bool p_bIsUnderJump)
 		:
 		Component(p_pGameObject),
 		m_fWidthX(p_fWidthX),
@@ -25,7 +26,8 @@ namespace Kartaclysm
 		m_vPivotPosition(p_vPivotPosition),
 		m_vPivotAxis(p_vPivotAxis),
 		m_vOffroadSquares(p_vOffroadSquares),
-		m_vOffroadTriangles(p_vOffroadTriangles)
+		m_vOffroadTriangles(p_vOffroadTriangles),
+		m_bIsUnderJump(p_bIsUnderJump)
 	{
 	}
 
@@ -127,7 +129,14 @@ namespace Kartaclysm
 			}
 		}
 
-		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis, vOffroadSquares, vOffroadTriangles);
+		bool bUnderJump = false;
+		tinyxml2::XMLElement* underjump = p_pBaseNode->FirstChildElement("UnderJump");
+		if (underjump != nullptr)
+		{
+			bUnderJump = true;
+		}
+
+		return new ComponentTrackPiece(p_pGameObject, fWidthX, fWidthZ, eHeightFunction, fHeight1, fHeight2, ePositionFunction, vPivotPosition, vPivotAxis, vOffroadSquares, vOffroadTriangles, bUnderJump);
 	}
 
 	void ComponentTrackPiece::Init()
@@ -293,7 +302,7 @@ namespace Kartaclysm
 		glm::quat qTrackRotation = trackTransform.GetRotation();
 		qTrackRotation.y *= -1.0f;
 		glm::vec3 vNormal = glm::vec3(1.0f, 0.0f, 0.0f) * qTrackRotation;
-		glm::vec3 vPlaneCenter = trackTransform.GetTranslation() + (glm::vec3(-5.0f, 0.0f, 0.0f) * qTrackRotation);
+		glm::vec3 vPlaneCenter = trackTransform.GetTranslation() + (glm::vec3(-15.0f, 0.0f, 0.0f) * qTrackRotation);
 		return glm::vec4(vNormal, -(vNormal.x * vPlaneCenter.x) - (vNormal.y * vPlaneCenter.y) - (vNormal.z * vPlaneCenter.z));
 	}
 
