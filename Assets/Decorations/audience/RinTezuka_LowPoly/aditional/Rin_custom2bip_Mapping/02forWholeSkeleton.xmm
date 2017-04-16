@@ -1,0 +1,31 @@
+<MaxMapFile version="0.40" date="Wed Oct 28 23:05:30 2015">
+    <CustomData />
+    <Map name="Rin \ Transform" mapName="Rin \ Transform" />
+    <Map name="Rin Pelvis \ Transform" mapName="Rin Pelvis \ Transform" />
+    <Map name="Rin Spine \ Exposed World Transform" mapName="Rin Spine \ Exposed World Transform" />
+    <Map name="Rin Spine1 \ Exposed World Transform" mapName="Rin Spine1 \ Exposed World Transform" />
+    <Map name="Rin Spine2 \ Exposed World Transform" mapName="Rin Spine2 \ Exposed World Transform" />
+    <Map name="Rin Neck \ Transform" mapName="Rin Neck \ Transform" />
+    <Map name="Rin L Clavicle \ Transform" mapName="Rin L Clavicle \ Transform" />
+    <Map name="Rin L UpperArm \ Transform" mapName="Rin L UpperArm \ Transform" />
+    <Map name="Rin Xtra01Opp \ Exposed World Transform" mapName="Rin Xtra01Opp \ Exposed World Transform" />
+    <Map name="Rin Xtra02Opp \ Transform" mapName="Rin Xtra02Opp \ Transform" />
+    <Map name="Rin R Clavicle \ Transform" mapName="Rin R Clavicle \ Transform" />
+    <Map name="Rin R UpperArm \ Transform" mapName="Rin R UpperArm \ Transform" />
+    <Map name="Rin Xtra01 \ Transform" mapName="Rin Xtra01 \ Transform" />
+    <Map name="Rin Xtra02 \ Transform" mapName="Rin Xtra02 \ Transform" />
+    <Map name="Rin Head \ Transform" mapName="Rin Head \ Transform" />
+    <Map name="Rin Xtra04 \ Transform" mapName="Rin Xtra04 \ Transform" />
+    <Map name="Rin Xtra05 \ Transform" mapName="Rin Xtra05 \ Transform" />
+    <Map name="Rin Xtra03 \ Transform" mapName="Rin Xtra03 \ Transform" />
+    <Map name="Rin Xtra0302 \ Transform" mapName="Rin Xtra0302 \ Transform" />
+    <Map name="Rin Xtra0303 \ Transform" mapName="Rin Xtra0303 \ Transform" />
+    <Map name="Rin L Thigh \ Transform" mapName="Rin L Thigh \ Transform" />
+    <Map name="Rin L Calf \ Transform" mapName="Rin L Calf \ Transform" />
+    <Map name="Rin L Foot \ Exposed World Transform" mapName="Rin L Foot \ Exposed World Transform" />
+    <Map name="Rin L Toe0 \ Transform" mapName="Rin L Toe0 \ Transform" />
+    <Map name="Rin R Thigh \ Transform" mapName="Rin R Thigh \ Transform" />
+    <Map name="Rin R Calf \ Transform" mapName="Rin R Calf \ Transform" />
+    <Map name="Rin R Foot \ Transform" mapName="Rin R Foot \ Transform" />
+    <Map name="Rin R Toe0 \ Transform" mapName="Rin R Toe0 \ Transform" />
+</MaxMapFile>

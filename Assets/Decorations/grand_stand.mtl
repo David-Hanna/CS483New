@@ -1,0 +1,42 @@
+# Blender MTL File: 'None'
+# Material Count: 3
+
+newmtl el_grandstand_brabham_a_seat_material
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Decorations/grand_stand_c.tga
+
+newmtl mel_grandstand_brabham_a!0_material
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Decorations/grand_stand_a.tga
+
+newmtl mel_grandstand_railing!0_material.001
+vs Assets/Kart/kart.vsh
+fs Assets/Kart/kart.fsh
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Assets/Decorations/grand_stand_b.tga
+map_d Assets/Decorations/grand_stand_b.tga

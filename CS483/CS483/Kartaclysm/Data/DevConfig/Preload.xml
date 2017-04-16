@@ -10,6 +10,11 @@
     <Model path="Assets/Kart/Juggernaut/juggernaut.hobj"/>
     <Model path="Assets/Kart/Showoff/showoff.hobj"/>
     
+    <Model path="Assets/Decorations/audience/Duke_Nukem/Duke.hobj"/>
+    <Model path="Assets/Decorations/grand_stand.hobj"/>
+    <Model path="Assets/Decorations/skybox.hobj"/>
+    <Model path="Assets/Decorations/tree.hobj"/>
+
     <Model path="Assets/Track/track_finish.hobj"/>
     <Model path="Assets/Track/track_jump.hobj"/>
     <Model path="Assets/Track/track_ramp_down_flat.hobj"/>
