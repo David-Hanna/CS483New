@@ -719,6 +719,8 @@ namespace Kartaclysm
 
 	void ComponentKartController::Spinout(float p_fDuration)
 	{
+		m_bWheelie = false;
+		
 		m_fSpinout = fmaxf(p_fDuration * m_fDurabilityStat, m_fSpinout);
 
 		m_fSpinFactor = m_fSpinSpeedStat;
