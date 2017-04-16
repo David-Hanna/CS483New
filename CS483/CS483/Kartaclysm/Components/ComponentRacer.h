@@ -40,8 +40,9 @@ namespace Kartaclysm
 		void SetKart(HeatStroke::GameObject* p_pKart) { m_pKart = p_pKart; }
 		HeatStroke::GameObject* GetDriver() {return m_pDriver;}
 		void SetDriver(HeatStroke::GameObject* p_pDriver)  { m_pDriver = p_pDriver; }
-		int GetCurrentTrackPiece() const {return m_iCurrentTrackPiece;}
-		void SetCurrentTrackPiece(int p_iNewTrackPiece) {m_iCurrentTrackPiece = p_iNewTrackPiece;}
+		int GetCurrentTrackPiece() const { return m_iCurrentTrackPiece; }
+		int GetCurrentTrackPieceForDistanceCheck() const { return m_iCurrentTrackPieceForDistanceCheck; }
+		void SetCurrentTrackPiece(int p_iNewTrackPiece);
 		int GetFurthestTrackPiece() const {return m_iFurthestTrackPiece;}
 		void SetFurthestTrackPiece(int p_iNewTrackPiece) {m_iFurthestTrackPiece = p_iNewTrackPiece;}
 		int GetCurrentLap() const {return m_iCurrentLap;}
@@ -65,6 +66,7 @@ namespace Kartaclysm
 		std::function<void(const HeatStroke::Event*)>* m_pRaceFinishedDelegate;
 
 		int m_iCurrentTrackPiece;
+		int m_iCurrentTrackPieceForDistanceCheck;
 		int m_iFurthestTrackPiece;
 		int m_iCurrentLap;
 		int m_iCurrentPosition;
