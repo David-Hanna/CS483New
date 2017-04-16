@@ -70,6 +70,7 @@ namespace Kartaclysm
 		m_fAIRubberBandingFactorFirst(0.85f),
 		m_fAIRubberBandingFactorLast(1.15f),
 		m_fJumpBoostStat(1.8f),
+		m_fWheelieOffsetStat(0.1f),
 
 		m_fGroundHeight(0.04f),
 		m_fPreviousHeight(0.04f),
@@ -631,6 +632,21 @@ namespace Kartaclysm
 		else
 		{
 			m_pGameObject->GetTransform().SetRotation(glm::quat(glm::vec3(m_fOffroadRumble, m_fDirection + GetRotationMod(), 0.0f)));
+		}
+
+		ComponentRacer* pRacer = static_cast<ComponentRacer*>(m_pGameObject->GetComponent("GOC_Racer"));
+		if (pRacer != nullptr)
+		{
+			if (m_bWheelie)
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, m_fWheelieOffsetStat, 0.0f));
+			}
+			else
+			{
+				pRacer->GetDriver()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+				pRacer->GetKart()->GetTransform().SetTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+			}
 		}
 
 		//HeatStroke::HierarchicalTransform transform = m_pGameObject->GetTransform();
