@@ -23,7 +23,6 @@ uniform float PointLightRange;              // Maximum range the point light lig
 
 in vec4 v_position;							// World coordinate position of this vertex.
 in vec3 v_normal;							// World Inverse Transpose of the normal.
-in vec3 v_view;								// Vector from the position of this fragment to the viewer.
 in vec2 v_uv1;								// Texture coordinates.
 
 //------------------------------------------------
