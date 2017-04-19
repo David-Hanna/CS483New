@@ -35,7 +35,6 @@ void HeatStroke::ModelInstance::Render(const SceneCamera* p_pCamera)
 		meshIt->m_pVertexDeclaration->Bind();
 
 		meshIt->m_pMaterial->SetUniform("WorldTransform", m_mWorldTransform);
-		meshIt->m_pMaterial->SetUniform("WorldViewTransform", mWorldViewTransform);
 		meshIt->m_pMaterial->SetUniform("WorldViewProjectionTransform", mWorldViewProjectionTransform);
 		meshIt->m_pMaterial->SetUniform("WorldInverseTransposeTransform", mWorldInverseTransposeTransform);
 

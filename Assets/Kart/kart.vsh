@@ -4,7 +4,6 @@
 // Transformation uniforms.
 
 uniform mat4 WorldTransform;
-uniform mat4 WorldViewTransform;
 uniform mat4 WorldViewProjectionTransform;
 uniform mat3 WorldInverseTransposeTransform;
 
@@ -30,7 +29,6 @@ void main()
 {
     v_position = WorldTransform * a_position;
 	v_normal = WorldInverseTransposeTransform * a_normal;
-	v_view = -(WorldViewTransform * a_position).xyz;
 	v_uv1 = a_uv1;
 	gl_Position = WorldViewProjectionTransform * a_position;
 }
